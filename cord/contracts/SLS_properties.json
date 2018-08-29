@@ -1,0 +1,17 @@
+{
+  "total": 4056.205,
+  "maxForecastValue": 2400.0,
+  "carryover": 1020.0,
+  "type": "contract",
+  "name": "tableA",
+  "allocation_priority": 1,
+  "storage_priority": 1,
+  "contractors": ["DLR", "EWS", "TLB", "SCV", "BDM", "LHL", "BLR", "SMI", "CWO", "RRB", "BVA", "KND", "HML", "WKN", "WRM", "THC", "TJC", "ID4", "SBM", "SJM", "CCM", "SCM"],
+  "reduction":{
+    "W": 1.0,
+    "AN": 1.0,
+    "BN": 1.0,
+    "D": 1.0,
+    "C": 1.0
+  }
+}

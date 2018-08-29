@@ -1,0 +1,104 @@
+{
+  "contract_list": ["tableA"],
+  "turnout_list": ["caa"],
+  "in_leiu_banking": true,
+  "participant_list": ["SOC", "SOB"],  
+  "leiu_ownership": {
+    "SOC": 0.35,
+    "SOB": 0.65
+  },
+  "leiu_recovery": 0.2465,
+  "in_district_direct_recharge": 0.0,
+  "in_district_storage": 0.0,
+  "loss_rate": 0.1,
+  "recovery_fraction": 0.5,
+  "surface_water_sa" : 1.0,
+  "must_fill" : 0,
+  "seasonal_connection" : 1.0,
+  "seepage" : 1.25,
+  "inleiuhaircut" : 0.9,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "project_contract": {
+    "tableA": 0.03821305,
+    "cvpdelta": 0.0,
+    "friant1": 0.0,
+    "friant2": 0.0,
+    "cvc": 0.0,
+    "exchange": 0.0,
+    "hidden": 0.0,
+    "buchannon": 0.0,
+    "eastside": 0.0
+  },
+  "rights": {
+    "tuolumne": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "merced": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kings": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kaweah": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "tule": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    },
+    "kern": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    }
+  },
+  "service": {
+    "storage": 0.0,
+    "unlined": 16.0,
+    "recharge": 0.525
+  },
+  "crop_list": ["alfalfa", "cotton", "pond", "apple","grain","grape","nursery","almond","vegetable_small","field_misc","idle"],
+  "zone": "zone15",
+  "acreage":{
+    "W": [21.009, 9.53, 10.513, 2.001, 22.108, 4.743, 0.159, 62.087, 4.42, 1.088, 0.0],
+    "AN": [22.692, 6.56, 10.452, 2.089, 20.330, 5.344, 0.07, 64.253, 4.028, 0.15, 0.0],
+    "BN": [22.692, 6.56, 10.452, 2.089, 20.330, 5.344, 0.07, 64.253, 4.028, 0.15, 0.0],
+    "D": [25.947, 5.306, 11.478, 1.648, 28.038, 4.8, 0.105, 58.049, 4.994, 2.466, 0.0],
+    "C": [25.947, 5.306, 11.478, 1.648, 28.038, 4.8, 0.105, 58.049, 4.994, 2.466, 0.0]
+  },
+  "MDD": 0.0,
+  "urban_profile":[0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333]
+}

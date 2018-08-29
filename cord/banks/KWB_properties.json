@@ -1,0 +1,16 @@
+{
+  "participant_list": ["DLR","KCWA","ID4","SMI","TJC","PVT","WRM"],
+  "initial_recharge": 600.0,
+  "recovery": 0.0,
+  "tot_storage": 1.188,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "ownership": {
+    "DLR": 0.0962,
+    "KCWA": 0.0,
+    "ID4": 0.0962,
+    "SMI": 0.0667,
+    "TJC": 0.02,
+    "PVT": 0.4806,
+    "WRM": 0.2403
+  }
+}

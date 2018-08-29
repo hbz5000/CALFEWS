@@ -1,0 +1,16 @@
+{
+  "total": 1401.475,
+  "maxForecastValue": 0.0,
+  "carryover": 0.0,
+  "type": "contract",
+  "name": "friant2",
+  "allocation_priority": 0,
+  "storage_priority": 0,
+  "reduction":{
+    "W": 1.0,
+    "AN": 1.0,
+    "BN": 1.0,
+    "D": 1.0,
+    "C": 1.0
+  }
+}

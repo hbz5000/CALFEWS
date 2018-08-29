@@ -1,0 +1,16 @@
+{
+  "participant_list": ["RRB","ARV","DLE","KRT","SOC","BVA"],
+  "participant_type": ["direct","direct","paper","paper","direct","direct"],
+  "initial_recharge": 400.0,
+  "recovery": 0.1233,
+  "tot_storage": 0.792,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "ownership": {
+    "RRB": 1.0,
+    "ARV": 0.0,
+    "DLE": 0.0,
+    "KRT": 0.0,
+    "SOC": 0.0,
+    "BVA": 0.0
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "participant_list": ["NKN", "CWO", "DLE"],
+  "initial_recharge" : 420.0,
+  "tot_storage": 0.8333,
+  "recovery": 0.7,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.88, 0.88, 0.94, 0.94, 0.94, 0.94, 0.99],
+  "ownership": {
+    "NKN": 0.33,
+    "CWO": 0.33,
+    "DLE": 0.33
+  }
+}

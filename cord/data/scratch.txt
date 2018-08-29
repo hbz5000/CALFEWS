@@ -1,0 +1,14 @@
+The economic aim within the Decision Science Core involves identifying the costs and benefits of various remediation efforts to reduce environmental and human contaminant exposure resulting from natural disasteres near Superfund sites in the Galveston Bay.  This effort entails calculating the costs of remediation efforts, and directly comparing these costs to the monetary and non-monetary beneefits of the associated reduction in human health effets through reduced contamination levels.
+
+    "W": [6000, 7500, 6000, 5000, 6000, 7500, 7500, 7500, 6000, 5000, 5000, 5000],
+    "AN": [6000, 7500, 6000, 5000, 6000, 7500, 7500, 7500, 6000, 5000, 5000, 5000],
+    "BN": [6000, 7500, 6000, 5000, 6000, 7500, 7500, 7500, 6000, 5000, 5000, 5000],
+    "D": [6000, 7500, 6000, 5000, 6000, 7500, 7500, 7500, 6000, 5000, 5000, 5000],
+    "C": [4000, 4000, 4000, 4000, 4000, 5000, 5000, 5000, 4000, 4000, 4000, 4000]
+
+	
+	    "W": [1000, 1500, 2000, 2000, 1500, 1500, 1500, 1500, 2000, 2000, 1500, 1000],
+    "AN": [1000, 1500, 2000, 2000, 1500, 1500, 1500, 1500, 2000, 2000, 1500, 1000],
+    "BN": [1000, 1500, 2000, 2000, 1500, 1500, 1500, 1500, 2000, 2000, 1500, 1000],
+    "D": [1000, 2000, 2000, 1000, 1000, 1000, 1000, 1000, 2000, 2000, 1000, 1000],
+    "C": [500, 2000, 2000, 1000, 750, 750, 750, 1500, 1500, 1500, 750, 500]

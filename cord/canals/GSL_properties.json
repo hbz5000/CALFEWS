@@ -1,0 +1,23 @@
+{
+  "capacity": {
+    "normal": [600.0, 600.0, 600.0, 0.0],
+    "reverse": [0.0, 0.0, 0.0, 0.0],
+    "closed": [0.0, 0.0, 0.0, 0.0]
+	},
+  "turnout": {
+    "normal": [0.0, 0.0, 600.0],
+    "reverse": [0.0, 0.0, 0.0],
+    "closed": [0.0, 0.0, 0.0]
+  },
+  "flow_directions": {
+    "recharge": {
+      "xvc": "closed",
+      "knr": "closed"
+      },
+    "recovery": {
+      "xvc": "closed",
+      "knr": "closed"
+      }
+  },
+  "name": "gsl"
+}

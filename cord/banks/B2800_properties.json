@@ -1,0 +1,23 @@
+{
+  "participant_list": ["COB","BLR","BDM","BVA","CWO","HML","ID4","KCWA","KND","LHL","RRB","SMI","TJC","WRM"],
+  "initial_recharge" : 500.0,
+  "tot_storage": 0.990,
+  "recovery": 0.126,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.88, 0.88, 0.94, 0.94, 0.94, 0.94, 0.99],
+  "ownership": {
+    "COB": 1.0,
+    "BLR": 0.0,
+    "BDM": 0.0,
+    "BVA": 0.0,
+    "CWO": 0.0,
+    "HML": 0.0,
+    "ID4": 0.0,
+    "KCWA": 0.0, 
+    "KND": 0.0,
+    "LHL": 0.0,
+    "RRB": 0.0,
+    "SMI": 0.0,
+    "TJC": 0.0,
+    "WRM": 0.0
+  }
+}
