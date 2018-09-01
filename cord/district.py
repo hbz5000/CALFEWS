@@ -231,7 +231,20 @@ class District():
     elif balance_type == 'right':
       annual_allocation = existing_balance*self.rights[key]['capacity'] - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
       max_carryover = self.contract_carryover_list[key]
-	  
+    if key == 'cvpdelta' or key == 'exchange':
+      if self.project_contract[key] > 0.0:
+        print(wateryear, end = " ")
+        print(key, end = " ")
+        print(self.key, end = " ")
+        print(existing_balance, end = " ")
+        print(self.project_contract[key], end = " ")
+        print("%.2f" % self.deliveries[key][wateryear], end = " ")
+        print("%.2f" % self.carryover[key], end = " ")
+        print("%.2f" % self.paper_balance[key], end = " ")
+        print("%.2f" % self.turnback_pool[key], end = " ")
+        print(annual_allocation, end = " ")
+        print(max_carryover)
+
     reallocated_water = max(annual_allocation - max_carryover, 0.0)
     self.carryover[key] = min(max_carryover, annual_allocation)
     self.paper_balance[key] = 0.0
@@ -783,67 +796,3 @@ class District():
       df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
     return df
 	  
-	  
-	  
-	  
-	  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	  
-	  
-#########################################################################3
-#########################################################################
-#####################GRAVEYARD###########################################
-#########################################################################
-      	
-
-	
-  def find_recovery_destination(self, type_deliveries, contract_list, partial_demand_toggle):
-    #this function is used to calculate the current demand at each 'district' node
-    access_mult = self.surface_water_sa*self.seepage#this accounts for water seepage & the total district area that can be reached by SW canals (seepage is >= 1.0; surface_water_sa <= 1.0)
-	
-    total_projected_allocation = 0.0
-    total_deliveries = 0.0
-
-    for y in contract_list:
-      total_projected_allocation += max(self.projected_supply[y.name], 0.0)#projected allocation
-	  #total_deliveries += self.recharge_carryover[y.name]#delivery carryover is how much carryover water is left for delivery (in the early parts of the year)
-
-    if self.must_fill == 1:
-      #pumping to urban branches of the Cal Aqueduct is 'must fill', (i.e., demand is always met)
-      demand_constraint = self.dailydemand*access_mult
-    else:	  
-      #percentage of demand filled in the day is equal to the total projected allocation as a percent of annual demand
-	  #(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
-      if self.annualdemand*access_mult > 0.0 and partial_demand_toggle == 1:
-        total_demand_met = min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
-      else:
-        total_demand_met = 1.0
-      #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
-      demand_constraint = min(max(total_deliveries, self.dailydemand_start*access_mult*total_demand_met), self.dailydemand*access_mult)
-    
-    total_available = 0.0
-    for x in type_deliveries:
-      total_available += type_deliveries[x]
-    paper_recovery = min(demand_constraint, total_available)
-    direct_recovery = min(total_available - paper_recovery, max(self.dailydemand*access_mult - paper_recovery, 0.0))
-	
-    return paper_recovery, direct_recovery
-

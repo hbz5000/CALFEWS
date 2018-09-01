@@ -39,7 +39,7 @@ class Contract():
       self.annual_supplies[x] = np.zeros((self.index.year[self.T-1]-self.index.year[0]))
 
 
-  def calc_allocation(self, t, dowy, forecast_available, priority_allocation, secondary_allocation, wyt):
+  def calc_allocation(self, t, dowy, forecast_available, priority_contract, secondary_contract, wyt):
     #this function calculates the contract allocation based on snowpack-based flow forecast
 	#before March, allocations are assumed to be equal to last year's allocation (capped at some level)
 	#unless the snowpack is large enough to expect larger flows (i.e., low snowpack early in the year doesn't
@@ -65,9 +65,9 @@ class Contract():
     #else:
       #if the contract has priority, the allocation is just the available (forecasted) water
     if self.allocation_priority == 1:
-      forecast_used = forecast_available*self.total/priority_allocation
+      forecast_used = forecast_available*self.total/priority_contract
     else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
-      forecast_used = (forecast_available - priority_allocation)*self.total/secondary_allocation
+      forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
     
     if dowy == 360:
       forecast_used = forecast_available
@@ -77,7 +77,7 @@ class Contract():
     if forecast_used > self.max_allocation:
       forecast_used = self.max_allocation
 	  
-    self.allocation[t] = min(forecast_used,self.total*self.reduction[wyt])
+    self.allocation[t] = max(min(forecast_used,self.total*self.reduction[wyt]), 0.0)
 	
   def find_storage_pool(self, t, wateryear, total_water, reservoir_storage, priority_storage):
     #this function finds the storage pool for each contract, given the 'total water'
