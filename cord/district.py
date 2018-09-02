@@ -231,19 +231,6 @@ class District():
     elif balance_type == 'right':
       annual_allocation = existing_balance*self.rights[key]['capacity'] - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
       max_carryover = self.contract_carryover_list[key]
-    if key == 'cvpdelta' or key == 'exchange':
-      if self.project_contract[key] > 0.0:
-        print(wateryear, end = " ")
-        print(key, end = " ")
-        print(self.key, end = " ")
-        print(existing_balance, end = " ")
-        print(self.project_contract[key], end = " ")
-        print("%.2f" % self.deliveries[key][wateryear], end = " ")
-        print("%.2f" % self.carryover[key], end = " ")
-        print("%.2f" % self.paper_balance[key], end = " ")
-        print("%.2f" % self.turnback_pool[key], end = " ")
-        print(annual_allocation, end = " ")
-        print(max_carryover)
 
     reallocated_water = max(annual_allocation - max_carryover, 0.0)
     self.carryover[key] = min(max_carryover, annual_allocation)
@@ -512,7 +499,7 @@ class District():
 		
       return total_request
 	  
-  def set_demand_priority(self, priority_list, contract_list, demand, delivery, search_type, contract_canal):
+  def set_demand_priority(self, priority_list, contract_list, demand, delivery, demand_constraint, search_type, contract_canal):
     #this function takes a the calculated demand at each district node and classifies those demands by 'priority' - the priority classes and rules change for each delivery type
     demand_dict = {}
     #for flood deliveries, the priority structure is based on if you have a contract with the reservoir that is being spilled, if you have a turnout on a canal that is a 'priority canal' for the spilling reservoir, and then finally if you are not on a priority canal for spilling
@@ -550,10 +537,7 @@ class District():
     elif search_type == 'recovery':
       if self.in_leiu_banking:
         demand_dict['initial'] = max(min(demand,delivery), 0.0)
-        current_recovery_use = 0.0
-        for x in self.recovery_use:
-          current_recovery_use += self.recovery_use[x]
-        demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), self.leiu_recovery - current_recovery_use - demand_dict['initial'])
+        demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
       else:
         demand_dict['initial'] = 0.0
         demand_dict['supplemental'] = 0.0

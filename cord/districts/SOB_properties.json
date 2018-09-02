@@ -1,5 +1,5 @@
 {
-  "contract_list": ["tableA"],
+  "contract_list": ["tableA", "exchange"],
   "turnout_list": ["caa"],
   "in_leiu_banking": false,
   "leiu_recovery": 0.0,

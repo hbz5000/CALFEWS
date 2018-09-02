@@ -594,10 +594,6 @@ class Model():
         snowflood_sac_obs += self.shasta.fnf[t] + self.oroville.fnf[t] + self.folsom.fnf[t] + self.yuba.fnf[t]
         snowflood_sj_obs += self.newmelones.fnf[t] + self.donpedro.fnf[t] + self.exchequer.fnf[t] + self.millerton.fnf[t]
 		
-      print(dowy, end = " ")
-      print(t, end = " ")
-      print(self.delta.forecastSJI[t], end = " ")
-      print(self.delta.forecastSRI[t])
 	##SAVE INDEX FROM EACH YEAR (FOR USE IN NEXT YEAR'S FORECAST	
       if m == 9 and da == 30:
         lastYearSRI = 0.3*min(lastYearSRI,10) + 0.3*rainflood_sac_obs + 0.4*snowflood_sac_obs
@@ -983,9 +979,9 @@ class Model():
     m = int(self.index.month[t])
     y = int(self.index.year[t])
     dowy = water_day(d,calendar.isleap(y))
-    #print(y, end = " ")
-    #print(m, end = " ")
-    #print(dowy)
+    print(y, end = " ")
+    print(m, end = " ")
+    print(dowy)
 	  
     ##WATER YEAR TYPE CLASSIFICATION (for operating rules)
     ##WYT uses flow forecasts - gets set every day, may want to decrease frequency (i.e. every month, season)
@@ -1341,20 +1337,7 @@ class Model():
         #otherwise, total allocation at the reservoir is equal to available storage + deliveries - the total carryover storage
         total_allocation = reservoir.available_storage[t] + total_res_deliveries - total_res_carryover + extra_allocation
 		
-      y.calc_allocation(t, dowy, total_allocation, priority_contract, secondary_contract, wyt)
-      if y.name == 'cvpdelta' or y.name == 'exchange' or y.name == 'cvc':
-        print(wateryear, end = " ")
-        print(dowy, end = " ")
-        print(y.name, end = " ")
-        print(total_allocation, end = " ")
-        print(self.cvp_allocation[t], end = " ")
-        print(self.pumping_turnback['SLF'], end = " ")
-        print(y.tot_new_alloc, end = " ")
-        print(priority_contract, end = " ")
-        print(secondary_contract, end = " ")
-        print(extra_allocation, end = " ")
-        print(y.allocation[t])
- 
+      y.calc_allocation(t, dowy, total_allocation, priority_contract, secondary_contract, wyt) 
 	
     ##Find contract 'storage pools' - how much water is available right now	
 	##san luis federal storage is divided between 3 water contracts - cvpdelta, exchange, and crossvalley
@@ -2191,7 +2174,7 @@ class Model():
       self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[15], "normal", "normal", flow_type, 'xvc')
       self.fkc.find_bi_directional(self.calaqueduct.turnout_use[15], "normal", "reverse", flow_type, 'xvc')
       self.kernriverchannel.find_bi_directional(self.calaqueduct.turnout_use[15], "normal", "reverse", flow_type, 'xvc')
-
+	  
       self.calaqueduct.find_bi_directional(self.fkc.turnout_use[22], "reverse", "normal", flow_type, 'xvc')
       self.fkc.find_bi_directional(self.fkc.turnout_use[22], "reverse", "reverse", flow_type, 'xvc')
       self.kernriverchannel.find_bi_directional(self.fkc.turnout_use[22], "reverse", "reverse", flow_type, 'xvc')
@@ -2199,6 +2182,13 @@ class Model():
       self.calaqueduct.find_bi_directional(self.kernriverchannel.turnout_use[4], "reverse", "normal", flow_type, 'xvc')
       self.fkc.find_bi_directional(self.kernriverchannel.turnout_use[4], "reverse", "reverse", flow_type, 'xvc')
       self.kernriverchannel.find_bi_directional(self.kernriverchannel.turnout_use[4], "reverse", "reverse", flow_type, 'xvc')
+	  
+      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[16], "normal", "normal", flow_type, 'kbc')
+      self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[16], "closed", "reverse", flow_type, 'kbc')
+
+      self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "normal", flow_type, 'kbc')
+      self.kerncanal.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc')
+
 	  
     elif flow_type == "recovery":
       self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[15], "reverse", "reverse", flow_type, 'xvc')
@@ -2212,6 +2202,13 @@ class Model():
       self.calaqueduct.find_bi_directional(self.kernriverchannel.turnout_use[4], "normal", "reverse", flow_type, 'xvc')
       self.fkc.find_bi_directional(self.kernriverchannel.turnout_use[4], "normal", "normal", flow_type, 'xvc')
       self.kernriverchannel.find_bi_directional(self.kernriverchannel.turnout_use[4], "normal", "normal", flow_type, 'xvc')
+	  
+      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[16], "reverse", "reverse", flow_type, 'kbc')
+      self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[16], "reverse", "normal", flow_type, 'kbc')
+
+      self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc')
+      self.kerncanal.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc')
+
 
 	  
   def set_canal_range(self, flow_dir, flow_type, canal, prev_canal, canal_size):
@@ -2377,7 +2374,7 @@ class Model():
               deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, x.inleiubanked[xx], dowy)
               #determine the priorities of the banking
               priority_bank_space = x.find_leiu_priority_space(demand_constraint, num_members, xx, toggle_district_recharge, search_type)
-              priorities = wb_member.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, search_type, contract_canal)
+              priorities = wb_member.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal)
               #need to adjust the water request to account for the banking partner share of the turnout
               priority_turnout_adjusted = {}
               for zz in type_list:
@@ -2395,7 +2392,7 @@ class Model():
           #find if district wants to purchase this type of flow
           deliveries =  x.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, dowy)
           #find what priority district has for flow purchases
-          priorities = x.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, search_type, contract_canal)
+          priorities = x.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, demand_constraint, search_type, contract_canal)
           priority_turnout_adjusted = {}
           #need to adjust the water request to account for the banking partner share of the turnout
           for zz in type_list:
@@ -2433,7 +2430,7 @@ class Model():
               #deliveries = x.set_request_constraints(demand_constraint, search_type, contract_list)
             #what priority does their banked water have (can be both)
             priority_bank_space = x.find_priority_space(num_members, xx, search_type)
-            priorities = x.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, search_type, contract_canal, wb_member.contract_list)
+            priorities = x.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal, wb_member.contract_list)
 			#need to adjust the water request to account for the banking partner share of the turnout
             priority_turnout_adjusted = {}
             for zz in type_list:
@@ -2592,23 +2589,19 @@ class Model():
         else:
           for zz in type_list:
             canal.demand[zz][canal_loc] = 0.0
-			
-      #sum demand at all canal nodes and check canal capacities for space
-      sum_deliveries = 0.0
+      print(search_type, end = " ")      
+      print(canal.key, end = " ")
+      print(canal_loc, end = " ")
+      print(x.key, end = " ")
+      print(canal.turnout[flow_dir][canal_loc], end = " ")	  
+      #sum demand at all canal nodes
       for zz in type_list:
+        print(zz, end = " ")
+        print(canal.demand[zz][canal_loc], end = " ")
         type_deliveries[zz] += canal.demand[zz][canal_loc]
-        sum_deliveries += type_deliveries[zz]
-      existing_canal_space = canal.capacity[flow_dir][canal_loc]*cfs_tafd - canal.flow[canal_loc]
-      if sum_deliveries > existing_canal_space:
-        if flow_dir == "normal":
-          lookback_range = range(starting_point, canal_loc + 1)
-        elif flow_dir == "reverse":
-          lookback_range = range(starting_point, canal_loc - 1, -1)
-        for zz in type_list:
-          for canal_backtrack in lookback_range:
-            canal.recovery_flow_frac[zz][canal_backtrack] = min(max(min(existing_canal_space/type_deliveries[zz], 1.0), 0.0), canal.recovery_flow_frac[zz][canal_backtrack])		
-          new_flow = min(type_deliveries[zz], existing_canal_space)
-          existing_canal_space -= new_flow
+        print(type_deliveries[zz], end = " ")
+      print()
+
 
       if search_type == "recovery":
         if isinstance(x,District):
@@ -2656,6 +2649,27 @@ class Model():
     return type_deliveries
 	
   def delivery_recovery(self, contract_list, canal, lookback_range, starting_point, paper_fractions, direct_recovery, flow_dir, type_list, priority_list, contract_canal, delivery_loc_name, dowy, wateryear):
+    running_type_deliveries = {}
+    for zz in type_list:
+      running_type_deliveries[zz] = 0.0
+    
+    sum_deliveries = 0.0
+    for lookback_loc in lookback_range:
+      for zz in type_list:
+        running_type_deliveries[zz] += canal.demand[zz][lookback_loc]
+        sum_deliveries += canal.demand[zz][lookback_loc]
+      existing_canal_space = canal.capacity[flow_dir][lookback_loc]*cfs_tafd - canal.flow[lookback_loc]
+      if sum_deliveries > existing_canal_space:
+        if flow_dir == "normal":
+          backtrack_range = range(starting_point, lookback_loc + 1)
+        elif flow_dir == "reverse":
+          backtrack_range = range(starting_point, lookback_loc - 1, -1)
+        for zz in type_list:
+          for canal_backtrack in backtrack_range:
+            canal.recovery_flow_frac[zz][canal_backtrack] = min(max(min(existing_canal_space/running_type_deliveries[zz], 1.0), 0.0), canal.recovery_flow_frac[zz][canal_backtrack])
+          new_flow = min(running_type_deliveries[zz], existing_canal_space)
+          existing_canal_space -= new_flow
+
     #Loop back through the canal looking for waterbank sources to make paper trades with
     available_flow = 0.0
     toggle_district_recharge = 0
@@ -2663,6 +2677,9 @@ class Model():
       location_pumpout = 0.0
       recovery_source = self.canal_district[canal.name][lookback_loc]
       search_type = "recovery"
+      max_current_release = 0.0
+      for zz in type_list:
+        max_current_release = canal.demand[zz][lookback_loc]*canal.recovery_flow_frac[zz][lookback_loc]
       if isinstance(recovery_source, District):
         if recovery_source.in_leiu_banking:
           for xx in recovery_source.participant_list:
@@ -2675,22 +2692,21 @@ class Model():
               #what is their priority over the water/canal space?
               priority_bank_space = recovery_source.find_leiu_priority_space(demand_constraint, num_members, xx, 0, search_type)
 			  
-              priorities = recovery_source.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, search_type, "N/A")
+              priorities = recovery_source.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A")
               priority_turnout_adjusted = {}
               #need to adjust the water request to account for the banking partner share of the turnout
               for zz in type_list:
                 priority_turnout_adjusted[zz] = priorities[zz]*canal.turnout_frac[zz][lookback_loc]
               for zz in type_list:
-                paper_amount = priority_turnout_adjusted[zz]*paper_fractions[zz]
-                direct_amount = priority_turnout_adjusted[zz]*(1-paper_fractions[zz])
-                trade_amount = paper_amount*canal.recovery_flow_frac[zz][lookback_loc]
-                wb_member.get_paper_trade(trade_amount, contract_list, wateryear)
-                recovery_source.adjust_recovery(trade_amount, xx, wateryear)
-                location_pumpout += trade_amount
+                #paper trade recovery is equal to 
+                paper_amount = priority_turnout_adjusted[zz]*min(paper_fractions[zz], canal.recovery_flow_frac[zz][lookback_loc])
+                direct_amount = min(direct_recovery, priority_turnout_adjusted[zz]*canal.recovery_flow_frac[zz][lookback_loc] - paper_amount)
+                wb_member.get_paper_trade(paper_amount, contract_list, wateryear)
+                recovery_source.adjust_recovery(paper_amount, xx, wateryear)
+                location_pumpout += paper_amount
                 if delivery_loc_name == wb_member.key:
                   demand_constraint = recovery_source.find_node_output()
-                  flow_constraint = direct_amount*canal.recovery_flow_frac[zz][lookback_loc]
-                  max_direct_recovery = min(demand_constraint, flow_constraint, recovery_source.inleiubanked[xx]/num_members)
+                  max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.inleiubanked[xx]/num_members)
                   actual_delivery = wb_member.direct_recovery_delivery(max_direct_recovery, wateryear)
                   recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
                   location_pumpout += actual_delivery
@@ -2710,7 +2726,7 @@ class Model():
             deliveries =  wb_member.set_request_constraints(demand_constraint, search_type, contract_list, recovery_source.banked[xx], dowy)
             #what is their priority over the water/canal space?
             priority_bank_space = recovery_source.find_priority_space(num_members, xx, search_type)
-            priorities = recovery_source.set_demand_priority("NA", "N/A", priority_bank_space, deliveries, search_type, "N/A", wb_member.contract_list)
+            priorities = recovery_source.set_demand_priority("NA", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A", wb_member.contract_list)
             priority_turnout_adjusted = {}
 
 
@@ -2721,18 +2737,16 @@ class Model():
 			#and how much water can be delivered directly
 			#canal.recovery_flow_frac is the adjustment needed if the bank runs into canal capacity constraints
             for zz in type_list:
-              paper_amount = priority_turnout_adjusted[zz]*paper_fractions[zz]
-              direct_amount = priority_turnout_adjusted[zz]*(1-paper_fractions[zz])#direct deliveries 
-              trade_amount = paper_amount*canal.recovery_flow_frac[zz][lookback_loc]#paper trades
-              wb_member.get_paper_trade(trade_amount, contract_list, wateryear)#exchange GW for SW 
-              recovery_source.adjust_recovery(trade_amount, xx, wateryear)#adjust accounts
-              location_pumpout += trade_amount
+              paper_amount = priority_turnout_adjusted[zz]*min(paper_fractions[zz], canal.recovery_flow_frac[zz][lookback_loc])
+              direct_amount = min(direct_recovery, priority_turnout_adjusted[zz]*canal.recovery_flow_frac[zz][lookback_loc] - paper_amount)
+              wb_member.get_paper_trade(paper_amount, contract_list, wateryear)#exchange GW for SW 
+              recovery_source.adjust_recovery(paper_amount, xx, wateryear)#adjust accounts
+              location_pumpout += paper_amount
 			  #if the GW is being delivered to the WB owner, more water can be delivered (not constrained by 
 			  #another district's willingness to trade SW storage)
               if delivery_loc_name == wb_member.key:
                 demand_constraint = recovery_source.find_node_demand(contract_list, xx, num_members, search_type)
-                flow_constraint = direct_amount*canal.recovery_flow_frac[zz][lookback_loc]
-                max_direct_recovery = min(demand_constraint, flow_constraint, recovery_source.banked[xx]/num_members)
+                max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.banked[xx]/num_members)
                 actual_delivery = wb_member.direct_recovery_delivery(max_direct_recovery, wateryear)
                 direct_recovery -= actual_delivery
                 recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
@@ -2774,7 +2788,7 @@ class Model():
           deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, district_node.inleiubanked[xx], dowy)
           #determine the priorities of the banking
           priority_bank_space = district_node.find_leiu_priority_space(demand_constraint, num_members, xx, toggle_district_recharge, search_type)
-          priorities = district_node.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, search_type, contract_canal)
+          priorities = district_node.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal)
           for zz in type_list:
             canal.demand[zz][canal_loc] += priorities[zz]
           #can't purchase more than the turnout capacity
@@ -2783,7 +2797,7 @@ class Model():
       #find if district wants to purchase this type of flow
       deliveries =  district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, dowy)
       #find what priority district has for flow purchases
-      priorities = district_node.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, search_type, contract_canal)
+      priorities = district_node.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, demand_constraint, search_type, contract_canal)
       for zz in type_list:
         canal.demand[zz][canal_loc] += priorities[zz]
 
@@ -2803,7 +2817,7 @@ class Model():
           #deliveries = bank_node.set_request_constraints(demand_constraint, search_type, contract_list)
         #what is their priority over the water/canal space?
         priority_bank_space = bank_node.find_priority_space(num_members, xx, search_type)
-        priorities = bank_node.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, search_type, contract_canal, wb_member.contract_list)
+        priorities = bank_node.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal, wb_member.contract_list)
         #take the individual priorities of waterbank members and add them to the total canal node demands
         for zz in type_list:
           canal.demand[zz][canal_loc] += priorities[zz]
@@ -2908,9 +2922,17 @@ class Model():
 
 	  
     if y == 2002 and dowy == 1:
-      self.kwbcanal.capacity["normal"] = [750.0, 750.0, 0.0, 0.0]
+      self.kwbcanal.capacity["normal"] = [800.0, 800.0, 0.0, 0.0]
       self.kwbcanal.capacity["reverse"] = [0.0, 440.0, 800.0, 800.0]
       self.kwbcanal.capacity["closed"] = [0.0, 0.0, 0.0, 0.0]
+      self.kwbcanal.turnout["normal"] = [800.0, 800.0, 0.0]
+      self.kwbcanal.turnout["reverse"] = [0.0, 440.0, 800.0]
+      self.kwbcanal.turnout["closed"] = [0.0, 0.0, 0.0]
+      self.kwbcanal.flow_directions["recharge"]["caa"] = 'normal'
+      self.kwbcanal.flow_directions["recharge"]["knc"] = 'closed'
+      self.kwbcanal.flow_directions["recovery"]["caa"] = 'normal'
+      self.kwbcanal.flow_directions["recovery"]["knc"] = 'normal'
+
       self.kwb.initial_recharge = 1212.12
       self.kwb.recovery = 0.7863
       self.kwb.tot_storage = 2.4

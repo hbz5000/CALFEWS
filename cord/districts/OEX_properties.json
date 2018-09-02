@@ -10,7 +10,7 @@
   "surface_water_sa" : 1.0,
   "must_fill" : 0,
   "seasonal_connection" : 1.0,
-  "seepage" : 1.25,
+  "seepage" : 1.5,
   "inleiuhaircut" : 0.9,
   "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
   "project_contract": {

@@ -78,7 +78,7 @@ class Waterbank():
       return initial_capacity
 
 	
-  def set_demand_priority(self, priority_list, contract_list, demand, delivery, search_type, contract_canal, member_contracts):
+  def set_demand_priority(self, priority_list, contract_list, demand, delivery, demand_constraint, search_type, contract_canal, member_contracts):
     #this function creates a dictionary (demand_dict) that has a key for each 'priority type' associated with the flow
 	#different types of flow (flood, delivery, banking, recovery) have different priority types
     demand_dict = {}
@@ -114,18 +114,12 @@ class Waterbank():
     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
     elif search_type == 'banking':
-      current_storage = 0.0
-      for xx in self.participant_list:
-        current_storage += self.storage[xx]
-      demand_dict['priority'] = min(max(min(demand,delivery), 0.0), self.tot_storage - current_storage)
-      demand_dict['secondary'] = min(delivery - max(min(demand,delivery), 0.0), self.tot_storage-current_storage -  demand_dict['priority'])
+      demand_dict['priority'] = min(max(min(demand,delivery), 0.0), demand_constraint)
+      demand_dict['secondary'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint -  demand_dict['priority'])
 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
     elif search_type == 'recovery':
-      current_recovery_use = 0.0
-      for x in self.recovery_use:
-        current_recovery_use += self.recovery_use[x]
-      demand_dict['initial'] = min(max(min(demand,delivery), 0.0), self.recovery - current_recovery_use)
-      demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), self.recovery - current_recovery_use - demand_dict['initial'])
+      demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
+      demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
 
     return demand_dict
 
