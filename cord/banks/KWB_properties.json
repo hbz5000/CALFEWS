@@ -1,5 +1,6 @@
 {
   "participant_list": ["DLR","KCWA","ID4","SMI","TJC","PVT","WRM"],
+  "canal_rights": ["kbc"],
   "initial_recharge": 600.0,
   "recovery": 0.0,
   "tot_storage": 1.188,

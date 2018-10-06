@@ -20,6 +20,7 @@ class Reservoir():
     self.R = np.zeros(self.T)
     self.tocs = np.zeros(self.T)
     self.available_storage = np.zeros(self.T)
+    self.flood_storage = np.zeros(self.T)
     self.Rtarget = np.zeros(self.T)
     self.R_to_delta = np.zeros(self.T)
 
@@ -111,8 +112,8 @@ class Reservoir():
     dowy = water_day(d,calendar.isleap(y))
     m = int(self.index.month[t])
     da = int(self.index.day[t])
-    current_snow = self.SNPK[t]
     wyt = self.forecastWYT
+    current_snow = self.SNPK[t]
 	
     daysThroughMonth = [60, 91, 122, 150, 181]
 	
@@ -124,7 +125,13 @@ class Reservoir():
 	  
 	  ##Exceedence level for flow forecasts (i.e. 2 is ~90%, 9 is ~50%)
 	  ##If year starts in drought conditions, be conservative in Oct-Dec, otherwise, normal operations until January
-      self.exceedence_level = 2
+      if self.key == "FOL" or self.key == "YRS":
+        self.exceedence_level = 2
+      else:
+        if wyt == 'D' or wyt == 'C':
+          self.exceedence_level = 2
+        else:
+          self.exceedence_level = 9
 
       ###Evap. projections are a perfect forecast (not much variation, didn't feel like making a seperate forecast for evap)
       self.evap_forecast = sum(self.E[(t):(t + 364)])
@@ -141,7 +148,13 @@ class Reservoir():
 	##Forecast exccedence levels set the percentile from which we forecast flows (i.e. 90% exceedence means 90% of years, with same snow conditions, would have higher flow)
 	## excedence level 9 is 50% exceedence, level 1 is 90% exceedence.  Be more conservative with forecasts in drier years
     if m < 8:
-      self.exceedence_level = min(m+2,7)
+      if self.key == "FOL" or self.key == "YRS":
+        self.exceedence_level = min(m+2,7)
+      else:
+        if wyt == 'D' or wyt == 'C':
+          self.exceedence_level = min(m+2,7)
+        else:
+          self.exceedence_level = 9
     elif m == 8 or m == 9:
       self.exceedence_level = 9
 	  
@@ -155,7 +168,6 @@ class Reservoir():
 	###Rain- and snow-flood forecasts are predictions of future flows to come into the reservoir, for a given confidence interval (i.e. projections minus YTD observations)
     if dowy < daysThroughMonth[self.melt_start]:
       ##Forecasts are adjusted for a given exceedence level (i.e. 90%, 50%, etc)
-      #self.rainflood_forecast[t] = (self.rainflood_inf[t] + self.raininf_stds[dowy]*z_table_transform[self.exceedence_level]) - self.rainflood_flows
       self.rainflood_forecast[t] = min(self.lastYearRainflood, self.rainflood_inf[t] + self.raininf_stds[dowy]*z_table_transform[self.exceedence_level]) - self.rainflood_flows
       self.snowflood_forecast[t] = (self.snowflood_inf[t] + self.snowinf_stds[dowy]*z_table_transform[self.exceedence_level])
       self.baseline_forecast[t] = self.baseline_inf[t] + self.baseinf_stds[dowy]*z_table_transform[self.exceedence_level]
@@ -180,13 +192,22 @@ class Reservoir():
 	
     #available storage is storage in reservoir in exceedence of end-of-september target plus forecast for oct-mar (adjusted for already observed flow)
 	#plus forecast for apr-jul (adjusted for already observed flow) minus the flow expected to be released for environmental requirements (at the reservoir, not delta)
+    self.available_storage[t] = self.S[t] - self.EOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]
+    self.flood_storage[t] = self.S[t] - self.max_fcr + self.rainflood_forecast[t] - max(self.cum_min_release[wyt][dowy] - self.cum_min_release[wyt][181], 0.0)
     if self.S[t] < self.EOS_target and dowy > 274:
-      self.available_storage[t] = 0.0
-    elif m == 8 or m == 9:
-      numdaysleft = 365 - dowy + 61
-      self.available_storage[t] = self.S[t] - self.lastYearEOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.aug_sept_min_release[wyt][dowy]
-    else:
-      self.available_storage[t] = self.S[t] - self.EOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]
+      self.available_storage[t] = min(self.available_storage[t], 0.0)
+      self.flood_storage[t] = min(self.flood_storage[t], 0.0)
+	  
+	  
+  def use_saved_storage(self, t, m, wyt, dowy):
+    swp_extra = 0.0
+    if wyt == 'D' or wyt == 'C':
+      if m == 10 or m == 11:
+        swp_extra = max(self.S[t] - self.carryover_target[wyt] - self.dry_year_carryover[wyt] - self.oct_nov_min_release[wyt][dowy], 0.0)
+      else:
+        swp_extra = max(min(self.available_storage[t], 0.0) + max(self.saved_water - self.dry_year_carryover[wyt], 0.0), 0.0)
+		
+    return swp_extra
 	    
   def release_environmental(self,t,basinWYT):
     ###This function calculates how much water will be coming into the delta
@@ -219,7 +240,7 @@ class Reservoir():
       
 	####FLOOD CONTROL
 	##Top of storage pool
-    self.tocs[t] = self.current_tocs(dowy, self.fci[t])
+    self.tocs[t], self.max_fcr = self.current_tocs(dowy, self.fci[t])
     #What size release needs to be made
     W = self.S[t] + self.Q[t]
     self.fcr = max(0.2*(W-self.tocs[t]),0.0)
@@ -326,8 +347,8 @@ class Reservoir():
       reservoir_change_rate = (month_flow_int - total_mandatory_releases)/days_in_month[month_evaluate]
 	  
       #flood control pool at start and end of the month
-      storage_cap_start = self.current_tocs(block_start,self.fci[t])
-      storage_cap_end = self.current_tocs(block_end, self.fci[t])
+      storage_cap_start, max_cap_start = self.current_tocs(block_start,self.fci[t])
+      storage_cap_end, max_cap_end = self.current_tocs(block_end, self.fci[t])
       eom_storage = running_storage
       crossover_date = 0.0
       if (block_end - block_start + next_year) > 0.0:
@@ -362,11 +383,19 @@ class Reservoir():
         break
     storage_bounds = np.zeros(2)
     index_bounds = np.zeros(2)
+    day_bounds = np.ones(2)*self.capacity
+    for x, y in enumerate(self.tocs_rule['dowy'][i-1]):
+      if d < y:
+        day_bounds[1] = min(day_bounds[1], self.tocs_rule['storage'][i-1][x])
+    for x, y in enumerate(self.tocs_rule['dowy'][i]):
+      if d < y:
+        day_bounds[0] = min(day_bounds[0], self.tocs_rule['storage'][i][x])
+		
     storage_bounds[1] = np.interp(d, self.tocs_rule['dowy'][i-1], self.tocs_rule['storage'][i-1])
     storage_bounds[0] = np.interp(d, self.tocs_rule['dowy'][i], self.tocs_rule['storage'][i])
     index_bounds[1] = self.tocs_rule['index'][i-1]
     index_bounds[0] = self.tocs_rule['index'][i]
-    return np.interp(ix, index_bounds, storage_bounds)
+    return np.interp(ix, index_bounds, storage_bounds), np.interp(ix, index_bounds, day_bounds)
 
   def rights_call(self,downstream_flow, reset = 0):
     if reset == 0:
@@ -397,10 +426,11 @@ class Reservoir():
   def calc_EOS_storage(self,t,eos_day):
     ##calculate the target end-of-september storage at each reservoir which is used to determine how much excess storage is available for delta pumping releases
     if t == 0:
-      self.EOS_target = max((self.S[eos_day] - self.carryover_target[self.forecastWYT])*self.carryover_excess_use + self.carryover_target[self.forecastWYT], self.carryover_target[self.forecastWYT])
+      startingStorage = self.S[eos_day]
     else:
       startingStorage = max(self.S[eos_day], self.EOS_target)
-      self.EOS_target = max((startingStorage - self.carryover_target[self.forecastWYT])*self.carryover_excess_use + self.carryover_target[self.forecastWYT], self.carryover_target[self.forecastWYT])
+    self.saved_water = max(startingStorage - self.carryover_target[self.forecastWYT], 0.0)*self.carryover_excess_use
+    self.EOS_target = min(self.saved_water + self.carryover_target[self.forecastWYT], self.max_carryover_target)
 
   def calc_expected_min_release(self,delta_req,depletions,sjrr_toggle):
     ##this function calculates the total expected releases needed to meet environmental minimums used in the find_available_storage function
@@ -408,6 +438,8 @@ class Reservoir():
     startYear = 1996
     for wyt in self.wytlist:
       self.cum_min_release[wyt][0] = 0.0
+      self.aug_sept_min_release[wyt][0] = 0.0	  
+      self.oct_nov_min_release[wyt][0] = 0.0 	  
 
     ##the cum_min_release is a 365x1 vector representing each day of the coming water year.  In each day, the value is equal to 
 	##the total expected minimum releases remaining in the water year, so that the 0 index is the sum of all expected releases,
@@ -788,8 +820,8 @@ class Reservoir():
 	  
   def accounting_as_df(self, index):
     df = pd.DataFrame()
-    names = ['storage', 'tocs', 'available_storage', 'out']
-    things = [self.S, self.tocs, self.available_storage, self.R]
+    names = ['storage', 'tocs', 'available_storage', 'flood_storage', 'out']
+    things = [self.S, self.tocs, self.available_storage, self.flood_storage, self.R]
     for n,t in zip(names,things):
       df['%s_%s' % (self.key,n)] = pd.Series(t, index=index)
     return df

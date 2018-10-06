@@ -1,6 +1,7 @@
 {
   "participant_list": ["RRB","ARV","DLE","KRT","SOC","BVA"],
   "participant_type": ["direct","direct","paper","paper","direct","direct"],
+  "canal_rights": ["gsl"],
   "initial_recharge": 400.0,
   "recovery": 0.1233,
   "tot_storage": 0.792,

@@ -40,9 +40,10 @@
     "W": 2200,
     "AN": 2200,
     "BN": 2200,
-    "D": 2200,
-    "C": 2200
+    "D": 1900,
+    "C": 1600
   },
+  "max_carryover_target": 2200.0,
   "carryover_excess_use": 0.0,
   "nodd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   "sodd_pct": 0.80,
@@ -62,6 +63,6 @@
   },
   "melt_start": 4,
   "max_outflow": 79000,
-  "delta_outflow_pct": 0.75,
+  "delta_outflow_pct": 0.625,
   "dead_pool": 550
 }

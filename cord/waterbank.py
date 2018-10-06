@@ -2,6 +2,7 @@ from __future__ import division
 import numpy as np 
 import matplotlib.pyplot as plt
 import pandas as pd
+import collections as cl
 import json
 from .util import *
 
@@ -78,7 +79,7 @@ class Waterbank():
       return initial_capacity
 
 	
-  def set_demand_priority(self, priority_list, contract_list, demand, delivery, demand_constraint, search_type, contract_canal, member_contracts):
+  def set_demand_priority(self, priority_list, contract_list, demand, delivery, demand_constraint, search_type, contract_canal, current_canal, member_contracts):
     #this function creates a dictionary (demand_dict) that has a key for each 'priority type' associated with the flow
 	#different types of flow (flood, delivery, banking, recovery) have different priority types
     demand_dict = {}
@@ -88,6 +89,7 @@ class Waterbank():
     if search_type == 'flood':
       priority_toggle = 0
       contractor_toggle = 0
+      canal_toggle = 0
       for yy in priority_list:
         if yy.name == contract_canal:
           priority_toggle = 1
@@ -96,16 +98,27 @@ class Waterbank():
           for yx in member_contracts:
             if y.name == yx:
               contractor_toggle = 1
-        if contractor_toggle == 1:
+        for yy in self.get_iterable(self.canal_rights):
+          if yy == current_canal:
+            canal_toggle = 1
+        if contractor_toggle == 1 and canal_toggle == 1:
           demand_dict['contractor'] = delivery
+          demand_dict['alternate'] = 0.0
           demand_dict['turnout'] = 0.0
           demand_dict['excess'] = 0.0
+        elif contractor_toggle == 1:
+          demand_dict['contractor'] = 0.0
+          demand_dict['alternate'] = delivery
+          demand_dict['turnout'] = 0.0
+          demand_dict['excess'] = 0.0		
         else:
           demand_dict['contractor'] = 0.0
+          demand_dict['alternate'] = 0.0
           demand_dict['turnout'] = delivery
           demand_dict['excess'] = 0.0
       else:
         demand_dict['contractor'] = 0.0
+        demand_dict['alternate'] = 0.0
         demand_dict['turnout'] = 0.0
         demand_dict['excess'] = delivery
     #if the flows are for delivery, the don't come to a water bank
@@ -114,8 +127,16 @@ class Waterbank():
     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
     elif search_type == 'banking':
-      demand_dict['priority'] = min(max(min(demand,delivery), 0.0), demand_constraint)
-      demand_dict['secondary'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint -  demand_dict['priority'])
+      canal_toggle = 0
+      for yy in self.get_iterable(self.canal_rights):
+        if yy == current_canal:
+          canal_toggle = 1
+      if canal_toggle == 1:
+        demand_dict['priority'] = min(max(min(demand,delivery), 0.0), demand_constraint)
+        demand_dict['secondary'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint -  demand_dict['priority'])
+      else:
+        demand_dict['priority'] = 0.0
+        demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
     elif search_type == 'recovery':
       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
@@ -199,76 +220,9 @@ class Waterbank():
       df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
     return df
 
-###GRAVEYARD######################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-##################################################################################################################################################
-
-  def recharge_flow_priority1(self, key, spill):
-    todaysRecharge = min(spill, self.ownership[key]*self.recharge_rate - self.current_recharge[key])
-    self.current_recharge[key] += todaysRecharge
-    self.total_recharge += todaysRecharge
-    return todaysRecharge
-
-	
-  def credit_account(self,max_recovery):
-    sum_banked = 0.0
-    sum_paper_withdrawal = 0.0
-    sum_credit_pool = 0.0
-    for x in self.participant_list:
-      if self.participant_type == "direct":
-        sum_credit_pool += min(self.credit_pool[x],self.demand[x])
-      elif self.participant_type == "paper":
-        sum_paper_withdrawal += min(self.banked[x],self.demand[x])
-
-    paper_withdrawal = min(max_recovery, sum_paper_withdrawal, sum_credit_pool)
-    for x in self.particpiant_list:
-      if self.participant_type == "direct":
-        credit_fraction = paper_withdrawal*min(self.credit_pool[x],self.demand[x])/sum_credit_pool
-        sum_direct_withdrawal += min(self.banked[x],self.demand[x]-credit_fraction)
-    if paper_withdrawal > sum_direct_withdrawal + max_recovery:
-      direct_withdrawal = max_recovery - paper_withdrawal
+  def get_iterable(self, x):
+    if isinstance(x, cl.Iterable):
+      return x
     else:
-      direct_withdrawal = sum_direct_withdrawal	
-	  
-    for x in self.participant_list:
-      if self.participant_list == "direct":
-        paper_transfer = paper_withdrawal*min(self.credit_pool,self.demand[x])/sum_credit_pool
-        self.credit_account[x] -= paper_transfer
-        self.direct_recovery[x] = paper_transfer + direct_withdrawal*min(self.banked[x],self.demand[x] - paper_transfer)/sum_direct_withdrawal
-        self.banked[x] -= direct_withdrawal*min(self.banked[x],self.demand[x] - paper_transfer)/sum_direct_withdrawal
-      elif self.participant_list == "paper":
-        paper_transfer = paper_withdrawal*min(self.banked[x],self.demand[x])/sum_paper_withdrawal
-        self.credit_account[x] += paper_transfer
-        self.banked[x] -= paper_transfer
-    return (paper_withdrawal + direct_withdrawal)
+      return (x,)
 
-  def waterbank_as_df(self, index):
-    df = pd.DataFrame()
-    names = []
-    for x in self.participant_list:
-      names.append(x)
-    for n in names:
-      df['%s_%s' % (self.key,n)] = pd.Series(self.storage_timeseries[n], index = index)
-    return df
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

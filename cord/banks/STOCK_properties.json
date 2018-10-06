@@ -1,5 +1,6 @@
 {
   "participant_list": ["RRB","SOC"],
+  "canal_rights": ["xvc"],
   "initial_recharge": 150.0,
   "recovery": 0.11,
   "tot_storage": 0.297,

@@ -1,6 +1,7 @@
 {
   "participant_list": ["ARV","SOC"],
   "participant_type": ["direct","direct"],
+  "canal_rights": ["aec"],
   "initial_recharge": 378.79,
   "tot_storage": 0.75,
   "recovery": 0.411,

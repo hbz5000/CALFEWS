@@ -1,6 +1,7 @@
 {
   "participant_list": ["WKN"],
   "participant_type": ["direct"],
+  "canal_rights": ["caa"],
   "initial_recharge": 100.0,
   "recovery": 0.0,
   "tot_storage": 0.198,

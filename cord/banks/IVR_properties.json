@@ -1,6 +1,7 @@
 {
   "participant_list": ["SOC", "RRB"],
   "participant_type": ["direct","direct"],
+  "canal_rights": ["xvc"],
   "initial_recharge": 0.0,
   "recovery": 0.0,
   "tot_storage": 0.0,

@@ -1,5 +1,6 @@
 {
   "participant_list": ["NKN","SFW","CWO","SMI"],
+  "canal_rights": ["cwy", "lrd"],
   "initial_recharge": 0.0,
   "recovery": 0.0,
   "tot_storage": 0.0,

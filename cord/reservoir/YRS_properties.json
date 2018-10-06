@@ -51,6 +51,7 @@
     "C": 550,
     "EC": 550
   },
+  "max_carryover_target": 550.0,
   "carryover_excess_use": 0.0,
   "nodd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   "sodd_pct": 0.80,
@@ -72,6 +73,6 @@
   },
   "melt_start": 4,
   "max_outflow": 50000,
-  "delta_outflow_pct": 0.0,
+  "delta_outflow_pct": 0.125,
   "dead_pool": 234
 }

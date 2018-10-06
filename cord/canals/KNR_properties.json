@@ -13,11 +13,11 @@
     "recharge": {
       "cwy": "normal",
       "lrd": "normal",
-      "xvc": "reverse",
+      "xvc": "closed",
       "fkc": "closed",
       "knc": "normal",
       "gsl": "normal",
-      "caa": "normal"
+      "caa": "closed"
       },
     "recovery": {
       "cwy": "normal",

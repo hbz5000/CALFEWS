@@ -1,5 +1,6 @@
 {
   "participant_list": ["BLR","BDM","BVA","HML","ID4","KCWA","KND","LHL","RRB","SMI","TJC","WRM"],
+  "canal_rights": ["xvc"],
   "initial_recharge" : 260.0,
   "recovery": 0.26849,
   "tot_storage": 0.548,

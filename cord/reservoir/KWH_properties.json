@@ -31,6 +31,7 @@
     "D": 8,
     "C": 8
   },
+  "max_carryover_target": 8.0,
   "carryover_excess_use": 0.0,
   "nodd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   "sodd_pct": 0.80,

@@ -11,7 +11,7 @@
   },
   "flow_directions": {
     "recharge": {
-      "caa": "normal",
+      "caa": "closed",
       "gsl": "normal",
       "knr": "closed",
       "aec": "normal",

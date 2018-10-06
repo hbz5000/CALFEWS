@@ -1,6 +1,7 @@
 from __future__ import division
 import numpy as np 
 import matplotlib.pyplot as plt
+import collections as cl
 import pandas as pd
 from .crop import Crop
 import json
@@ -219,6 +220,20 @@ class District():
     
     self.current_balance[key] = max(min(storage_balance,annual_allocation), 0.0)
     self.projected_supply[key] = max(annual_allocation,0.0)
+    #if key == "tableA" and self.project_contract[key] > 0.0:
+      #print(self.key, end = " ")
+      #print(projected_allocation, end = " ")
+      #print(self.project_contract[key], end = " ")
+      #print(self.projected_supply[key], end = " ")
+      #print(self.annualdemand*self.surface_water_sa*self.seepage, end = " ")
+      #print(self.deliveries[key][wateryear], end = " ")
+      #print(self.carryover[key], end = " ")
+      #print(self.paper_balance[key], end = " ")
+      #print(self.turnback_pool[key], end = " ")
+      #print(self.recharge_carryover[key], end = " ")
+      #print(self.delivery_carryover[key], end = " ")
+      #print(self.max_direct_recharge[0], end = " ")
+      #print(self.max_leiu_recharge[3])
 		  
     return max(self.projected_supply[key] - self.annualdemand, 0.0)
 	
@@ -263,14 +278,14 @@ class District():
     self.min_direct_recovery = max(self.annualdemand - total_balance,0.0)/(366-dowy)
     
 	  	  
-  def open_recharge(self,m,da,wateryear,numdays_fillup, key, wyt):
+  def open_recharge(self,m,da,wateryear,numdays_fillup, contract_carryover, key, wyt):
     #for a given contract owned by the district (key), how much recharge can they expect to be able to use
 	#before the reservoir associated w/ that contract fills to the point where it needs to begin spilling water
 	#(numdays_fillup) - i.e., how much surface water storage can we keep before start losing it
 	#self.recharge_carryover is the district variable that shows how much 'excess' allocation there is on a particular
 	#contract - i.e., how much of the allocation will not be able to be recharged before the reservoir spills
     daysinmonth = [31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0]
-    total_recharge_available = self.projected_supply['tot'] - self.annualdemand*self.surface_water_sa
+    total_recharge_available = self.projected_supply['tot'] - self.annualdemand*self.surface_water_sa*self.seepage
     total_recharge = 0.0
     ###Find projected recharge available to district
     if total_recharge_available > 0.0:
@@ -325,7 +340,11 @@ class District():
       carryover_storage_proj = 0.0
     #carryover_release_proj = min(carryover_storage_proj, max(total_recharge_available - total_recharge_capacity,0.0))
     #carryover_release_current = max(self.carryover[key] - self.deliveries[key][wateryear] - total_recharge_carryover, 0.0)
-    spill_release_carryover = max(self.carryover[key] - self.deliveries[key][wateryear] - total_recharge, 0.0)
+    if contract_carryover > 0.0:
+      spill_release_carryover = max(self.carryover[key] - self.deliveries[key][wateryear] - total_recharge, 0.0)
+    else:
+      spill_release_carryover = max(self.projected_supply[key] - self.annualdemand*self.surface_water_sa - total_recharge, 0.0)
+	  
     ##The amount of recharge a district wants is then saved and sent to the canal class where it 'looks' for an available spot to recharge the water
     #self.recharge_carryover[key] = max(carryover_release_proj, carryover_release_current, spill_release_carryover, spill_release_storage)
     self.recharge_carryover[key] = max(carryover_storage_proj, spill_release_carryover, 0.0)
@@ -333,7 +352,10 @@ class District():
     ##Similar conditions also calculate the amount of regular tableA deliveries for direct irrigation to request
     delivery_release = max(total_recharge_available, 0.0)
     delivery_spill_carryover = max(self.carryover[key] - self.deliveries[key][wateryear], 0.0)
-    self.delivery_carryover[key] = max(delivery_spill_carryover, delivery_release)
+    if contract_carryover > 0.0:
+      self.delivery_carryover[key] = delivery_spill_carryover
+    else:
+      self.delivery_carryover[key] = total_recharge_available	
 	
   def set_turnback_pool(self, key):
     ##This function creates the 'turnback pool' (note: only for SWP contracts now, can be used for others)
@@ -396,27 +418,31 @@ class District():
     access_mult = self.surface_water_sa*self.seepage#this accounts for water seepage & the total district area that can be reached by SW canals (seepage is >= 1.0; surface_water_sa <= 1.0)
 	
     total_projected_allocation = 0.0
-    total_deliveries = 0.0
 
-    for y in contract_list:
-      total_projected_allocation += max(self.projected_supply[y.name], 0.0)#projected allocation
-	  #total_deliveries += self.recharge_carryover[y.name]#delivery carryover is how much carryover water is left for delivery (in the early parts of the year)
+    for y in self.get_iterable(self.contract_list):
+      total_projected_allocation += max(self.projected_supply[y], 0.0)#projected allocation
 
-    if self.must_fill == 1:
+    #percentage of demand filled in the day is equal to the total projected allocation as a percent of annual demand
+	#(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
+    if self.annualdemand*access_mult > 0.0 and partial_demand_toggle == 1:
+      if self.must_fill == 1:
       #pumping to urban branches of the Cal Aqueduct is 'must fill', (i.e., demand is always met)
-      demand_constraint = self.dailydemand*access_mult
-    else:	  
-      #percentage of demand filled in the day is equal to the total projected allocation as a percent of annual demand
-	  #(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
-      if self.annualdemand*access_mult > 0.0 and partial_demand_toggle == 1:
-        total_demand_met = min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
-      else:
         total_demand_met = 1.0
-      #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
-      demand_constraint = min(max(total_deliveries, self.dailydemand_start*access_mult*total_demand_met), self.dailydemand*access_mult, total_projected_allocation)
-      #if we want to include recharge demands in the demand calculations, add available recharge space
-      if toggle_recharge == 1:
-        demand_constraint += max(self.in_district_storage - self.current_recharge_storage, 0.0)*total_demand_met
+      else:
+        if self.annualdemand < total_projected_allocation:
+          total_demand_met = min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
+        else:
+          total_demand_met = 0.0		
+        #total_demand_met = min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
+    #elif self.annualdemand*access_mult > 0.0:
+      #total_demand_met = 1.0 - min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
+    else:
+      total_demand_met = 1.0
+    #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
+    demand_constraint = max(min(self.dailydemand_start*access_mult*total_demand_met, self.dailydemand*access_mult, total_projected_allocation),0.0)
+    #if we want to include recharge demands in the demand calculations, add available recharge space
+    if toggle_recharge == 1:
+      demand_constraint += max(self.in_district_storage - self.current_recharge_storage, 0.0)
 			  
     return demand_constraint
 	
@@ -446,11 +472,11 @@ class District():
     if search_type == "flood":
       tot_recharge = 0.0
       for y in contract_list:
-        tot_recharge += self.recharge_carryover[y.name]
-      if tot_recharge <= 0.0 and self.seasonal_connection == 1:
-        return demand
-      else:
-        return 0.0
+        tot_recharge += self.delivery_carryover[y.name]
+      #if tot_recharge <= 0.0:
+      return demand
+      #else:
+        #return 0.0
 
     #for normal irrigation deliveries, a district requests water if they have enough water currently
 	#in surface water storage under the given contract
@@ -516,16 +542,19 @@ class District():
               contractor_toggle = 1
         if contractor_toggle == 1:
           demand_dict['contractor'] = max(min(demand,delivery), 0.0)
+          demand_dict['alternate'] = 0.0
           demand_dict['turnout'] = 0.0
           demand_dict['excess'] = 0.0
         else:
           demand_dict['contractor'] = 0.0
+          demand_dict['alternate'] = 0.0
           demand_dict['turnout'] = max(min(demand,delivery), 0.0)
           demand_dict['excess'] = 0.0
       else:
         demand_dict['contractor'] = 0.0
+        demand_dict['alternate'] = 0.0
         demand_dict['turnout'] = 0.0
-        demand_dict['excess'] = delivery
+        demand_dict['excess'] = max(min(demand,delivery), 0.0)
     #irrigation deliveries have only one type of priority (the contract that is currently being deliveried)
     elif search_type == 'delivery':
       demand_dict[contract_canal] = max(min(demand,delivery), 0.0)
@@ -779,4 +808,11 @@ class District():
     for n in self.participant_list:
       df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
     return df
+	
+  def get_iterable(self, x):
+    if isinstance(x, cl.Iterable):
+      return x
+    else:
+      return (x,)
+
 	  

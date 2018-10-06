@@ -1,7 +1,7 @@
 {
   "participant_list": ["BLR","BDM","LHL","WRM"],
   "participant_type": ["direct","paper","paper","direct","direct"],
-
+  "canal_rights": ["xvc", "knr"],
   "initial_recharge": 90.0,
   "recovery": 0.1589,
   "tot_storage": 0.1782,
