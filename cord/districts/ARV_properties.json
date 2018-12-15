@@ -1,10 +1,11 @@
 {
   "contract_list": ["friant1", "friant2"],
-  "turnout_list": ["fkc", "cvc"],
+  "turnout_list": ["fkc", "cvc", "aec"],
   "in_leiu_banking": true,
   "participant_list": ["SOC", "OXV", "LWT", "KRT"],  
   "leiu_ownership": {
-    "SOC": 1.0,
+    "ARV": 0.5,
+    "SOC": 0.5,
     "OXV": 0.0,
     "LWT": 0.0,
     "KRT": 0.0
@@ -14,7 +15,7 @@
   "in_district_storage": 0.75,
   "loss_rate": 0.1,
   "recovery_fraction": 0.5,
-  "surface_water_sa" : 1.0,
+  "surface_water_sa" : 0.5,
   "must_fill" : 0,
   "seasonal_connection" : 1.0,
   "seepage" : 1.25,

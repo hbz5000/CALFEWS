@@ -1,7 +1,7 @@
 {
   "total": 128.3,
   "maxForecastValue": 0.0,
-  "carryover": 0.0,
+  "carryover": 128.3,
   "type": "contract",
   "name": "cvc",
   "allocation_priority": 0,

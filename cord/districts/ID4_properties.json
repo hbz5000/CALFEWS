@@ -1,6 +1,6 @@
 {
   "contract_list": ["tableA"],
-  "turnout_list": ["fkc", "cvc", "knr"],
+  "turnout_list": ["fkc", "xvc", "knr"],
   "in_leiu_banking": false,
   "leiu_recovery": 0.0,
   "in_district_direct_recharge": 0.0,

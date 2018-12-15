@@ -9,9 +9,16 @@ from .util import *
 
 class Reservoir():
 
-  def __init__(self, df, key):
+  def __init__(self, df, key, model_mode):
     self.T = len(df)
     self.index = df.index
+    self.starting_year = int(self.index.year[0])
+    self.ending_year = int(self.index.year[self.T-1])
+    self.current_day_year = self.index.dayofyear
+    self.current_year = self.index.year
+    self.current_month = self.index.month
+    self.current_day_month = self.index.day
+
     self.key = key
     self.forecastWYT = "AN"
 
@@ -29,12 +36,12 @@ class Reservoir():
     if self.key == "SLS":
       #San Luis - State portion
       #San Luis Reservoir is off-line so it doesn't need the full reservoir class parameter set contained in the KEY_properties.json files
-      self.Q = df['HRO_pump'] * cfs_tafd
+      #self.Q = df['HRO_pump'] * cfs_tafd
       self.dead_pool = 40
       self.S[0] = 740.4
     elif self.key == "SLF":
       #San Luis - Federal portion
-      self.Q = df['TRP_pump'] * cfs_tafd
+      #self.Q = df['TRP_pump'] * cfs_tafd
       self.dead_pool = 40
       self.S[0] = 174.4
     elif self.key != "SNL":
@@ -46,16 +53,21 @@ class Reservoir():
       self.E = df['%s_evap'% key].values * cfs_tafd
       self.fci = df['%s_fci' % key].values
       self.SNPK = df['%s_snow' % key].values
-      self.historical_storage = df['%s_storage'% key].values
       self.precip = df['%s_precip'% key].values * cfs_tafd
       self.downstream = df['%s_gains'% key].values * cfs_tafd
       self.fnf = df['%s_fnf'% key].values / 1000000.0
-      self.hist_releases = df['%s_otf' % key].values * cfs_tafd
-      self.S[0] = df['%s_storage' % key].iloc[0] / 1000.0
       self.R[0] = 0
-      self.EOS_target = df['%s_storage' % key].iloc[0] / 1000.0
-      self.lastYearEOS_target = df['%s_storage' % key].iloc[0] / 1000.0
-	
+      if model_mode == 'validation':
+        self.historical_storage = df['%s_storage'% key].values
+        self.hist_releases = df['%s_otf' % key].values * cfs_tafd
+        self.S[0] = df['%s_storage' % key].iloc[0] / 1000.0
+        self.EOS_target = df['%s_storage' % key].iloc[0] / 1000.0
+        self.lastYearEOS_target = df['%s_storage' % key].iloc[0] / 1000.0
+      else:
+        self.S[0] = self.capacity
+        self.EOS_target = (self.capacity - 1000.0)/2 + 1000.0
+        self.lastYearEOS_target = (self.capacity - 1000.0)/2 + 1000.0
+	  
     #Environmental release requirements
     #environmental rules are dependent on the water year type	
     if self.key == "YRS":
@@ -102,16 +114,17 @@ class Reservoir():
     self.monthly_demand_must_fill = {}
     self.numdays_fillup = {}
     self.lastYearRainflood = 9999.9
+    self.variable_min_flow = 0.0
 
   def find_available_storage(self, t):
     ##this function uses the linear regression variables calculated in find_release_func (called before simulation loop) to figure out how
     ##much 'excess' storage is available to be released to the delta with the explicit intention of running the pumps.  This function is calculated
     ##each timestep before the reservoirs' individual step function is called
-    d = int(self.index.dayofyear[t])
-    y = int(self.index.year[t])
+    d = self.current_day_year[t]
+    y = self.current_year[t]
+    m = self.current_month[t]
+    da = self.current_day_month[t]
     dowy = water_day(d,calendar.isleap(y))
-    m = int(self.index.month[t])
-    da = int(self.index.day[t])
     wyt = self.forecastWYT
     current_snow = self.SNPK[t]
 	
@@ -194,6 +207,8 @@ class Reservoir():
 	#plus forecast for apr-jul (adjusted for already observed flow) minus the flow expected to be released for environmental requirements (at the reservoir, not delta)
     self.available_storage[t] = self.S[t] - self.EOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]
     self.flood_storage[t] = self.S[t] - self.max_fcr + self.rainflood_forecast[t] - max(self.cum_min_release[wyt][dowy] - self.cum_min_release[wyt][181], 0.0)
+    if dowy < 123:
+      self.available_storage[t] = max(self.available_storage[t], (self.S[t] - self.lastYearEOS_target)*(123-dowy)/123 + self.available_storage[t]*dowy/123)
     if self.S[t] < self.EOS_target and dowy > 274:
       self.available_storage[t] = min(self.available_storage[t], 0.0)
       self.flood_storage[t] = min(self.flood_storage[t], 0.0)
@@ -202,10 +217,13 @@ class Reservoir():
   def use_saved_storage(self, t, m, wyt, dowy):
     swp_extra = 0.0
     if wyt == 'D' or wyt == 'C':
-      if m == 10 or m == 11:
+      if m >= 10 or m == 1:
         swp_extra = max(self.S[t] - self.carryover_target[wyt] - self.dry_year_carryover[wyt] - self.oct_nov_min_release[wyt][dowy], 0.0)
-      else:
-        swp_extra = max(min(self.available_storage[t], 0.0) + max(self.saved_water - self.dry_year_carryover[wyt], 0.0), 0.0)
+      #else:
+        #swp_extra = max(min(self.available_storage[t], 0.0) + max(self.saved_water - self.dry_year_carryover[wyt], 0.0), 0.0)
+    else:
+      if m >= 10 or m == 1:
+        swp_extra = max(self.S[t] - self.lastYearEOS_target - self.oct_nov_min_release[wyt][dowy], 0.0)
 		
     return swp_extra
 	    
@@ -219,10 +237,10 @@ class Reservoir():
     ###in their water rights, those gains are considered consumed before the delta but
 	###no release is required from the reservoir (the reason for this is how water is 
 	###accounted at the delta for dividing SWP/CVP pumping)
-    d = int(self.index.dayofyear[t])
-    y = int(self.index.year[t])
+    d = self.current_day_year[t]
+    y = self.current_year[t]
+    m = self.current_month[t]
     dowy = water_day(d,calendar.isleap(y))
-    m = int(self.index.month[t])
     wyt = self.forecastWYT
     	
 	####ENVIRONMENTAL FLOWS
@@ -231,9 +249,9 @@ class Reservoir():
     self.gains_to_delta += self.basinuse
 	
     if self.nodd_meets_envmin:
-      reservoir_target_release = max(self.env_min_flow[wyt][m-1]*cfs_tafd - self.basinuse,0.0)
+      reservoir_target_release = max(max(self.env_min_flow[wyt][m-1]*cfs_tafd - self.basinuse,0.0), self.variable_min_flow)
     else:
-      reservoir_target_release = self.env_min_flow[wyt][m-1]*cfs_tafd
+      reservoir_target_release = max(self.env_min_flow[wyt][m-1]*cfs_tafd, self.variable_min_flow)
 
 	###What releases are needed to meet flow requirements further downstream (at a point we can calculate 'gains')
     downstream_target_release = (self.temp_releases[basinWYT][m-1]*cfs_tafd - self.downstream[t])
@@ -260,7 +278,8 @@ class Reservoir():
     self.R[t] = min(self.Rtarget[t], W - self.dead_pool)
     self.R[t] = min(self.R[t], self.max_outflow * cfs_tafd)
     self.R[t] +=  max(W - self.R[t] - self.capacity, 0) # spill
-    self.S[t+1] = W - self.R[t] - self.E[t] # mass balance update
+    if t < (self.T - 1):
+      self.S[t+1] = W - self.R[t] - self.E[t] # mass balance update
 	  
     self.R_to_delta[t] = max(self.R[t] - self.basinuse - self.consumed_releases, 0) # delta calcs need this
 	
@@ -312,26 +331,19 @@ class Reservoir():
         next_year = 0          
           
       #Project flow for this month
-	  
 	  ##find an estimate for the remaining flow in the given period
-	  ### i.e. total period projection - observed period flow - running monthly flow count
-      if cross_counter == 0:
-        if month_evaluate >=9 or month_evaluate < 3:
-          remaining_flow_proj = max(self.rainflood_inf[t-first_of_month_shift] - self.rainflood_flows - this_month_flow, 0.0)
-        elif month_evaluate >= 3 and month_evaluate < 7:
-          remaining_flow_proj = max(self.snowflood_inf[t-first_of_month_shift] - self.snowflood_flows - this_month_flow, 0.0)
-        elif month_evaluate == 7 or month_evaluate == 8:
-          remaining_flow_proj = max(self.baseline_inf[t-first_of_month_shift] - self.baseline_flows - this_month_flow, 0.0)
-      elif cross_counter == 1:
-        if month_evaluate >=9 or month_evaluate < 3:
-          remaining_flow_proj = max(self.rainflood_inf[t-first_of_month_shift] - this_month_flow, 0.0)
-        elif month_evaluate >= 3 and month_evaluate < 7:
-          remaining_flow_proj = max(self.snowflood_inf[t-first_of_month_shift] - this_month_flow, 0.0)
-        elif month_evaluate == 7 or month_evaluate == 8:
-          remaining_flow_proj = max(self.baseline_inf[t-first_of_month_shift] - this_month_flow, 0.0)
-		  
+	  ### i.e. total period projection - observed period flow - running monthly flow count		  
       ##monthly flow projections based on regression run in create_flow_shapes
-      month_flow_int = (remaining_flow_proj*self.flow_shape['slope'][month_evaluate]+self.flow_shape['intercept'][month_evaluate])*remaining_flow_proj
+      if t < 30:
+        running_fnf = np.sum(self.fnf[0:t])*30.0/(t+1)
+      else:
+        running_fnf = np.sum(self.fnf[(t-30):(t-1)])
+      if self.key == "MIL" and dowy < 180:
+        month_flow_int = self.flow_shape_regression['slope'][dowy][month_evaluate]*min(running_fnf,0.25) + self.flow_shape_regression['intercept'][dowy][month_evaluate]
+      else:
+        month_flow_int = self.flow_shape_regression['slope'][dowy][month_evaluate]*running_fnf + self.flow_shape_regression['intercept'][dowy][month_evaluate]
+	 
+      #month_flow_int = (remaining_flow_proj*self.flow_shape['slope'][month_evaluate]+self.flow_shape['intercept'][month_evaluate])*remaining_flow_proj
 	  #running tally of total flow in the month
       this_month_flow += month_flow_int
       #current month start dowy
@@ -349,7 +361,7 @@ class Reservoir():
       #flood control pool at start and end of the month
       storage_cap_start, max_cap_start = self.current_tocs(block_start,self.fci[t])
       storage_cap_end, max_cap_end = self.current_tocs(block_end, self.fci[t])
-      eom_storage = running_storage
+      eom_storage = running_storage      
       crossover_date = 0.0
       if (block_end - block_start + next_year) > 0.0:
 		
@@ -361,16 +373,16 @@ class Reservoir():
           #volume of water over the flood pool, no release
           total_min_release = eom_storage - storage_cap_end
           differential_storage_change = reservoir_change_rate - (storage_cap_end - storage_cap_start)/(block_end - block_start + next_year)
-          crossover_date = (storage_cap_start - running_storage)/differential_storage_change
+          if storage_cap_start > running_storage:
+            crossover_date = (storage_cap_start - running_storage)/differential_storage_change
+          else:
+            crossover_date = 0.0
           numdays_fillup = block_start + crossover_date + cross_counter*365 - dowy
 		  
 		  #total volume & rate are the maximum monthly value over the next 12 months
           self.min_daily_uncontrolled = max(this_month_min_release, self.min_daily_uncontrolled)
           self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
           self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
-		  
-      if eom_storage < self.EOS_target:
-        return
         
       running_storage = eom_storage    			
       block_start = block_end
@@ -431,11 +443,37 @@ class Reservoir():
       startingStorage = max(self.S[eos_day], self.EOS_target)
     self.saved_water = max(startingStorage - self.carryover_target[self.forecastWYT], 0.0)*self.carryover_excess_use
     self.EOS_target = min(self.saved_water + self.carryover_target[self.forecastWYT], self.max_carryover_target)
+	
+  def set_oct_nov_rule(self, t, m):
+    if m == 10 or m == 11:
+      self.variable_min_flow = self.Q[t]
+    else:
+      self.variable_min_flow = 0.0
+	  
+  def find_emergency_supply(self, t, m, dowy):
+    
+    if t < 30:
+      running_fnf = np.sum(self.fnf[0:t])*30.0/(t+1)
+    else:
+      running_fnf = np.sum(self.fnf[(t-30):(t-1)])
 
-  def calc_expected_min_release(self,delta_req,depletions,sjrr_toggle):
+    if m < 10:
+      flow_oct_nov = (self.flow_shape_regression['slope'][dowy][9] + self.flow_shape_regression['slope'][dowy][10])*running_fnf + self.flow_shape_regression['intercept'][dowy][9] + self.flow_shape_regression['intercept'][dowy][10]
+    elif m == 10:
+      flow_oct_nov = (self.flow_shape_regression['slope'][dowy][9]*running_fnf + self.flow_shape_regression['intercept'][dowy][9])*(31-dowy)/31 + self.flow_shape_regression['slope'][dowy][10]*running_fnf + self.flow_shape_regression['intercept'][dowy][10]
+    elif m == 11:
+      flow_oct_nov = (self.flow_shape_regression['slope'][dowy][10]*running_fnf + self.flow_shape_regression['intercept'][dowy][10])*(61-dowy)/30
+    else:
+      flow_oct_nov = 0.0
+
+    emergency_available = self.S[t] - max(self.oct_nov_min_release[self.forecastWYT][dowy] - flow_oct_nov, 0.0) - self.dead_pool
+	
+    return emergency_available
+	
+  def calc_expected_min_release(self,delta_req,depletions,sjrr_toggle, t_short, index_short):
     ##this function calculates the total expected releases needed to meet environmental minimums used in the find_available_storage function
     ##calclulated as a pre-processing function (w/find_release_func)
-    startYear = 1996
+    startYear = int(index_short.year[0])
     for wyt in self.wytlist:
       self.cum_min_release[wyt][0] = 0.0
       self.aug_sept_min_release[wyt][0] = 0.0	  
@@ -452,11 +490,11 @@ class Reservoir():
     hist_wyt = ['W', 'W', 'W', 'AN', 'D', 'D', 'AN', 'BN', 'AN', 'W', 'D', 'C', 'D', 'BN', 'W', 'BN', 'D', 'C', 'C', 'AN']
     if self.has_downstream_target_flow:
       current_obs = np.zeros(12)
-      for t in range(1,self.T):
-        m = int(self.index.month[t-1])
-        d = int(self.index.dayofyear[t-1])
-        da = int(self.index.day[t-1])
-        y = int(self.index.year[t-1])
+      for t in range(1,t_short):
+        m = int(index_short.month[t-1])
+        d = int(index_short.dayofyear[t-1])
+        da = int(index_short.day[t-1])
+        y = int(index_short.year[t-1])
         dowy = water_day(d,calendar.isleap(y))
         if m >= 10:
           wateryear = y - startYear
@@ -475,7 +513,7 @@ class Reservoir():
           sjrr_flow = 0.0
           downstream_req = self.temp_releases[wyt][m-1]*cfs_tafd
 		
-        current_obs[m-1] += max(downstream_req - self.downstream[t],0.0)
+        current_obs[m-1] += max(downstream_req - self.downstream_short[t-1],0.0)
       for x in range(0,12):
         for wyt in self.wytlist:
           downstream_release[wyt][x] = max((delta_req[wyt][x]*cfs_tafd-depletions[x])*self.delta_outflow_pct + max(downstream_release[wyt][x] - self.temp_releases[wyt][x],0.0), downstream_release[wyt][x])
@@ -484,19 +522,19 @@ class Reservoir():
 	   ###First, the total environmental minimum flows are summed over the whole year at day 0
       for x in range(1,365):
         for wyt in self.wytlist:
-          m = int(self.index.month[x-1])
+          m = self.current_month[x-1]
           reservoir_target_release = self.env_min_flow[wyt][m-1]*cfs_tafd
           downstream_needs = downstream_release[wyt][m-1]
           if x < 304:
             self.cum_min_release[wyt][0] += max(reservoir_target_release,downstream_needs)
           else:
             self.aug_sept_min_release[wyt][0] += max(reservoir_target_release,downstream_needs)	  
-          if x < 61:
+          if x < 123:
             self.oct_nov_min_release[wyt][0] += max(reservoir_target_release,downstream_needs)	  
 	    ##THen, we loop through all 365 index spots, removing one day of releases at a time until index 365 = 0.0
       for x in range(1,365):
         for wyt in self.wytlist:
-          m = int(self.index.month[x-1])
+          m = self.current_month[x-1]
           reservoir_target_release = self.env_min_flow[wyt][m-1]*cfs_tafd
           downstream_needs = downstream_release[wyt][m-1]
           if x < 304:
@@ -504,7 +542,7 @@ class Reservoir():
             self.aug_sept_min_release[wyt][x] = self.aug_sept_min_release[wyt][0]
           else:
             self.aug_sept_min_release[wyt][x] = self.aug_sept_min_release[wyt][x-1] - max(reservoir_target_release,downstream_needs)
-          if x < 61:
+          if x < 123:
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][x-1] - max(reservoir_target_release,downstream_needs)
           else:
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][0]
@@ -513,19 +551,20 @@ class Reservoir():
 	##Same as above, but north of delta demands are included w/ release requirements
       for x in range(1,365):
         for wyt in self.wytlist:
-          m = int(self.index.month[x-1])
+          m = self.current_month[x-1]
+
           reservoir_target_release = self.env_min_flow[wyt][m-1]*cfs_tafd
           downstream_needs = downstream_release[wyt][m-1] + np.interp(x,first_of_month, self.nodd)
           if x < 304:
             self.cum_min_release[wyt][0] += max(reservoir_target_release,downstream_needs)
           else:
             self.aug_sept_min_release[wyt][0] += max(reservoir_target_release,downstream_needs)	  
-          if x < 61:
+          if x < 123:
             self.oct_nov_min_release[wyt][0] += max(reservoir_target_release,downstream_needs)	  
 			
       for x in range(1,365):
         for wyt in self.wytlist:
-          m = int(self.index.month[x-1])
+          m = self.current_month[x-1]
           reservoir_target_release = self.env_min_flow[wyt][m-1]*cfs_tafd
           downstream_needs = downstream_release[wyt][m-1] + np.interp(x,first_of_month, self.nodd)
           if x < 304:
@@ -533,83 +572,96 @@ class Reservoir():
             self.aug_sept_min_release[wyt][x] = self.aug_sept_min_release[wyt][0]
           else:
             self.aug_sept_min_release[wyt][x] = self.aug_sept_min_release[wyt][x-1] - max(reservoir_target_release,downstream_needs)
-          if x < 61:
+          if x < 123:
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][x-1] - max(reservoir_target_release,downstream_needs)
           else:
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][0]
-			
-  def create_flow_shapes(self):
-  ###########################
-  # This function finds a regression between
-  # the observed flow, to date, and the projected flow
-  # in the next month as a percentage of the total flow
-  # in that period
-  # i.e. if the regression value for june is 0.25, that means 1/4 of 
-  # the remaining flow for the April-July period will come in June and 3/4
-  # in July.
-    startYear = self.index.year[0]
-    self.flow_shape = {}
-    total_flow = {}
-    total_flow['rain'] = np.zeros((self.index.year[self.T-1]-self.index.year[0]))
-    total_flow['snow'] = np.zeros((self.index.year[self.T-1]-self.index.year[0]))
-    total_flow['base'] = np.zeros((self.index.year[self.T-1]-self.index.year[0]))
 	
-    ###Variables to store monthly flows/fraction remaining in the year
-    monthly_flow = np.zeros(((self.index.year[self.T-1]-self.index.year[0]), 12))
-    monthly_fractions = np.zeros((12, (self.index.year[self.T-1]-self.index.year[0])))
-    ytd_totals = np.zeros((12, (self.index.year[self.T-1]-self.index.year[0])))
-	
-    ###Loop to get monthly totals
-    flow_series = self.Q		
-    for t in range(1,(self.T)):
-      m = int(self.index.month[t-1])
-      y = int(self.index.year[t-1])
+  def create_flow_shapes(self, datafile):
+    dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
+    df_short = pd.read_csv(datafile, index_col=0, parse_dates=True)
+    flow_series = df_short['%s_inf'% self.key].values * cfs_tafd
+    fnf_series = df_short['%s_fnf'% self.key].values / 1000000.0
+    T_short = len(flow_series)
+    index_short = df_short.index
+    startYear = index_short.year[0]
+    endYear = index_short.year[T_short-1]
+    numYears = endYear - startYear
+    self.flow_shape_regression = {}
+    self.flow_shape_regression['slope'] = np.zeros((365,12))
+    self.flow_shape_regression['intercept'] = np.zeros((365,12))
+    monthly_flow = np.zeros((12, (endYear - startYear)))
+    running_fnf = np.zeros((365,(endYear - startYear)))
+    prev_fnf = 0.0
+    for t in range(1,(T_short)):
+      d = int(index_short.dayofyear[t])
+      y = int(index_short.year[t])
+      dowy = water_day(d,calendar.isleap(y))
+      m = int(index_short.month[t])
+      da = int(index_short.day[t])
       if m >= 10:
         wateryear = y - startYear
       else:
         wateryear = y - startYear - 1
-      if m >= 10 or m < 4:
-        total_flow['rain'][wateryear] += flow_series[t-1]
-      elif m >= 4 and m < 8:
-        total_flow['snow'][wateryear] += flow_series[t-1]
-      elif m == 8 or m == 9:
-        total_flow['base'][wateryear] += flow_series[t-1]
+      monthly_flow[m-1][wateryear] += flow_series[t-1]
+      prev_fnf += fnf_series[t-1]
+      if t > 30:
+        prev_fnf -= fnf_series[t-31]
+      if t < 30:
+        running_fnf[dowy][wateryear] = prev_fnf*30.0/t
+      else:
+        if self.key == "MIL" and dowy < 180:
+          running_fnf[dowy][wateryear] = min(prev_fnf, 0.25)
+        else:
+          running_fnf[dowy][wateryear] = prev_fnf
 
-      monthly_flow[wateryear][m-1] += flow_series[t-1]
-	  
-    ##Loop to get year-to-date fractions
-    for year_point in range(0,self.index.year[self.T-1]-self.index.year[0]):
-      for month_counter in range(0,12):            
-        wy_month = month_counter + 9
-        if wy_month > 11:
-          wy_month -= 12
-        if wy_month == 9:
-          ytd_remaining = total_flow['rain'][year_point]
-        elif wy_month == 3:
-          ytd_remaining = total_flow['snow'][year_point]
-        elif wy_month == 7:
-          ytd_remaining = total_flow['base'][year_point]
+		
+    for x in range(0,365): 
+      if self.key == "XXX":
+        fig = plt.figure()
+      #regress for gains in oct-mar period and april-jul period
+      coef_save = np.zeros((12,2))
+      for mm in range(0,12):
+        if x <= dowy_eom[mm]:
+          one_year_runfnf = running_fnf[x]
+          monthly_flow_predict = monthly_flow[mm]
+        else:
+          monthly_flow_predict = np.zeros(numYears-1)
+          one_year_runfnf = np.zeros(numYears-1)
+          for yy in range(1,numYears):
+            monthly_flow_predict[yy-1] = monthly_flow[mm][yy]
+            one_year_runfnf[yy-1] = running_fnf[x][yy-1]
 
-        monthly_fractions[wy_month][year_point] = monthly_flow[year_point][wy_month]/ytd_remaining
-        ytd_totals[wy_month][year_point] = ytd_remaining
-        ytd_remaining -= monthly_flow[year_point][wy_month]
-        
-      #fig = plt.figure()
-    ##Save regressions in flow shape dictionary
-    self.flow_shape = {}
-    self.flow_shape['slope'] = np.zeros(12)
-    self.flow_shape['intercept'] = np.zeros(12)
-    for month_counter in range(0,12):
-      monthly_coef = np.polyfit(ytd_totals[month_counter], monthly_fractions[month_counter], 1)
-      self.flow_shape['slope'][month_counter] = monthly_coef[0]
-      self.flow_shape['intercept'][month_counter] = monthly_coef[1]
-      #monthly_regression = np.zeros(len(ytd_totals[month_counter]))
-      #for x in range(0,len(monthly_regression)):
-        #monthly_regression[x] = monthly_coef[0]*ytd_totals[month_counter][x] + monthly_coef[1]
-      #ax1 = fig.add_subplot(3,4,month_counter + 1, axisbg = "1.0")
-      #ax1.scatter(ytd_totals[month_counter], monthly_fractions[month_counter], alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
-      #ax1.scatter(ytd_totals[month_counter], monthly_regression, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
-    #plt.show()
+
+        coef = np.polyfit(one_year_runfnf, monthly_flow_predict, 1)
+        self.flow_shape_regression['slope'][x][mm] = coef[0]
+        self.flow_shape_regression['intercept'][x][mm] = coef[1]
+        if self.key == "XXX":
+          coef_save[mm][0] = coef[0]
+          coef_save[mm][1] = coef[1]
+          r = np.corrcoef(one_year_runfnf,monthly_flow_predict)[0,1]
+          print(x, end = " ")
+          print(mm, end = " ")
+          print(r, end = " ")
+          print(self.key)
+      if self.key == "XXX":
+        for mm in range(0,12):
+          ax1 = fig.add_subplot(4,3,mm+1)
+          if x <= dowy_eom[mm]:
+            monthly_flow_predict = monthly_flow[mm]
+            one_year_runfnf = running_fnf[x]
+          else:
+            monthly_flow_predict = np.zeros(numYears-1)
+            one_year_runfnf = np.zeros(numYears-1)
+            for yy in range(1,numYears):
+              monthly_flow_predict[yy-1] = monthly_flow[mm][yy]
+              one_year_runfnf[yy-1] = running_fnf[x][yy-1]
+
+          ax1.scatter(one_year_runfnf, monthly_flow_predict, s=50, c='red', edgecolor='none', alpha=0.7)
+          ax1.plot([0.0, np.max(one_year_runfnf)], [coef_save[mm][1], (np.max(one_year_runfnf)*coef_save[mm][0] + coef_save[mm][1])],c='red')
+          ax1.set_xlim([np.min(one_year_runfnf), np.max(one_year_runfnf)])
+        plt.show()
+        plt.close()
 
 			
   def find_release_func(self):
@@ -618,32 +670,32 @@ class Reservoir():
     ##based on linear regression w/snowpack (apr-jul) and w/inflow (oct-mar)
     ##this function is called before simulation loop, and the linear regression coefficient & standard deviation of linear regresion residuals
     ##is used in the find_available_storage function
-    rainfnf = np.zeros(self.index.year[self.T-1]-self.index.year[0] + 1)###total full-natural flow OCT-MAR
-    snowfnf = np.zeros(self.index.year[self.T-1]-self.index.year[0] + 1)###total full-natural flow APR-JUL
+    rainfnf = np.zeros(self.ending_year - self.starting_year + 1)###total full-natural flow OCT-MAR
+    snowfnf = np.zeros(self.ending_year - self.starting_year + 1)###total full-natural flow APR-JUL
     fnf_regression = np.zeros((365,4))##constants for linear regression: 2 for oct-mar, 2 for apr-jul
-    rainfnf_cumulative = np.zeros((365,(self.index.year[self.T-1]-self.index.year[0] + 1)))###cumulative daily full-natural flow, rainfall runoff
-    snowfnf_cumulative = np.zeros((365,(self.index.year[self.T-1]-self.index.year[0] + 1)))###cumulative daily full-natural flow, snowmelt runoff
+    rainfnf_cumulative = np.zeros((365,(self.ending_year - self.starting_year + 1)))###cumulative daily full-natural flow, rainfall runoff
+    snowfnf_cumulative = np.zeros((365,(self.ending_year - self.starting_year + 1)))###cumulative daily full-natural flow, snowmelt runoff
 
-    raininf = np.zeros(self.index.year[self.T-1]-self.index.year[0])##total reservoir inflow, OCT-Start of snowmelt season
-    snowinf = np.zeros(self.index.year[self.T-1]-self.index.year[0])##total reservoir inflow, Start of snowmelt season - July
-    baseinf = np.zeros(self.index.year[self.T-1]-self.index.year[0])##total reservoir inflow, Aug-Sept
+    raininf = np.zeros(self.ending_year - self.starting_year)##total reservoir inflow, OCT-Start of snowmelt season
+    snowinf = np.zeros(self.ending_year - self.starting_year)##total reservoir inflow, Start of snowmelt season - July
+    baseinf = np.zeros(self.ending_year - self.starting_year)##total reservoir inflow, Aug-Sept
     inf_regression = np.zeros((365,6))##constants for linear regression: 2 for oct-mar, 2 for apr-jul, 2 for Aug-Sept
-    raininf_cumulative = np.zeros((365,(self.index.year[self.T-1]-self.index.year[0] + 1)))##cumulative daily reservoir inflow, rainfall runoff
-    snowinf_cumulative = np.zeros((365,(self.index.year[self.T-1]-self.index.year[0] + 1)))##cumulative daily reservoir inflow, snowmelt runoff
-    baseinf_cumulative = np.zeros((365,(self.index.year[self.T-1]-self.index.year[0] + 1)))##cumulative daily reservoir inflow, baseline runoff
+    raininf_cumulative = np.zeros((365,(self.ending_year - self.starting_year + 1)))##cumulative daily reservoir inflow, rainfall runoff
+    snowinf_cumulative = np.zeros((365,(self.ending_year - self.starting_year + 1)))##cumulative daily reservoir inflow, snowmelt runoff
+    baseinf_cumulative = np.zeros((365,(self.ending_year - self.starting_year + 1)))##cumulative daily reservoir inflow, baseline runoff
     
-    snowPattern = np.zeros((365,(self.index.year[self.T-1]-self.index.year[0] + 1)))###daily cumulative snowpack
+    snowPattern = np.zeros((365,(self.ending_year - self.starting_year + 1)))###daily cumulative snowpack
 	
     section = 0;##1 is oct-mar, 2 is apr-jul, 3 is aug-sept
     current_year = 0;
     complete_year = 0;##complete year counts all the years that have complete oct-jul data (partial years not used for lin. regression)
     for t in range(1,self.T):
       ##Get date information
-      d = int(self.index.dayofyear[t-1])
-      y = int(self.index.year[t-1])
+      d = self.current_day_year[t-1]
+      y = self.current_year[t-1]
+      m = self.current_month[t-1]
+      da = self.current_day_month[t-1]
       dowy = water_day(d,calendar.isleap(y))
-      m = int(self.index.month[t-1])
-      da = int(self.index.day[t-1])
       
 	  #Use date information to determine if its the rainflood season
       if m == 10:
@@ -802,11 +854,11 @@ class Reservoir():
 	  ############################################################################################################################################################
     current_year = 0
     for t in range(1,self.T):
-      d = int(self.index.dayofyear[t-1])
-      y = int(self.index.year[t-1])
+      d = self.current_day_year[t-1]
+      y = self.current_year[t-1]
+      m = self.current_month[t-1]
+      da = self.current_day_month[t-1]
       dowy = water_day(d,calendar.isleap(y))
-      m = int(self.index.month[t-1])
-      da = int(self.index.day[t-1])
 	  
       if m == 10 and da == 1:
         current_year += 1

@@ -1,7 +1,7 @@
 {
   "total": 800.0,
   "maxForecastValue": 600.0,
-  "carryover": 0.0,
+  "carryover": 520.5,
   "type": "contract",
   "name": "friant1",
   "allocation_priority": 1,

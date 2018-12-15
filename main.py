@@ -19,12 +19,21 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from cord import *
 
+model_mode = 'simulation'
+#model_mode = 'validation'
+if model_mode == 'simulation':
+  sd = '10-01-1905'
+  input_data_file = 'cord/data/cord-data-sim.csv'
+else:
+  sd = '10-01-1996'
+  input_data_file = 'cord/data/cord-data.csv'  
+
 ######################################################################################
 # Model Class Initialization
 ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
 ## 
-modelno = Model('cord/data/cord-data.csv', sd='10-01-1996')
-modelso = Model('cord/data/cord-data.csv', sd = '10-01-1996')
+modelno = Model(input_data_file, sd)
+modelso = Model(input_data_file, sd)
 ######################################################################################
 
 ######################################################################################
@@ -38,12 +47,15 @@ modelso = Model('cord/data/cord-data.csv', sd = '10-01-1996')
 #self.res.rainfnf_stds; self.res.snowfnf_stds
 #self.res.raininf_stds; self.res.snowinf_stds; self.res.baseinf_stds
 #self.res.flow_shape - monthly fractions of total period flow
-modelno.initialize_northern_res()
-
+modelno.initialize_northern_res(model_mode)
+expected_release_datafile = 'cord/data/cord-data.csv'
+print('Initialize Northern Reservoirs')
 #initialize delta rules, calcluate expected environmental releases at each reservoir
 #generates - cumulative environmental/delta releases remaining (at each reservoir)
 #self.res.cum_min_release; self.res.aug_sept_min_release; self.res.oct_nov_min_release
-modelno.initialize_delta_ops()
+modelno.initialize_delta_ops(model_mode, expected_release_datafile)
+modelso.omr_rule_start = modelno.delta.omr_rule_start
+print('Initialize Delta Ops')
 
 ######
 #calculate projection-based flow year indicies using flow & snow inputs
@@ -52,7 +64,13 @@ modelno.initialize_delta_ops()
 #generates:
 #self.delta.forecastSJI (self.T x 1) - forecasts for san joaquin river index
 #self.delta.forecastSRI (self.T x 1) - forecasts for sacramento river index
+#if model_mode == 'simulation':
+  #water_year_indicies = pd.read_csv('cord/data/water_year_index_simulation.csv')
+  #modelno.delta.forecastSRI = water_year_indicies['SRI']
+  #modelno.delta.forecastSJI = water_year_indicies['SJI']
+#else:
 modelno.find_running_WYI()
+print('Find Water Year Indicies')
 
 ######
 #calculate expected 'unstored' pumping at the delta (for predictions into San Luis)
@@ -60,7 +78,10 @@ modelno.find_running_WYI()
 #self.delta_gains_regression (365x2) - linear coeffecicients for predicting total unstored pumping, oct-mar, based on ytd full natural flow
 #self.delta_gains_regression2 (365x2) - linear coeffecicients for predicting total unstored pumping, apr-jul, based on ytd full natural flow
 #self.month_averages (12x1) - expected fraction of unstored pumping to come in each month (fraction is for total period flow, so 0.25 in feb is 25% of total oct-mar unstored flow)
-modelno.predict_delta_gains()
+modelno.predict_delta_gains(expected_release_datafile)
+print('Find Delta Gains')
+if model_mode == 'simulation':
+  modelno.set_regulations_current_north()
 ######################################################################################
 
 ######################################################################################
@@ -72,36 +93,36 @@ modelno.predict_delta_gains()
 ###southern model
 modelso.max_tax_free = {}
 modelso.max_tax_free = modelno.delta.max_tax_free
-###month averages (from above) also passed into the southern model from n. preprocessing
-modelso.month_averages = modelno.month_averages
-
 #initialize the southern reservoirs -
 #generates - same values as initialize_northern_res(), but for southern reservoirs
-modelso.initialize_southern_res()
-
+modelso.initialize_southern_res(model_mode)
+print('Initialize Southern Reservoirs')
 #initialize water districts for southern model 
 #generates - water district parameters (see cord-combined/cord/districts/readme.txt)
 #self.district_list - list of district objects
 #self.district_keys - dictionary pairing district keys w/district class objects
 modelso.initialize_water_districts()
-
+print('Initialize Water Districts')
 #initialize water contracts for southern model
 #generates - water contract parameters (see cord-combined/cord/contracts/readme.txt)
 #self.contract_list - list of contract objects
 #self.contract_keys - dictionary pairing contract keys w/contract class objects
 #self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
 modelso.initialize_sw_contracts()
-
+print('Initialize Contracts')
 #initialize water banks for southern model
 #generates - water bank parameters (see cord-combined/cord/banks/readme.txt)
 #self.waterbank_list - list of waterbank objects
 #self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
 modelso.initialize_water_banks()
-
+print('Initialize Water Banks')
 #initialize canals/waterways for southern model
 #generates - canal parameters (see cord-combined/cord/canals/readme.txt)
 #self.canal_list - list of canal objects
 modelso.initialize_canals()
+print('Initialize Canals')
+if model_mode == 'simulation':
+  modelso.set_regulations_current_south()
 
 #create dictionaries that structure the relationships between
 #reservoirs, canals, districts, waterbanks, and contracts
@@ -117,28 +138,34 @@ modelso.initialize_canals()
 #self.canal.flow - vector recording flow to a node on a canal (note - these values are updated within model steps)
 #self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
 modelso.create_object_associations()
-
+print('Create Object Associations')
 ###Applies initial carryover balances to districts
 ##based on initial reservoir storage conditions
 ##PLEASE NOTE CARRYOVER STORAGE IN SAN LUIS IS HARD-CODED
 modelso.find_initial_carryover()
+print('Initialize Carryover Storage')
 ##initial recovery capacities for districts, based on
 ##ownership stakes in waterbanks (direct + inleui)
 modelso.init_tot_recovery()
+print('Initialize Recovery Capacity')
 ##initial recharge capacities (projected out 12 months) for districts,
 ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
-modelso.project_urban()
+urban_datafile = 'cord/data/cord-data-urban.csv'
+urban_datafile_cvp = 'cord/data/pump-data-cvp.csv'
+modelso.project_urban(urban_datafile, urban_datafile_cvp, model_mode)
+
 #calculate how much recharge capacity is reachable from each reservoir 
 #that is owned by surface water contracts held at that reservoir - used to determine
 #how much flood water can be released and 'taken' by a contractor
-modelso.find_all_triggers()	
+modelso.find_all_triggers()
+print('Find Triggers')	
 
 ######################################################################################
 
 ######################################################################################
 ###Model Simulation
 ######################################################################################
-timeseries_length = min(modelno.T, modelso.T) - 1
+timeseries_length = min(modelno.T, modelso.T)
 ###initial parameters for northern model input
 ###generated from southern model at each timestep
 swp_release = 1
@@ -152,45 +179,47 @@ swp_available = 0.0
 cvp_available = 0.0
 ############################################
 for t in range(0, timeseries_length):
+  print(t)
   #the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
-  swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, proj_surplus2, swp_forgo, cvp_forgo, swp_AF, cvp_AF = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
-  swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, proj_surplus2, swp_forgo, cvp_forgo, swp_AF, cvp_AF, modelno.delta.forecastSJWYT)
+  swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF ,swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump, model_mode)
+  
+  swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.max_tax_free, flood_release, flood_volume, model_mode)
 ######################################################################################
 
 ######################################################################################
 ###Record Simulation Results
 ######################################################################################
-
 district_results = modelso.results_as_df('daily', modelso.district_list)
-district_results.to_csv('cord/data/district_results.csv')
+district_results.to_csv('cord/data/district_results_' + model_mode + '.csv')
 district_results_annual = modelso.results_as_df('annual', modelso.district_list)
-district_results_annual.to_csv('cord/data/annual_district_results.csv')
+district_results_annual.to_csv('cord/data/annual_district_results_' + model_mode + '.csv')
 
 contract_results = modelso.results_as_df('daily', modelso.contract_list)
-contract_results.to_csv('cord/data/contract_results.csv')
+contract_results.to_csv('cord/data/contract_results_' + model_mode + '.csv')
 contract_results_annual = modelso.results_as_df('annual', modelso.contract_list)
-contract_results_annual.to_csv('cord/data/contract_results_annual.csv')
+contract_results_annual.to_csv('cord/data/contract_results_annual_' + model_mode + '.csv')
 
 northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones, modelno.donpedro, modelno.exchequer, modelno.delta]
 southern_res_list = [modelso.sanluisstate, modelso.sanluisfederal, modelso.millerton, modelso.isabella]
+
 reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
-reservoir_results_no.to_csv('cord/data/reservoir_results_no.csv')
+reservoir_results_no.to_csv('cord/data/reservoir_results_no_' + model_mode + '.csv')
 reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
-reservoir_results_so.to_csv('cord/data/reservoir_results_so.csv')
+reservoir_results_so.to_csv('cord/data/reservoir_results_so_' + model_mode + '.csv')
 
 canal_results = modelso.results_as_df('daily', modelso.canal_list)
-canal_results.to_csv('cord/data/canal_results.csv')
+canal_results.to_csv('cord/data/canal_results_' + model_mode + '.csv')
 
 bank_results = modelso.bank_as_df('daily', modelso.waterbank_list)
-bank_results.to_csv('cord/data/bank_results.csv')
+bank_results.to_csv('cord/data/bank_results_' + model_mode + '.csv')
 bank_results_annual = modelso.bank_as_df('annual', modelso.waterbank_list)
-bank_results_annual.to_csv('cord/data/bank_results_annual.csv')
+bank_results_annual.to_csv('cord/data/bank_results_annual_' + model_mode + '.csv')
 
 
 leiu_results = modelso.bank_as_df('daily', modelso.leiu_list)
-leiu_results.to_csv('cord/data/leiu_results.csv')
+leiu_results.to_csv('cord/data/leiu_results_' + model_mode + '.csv')
 leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
-leiu_results_annual.to_csv('cord/data/leiu_results_annual.csv')
+leiu_results_annual.to_csv('cord/data/leiu_results_annual_' + model_mode + '.csv')
 
 
 

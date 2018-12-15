@@ -13,7 +13,7 @@ def water_day(d, leap):
     dowy = d - day_change
   else:
     dowy = d + 91
-  if dowy > 363:
-    dowy = 363
+  if dowy > 364:
+    dowy = 364
 	
   return dowy

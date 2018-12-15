@@ -54,6 +54,8 @@ class Canal():
       else:
         self.turnout_frac[zz][canal_loc] = 1.0
       max_turnout -= self.demand[zz][canal_loc]
+      if max_turnout < 0.0:
+        max_turnout = 0.0
 	  
   def update_canal_use(self, available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list):
     #this function checks to see if the next canal node has the capacity to take the remaining flow - if not,
@@ -97,15 +99,17 @@ class Canal():
 
     return available_flow, turnback_flows, turnback_end
 	
-  def find_bi_directional(self, closed, direction_true, direction_false, flow_type, new_canal):
+  def find_bi_directional(self, closed, direction_true, direction_false, flow_type, new_canal, adjust_flow_types, locked):
     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)
-    if closed > 0.0 and self.locked == 0:
-      self.locked = 1
-      self.flow_directions['recharge'][new_canal] = direction_true
-      self.flow_directions['recovery'][new_canal] = direction_true
+    if closed > 0.0 and locked == 0:
+      if adjust_flow_types == 1:
+        self.flow_directions['recharge'][new_canal] = direction_true
+        self.flow_directions['recovery'][new_canal] = direction_true
+      else:
+        self.flow_directions[flow_type][new_canal] = direction_true
 
-    elif self.locked == 0:
-      self.flow_directions[flow_type][new_canal] = direction_false
+    elif locked == 0:
+      self.flow_directions[flow_type][new_canal] = direction_false	  
 	  
   def accounting(self, t, name, counter):
     self.daily_flow[name][t] = self.turnout_use[counter]

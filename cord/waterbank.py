@@ -102,25 +102,25 @@ class Waterbank():
           if yy == current_canal:
             canal_toggle = 1
         if contractor_toggle == 1 and canal_toggle == 1:
-          demand_dict['contractor'] = delivery
+          demand_dict['contractor'] = demand
           demand_dict['alternate'] = 0.0
           demand_dict['turnout'] = 0.0
           demand_dict['excess'] = 0.0
         elif contractor_toggle == 1:
           demand_dict['contractor'] = 0.0
-          demand_dict['alternate'] = delivery
+          demand_dict['alternate'] = demand
           demand_dict['turnout'] = 0.0
           demand_dict['excess'] = 0.0		
         else:
           demand_dict['contractor'] = 0.0
           demand_dict['alternate'] = 0.0
-          demand_dict['turnout'] = delivery
+          demand_dict['turnout'] = demand
           demand_dict['excess'] = 0.0
       else:
         demand_dict['contractor'] = 0.0
         demand_dict['alternate'] = 0.0
         demand_dict['turnout'] = 0.0
-        demand_dict['excess'] = delivery
+        demand_dict['excess'] = demand
     #if the flows are for delivery, the don't come to a water bank
     elif search_type == 'delivery':
       demand_dict[contract_canal] = 0.0

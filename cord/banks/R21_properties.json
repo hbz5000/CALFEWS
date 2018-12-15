@@ -1,5 +1,5 @@
 {
-  "participant_list": ["RRB","ARV","DLE","KRT","SOC","BVA"],
+  "participant_list": ["RRB","ARV","DLE","SOC","BVA"],
   "participant_type": ["direct","direct","paper","paper","direct","direct"],
   "canal_rights": ["gsl"],
   "initial_recharge": 400.0,

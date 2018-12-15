@@ -1,7 +1,7 @@
 {
-  "total": 1854.598,
+  "total": 1848.598,
   "maxForecastValue": 1190.4,
-  "carryover": 1020.0,
+  "carryover": 200.0,
   "type": "contract",
   "name": "cvpdelta",
   "allocation_priority": 0,

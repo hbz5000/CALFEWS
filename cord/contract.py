@@ -25,6 +25,7 @@ class Contract():
     self.daily_deliveries = 0.0
 	
     self.tot_carryover = 0.0#contract carryover
+    self.running_carryover = 0.0
     self.lastYearForecast = self.maxForecastValue#last year's allocation forecast (used to make forecast during the beginning of the year)
     self.projected_carryover = 0.0#projecting the carryover storage for next year (based on individual district storage accounts)
     self.max_allocation = self.total#full allocation for the contract
@@ -44,30 +45,28 @@ class Contract():
 	#before March, allocations are assumed to be equal to last year's allocation (capped at some level)
 	#unless the snowpack is large enough to expect larger flows (i.e., low snowpack early in the year doesn't
 	#cause contracts to predict super-low allocations
-    #if dowy < 150:
-      #if forecast_available > self.maxForecastValue:
-        #if self.allocation_priority == 1:
-          #forecast_used = forecast_available*self.total/priority_allocation
-        #else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
-          #forecast_used = (forecast_available - priority_allocation)*self.total/secondary_allocation
-      #elif self.lastYearForecast < forecast_available:
-        #if self.allocation_priority == 1:
-          #forecast_used = forecast_available*self.total/priority_allocation
-        #else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
-          #forecast_used = (forecast_available - priority_allocation)*self.total/secondary_allocation
-      #else:
-        #if self.allocation_priority == 1:
-          #forecast_used = min(self.lastYearForecast, self.maxForecastValue)*self.total/priority_allocation
-          #forecast_used = forecast_available*self.total/priority_allocation
-        #else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
-          #forecast_used = (forecast_available - priority_allocation)*self.total/secondary_allocation
-          #forecast_used = (min(self.lastYearForecast, self.maxForecastValue)- priority_allocation)*self.total/secondary_allocation
-    #else:
+    if dowy < 150:
+      if forecast_available > self.maxForecastValue:
+        if self.allocation_priority == 1:
+          forecast_used = forecast_available*self.total/priority_contract
+        else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
+          forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
+      elif self.lastYearForecast < forecast_available:
+        if self.allocation_priority == 1:
+          forecast_used = forecast_available*self.total/priority_contract
+        else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
+          forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
+      else:
+        if self.allocation_priority == 1:
+          forecast_used = min(self.lastYearForecast, self.maxForecastValue)*self.total/priority_contract
+        else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
+          forecast_used = (min(self.lastYearForecast, self.maxForecastValue)- priority_contract)*self.total/secondary_contract
+    else:
       #if the contract has priority, the allocation is just the available (forecasted) water
-    if self.allocation_priority == 1:
-      forecast_used = forecast_available*self.total/priority_contract
-    else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
-      forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
+      if self.allocation_priority == 1:
+        forecast_used = forecast_available*self.total/priority_contract
+      else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
+        forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
     
     if dowy == 360:
       forecast_used = forecast_available
@@ -87,13 +86,17 @@ class Contract():
       #what is the fraction of the allocation that is available to the contract right now
 	  #all contracts with priority storage share the 'total_water' - i.e. if 1/2 of the priority storage
 	  #has already come into the reservoir, then 1/2 of the contract's allocation is 'currently available'
-      self.storage_pool[t] = min(1.0, total_water/priority_storage)*(self.allocation[t] + self.tot_carryover)
-      self.available_water[t] = reservoir_storage * (self.allocation[t] + self.tot_carryover)/priority_storage
+      if priority_storage > 0.0:
+        self.storage_pool[t] = min(1.0, total_water/priority_storage)*(self.allocation[t])
+        self.available_water[t] = reservoir_storage * (self.allocation[t])/priority_storage
+      else:
+        self.storage_pool[t] = self.allocation[t]
+        self.available_water[t] = reservoir_storage
     else:
       #if the contract doesn't have priority, the contract has to wait for the total_water to be greater than the
 	  #priority storage before any of that water is available to them
-      self.storage_pool[t] = min(self.allocation[t] + self.tot_carryover, max(total_water - priority_storage, 0.0))
-      self.available_water[t] = min(total_water - priority_storage, self.allocation[t] + self.tot_carryover, reservoir_storage)
+      self.storage_pool[t] = min(self.allocation[t], max(total_water - priority_storage, 0.0))
+      self.available_water[t] = max(min(total_water - priority_storage, self.allocation[t], reservoir_storage), 0.0)
 	  
   def adjust_accounts(self, contract_deliveries, search_type, wateryear):
     #this function records deliveries made on a contract by year - for use in determining if 

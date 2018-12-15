@@ -15,11 +15,11 @@
   "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
   "project_contract": {
     "tableA": 0.04635108481,
-    "cvpdelta": 0.0,
+    "cvpdelta": 0.03287,
     "friant1": 0.0,
     "friant2": 0.0,
     "cvc": 0.0,
-    "exchange": 0.117,
+    "exchange": 0.106,
     "hidden": 0.0,
     "buchannon": 0.0,
     "eastside": 0.0

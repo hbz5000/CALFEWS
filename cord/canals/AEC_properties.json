@@ -1,24 +1,27 @@
 {
   "capacity": {
-    "normal": [1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 0.0],
-    "reverse": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-    "closed": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    "normal": [1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 0.0],
+    "reverse": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "closed": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 	},
   "turnout": {
-    "normal": [0.0, 1000.0, 1000.0, 1000.0, 1000.0],
-    "reverse": [0.0, 0.0, 0.0, 0.0, 0.0],
-    "closed": [0.0, 0.0, 0.0, 0.0, 0.0]
+    "normal": [0.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0],
+    "reverse": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "closed": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
   },
+  "recovery_feeder": false,
   "flow_directions": {
     "recharge": {
       "fkc": "closed",
       "caa": "closed",
-      "xvc": "closed"
+      "xvc": "closed",
+      "knr": "closed"
       },
     "recovery": {
-      "fkc": "closed",
-      "caa": "normal",
-      "xvc": "closed"
+      "fkc": "normal",
+      "caa": "closed",
+      "xvc": "closed",
+      "knr": "closed"
       }
   },
   "name": "aec"

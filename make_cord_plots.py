@@ -6,11 +6,11 @@ from cord import *
 ######################################################################################
 ###Plot Simulation Results
 ######################################################################################
-res_results_no = pd.read_csv('cord/data/reservoir_results_no.csv', index_col=0, parse_dates=True)
-res_results_so = pd.read_csv('cord/data/reservoir_results_so.csv', index_col=0, parse_dates=True)
-district_results = pd.read_csv('cord/data/district_results.csv')
-waterbank_results = pd.read_csv('cord/data/bank_results.csv')
-leiubank_results = pd.read_csv('cord/data/leiu_results.csv')
+res_results_no = pd.read_csv('cord/data/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
+res_results_so = pd.read_csv('cord/data/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
+district_results = pd.read_csv('cord/data/district_results_validation.csv')
+waterbank_results = pd.read_csv('cord/data/bank_results_validation.csv')
+leiubank_results = pd.read_csv('cord/data/leiu_results_validation.csv')
 observations = pd.read_csv('cord/data/cord-data.csv', index_col=0, parse_dates=True)
 #calibration points (lists of pandas series)
 sim = [res_results_no['DEL_HRO_pump'] / cfs_tafd,
@@ -39,12 +39,17 @@ obs = [observations['HRO_pump'],
        observations['DNP_storage'],
        observations['EXC_storage']]
 
-for f in ['W','AS-OCT']:
-  i = 0
-  for s,o in zip(sim,obs):
-    plotter.compare(s, o, freq=f)
-    plt.savefig('cord/figs/%s%d.png' % (f,i), dpi=150)
-    i += 1
+#for f in ['W','AS-OCT']:
+i = 0
+for s,o in zip(sim,obs):
+  #plotter.compare(s, o, freq=f)
+  if i == 0:
+    data_name = 'SWP Pumping'
+  else:
+    data_name = 'CVP Pumping'
+  plotter.compare(s, o, 'W', 'AS-OCT', data_name)
+  #plt.savefig('cord/figs/%s%d.png' % (f,i), dpi=150)
+  i += 1
 
 results = pd.read_csv('cord/data/reservoir_results_so.csv', index_col=0, parse_dates=True)
 i = 0
@@ -58,7 +63,7 @@ res = [res_results_so['ISB_storage']*1000.0,
        res_results_so['MIL_storage']*1000.0]
 for s,o in zip(res,obs):
   a=1
-  plotter.compare(s, o, freq='W')
+  plotter.compare(s, o, 'W', 'M')
   
 
 for x in ['HML', 'SMI', 'BLR', 'DLR', 'SOC']:

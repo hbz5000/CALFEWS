@@ -1,6 +1,6 @@
 {
   "contract_list": ["tableA", "kaweah"],
-  "turnout_list": ["caa", "tule", "kaweah", "kings"],
+  "turnout_list": ["caa", "tlr", "kwr", "kings"],
   "in_leiu_banking": false,
   "leiu_recovery": 0.0,
   "in_district_direct_recharge": 0.0,
