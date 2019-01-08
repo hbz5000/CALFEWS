@@ -8,7 +8,7 @@ from .util import *
 
 class Delta():
 
-  def __init__(self, df, key, model_mode):
+  def __init__(self, df, df_short, key, model_mode):
     self.T = len(df)
     self.index = df.index
     self.starting_year = int(self.index.year[0])
@@ -17,6 +17,13 @@ class Delta():
     self.current_year = self.index.year
     self.current_month = self.index.month
     self.current_day_month = self.index.day
+    self.current_dowy = water_day(self.current_day_year, self.current_year)
+    self.T_short = len(df_short)
+    self.index_short_d = df_short.index.dayofyear
+    self.index_short_da = df_short.index.day
+    self.index_short_m = df_short.index.month
+    self.index_short_y = df_short.index.year
+    self.index_short_dowy = water_day(self.index_short_d, self.index_short_y)
 
     self.key = key
     self.forecastSCWYT = "AN"
@@ -92,7 +99,7 @@ class Delta():
     self.final_allocation_cvp = 0.0
 
 
-  def calc_expected_delta_outflow(self,shastaD,orovilleD,yubaD,folsomD,shastaMIN,orovilleMIN,yubaMIN,folsomMIN, gains_sac_short, gains_sj_short, depletions_short, eastside_short, T_short, index_short):
+  def calc_expected_delta_outflow(self,shastaD,orovilleD,yubaD,folsomD,shastaMIN,orovilleMIN,yubaMIN,folsomMIN, gains_sac_short, gains_sj_short, depletions_short, eastside_short):
   #this function calculates an expectation for the volume of environmental releases expected to be made from each reservoir,
   #given the water year type
   #also calculates the dictionary self.max_tax_free - based on delta flow requirements, how much water can be pumped w/o triggering the inflow/export ratio rule at the delta pumps, for each water year type and both the cvp & swp shares
@@ -109,11 +116,9 @@ class Delta():
     num_obs = np.zeros(366)
     num_obs_m = np.zeros(12)
     total_depletion = np.zeros(12)
-    for t in range(1,T_short):
-      d = int(index_short.dayofyear[t-1])
-      y = int(index_short.year[t-1])
-      dowy = water_day(d, calendar.isleap(y))
-      m = int(index_short.month[t-1])
+    for t in range(1,self.T_short):
+      m = self.index_short_m[t - 1]
+      dowy = self.index_short_dowy[t - 1]
       zone = int(np.interp(dowy, self.san_joaquin_min_flow['d'], self.san_joaquin_min_flow['zone']))
       total_depletion[m-1] += min(depletions_short[t], 0.0)
       num_obs_m[m-1] += 1
@@ -192,7 +197,6 @@ class Delta():
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         expected_outflow_releases[wyt][x] = expected_outflow_releases[wyt][x]/num_obs[x]
 
-		
     return expected_outflow_releases, self.expected_depletion
   
   def calc_rio_vista_rule(self, t, cvp_stored_release, swp_stored_release):
@@ -223,10 +227,9 @@ class Delta():
     y = self.current_year[t]
     m = self.current_month[t]
     wyt = self.forecastSJWYT
-    dowy = water_day(d,calendar.isleap(y))
+    dowy = self.current_dowy[t]
 
-    
-	##D_1641 RULES
+    ##D_1641 RULES
     ##zone refers to one of four 'min flow' groupings throughout the year, based on WYT
 	##Note: I forget why I wrote the Delta_property files like this, with the 'zones' but it works
     zone = int(np.interp(dowy, self.san_joaquin_min_flow['d'], self.san_joaquin_min_flow['zone']))
@@ -307,7 +310,7 @@ class Delta():
     y = self.current_year[t]
     m = self.current_month[t]
     wyt = self.forecastSCWYT
-    dowy = water_day(d ,calendar.isleap(y))
+    dowy = self.current_dowy[t]
     #this function finds the additional releases needed to satisfy delta outflows
 	#and splits them between CVP and SWP based on the 75/25 rule (given previous releases)
 	
@@ -396,9 +399,9 @@ class Delta():
     y = self.current_year[t]
     m = self.current_month[t]
     wyt = self.forecastSCWYT
-    dowy = water_day(d,calendar.isleap(y))
+    dowy = self.current_dowy[t]
 
-	####Old-Middle River Rule################################################################################################
+    ####Old-Middle River Rule################################################################################################
 	#The delta pumps make the old-middle river run backwards - there are restrictions (starting in 2008) about how big the negative flows can
 	#become.  To model this, we use either a liner adjustment of flow at vernalis, or the observed flow (adding back in the pumping, to estimate
 	#the 'natural' flow on the Old-Middle Rivers).  Once we have a model of the Old-Middle River, we assume that this flow is reduced (can become negative)
@@ -511,7 +514,7 @@ class Delta():
     y = self.current_year[t]
     m = self.current_month[t]
     wyt = self.forecastSCWYT
-    dowy = water_day(d,calendar.isleap(y))
+    dowy = self.current_dowy[t]
     outflow_rule = self.min_outflow[wyt][m-1] * cfs_tafd
     cvp_frac = 0.55
     swp_frac = 0.45
@@ -806,7 +809,7 @@ class Delta():
     y = self.current_year[t]
     m = self.current_month[t]
     wyt = self.forecastSCWYT
-    dowy = water_day(d,calendar.isleap(y))
+    dowy = self.current_dowy[t]
     cvp_frac = 0.55
     swp_frac = 0.45
 
@@ -939,9 +942,8 @@ class Delta():
     self.annual_TRP_pump[wateryear-1] += self.TRP_pump[t]
 	
 	
-  def create_flow_shapes_omr(self, datafile):
+  def create_flow_shapes_omr(self, df_short):
     dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
-    df_short = pd.read_csv(datafile, index_col=0, parse_dates=True)
     omr_series = df_short['OMR'].values * cfs_tafd
     pump_series = df_short['HRO_pump'].values * cfs_tafd
     pump_series2 = df_short['TRP_pump'].values * cfs_tafd
@@ -952,10 +954,8 @@ class Delta():
     for fnf_keys in ['NML', 'DNP', 'EXC', 'MIL']:
       fnf_ind = df_short['%s_fnf'% fnf_keys].values / 1000000.0
       fnf_series += fnf_ind
-    T_short = len(flow_series)
-    index_short = df_short.index
-    startYear = index_short.year[omr_short_record_start]
-    endYear = index_short.year[T_short-1]
+    startYear = self.index_short_y[omr_short_record_start]
+    endYear = self.index_short_y[self.T_short - 1]
     numYears = endYear - startYear
     self.omr_regression = {}
     self.omr_regression['slope'] = np.zeros((365,12))
@@ -963,12 +963,10 @@ class Delta():
     monthly_flow = np.zeros((12, (endYear - startYear)))
     running_fnf = np.zeros((365,(endYear - startYear)))
     prev_fnf = 0.0
-    for t in range(omr_short_record_start,(T_short)):
-      d = int(index_short.dayofyear[t])
-      y = int(index_short.year[t])
-      dowy = water_day(d,calendar.isleap(y))
-      m = int(index_short.month[t])
-      da = int(index_short.day[t])
+    for t in range(omr_short_record_start,(self.T_short)):
+      m = self.index_short_m[t]
+      y = self.index_short_y[t]
+      dowy = self.index_short_dowy[t]
       if m >= 10:
         wateryear = y - startYear
       else:
@@ -977,8 +975,6 @@ class Delta():
       prev_fnf += fnf_series[t-1]
       running_fnf[dowy][wateryear] = np.sum(fnf_series[(t-30):t])
 
-
-		
     for x in range(0,365):
       if self.key == "XXX":
         fig = plt.figure()
@@ -994,7 +990,6 @@ class Delta():
           for yy in range(1,numYears):
             monthly_flow_predict[yy-1] = monthly_flow[mm][yy]
             one_year_runfnf[yy-1] = running_fnf[x][yy-1]
-
 
         coef = np.polyfit(one_year_runfnf, monthly_flow_predict, 1)
         self.omr_regression['slope'][x][mm] = coef[0]

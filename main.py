@@ -17,7 +17,11 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import cord
 from cord import *
+from datetime import datetime
+
+startTime = datetime.now()
 
 model_mode = 'simulation'
 #model_mode = 'validation'
@@ -28,12 +32,19 @@ else:
   sd = '10-01-1996'
   input_data_file = 'cord/data/cord-data.csv'  
 
+# always use shorter dataframe for expected delta releases
+expected_release_datafile = 'cord/data/cord-data.csv'
+
+# To run full dataset, short_test = -1. Else enter number of days to run, starting at sd. e.g. 365 for 1 year only.
+short_test = 730
+
 ######################################################################################
 # Model Class Initialization
 ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
 ## 
-modelno = Model(input_data_file, sd)
-modelso = Model(input_data_file, sd)
+modelno = Model(input_data_file, expected_release_datafile, sd, short_test)
+modelso = Model(input_data_file, expected_release_datafile, sd, short_test)
+print (modelno.df.shape[0], ' rows')
 ######################################################################################
 
 ######################################################################################
@@ -48,14 +59,13 @@ modelso = Model(input_data_file, sd)
 #self.res.raininf_stds; self.res.snowinf_stds; self.res.baseinf_stds
 #self.res.flow_shape - monthly fractions of total period flow
 modelno.initialize_northern_res(model_mode)
-expected_release_datafile = 'cord/data/cord-data.csv'
-print('Initialize Northern Reservoirs')
+print('Initialize Northern Reservoirs, time ', datetime.now() - startTime)
 #initialize delta rules, calcluate expected environmental releases at each reservoir
 #generates - cumulative environmental/delta releases remaining (at each reservoir)
 #self.res.cum_min_release; self.res.aug_sept_min_release; self.res.oct_nov_min_release
-modelno.initialize_delta_ops(model_mode, expected_release_datafile)
+modelno.initialize_delta_ops(model_mode)
 modelso.omr_rule_start = modelno.delta.omr_rule_start
-print('Initialize Delta Ops')
+print('Initialize Delta Ops, time ', datetime.now() - startTime)
 
 ######
 #calculate projection-based flow year indicies using flow & snow inputs
@@ -70,7 +80,7 @@ print('Initialize Delta Ops')
   #modelno.delta.forecastSJI = water_year_indicies['SJI']
 #else:
 modelno.find_running_WYI()
-print('Find Water Year Indicies')
+print('Find Water Year Indicies, time ', datetime.now() - startTime)
 
 ######
 #calculate expected 'unstored' pumping at the delta (for predictions into San Luis)
@@ -78,8 +88,8 @@ print('Find Water Year Indicies')
 #self.delta_gains_regression (365x2) - linear coeffecicients for predicting total unstored pumping, oct-mar, based on ytd full natural flow
 #self.delta_gains_regression2 (365x2) - linear coeffecicients for predicting total unstored pumping, apr-jul, based on ytd full natural flow
 #self.month_averages (12x1) - expected fraction of unstored pumping to come in each month (fraction is for total period flow, so 0.25 in feb is 25% of total oct-mar unstored flow)
-modelno.predict_delta_gains(expected_release_datafile)
-print('Find Delta Gains')
+modelno.predict_delta_gains()
+print('Find Delta Gains, time ', datetime.now() - startTime)
 if model_mode == 'simulation':
   modelno.set_regulations_current_north()
 ######################################################################################
@@ -96,31 +106,31 @@ modelso.max_tax_free = modelno.delta.max_tax_free
 #initialize the southern reservoirs -
 #generates - same values as initialize_northern_res(), but for southern reservoirs
 modelso.initialize_southern_res(model_mode)
-print('Initialize Southern Reservoirs')
+print('Initialize Southern Reservoirs, time ', datetime.now() - startTime)
 #initialize water districts for southern model 
 #generates - water district parameters (see cord-combined/cord/districts/readme.txt)
 #self.district_list - list of district objects
 #self.district_keys - dictionary pairing district keys w/district class objects
 modelso.initialize_water_districts()
-print('Initialize Water Districts')
+print('Initialize Water Districts, time ', datetime.now() - startTime)
 #initialize water contracts for southern model
 #generates - water contract parameters (see cord-combined/cord/contracts/readme.txt)
 #self.contract_list - list of contract objects
 #self.contract_keys - dictionary pairing contract keys w/contract class objects
 #self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
 modelso.initialize_sw_contracts()
-print('Initialize Contracts')
+print('Initialize Contracts, time ', datetime.now() - startTime)
 #initialize water banks for southern model
 #generates - water bank parameters (see cord-combined/cord/banks/readme.txt)
 #self.waterbank_list - list of waterbank objects
 #self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
 modelso.initialize_water_banks()
-print('Initialize Water Banks')
+print('Initialize Water Banks, time ', datetime.now() - startTime)
 #initialize canals/waterways for southern model
 #generates - canal parameters (see cord-combined/cord/canals/readme.txt)
 #self.canal_list - list of canal objects
 modelso.initialize_canals()
-print('Initialize Canals')
+print('Initialize Canals, time ', datetime.now() - startTime)
 if model_mode == 'simulation':
   modelso.set_regulations_current_south()
 
@@ -138,16 +148,16 @@ if model_mode == 'simulation':
 #self.canal.flow - vector recording flow to a node on a canal (note - these values are updated within model steps)
 #self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
 modelso.create_object_associations()
-print('Create Object Associations')
+print('Create Object Associations, time ', datetime.now() - startTime)
 ###Applies initial carryover balances to districts
 ##based on initial reservoir storage conditions
 ##PLEASE NOTE CARRYOVER STORAGE IN SAN LUIS IS HARD-CODED
 modelso.find_initial_carryover()
-print('Initialize Carryover Storage')
+print('Initialize Carryover Storage, time ', datetime.now() - startTime)
 ##initial recovery capacities for districts, based on
 ##ownership stakes in waterbanks (direct + inleui)
 modelso.init_tot_recovery()
-print('Initialize Recovery Capacity')
+print('Initialize Recovery Capacity, time ', datetime.now() - startTime)
 ##initial recharge capacities (projected out 12 months) for districts,
 ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
 urban_datafile = 'cord/data/cord-data-urban.csv'
@@ -158,7 +168,7 @@ modelso.project_urban(urban_datafile, urban_datafile_cvp, model_mode)
 #that is owned by surface water contracts held at that reservoir - used to determine
 #how much flood water can be released and 'taken' by a contractor
 modelso.find_all_triggers()
-print('Find Triggers')	
+print('Find Triggers, time ', datetime.now() - startTime)
 
 ######################################################################################
 
@@ -179,7 +189,8 @@ swp_available = 0.0
 cvp_available = 0.0
 ############################################
 for t in range(0, timeseries_length):
-  print(t)
+  if (t % 365 == 364):
+    print('Year ', (t+1)/365, ', ', datetime.now() - startTime)
   #the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
   swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF ,swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump, model_mode)
   
@@ -221,6 +232,7 @@ leiu_results.to_csv('cord/data/leiu_results_' + model_mode + '.csv')
 leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
 leiu_results_annual.to_csv('cord/data/leiu_results_annual_' + model_mode + '.csv')
 
+print ('completed in ', datetime.now() - startTime)
 
 
 
