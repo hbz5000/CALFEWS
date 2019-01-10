@@ -112,14 +112,13 @@ class Canal():
       self.flow_directions[flow_type][new_canal] = direction_false	  
 	  
   def accounting(self, t, name, counter):
-    self.daily_flow[name][t] = self.turnout_use[counter]
-    self.daily_turnout[name][t] = self.flow[counter]
+    self.daily_turnout[name][t] = self.turnout_use[counter]
+    self.daily_flow[name][t] = self.flow[counter]
 	
   def accounting_as_df(self, index):
     df = pd.DataFrame()
     for n in self.daily_flow:    
       df['%s_%s' % (self.key,n)] = pd.Series(self.daily_flow[n], index = index)
-      df['%s_%s' % (self.key,n)] = pd.Series(self.daily_turnout[n], index = index)
     return df
 	
 

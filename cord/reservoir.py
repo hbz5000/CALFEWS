@@ -275,9 +275,9 @@ class Reservoir():
     self.Rtarget[t] = self.envmin + self.sodd + self.din + self.dout
     # then clip based on constraints
     W = self.S[t] + self.Q[t]
-    self.R[t] = min(self.Rtarget[t], W - self.dead_pool)
+    self.R[t] = max(min(self.Rtarget[t], W - self.dead_pool), 0.0)
     self.R[t] = min(self.R[t], self.max_outflow * cfs_tafd)
-    self.R[t] +=  max(W - self.R[t] - self.capacity, 0) # spill
+    self.R[t] +=  max(W - self.R[t] - self.capacity, 0.0) # spill
     if t < (self.T - 1):
       self.S[t+1] = W - self.R[t] - self.E[t] # mass balance update
 	  
