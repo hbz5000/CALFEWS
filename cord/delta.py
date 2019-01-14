@@ -9,6 +9,7 @@ from .util import *
 class Delta():
 
   def __init__(self, df, df_short, key, model_mode):
+    self.model_mode = model_mode
     self.T = len(df)
     self.index = df.index
     self.starting_year = int(self.index.year[0])
@@ -68,7 +69,7 @@ class Delta():
     self.forecastSJI = np.zeros(self.T)
     self.sac_fnf = np.zeros(int(self.ending_year - self.starting_year))
 	##Old/Middle River Calculations
-    if model_mode == 'validation':
+    if self.model_mode == 'validation':
       self.hist_OMR = df.OMR * cfs_tafd
       self.hist_TRP_pump = df.TRP_pump * cfs_tafd
       self.hist_HRO_pump = df.HRO_pump * cfs_tafd
@@ -394,7 +395,7 @@ class Delta():
  
     return shastaFrac, folsomFrac, orovilleFrac, yubaFrac
 	
-  def meet_OMR_requirement(self, cvp_m, swp_m, t, model_mode):
+  def meet_OMR_requirement(self, cvp_m, swp_m, t):
     d = self.current_day_year[t]
     y = self.current_year[t]
     m = self.current_month[t]
@@ -427,7 +428,7 @@ class Delta():
 	##here we use the actual declaration - any forward-in-time projection runs will have to be either simulated probabilistically or just run under
 	##the normal condition (5000 cfs)
 	###Note: OMR Flow adjustments come from here: http://www.water.ca.gov/swp/operationscontrol/calfed/calfedwomt.cfm
-    if model_mode == 'validation':
+    if self.model_mode == 'validation':
       fish_trigger_adj = np.interp(t, self.omr_reqr['t'], self.omr_reqr['adjustment']) * cfs_tafd
     elif dowy > 92 and dowy < 258:
       if self.fish_condition[t] < 0.05:
@@ -502,7 +503,7 @@ class Delta():
 	  
     return main_sodd, secondary_sodd
 	
-  def calc_flow_bounds(self, t, cvp_max, swp_max, cvp_max_alt, swp_max_alt, cvp_release, swp_release, cvp_AS, swp_AS, cvp_flood, swp_flood, swp_over_dead_pool, cvp_over_dead_pool, swp_flood_volume, cvp_flood_volume, model_mode):
+  def calc_flow_bounds(self, t, cvp_max, swp_max, cvp_max_alt, swp_max_alt, cvp_release, swp_release, cvp_AS, swp_AS, cvp_flood, swp_flood, swp_over_dead_pool, cvp_over_dead_pool, swp_flood_volume, cvp_flood_volume):
     ### stored and unstored flow agreement between SWP & CVP
 	### project releases for pumping must consider the I/E 'tax'
 	### releases already made (environmental flows, delta outflows) and downstream gains can be credited against this tax, but
@@ -563,7 +564,7 @@ class Delta():
     swp_portion = min(max(swp_frac*tax_free_exports, tax_free_exports - min(max(cvp_tax_free_fraction*tax_free_exports, cvp_frac*available_unstored), cvp_max_alt)), swp_tax_free_fraction*tax_free_exports)
     swp_tax_free_pumping = min(swp_portion, swp_max_alt)
 	
-    cvp_tax_free_pumping, swp_tax_free_pumping = self.meet_OMR_requirement(cvp_tax_free_pumping, swp_tax_free_pumping, t, model_mode)
+    cvp_tax_free_pumping, swp_tax_free_pumping = self.meet_OMR_requirement(cvp_tax_free_pumping, swp_tax_free_pumping, t)
 
 	##how many releases are needed for the 'untaxed exports' (i.e. water balance) - given delta gains
     cvp_flood_constraint =  min(cvp_flood, max(cvp_max_alt - cvp_frac*available_unstored, cvp_max_alt/self.export_ratio[wyt][m-1] - cvp_frac*unstored_flows))
@@ -802,7 +803,7 @@ class Delta():
     return cvp_max, swp_max
 
 
-  def step(self, t, cvp_flows, swp_flows, swp_pump, cvp_pump, swp_AS, cvp_AS, model_mode):
+  def step(self, t, cvp_flows, swp_flows, swp_pump, cvp_pump, swp_AS, cvp_AS):
     ##Takes releases (cvp_flows & swp_flows) and gains, and divides water between delta outflows, CVP exports, and SWP exports (and delta depletions)
 	##Basically runs through the operations of calc_flow_bounds, only w/actual reservoir releases
     d = self.current_day_year[t]
@@ -879,8 +880,8 @@ class Delta():
       self.HRO_pump[t] = 0.0
 
 	##Same as in calc_weekly_storage_release
-    cvp_max, swp_max = self.meet_OMR_requirement(cvp_max, swp_max, t, model_mode)
-    self.TRP_pump[t], self.HRO_pump[t] = self.meet_OMR_requirement(self.TRP_pump[t], self.HRO_pump[t], t, model_mode)
+    cvp_max, swp_max = self.meet_OMR_requirement(cvp_max, swp_max, t)
+    self.TRP_pump[t], self.HRO_pump[t] = self.meet_OMR_requirement(self.TRP_pump[t], self.HRO_pump[t], t)
 
     self.outflow[t] = cvp_flows + swp_flows + unstored_flows - self.TRP_pump[t] - self.HRO_pump[t] + self.depletions[t]
     if t < (self.T-1):
