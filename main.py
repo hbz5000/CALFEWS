@@ -52,6 +52,7 @@ if model_mode == 'simulation' or model_mode == 'validation':
   modelso.max_tax_free = {}
   modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
   modelso.southern_initialization_routine(startTime)
+
   ######################################################################################
   ###Model Simulation
   ######################################################################################
@@ -199,5 +200,6 @@ if model_mode == 'validation' or model_mode == 'simulation':
   leiu_results_annual.to_csv('cord/data/leiu_results_annual_' + model_mode + '.csv')
 
 print ('completed in ', datetime.now() - startTime)
+
 
 

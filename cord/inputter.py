@@ -14,7 +14,6 @@ from matplotlib.lines import Line2D
 from .util import *
 import seaborn as sns
 
-
 class Inputter():
 
     def __init__(self, input_data_file, expected_release_datafile, model_mode):
@@ -1392,3 +1391,4 @@ class Inputter():
         # print(values)
 
         return values
+
