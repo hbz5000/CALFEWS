@@ -17,8 +17,10 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from datetime import datetime
 from cord import *
 
+startTime = datetime.now()
 
 #model_mode = 'simulation'
 #model_mode = 'validation'
@@ -59,7 +61,8 @@ if model_mode == 'simulation' or model_mode == 'validation':
   cvp_available = 0.0
   ############################################
   for t in range(0, timeseries_length):
-    print(t)
+    if (t % 365 == 364):
+      print('Year ', (t + 1) / 365, ', ', datetime.now() - startTime)
     #the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
     swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF ,swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump, model_mode)
   
@@ -67,8 +70,9 @@ if model_mode == 'simulation' or model_mode == 'validation':
 ######################################################################################
 else:
   #####FLOW GENERATOR#####
+  np.random.seed(1001)
   file_folder = 'cord/data/CA_FNF_climate_change/'
-  model_name_list = ['gfdl-esm2m', 'canesm2', 'ccsm4', 'cnrm-cm5', 'csiro-mk3-6-0', 'gfdl-cm3', 'hadgem2-cc', 'hadgem2-es', 'inmcm4', 'ipsl-cm5a-mr', 'miroc5']
+  model_name_list = ['gfdl-esm2m']#, 'canesm2', 'ccsm4', 'cnrm-cm5', 'csiro-mk3-6-0', 'gfdl-cm3', 'hadgem2-cc', 'hadgem2-es', 'inmcm4', 'ipsl-cm5a-mr', 'miroc5']
   proj_list = ['rcp45', 'rcp85']
   new_inputs = Inputter(base_data_file, model_mode)
   new_inputs.initialize_reservoirs()
@@ -109,7 +113,8 @@ else:
       cvp_available = 0.0
       ############################################
       for t in range(0, timeseries_length):
-        print(t)
+        if (t % 365 == 364):
+          print('Year ', (t + 1) / 365, ', ', datetime.now() - startTime)
         #the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
         swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF ,swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump, model_mode)
   
@@ -180,6 +185,7 @@ if model_mode == 'validation' or model_mode == 'simulation':
   leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
   leiu_results_annual.to_csv('cord/data/leiu_results_annual_' + model_mode + '.csv')
 
+print ('completed in ', datetime.now() - startTime)
 
 
 
