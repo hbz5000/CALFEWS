@@ -4,6 +4,7 @@ import collections as cl
 import sys
 import calendar
 import matplotlib.pyplot as plt
+from datetime import datetime
 from .reservoir import Reservoir
 from .delta import Delta
 from .district import District
@@ -15,9 +16,13 @@ from .util import *
 
 class Model():
 
-  def __init__(self, datafile, sd):
+  def __init__(self, input_data_file, expected_release_datafile, sd, short_test, model_mode):
     ##Set model dataset & index length
-    self.df = pd.read_csv(datafile, index_col=0, parse_dates=True)
+    if (short_test > 0):
+      self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True).iloc[:short_test]
+    else:
+      self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
+    self.model_mode = model_mode
     self.index = self.df.index
     self.T = len(self.df)
     self.starting_year = int(self.index.year[0])
@@ -26,161 +31,169 @@ class Model():
     self.current_year = self.index.year
     self.current_month = self.index.month
     self.current_day_month = self.index.day
+    self.current_dowy = water_day(self.current_day_year, self.current_year)
 
+    self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
+    self.T_short = len(self.df_short)
+    self.index_short_d = self.df_short.index.dayofyear
+    self.index_short_da = self.df_short.index.day
+    self.index_short_m = self.df_short.index.month
+    self.index_short_y = self.df_short.index.year
+    self.index_short_dowy = water_day(self.index_short_d, self.index_short_y)
 	
 #####################################################################################################################
 #############################     Object Creation     ###############################################################
 #####################################################################################################################
-  def northern_initialization_routine(self, model_mode):
-######################################################################################
-######################################################################################
-#preprocessing for the northern system
-######################################################################################
-#initialize reservoirs 
-#generates - regression coefficients & standard deviations for flow predictions (fnf & inf)
-#(at each reservoir)
-#self.res.rainflood_fnf; self.res.snowflood_fnf
-#self.res.rainflood_inf; self.res.snowflood_inf; self.res.baseline_inf
-#self.res.rainfnf_stds; self.res.snowfnf_stds
-#self.res.raininf_stds; self.res.snowinf_stds; self.res.baseinf_stds
-#self.res.flow_shape - monthly fractions of total period flow
-    self.initialize_northern_res(model_mode)
-    expected_release_datafile = 'cord/data/cord-data.csv'
-    print('Initialize Northern Reservoirs')
-#initialize delta rules, calcluate expected environmental releases at each reservoir
-#generates - cumulative environmental/delta releases remaining (at each reservoir)
-#self.res.cum_min_release; self.res.aug_sept_min_release; self.res.oct_nov_min_release
-    self.initialize_delta_ops(model_mode, expected_release_datafile)
-    print('Initialize Delta Ops')
+  def northern_initialization_routine(self, startTime):
+    ######################################################################################
+    ######################################################################################
+    # preprocessing for the northern system
+    ######################################################################################
+    # initialize reservoirs
+    # generates - regression coefficients & standard deviations for flow predictions (fnf & inf)
+    # (at each reservoir)
+    # self.res.rainflood_fnf; self.res.snowflood_fnf
+    # self.res.rainflood_inf; self.res.snowflood_inf; self.res.baseline_inf
+    # self.res.rainfnf_stds; self.res.snowfnf_stds
+    # self.res.raininf_stds; self.res.snowinf_stds; self.res.baseinf_stds
+    # self.res.flow_shape - monthly fractions of total period flow
+    self.initialize_northern_res()
+    print('Initialize Northern Reservoirs, time ', datetime.now() - startTime)
+    # initialize delta rules, calcluate expected environmental releases at each reservoir
+    # generates - cumulative environmental/delta releases remaining (at each reservoir)
+    # self.res.cum_min_release; self.res.aug_sept_min_release; self.res.oct_nov_min_release
+    self.initialize_delta_ops()
+    print('Initialize Delta Ops, time ', datetime.now() - startTime)
 
-######
-#calculate projection-based flow year indicies using flow & snow inputs
-##note: these values are pre-processed, but represent no 'foresight' WYT & WYI index use
-#snow-based projections to forecast flow, calculate running WY index & WYT
-#generates:
-#self.delta.forecastSJI (self.T x 1) - forecasts for san joaquin river index
-#self.delta.forecastSRI (self.T x 1) - forecasts for sacramento river index
+    ######
+    # calculate projection-based flow year indicies using flow & snow inputs
+    ##note: these values are pre-processed, but represent no 'foresight' WYT & WYI index use
+    # snow-based projections to forecast flow, calculate running WY index & WYT
+    # generates:
+    # self.delta.forecastSJI (self.T x 1) - forecasts for san joaquin river index
+    # self.delta.forecastSRI (self.T x 1) - forecasts for sacramento river index
     self.find_running_WYI()
-    print('Find Water Year Indicies')
+    print('Find Water Year Indicies, time ', datetime.now() - startTime)
 
-######
-#calculate expected 'unstored' pumping at the delta (for predictions into San Luis)
-#this generates:
-#self.delta_gains_regression (365x2) - linear coeffecicients for predicting total unstored pumping, oct-mar, based on ytd full natural flow
-#self.delta_gains_regression2 (365x2) - linear coeffecicients for predicting total unstored pumping, apr-jul, based on ytd full natural flow
-#self.month_averages (12x1) - expected fraction of unstored pumping to come in each month (fraction is for total period flow, so 0.25 in feb is 25% of total oct-mar unstored flow)
-    self.predict_delta_gains(expected_release_datafile)
-    print('Find Delta Gains')
-    if model_mode != 'validation':
+    ######
+    # calculate expected 'unstored' pumping at the delta (for predictions into San Luis)
+    # this generates:
+    # self.delta_gains_regression (365x2) - linear coeffecicients for predicting total unstored pumping, oct-mar, based on ytd full natural flow
+    # self.delta_gains_regression2 (365x2) - linear coeffecicients for predicting total unstored pumping, apr-jul, based on ytd full natural flow
+    # self.month_averages (12x1) - expected fraction of unstored pumping to come in each month (fraction is for total period flow, so 0.25 in feb is 25% of total oct-mar unstored flow)
+    self.predict_delta_gains()
+    print('Find Delta Gains, time ', datetime.now() - startTime)
+    if self.model_mode != 'validation':
       self.set_regulations_current_north()
     return self.delta.omr_rule_start, self.delta.max_tax_free
-######################################################################################
-  def southern_initialization_routine(self, model_mode):
-######################################################################################
-#preprocessing for the southern system
-######################################################################################
-#initialize the southern reservoirs -
-#generates - same values as initialize_northern_res(), but for southern reservoirs
-    self.initialize_southern_res(model_mode)
-    print('Initialize Southern Reservoirs')
-#initialize water districts for southern model 
-#generates - water district parameters (see cord-combined/cord/districts/readme.txt)
-#self.district_list - list of district objects
-#self.district_keys - dictionary pairing district keys w/district class objects
+    ######################################################################################
+
+  def southern_initialization_routine(self, startTime):
+    ######################################################################################
+    # preprocessing for the southern system
+    ######################################################################################
+    # initialize the southern reservoirs -
+    # generates - same values as initialize_northern_res(), but for southern reservoirs
+    self.initialize_southern_res()
+    print('Initialize Southern Reservoirs, time ', datetime.now() - startTime)
+    # initialize water districts for southern model
+    # generates - water district parameters (see cord-combined/cord/districts/readme.txt)
+    # self.district_list - list of district objects
+    # self.district_keys - dictionary pairing district keys w/district class objects
     self.initialize_water_districts()
-    print('Initialize Water Districts')
-#initialize water contracts for southern model
-#generates - water contract parameters (see cord-combined/cord/contracts/readme.txt)
-#self.contract_list - list of contract objects
-#self.contract_keys - dictionary pairing contract keys w/contract class objects
-#self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
+    print('Initialize Water Districts, time ', datetime.now() - startTime)
+    # initialize water contracts for southern model
+    # generates - water contract parameters (see cord-combined/cord/contracts/readme.txt)
+    # self.contract_list - list of contract objects
+    # self.contract_keys - dictionary pairing contract keys w/contract class objects
+    # self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
     self.initialize_sw_contracts()
-    print('Initialize Contracts')
-#initialize water banks for southern model
-#generates - water bank parameters (see cord-combined/cord/banks/readme.txt)
-#self.waterbank_list - list of waterbank objects
-#self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
+    print('Initialize Contracts, time ', datetime.now() - startTime)
+    # initialize water banks for southern model
+    # generates - water bank parameters (see cord-combined/cord/banks/readme.txt)
+    # self.waterbank_list - list of waterbank objects
+    # self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
     self.initialize_water_banks()
-    print('Initialize Water Banks')
-#initialize canals/waterways for southern model
-#generates - canal parameters (see cord-combined/cord/canals/readme.txt)
-#self.canal_list - list of canal objects
+    print('Initialize Water Banks, time ', datetime.now() - startTime)
+    # initialize canals/waterways for southern model
+    # generates - canal parameters (see cord-combined/cord/canals/readme.txt)
+    # self.canal_list - list of canal objects
     self.initialize_canals()
-    print('Initialize Canals')
-    if model_mode != 'validation':
+    print('Initialize Canals, time ', datetime.now() - startTime)
+    if self.model_mode != 'validation':
       self.set_regulations_current_south()
 
-#create dictionaries that structure the relationships between
-#reservoirs, canals, districts, waterbanks, and contracts
-#generates:
-#self.canal_district - dict keys are canals, object lists place reservoirs, waterbanks, districts & other canals in order on a given canal
-#self.canal_priority - dict keys are canals, object lists are the 'main' canals that have 'priority' on the other canals (through turnouts)
-#self.reservoir_contract - dict keys are reservoirs, object lists are contracts stored in that reservoir
-#self.contract_reservoir - dict keys are contracts, objects (single) are reservoirs where that contract is stored (inverse of reservoir_contract)
-#self.canal_contract - dict keys are canals, object lists are contracts that have priority on those canals (primarily for flood flows)
-#self.reservoir_canal - dict keys are reservoirs, object lists are canal(s) that connect to the reservoir (note - only millerton has more than one canal)
-#Also initializes some canal properties
-#self.canal.demand - dictionary for the different types of demand that can be created at each canal node (note - these values are updated within model steps)
-#self.canal.flow - vector recording flow to a node on a canal (note - these values are updated within model steps)
-#self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
+    # create dictionaries that structure the relationships between
+    # reservoirs, canals, districts, waterbanks, and contracts
+    # generates:
+    # self.canal_district - dict keys are canals, object lists place reservoirs, waterbanks, districts & other canals in order on a given canal
+    # self.canal_priority - dict keys are canals, object lists are the 'main' canals that have 'priority' on the other canals (through turnouts)
+    # self.reservoir_contract - dict keys are reservoirs, object lists are contracts stored in that reservoir
+    # self.contract_reservoir - dict keys are contracts, objects (single) are reservoirs where that contract is stored (inverse of reservoir_contract)
+    # self.canal_contract - dict keys are canals, object lists are contracts that have priority on those canals (primarily for flood flows)
+    # self.reservoir_canal - dict keys are reservoirs, object lists are canal(s) that connect to the reservoir (note - only millerton has more than one canal)
+    # Also initializes some canal properties
+    # self.canal.demand - dictionary for the different types of demand that can be created at each canal node (note - these values are updated within model steps)
+    # self.canal.flow - vector recording flow to a node on a canal (note - these values are updated within model steps)
+    # self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
     self.create_object_associations()
-    print('Create Object Associations')
-###Applies initial carryover balances to districts
-##based on initial reservoir storage conditions
-##PLEASE NOTE CARRYOVER STORAGE IN SAN LUIS IS HARD-CODED
+    print('Create Object Associations, time ', datetime.now() - startTime)
+    ###Applies initial carryover balances to districts
+    ##based on initial reservoir storage conditions
+    ##PLEASE NOTE CARRYOVER STORAGE IN SAN LUIS IS HARD-CODED
     self.find_initial_carryover()
-    print('Initialize Carryover Storage')
-##initial recovery capacities for districts, based on
-##ownership stakes in waterbanks (direct + inleui)
+    print('Initialize Carryover Storage, time ', datetime.now() - startTime)
+    ##initial recovery capacities for districts, based on
+    ##ownership stakes in waterbanks (direct + inleui)
     self.init_tot_recovery()
-    print('Initialize Recovery Capacity')
-##initial recharge capacities (projected out 12 months) for districts,
-##based on ownership stakes in waterbanks (direct + inleui + indistrict)
+    print('Initialize Recovery Capacity, time ', datetime.now() - startTime)
+    ##initial recharge capacities (projected out 12 months) for districts,
+    ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
     urban_datafile = 'cord/data/cord-data-urban.csv'
     urban_datafile_cvp = 'cord/data/pump-data-cvp.csv'
-    self.project_urban(urban_datafile, urban_datafile_cvp, model_mode)
+    self.project_urban(urban_datafile, urban_datafile_cvp)
 
-#calculate how much recharge capacity is reachable from each reservoir 
-#that is owned by surface water contracts held at that reservoir - used to determine
-#how much flood water can be released and 'taken' by a contractor
+    # calculate how much recharge capacity is reachable from each reservoir
+    # that is owned by surface water contracts held at that reservoir - used to determine
+    # how much flood water can be released and 'taken' by a contractor
     self.find_all_triggers()
-    print('Find Triggers')	
-  
-  
-  
-  def initialize_northern_res(self, model_mode):
+    print('Find Triggers, time ', datetime.now() - startTime)
+
+
+
+  def initialize_northern_res(self):
+
     #########################################################################################
 	#reservoir initialization for the northern delta system
     #########################################################################################
     #4 Sacramento River Reservoirs (CVP & SWP)
-    self.shasta = Reservoir(self.df, 'SHA', model_mode)
-    self.folsom = Reservoir(self.df, 'FOL', model_mode)
-    self.oroville = Reservoir(self.df, 'ORO', model_mode)
-    self.yuba = Reservoir(self.df,'YRS', model_mode)
+    self.shasta = Reservoir(self.df, self.df_short, 'SHA', self.model_mode)
+    self.folsom = Reservoir(self.df, self.df_short, 'FOL', self.model_mode)
+    self.oroville = Reservoir(self.df, self.df_short, 'ORO', self.model_mode)
+    self.yuba = Reservoir(self.df, self.df_short,'YRS', self.model_mode)
 	
     #3 San Joaquin River Reservoirs (to meet Vernalis flow targets)
-    self.newmelones = Reservoir(self.df,'NML', model_mode)
-    self.donpedro = Reservoir(self.df,'DNP', model_mode)
-    self.exchequer = Reservoir(self.df,'EXC', model_mode)
+    self.newmelones = Reservoir(self.df, self.df_short,'NML', self.model_mode)
+    self.donpedro = Reservoir(self.df, self.df_short,'DNP', self.model_mode)
+    self.exchequer = Reservoir(self.df, self.df_short,'EXC', self.model_mode)
 	
     #Millerton Reservoir (flows used to calculate San Joaquin River index, not in northern simulation)
-    self.millerton = Reservoir(self.df,'MIL', model_mode)
+    self.millerton = Reservoir(self.df, self.df_short,'MIL', self.model_mode)
     reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro, self.exchequer, self.millerton]
     ##Regression flow & standard deviations read from file
-	#### Find regression information for all 8 reservoirs
-    if model_mode == 'forecast':
-	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
+    #### Find regression information for all 8 reservoirs
+    if self.model_mode == 'forecast':
+      ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       df_res_process = pd.DataFrame()
       df_res_annual = pd.DataFrame()
       for x in reservoir_list:
         x.find_release_func()
       ###Flow shapes are regressions that determine % of remaining flow in a period (Oct-Mar; Apr-Jul; Aug-Sept)
-	  ###that is expected to come, regressed against the total flow already observed in that period
-	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
-      expected_flow_shape_datafile = 'cord/data/cord-data.csv' 
+      ###that is expected to come, regressed against the total flow already observed in that period
+      ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       for x in reservoir_list:
-        x.create_flow_shapes(expected_flow_shape_datafile)
-    elif model_mode == 'validation':
+        x.create_flow_shapes(self.df_short)
+    elif self.model_mode == 'validation':
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       #df_res_process = pd.DataFrame()
       #df_res_annual = pd.DataFrame()
@@ -217,9 +230,8 @@ class Model():
 	  ###that is expected to come, regressed against the total flow already observed in that period
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       #df_flow_shape_no = pd.DataFrame()
-      expected_flow_shape_datafile = 'cord/data/cord-data.csv' 
       for x in reservoir_list:
-        x.create_flow_shapes(expected_flow_shape_datafile)
+        x.create_flow_shapes(self.df_short)
     else:
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       #df_res_process = pd.DataFrame()
@@ -257,41 +269,28 @@ class Model():
 	  ###that is expected to come, regressed against the total flow already observed in that period
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       #df_flow_shape_no = pd.DataFrame()
-      expected_flow_shape_datafile = 'cord/data/cord-data.csv' 
       for x in reservoir_list:
-        x.create_flow_shapes(expected_flow_shape_datafile)
-        #df_flow_shape_no['%s_slope' % x.key] = pd.Series(x.flow_shape['slope'])
-        #df_flow_shape_no['%s_intercept' % x.key] = pd.Series(x.flow_shape['intercept'])
-      ##save flow shapes for the northern model
-      #df_flow_shape_no.to_csv('cord/data/flow_shape_no_simulation.csv')
-      flow_shape_files = pd.read_csv('cord/data/flow_shape_no_simulation.csv')
-      for x in reservoir_list:
-        x.flow_shape = {}
-        x.flow_shape['slope'] = flow_shape_files['%s_slope' % x.key]
-        x.flow_shape['intercept'] = flow_shape_files['%s_intercept' % x.key]
+        x.create_flow_shapes(self.df_short)
     #########################################################################################
 
-  def initialize_delta_ops(self, model_mode, datafile):
+  def initialize_delta_ops(self):
 	#########################################################################################
     ##initialization of the delta rules
     #########################################################################################
-    self.delta = Delta(self.df, 'DEL', model_mode)
+    self.delta = Delta(self.df, self.df_short, 'DEL', self.model_mode)
 	###Find expected reservoir releases to meet delta requirements - used in flow forecasting
     ###these use the flow 'gains' on each tributary stretch to find the expected extra releases required to meet env & delta mins
-    df_short = pd.read_csv(datafile, index_col=0, parse_dates=True)
-    index_short = df_short.index
-    T_short = len(df_short)
-    gains_sac_short = df_short.SAC_gains * cfs_tafd
-    gains_sj_short = df_short.SJ_gains * cfs_tafd
-    depletions_short = df_short.delta_depletions * cfs_tafd
-    eastside_streams_short = df_short.EAST_gains * cfs_tafd
+    gains_sac_short = self.df_short.SAC_gains * cfs_tafd
+    gains_sj_short = self.df_short.SJ_gains * cfs_tafd
+    depletions_short = self.df_short.delta_depletions * cfs_tafd
+    eastside_streams_short = self.df_short.EAST_gains * cfs_tafd
     inflow_list = [self.shasta, self.folsom, self.yuba, self.oroville, self.newmelones, self.donpedro, self.exchequer]
     for x in inflow_list:
-      x.downstream_short = df_short['%s_gains'% x.key].values * cfs_tafd
+      x.downstream_short = self.df_short['%s_gains'% x.key].values * cfs_tafd
  
     ##in addition to output variables, this generates:
 	#self.max_tax_free (5x2x365) - using delta outflow min, calculate how much pumping can occur without paying any additional I/E 'tax' (b/c some inflow is already used for delta outflow requirements)
-    expected_outflow_req, expected_depletion = self.delta.calc_expected_delta_outflow(self.shasta.downstream_short,self.oroville.downstream_short,self.yuba.downstream_short,self.folsom.downstream_short, self.shasta.temp_releases, self.oroville.temp_releases, self.yuba.temp_releases, self.folsom.temp_releases, gains_sac_short, gains_sj_short, depletions_short, eastside_streams_short, T_short, index_short)
+    expected_outflow_req, expected_depletion = self.delta.calc_expected_delta_outflow(self.shasta.downstream_short,self.oroville.downstream_short,self.yuba.downstream_short,self.folsom.downstream_short, self.shasta.temp_releases, self.oroville.temp_releases, self.yuba.temp_releases, self.folsom.temp_releases, gains_sac_short, gains_sj_short, depletions_short, eastside_streams_short)
 	#these requirements are then passed back to the reservoirs so that they know how much water to hold on to
     #Calculated the expected releases for environmental flows & delta outflow requirements
     #pre-processed to help with forecasts of available storage for export
@@ -304,35 +303,32 @@ class Model():
     #x.aug_sept_min_release (5 x 365) - daily values of remaining enviromental releases during the aug-sept period, in each wyt
     #x.oct_nov_min_release (5 x 365) - daily values of remaining enviromental releases during the oct-nov period, in each wyt
     for x in inflow_list:
-      x.calc_expected_min_release(expected_outflow_req, expected_depletion, 0, T_short, index_short)
+      x.calc_expected_min_release(expected_outflow_req, expected_depletion, 0)
 	  
-    expected_flow_shape_datafile = 'cord/data/cord-data.csv' 
-    self.delta.create_flow_shapes_omr(expected_flow_shape_datafile)
+    self.delta.create_flow_shapes_omr(self.df_short)
 
-  def initialize_southern_res(self, model_mode):
+  def initialize_southern_res(self):
     ############################################################################
     ###Reservoir Initialization
 	############################################################################
-    self.millerton = Reservoir(self.df,'MIL', model_mode)
-    self.pineflat = Reservoir(self.df,'PFT', model_mode)
-    self.kaweah = Reservoir(self.df,'KWH', model_mode)
-    self.success = Reservoir(self.df,'SUC', model_mode)
-    self.isabella = Reservoir(self.df,'ISB', model_mode)
+    self.millerton = Reservoir(self.df, self.df_short,'MIL', self.model_mode)
+    self.pineflat = Reservoir(self.df, self.df_short,'PFT', self.model_mode)
+    self.kaweah = Reservoir(self.df, self.df_short,'KWH', self.model_mode)
+    self.success = Reservoir(self.df, self.df_short,'SUC', self.model_mode)
+    self.isabella = Reservoir(self.df, self.df_short,'ISB', self.model_mode)
     ###San Luis is initialized as a Reservoir, but
     ###has none of the watershed data that goes along with the other reservoirs
-    self.sanluis = Reservoir(self.df,'SNL', model_mode)
-    self.sanluisstate = Reservoir(self.df, 'SLS', model_mode)
-    self.sanluisfederal = Reservoir(self.df, 'SLF', model_mode)
+    self.sanluis = Reservoir(self.df, self.df_short,'SNL', self.model_mode)
+    self.sanluisstate = Reservoir(self.df, self.df_short, 'SLS', self.model_mode)
+    self.sanluisfederal = Reservoir(self.df, self.df_short, 'SLF', self.model_mode)
     self.reservoir_list = [self.sanluisstate, self.sanluisfederal, self.millerton, self.isabella, self.success, self.kaweah]
-    if model_mode == 'forecast':
-	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
+    if self.model_mode == 'forecast':
+      ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
         x.find_release_func()
-      expected_flow_shape_datafile = 'cord/data/cord-data.csv' 
       for x in [self.millerton, self.isabella, self.success, self.kaweah]:
-        x.create_flow_shapes(expected_flow_shape_datafile)
-    elif model_mode == 'validation':
-	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
+        x.create_flow_shapes(self.df_short)
+    elif self.model_mode == 'validation':	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       #df_res_process = pd.DataFrame()
       #df_res_annual = pd.DataFrame()
       #for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
@@ -371,9 +367,8 @@ class Model():
       ###Flow shapes are regressions that determine % of remaining flow in a period (Oct-Mar; Apr-Jul; Aug-Sept)
 	  ###that is expected to come, regressed against the total flow already observed in that period
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
-      expected_flow_shape_datafile = 'cord/data/cord-data.csv' 
       for x in [self.millerton, self.isabella, self.success, self.kaweah]:
-        x.create_flow_shapes(expected_flow_shape_datafile)
+        x.create_flow_shapes(self.df_short)
     else:
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       reservoir_list = [self.millerton, self.isabella, self.pineflat, self.kaweah, self.success]
@@ -411,9 +406,8 @@ class Model():
 	  ###Flow shapes are regressions that determine % of remaining flow in a period (Oct-Mar; Apr-Jul; Aug-Sept)
 	  ###that is expected to come, regressed against the total flow already observed in that period
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
-      expected_flow_shape_datafile = 'cord/data/cord-data.csv' 
       for x in reservoir_list:
-        x.create_flow_shapes(expected_flow_shape_datafile)
+        x.create_flow_shapes(self.df_short)
     #########################################################################################	  
 
     #Tulare Basin Reservoirs do not need to release to the delta, so they only use their own
@@ -422,12 +416,9 @@ class Model():
     expected_outflow_releases = {}
     for wyt in ['W', 'AN', 'BN', 'D', 'C']:
       expected_outflow_releases[wyt] = np.zeros(366)
-    df_short = pd.read_csv('cord/data/cord-data.csv', index_col=0, parse_dates=True)
-    index_short = df_short.index
-    T_short = len(df_short)
     inflow_list = [self.millerton, self.pineflat, self.kaweah, self.success, self.isabella]
     for x in inflow_list:
-      x.downstream_short = df_short['%s_gains'% x.key].values * cfs_tafd
+      x.downstream_short = self.df_short['%s_gains'% x.key].values * cfs_tafd
 
     for x in inflow_list:
       #generates:
@@ -435,9 +426,9 @@ class Model():
       #x.aug_sept_min_release (5 x 365) - daily values of remaining enviromental releases during the aug-sept period, in each wyt
       #x.oct_nov_min_release (5 x 365) - daily values of remaining enviromental releases during the oct-nov period, in each wyt
       if x.key == "MIL":
-        x.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 1, T_short, index_short)
+        x.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 1)
       else:
-        x.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 0, T_short, index_short)
+        x.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 0)
 	  
     ##Code to calculate snow/flow regressions and save to file
 	############################################################################
@@ -796,7 +787,7 @@ class Model():
       y = self.current_year[t]
       m = self.current_month[t]
       da = self.current_day_month[t]
-      dowy = water_day(d,calendar.isleap(y))
+      dowy = self.current_dowy[t]
       index_exceedence_sac = 9
       index_exceedence_sj = 5
 	  ##8 River Index
@@ -871,43 +862,39 @@ class Model():
     df_wyi['SJI'] = pd.Series(self.delta.forecastSJI, index = self.index)
     df_wyi.to_csv('cord/data/water_year_index_simulation.csv')
 		
-  def predict_delta_gains(self, datafile):
+  def predict_delta_gains(self):
     ##this function uses a regression to find expected 'unstored' flows coming to the
     ##delta, to better project flow into San Luis
-    df_short = pd.read_csv(datafile, index_col=0, parse_dates=True)
-    index_short = df_short.index
-    T_short = len(df_short)
-    gains_sac_short = df_short.SAC_gains * cfs_tafd
-    gains_sj_short = df_short.SJ_gains * cfs_tafd
-    eastside_streams_short = df_short.EAST_gains * cfs_tafd
-    depletions_short = df_short.delta_depletions * cfs_tafd
+    gains_sac_short = self.df_short.SAC_gains * cfs_tafd
+    gains_sj_short = self.df_short.SJ_gains * cfs_tafd
+    eastside_streams_short = self.df_short.EAST_gains * cfs_tafd
+    depletions_short = self.df_short.delta_depletions * cfs_tafd
 	
     sac_list = [self.shasta, self.folsom, self.oroville, self.yuba]
     for reservoir in sac_list:
-      reservoir.fnf_short = df_short['%s_fnf'% reservoir.key].values / 1000000.0
-      reservoir.downstream_short = df_short['%s_gains'% reservoir.key].values * cfs_tafd
+      reservoir.fnf_short = self.df_short['%s_fnf'% reservoir.key].values / 1000000.0
+      reservoir.downstream_short = self.df_short['%s_gains'% reservoir.key].values * cfs_tafd
 
 	##########################################################################################
     #Initialize gains matricies
 	##Unstored flow will be regressed against total FNF expected in that year
-    numYears_short = index_short.year[T_short-1]-index_short.year[0]
+    numYears_short = self.index_short_y[self.T_short-1]-self.index_short_y[0]
     self.running_fnf = np.zeros((365,numYears_short))
     ##Total gains in each month
     monthly_gains = np.zeros((12,numYears_short))
-    startYear = int(index_short.year[0])
+    startYear = self.index_short_y[0]
     ##########################################################################################
     ##########################################################################################
     #Read flow from historical record
 	##########################################################################################
     prev_gains = 0.0
     prev_fnf = 0.0
-    for t in range(0,T_short):
+    for t in range(0,self.T_short):
       ##Get date information
-      d = int(index_short.dayofyear[t])
-      y = int(index_short.year[t])
-      dowy = water_day(d,calendar.isleap(y))
-      m = int(index_short.month[t])
-      da = int(index_short.day[t])
+      da = self.index_short_da[t]
+      m = self.index_short_m[t]
+      y = self.index_short_y[t]
+      dowy = self.index_short_dowy[t]
       if m >= 10:
         wateryear = y - startYear
       else:
@@ -1164,7 +1151,7 @@ class Model():
         for irr_district in self.get_iterable(self.district_keys[member]):
           irr_district.max_recovery += w.leiu_ownership[member]*w.leiu_recovery/num_districts
       
-  def project_urban(self, datafile, datafile_cvp, model_mode):
+  def project_urban(self, datafile, datafile_cvp):
     #########################################################################################
     ###initializes variables needed for district objects that are pumping plants on branches
 	###of the california aqueduct (southern california, central coast, and the south bay)
@@ -1178,7 +1165,12 @@ class Model():
     days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     index_urban = df_urban.index
     urban_historical_T = len(df_urban)
-    numYears_urban = index_urban.year[urban_historical_T - 1] - index_urban.year[0]
+    index_urban_d = index_urban.dayofyear
+    index_urban_da = index_urban.day
+    index_urban_m = index_urban.month
+    index_urban_y = index_urban.year
+    index_urban_dowy = water_day(index_urban_d, index_urban_y)
+    numYears_urban = index_urban_y[urban_historical_T - 1] - index_urban_y[0]
     urban_list = [self.socal, self.centralcoast, self.southbay]
     self.observed_hro = df_urban['HRO_pump'].values*cfs_tafd
     self.observed_trp = df_urban['TRP_pump'].values*cfs_tafd
@@ -1190,10 +1182,10 @@ class Model():
       x.regression_annual = np.zeros(numYears_urban)
     self.southbay.regression_pacheco = np.zeros(numYears_urban)
     self.southbay.hist_pumping_pacheco = np.zeros(urban_historical_T)
-    startYear = index_urban.year[0]
+    startYear = index_urban_y[0]
     for t in range(1,(urban_historical_T)):
-      m = int(index_urban.month[t-1])
-      y = int(index_urban.year[t-1])
+      m = index_urban_m[t-1]
+      y = index_urban_y[t-1]
       if m >= 10:
         wateryear = y - startYear
       else:
@@ -1239,7 +1231,7 @@ class Model():
     #ax3.scatter(regression_annual_hro,self.southbay.regression, alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
     #plt.show()
 	
-    if model_mode == 'validation':
+    if self.model_mode == 'validation':
       for x in urban_list:
         x.pumping = df_urban[x.key + '_pump'].values
         x.annual_pumping = x.regression_annual
@@ -1265,10 +1257,11 @@ class Model():
         x.hist_demand_dict['cvp']['daily_fractions'] = np.zeros((len(self.southbay.regression_pacheco),366))        
 
       for t in range(1,(urban_historical_T)):
-        m = int(index_urban.month[t-1])
-        y = int(index_urban.year[t-1])
-        d = int(index_urban.dayofyear[t-1])
-        dowy = water_day(d, calendar.isleap(y))
+        d = index_urban_d[t-1]
+        da = index_urban_da[t-1]
+        m = index_urban_m[t-1]
+        y = index_urban_y[t-1]
+        dowy = index_urban_dowy[t-1]
         if m >= 10:
           wateryear = y - startYear
         else:
@@ -1298,7 +1291,7 @@ class Model():
 #####################################################################################################################
 
 
-  def simulate_north(self,t,swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump, model_mode):   
+  def simulate_north(self,t,swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump):
 	###Daily Operations###
 	##Step forward environmental parameters (snow & flow)
     ##Set Delta operating rules
@@ -1307,15 +1300,15 @@ class Model():
     d = self.current_day_year[t]
     y = self.current_year[t]
     m = self.current_month[t]
-    dowy = water_day(d,calendar.isleap(y))
-	  
+    dowy = self.current_dowy[t]
+
     ##WATER YEAR TYPE CLASSIFICATION (for operating rules)
     ##WYT uses flow forecasts - gets set every day, may want to decrease frequency (i.e. every month, season)
     NMI = self.calc_wytypes(t,dowy)#NMI (new melones index) - used as input for vernalis control rules
 	  
 	##REAL-WORLD RULE ADJUSTMENTS
 	##Updates to reflect SJRR & Yuba Accords occuring during historical time period (1996-2016)
-    if model_mode == 'validation':
+    if self.model_mode == 'validation':
       self.update_regulations_north(t,dowy)
 	  
 	####NON-PROJECT USES
@@ -1385,7 +1378,7 @@ class Model():
 	#at-the-pump limits (from BiOps)
     cvp_max, swp_max = self.delta.find_max_pumping(d, dowy, t, self.delta.forecastSCWYT)
     #OMR rule limits
-    cvp_max, swp_max = self.delta.meet_OMR_requirement(cvp_max, swp_max, t, model_mode)
+    cvp_max, swp_max = self.delta.meet_OMR_requirement(cvp_max, swp_max, t)
 	
     proj_surplus, max_pumping = self.proj_gains(t)
     flood_release = {}
@@ -1409,7 +1402,7 @@ class Model():
     cvp_max_final = min(cvp_max_final, cvp_pump)
     swp_max_final = min(swp_max_final, swp_pump)
     #calculates releases to pump at desired levels (either cvp/swp_max or non-taxed levels, based on min outflow & i/e rules)
-    self.delta.calc_flow_bounds(t, cvp_max_final, swp_max_final, cvp_max, swp_max, cvp_release2, swp_release2, cvp_available_storage, swp_available_storage, flood_release['cvp'], flood_release['swp'], swp_over_dead_pool, cvp_over_dead_pool, flood_volume['swp'], flood_volume['cvp'], model_mode)
+    self.delta.calc_flow_bounds(t, cvp_max_final, swp_max_final, cvp_max, swp_max, cvp_release2, swp_release2, cvp_available_storage, swp_available_storage, flood_release['cvp'], flood_release['swp'], swp_over_dead_pool, cvp_over_dead_pool, flood_volume['swp'], flood_volume['cvp'])
 
     #distribute releases for export between Sacramento River Reservoirs
     self.shasta.sodd, self.folsom.sodd = self.delta.distribute_export_releases(t, cvp_max, self.delta.sodd_cvp[t], self.shasta.flood_storage[t], self.folsom.flood_storage[t], self.shasta.available_storage[t], self.folsom.available_storage[t])
@@ -1449,12 +1442,12 @@ class Model():
     swp_stored_flow = self.oroville.sodd + self.yuba.sodd
 
     ##route all water through delta rules to determine pumping
-    self.delta.step(t, cvp_stored_flow, swp_stored_flow, swp_pump, cvp_pump, swp_available_storage, cvp_available_storage, model_mode)
+    self.delta.step(t, cvp_stored_flow, swp_stored_flow, swp_pump, cvp_pump, swp_available_storage, cvp_available_storage)
 	
 		    
     return self.delta.HRO_pump[t], self.delta.TRP_pump[t], self.delta.swp_allocation[t], self.delta.cvp_allocation[t], proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_flood_storage, cvp_flood_storage, swp_available_storage, cvp_available_storage, flood_release, flood_volume
 			
-  def simulate_south(self, t, hro_pump, trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, max_tax_free, flood_release, flood_volume, model_mode):
+  def simulate_south(self, t, hro_pump, trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, max_tax_free, flood_release, flood_volume):
     ####Maintain the same date/time accounting as the northern part of the model
     startYear = self.starting_year
     d = self.current_day_year[t]
@@ -1462,7 +1455,7 @@ class Model():
     m = self.current_month[t]
     da = self.current_day_month[t]
 
-    dowy = water_day(d,calendar.isleap(current_year))
+    dowy = self.current_dowy[t]
     dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 30, 60, 91]
     if m >= 10:
       wateryear = current_year - startYear
@@ -1484,7 +1477,7 @@ class Model():
 	
 	####Various infrastructure & regulatory changes that 
 	####occurred during the duration of the 1996-2016 calibration period
-    if model_mode == 'validation':
+    if self.model_mode == 'validation':
       self.update_regulations_south(t,dowy,m,current_year)
     else:
       self.millerton.sjrr_release = self.millerton.sj_riv_res_flows(t, dowy)
@@ -1545,7 +1538,7 @@ class Model():
 	###model in projection mode, we need statistical series of pumping at each of the Cal Aqueduct
 	###branches.  Note:  for Bakersfield and Fresno in the local water systems, demands are deterministic
 	###seasonal estimates.  Adding in pop. growth, etc. would be trivial, but is not included
-    if model_mode == 'validation':
+    if self.model_mode == 'validation':
       for x in self.urban_list:
         x.get_urban_demand(t, m, da, wateryear)
     else:
@@ -1749,7 +1742,6 @@ class Model():
 	  #recover banked groundwater
       #only looking at GW exchanges for a few contracts
       self.canal_contract['caa'] = [self.swpdelta]#only want to 'paper' exchange swp contracts
-      self.canal_contract['fkc'] = [self.friant1, self.friant2]#reset california aqueduct contracts to be all san luis contracts
       for z in [self.calaqueduct, self.fkc, self.kernriverchannel]:
         for y in self.canal_contract[z.name]:
           exchange_contract = y.name
@@ -1757,11 +1749,9 @@ class Model():
           self.set_canal_direction(flow_type)		
           canal_size = len(self.canal_district[z.name])
           total_canal_demand = self.search_canal_demand(dowy,z, "none", z.name, 'normal', flow_type, wateryear, 'recovery')
-      self.set_canal_direction(flow_type)		
-		
-    self.canal_contract['caa'] = [self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley]#reset california aqueduct contracts to be all san luis contracts
-    self.canal_contract['fkc'] = [self.friant1, self.friant2]#reset california aqueduct contracts to be all san luis contracts
-		
+      self.set_canal_direction(flow_type)
+      self.canal_contract['caa'] = [self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley]#reset california aqueduct contracts to be all san luis contracts
+
 	##Direct deliveries from surface water sources
     flow_type = "recharge"
     for a in [self.sanluis, self.isabella, self.millerton, self.success, self.kaweah]:
@@ -1798,7 +1788,6 @@ class Model():
         available_flow = 0.0
         for zz in total_canal_demand:
           available_flow += total_canal_demand[zz]
-
         excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, z, a.key, z.name, available_flow, canal_size, wateryear, 'normal', flow_type, 'banking')
 		
     self.set_canal_direction(flow_type)
@@ -1958,8 +1947,8 @@ class Model():
     y = self.current_year[t]
     m = self.current_month[t]
     da = self.current_day_month[t]
-    dowy = water_day(d,calendar.isleap(y))
-   
+    dowy = self.current_dowy[t]
+
     days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
     month_evaluate = m - 1
@@ -2022,15 +2011,15 @@ class Model():
     return expected_pumping
 	
   def find_pumping_release(self, start_storage, pump_max, month_demand, month_demand_must_fill, allocation, expected_pumping, flood_supply, available_storage, projected_carryover, current_carryover, max_tax_free, wyt, t, key):
-   ##this function is used by the swpdelta & cvpdelta contracts to manage san luis reservoir storage
+    ##this function is used by the swpdelta & cvpdelta contracts to manage san luis reservoir storage
 	##and coordinate pumping at the delta
     ##state and federal storage portions managed seperately
     d = self.current_day_year[t]
     y = self.current_year[t]
     m = self.current_month[t]
     da = self.current_day_month[t]
-    dowy = water_day(d,calendar.isleap(y))
-   
+    dowy = self.current_dowy[t]
+
     days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
     month_evaluate = m - 1
@@ -2998,7 +2987,7 @@ class Model():
         if search_type == 'recovery':
           current_recovery = 0.0
           for xx in x.participant_list:
-            current_recovery = x.recovery_use[xx]
+            current_recovery += x.recovery_use[xx]
           demand_constraint = x.recovery - current_recovery
         else:
           current_storage = 0.0
@@ -3375,13 +3364,10 @@ class Model():
     if y >= 2006:
       self.semitropic.leiu_recovery = 0.7945
     if y == 2009 and dowy == 1:
-      df_short = pd.read_csv('cord/data/cord-data.csv', index_col=0, parse_dates=True)
-      index_short = df_short.index
-      T_short = len(df_short)
       expected_outflow_releases = {}
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         expected_outflow_releases[wyt] = np.zeros(366)
-      self.millerton.calc_expected_min_release(expected_outflow_releases, np.zeros(12),1,T_short, index_short)
+      self.millerton.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 1)
 
     if y == 2009 and m >= 10:
       self.millerton.sjrr_release = self.millerton.sj_riv_res_flows(t, dowy)
@@ -3610,7 +3596,7 @@ class Model():
     d = self.current_day_year[t]
     y = self.current_year[t]
     m = self.current_month[t]
-    dowy = water_day(d,calendar.isleap(y))
+    dowy = self.current_dowy[t]
     tot_sac_fnf = 0.0
     tot_sj_fnf = 0.0
     proj_surplus = np.zeros(12)

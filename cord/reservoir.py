@@ -9,7 +9,7 @@ from .util import *
 
 class Reservoir():
 
-  def __init__(self, df, key, model_mode):
+  def __init__(self, df, df_short, key, model_mode):
     self.T = len(df)
     self.index = df.index
     self.starting_year = int(self.index.year[0])
@@ -18,6 +18,13 @@ class Reservoir():
     self.current_year = self.index.year
     self.current_month = self.index.month
     self.current_day_month = self.index.day
+    self.current_dowy = water_day(self.current_day_year, self.current_year)
+    self.T_short = len(df_short)
+    self.index_short_d = df_short.index.dayofyear
+    self.index_short_da = df_short.index.day
+    self.index_short_m = df_short.index.month
+    self.index_short_y = df_short.index.year
+    self.index_short_dowy = water_day(self.index_short_d, self.index_short_y)
 
     self.key = key
     self.forecastWYT = "AN"
@@ -124,7 +131,7 @@ class Reservoir():
     y = self.current_year[t]
     m = self.current_month[t]
     da = self.current_day_month[t]
-    dowy = water_day(d,calendar.isleap(y))
+    dowy = self.current_dowy[t]
     wyt = self.forecastWYT
     current_snow = self.SNPK[t]
 	
@@ -240,7 +247,7 @@ class Reservoir():
     d = self.current_day_year[t]
     y = self.current_year[t]
     m = self.current_month[t]
-    dowy = water_day(d,calendar.isleap(y))
+    dowy = self.current_dowy[t]
     wyt = self.forecastWYT
     	
 	####ENVIRONMENTAL FLOWS
@@ -470,10 +477,10 @@ class Reservoir():
 	
     return emergency_available
 	
-  def calc_expected_min_release(self,delta_req,depletions,sjrr_toggle, t_short, index_short):
+  def calc_expected_min_release(self,delta_req,depletions,sjrr_toggle):
     ##this function calculates the total expected releases needed to meet environmental minimums used in the find_available_storage function
     ##calclulated as a pre-processing function (w/find_release_func)
-    startYear = int(index_short.year[0])
+    startYear = self.index_short_y[0]
     for wyt in self.wytlist:
       self.cum_min_release[wyt][0] = 0.0
       self.aug_sept_min_release[wyt][0] = 0.0	  
@@ -490,12 +497,11 @@ class Reservoir():
     hist_wyt = ['W', 'W', 'W', 'AN', 'D', 'D', 'AN', 'BN', 'AN', 'W', 'D', 'C', 'D', 'BN', 'W', 'BN', 'D', 'C', 'C', 'AN']
     if self.has_downstream_target_flow:
       current_obs = np.zeros(12)
-      for t in range(1,t_short):
-        m = int(index_short.month[t-1])
-        d = int(index_short.dayofyear[t-1])
-        da = int(index_short.day[t-1])
-        y = int(index_short.year[t-1])
-        dowy = water_day(d,calendar.isleap(y))
+      for t in range(1,self.T_short):
+        y = self.index_short_y[t-1]
+        dowy = self.index_short_dowy[t-1]
+        m = self.index_short_m[t-1]
+        da = self.index_short_da[t-1]
         if m >= 10:
           wateryear = y - startYear
         else:
@@ -577,15 +583,12 @@ class Reservoir():
           else:
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][0]
 	
-  def create_flow_shapes(self, datafile):
+  def create_flow_shapes(self, df_short):
     dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
-    df_short = pd.read_csv(datafile, index_col=0, parse_dates=True)
     flow_series = df_short['%s_inf'% self.key].values * cfs_tafd
     fnf_series = df_short['%s_fnf'% self.key].values / 1000000.0
-    T_short = len(flow_series)
-    index_short = df_short.index
-    startYear = index_short.year[0]
-    endYear = index_short.year[T_short-1]
+    startYear = self.index_short_y[0]
+    endYear = self.index_short_y[self.T_short-1]
     numYears = endYear - startYear
     self.flow_shape_regression = {}
     self.flow_shape_regression['slope'] = np.zeros((365,12))
@@ -593,12 +596,10 @@ class Reservoir():
     monthly_flow = np.zeros((12, (endYear - startYear)))
     running_fnf = np.zeros((365,(endYear - startYear)))
     prev_fnf = 0.0
-    for t in range(1,(T_short)):
-      d = int(index_short.dayofyear[t])
-      y = int(index_short.year[t])
-      dowy = water_day(d,calendar.isleap(y))
-      m = int(index_short.month[t])
-      da = int(index_short.day[t])
+    for t in range(1,(self.T_short)):
+      m = self.index_short_m[t]
+      y = self.index_short_y[t]
+      dowy = self.index_short_dowy[t]
       if m >= 10:
         wateryear = y - startYear
       else:
@@ -695,7 +696,7 @@ class Reservoir():
       y = self.current_year[t-1]
       m = self.current_month[t-1]
       da = self.current_day_month[t-1]
-      dowy = water_day(d,calendar.isleap(y))
+      dowy = self.current_dowy[t-1]
       
 	  #Use date information to determine if its the rainflood season
       if m == 10:
@@ -858,7 +859,7 @@ class Reservoir():
       y = self.current_year[t-1]
       m = self.current_month[t-1]
       da = self.current_day_month[t-1]
-      dowy = water_day(d,calendar.isleap(y))
+      dowy = self.current_dowy[t-1]
 	  
       if m == 10 and da == 1:
         current_year += 1
