@@ -74,7 +74,7 @@ def compare(res,obs,freq,freq2, data_name):
   plt.show()
   
 def compare_contracts():
-  contract_values = pd.read_csv('cord/data/swp_contract_results.csv', index_col = 0)
+  contract_values = pd.read_csv('cord/data/results/swp_contract_results.csv', index_col = 0)
   sns.set()
   fig = plt.figure()
   gs = gridspec.GridSpec(2, 2, width_ratios=[1, 1]) 

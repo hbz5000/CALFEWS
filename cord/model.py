@@ -149,8 +149,8 @@ class Model():
     print('Initialize Recovery Capacity, time ', datetime.now() - startTime)
     ##initial recharge capacities (projected out 12 months) for districts,
     ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
-    urban_datafile = 'cord/data/cord-data-urban.csv'
-    urban_datafile_cvp = 'cord/data/pump-data-cvp.csv'
+    urban_datafile = 'cord/data/input/cord-data-urban.csv'
+    urban_datafile_cvp = 'cord/data/input/pump-data-cvp.csv'
     self.project_urban(urban_datafile, urban_datafile_cvp)
 
     # calculate how much recharge capacity is reachable from each reservoir
@@ -211,10 +211,10 @@ class Model():
         #df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
         #df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
 
-      #df_res_process.to_csv('cord/data/no_res_preprocess_daily.csv')
-      #df_res_annual.to_csv('cord/data/no_res_presprocess_annual.csv')
-      flow_estimates = pd.read_csv('cord/data/no_res_preprocess_daily.csv', index_col=0, parse_dates=True)
-      std_estimates = pd.read_csv('cord/data/no_res_presprocess_annual.csv')
+      #df_res_process.to_csv('cord/data/input/no_res_preprocess_daily.csv')
+      #df_res_annual.to_csv('cord/data/input/no_res_preprocess_annual.csv')
+      flow_estimates = pd.read_csv('cord/data/input/no_res_preprocess_daily.csv', index_col=0, parse_dates=True)
+      std_estimates = pd.read_csv('cord/data/input/no_res_preprocess_annual.csv')
       for x in reservoir_list:
         x.rainflood_fnf = flow_estimates['%s_rainfnf' % x.key]##FNF, OCT-MAR, LINEAR COEF
         x.snowflood_fnf = flow_estimates['%s_snowfnf' % x.key]##FNF, APR-JUL, LINEAR COEF
@@ -249,10 +249,10 @@ class Model():
         #df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
         #df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
         #df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-      #df_res_process.to_csv('cord/data/no_res_preprocess_simulation_daily.csv')
-      #df_res_annual.to_csv('cord/data/no_res_presprocess_simulation_annual.csv')
-      flow_estimates = pd.read_csv('cord/data/no_res_preprocess_simulation_daily.csv')
-      std_estimates = pd.read_csv('cord/data/no_res_presprocess_simulation_annual.csv')
+      #df_res_process.to_csv('cord/data/input/no_res_preprocess_simulation_daily.csv')
+      #df_res_annual.to_csv('cord/data/input/no_res_preprocess_simulation_annual.csv')
+      flow_estimates = pd.read_csv('cord/data/input/no_res_preprocess_simulation_daily.csv')
+      std_estimates = pd.read_csv('cord/data/input/no_res_preprocess_simulation_annual.csv')
       for x in reservoir_list:
         x.rainflood_fnf = flow_estimates['%s_rainfnf' % x.key]##FNF, OCT-MAR, LINEAR COEF
         x.snowflood_fnf = flow_estimates['%s_snowfnf' % x.key]##FNF, APR-JUL, LINEAR COEF
@@ -344,12 +344,12 @@ class Model():
         #df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
         #df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
         #df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-      #df_res_process.to_csv('cord/data/res_preprocess_daily.csv')
-      #df_res_annual.to_csv('cord/data/res_presprocess_annual.csv')
+      #df_res_process.to_csv('cord/data/input/res_preprocess_daily.csv')
+      #df_res_annual.to_csv('cord/data/input/res_presprocess_annual.csv')
 	  
       ##Regression flow & standard deviations read from file (see end of function for code to generate files)	  
-      flow_estimates = pd.read_csv('cord/data/res_preprocess_daily.csv', index_col=0, parse_dates=True)
-      std_estimates = pd.read_csv('cord/data/res_presprocess_annual.csv')
+      flow_estimates = pd.read_csv('cord/data/input/res_preprocess_daily.csv', index_col=0, parse_dates=True)
+      std_estimates = pd.read_csv('cord/data/input/res_presprocess_annual.csv')
 	  #### Find regression information for all 8 reservoirs 
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
@@ -387,10 +387,10 @@ class Model():
         #df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
         #df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
         #df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-      #df_res_process.to_csv('cord/data/so_res_preprocess_simulation_daily.csv')
-      #df_res_annual.to_csv('cord/data/so_res_presprocess_simulation_annual.csv')
-      flow_estimates = pd.read_csv('cord/data/so_res_preprocess_simulation_daily.csv')
-      std_estimates = pd.read_csv('cord/data/so_res_presprocess_simulation_annual.csv')
+      #df_res_process.to_csv('cord/data/input/so_res_preprocess_simulation_daily.csv')
+      #df_res_annual.to_csv('cord/data/input/so_res_preprocess_simulation_annual.csv')
+      flow_estimates = pd.read_csv('cord/data/input/so_res_preprocess_simulation_daily.csv')
+      std_estimates = pd.read_csv('cord/data/input/so_res_preprocess_simulation_annual.csv')
       for x in reservoir_list:
         x.rainflood_fnf = flow_estimates['%s_rainfnf' % x.key]##FNF, OCT-MAR, LINEAR COEF
         x.snowflood_fnf = flow_estimates['%s_snowfnf' % x.key]##FNF, APR-JUL, LINEAR COEF
@@ -451,8 +451,8 @@ class Model():
       #df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
       #df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
 
-    #df_res_process.to_csv('cord/data/res_preprocess_daily.csv')
-    #df_res_annual.to_csv('cord/data/res_presprocess_annual.csv')
+    #df_res_process.to_csv('cord/data/input/res_preprocess_daily.csv')
+    #df_res_annual.to_csv('cord/data/input/res_presprocess_annual.csv')
 	
   def initialize_water_districts(self):		  
     ############################################################################
@@ -860,7 +860,7 @@ class Model():
     df_wyi = pd.DataFrame()
     df_wyi['SRI'] = pd.Series(self.delta.forecastSRI, index = self.index)
     df_wyi['SJI'] = pd.Series(self.delta.forecastSJI, index = self.index)
-    df_wyi.to_csv('cord/data/water_year_index_simulation.csv')
+    df_wyi.to_csv('cord/data/results/water_year_index_simulation.csv')
 		
   def predict_delta_gains(self):
     ##this function uses a regression to find expected 'unstored' flows coming to the
@@ -1219,12 +1219,12 @@ class Model():
     self.centralcoast.urb_coef['cvp'] = np.zeros(2)
 
 	  
-    fig = plt.figure()
-    ax1 = fig.add_subplot(1,1,1, axisbg = "1.0")
-    #ax2 = fig.add_subplot(2,2,2, axisbg = "1.0")
-    #ax3 = fig.add_subplot(2,2,3, axisbg = "1.0")
-    ax1.scatter(regression_annual_trp,self.southbay.regression_pacheco, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
-    ax1.scatter(regression_annual_trp,self.southbay.regression_cvp, alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
+    # fig = plt.figure()
+    # ax1 = fig.add_subplot(1,1,1, axisbg = "1.0")
+    # #ax2 = fig.add_subplot(2,2,2, axisbg = "1.0")
+    # #ax3 = fig.add_subplot(2,2,3, axisbg = "1.0")
+    # ax1.scatter(regression_annual_trp,self.southbay.regression_pacheco, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
+    # ax1.scatter(regression_annual_trp,self.southbay.regression_cvp, alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
     #ax2.scatter(regression_annual_hro,self.centralcoast.regression_annual, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
     #ax2.scatter(regression_annual_hro,self.centralcoast.regression, alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
     #ax3.scatter(regression_annual_hro,self.southbay.regression_annual, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
