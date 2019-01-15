@@ -1,2 +1,3 @@
-cord/data/results/*
+.DS_Store
+*.pyc
 .idea
