@@ -8,7 +8,7 @@ class Contract():
 
   def __init__(self, df, key):
     self.T = len(df)
-    self.index = df.index
+    self.number_years = df.index.year[-1]-df.index.year[0]
     self.key = key
 
     for k,v in json.load(open('cord/contracts/%s_properties.json' % key)).items():
@@ -20,8 +20,8 @@ class Contract():
     self.available_water = np.zeros(self.T)
 	
     #keep track of deliveries made daily/annually from the contract
-    self.annual_deliveries = np.zeros((self.index.year[self.T-1]-self.index.year[0]))
-    self.flood_deliveries = np.zeros((self.index.year[self.T-1]-self.index.year[0]))
+    self.annual_deliveries = np.zeros(self.number_years)
+    self.flood_deliveries = np.zeros(self.number_years)
     self.daily_deliveries = 0.0
 	
     self.tot_carryover = 0.0#contract carryover
@@ -37,7 +37,7 @@ class Contract():
     supply_types = ['contract', 'carryover', 'turnback', 'flood']
     for x in supply_types:
       self.daily_supplies[x] = np.zeros(self.T)
-      self.annual_supplies[x] = np.zeros((self.index.year[self.T-1]-self.index.year[0]))
+      self.annual_supplies[x] = np.zeros(self.number_years)
 
 
   def calc_allocation(self, t, dowy, forecast_available, priority_contract, secondary_contract, wyt):

@@ -21,11 +21,15 @@ class Inputter():
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
         self.index = self.df.index
-        self.current_day_year = self.index.dayofyear
-        self.current_year = self.index.year
-        self.current_month = self.index.month
-        self.current_day_month = self.index.day
-        self.current_dowy = water_day(self.current_day_year, self.current_year)
+        self.day_year = self.index.dayofyear
+        self.day_month = self.index.day
+        self.month = self.index.month
+        self.year = self.index.year
+        self.starting_year = self.year[0]
+        self.ending_year = self.year[-1]
+        self.number_years = self.ending_year - self.starting_year
+        self.dowy = water_day(self.day_year, self.year)
+        self.water_year = water_year(self.month, self.year, self.starting_year)
 
         self.shasta = Reservoir(self.df, self.df_short, 'SHA', model_mode)
         self.folsom = Reservoir(self.df, self.df_short, 'FOL', model_mode)
@@ -55,11 +59,10 @@ class Inputter():
         self.data_type_list = ['fnf', 'inf', 'otf', 'gains', 'evap', 'precip', 'fci']
         self.monthlist = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
         self.days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        self.days_in_month_leap = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
         self.delta_list = ['SAC', 'SJ', 'EAST', 'depletions', 'CCC', 'BRK']
 
-        self.starting_year = int(self.index.year[0])
-        self.ending_year = int(self.index.year[self.T - 1])
-        self.num_years = self.ending_year - self.starting_year
         sns.set()
 
     def run_routine(self, file_folder, file_name, timestep_length, start_month, number_years, first_leap,
@@ -82,48 +85,48 @@ class Inputter():
             x.monthly = {}
             for data_type in self.data_type_list:
                 x.monthly[data_type] = {}
-                x.monthly[data_type]['flows'] = np.zeros((12, self.num_years))
+                x.monthly[data_type]['flows'] = np.zeros((12, self.number_years))
                 x.monthly[data_type]['coefficients'] = np.zeros((12, 2))
-                x.monthly[data_type]['residuals'] = np.zeros((12, self.num_years))
-                x.monthly[data_type]['whitened'] = np.zeros((12, self.num_years))
-                x.monthly[data_type]['whitened_residuals'] = np.zeros((12, self.num_years))
+                x.monthly[data_type]['residuals'] = np.zeros((12, self.number_years))
+                x.monthly[data_type]['whitened'] = np.zeros((12, self.number_years))
+                x.monthly[data_type]['whitened_residuals'] = np.zeros((12, self.number_years))
                 x.monthly[data_type]['AR_coef'] = np.zeros((12, 2))
-                x.monthly[data_type]['AR_residuals'] = np.zeros((12, self.num_years))
+                x.monthly[data_type]['AR_residuals'] = np.zeros((12, self.number_years))
                 x.monthly[data_type]['white_mean'] = np.zeros(12)
                 x.monthly[data_type]['white_std'] = np.zeros(12)
                 x.monthly[data_type]['res_mean'] = np.zeros(12)
                 x.monthly[data_type]['res_std'] = np.zeros(12)
                 x.monthly[data_type]['hist_max'] = np.zeros(12)
                 x.monthly[data_type]['hist_min'] = np.zeros(12)
-                x.monthly[data_type]['baseline_value'] = np.zeros((12, self.num_years))
+                x.monthly[data_type]['baseline_value'] = np.zeros((12, self.number_years))
                 x.monthly[data_type]['use_log'] = ['no' for i in range(0, 12)]
 
                 x.monthly[data_type]['daily'] = {}
                 monthcounter = 0
                 for monthname in self.monthlist:
                     x.monthly[data_type]['daily'][monthname] = np.zeros(
-                        (self.num_years, self.days_in_month[monthcounter]))
+                        (self.number_years, self.days_in_month[monthcounter]))
                     monthcounter += 1
                 x.snowpack = {}
-                x.snowpack['max'] = np.zeros(self.num_years)
-                x.snowpack['daily'] = np.zeros((self.num_years, 366))
+                x.snowpack['max'] = np.zeros(self.number_years)
+                x.snowpack['daily'] = np.zeros((self.number_years, 366))
                 x.snowpack['coef'] = np.zeros(2)
-                x.snowpack['residuals'] = np.zeros(self.num_years)
-                x.snowpack['max_sorted'] = np.zeros(self.num_years)
-                x.snowpack['sorted_index'] = np.zeros(self.num_years)
+                x.snowpack['residuals'] = np.zeros(self.number_years)
+                x.snowpack['max_sorted'] = np.zeros(self.number_years)
+                x.snowpack['sorted_index'] = np.zeros(self.number_years)
 
         self.monthly = {}
         for deltaname in self.delta_list:
             self.monthly[deltaname] = {}
-            self.monthly[deltaname]['gains'] = np.zeros((12, self.num_years))
-            self.monthly[deltaname]['fnf'] = np.zeros((12, self.num_years))
+            self.monthly[deltaname]['gains'] = np.zeros((12, self.number_years))
+            self.monthly[deltaname]['fnf'] = np.zeros((12, self.number_years))
             self.monthly[deltaname]['coef'] = np.zeros((12, 2))
-            self.monthly[deltaname]['residuals'] = np.zeros((12, self.num_years))
-            self.monthly[deltaname]['whitened'] = np.zeros((12, self.num_years))
-            self.monthly[deltaname]['whitened_fnf'] = np.zeros((12, self.num_years))
-            self.monthly[deltaname]['whitened_residuals'] = np.zeros((12, self.num_years))
+            self.monthly[deltaname]['residuals'] = np.zeros((12, self.number_years))
+            self.monthly[deltaname]['whitened'] = np.zeros((12, self.number_years))
+            self.monthly[deltaname]['whitened_fnf'] = np.zeros((12, self.number_years))
+            self.monthly[deltaname]['whitened_residuals'] = np.zeros((12, self.number_years))
             self.monthly[deltaname]['AR_coef'] = np.zeros((12, 2))
-            self.monthly[deltaname]['AR_residuals'] = np.zeros((12, self.num_years))
+            self.monthly[deltaname]['AR_residuals'] = np.zeros((12, self.number_years))
             self.monthly[deltaname]['white_mean'] = np.zeros(12)
             self.monthly[deltaname]['white_std'] = np.zeros(12)
             self.monthly[deltaname]['white_fnf_mean'] = np.zeros(12)
@@ -133,35 +136,28 @@ class Inputter():
             self.monthly[deltaname]['hist_max'] = np.zeros(12)
             self.monthly[deltaname]['hist_min'] = np.zeros(12)
             self.monthly[deltaname]['use_log'] = ['no' for i in range(0, 12)]
-            self.monthly[deltaname]['baseline_value'] = np.zeros((12, self.num_years))
+            self.monthly[deltaname]['baseline_value'] = np.zeros((12, self.number_years))
             self.monthly[deltaname]['daily'] = {}
             monthcounter = 0
             for monthname in self.monthlist:
                 self.monthly[deltaname]['daily'][monthname] = np.zeros(
-                    (self.num_years, self.days_in_month[monthcounter]))
+                    (self.number_years, self.days_in_month[monthcounter]))
                 monthcounter += 1
 
     def generate_relationships(self, plot_key):
         for t in range(0, self.T):
-            m = self.current_month[t]
-            y = self.current_year[t]
-            da = self.current_day_month[t]
-            days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            m = self.month[t]
+            da = self.day_month[t]
+            wateryear = self.water_year[t]
             if da == 29 and m == 2:
                 da = 28
-
-            if m >= 10:
-                wateryear = y - self.starting_year
-            else:
-                wateryear = y - self.starting_year - 1
-
             for x in self.reservoir_list:
                 x.monthly['fnf']['flows'][m - 1][wateryear] += x.fnf[t] * 1000.0
                 x.monthly['inf']['flows'][m - 1][wateryear] += x.Q[t]
                 x.monthly['gains']['flows'][m - 1][wateryear] += x.downstream[t]
                 x.monthly['evap']['flows'][m - 1][wateryear] += x.E[t]
                 x.monthly['precip']['flows'][m - 1][wateryear] += x.precip[t]
-                x.monthly['fci']['flows'][m - 1][wateryear] += x.fci[t] / days_in_month[m - 1]
+                x.monthly['fci']['flows'][m - 1][wateryear] += x.fci[t] / self.days_in_month[m - 1]
                 x.monthly['otf']['flows'][m - 1][wateryear] += self.df['%s_otf' % x.key].iloc[t] * cfs_tafd
 
                 x.monthly['fnf']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += x.fnf[t] * 1000.0
@@ -175,11 +171,11 @@ class Inputter():
 
         for x in self.reservoir_list:
             for data_type in self.data_type_list:
-                x.monthly[data_type]['sorted'] = np.zeros((12, self.num_years))
-                x.monthly[data_type]['sort_index'] = np.zeros((12, self.num_years))
+                x.monthly[data_type]['sorted'] = np.zeros((12, self.number_years))
+                x.monthly[data_type]['sort_index'] = np.zeros((12, self.number_years))
                 monthcounter = 0
                 for monthname in self.monthlist:
-                    for yearnum in range(0, self.num_years):
+                    for yearnum in range(0, self.number_years):
                         if any(positive_nums > 0.0 for positive_nums in
                                x.monthly[data_type]['daily'][monthname][yearnum]) and any(
                                 negative_nums < 0.0 for negative_nums in
@@ -210,15 +206,15 @@ class Inputter():
                                                                                                                   'baseline_value'][
                                                                                                                   monthcounter][
                                                                                                                   yearnum] *
-                                                                                                              days_in_month[
+                                                                                                              self.days_in_month[
                                                                                                                   monthcounter])
                     monthcounter += 1
                 for monthcounter in range(0, 12):
                     x.monthly[data_type]['sorted'][monthcounter] = np.sort(x.monthly[data_type]['flows'][monthcounter])
                     x.monthly[data_type]['sort_index'][monthcounter] = np.argsort(
                         x.monthly[data_type]['flows'][monthcounter])
-            snowmelt_fnf = np.zeros(self.num_years)
-            for yearcounter in range(0, self.num_years):
+            snowmelt_fnf = np.zeros(self.number_years)
+            for yearcounter in range(0, self.number_years):
                 snowmelt_fnf[yearcounter] = x.monthly['fnf']['flows'][3][yearcounter] + x.monthly['fnf']['flows'][4][
                     yearcounter] + x.monthly['fnf']['flows'][5][yearcounter] + x.monthly['fnf']['flows'][6][yearcounter]
 
@@ -238,8 +234,8 @@ class Inputter():
                         ax1 = fig.add_subplot(3, 2, type_counter)
                     ############
                     if data_type == 'fnf':
-                        log_data = np.zeros(self.num_years)
-                        for y in range(0, self.num_years):
+                        log_data = np.zeros(self.number_years)
+                        for y in range(0, self.number_years):
                             if x.monthly[data_type]['flows'][monthcounter][y] > 0.0:
                                 log_data[y] = np.log(x.monthly[data_type]['flows'][monthcounter][y])
                             else:
@@ -339,17 +335,11 @@ class Inputter():
 
     def generate_relationships_delta(self, plot_key):
         for t in range(0, self.T):
-            m = self.current_month[t]
-            y = self.current_year[t]
-            da = self.current_day_month[t]
-
+            m = self.month[t]
+            da = self.day_month[t]
+            wateryear = self.water_year[t]
             if da == 29 and m == 2:
                 da = 28
-
-            if m >= 10:
-                wateryear = y - self.starting_year
-            else:
-                wateryear = y - self.starting_year - 1
 
             self.monthly['SAC']['gains'][m - 1][wateryear] += self.df.SAC_gains[t] * cfs_tafd
             self.monthly['SJ']['gains'][m - 1][wateryear] += self.df.SJ_gains[t] * cfs_tafd
@@ -368,10 +358,10 @@ class Inputter():
 
         for deltaname in self.delta_list:
             monthcounter = 0
-            self.monthly[deltaname]['sorted'] = np.zeros((12, self.num_years))
-            self.monthly[deltaname]['sort_index'] = np.zeros((12, self.num_years))
+            self.monthly[deltaname]['sorted'] = np.zeros((12, self.number_years))
+            self.monthly[deltaname]['sort_index'] = np.zeros((12, self.number_years))
             for monthname in self.monthlist:
-                for yearnum in range(0, self.num_years):
+                for yearnum in range(0, self.number_years):
                     if any(positive_nums > 0.0 for positive_nums in
                            self.monthly[deltaname]['daily'][monthname][yearnum]) and any(
                             negative_nums < 0.0 for negative_nums in
@@ -413,7 +403,7 @@ class Inputter():
                     self.monthly[deltaname]['gains'][monthcounter])
 
         for monthcounter in range(0, 12):
-            for yearcounter in range(0, self.num_years):
+            for yearcounter in range(0, self.number_years):
                 for reservoir in [self.shasta, self.oroville, self.yuba, self.folsom]:
                     self.monthly['SAC']['fnf'][monthcounter][yearcounter] += \
                     reservoir.monthly['fnf']['flows'][monthcounter][yearcounter]
@@ -434,8 +424,8 @@ class Inputter():
                     reservoir.monthly['fnf']['flows'][monthcounter][yearcounter]
 
         # for deltaname in self.delta_list:
-        # self.monthly[deltaname]['sorted'] = np.zeros((12, self.num_years))
-        # self.monthly[deltaname]['sorted_index'] = np.zeros((12, self.num_years))
+        # self.monthly[deltaname]['sorted'] = np.zeros((12, self.number_years))
+        # self.monthly[deltaname]['sorted_index'] = np.zeros((12, self.number_years))
         # for monthcounter in range(0,12):
         # self.monthly[deltaname]['sorted'][monthcounter] = np.sort(self.monthly[deltaname]['fnf'][monthcounter])
         # self.monthly[deltaname]['sorted_index'][monthcounter] = np.argsort(self.monthly[deltaname]['fnf'][monthcounter])
@@ -665,28 +655,21 @@ class Inputter():
 
     def fill_snowpack(self, plot_key):
         for t in range(0, self.T):
-            m = self.current_month[t]
-            y = self.current_year[t]
-            d = self.current_day_year[t]
-            dowy = self.current_dowy[t]
-
-            if m >= 10:
-                wateryear = y - self.starting_year
-            else:
-                wateryear = y - self.starting_year - 1
+            dowy = self.dowy[t]
+            wateryear = self.water_year[t]
 
             for x in self.reservoir_list:
                 x.snowpack['max'][wateryear] = max(x.SNPK[t], x.snowpack['max'][wateryear])
                 x.snowpack['daily'][wateryear][dowy] = x.SNPK[t]
 
         for x in self.reservoir_list:
-            for yearcounter in range(0, self.num_years):
+            for yearcounter in range(0, self.number_years):
                 for daycount in range(0, 366):
                     if x.snowpack['max'][yearcounter] > 0.0:
                         x.snowpack['daily'][yearcounter][daycount] = x.snowpack['daily'][yearcounter][daycount] / \
                                                                      x.snowpack['max'][yearcounter]
-            melt_fnf = np.zeros(self.num_years)
-            for y in range(0, self.num_years):
+            melt_fnf = np.zeros(self.number_years)
+            for y in range(0, self.number_years):
                 for snowmelt in range(3, 7):
                     melt_fnf[y] += x.monthly['fnf']['flows'][snowmelt][y]
 
@@ -710,7 +693,7 @@ class Inputter():
                 ax1.set_ylabel('Snowpack')
                 ax1.set_xlabel('FNF')
                 ax1 = plt.subplot(gs[1, 1])
-                for yearcount in range(0, self.num_years):
+                for yearcount in range(0, self.number_years):
                     ax1.plot(x.snowpack['daily'][yearcount])
                 ax1.set_ylabel('Snowpack Fraction')
                 ax1.set_xlabel('DOWY')
@@ -720,10 +703,8 @@ class Inputter():
                 plt.close()
 
     def read_new_fnf_data(self, filename, timestep_length, start_month, first_leap_year, numYears):
-        days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-        days_in_month_leap = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         monthcount = start_month - 1
-        thismonthday = days_in_month[monthcount]
+        thismonthday = self.days_in_month[monthcount]
         daycount = 0
         yearcount = 0
         leap_year_trigger = first_leap_year
@@ -754,9 +735,9 @@ class Inputter():
                     if leapcount == 5:
                         leapcount = 1
                 if leapcount == first_leap_year:
-                    thismonthday = days_in_month_leap[monthcount]
+                    thismonthday = self.days_in_month_leap[monthcount]
                 else:
-                    thismonthday = days_in_month[monthcount]
+                    thismonthday = self.days_in_month[monthcount]
 
         self.monthly_new = {}
         for deltaname in self.delta_list:
@@ -1121,7 +1102,6 @@ class Inputter():
             monthcounter = output_month[t] - 1
             yearcounter = output_year[t] - start_year
             daycounter = output_day_month[t] - 1
-            d = output_day_year[t]
             dowy = output_dowy[t]
 
             if monthcounter == 1 and daycounter == 28:
@@ -1317,8 +1297,8 @@ class Inputter():
                 plt.close()
 
     def get_flow_ratios(self, inf, fnf):
-        ratios = np.zeros(self.num_years)
-        for year_counter in range(0, self.num_years):
+        ratios = np.zeros(self.number_years)
+        for year_counter in range(0, self.number_years):
             if inf[year_counter] > 0 and fnf[year_counter] > 0:
                 ratios[year_counter] = inf[year_counter] - fnf[year_counter]
             else:

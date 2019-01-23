@@ -16,32 +16,38 @@ from .util import *
 
 class Model():
 
-  def __init__(self, input_data_file, expected_release_datafile, sd, short_test, model_mode):
+  def __init__(self, input_data_file, expected_release_datafile, sd, model_mode):
     ##Set model dataset & index length
-    if (short_test > 0):
-      self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True).iloc[:short_test]
-    else:
-      self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
+    self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
     self.model_mode = model_mode
     self.index = self.df.index
     self.T = len(self.df)
-    self.starting_year = int(self.index.year[0])
-    self.ending_year = int(self.index.year[self.T-1])
-    self.current_day_year = self.index.dayofyear
-    self.current_year = self.index.year
-    self.current_month = self.index.month
-    self.current_day_month = self.index.day
-    self.current_dowy = water_day(self.current_day_year, self.current_year)
-
+    self.day_year = self.index.dayofyear
+    self.day_month = self.index.day
+    self.month = self.index.month
+    self.year = self.index.year
+    self.starting_year = self.index.year[0]
+    self.ending_year = self.index.year[-1]
+    self.number_years = self.ending_year - self.starting_year
+    self.dowy = water_day(self.day_year, self.year)
+    self.water_year = water_year(self.month, self.year, self.starting_year)
     self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
     self.T_short = len(self.df_short)
-    self.index_short_d = self.df_short.index.dayofyear
-    self.index_short_da = self.df_short.index.day
-    self.index_short_m = self.df_short.index.month
-    self.index_short_y = self.df_short.index.year
-    self.index_short_dowy = water_day(self.index_short_d, self.index_short_y)
-	
-#####################################################################################################################
+    self.short_day_year = self.df_short.index.dayofyear
+    self.short_day_month = self.df_short.index.day
+    self.short_month = self.df_short.index.month
+    self.short_year = self.df_short.index.year
+    self.short_starting_year = self.short_year[0]
+    self.short_ending_year = self.index.year[-1]
+    self.short_number_years = self.short_ending_year - self.short_starting_year
+    self.short_dowy = water_day(self.short_day_year, self.short_year)
+    self.short_water_year = water_year(self.short_month, self.short_year, self.short_starting_year)
+
+    self.days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    self.dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 30, 60, 91]
+    self.dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91]
+
+  #####################################################################################################################
 #############################     Object Creation     ###############################################################
 #####################################################################################################################
   def northern_initialization_routine(self, startTime):
@@ -588,20 +594,20 @@ class Model():
     ###Canal Initialization
 	############################################################################
     #Waterways
-    self.fkc = Canal(self.df, 'FKC')
-    self.xvc = Canal(self.df, 'XVC')
-    self.madera = Canal(self.df, 'MDC')
-    self.calaqueduct = Canal(self.df, 'CAA')
-    self.kwbcanal = Canal(self.df, 'KBC')
-    self.aecanal = Canal(self.df, 'AEC')
-    self.kerncanal = Canal(self.df, 'KNC')
-    self.gooseslough = Canal(self.df, 'GSL')
-    self.calloway = Canal(self.df, 'CWY')
-    self.lerdo = Canal(self.df, 'LRD')
-    self.beardsley = Canal(self.df, 'BLY')
-    self.kernriverchannel = Canal(self.df, 'KNR')
-    self.kaweahriverchannel = Canal(self.df, 'KWR')
-    self.tuleriverchannel = Canal(self.df, 'TLR')
+    self.fkc = Canal('FKC')
+    self.xvc = Canal('XVC')
+    self.madera = Canal('MDC')
+    self.calaqueduct = Canal('CAA')
+    self.kwbcanal = Canal('KBC')
+    self.aecanal = Canal('AEC')
+    self.kerncanal = Canal('KNC')
+    self.gooseslough = Canal('GSL')
+    self.calloway = Canal('CWY')
+    self.lerdo = Canal('LRD')
+    self.beardsley = Canal('BLY')
+    self.kernriverchannel = Canal('KNR')
+    self.kaweahriverchannel = Canal('KWR')
+    self.tuleriverchannel = Canal('TLR')
 	
     self.canal_list = [self.fkc, self.madera, self.xvc, self.calaqueduct, self.kwbcanal, self.aecanal, self.kerncanal, self.gooseslough, self.calloway, self.lerdo, self.beardsley, self.kernriverchannel, self.kaweahriverchannel, self.tuleriverchannel]
 
@@ -610,8 +616,8 @@ class Model():
     self.hro_pumping = np.zeros(self.T)
     self.cvp_allocation = np.zeros(self.T)
     self.swp_allocation = np.zeros(self.T)
-    self.annual_SWP = np.zeros(self.ending_year - self.starting_year)
-    self.annual_CVP = np.zeros(self.ending_year - self.starting_year)
+    self.annual_SWP = np.zeros(self.number_years)
+    self.annual_CVP = np.zeros(self.number_years)
     self.ytd_pump_trp = np.zeros(self.T)
     self.ytd_pump_hro = np.zeros(self.T)
 
@@ -772,7 +778,7 @@ class Model():
     lastYearSRI = 10.26 # WY 1996
     lastYearSJI = 4.12 # WY 1996
     current_year = 0
-    startMonth = int(self.index.month[0])
+    startMonth = self.index.month[0]
     startYear = self.starting_year
     rainflood_sac_obs = 0.0
     snowflood_sac_obs = 0.0
@@ -783,11 +789,10 @@ class Model():
     sac_list = [self.shasta, self.folsom, self.oroville, self.yuba]
     sj_list = [self.newmelones, self.donpedro, self.exchequer, self.millerton]
     for t in range(0,self.T):
-      d = self.current_day_year[t]
-      y = self.current_year[t]
-      m = self.current_month[t]
-      da = self.current_day_month[t]
-      dowy = self.current_dowy[t]
+      y = self.year[t]
+      m = self.month[t]
+      da = self.day_month[t]
+      dowy = self.dowy[t]
       index_exceedence_sac = 9
       index_exceedence_sj = 5
 	  ##8 River Index
@@ -878,11 +883,11 @@ class Model():
 	##########################################################################################
     #Initialize gains matricies
 	##Unstored flow will be regressed against total FNF expected in that year
-    numYears_short = self.index_short_y[self.T_short-1]-self.index_short_y[0]
+    numYears_short = self.short_number_years
     self.running_fnf = np.zeros((365,numYears_short))
     ##Total gains in each month
     monthly_gains = np.zeros((12,numYears_short))
-    startYear = self.index_short_y[0]
+    startYear = self.short_starting_year
     ##########################################################################################
     ##########################################################################################
     #Read flow from historical record
@@ -891,14 +896,10 @@ class Model():
     prev_fnf = 0.0
     for t in range(0,self.T_short):
       ##Get date information
-      da = self.index_short_da[t]
-      m = self.index_short_m[t]
-      y = self.index_short_y[t]
-      dowy = self.index_short_dowy[t]
-      if m >= 10:
-        wateryear = y - startYear
-      else:
-        wateryear = y - startYear - 1
+      da = self.short_day_month[t]
+      m = self.short_month[t]
+      dowy = self.short_dowy[t]
+      wateryear = self.short_water_year[t]
 		
       #Calculate the total daily unstored gains to the delta
       this_day_fnf = 0.0
@@ -937,7 +938,6 @@ class Model():
     ##########################################################################################
     #Perform linear regression - FNF used for running prediction of total 'unstored' flow to delta in oct-mar; apr-jul period
 	##########################################################################################
-    dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
     self.delta_gains_regression = {}
     self.delta_gains_regression['slope'] = np.zeros((365,12))
     self.delta_gains_regression['intercept'] = np.zeros((365,12))
@@ -946,7 +946,7 @@ class Model():
       #coef_save = np.zeros((12,2))
       #regress for gains in oct-mar period and april-jul period
       for mm in range(0,12):
-        if x <= dowy_eom[mm]:
+        if x <= self.dowy_eom[mm]:
           one_year_runfnf = self.running_fnf[x]
           monthly_gains_predict = monthly_gains[mm]
         else:
@@ -969,7 +969,7 @@ class Model():
         #print(coef[1])
       #for mm in range(0,12):
         #ax1 = fig.add_subplot(4,3,mm+1)
-        #if x <= dowy_eom[mm]:
+        #if x <= self.dowy_eom[mm]:
           #monthly_gains_predict = monthly_gains[mm]
           #one_year_runfnf = self.running_fnf[x]
         #else:
@@ -1162,14 +1162,14 @@ class Model():
 	##NOTE!!! More detailed MWD/Southern Cal demand data would improve the model
     df_urban = pd.read_csv(datafile, index_col=0, parse_dates=True)
     df_urban_monthly_cvp = pd.read_csv(datafile_cvp, index_col=0, parse_dates=True)
-    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     index_urban = df_urban.index
     urban_historical_T = len(df_urban)
     index_urban_d = index_urban.dayofyear
-    index_urban_da = index_urban.day
     index_urban_m = index_urban.month
     index_urban_y = index_urban.year
     index_urban_dowy = water_day(index_urban_d, index_urban_y)
+    startYear = index_urban_y[0]
+    index_urban_water_year = water_year(index_urban_m, index_urban_y, startYear)
     numYears_urban = index_urban_y[urban_historical_T - 1] - index_urban_y[0]
     urban_list = [self.socal, self.centralcoast, self.southbay]
     self.observed_hro = df_urban['HRO_pump'].values*cfs_tafd
@@ -1182,14 +1182,9 @@ class Model():
       x.regression_annual = np.zeros(numYears_urban)
     self.southbay.regression_pacheco = np.zeros(numYears_urban)
     self.southbay.hist_pumping_pacheco = np.zeros(urban_historical_T)
-    startYear = index_urban_y[0]
     for t in range(1,(urban_historical_T)):
       m = index_urban_m[t-1]
-      y = index_urban_y[t-1]
-      if m >= 10:
-        wateryear = y - startYear
-      else:
-        wateryear = y - startYear - 1
+      wateryear = index_urban_water_year[t-1]
 	  
 	  ##Find annual pumping at each branch (and @ delta)
       regression_annual_hro[wateryear] += self.observed_hro[t-1]
@@ -1197,8 +1192,8 @@ class Model():
       for x in urban_list:
         x.regression_annual[wateryear] += x.hist_pumping[t-1]/1000.0
 		
-      self.southbay.regression_pacheco[wateryear] += df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]/days_in_month[m-1]
-      self.southbay.hist_pumping_pacheco[t-1] = df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]/days_in_month[m-1]
+      self.southbay.regression_pacheco[wateryear] += df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]/self.days_in_month[m-1]
+      self.southbay.hist_pumping_pacheco[t-1] = df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]/self.days_in_month[m-1]
 
 		
     for x in urban_list:
@@ -1247,7 +1242,7 @@ class Model():
         x.hist_demand_dict['cvp'] = {}
 		
 	  ##Finds regressions to predict urban CA AQ branch pumping based on SWP allocations
-        x.annual_pumping = np.zeros((self.ending_year-self.starting_year))
+        x.annual_pumping = np.zeros(self.number_years)
         x.pumping = np.zeros(self.T)
         x.hist_demand_dict['swp']['annual_sorted'] = np.sort(regression_annual_hro)
         x.hist_demand_dict['swp']['sorted_index'] = np.argsort(regression_annual_hro)
@@ -1257,21 +1252,14 @@ class Model():
         x.hist_demand_dict['cvp']['daily_fractions'] = np.zeros((len(self.southbay.regression_pacheco),366))        
 
       for t in range(1,(urban_historical_T)):
-        d = index_urban_d[t-1]
-        da = index_urban_da[t-1]
-        m = index_urban_m[t-1]
-        y = index_urban_y[t-1]
         dowy = index_urban_dowy[t-1]
-        if m >= 10:
-          wateryear = y - startYear
-        else:
-          wateryear = y - startYear - 1  
+        wateryear = index_urban_water_year[t-1]
         for x in urban_list:
           x.hist_demand_dict['swp']['daily_fractions'][wateryear][dowy] = x.hist_pumping[t-1]/(x.regression_annual[wateryear]*1000.0)
           if x.key == "SOB":
             x.hist_demand_dict['cvp']['daily_fractions'][wateryear][dowy] = x.hist_pumping_pacheco[t-1]/(x.regression_pacheco[wateryear])
     for x in urban_list:
-      x.ytd_pumping = np.zeros((self.ending_year-self.starting_year))
+      x.ytd_pumping = np.zeros(self.number_years)
 	  
 	###ACTUAL regression coefficients - picked to pass the 'eye test' 
     #self.southbay.urb_coef[0] = 0.01
@@ -1297,10 +1285,9 @@ class Model():
     ##Set Delta operating rules
     ##Water Balance on each reservoir
     ##Decisions - release water for delta export, flood control
-    d = self.current_day_year[t]
-    y = self.current_year[t]
-    m = self.current_month[t]
-    dowy = self.current_dowy[t]
+    d = self.day_year[t]
+    m = self.month[t]
+    dowy = self.dowy[t]
 
     ##WATER YEAR TYPE CLASSIFICATION (for operating rules)
     ##WYT uses flow forecasts - gets set every day, may want to decrease frequency (i.e. every month, season)
@@ -1449,18 +1436,12 @@ class Model():
 			
   def simulate_south(self, t, hro_pump, trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, max_tax_free, flood_release, flood_volume):
     ####Maintain the same date/time accounting as the northern part of the model
-    startYear = self.starting_year
-    d = self.current_day_year[t]
-    current_year = self.current_year[t]
-    m = self.current_month[t]
-    da = self.current_day_month[t]
-
-    dowy = self.current_dowy[t]
-    dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 30, 60, 91]
-    if m >= 10:
-      wateryear = current_year - startYear
-    else:
-      wateryear = current_year - startYear - 1  
+    d = self.day_year[t]
+    current_year = self.year[t]
+    m = self.month[t]
+    da = self.day_month[t]
+    dowy = self.dowy[t]
+    wateryear = self.water_year[t]
     if m == 12:
       m1 = 1
     else:
@@ -1943,16 +1924,9 @@ class Model():
     return swp_pump, cvp_pump
 	
   def estimate_project_pumping(self, t, proj_surplus, max_pumping, swp_AS, cvp_AS, max_tax_free, flood_release, wyt):
-    d = self.current_day_year[t]
-    y = self.current_year[t]
-    m = self.current_month[t]
-    da = self.current_day_month[t]
-    dowy = self.current_dowy[t]
+    m = self.month[t]
+    dowy = self.dowy[t]
 
-    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
-    month_evaluate = m - 1
-    		      
     month_evaluate = m - 1
     tax_free_frac = {}
     excess_storage = {}
@@ -1984,29 +1958,29 @@ class Model():
     
       #if month_evaluate > 8:
       for monthloop in range(0, 12):
-        start_m = dowy_eom[monthloop] - days_in_month[monthloop] + 1
-        end_m = dowy_eom[monthloop]
+        start_m = self.dowy_eom[monthloop] - self.days_in_month[monthloop] + 1
+        end_m = self.dowy_eom[monthloop]
         total_tax_free = max_tax_free[wyt][key][start_m] - max_tax_free[wyt][key][end_m]
 
-          #if excess_storage[key] > total_taxed and dowy < dowy_eom[monthloop]:          
+          #if excess_storage[key] > total_taxed and dowy < self.dowy_eom[monthloop]:
         if monthloop == 3 or monthloop == 4:
           max_pump['swp'] = 750.0*cfs_tafd
           max_pump['cvp'] = 750.0*cfs_tafd
         else:
           max_pump['swp'] = 6680.0*cfs_tafd
           max_pump['cvp'] = 4300.0*cfs_tafd
-        if dowy_eom[monthloop] < dowy:
-          running_days = 365 - dowy + dowy_eom[monthloop]
+        if self.dowy_eom[monthloop] < dowy:
+          running_days = 365 - dowy + self.dowy_eom[monthloop]
         else:
-          running_days = dowy_eom[monthloop] - dowy
+          running_days = self.dowy_eom[monthloop] - dowy
         if t > self.omr_rule_start - running_days:
-          max_pump['swp'] = min(max_pump['swp'], max_pumping['swp'][monthloop]/days_in_month[monthloop])
-          max_pump['cvp'] = min(max_pump['cvp'], max_pumping['cvp'][monthloop]/days_in_month[monthloop])
+          max_pump['swp'] = min(max_pump['swp'], max_pumping['swp'][monthloop]/self.days_in_month[monthloop])
+          max_pump['cvp'] = min(max_pump['cvp'], max_pumping['cvp'][monthloop]/self.days_in_month[monthloop])
 
 
-        expected_pumping[key]['taxed'][monthloop] = max_pump[key]*days_in_month[monthloop]
-        expected_pumping[key]['untaxed'][monthloop] = min(max(proj_surplus[key][monthloop],total_tax_free), max_pump[key]*days_in_month[monthloop])
-        expected_pumping[key]['gains'][monthloop] = min(proj_surplus[key][monthloop], max_pump[key]*days_in_month[monthloop])
+        expected_pumping[key]['taxed'][monthloop] = max_pump[key]*self.days_in_month[monthloop]
+        expected_pumping[key]['untaxed'][monthloop] = min(max(proj_surplus[key][monthloop],total_tax_free), max_pump[key]*self.days_in_month[monthloop])
+        expected_pumping[key]['gains'][monthloop] = min(proj_surplus[key][monthloop], max_pump[key]*self.days_in_month[monthloop])
      	  		  
     return expected_pumping
 	
@@ -2014,23 +1988,19 @@ class Model():
     ##this function is used by the swpdelta & cvpdelta contracts to manage san luis reservoir storage
 	##and coordinate pumping at the delta
     ##state and federal storage portions managed seperately
-    d = self.current_day_year[t]
-    y = self.current_year[t]
-    m = self.current_month[t]
-    da = self.current_day_month[t]
-    dowy = self.current_dowy[t]
+    m = self.month[t]
+    da = self.day_month[t]
+    dowy = self.dowy[t]
 
-    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
     month_evaluate = m - 1
-    first_month_frac = max(days_in_month[month_evaluate] - da, 0.0)/days_in_month[month_evaluate]
+    first_month_frac = max(self.days_in_month[month_evaluate] - da, 0.0)/self.days_in_month[month_evaluate]
 	
 	
 	###Initial storage projections - current month
 	##calculate expected deliveries during this month from san luis
-    #expected_demands = (month_demand[wyt][month_evaluate]*allocation + month_demand_must_fill[wyt][month_evaluate])/days_in_month[month_evaluate]
-    expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/days_in_month[month_evaluate]
-    expected_inflow = expected_pumping['gains'][month_evaluate]/days_in_month[month_evaluate]
+    #expected_demands = (month_demand[wyt][month_evaluate]*allocation + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[month_evaluate]
+    expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[month_evaluate]
+    expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[month_evaluate]
     expected_untaxed = (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
     expected_taxed = (expected_pumping['taxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
 
@@ -2040,11 +2010,11 @@ class Model():
     if month_evaluate == 3 or month_evaluate == 4:
       expected_inflow = 0.75
     #expected monthly change in san luis storage
-    net_monthly = (expected_inflow - expected_demands)*max(days_in_month[month_evaluate] - da, 0.0)
+    net_monthly = (expected_inflow - expected_demands)*max(self.days_in_month[month_evaluate] - da, 0.0)
     ##Enter into a loop for projecting storage & pumping forward one month at a time
 	##start with current estimates
     next_month_storage = start_storage#running storage levels
-    this_month_days = max(days_in_month[month_evaluate] - da, 0.0)#running days in a month
+    this_month_days = max(self.days_in_month[month_evaluate] - da, 0.0)#running days in a month
     article21 = 0.0#initialize article 21 release estimates
     numdays_fillup = 999.9#initialize numdays_fillup variable
     numdays_fillup_override = 0.0
@@ -2063,18 +2033,18 @@ class Model():
       #estimate storage at the end of this month by adding monthly change to the running storage tally
       next_month_storage += net_monthly
       if net_monthly > 0.0:
-        partial_month_remaining = max(1 - max(next_month_storage - 1020.0, 0.0)/net_monthly, 0.0)*days_in_month[month_evaluate]
+        partial_month_remaining = max(1 - max(next_month_storage - 1020.0, 0.0)/net_monthly, 0.0)*self.days_in_month[month_evaluate]
       else:
         next_month_storage = min(1020.0 + net_monthly, next_month_storage)
         partial_month_remaining = 0.0
      
 	  ##can we reach the storage targets only using 'tax free' pumping?
       ##how much water can we expect to pump w/o additional E/I tax through the end of the month?
-      #if dowy <= dowy_eom[month_evaluate]:#running water year is the same as the beginning of the loop
+      #if dowy <= self.dowy_eom[month_evaluate]:#running water year is the same as the beginning of the loop
         #how much 'tax free' pumping through the end of this month? - total tax free remaining at the current simulation day, minus total tax free remaining at the end of the looped month
-        #running_tax_free_pumping = self.max_tax_free[wyt][key][dowy] - self.max_tax_free[wyt][key][dowy_eom[month_evaluate]]
+        #running_tax_free_pumping = self.max_tax_free[wyt][key][dowy] - self.max_tax_free[wyt][key][self.dowy_eom[month_evaluate]]
       #else:#looped into the next water year, so we have to calculate the tax free pumping remaining through the end of the current year, then add in the tax free remaining through the looped month in the next year
-        #running_tax_free_pumping = self.max_tax_free[wyt][key][dowy] + self.max_tax_free[wyt][key][0] - self.max_tax_free[wyt][key][dowy_eom[month_evaluate]]
+        #running_tax_free_pumping = self.max_tax_free[wyt][key][dowy] + self.max_tax_free[wyt][key][0] - self.max_tax_free[wyt][key][self.dowy_eom[month_evaluate]]
       #running_tax_free_pumping will be added to the net_month storage variable, so we don't want to double-count 'unstored pumping'
       #if running_tax_free_pumping > available_pumping:
         #running_tax_free_pumping = available_pumping
@@ -2124,8 +2094,8 @@ class Model():
       month_evaluate += 1
       if month_evaluate > 11:
         month_evaluate = 0
-      expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/days_in_month[month_evaluate]
-      expected_inflow = expected_pumping['gains'][month_evaluate]/days_in_month[month_evaluate]
+      expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[month_evaluate]
+      expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[month_evaluate]
       expected_untaxed += (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
       expected_taxed += (expected_pumping['taxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
 
@@ -2135,9 +2105,9 @@ class Model():
       if month_evaluate == 3 or month_evaluate == 4:
         expected_inflow = 0.75
       #expected monthly change in san luis storage
-      net_monthly = (expected_inflow - expected_demands)*days_in_month[month_evaluate]
+      net_monthly = (expected_inflow - expected_demands)*self.days_in_month[month_evaluate]
       total_days_remaining += this_month_days
-      this_month_days = days_in_month[month_evaluate]
+      this_month_days = self.days_in_month[month_evaluate]
 
     return max(pumping_toggle, pumping_toggle_override), max(tax_free_toggle, tax_free_toggle_override), article21, numdays_fillup
       
@@ -2159,7 +2129,6 @@ class Model():
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         for y in urban_list:
           y.monthlydemand[wyt] = np.zeros(12)
-      dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 30, 60, 91]
       for key in ['swp', 'cvp']:
         for x in range(0, len(self.socal.hist_demand_dict[key]['annual_sorted'])):
           if projected_allocation[key] < self.socal.hist_demand_dict[key]['annual_sorted'][x]:
@@ -2171,7 +2140,7 @@ class Model():
           monthcounter = monthloop + 9
           if monthcounter > 11:
             monthcounter -= 12
-          this_month = dowy_md[monthcounter]
+          this_month = self.dowy_md[monthcounter]
           for wyt in ['W', 'AN', 'BN', 'D', 'C']:
             for y in urban_list:
               y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][last_month:this_month])*(projected_allocation[key]*y.urb_coef[key][0] + y.urb_coef[key][1])
@@ -2191,7 +2160,6 @@ class Model():
   def agg_contract_demands(self):
   #this function sums district demands by reservoir (i.e. - for each reservoir, the sum of the demand of all districts
   #with a contract that is held at that reservoir
-    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     for wyt in ['W', 'AN', 'BN', 'D', 'C']:
       for res in self.reservoir_list:
         res.monthly_demand[wyt] = np.zeros(12)
@@ -2211,15 +2179,15 @@ class Model():
           if use_reservoir == 1:
             for monthcounter in range(0,12):
               if x.must_fill == 1:
-                res.monthly_demand_must_fill[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*days_in_month[monthcounter]
+                res.monthly_demand_must_fill[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*self.days_in_month[monthcounter]
               else:
-                res.monthly_demand[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*days_in_month[monthcounter]*demand_fraction
+                res.monthly_demand[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*self.days_in_month[monthcounter]*demand_fraction
         total_capacity = 0.0
         for canal_to_reservoir in self.reservoir_canal[res.key]:
           total_capacity += canal_to_reservoir.capacity['normal'][0]
         for monthcounter in range(0,12):
-          if res.monthly_demand[wyt][monthcounter] > total_capacity*cfs_tafd*days_in_month[monthcounter]:
-            res.monthly_demand[wyt][monthcounter]  = total_capacity*cfs_tafd*days_in_month[monthcounter]
+          if res.monthly_demand[wyt][monthcounter] > total_capacity*cfs_tafd*self.days_in_month[monthcounter]:
+            res.monthly_demand[wyt][monthcounter]  = total_capacity*cfs_tafd*self.days_in_month[monthcounter]
               			  
   def appropriate_carryover(self, forgone, key, wateryear):
     #if pumping is turned 'off' because of san luis storage conditions,
@@ -2469,8 +2437,7 @@ class Model():
     #releases from the flood pool, or in anticipation of the flood releases
     #'anticipation' releases are only made if they are at least as large as the
 	#total recharge capacity at the reservoir
-    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    monthdays = days_in_month[m-1]
+    monthdays = self.days_in_month[m-1]
     if reservoir.key == "SLS" or reservoir.key == "SLF":
       begin_key = "SNL"
     else:
@@ -3471,9 +3438,7 @@ class Model():
         x.project_contract['tableA'] = x.table_a_request/self.swpdelta.total
     
   def update_regulations_north(self,t,dowy):
-    y = self.current_year[t]
-    m = self.current_month[t]
-    days_in_month = [31.0, 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0]
+    y = self.year[t]
 
 	##Yuba River Accord, started in Jan of 2006 (repaces minimum flow requirements)
     if y >= 2006:
@@ -3497,11 +3462,11 @@ class Model():
           #outflow ratio 
           #tax_free_pumping = (self.delta.min_outflow[wyt][x]*cfs_tafd - self.delta.expected_depletion[x])*((1/(1-self.#delta.export_ratio[wyt][x]))-1)
           #if tax_free_pumping*0.55 > pump_max_cvp:
-            #self.delta.max_tax_free[wyt]['cvp'][0] += pump_max_cvp*days_in_month[x]
-            #self.delta.max_tax_free[wyt]['swp'][0] += min(tax_free_pumping - pump_max_cvp, pump_max_swp)*days_in_month[x]
+            #self.delta.max_tax_free[wyt]['cvp'][0] += pump_max_cvp*self.days_in_month[x]
+            #self.delta.max_tax_free[wyt]['swp'][0] += min(tax_free_pumping - pump_max_cvp, pump_max_swp)*self.days_in_month[x]
           #else:
-            #self.delta.max_tax_free[wyt]['cvp'][0] += tax_free_pumping*days_in_month[x]*0.55
-            #self.delta.max_tax_free[wyt]['swp'][0] += tax_free_pumping*days_in_month[x]*0.45
+            #self.delta.max_tax_free[wyt]['cvp'][0] += tax_free_pumping*self.days_in_month[x]*0.55
+            #self.delta.max_tax_free[wyt]['swp'][0] += tax_free_pumping*self.days_in_month[x]*0.45
 
       #for x in range(0,365):
         #if x > 92 and x < 274:
@@ -3592,19 +3557,11 @@ class Model():
       return (x,)
 	  	  
   def proj_gains(self,t):
-    startYear = self.starting_year
-    d = self.current_day_year[t]
-    y = self.current_year[t]
-    m = self.current_month[t]
-    dowy = self.current_dowy[t]
+    dowy = self.dowy[t]
     tot_sac_fnf = 0.0
     tot_sj_fnf = 0.0
     proj_surplus = np.zeros(12)
     proj_omr = np.zeros(12)
-    if m >= 10:
-      wateryear = y - startYear
-    else:
-      wateryear = y - startYear - 1
     for reservoir in [self.shasta, self.oroville, self.yuba, self.folsom]:
       if t < 30:
         tot_sac_fnf += np.sum(reservoir.fnf[0:t])*30.0/(t+1)
@@ -3618,7 +3575,7 @@ class Model():
 
     for x in range(0, 12):
       proj_surplus[x] = max(self.delta_gains_regression['slope'][dowy][x]*min(tot_sac_fnf,4.0) + self.delta_gains_regression['intercept'][dowy][x], 0.0)
-      proj_omr[x] = (self.delta.omr_regression['slope'][dowy][x]*tot_sj_fnf + self.delta.omr_regression['intercept'][dowy][x] + 5000.0*cfs_tafd*days_in_month[x])/0.94
+      proj_omr[x] = (self.delta.omr_regression['slope'][dowy][x]*tot_sj_fnf + self.delta.omr_regression['intercept'][dowy][x] + 5000.0*cfs_tafd*self.days_in_month[x])/0.94
 	  
     expected_pumping = {}
     expected_pumping['cvp'] = np.zeros(12)
@@ -3629,24 +3586,24 @@ class Model():
 
 
     for monthloop in range(0,12):
-      if proj_surplus[monthloop]*0.55 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop]:
-        expected_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop]
-        expected_pumping['swp'][monthloop] = min(self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop], proj_surplus[monthloop] - self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop])
+      if proj_surplus[monthloop]*0.55 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop]:
+        expected_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop]
+        expected_pumping['swp'][monthloop] = min(self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop], proj_surplus[monthloop] - self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop])
       else:
         expected_pumping['cvp'][monthloop] = proj_surplus[monthloop]*0.55
         expected_pumping['swp'][monthloop] = proj_surplus[monthloop]*0.45
 		
       if monthloop < 6:
-        if proj_omr[monthloop]*0.5 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop]:
-          max_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop]
-          max_pumping['swp'][monthloop] = min(self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop], proj_omr[monthloop] - self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop])
+        if proj_omr[monthloop]*0.5 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop]:
+          max_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop]
+          max_pumping['swp'][monthloop] = min(self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop], proj_omr[monthloop] - self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop])
         else:
           max_pumping['cvp'][monthloop] = proj_omr[monthloop]*0.5
           max_pumping['swp'][monthloop] = proj_omr[monthloop]*0.5
 		  
       else:
-        max_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop]
-        max_pumping['swp'][monthloop] = self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*days_in_month[monthloop]
+        max_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop]
+        max_pumping['swp'][monthloop] = self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*self.days_in_month[monthloop]
 
     return expected_pumping, max_pumping
 
