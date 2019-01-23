@@ -49,8 +49,8 @@ if model_mode == 'simulation' or model_mode == 'validation':
   # Model Class Initialization
   ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
   ##
-  modelno = Model(input_data_file, expected_release_datafile, sd, short_test, model_mode)
-  modelso = Model(input_data_file, expected_release_datafile, sd, short_test, model_mode)
+  modelno = Model(input_data_file, expected_release_datafile, sd, model_mode)
+  modelso = Model(input_data_file, expected_release_datafile, sd, model_mode)
   modelso.max_tax_free = {}
   modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
   modelso.southern_initialization_routine(startTime)
@@ -58,7 +58,10 @@ if model_mode == 'simulation' or model_mode == 'validation':
   ######################################################################################
   ###Model Simulation
   ######################################################################################
-  timeseries_length = min(modelno.T, modelso.T)
+  if (short_test < 0):
+    timeseries_length = min(modelno.T, modelso.T)
+  else:
+    timeseries_length = short_test
   ###initial parameters for northern model input
   ###generated from southern model at each timestep
   swp_release = 1
@@ -105,16 +108,18 @@ else:
       # Model Class Initialization
       ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
       ##
-      modelno = Model(input_data_file, expected_release_datafile, sd, short_test, model_mode)
-      modelso = Model(input_data_file, expected_release_datafile, sd, short_test, model_mode)
+      modelno = Model(input_data_file, expected_release_datafile, sd, model_mode)
+      modelso = Model(input_data_file, expected_release_datafile, sd, model_mode)
       modelso.max_tax_free = {}
       modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
       modelso.southern_initialization_routine(startTime)
       ######################################################################################
       ###Model Simulation
       ######################################################################################
-      timeseries_length = min(modelno.T, modelso.T)
-      ###initial parameters for northern model input
+      if (short_test < 0):
+        timeseries_length = min(modelno.T, modelso.T)
+      else:
+        timeseries_length = short_test      ###initial parameters for northern model input
       ###generated from southern model at each timestep
       swp_release = 1
       cvp_release = 1

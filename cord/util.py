@@ -22,3 +22,9 @@ def water_day(d, y):
     if dowy[i] > 364:
       dowy[i] = 364
   return dowy
+
+def water_year(month, year, startYear):
+  wy = np.empty(len(year), dtype=int)
+  wy[month >= 10] = year[month >= 10] - startYear
+  wy[month < 10] = year[month < 10] - startYear - 1
+  return wy
