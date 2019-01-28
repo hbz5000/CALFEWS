@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 ### Script for reading, cleaning, organizing SWP delivery data, to be compared with modeled deliveries
 # Read data ~~NOTE: before running this, save xlsx as csv, then manually fix column names by removing lead/trail whitespace, and replacing spaces between words with _
-deliveries = pd.read_csv("cord/data/SWP_delivery_data_2000_2018.csv")
+deliveries = pd.read_csv("cord/data/input/SWP_delivery_data_2000_2018.csv")
 
 # Clean white space, etc
 deliveries.To_Reach = deliveries.To_Reach.apply(lambda x: x.replace(' ',''))

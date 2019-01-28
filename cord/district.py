@@ -15,7 +15,7 @@ class District():
     self.number_years = df.index.year[-1]-df.index.year[0]
     self.key = key
     self.days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    self.dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 30, 60, 91]
+    self.dowy_eom = [122, 150, 181, 211, 242, 272, 303, 334, 364, 30, 60, 91]
 
     for k,v in json.load(open('cord/districts/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -174,16 +174,16 @@ class District():
     self.ytd_pumping[wateryear] += self.dailydemand
     self.annualdemand = self.annual_pumping[wateryear] - self.ytd_pumping[wateryear]
     if m == 10 and da == 1:      
-      last_month = 0
+      start_of_month = 0
 	  ###Divide aqueduct branch pumping into 'monthly demands'
       for monthloop in range(0,12):
         monthcounter = monthloop + 9
         if monthcounter > 11:
           monthcounter -= 12
-        this_month = self.dowy_md[monthcounter]
+        start_next_month = self.dowy_eom[monthcounter] + 1
         for wyt in ['W', 'AN', 'BN', 'D', 'C']:
-          self.monthlydemand[wyt][monthcounter] = np.mean(self.pumping[(t + last_month):(t + this_month)])/1000.0
-        last_month = this_month + 1
+          self.monthlydemand[wyt][monthcounter] = np.mean(self.pumping[(t + start_of_month):(t + start_next_month)])/1000.0
+        start_of_month = start_next_month
 
 		
 #####################################################################################################################

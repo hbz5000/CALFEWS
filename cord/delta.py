@@ -628,34 +628,34 @@ class Delta():
 	
     return cvp_max, swp_max
    	  
-  def find_release_flood_prep(self, m, dowy, proj_surplus, numdays, min_release, key):
-    dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 31, 60, 91]
-    month_evaluate = m - 1
-    if numdays < 366.0:
-      numday_counter = numdays
-      this_month_days = dowy_md[month_evaluate] - dowy
-      total_gains = 0.0
-      gains_before_spill = proj_surplus[key][month_evaluate]*max(this_month_days,numdays)/self.days_in_month[month_evaluate]
-      numday_counter -= this_month_days
-      month_evaluate += 1
-      while numday_counter > 0:
-        if month_evaluate > 11:
-          month_evaluate -= 12
-        gains_before_spill = proj_surplus[key][month_evaluate]*min(numday_counter/self.days_in_month[month_evaluate], 1.0)
-        numday_counter -= self.days_in_month[month_evaluate]
-        month_evaluate += 1
-      if numdays < 7.0:
-        average_gains = self.pump_max[key]['intake_limit'][0]*cfs_tafd
-      else:
-        average_gains = proj_surplus[key][m-1]/self.days_in_month[m-1]
-      if average_gains + min_release > self.pump_max[key]['intake_limit'][0]*cfs_tafd:
-        flood_prep_release = 1.0
-      else:
-        flood_prep_release = 0.0
-    else:
-      flood_prep_release = 0.0
-    
-    return flood_prep_release
+  # def find_release_flood_prep(self, m, dowy, proj_surplus, numdays, min_release, key):
+  #   dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 31, 60, 91]
+  #   month_evaluate = m - 1
+  #   if numdays < 366.0:
+  #     numday_counter = numdays
+  #     this_month_days = dowy_md[month_evaluate] - dowy
+  #     total_gains = 0.0
+  #     gains_before_spill = proj_surplus[key][month_evaluate]*max(this_month_days,numdays)/self.days_in_month[month_evaluate]
+  #     numday_counter -= this_month_days
+  #     month_evaluate += 1
+  #     while numday_counter > 0:
+  #       if month_evaluate > 11:
+  #         month_evaluate -= 12
+  #       gains_before_spill = proj_surplus[key][month_evaluate]*min(numday_counter/self.days_in_month[month_evaluate], 1.0)
+  #       numday_counter -= self.days_in_month[month_evaluate]
+  #       month_evaluate += 1
+  #     if numdays < 7.0:
+  #       average_gains = self.pump_max[key]['intake_limit'][0]*cfs_tafd
+  #     else:
+  #       average_gains = proj_surplus[key][m-1]/self.days_in_month[m-1]
+  #     if average_gains + min_release > self.pump_max[key]['intake_limit'][0]*cfs_tafd:
+  #       flood_prep_release = 1.0
+  #     else:
+  #       flood_prep_release = 0.0
+  #   else:
+  #     flood_prep_release = 0.0
+  #
+  #   return flood_prep_release
 
   def find_release(self, t, m, dowy, cvp_max, swp_max, cvpAS, swpAS, cvp_release, swp_release, proj_surplus, max_pumping):
   ###This function looks at how much water is available in storage & snowpack to be exported,

@@ -44,8 +44,9 @@ class Model():
     self.short_water_year = water_year(self.short_month, self.short_year, self.short_starting_year)
 
     self.days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    self.dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 30, 60, 91]
-    self.dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91]
+    # self.dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 30, 60, 91]
+    # self.dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91]
+    self.dowy_eom = [122, 150, 181, 211, 242, 272, 303, 334, 364, 30, 60, 91]
 
   #####################################################################################################################
 #############################     Object Creation     ###############################################################
@@ -1958,8 +1959,9 @@ class Model():
     
       #if month_evaluate > 8:
       for monthloop in range(0, 12):
-        start_m = self.dowy_eom[monthloop] - self.days_in_month[monthloop] + 1
-        end_m = self.dowy_eom[monthloop]
+        # max_tax_free starts with total max_tax_free for water year at index 0, then amount left after day 0 in index 1, etc. So total_tax_free for October is index 0 minus index[31], November is [31]-[61],...
+        start_m = np.where(self.dowy_eom[monthloop-1] < 364, self.dowy_eom[monthloop-1] + 1, 0)
+        end_m = self.dowy_eom[monthloop] + 1
         total_tax_free = max_tax_free[wyt][key][start_m] - max_tax_free[wyt][key][end_m]
 
           #if excess_storage[key] > total_taxed and dowy < self.dowy_eom[monthloop]:
@@ -2134,18 +2136,17 @@ class Model():
           if projected_allocation[key] < self.socal.hist_demand_dict[key]['annual_sorted'][x]:
             break
         self.k_close_wateryear[key] = self.socal.hist_demand_dict[key]['sorted_index'][x]
-        last_month = 0
+        start_of_month = 0
 	    ###Divide aqueduct branch pumping into 'monthly demands'
         for monthloop in range(0,12):
           monthcounter = monthloop + 9
           if monthcounter > 11:
             monthcounter -= 12
-          this_month = self.dowy_md[monthcounter]
+          start_next_month = self.dowy_eom[monthcounter] + 1
           for wyt in ['W', 'AN', 'BN', 'D', 'C']:
             for y in urban_list:
-              y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][last_month:this_month])*(projected_allocation[key]*y.urb_coef[key][0] + y.urb_coef[key][1])
-          last_month = this_month + 1
-          
+              y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][start_of_month:start_next_month])*(projected_allocation[key]*y.urb_coef[key][0] + y.urb_coef[key][1])
+          start_of_month = start_next_month
 
     for y in urban_list:
       y.dailydemand = 0.0

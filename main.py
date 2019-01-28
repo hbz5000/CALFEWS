@@ -119,7 +119,8 @@ else:
       if (short_test < 0):
         timeseries_length = min(modelno.T, modelso.T)
       else:
-        timeseries_length = short_test      ###initial parameters for northern model input
+        timeseries_length = short_test
+      ###initial parameters for northern model input
       ###generated from southern model at each timestep
       swp_release = 1
       cvp_release = 1

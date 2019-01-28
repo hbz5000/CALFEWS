@@ -31,7 +31,8 @@ class Reservoir():
     self.short_water_year = water_year(self.short_month, self.short_year, self.short_starting_year)
 
     self.days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    self.dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 31, 60, 91]
+    self.dowy_eom = [122, 150, 181, 211, 242, 272, 303, 334, 364, 30, 60, 91]
+
     self.days_through_month = [60, 91, 122, 150, 181]
     self.hist_wyt = ['W', 'W', 'W', 'AN', 'D', 'D', 'AN', 'BN', 'AN', 'W', 'D', 'C', 'D', 'BN', 'W', 'BN', 'D', 'C', 'C', 'AN']
 
@@ -295,17 +296,17 @@ class Reservoir():
 	
 	
   def find_flow_pumping(self, t, m, dowy, wyt, release):
-    projection_length = 15
-    first_of_month_shift = dowy - (1 + self.dowy_md[m-1] - self.days_in_month[m-1])
+    # projection_length = 15
+    # first_of_month_shift = dowy - (1 + self.dowy_eom[m-1] - self.days_in_month[m-1])
 	###This function allows us to predict, at a monthly step, how much
     ###flow might come into the reservoir, and the rate at which we will
     ###have to release it, starting right now, in order to avoid spilling water
     ###from flood control rules.  This considers the variable inflow over time but
     ###also the variable flood control rules over time
-    if t < projection_length:
-      flow_range = range(0,projection_length)
-    else:
-      flow_range = range(t-projection_length, t)
+    # if t < projection_length:
+    #   flow_range = range(0,projection_length)
+    # else:
+    #   flow_range = range(t-projection_length, t)
 	  
     current_storage = self.S[t]#starting storage
     running_storage = current_storage#storage after each (monthly) timestep
@@ -315,7 +316,6 @@ class Reservoir():
     self.numdays_fillup[release] = 999.99#number of days until reservoir fills
 	
     this_month_flow = 0.0#period-to-date flow (for calculating monthly distribution)
-    block_start = dowy          
     cross_counter = 0
     for month_counter in range(0,12):
       month_evaluate = m - 1 + month_counter
@@ -355,45 +355,45 @@ class Reservoir():
 	  #running tally of total flow in the month
       this_month_flow += month_flow_int
       #current month start dowy
-      start_of_month = self.dowy_md[month_evaluate] - self.days_in_month[month_evaluate]
-	  #current month end dowy
-      block_end = self.dowy_md[month_evaluate]
+      start_of_month = self.dowy_eom[month_evaluate] - self.days_in_month[month_evaluate] + 1
+      block_start = np.where(month_counter == 0, dowy, start_of_month)
+      #current month end dowy
+      block_end = self.dowy_eom[month_evaluate]
 	  #what are the mandatory releases between now and the end of this month?
       if release == 'demand':
         total_mandatory_releases = self.monthly_demand[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate]
       elif release == 'env':
-        total_mandatory_releases = self.cum_min_release[wyt][start_of_month] - self.cum_min_release[wyt][block_end] + self.aug_sept_min_release[wyt][start_of_month] - self.aug_sept_min_release[wyt][block_end]
+        # Note: cum_min_release is indexed 0 (for cum total before year starts), 1 for min release left after subtracting first day, ..., to 366 after last day. So for each month, we want the end of this month minus end of last month, indexed +1
+        total_mandatory_releases = self.cum_min_release[wyt][start_of_month] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][start_of_month] - self.aug_sept_min_release[wyt][block_end+1]
       #expected change in reservoir storage
       reservoir_change_rate = (month_flow_int - total_mandatory_releases)/self.days_in_month[month_evaluate]
 	  
       #flood control pool at start and end of the month
-      storage_cap_start, max_cap_start = self.current_tocs(block_start,self.fci[t])
+      storage_cap_start, max_cap_start = self.current_tocs(np.where(block_start > 0, block_start - 1, 364) ,self.fci[t])
       storage_cap_end, max_cap_end = self.current_tocs(block_end, self.fci[t])
       eom_storage = running_storage      
       crossover_date = 0.0
-      if (block_end - block_start + next_year) > 0.0:
-		
-        #expected storage at the end of the month
-        eom_storage = running_storage + reservoir_change_rate*(block_end - block_start + next_year)
-        if eom_storage > storage_cap_end:
-          #rate of release to avoid flood pool
-          this_month_min_release = (eom_storage - storage_cap_end ) / (block_end + cross_counter*365 - dowy)
-          #volume of water over the flood pool, no release
-          total_min_release = eom_storage - storage_cap_end
-          differential_storage_change = reservoir_change_rate - (storage_cap_end - storage_cap_start)/(block_end - block_start + next_year)
-          if storage_cap_start > running_storage:
-            crossover_date = (storage_cap_start - running_storage)/differential_storage_change
-          else:
-            crossover_date = 0.0
-          numdays_fillup = block_start + crossover_date + cross_counter*365 - dowy
-		  
-		  #total volume & rate are the maximum monthly value over the next 12 months
-          self.min_daily_uncontrolled = max(this_month_min_release, self.min_daily_uncontrolled)
-          self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
-          self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
-        
+
+      #expected storage at the end of the month
+      eom_storage = running_storage + reservoir_change_rate*(block_end - block_start + 1 + next_year)
+      if eom_storage > storage_cap_end:
+        #rate of release to avoid flood pool
+        this_month_min_release = (eom_storage - storage_cap_end ) / (block_end + 1 + cross_counter*365 - dowy)
+        #volume of water over the flood pool, no release
+        total_min_release = eom_storage - storage_cap_end
+        differential_storage_change = reservoir_change_rate - (storage_cap_end - storage_cap_start)/(block_end - block_start + 1 + next_year)
+        if storage_cap_start > running_storage:
+          crossover_date = (storage_cap_start - running_storage)/differential_storage_change
+        else:
+          crossover_date = 0.0
+        numdays_fillup = block_start + crossover_date + cross_counter*365 - dowy
+
+        #total volume & rate are the maximum monthly value over the next 12 months
+        self.min_daily_uncontrolled = max(this_month_min_release, self.min_daily_uncontrolled)
+        self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
+        self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
+
       running_storage = eom_storage    			
-      block_start = block_end
 
   def current_tocs(self,d,ix):
   ##Interpolates rules from tocs_rule in *_properties.json file to get the top of the conservation
@@ -579,7 +579,6 @@ class Reservoir():
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][0]
 	
   def create_flow_shapes(self, df_short):
-    dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91] 
     flow_series = df_short['%s_inf'% self.key].values * cfs_tafd
     fnf_series = df_short['%s_fnf'% self.key].values / 1000000.0
     startYear = self.short_year[0]
@@ -614,7 +613,7 @@ class Reservoir():
       #regress for gains in oct-mar period and april-jul period
       coef_save = np.zeros((12,2))
       for mm in range(0,12):
-        if x <= dowy_eom[mm]:
+        if x <= self.dowy_eom[mm]:
           one_year_runfnf = running_fnf[x]
           monthly_flow_predict = monthly_flow[mm]
         else:
@@ -639,7 +638,7 @@ class Reservoir():
       if self.key == "XXX":
         for mm in range(0,12):
           ax1 = fig.add_subplot(4,3,mm+1)
-          if x <= dowy_eom[mm]:
+          if x <= self.dowy_eom[mm]:
             monthly_flow_predict = monthly_flow[mm]
             one_year_runfnf = running_fnf[x]
           else:
