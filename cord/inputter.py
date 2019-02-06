@@ -31,6 +31,13 @@ class Inputter():
         self.dowy = water_day(self.day_year, self.year)
         self.water_year = water_year(self.month, self.year, self.starting_year)
 
+        self.leap = leap(np.arange(min(self.year), max(self.year) + 2))
+        year_list = np.arange(min(self.year), max(self.year) + 2)
+        self.days_in_month = days_in_month(year_list, self.leap)
+        self.dowy_eom = dowy_eom(year_list, self.leap)
+        self.non_leap_year = first_non_leap_year(self.dowy_eom)
+        self.leap_year = first_leap_year(self.dowy_eom)
+
         self.shasta = Reservoir(self.df, self.df_short, 'SHA', model_mode)
         self.folsom = Reservoir(self.df, self.df_short, 'FOL', model_mode)
         self.oroville = Reservoir(self.df, self.df_short, 'ORO', model_mode)
@@ -58,8 +65,6 @@ class Inputter():
                                self.newhogan, self.pardee, self.consumnes]
         self.data_type_list = ['fnf', 'inf', 'otf', 'gains', 'evap', 'precip', 'fci']
         self.monthlist = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
-        self.days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-        self.days_in_month_leap = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
         self.delta_list = ['SAC', 'SJ', 'EAST', 'depletions', 'CCC', 'BRK']
 
@@ -78,7 +83,7 @@ class Inputter():
         self.add_error(number_years, 'XXX')
         self.add_error_delta(number_years, 'XXX')
         print('Print ORCA Inputs: ' + file_name)
-        self.make_daily_timeseries(number_years, '1/1/1950', '12/31/2099', 1950, 'XXX', file_folder, file_name)
+        self.make_daily_timeseries(number_years, '1/1/1950', '12/31/2099', 1950, first_leap, 'XXX', file_folder, file_name)
 
     def initialize_reservoirs(self):
         for x in self.reservoir_list:
@@ -105,7 +110,7 @@ class Inputter():
                 monthcounter = 0
                 for monthname in self.monthlist:
                     x.monthly[data_type]['daily'][monthname] = np.zeros(
-                        (self.number_years, self.days_in_month[monthcounter]))
+                        (self.number_years, self.days_in_month[self.non_leap_year][monthcounter]))
                     monthcounter += 1
                 x.snowpack = {}
                 x.snowpack['max'] = np.zeros(self.number_years)
@@ -141,7 +146,7 @@ class Inputter():
             monthcounter = 0
             for monthname in self.monthlist:
                 self.monthly[deltaname]['daily'][monthname] = np.zeros(
-                    (self.number_years, self.days_in_month[monthcounter]))
+                    (self.number_years, self.days_in_month[self.non_leap_year][monthcounter]))
                 monthcounter += 1
 
     def generate_relationships(self, plot_key):
@@ -149,6 +154,8 @@ class Inputter():
             m = self.month[t]
             da = self.day_month[t]
             wateryear = self.water_year[t]
+            year = self.year[t] - self.starting_year
+
             if da == 29 and m == 2:
                 da = 28
             for x in self.reservoir_list:
@@ -157,7 +164,7 @@ class Inputter():
                 x.monthly['gains']['flows'][m - 1][wateryear] += x.downstream[t]
                 x.monthly['evap']['flows'][m - 1][wateryear] += x.E[t]
                 x.monthly['precip']['flows'][m - 1][wateryear] += x.precip[t]
-                x.monthly['fci']['flows'][m - 1][wateryear] += x.fci[t] / self.days_in_month[m - 1]
+                x.monthly['fci']['flows'][m - 1][wateryear] += x.fci[t] / self.days_in_month[year][m - 1]
                 x.monthly['otf']['flows'][m - 1][wateryear] += self.df['%s_otf' % x.key].iloc[t] * cfs_tafd
 
                 x.monthly['fnf']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += x.fnf[t] * 1000.0
@@ -175,38 +182,38 @@ class Inputter():
                 x.monthly[data_type]['sort_index'] = np.zeros((12, self.number_years))
                 monthcounter = 0
                 for monthname in self.monthlist:
-                    for yearnum in range(0, self.number_years):
+                    for wateryearnum in range(0, self.number_years):
                         if any(positive_nums > 0.0 for positive_nums in
-                               x.monthly[data_type]['daily'][monthname][yearnum]) and any(
+                               x.monthly[data_type]['daily'][monthname][wateryearnum]) and any(
                                 negative_nums < 0.0 for negative_nums in
-                                x.monthly[data_type]['daily'][monthname][yearnum]):
-                            if x.monthly[data_type]['flows'][monthcounter][yearnum] > 0.0:
-                                x.monthly[data_type]['baseline_value'][monthcounter][yearnum] = np.min(
-                                    x.monthly[data_type]['daily'][monthname][yearnum])
+                                x.monthly[data_type]['daily'][monthname][wateryearnum]):
+                            if x.monthly[data_type]['flows'][monthcounter][wateryearnum] > 0.0:
+                                x.monthly[data_type]['baseline_value'][monthcounter][wateryearnum] = np.min(
+                                    x.monthly[data_type]['daily'][monthname][wateryearnum])
                             else:
-                                x.monthly[data_type]['baseline_value'][monthcounter][yearnum] = np.max(
-                                    x.monthly[data_type]['daily'][monthname][yearnum])
+                                x.monthly[data_type]['baseline_value'][monthcounter][wateryearnum] = np.max(
+                                    x.monthly[data_type]['daily'][monthname][wateryearnum])
                         else:
-                            x.monthly[data_type]['baseline_value'][monthcounter][yearnum] = 0.0
-                        for daynum in range(0, len(x.monthly[data_type]['daily'][monthname][yearnum])):
-                            if np.power(x.monthly[data_type]['flows'][monthcounter][yearnum], 2) > 0.0:
-                                x.monthly[data_type]['daily'][monthname][yearnum][daynum] = (x.monthly[data_type][
+                            x.monthly[data_type]['baseline_value'][monthcounter][wateryearnum] = 0.0
+                        for daynum in range(0, len(x.monthly[data_type]['daily'][monthname][wateryearnum])):
+                            if np.power(x.monthly[data_type]['flows'][monthcounter][wateryearnum], 2) > 0.0:
+                                x.monthly[data_type]['daily'][monthname][wateryearnum][daynum] = (x.monthly[data_type][
                                                                                                  'daily'][monthname][
-                                                                                                 yearnum][daynum] -
+                                                                                                 wateryearnum][daynum] -
                                                                                              x.monthly[data_type][
                                                                                                  'baseline_value'][
                                                                                                  monthcounter][
-                                                                                                 yearnum]) / (x.monthly[
+                                                                                                 wateryearnum]) / (x.monthly[
                                                                                                                   data_type][
                                                                                                                   'flows'][
                                                                                                                   monthcounter][
-                                                                                                                  yearnum] -
+                                                                                                                  wateryearnum] -
                                                                                                               x.monthly[
                                                                                                                   data_type][
                                                                                                                   'baseline_value'][
                                                                                                                   monthcounter][
-                                                                                                                  yearnum] *
-                                                                                                              self.days_in_month[
+                                                                                                                  wateryearnum] *
+                                                                                                              self.days_in_month[wateryearnum+1][
                                                                                                                   monthcounter])
                     monthcounter += 1
                 for monthcounter in range(0, 12):
@@ -361,39 +368,39 @@ class Inputter():
             self.monthly[deltaname]['sorted'] = np.zeros((12, self.number_years))
             self.monthly[deltaname]['sort_index'] = np.zeros((12, self.number_years))
             for monthname in self.monthlist:
-                for yearnum in range(0, self.number_years):
+                for wateryearnum in range(0, self.number_years):
                     if any(positive_nums > 0.0 for positive_nums in
-                           self.monthly[deltaname]['daily'][monthname][yearnum]) and any(
+                           self.monthly[deltaname]['daily'][monthname][wateryearnum]) and any(
                             negative_nums < 0.0 for negative_nums in
-                            self.monthly[deltaname]['daily'][monthname][yearnum]):
-                        if self.monthly[deltaname]['gains'][monthcounter][yearnum] > 0.0:
-                            self.monthly[deltaname]['baseline_value'][monthcounter][yearnum] = np.min(
-                                self.monthly[deltaname]['daily'][monthname][yearnum])
+                            self.monthly[deltaname]['daily'][monthname][wateryearnum]):
+                        if self.monthly[deltaname]['gains'][monthcounter][wateryearnum] > 0.0:
+                            self.monthly[deltaname]['baseline_value'][monthcounter][wateryearnum] = np.min(
+                                self.monthly[deltaname]['daily'][monthname][wateryearnum])
                         else:
-                            self.monthly[deltaname]['baseline_value'][monthcounter][yearnum] = np.max(
-                                self.monthly[deltaname]['daily'][monthname][yearnum])
+                            self.monthly[deltaname]['baseline_value'][monthcounter][wateryearnum] = np.max(
+                                self.monthly[deltaname]['daily'][monthname][wateryearnum])
                     else:
-                        self.monthly[deltaname]['baseline_value'][monthcounter][yearnum] = 0.0
-                    for daynum in range(0, len(self.monthly[deltaname]['daily'][monthname][yearnum])):
-                        if np.power(self.monthly[deltaname]['gains'][monthcounter][yearnum], 2) > 0.0:
-                            self.monthly[deltaname]['daily'][monthname][yearnum][daynum] = (self.monthly[deltaname][
+                        self.monthly[deltaname]['baseline_value'][monthcounter][wateryearnum] = 0.0
+                    for daynum in range(0, len(self.monthly[deltaname]['daily'][monthname][wateryearnum])):
+                        if np.power(self.monthly[deltaname]['gains'][monthcounter][wateryearnum], 2) > 0.0:
+                            self.monthly[deltaname]['daily'][monthname][wateryearnum][daynum] = (self.monthly[deltaname][
                                                                                                 'daily'][monthname][
-                                                                                                yearnum][daynum] -
+                                                                                                wateryearnum][daynum] -
                                                                                             self.monthly[deltaname][
                                                                                                 'baseline_value'][
                                                                                                 monthcounter][
-                                                                                                yearnum]) / (
+                                                                                                wateryearnum]) / (
                                                                                                        self.monthly[
                                                                                                            deltaname][
                                                                                                            'gains'][
                                                                                                            monthcounter][
-                                                                                                           yearnum] -
+                                                                                                           wateryearnum] -
                                                                                                        self.monthly[
                                                                                                            deltaname][
                                                                                                            'baseline_value'][
                                                                                                            monthcounter][
-                                                                                                           yearnum] *
-                                                                                                       self.days_in_month[
+                                                                                                           wateryearnum] *
+                                                                                                       self.days_in_month[wateryearnum+1][
                                                                                                            monthcounter])
                 monthcounter += 1
             for monthcounter in range(0, 12):
@@ -704,11 +711,11 @@ class Inputter():
 
     def read_new_fnf_data(self, filename, timestep_length, start_month, first_leap_year, numYears):
         monthcount = start_month - 1
-        thismonthday = self.days_in_month[monthcount]
         daycount = 0
         yearcount = 0
-        leap_year_trigger = first_leap_year
-        leapcount = 1
+        thismonthday = np.where(first_leap_year == 0, self.days_in_month[self.leap_year][monthcount],
+                                self.days_in_month[self.non_leap_year][monthcount])
+        leapcount = 0
         self.fnf_df = pd.read_csv(filename)
         for reservoir in self.reservoir_list:
             reservoir.fnf_new = self.fnf_df['%s_fnf' % reservoir.key].values * cfs_tafd
@@ -732,12 +739,12 @@ class Inputter():
                     monthcount = 0
                     yearcount += 1
                     leapcount += 1
-                    if leapcount == 5:
-                        leapcount = 1
+                    if leapcount == 4:
+                        leapcount = 0
                 if leapcount == first_leap_year:
-                    thismonthday = self.days_in_month_leap[monthcount]
+                    thismonthday = self.days_in_month[self.leap_year][monthcount]
                 else:
-                    thismonthday = self.days_in_month[monthcount]
+                    thismonthday = self.days_in_month[self.non_leap_year][monthcount]
 
         self.monthly_new = {}
         for deltaname in self.delta_list:
@@ -851,9 +858,9 @@ class Inputter():
     def make_fnf_prediction(self, numYears, plot_key):
         for reservoir in self.reservoir_list:
             reservoir.snowpack['pred_max'] = np.zeros(numYears)
-            for yearnum in range(0, numYears):
-                reservoir.snowpack['pred_max'][yearnum] = reservoir.snowpack['coef'][1] + reservoir.snowpack['coef'][
-                    0] * reservoir.snowpack['new_melt_fnf'][yearnum]
+            for wateryearnum in range(0, numYears):
+                reservoir.snowpack['pred_max'][wateryearnum] = reservoir.snowpack['coef'][1] + reservoir.snowpack['coef'][
+                    0] * reservoir.snowpack['new_melt_fnf'][wateryearnum]
             if plot_key == reservoir.key:
                 fig = plt.figure()
                 gs = gridspec.GridSpec(2, 1)
@@ -1077,7 +1084,7 @@ class Inputter():
                 plt.show()
                 plt.close()
 
-    def make_daily_timeseries(self, numYears, start_date, end_date, start_year, plot_key, file_folder, file_name):
+    def make_daily_timeseries(self, numYears, start_date, end_date, start_year, first_leap, plot_key, file_folder, file_name):
         dates_for_output = pd.date_range(start=start_date, end=end_date, freq='D')
         output_day_year = dates_for_output.dayofyear
         output_year = dates_for_output.year
@@ -1103,6 +1110,8 @@ class Inputter():
             yearcounter = output_year[t] - start_year
             daycounter = output_day_month[t] - 1
             dowy = output_dowy[t]
+            is_leap = (yearcounter % 4 == first_leap)
+            year_leap_non_leap = np.where(is_leap, self.leap_year, self.non_leap_year)
 
             if monthcounter == 1 and daycounter == 28:
                 daycounter = 27
@@ -1121,7 +1130,7 @@ class Inputter():
                                                                  reservoir.monthly[data_type]['baseline_value'][
                                                                      monthcounter][
                                                                      reservoir.k_close_wateryear[data_type]] *
-                                                                 self.days_in_month[monthcounter]) * \
+                                                                 self.days_in_month[year_leap_non_leap][monthcounter]) * \
                                                                 reservoir.monthly[data_type]['daily'][
                                                                     self.monthlist[monthcounter]][
                                                                     reservoir.k_close_wateryear[data_type]][
@@ -1158,7 +1167,7 @@ class Inputter():
                 self.daily_output_data[deltaname][t] = (self.monthly_new[deltaname]['gains'][monthcounter][
                                                             yearcounter] -
                                                         self.monthly[deltaname]['baseline_value'][monthcounter][
-                                                            self.k_close_wateryear[deltaname]] * self.days_in_month[
+                                                            self.k_close_wateryear[deltaname]] * self.days_in_month[year_leap_non_leap][
                                                             monthcounter]) * \
                                                        self.monthly[deltaname]['daily'][self.monthlist[monthcounter]][
                                                            self.k_close_wateryear[deltaname]][daycounter] + \

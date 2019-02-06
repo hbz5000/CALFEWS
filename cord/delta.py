@@ -29,8 +29,12 @@ class Delta():
     self.short_dowy = water_day(self.short_day_year, self.short_year)
     self.short_water_year = water_year(self.short_month, self.short_year, self.short_starting_year)
 
-    self.days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    self.dowy_eom = [123, 150, 181, 211, 242, 272, 303, 333, 364, 30, 60, 91]
+    self.leap = leap(np.arange(min(self.year), max(self.year) + 2))
+    year_list = np.arange(min(self.year), max(self.year) + 2)
+    self.days_in_month = days_in_month(year_list, self.leap)
+    self.dowy_eom = dowy_eom(year_list, self.leap)
+    self.non_leap_year = first_non_leap_year(self.dowy_eom)
+
 
     self.key = key
     self.forecastSCWYT = "AN"
@@ -125,6 +129,7 @@ class Delta():
     for t in range(1,self.T_short):
       m = self.short_month[t - 1]
       dowy = self.short_dowy[t - 1]
+      y = self.short_year[t - 1] - self.short_starting_year
       zone = int(np.interp(dowy, self.san_joaquin_min_flow['d'], self.san_joaquin_min_flow['zone']))
       total_depletion[m-1] += min(depletions_short[t], 0.0)
       num_obs_m[m-1] += 1
@@ -154,11 +159,11 @@ class Delta():
         #outflow ratio 
         tax_free_pumping = (self.min_outflow[wyt][x]*cfs_tafd - self.expected_depletion[x])*((1/(1-self.export_ratio[wyt][x]))-1)
         if tax_free_pumping*0.55 > pump_max_cvp:
-          self.max_tax_free[wyt]['cvp'][0] += pump_max_cvp*self.days_in_month[x]
-          self.max_tax_free[wyt]['swp'][0] += min(tax_free_pumping - pump_max_cvp, pump_max_swp)*self.days_in_month[x]
+          self.max_tax_free[wyt]['cvp'][0] += pump_max_cvp*self.days_in_month[y][x]
+          self.max_tax_free[wyt]['swp'][0] += min(tax_free_pumping - pump_max_cvp, pump_max_swp)*self.days_in_month[y][x]
         else:
-          self.max_tax_free[wyt]['cvp'][0] += tax_free_pumping*self.days_in_month[x]*0.55
-          self.max_tax_free[wyt]['swp'][0] += tax_free_pumping*self.days_in_month[x]*0.45
+          self.max_tax_free[wyt]['cvp'][0] += tax_free_pumping*self.days_in_month[y][x]*0.55
+          self.max_tax_free[wyt]['swp'][0] += tax_free_pumping*self.days_in_month[y][x]*0.45
     for x in range(0,365):
       if x > 182 and x < 243:
         pump_max_cvp = 750.0*cfs_tafd
@@ -432,13 +437,13 @@ class Delta():
       fish_trigger_adj = np.interp(t, self.omr_reqr['t'], self.omr_reqr['adjustment']) * cfs_tafd
     elif dowy > 92 and dowy < 258:
       if self.fish_condition[t] < 0.05:
-        fish_trigger_adj = -2000.0
+        fish_trigger_adj = -2000.0 *cfs_tafd
       elif self.fish_condition[t] < 0.1:
-        fish_trigger_adj = -2500.0
+        fish_trigger_adj = -2500.0 *cfs_tafd
       elif self.fish_condition[t] < 0.15:
-        fish_trigger_adj = -3000.0
+        fish_trigger_adj = -3000.0 *cfs_tafd
       elif self.fish_condition[t] < 0.2:
-        fish_trigger_adj = -3500.0
+        fish_trigger_adj = -3500.0 *cfs_tafd
       else:
         fish_trigger_adj = -9999999.0
     else:
@@ -515,6 +520,7 @@ class Delta():
     m = self.month[t]
     wyt = self.forecastSCWYT
     dowy = self.dowy[t]
+    year = self.year[t] - self.starting_year
     outflow_rule = self.min_outflow[wyt][m-1] * cfs_tafd
     cvp_frac = 0.55
     swp_frac = 0.45
@@ -537,8 +543,8 @@ class Delta():
 	
     #total expected remaining 'tax free' flows for the rest of the year, based on meeting min outflow requirements
     tax_free_available = self.max_tax_free[wyt]['cvp'][dowy] + self.max_tax_free[wyt]['swp'][dowy]#from this date until the end of the year
-    tax_free_flood = max(self.max_tax_free[wyt]['cvp'][dowy] + self.max_tax_free[wyt]['swp'][dowy] - self.max_tax_free[wyt]['cvp'][210] - self.max_tax_free[wyt]['swp'][210], 1.0)#from this date until the end of the 'flood control' season (April 1)
-    tax_free_oct_nov = max(self.max_tax_free[wyt]['cvp'][dowy] + self.max_tax_free[wyt]['swp'][dowy] - self.max_tax_free[wyt]['cvp'][60] - self.max_tax_free[wyt]['swp'][60], 1.0) #from this date until the end of november (i.e. baseflow period before reservoir refil usually begins)
+    tax_free_flood = max(self.max_tax_free[wyt]['cvp'][dowy] + self.max_tax_free[wyt]['swp'][dowy] - self.max_tax_free[wyt]['cvp'][self.dowy_eom[year][3]] - self.max_tax_free[wyt]['swp'][self.dowy_eom[year][3]], 1.0)#from this date until the end of the 'flood control' season (April 1)
+    tax_free_oct_nov = max(self.max_tax_free[wyt]['cvp'][dowy] + self.max_tax_free[wyt]['swp'][dowy] - self.max_tax_free[wyt]['cvp'][self.dowy_eom[year][10]] - self.max_tax_free[wyt]['swp'][self.dowy_eom[year][10]], 1.0) #from this date until the end of november (i.e. baseflow period before reservoir refil usually begins)
 
 	  
       #is there room in the state portion of San Luis Reservoir?
@@ -628,41 +634,41 @@ class Delta():
 	
     return cvp_max, swp_max
    	  
-  def find_release_flood_prep(self, m, dowy, proj_surplus, numdays, min_release, key):
-    dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 31, 60, 91]
-    month_evaluate = m - 1
-    if numdays < 366.0:
-      numday_counter = numdays
-      this_month_days = dowy_md[month_evaluate] - dowy
-      total_gains = 0.0
-      gains_before_spill = proj_surplus[key][month_evaluate]*max(this_month_days,numdays)/self.days_in_month[month_evaluate]
-      numday_counter -= this_month_days
-      month_evaluate += 1
-      while numday_counter > 0:
-        if month_evaluate > 11:
-          month_evaluate -= 12
-        gains_before_spill = proj_surplus[key][month_evaluate]*min(numday_counter/self.days_in_month[month_evaluate], 1.0)
-        numday_counter -= self.days_in_month[month_evaluate]
-        month_evaluate += 1
-      if numdays < 7.0:
-        average_gains = self.pump_max[key]['intake_limit'][0]*cfs_tafd
-      else:
-        average_gains = proj_surplus[key][m-1]/self.days_in_month[m-1]
-      if average_gains + min_release > self.pump_max[key]['intake_limit'][0]*cfs_tafd:
-        flood_prep_release = 1.0
-      else:
-        flood_prep_release = 0.0
-    else:
-      flood_prep_release = 0.0
-    
-    return flood_prep_release
+  # def find_release_flood_prep(self, m, dowy, proj_surplus, numdays, min_release, key):
+  #   dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 31, 60, 91]
+  #   month_evaluate = m - 1
+  #   if numdays < 366.0:
+  #     numday_counter = numdays
+  #     this_month_days = dowy_md[month_evaluate] - dowy
+  #     total_gains = 0.0
+  #     gains_before_spill = proj_surplus[key][month_evaluate]*max(this_month_days,numdays)/self.days_in_month[month_evaluate]
+  #     numday_counter -= this_month_days
+  #     month_evaluate += 1
+  #     while numday_counter > 0:
+  #       if month_evaluate > 11:
+  #         month_evaluate -= 12
+  #       gains_before_spill = proj_surplus[key][month_evaluate]*min(numday_counter/self.days_in_month[month_evaluate], 1.0)
+  #       numday_counter -= self.days_in_month[month_evaluate]
+  #       month_evaluate += 1
+  #     if numdays < 7.0:
+  #       average_gains = self.pump_max[key]['intake_limit'][0]*cfs_tafd
+  #     else:
+  #       average_gains = proj_surplus[key][m-1]/self.days_in_month[m-1]
+  #     if average_gains + min_release > self.pump_max[key]['intake_limit'][0]*cfs_tafd:
+  #       flood_prep_release = 1.0
+  #     else:
+  #       flood_prep_release = 0.0
+  #   else:
+  #     flood_prep_release = 0.0
+  #
+  #   return flood_prep_release
 
   def find_release(self, t, m, dowy, cvp_max, swp_max, cvpAS, swpAS, cvp_release, swp_release, proj_surplus, max_pumping):
   ###This function looks at how much water is available in storage & snowpack to be exported,
   ##then determines when the best time to release that water is (water is saved for part of year
   ##when the inflow/export 'tax' is lowest)
     wyt = self.forecastSCWYT
-    m = self.month[t]
+    year = self.year[t] - self.starting_year
     pumping = {}
 	###Maximum pumping capacity for each project, ceiling on projected exports
     pumping['swp']	= self.pump_max['swp']['intake_limit'][5] * cfs_tafd
@@ -689,31 +695,34 @@ class Delta():
       else:
         pumping['swp']	= self.pump_max['swp']['intake_limit'][5] * cfs_tafd
         pumping['cvp'] = self.pump_max['cvp']['intake_limit'][5] * cfs_tafd
-      running_days = self.dowy_eom[monthcounter] - dowy
+      running_days = self.dowy_eom[year][monthcounter] - dowy
       if t > self.omr_rule_start - running_days:
-        pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[monthcounter])
-        pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[monthcounter])
+        pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year][monthcounter])
+        pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year][monthcounter])
       #total water available for pumping that isn't stored in reservoir (river gains)
-      total_uncontrolled = proj_surplus[project][monthcounter]*(self.dowy_eom[monthcounter] - dowy)/self.days_in_month[monthcounter]
+      total_uncontrolled = proj_surplus[project][monthcounter]*running_days/self.days_in_month[year][monthcounter]
       #water available to pump w/o exceeding the I/E tax
-      untaxed_releases = max(self.max_tax_free[wyt][project][dowy] - self.max_tax_free[wyt][project][self.dowy_eom[monthcounter]] - total_uncontrolled, 0.0)
+      untaxed_releases = max(self.max_tax_free[wyt][project][dowy] - self.max_tax_free[wyt][project][self.dowy_eom[year][monthcounter]+1] - total_uncontrolled, 0.0)
       #total pumping from uncontrolled or untaxed flows
-      untaxed = max(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*(self.dowy_eom[monthcounter] - dowy))
+      untaxed = max(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
 	  ##space for pumping that exceeds the I/E tax
       if monthcounter > 5 or monthcounter == 0:
-        taxable_space += max(pumping[project]*(self.dowy_eom[monthcounter] - dowy) - untaxed, 0.0)
+        taxable_space += max(pumping[project]*running_days - untaxed, 0.0)
       elif monthcounter > 0 and monthcounter < 3:
-        taxable_space2 += max(pumping[project]*(self.dowy_eom[monthcounter] - dowy) - untaxed, 0.0)
+        taxable_space2 += max(pumping[project]*running_days - untaxed, 0.0)
       elif monthcounter == 5:
-        taxable_space2 += max(pumping[project]*(self.dowy_eom[monthcounter] - dowy) - untaxed, 0.0)
+        taxable_space2 += max(pumping[project]*running_days - untaxed, 0.0)
       #update running storage
       running_storage -= min(running_storage, untaxed_releases)
       monthcounter += 1
       if monthcounter == 12:
-        monthcounter -= 12      
+        monthcounter -= 12
+      cross_counter_y = 0
       for x in range(0,12):
         if monthcounter == 9:
           break
+        if monthcounter == 0:
+          cross_counter_y = 1
         if monthcounter == 3 or monthcounter == 4:
           pumping['swp'] = self.pump_max['swp']['intake_limit'][2] * cfs_tafd
           pumping['cvp'] = self.pump_max['cvp']['intake_limit'][2] * cfs_tafd
@@ -721,26 +730,26 @@ class Delta():
           pumping['swp'] = self.pump_max['swp']['intake_limit'][5] * cfs_tafd
           pumping['cvp'] = self.pump_max['cvp']['intake_limit'][5] * cfs_tafd
 		  
-        running_days += self.days_in_month[monthcounter]
+        running_days += self.days_in_month[year+cross_counter_y][monthcounter]
         if t > self.omr_rule_start - running_days:
-          pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[monthcounter])
-          pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[monthcounter])
+          pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year+cross_counter_y][monthcounter])
+          pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year+cross_counter_y][monthcounter])
 
         #total water available for pumping that isn't stored in reservoir (river gains)
         total_uncontrolled = proj_surplus[project][monthcounter]
         #water available to pump w/o exceeding the I/E tax
-        dowy_begin = self.dowy_eom[monthcounter] - self.days_in_month[monthcounter]
-        dowy_end = self.dowy_eom[monthcounter]
-        untaxed_releases = max(self.max_tax_free[wyt][project][dowy_begin] - self.max_tax_free[wyt][project][dowy_end] - total_uncontrolled, 0.0)
+        dowy_begin = self.dowy_eom[year+cross_counter_y][monthcounter] - self.days_in_month[year+cross_counter_y][monthcounter]
+        dowy_end = self.dowy_eom[year+cross_counter_y][monthcounter]
+        untaxed_releases = max(self.max_tax_free[wyt][project][dowy_begin] - self.max_tax_free[wyt][project][dowy_end+1] - total_uncontrolled, 0.0)
         #total pumping from uncontrolled or untaxed flows
-        untaxed += min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*self.days_in_month[monthcounter])
+        untaxed += min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter])
 	    ##space for pumping that exceeds the I/E tax
         if monthcounter > 5 or monthcounter == 0:
-          taxable_space += max(pumping[project]*self.days_in_month[monthcounter] - untaxed, 0.0)
+          taxable_space += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
         elif monthcounter > 0 and monthcounter < 3:
-          taxable_space2 += max(pumping[project]*self.days_in_month[monthcounter] - untaxed, 0.0)
+          taxable_space2 += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
         elif monthcounter == 5:
-          taxable_space2 += max(pumping[project]*self.days_in_month[monthcounter] - untaxed, 0.0)
+          taxable_space2 += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
         #update running storage
         running_storage -= min(running_storage, untaxed_releases)
         monthcounter += 1
@@ -962,10 +971,10 @@ class Delta():
     for x in range(0,365):
       if self.key == "XXX":
         fig = plt.figure()
-      #regress for gains in oct-mar period and april-jul period
+      #regress for gains in oct-mar period and april-jul period. use non-leap year.
       coef_save = np.zeros((12,2))
       for mm in range(0,12):
-        if x <= self.dowy_eom[mm]:
+        if x <= self.dowy_eom[self.non_leap_year][mm]:
           one_year_runfnf = running_fnf[x]
           monthly_flow_predict = monthly_flow[mm]
         else:
@@ -989,7 +998,7 @@ class Delta():
       if self.key == "XXX":
         for mm in range(0,12):
           ax1 = fig.add_subplot(4,3,mm+1)
-          if x <= self.dowy_eom[mm]:
+          if x <= self.dowy_eom[self.non_leap_year][mm]:
             monthly_flow_predict = monthly_flow[mm]
             one_year_runfnf = running_fnf[x]
           else:
