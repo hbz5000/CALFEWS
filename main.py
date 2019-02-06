@@ -88,8 +88,8 @@ else:
   np.random.seed(1001)
 
   file_folder = 'cord/data/CA_FNF_climate_change/'
-  model_name_list = ['gfdl-esm2m', 'canesm2', 'ccsm4', 'cnrm-cm5', 'csiro-mk3-6-0', 'gfdl-cm3', 'hadgem2-cc', 'hadgem2-es', 'inmcm4', 'ipsl-cm5a-mr', 'miroc5']
-  proj_list = ['rcp45', 'rcp85']
+  model_name_list = ['gfdl-esm2m']#, 'canesm2', 'ccsm4', 'cnrm-cm5', 'csiro-mk3-6-0', 'gfdl-cm3', 'hadgem2-cc', 'hadgem2-es', 'inmcm4', 'ipsl-cm5a-mr', 'miroc5']
+  proj_list = ['rcp45']#, 'rcp85']
   new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode)
   new_inputs.initialize_reservoirs()
   new_inputs.generate_relationships('XXX')
@@ -167,45 +167,45 @@ else:
         release_df = pd.concat([release_df, temp_df], axis=1)
       release_df.to_csv('cord/data/results/release_results_' + file_name)
 
-      del modelno
-      del modelso
-      del release_df
+      # del modelno
+      # del modelso
+      # del release_df
 
 ######################################################################################
 ###Record Simulation Results
 ######################################################################################
-if model_mode == 'validation' or model_mode == 'simulation':
-  district_results = modelso.results_as_df('daily', modelso.district_list)
-  district_results.to_csv('cord/data/results/district_results_' + model_mode + '.csv')
-  district_results_annual = modelso.results_as_df('annual', modelso.district_list)
-  district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
+# if model_mode == 'validation' or model_mode == 'simulation':
+district_results = modelso.results_as_df('daily', modelso.district_list)
+district_results.to_csv('cord/data/results/district_results_' + model_mode + '.csv')
+district_results_annual = modelso.results_as_df('annual', modelso.district_list)
+district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
 
-  contract_results = modelso.results_as_df('daily', modelso.contract_list)
-  contract_results.to_csv('cord/data/results/contract_results_' + model_mode + '.csv')
-  contract_results_annual = modelso.results_as_df('annual', modelso.contract_list)
-  contract_results_annual.to_csv('cord/data/results/contract_results_annual_' + model_mode + '.csv')
+contract_results = modelso.results_as_df('daily', modelso.contract_list)
+contract_results.to_csv('cord/data/results/contract_results_' + model_mode + '.csv')
+contract_results_annual = modelso.results_as_df('annual', modelso.contract_list)
+contract_results_annual.to_csv('cord/data/results/contract_results_annual_' + model_mode + '.csv')
 
-  northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones,
-                       modelno.donpedro, modelno.exchequer, modelno.delta]
-  southern_res_list = [modelso.sanluisstate, modelso.sanluisfederal, modelso.millerton, modelso.isabella]
+northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones,
+                     modelno.donpedro, modelno.exchequer, modelno.delta]
+southern_res_list = [modelso.sanluisstate, modelso.sanluisfederal, modelso.millerton, modelso.isabella]
 
-  reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
-  reservoir_results_no.to_csv('cord/data/results/reservoir_results_no_' + model_mode + '.csv')
-  reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
-  reservoir_results_so.to_csv('cord/data/results/reservoir_results_so_' + model_mode + '.csv')
+reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
+reservoir_results_no.to_csv('cord/data/results/reservoir_results_no_' + model_mode + '.csv')
+reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
+reservoir_results_so.to_csv('cord/data/results/reservoir_results_so_' + model_mode + '.csv')
 
-  canal_results = modelso.results_as_df('daily', modelso.canal_list)
-  canal_results.to_csv('cord/data/results/canal_results_' + model_mode + '.csv')
+canal_results = modelso.results_as_df('daily', modelso.canal_list)
+canal_results.to_csv('cord/data/results/canal_results_' + model_mode + '.csv')
 
-  bank_results = modelso.bank_as_df('daily', modelso.waterbank_list)
-  bank_results.to_csv('cord/data/results/bank_results_' + model_mode + '.csv')
-  bank_results_annual = modelso.bank_as_df('annual', modelso.waterbank_list)
-  bank_results_annual.to_csv('cord/data/results/bank_results_annual_' + model_mode + '.csv')
+bank_results = modelso.bank_as_df('daily', modelso.waterbank_list)
+bank_results.to_csv('cord/data/results/bank_results_' + model_mode + '.csv')
+bank_results_annual = modelso.bank_as_df('annual', modelso.waterbank_list)
+bank_results_annual.to_csv('cord/data/results/bank_results_annual_' + model_mode + '.csv')
 
-  leiu_results = modelso.bank_as_df('daily', modelso.leiu_list)
-  leiu_results.to_csv('cord/data/results/leiu_results_' + model_mode + '.csv')
-  leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
-  leiu_results_annual.to_csv('cord/data/results/leiu_results_annual_' + model_mode + '.csv')
+leiu_results = modelso.bank_as_df('daily', modelso.leiu_list)
+leiu_results.to_csv('cord/data/results/leiu_results_' + model_mode + '.csv')
+leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
+leiu_results_annual.to_csv('cord/data/results/leiu_results_annual_' + model_mode + '.csv')
 
 print ('completed in ', datetime.now() - startTime)
 
