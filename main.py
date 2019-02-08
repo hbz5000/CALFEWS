@@ -21,12 +21,12 @@ import cord
 from cord import *
 from datetime import datetime
 
-startTime = datetime.now()
 
 # model_mode = 'simulation'
 model_mode = 'validation'
 # model_mode = 'forecast'
 
+startTime = datetime.now()
 
 # To run full dataset, short_test = -1. Else enter number of days to run, starting at sd. e.g. 365 for 1 year only.
 short_test = -1
@@ -177,35 +177,45 @@ else:
 # if model_mode == 'validation' or model_mode == 'simulation':
 district_results = modelso.results_as_df('daily', modelso.district_list)
 district_results.to_csv('cord/data/results/district_results_' + model_mode + '.csv')
-district_results_annual = modelso.results_as_df('annual', modelso.district_list)
-district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
+del district_results
+district_results = modelso.results_as_df_full('daily', modelso.district_list)
+district_results.to_csv('cord/data/results/district_results_full_' + model_mode + '.csv')
+del district_results
+# district_results_annual = modelso.results_as_df('annual', modelso.district_list)
+# district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
+# del district_results_annual
 
 contract_results = modelso.results_as_df('daily', modelso.contract_list)
 contract_results.to_csv('cord/data/results/contract_results_' + model_mode + '.csv')
-contract_results_annual = modelso.results_as_df('annual', modelso.contract_list)
-contract_results_annual.to_csv('cord/data/results/contract_results_annual_' + model_mode + '.csv')
+# contract_results_annual = modelso.results_as_df('annual', modelso.contract_list)
+# contract_results_annual.to_csv('cord/data/results/contract_results_annual_' + model_mode + '.csv')
+del contract_results
 
 northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones,
                      modelno.donpedro, modelno.exchequer, modelno.delta]
-southern_res_list = [modelso.sanluisstate, modelso.sanluisfederal, modelso.millerton, modelso.isabella]
-
+southern_res_list = [modelso.sanluisstate, modelso.sanluisfederal, modelso.millerton, modelso.isabella,
+                     modelso.kaweah, modelso.success]
 reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
 reservoir_results_no.to_csv('cord/data/results/reservoir_results_no_' + model_mode + '.csv')
 reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
 reservoir_results_so.to_csv('cord/data/results/reservoir_results_so_' + model_mode + '.csv')
+del reservoir_results_no, reservoir_results_so
 
 canal_results = modelso.results_as_df('daily', modelso.canal_list)
 canal_results.to_csv('cord/data/results/canal_results_' + model_mode + '.csv')
+del canal_results
 
 bank_results = modelso.bank_as_df('daily', modelso.waterbank_list)
 bank_results.to_csv('cord/data/results/bank_results_' + model_mode + '.csv')
-bank_results_annual = modelso.bank_as_df('annual', modelso.waterbank_list)
-bank_results_annual.to_csv('cord/data/results/bank_results_annual_' + model_mode + '.csv')
+# bank_results_annual = modelso.bank_as_df('annual', modelso.waterbank_list)
+# bank_results_annual.to_csv('cord/data/results/bank_results_annual_' + model_mode + '.csv')
+del bank_results
 
 leiu_results = modelso.bank_as_df('daily', modelso.leiu_list)
 leiu_results.to_csv('cord/data/results/leiu_results_' + model_mode + '.csv')
-leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
-leiu_results_annual.to_csv('cord/data/results/leiu_results_annual_' + model_mode + '.csv')
+# leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
+# leiu_results_annual.to_csv('cord/data/results/leiu_results_annual_' + model_mode + '.csv')
+del leiu_results
 
 print ('completed in ', datetime.now() - startTime)
 

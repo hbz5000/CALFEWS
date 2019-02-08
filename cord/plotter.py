@@ -24,7 +24,7 @@ def init_plotting():
     plt.rcParams['xtick.labelsize'] = plt.rcParams['font.size']
     plt.rcParams['ytick.labelsize'] = plt.rcParams['font.size']
 
-def compare_validation(res_old,res_new,obs,freq,freq2, data_name):
+def compare_validation(res_old,res_new,obs,name,freq,freq2, data_name):
   # input two series and a frequency
   init_plotting()
 
@@ -42,7 +42,7 @@ def compare_validation(res_old,res_new,obs,freq,freq2, data_name):
   res_new1.plot(ax=ax0, color='steelblue', use_index=True, alpha = 0.7, linewidth = 3, linestyle = '--')
   #ax0.set_xlim([datetime.date(2004,10,1), datetime.date(2006,9,30)])
   #ax0.set_title('%s, %s' % (res.name, obs.name), family='OfficinaSanITCMedium', loc='left')
-  ax0.set_title('Weekly '+ data_name + ' WY 2005-2006')
+  ax0.set_title(name)
   ax0.legend(['Observed', 'Old', 'New'], ncol=1)
   ax0.set_ylabel('Pumping (tAF)')
   ax0.set_xlabel('')
@@ -81,10 +81,11 @@ def compare_validation(res_old,res_new,obs,freq,freq2, data_name):
 
 
 
-def compare_simulation(res_old,res_new,obs,freq,freq2, data_name):
+def compare_simulation(res_old,res_new,obs,name,freq,freq2, data_name):
   # input two series and a frequency
   init_plotting()
 
+  res_new = res_new.loc[res_new.index.year > 1995]
   res_old1 = res_old.resample(freq).mean()*7*1.98/1000.0
   res_new1 = res_new.resample(freq).mean()*7*1.98/1000.0
   obs1 = obs.resample(freq).mean()*7*1.98/1000.0
@@ -99,7 +100,7 @@ def compare_simulation(res_old,res_new,obs,freq,freq2, data_name):
   res_new1.plot(ax=ax0, color='steelblue', use_index=True, alpha = 0.7, linewidth = 3, linestyle = '--')
   #ax0.set_xlim([datetime.date(2004,10,1), datetime.date(2006,9,30)])
   #ax0.set_title('%s, %s' % (res.name, obs.name), family='OfficinaSanITCMedium', loc='left')
-  ax0.set_title('Weekly '+ data_name + ' WY 2005-2006')
+  ax0.set_title(name)
   ax0.legend(['Observed', 'Old', 'New'], ncol=1)
   ax0.set_ylabel('Pumping (tAF)')
   ax0.set_xlabel('')
@@ -115,16 +116,16 @@ def compare_simulation(res_old,res_new,obs,freq,freq2, data_name):
   res_old2 = res_old.resample(freq2).mean()*365*1.98/1000
   res_new2 = res_new.resample(freq2).mean()*365*1.98/1000
 
-  ax22 = plt.subplot(gs[0,1])
-  r = np.corrcoef(res_new2.values,res_old2.values)[0,1]
-  ax22.scatter(res_old2.values, res_new2.values, s=75, c='steelblue', edgecolor='none', alpha=0.8)
-  ax22.plot([0.0, max([max(res_old2.values), max(res_new2.values)])], [0.0, max([max(res_old2.values), max(res_new2.values)])], linestyle = 'dashed', color = 'black', linewidth = 3)
-  ax22.set_ylabel('Simulated (tAF/yr)')
-  ax22.set_xlabel('Observed (tAF/yr)')
-  ax22.set_title('Annual '+ data_name + ' vs. Simulated')
-  ax22.annotate('$R^2 = %f$' % r**2, xy=(max(res_old2.values)*0.6,0), color='steelblue')
-  ax22.set_xlim([0.0, ax22.get_xlim()[1]])
-  ax22.set_ylim([0.0, ax22.get_ylim()[1]])
+  # ax22 = plt.subplot(gs[0,1])
+  # r = np.corrcoef(res_new2.values,res_old2.values)[0,1]
+  # ax22.scatter(res_old2.values, res_new2.values, s=75, c='steelblue', edgecolor='none', alpha=0.8)
+  # ax22.plot([0.0, max([max(res_old2.values), max(res_new2.values)])], [0.0, max([max(res_old2.values), max(res_new2.values)])], linestyle = 'dashed', color = 'black', linewidth = 3)
+  # ax22.set_ylabel('Simulated (tAF/yr)')
+  # ax22.set_xlabel('Observed (tAF/yr)')
+  # ax22.set_title('Annual '+ data_name + ' vs. Simulated')
+  # ax22.annotate('$R^2 = %f$' % r**2, xy=(max(res_old2.values)*0.6,0), color='steelblue')
+  # ax22.set_xlim([0.0, ax22.get_xlim()[1]])
+  # ax22.set_ylim([0.0, ax22.get_ylim()[1]])
   # for item in [ax0.xaxis.label, ax0.yaxis.label, ax11.xaxis.label, ax11.yaxis.label,ax22.xaxis.label, ax22.yaxis.label, ax0.title, ax11.title, ax22.title]:
   #   item.set_fontsize(14)
   # for item in (ax0.get_xticklabels() + ax11.get_xticklabels() + ax22.get_xticklabels() + ax0.get_yticklabels() + ax11.get_yticklabels() + ax22.get_yticklabels()):
