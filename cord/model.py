@@ -552,7 +552,7 @@ class Model():
 	
 	##List of all intialized contracts for looping
     self.contract_list = [self.friant1, self.friant2, self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley, self.kernriver, self.tuleriver, self.kaweahriver]
-	
+
     ##Contract Keys - dictionary to be able to call the member from its key	
     self.contract_keys = {}
     for contract_options in self.contract_list:
@@ -1823,6 +1823,8 @@ class Model():
         x.accounting(t, da, m, wateryear,y.name)
         y.accounting(t, da, m, wateryear, x.deliveries[y.name][wateryear], x.carryover[y.name], x.turnback_pool[y.name], x.deliveries[y.name + '_flood'][wateryear])
       x.accounting_banking_activity(t, da, m, wateryear)
+    for x in self.district_list:
+      x.accounting_full(t, wateryear)
 	  
     #update individual accounts in groundwater banks
     for w in self.waterbank_list:
@@ -1850,8 +1852,7 @@ class Model():
             y.tot_carryover += carryover
         y.running_carryover = y.tot_carryover
 	  
-    #reset counter for delta contract adjustment for foregone pumping and uncontrolled releases
-    if m == 9 and da == 30:
+      #reset counter for delta contract adjustment for foregone pumping and uncontrolled releases
       for z in self.pumping_turnback:
         self.pumping_turnback[z] = 0.0
 		
@@ -3290,6 +3291,17 @@ class Model():
       df = pd.concat([df, df2], axis = 1)
       for x in list_type:
         df = pd.concat([df, x.annual_results_as_df()], axis = 1)
+    return df
+
+  def results_as_df_full(self, time_step, list_type):
+    if time_step == "daily":
+      df = pd.DataFrame(index = self.df.index)
+      for x in list_type:
+        df2 = x.accounting_as_df_full(df.index)
+        # only store non-zero columns
+        non_zero = np.abs(df2).sum() > 0
+        df2 = df2.loc[:,non_zero]
+        df = pd.concat([df, df2], axis = 1)
     return df
      		
   def bank_as_df(self, time_step, list_type):
