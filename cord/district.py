@@ -255,7 +255,7 @@ class District():
       max_carryover = self.contract_carryover_list[key]
 
     reallocated_water = max(annual_allocation - max_carryover, 0.0)
-    self.carryover[key] = max(min(max_carryover, annual_allocation), 0.0)
+    self.carryover[key] = min(max_carryover, annual_allocation)
     self.paper_balance[key] = 0.0
     self.turnback_pool[key] = 0.0
 	
