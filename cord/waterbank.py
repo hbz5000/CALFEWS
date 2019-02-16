@@ -12,6 +12,7 @@ class Waterbank():
   def __init__(self, df, key):
     self.T = len(df)
     self.index = df.index
+    self.number_years = self.index.year[self.T - 1] - self.index.year[0]
     self.key = key
     for k,v in json.load(open('cord/banks/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -31,7 +32,7 @@ class Waterbank():
     for x in self.participant_list:
       self.storage[x] = 0.0
       self.bank_timeseries[x] = np.zeros(self.T)
-      self.annual_timeseries[x] = np.zeros(self.T)
+      self.annual_timeseries[x] = np.zeros(self.number_years)
       self.recovery_use[x] = 0.0
       self.banked[x] = 0.0
 	  
