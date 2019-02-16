@@ -8,10 +8,10 @@ from cord import *
 ######################################################################################
 ###Plot Simulation Results
 ######################################################################################
-district_results = pd.read_csv('cord/data/annual_district_results_simulation.csv')
-contract_results = pd.read_csv('cord/data/contract_results_annual_simulation.csv')
+district_results = pd.read_csv('cord/data/results/annual_district_results_simulation.csv')
+contract_results = pd.read_csv('cord/data/results/contract_results_annual_simulation.csv')
 
-modelplot = Model('cord/data/cord-data.csv', sd='10-01-1996')
+modelplot = Model('cord/data/input/cord-data.csv', 'cord/data/input/cord-data.csv', '10-01-1996', 'simulation')
 modelplot.initialize_water_districts()
 
 kern_county_list = [modelplot.berrenda, modelplot.belridge, modelplot.buenavista, modelplot.cawelo, modelplot.henrymiller, modelplot.kerndelta, modelplot.losthills, modelplot.rosedale, modelplot.semitropic, modelplot.tehachapi, modelplot.tejon, modelplot.westkern, modelplot.wheeler, modelplot.dudleyridge]
@@ -54,7 +54,7 @@ modelplot.henrymiller.bank_get = 0.0
 modelplot.kerndelta.bank_get = 0.0
 modelplot.losthills.bank_get = 0.0
 modelplot.rosedale.bank_get = 0.0
-modelplot.semitropic.bank_get = 12.33
+modelplot.semitropic.bank_get = 112.33
 modelplot.tehachapi.bank_get = 0.0
 modelplot.tejon.bank_get = 0.0
 modelplot.westkern.bank_get = 0.0
@@ -77,6 +77,65 @@ modelplot.wheeler.bank_give = 0.0
 modelplot.dudleyridge.bank_give = 0.0
 
 annual_pumping = district_results['0']
+annual_pumping_cvp = district_results['1']
+expected_value_swp = 0.0
+expected_value_cvp = 0.0
+expected_value_swp_3ya = 0.0
+expected_value_cvp_3ya = 0.0
+expected_value_swp_2ya = 0.0
+expected_value_cvp_2ya = 0.0
+strike_swp = 1500
+strike_cvp = 1250
+
+for x in range(0,len(annual_pumping)):
+  expected_value_swp += max(strike_swp- annual_pumping[x], 0.0)/len(annual_pumping)
+  expected_value_cvp += max(strike_cvp - annual_pumping_cvp[x], 0.0)/len(annual_pumping)
+  print(x, end = " ")
+  print(np.mean(annual_pumping[(x-1):x]), end = " ")
+  print(annual_pumping[x], end = " ")
+  print(expected_value_swp)
+
+
+for x in range(1, len(annual_pumping)):
+  expected_value_swp_2ya += max(strike_swp - np.mean(annual_pumping[(x-1):(x+1)]), 0.0)/(len(annual_pumping)-1)
+  expected_value_cvp_2ya += max(strike_cvp - np.mean(annual_pumping_cvp[(x-1):(x+1)]), 0.0)/(len(annual_pumping)-1)
+
+annual_pumping_cvp_3ya = np.zeros(len(annual_pumping)-2)
+annual_pumping_swp_3ya = np.zeros(len(annual_pumping)-2)
+for x in range(2, len(annual_pumping)):
+  expected_value_swp_3ya += max(strike_swp - np.mean(annual_pumping[(x-2):(x+1)]), 0.0)/(len(annual_pumping)-2)
+  expected_value_cvp_3ya += max(strike_cvp - np.mean(annual_pumping_cvp[(x-2):(x+1)]), 0.0)/(len(annual_pumping)-2)
+  annual_pumping_swp_3ya[x-2] = annual_pumping[x-2] + annual_pumping[x-1] + annual_pumping[x]
+  annual_pumping_cvp_3ya[x-2] = annual_pumping_cvp[x-2] + annual_pumping_cvp[x-1] + annual_pumping_cvp[x]
+
+  
+  
+
+print(expected_value_swp)
+print(expected_value_cvp)
+print(expected_value_swp_3ya)
+print(expected_value_cvp_3ya)
+print(expected_value_swp_2ya)
+print(expected_value_cvp_2ya)
+
+
+sorted_pumping = np.sort(annual_pumping_cvp_3ya)
+ten_percent = sorted_pumping[int(np.ceil(.2*len(annual_pumping_swp_3ya)))]
+five_percent = sorted_pumping[int(np.ceil(.05*len(annual_pumping_swp_3ya)))]
+one_percent = sorted_pumping[0]
+print(np.mean(annual_pumping_cvp))
+print(ten_percent)
+print(five_percent)
+print(one_percent)
+sorted_pumping = np.sort(annual_pumping_swp_3ya)
+ten_percent = sorted_pumping[int(np.ceil(.2*len(annual_pumping_swp_3ya)))]
+five_percent = sorted_pumping[int(np.ceil(.05*len(annual_pumping_swp_3ya)))]
+one_percent = sorted_pumping[0]
+print(np.mean(annual_pumping))
+print(ten_percent)
+print(five_percent)
+print(one_percent)
+
 timeseries_revenues = {}
 average_revenue = {}
 kcwa_revenues = {}
@@ -89,20 +148,21 @@ plotter.show_recovery(district_results, key_list, 'SWP Pumping')
 contract_type = 'SLS'
 plotter.show_contract_types(contract_results, contract_type)
 plotter.show_pumping_pdf(annual_pumping, 'SWP Pumping', 4000.0)
-plotter.compare_contracts()
+#plotter.compare_contracts()
 for x in kern_county_list:
   timeseries_revenues[x.key] = {}
   average_revenue[x.key] = {}
   for type in ['delivery', 'recovery', 'banking']:
     timeseries_revenues[x.key][type], average_revenue[x.key][type] = plotter.find_district_revenues(district_results, x.key, x.acreage['W'], x.price, x.assessment, x.bank_get, x.bank_give, type)
     kcwa_revenues[type] += timeseries_revenues[x.key][type]
-	
-  #if x.in_leiu_banking:
-    #plotter.show_district_revenues(timeseries_revenues[x.key],['delivery', 'recovery', 'banking'])
-  #else:
-    #plotter.show_district_revenues(timeseries_revenues[x.key],['delivery', 'recovery'])
+for x in [modelplot.semitropic, modelplot.losthills]:
+  if x.in_leiu_banking:
+    plotter.show_district_revenues(timeseries_revenues[x.key],0,40.0, 'banking')
+  else:
+    plotter.show_district_revenues(timeseries_revenues[x.key],0,14.0, 'recovery')
 
-plotter.show_district_revenues(kcwa_revenues, 90.0, 180.0)
+
+plotter.show_district_revenues(kcwa_revenues, 90.0, 180.0, 'banking')
 plotter.show_recovery_historic(district_results, timeseries_revenues, average_revenue, kern_county_keys, 1976, 1980, -80.0, 0.0, 20.0, 0.0, 1000.0, 250.0, 0)
 plotter.show_recovery_historic(district_results, timeseries_revenues, average_revenue, kern_county_keys, 1986, 1994, -80.0, 0.0, 20.0, 0.0, 1000.0, 250.0, 0)
 plotter.show_recovery_historic(district_results, timeseries_revenues, average_revenue, kern_county_keys, 2012, 2017, -80.0, 0.0, 20.0, 0.0, 1000.0, 250.0, 0)
@@ -127,10 +187,12 @@ group_averages['insurance'] = np.zeros(contingency_increments*insurance_incremen
 group_value_at_risk['CF'] = np.zeros(contingency_increments)
 group_value_at_risk['insurance'] = np.zeros(contingency_increments*insurance_increments)
 
-plotter.show_insurance_payouts(annual_pumping, timeseries_revenues['LHL']['delivery'], timeseries_revenues['LHL']['recovery'], 2000.0, 2000.0, 'SWP Pumping')
+plotter.show_insurance_payouts(annual_pumping, timeseries_revenues['LHL']['delivery'], timeseries_revenues['LHL']['recovery'], 1500.0, 1500.0, 'SWP Pumping', 'Lost Hills', 12.0)
+plotter.show_insurance_payouts(annual_pumping, timeseries_revenues['SMI']['delivery'], timeseries_revenues['SMI']['banking'], 2000.0, 2000.0, 'SWP Pumping', 'Semitropic', 45.0)
 
 
-mitigate_list = [modelplot.losthills, modelplot.belridge, modelplot.losthills]
+
+mitigate_list = [modelplot.semitropic, modelplot.losthills, modelplot.semitropic, modelplot.losthills]
 for x in mitigate_list:
   district_deliveries = district_results[x.key + '_banked_accepted']
   timeseries_revenues[x.key]['price'], average_revenue[x.key]['price'] = find_pricing_mitigation(district_deliveries, x.acreage['W'], average_revenue[x.key]['recovery'], max_volumetric_price, max_total_price, x.price, x.assessment)
@@ -140,10 +202,11 @@ for x in mitigate_list:
   average_revenue[x.key]['insurance'] = {}
   x.value_at_risk = {}
   insurance_cutoff = {}
-  insurance_cutoff['delivery'] = 1.5
-  insurance_cutoff['recovery'] = 1.0
-  insurance_cutoff['price'] = 0.5
-  for start_type in ['delivery', 'recovery', 'price']:
+  insurance_cutoff['delivery'] = 2.5
+  insurance_cutoff['recovery'] = 0.75
+  insurance_cutoff['price'] = 1.0
+  insurance_cutoff['banking'] = 2.0
+  for start_type in ['banking', 'recovery']:
     timeseries_revenues[x.key]['CF'][start_type] = np.zeros((contingency_increments, len(annual_pumping)*evaluation_length))
     average_revenue[x.key]['CF'][start_type] = np.zeros(contingency_increments)
     annual_cost = {}
@@ -152,12 +215,12 @@ for x in mitigate_list:
     annual_cost['CF']['premium'] = np.zeros(contingency_increments)
 
     for contingency_index in range(0,contingency_increments):
-      contingency_fund_start = 4.0*contingency_index*average_revenue[x.key][start_type]/contingency_increments
+      contingency_fund_start = 1.5*contingency_index*average_revenue[x.key][start_type]/contingency_increments
       insurance_strike = 0.0
       insurance_cost = 0.0
       insurance_payout = np.zeros(2)
-      timeseries_revenues[x.key]['CF'][start_type][contingency_index][:], average_revenue[x.key]['CF'][start_type][contingency_index] = plotter.find_insurance_mitigation(annual_pumping, timeseries_revenues[x.key][start_type], average_revenue[x.key][start_type], evaluation_length, insurance_cost, insurance_strike, insurance_payout, contingency_fund_start,insurance_cutoff[start_type])
-      annual_cost['CF']['contribution'][contingency_index] = contingency_fund_start*1.96/30
+      timeseries_revenues[x.key]['CF'][start_type][contingency_index][:], average_revenue[x.key]['CF'][start_type][contingency_index] = plotter.find_insurance_mitigation(annual_pumping, timeseries_revenues[x.key][start_type], average_revenue[x.key][start_type], evaluation_length, insurance_cost, insurance_strike, insurance_payout, contingency_fund_start, insurance_cutoff[start_type])
+      annual_cost['CF']['contribution'][contingency_index] = contingency_fund_start*1.96/30 
     
     annual_cost['insurance'] = {}
     annual_cost['insurance']['contribution'] = np.zeros(contingency_increments*insurance_increments)
@@ -165,12 +228,12 @@ for x in mitigate_list:
     
     timeseries_revenues[x.key]['insurance'][start_type] = np.zeros((contingency_increments*insurance_increments, len(annual_pumping)*evaluation_length))
     average_revenue[x.key]['insurance'][start_type] = np.zeros(contingency_increments*insurance_increments)    
-    insurance_payout = plotter.find_insurance_payment(annual_pumping, timeseries_revenues[x.key][start_type], 2000.0)
     for contingency_index in range(0,contingency_increments):
-      contingency_fund_start = 2.0*contingency_index*average_revenue[x.key][start_type]/contingency_increments
+      contingency_fund_start = 1.0*contingency_index*average_revenue[x.key][start_type]/contingency_increments
       for insurance_index in range(0, insurance_increments):
-        insurance_strike = insurance_index*50.0 + 1500.0
-        insurance_cost = plotter.price_insurance(annual_pumping, insurance_strike, insurance_payout, 1.2)
+        insurance_strike = insurance_index*50.0 + 1000.0
+        insurance_payout = plotter.find_insurance_payment_constant(annual_pumping, timeseries_revenues[x.key][start_type], insurance_strike)
+        insurance_cost = plotter.price_insurance(annual_pumping, insurance_strike, insurance_payout, 1.4)
         timeseries_revenues[x.key]['insurance'][start_type][contingency_index*insurance_increments + insurance_index][:], average_revenue[x.key]['insurance'][start_type][contingency_index*insurance_increments + insurance_index] = plotter.find_insurance_mitigation(annual_pumping, timeseries_revenues[x.key][start_type], average_revenue[x.key][start_type], evaluation_length, insurance_cost, insurance_strike, insurance_payout, contingency_fund_start, insurance_cutoff[start_type]) 
         annual_cost['insurance']['contribution'][contingency_index*insurance_increments + insurance_index] = contingency_fund_start*1.96/30
         annual_cost['insurance']['premium'][contingency_index*insurance_increments + insurance_index] = insurance_cost
@@ -183,23 +246,31 @@ for x in mitigate_list:
         x.value_at_risk[start_type]['CF'] = np.zeros(contingency_increments)
         print(contingency_index)
         for contingency_index in range(0,contingency_increments):
+          print(contingency_index, end = " ")
           x.value_at_risk[start_type]['CF'][contingency_index] = plotter.show_value_at_risk(timeseries_revenues[x.key]['CF'][start_type][contingency_index], average_revenue[x.key]['CF'][start_type][contingency_index], percentile)
       elif type == 'insurance':
         x.value_at_risk[start_type]['insurance'] = np.zeros(contingency_increments*insurance_increments)
         for insurance_index in range(0,contingency_increments*insurance_increments):
+          print(insurance_index, end = " ")
           x.value_at_risk[start_type]['insurance'][insurance_index] = plotter.show_value_at_risk(timeseries_revenues[x.key]['insurance'][start_type][insurance_index], average_revenue[x.key]['insurance'][start_type][insurance_index], percentile)
       else:
         x.value_at_risk[start_type]['none'] = 0.0
+        print('none')
         x.value_at_risk[start_type]['none'] = plotter.show_value_at_risk(timeseries_revenues[x.key][start_type], average_revenue[x.key][start_type], percentile)
 
 	
-    contingency_figure_index = plotter.find_index(modelplot.losthills.value_at_risk[start_type]['CF'], average_revenue['LHL']['CF'][start_type], insurance_cutoff[start_type])
-    insurance_figure_index = plotter.find_index(modelplot.losthills.value_at_risk[start_type]['insurance'], average_revenue['LHL']['insurance'][start_type], insurance_cutoff[start_type])
+    contingency_figure_index = plotter.find_index(x.value_at_risk[start_type]['CF'], average_revenue[x.key]['CF'][start_type], insurance_cutoff[start_type])
+    insurance_figure_index = plotter.find_index(x.value_at_risk[start_type]['insurance'], average_revenue[x.key]['insurance'][start_type], insurance_cutoff[start_type])
+    fig1 = plt.figure()
+    ax0 = fig1.add_subplot(111)
+    ax1 = plt.plot(timeseries_revenues[x.key]['CF'][start_type][contingency_figure_index],color = 'red', linewidth = 3)  
+    ax1 = plt.plot(timeseries_revenues[x.key]['insurance'][start_type][insurance_figure_index],color = 'blue', linewidth = 3)  
+    plt.show()
 	
-    bar_shapes = plotter.find_revenue_buckets(timeseries_revenues['LHL'], contingency_figure_index, insurance_figure_index, start_type)
-    plotter.show_revenue_variability(bar_shapes, average_revenue['LHL'], contingency_figure_index, insurance_figure_index, start_type, annual_cost, 14.0)
+    bar_shapes = plotter.find_revenue_buckets(timeseries_revenues[x.key], contingency_figure_index, insurance_figure_index, start_type)
+    plotter.show_revenue_variability(bar_shapes, average_revenue[x.key], contingency_figure_index, insurance_figure_index, start_type, annual_cost, max(timeseries_revenues[x.key][start_type]))
 
-plotter.show_insurance_payouts(annual_pumping, timeseries_revenues['LHL']['delivery'], timeseries_revenues['LHL']['recovery'], 2000.0)
+plotter.show_insurance_payouts(annual_pumping, timeseries_revenues[x.key]['delivery'], timeseries_revenues[x.key]['recovery'], 2000.0)
 
 type_list = ['delivery', 'recovery', 'banking', 'price']
 certain_revenues = np.zeros(5)

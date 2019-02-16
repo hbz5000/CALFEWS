@@ -35,10 +35,10 @@
   },
   "carryover_target": {
     "W": 550,
-    "AN": 550,
-    "BN": 550,
-    "D": 550,
-    "C": 550
+    "AN": 400,
+    "BN": 400,
+    "D": 390,
+    "C": 290
   },
   "max_carryover_target": 550.0,
   "carryover_excess_use": 0.0,
