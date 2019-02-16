@@ -75,7 +75,21 @@ class Reservoir():
       #load timeseries inputs from cord-data.csv input file
       self.Q = df['%s_inf'% key].values * cfs_tafd
       self.E = df['%s_evap'% key].values * cfs_tafd
-      self.fci = df['%s_fci' % key].values
+      ####Note - Shasta FCI values are not right - the original calculation units are in AF, but it should be in CFS
+	  ####so the actual values are high.  Just recalculate here instead of changing input files
+      if self.key == "SHA":
+        self.fci = np.zeros(self.T)
+        self.fci[0] = 100000
+        for x in range(1, self.T):
+          dowy = self.dowy[x]
+          if dowy > 260:
+            self.fci[x] = 0
+          elif dowy == 0:
+            self.fci[x] = 100000
+          else:
+            self.fci[x] = self.fci[x-1]*0.95 + self.Q[x]*tafd_cfs
+      else:
+        self.fci = df['%s_fci' % key].values
       self.SNPK = df['%s_snow' % key].values
       self.precip = df['%s_precip'% key].values * cfs_tafd
       self.downstream = df['%s_gains'% key].values * cfs_tafd
@@ -296,7 +310,10 @@ class Reservoir():
     W = self.S[t] + self.Q[t]
     self.R[t] = max(min(self.Rtarget[t], W - self.dead_pool), 0.0)
     self.R[t] = min(self.R[t], self.max_outflow * cfs_tafd)
-    self.R[t] +=  max(W - self.R[t] - self.capacity, 0.0) # spill
+	#save this value as 'forced spills' to add to delta inflow
+	#in model.py
+    self.force_spill = max(W - self.R[t] - self.capacity, 0.0)
+    self.R[t] +=  self.force_spill # spill
     if t < (self.T - 1):
       self.S[t+1] = max(W - self.R[t] - self.E[t], 0) # mass balance update
     self.R_to_delta[t] = max(self.R[t] - self.basinuse - self.consumed_releases, 0) # delta calcs need this
@@ -320,6 +337,7 @@ class Reservoir():
     running_storage = current_storage#storage after each (monthly) timestep
 
     self.min_daily_uncontrolled = 0.0#rate at which flow has to be released in order to avoid overtopping
+    self.max_daily_uncontrolled = 999.99#rate which flow cannot be released pass in order to avoid missing EOS targets
     self.uncontrolled_available = 0.0#maximum volume 'above' flood control, w/o releases
     self.numdays_fillup[release] = 999.99#number of days until reservoir fills
 
@@ -380,6 +398,7 @@ class Reservoir():
       crossover_date = 0.0
       #expected storage at the end of the month
       eom_storage = running_storage + reservoir_change_rate*(block_end - block_start + 1)
+      self.max_daily_uncontrolled = min((eom_storage - self.EOS_target)/(block_end + 1 + cross_counter_wy*365 - dowy), self.max_daily_uncontrolled)
       if eom_storage > storage_cap_end:
         #rate of release to avoid flood pool
         this_month_min_release = (eom_storage - storage_cap_end ) / (block_end + 1 + cross_counter_wy*365 - dowy)
@@ -393,7 +412,7 @@ class Reservoir():
         numdays_fillup = block_start + crossover_date + cross_counter_wy*365 - dowy
 
         #total volume & rate are the maximum monthly value over the next 12 months
-        self.min_daily_uncontrolled = max(this_month_min_release, self.min_daily_uncontrolled)
+        self.min_daily_uncontrolled = min(max(this_month_min_release, self.min_daily_uncontrolled), self.max_daily_uncontrolled)
         self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
         self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
 

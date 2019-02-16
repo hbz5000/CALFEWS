@@ -1294,6 +1294,9 @@ class Model():
     ##Set Delta operating rules
     ##Water Balance on each reservoir
     ##Decisions - release water for delta export, flood control
+    swp_release = 0#turn off any pumping over the E/I ratio 'tax'
+    cvp_release = 0
+
     d = self.day_year[t]
     m = self.month[t]
     dowy = self.dowy[t]
@@ -1380,10 +1383,11 @@ class Model():
     proj_surplus, max_pumping = self.proj_gains(t, dowy, m, year)
     flood_release = {}
     flood_volume = {}
-    flood_release['swp'] = self.oroville.min_daily_uncontrolled
-    flood_release['cvp'] = self.shasta.min_daily_uncontrolled
-    flood_volume['swp'] = self.oroville.uncontrolled_available
-    flood_volume['cvp'] = self.shasta.uncontrolled_available
+	##Releases in anticipation of flood pool encroachment (not required by flood rules)
+    flood_release['swp'] = self.oroville.min_daily_uncontrolled + self.yuba.min_daily_uncontrolled
+    flood_release['cvp'] = self.shasta.min_daily_uncontrolled + self.folsom.min_daily_uncontrolled
+    flood_volume['swp'] = self.oroville.uncontrolled_available + self.yuba.min_daily_uncontrolled
+    flood_volume['cvp'] = self.shasta.uncontrolled_available + self.shasta.min_daily_uncontrolled
     swp_over_dead_pool = self.oroville.find_emergency_supply(t, m, dowy)
     cvp_over_dead_pool = 0.0
 	##Distribute 'available storage' seasonally to maximize pumping under E/I ratio requirements (i.e., pump when E/I ratio is highest)
@@ -1409,20 +1413,34 @@ class Model():
     if self.oroville.sodd > self.oroville.S[t] - self.oroville.dead_pool:	  
       self.oroville.sodd = 0.0
 	  
-    if self.shasta.sodd < self.shasta.min_daily_uncontrolled:
-      release_switch = min(self.folsom.sodd, self.shasta.min_daily_uncontrolled - self.shasta.sodd)
+    ##Releases for export from reservoirs with flood control encroachment	  
+    if self.shasta.sodd < self.shasta.min_daily_uncontrolled and self.folsom.sodd > self.folsom.min_daily_uncontrolled:
+      release_switch = min(self.folsom.sodd - self.folsom.min_daily_uncontrolled, self.shasta.min_daily_uncontrolled - self.shasta.sodd)
       self.shasta.sodd += release_switch
       self.folsom.sodd -= release_switch
-    if self.oroville.sodd < self.oroville.min_daily_uncontrolled:
-      release_switch = min(self.yuba.sodd, self.oroville.min_daily_uncontrolled - self.oroville.sodd)
+    elif self.shasta.sodd > self.shasta.min_daily_uncontrolled and self.folsom.sodd < self.folsom.min_daily_uncontrolled:
+      release_switch = min(self.shasta.sodd - self.shasta.min_daily_uncontrolled, self.folsom.min_daily_uncontrolled - self.folsom.sodd)
+      self.shasta.sodd -= release_switch
+      self.folsom.sodd += release_switch
+
+    if self.oroville.sodd < self.oroville.min_daily_uncontrolled and self.yuba.sodd > self.yuba.min_daily_uncontrolled:
+      release_switch = min(self.yuba.sodd - self.yuba.min_daily_uncontrolled, self.oroville.min_daily_uncontrolled - self.oroville.sodd)
       self.oroville.sodd += release_switch
       self.yuba.sodd -= release_switch
+    elif self.oroville.sodd > self.oroville.min_daily_uncontrolled and self.yuba.sodd < self.yuba.min_daily_uncontrolled:
+      release_switch = min(self.oroville.sodd - self.oroville.min_daily_uncontrolled, self.yuba.min_daily_uncontrolled - self.yuba.sodd)
+      self.yuba.sodd += release_switch
+      self.oroville.sodd -= release_switch
+
 
 	##SAN JOAQUIN RESERVOIR OPERATIONS
 	##lower SJ basins - no 'release for exports' but used to meet delta targets @ vernalis
     ##Water Balance
     for x in [self.newmelones, self.donpedro, self.exchequer]:	
       x.step(t)
+	  #forced spills also go to delta
+      self.delta.total_inflow += x.force_spill
+
 
     #SACRAMENTO RESERVOIR OPERATIONS
 	##Water balance at each Northern Reservoir
@@ -1430,6 +1448,9 @@ class Model():
     self.oroville.rights_call(self.delta.barkerslough[t]*-1.0,1)
     for x in [self.shasta, self.oroville, self.yuba, self.folsom]:
       x.step(t)
+	  #forced spills also go to delta
+      self.delta.total_inflow += x.force_spill
+
 	  
     ###DELTA OPERATIONS
 	##Given delta inflows (from gains and reservoir releases), find pumping
@@ -2081,11 +2102,11 @@ class Model():
       if next_month_storage < 1020.0:
         article21 = max(0.0, article21)
         #if expected storage is less than 0 in any month, pump at max, no article 21
-        if next_month_storage + min(expected_untaxed, available_storage) > 1020.0:
+        if next_month_storage + expected_untaxed > 1020.0:
           numdays_fillup = min(numdays_fillup,total_days_remaining+partial_month_remaining)
         else:
           numdays_fillup = min(numdays_fillup, 999.9)#reservoir does not fill up in this condition (if it was full in prior loop months, retains its value)
-        if next_month_storage + min(expected_untaxed, available_storage) > (1020.0 + current_carryover):
+        if next_month_storage + expected_untaxed > (1020.0 + current_carryover):
           pumping_toggle = min(0, pumping_toggle)
           tax_free_toggle = min(0, tax_free_toggle)
         elif next_month_storage + expected_taxed > (1020.0 + current_carryover):
@@ -2214,7 +2235,7 @@ class Model():
               if x.must_fill == 1:
                 res.monthly_demand_must_fill[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*daysmonth
               else:
-                res.monthly_demand[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*daysmonth*demand_fraction
+                res.monthly_demand[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*daysmonth
         total_capacity = 0.0
         for canal_to_reservoir in self.reservoir_canal[res.key]:
           total_capacity += canal_to_reservoir.capacity['normal'][0]

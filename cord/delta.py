@@ -192,19 +192,24 @@ class Delta():
       self.x2_dict['date']['C'] = 255.0
       self.x2_dict['value']['W'] = 77.0
       self.x2_dict['value']['AN'] = 80.0
-      self.x2_dict['value']['BN'] = 86.0
+      self.x2_dict['value']['BN'] = 80.0
       self.x2_dict['value']['D'] = 89.0
       self.x2_dict['value']['C'] = 90.0
 
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         self.x2constraint[wyt][x] = 90.0
-        if x < 45:
-          self.x2constraint[wyt][x] = 90.0 - 5.0*x/45.0
-      for wyt in ['W', 'AN', 'BN', 'D']:
-        if x >= 45 and x < 75:		  
-          self.x2constraint[wyt][x] = 85.0 	
-        elif x >= 75 and x < 180:
-          self.x2constraint[wyt][x] = 85.0 - 8.0*(x-75)/105.0		
+        if wyt == 'C':
+          if x < 75:
+            self.x2constraint[wyt][x] = 90.0 - 5.0*x/75.0
+          elif x < 180:
+            self.x2constraint[wyt][x] = 85.0
+        else:
+          if x < 75:
+            self.x2constraint[wyt][x] = 87.5 - 2.5*x/75.0
+          elif x < 180:
+            self.x2constraint[wyt][x] = 85.0 - 8.0*(x-75)/105.0
+          elif x > 334:
+            self.x2constraint[wyt][x] = 90.0 - 2.5*(x-334)/31.0
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         expected_outflow_releases[wyt][x] = expected_outflow_releases[wyt][x]/num_obs[x]
 
