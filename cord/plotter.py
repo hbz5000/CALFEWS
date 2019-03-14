@@ -555,7 +555,7 @@ def show_pumping_pdf(annual_pumping, project, max_pumping, thresholds, threshold
   sorted_pumping = np.sort(annual_pumping)
   percentages = {}
   for x,y in zip(thresholds, threshold_list):
-    percentages[y] = sorted_pumping[int(np.ceil(x*len(annual_pumping))-1)]
+    percentages[y] = sorted_pumping[int(np.floor(x*len(annual_pumping))-1)]
   
   fig1 = plt.figure()
   ax0 = fig1.add_subplot(111)
@@ -587,8 +587,8 @@ def show_pumping_pdf(annual_pumping, project, max_pumping, thresholds, threshold
   plt.show()
   
 def find_insurance_mitigation(annual_pumping, district_revenues, target_revenue, evaluation_length, insurance_cost, insurance_strike, insurance_payout, contingency_fund_start, min_loss):
-  total_revenue = np.zeros(len(district_revenues)*evaluation_length)
-  annual_contribution = contingency_fund_start*1.96/evaluation_length  
+  total_revenue = np.zeros((evaluation_length, len(district_revenues)))
+  annual_contribution = contingency_fund_start*1.96/evaluation_length
   for y in range(0, len(district_revenues)):
     contingency_fund = contingency_fund_start
     for yy in range(y, y+evaluation_length):
@@ -601,20 +601,19 @@ def find_insurance_mitigation(annual_pumping, district_revenues, target_revenue,
       if insurance_strike > annual_pumping[yy-y_adjust]:
         insurance_payment += insurance_payout[1]
       if district_revenues[yy-y_adjust] > target_revenue:
-        total_revenue[(yy-y)+y*evaluation_length] = target_revenue - annual_contribution - insurance_cost
+        total_revenue[yy-y][y] = target_revenue - annual_contribution - insurance_cost
         contingency_fund += insurance_payment + district_revenues[yy-y_adjust] - target_revenue
       else:
         contingency_fund += (district_revenues[yy-y_adjust] - target_revenue + insurance_payment)
-        total_revenue[(yy-y)+y*evaluation_length] = target_revenue - annual_contribution - insurance_cost
+        total_revenue[yy-y][y] = target_revenue - annual_contribution - insurance_cost + min(contingency_fund,0.0)
       if contingency_fund < 0.0:
-        total_revenue[(yy-y)+y*evaluation_length] += contingency_fund
         contingency_fund = 0.0
 
-  average_revenue = np.mean(total_revenue)
+  average_revenue = target_revenue - annual_contribution - insurance_cost
   
   return total_revenue, average_revenue
   
-def show_insurance_payouts(annual_pumping, revenue_dict, color_dict, strike, contract_type, name, plot_max, animate):
+def show_insurance_payouts(annual_pumping, revenue_dict, color_dict, alpha_dict, strike, contract_type, name, plot_max, animate):
   max_revenue = 0.0
   for x in revenue_dict:
     max_revenue = np.max([max_revenue, np.max(revenue_dict[x])])
@@ -630,25 +629,31 @@ def show_insurance_payouts(annual_pumping, revenue_dict, color_dict, strike, con
   ax0 = fig1.add_subplot(111)
   for x in revenue_dict:
     current_revenues = revenue_dict[x]
-    legend_dict[x] = plt.scatter(annual_pumping, current_revenues, s=75, c=color_dict[x], edgecolor='none', alpha=0.7)
+    legend_dict[x] = plt.scatter(annual_pumping, current_revenues, s=75, c=color_dict[x], edgecolor='none', alpha=alpha_dict[x])
     expected_revenue = np.max(current_revenues[strike_years])
     min_revenue = np.min(current_revenues)
     mean_non_risk = np.mean(current_revenues[non_risk])
-    if counter == len(revenue_dict) -1 :
-      ax2 = plt.plot(insurance_range, min_revenue*np.ones(len(insurance_range)), color = color_dict[x], linewidth = 3)
-      ax3 = plt.plot(insurance_range, expected_revenue*np.ones(len(insurance_range)), color = color_dict[x], linewidth = 3)
-      ax4 = plt.plot(np.zeros(2), [min_revenue, expected_revenue], color = color_dict[x], linewidth = 3)
-      ax5 = plt.plot(strike*np.ones(2), [min_revenue, expected_revenue], color = color_dict[x], linewidth = 3)
-      legend_dict['At Risk Years'] = plt.fill_between(insurance_range,min_revenue*np.ones(len(insurance_range)),expected_revenue*np.ones(len(insurance_range)), color = color_dict[x], alpha = 0.25)
-      p = ax0.plot([0.0, np.max(annual_pumping)],[mean_non_risk, mean_non_risk], linestyle = 'dashed', color = 'black', linewidth = 3)
-      legend_dict['Mean Revenue'] = p[0]
-      ax7 = plt.plot([0.0, np.max(annual_pumping)],[mean_non_risk, mean_non_risk], linestyle = 'dashed', color = 'black', linewidth = 3)
+    mean_risk = np.mean(current_revenues[strike_years])
 
+    if counter == len(revenue_dict) -1 :
+      print(mean_non_risk, end = " ")
+      print(mean_risk)
+      ax2 = plt.plot(insurance_range, min_revenue*np.ones(len(insurance_range)), color = 'red', linewidth = 3)
+      ax3 = plt.plot(insurance_range, expected_revenue*np.ones(len(insurance_range)), color = 'red', linewidth = 3)
+      ax4 = plt.plot(np.zeros(2), [min_revenue, expected_revenue], color = 'red', linewidth = 3)
+      ax5 = plt.plot(strike*np.ones(2), [min_revenue, expected_revenue], color = 'red', linewidth = 3)
+      legend_dict['At Risk Years'] = plt.fill_between(insurance_range,min_revenue*np.ones(len(insurance_range)),expected_revenue*np.ones(len(insurance_range)), color = 'red', alpha = 0.25)
+      p = ax0.plot([0.0, np.max(annual_pumping)],[mean_non_risk, mean_non_risk], linestyle = 'dashed', color = 'black', linewidth = 3)
+      legend_dict['Mean Revenue, Normal'] = p[0]
+      ax7 = plt.plot([0.0, np.max(annual_pumping)],[mean_non_risk, mean_non_risk], linestyle = 'dashed', color = 'black', linewidth = 3)
+      p2 = ax0.plot([0.0, np.max(annual_pumping)],[mean_risk, mean_risk], linestyle = 'dashed', color = 'red', linewidth = 3)
+      legend_dict['Mean Revenue, At-Risk'] = p2[0]
+      ax8 = plt.plot([0.0, np.max(annual_pumping)],[mean_risk, mean_risk], linestyle = 'dashed', color = 'red', linewidth = 3)
 	
     plt.xlim((np.min(annual_pumping)-25.0, np.max(annual_pumping)+25.0))
     plt.ylim((0,plot_max))  
     plt.xlabel('Total ' + contract_type +' (tAF)')
-    plt.ylabel(name + ' Annual Sales ($MM)')
+    plt.ylabel(name + ' Annual Revenue ($MM)')
     counter += 1
 	
   legend_obj = tuple([legend_dict[e] for e in legend_dict])
@@ -660,16 +665,96 @@ def show_insurance_payouts(annual_pumping, revenue_dict, color_dict, strike, con
     item.set_fontsize(14)	  
   plt.show()
   
+  
+def make_revenue_cumulative(revenue_series, insurance_series, control_level):
+  numYears = len(revenue_series)
+  cumulative_revenue = np.zeros(numYears)
+  c_counter = 0.0
+  target_revenue = np.mean(revenue_series)
+  for x in range(0,numYears):
+    c_counter += revenue_series[x] + insurance_series[x] - target_revenue
+    if revenue_series[x]  + insurance_series[x]- target_revenue > 0.0:
+      if c_counter > 0.0:
+        cumulative_revenue[x] = revenue_series[x] +insurance_series[x] - target_revenue
+      else:
+        cumulative_revenue[x] = 0.0
+    else:
+      cumulative_revenue[x] = c_counter
+    if c_counter > 0.0:
+      c_counter = 0.0
+
+	  
+  sorted_cumulative = np.sort(cumulative_revenue)
+  cumulative_index = np.argsort(cumulative_revenue)
+
+  fund_size = {}
+  value_at_risk = {}
+  percentiles = {}
+  var = {}
+  percentiles['100'] = 0.99
+  percentiles['10'] = 0.1
+  percentiles['5'] = 0.05
+  value_risk_list = ['99', '95', '80', '20', '5', '1']
+  var['99'] = 0.99
+  var['95'] = 0.95
+  var['80'] = 0.8
+  var['20'] = 0.2
+  var['5'] = 0.05
+  var['1'] = 0.01
+  index_value = np.floor(len(sorted_cumulative)*percentiles[control_level])
+  if control_level == '100':
+    fund_size = 0.0
+  else:
+    fund_size = sorted_cumulative[int(index_value)]*-1.0
+  annual_losses = np.zeros(len(revenue_series))
+  for y in range(0,len(revenue_series)):
+    this_year_losses = revenue_series[cumulative_index[y]] + insurance_series[cumulative_index[y]] - target_revenue
+    accounting_losses = min(sorted_cumulative[y] + fund_size, 0.0)
+    if this_year_losses > 0.0:
+      annual_losses[y] = min(this_year_losses, sorted_cumulative[y])
+    else:
+      annual_losses[y] = max(this_year_losses, accounting_losses)
+  for v in value_risk_list:
+    index_value = np.floor(len(revenue_series)*var[v])
+    sorted_losses = np.sort(annual_losses)
+    value_at_risk[v] = sorted_losses[int(index_value)]
+	  
+  return value_at_risk, fund_size, target_revenue  
+	  
+def find_bar_shapes(value_at_risk, target_revenue, annual_cost):
+  bar_shapes = {}
+  percentile_groups = ['1_loss', '5_loss', '20_loss', '20_gain', '5_gain', '1_gain']
+  value_risk_list = ['1', '5', '20', '80', '95', '99']
+  percentile_values = [.01, .05, .2, .8 , .95, .99]
+  for percentile in percentile_groups:
+    bar_shapes[percentile] = np.zeros(5)
+  for i,v in enumerate(['none', 'CF', 'CF2','insurance','insurance2']):
+    counter = 0
+    for x,y in zip(percentile_groups, value_risk_list):
+      bar_shapes[x][i] = value_at_risk[v][y] + target_revenue[v] - annual_cost[v]['contribution'] - annual_cost[v]['premium']
+      #if counter < 3:
+        #bar_shapes[x][i] = value_at_risk[v][y] + target_revenue[v] - annual_cost[v]['contribution'] - annual_cost[v]['premium']
+      #elif v == 'none':
+        #bar_shapes[x][i] = value_at_risk[v][y] + target_revenue[v]
+      #else:
+        #bar_shapes[x][i] = target_revenue[v] - annual_cost[v]['contribution'] - annual_cost[v]['premium']
+
+      counter += 1		
+		
+  return bar_shapes
+
 def show_mitigation_plots(revenue_series, annual_pumping, insurance_cutoff, control_risk, contingency_increments, insurance_increments, evaluation_length, interest_rate, insurance_premium, name):
   mitigation_dict = {}
-  mitigation_dict['none'] = revenue_series
+  mitigation_dict['none'] = np.zeros((evaluation_length, len(revenue_series)))
+  for x in range(0,evaluation_length):
+    mitigation_dict['none'][x] = revenue_series
   average_revenue = {}
   average_revenue['none'] = np.mean(revenue_series)
   average_revenue['CF'] = {}
   average_revenue['insurance'] = {}
   value_at_risk = {}
-  mitigation_dict['CF'] = np.zeros((contingency_increments, len(annual_pumping)*int(evaluation_length)))
-  mitigation_dict['insurance'] = np.zeros((contingency_increments*insurance_increments, len(annual_pumping)*int(evaluation_length)))
+  mitigation_dict['CF'] = np.zeros((contingency_increments, evaluation_length, len(annual_pumping)))
+  mitigation_dict['insurance'] = np.zeros((contingency_increments*insurance_increments, evaluation_length, len(annual_pumping)))
   average_revenue['CF'] = np.zeros(contingency_increments)
   average_revenue['insurance'] = np.zeros(contingency_increments*insurance_increments)
 
@@ -686,7 +771,7 @@ def show_mitigation_plots(revenue_series, annual_pumping, insurance_cutoff, cont
     insurance_strike = 0.0
     insurance_cost = 0.0
     insurance_payout = np.zeros(2)
-    mitigation_dict['CF'][contingency_index][:], average_revenue['CF'][contingency_index] = find_insurance_mitigation(annual_pumping, revenue_series, average_revenue['none'], int(evaluation_length), insurance_cost, insurance_strike, insurance_payout, contingency_fund_start, insurance_cutoff)
+    mitigation_dict['CF'][contingency_index][:][:], average_revenue['CF'][contingency_index] = find_insurance_mitigation(annual_pumping, revenue_series, average_revenue['none'], int(evaluation_length), insurance_cost, insurance_strike, insurance_payout, contingency_fund_start, insurance_cutoff)
     annual_cost['CF']['contribution'][contingency_index] = contingency_fund_start*interest_rate*((1.0+interest_rate)**evaluation_length)/(((1.0+interest_rate)**evaluation_length)-1) 
     
   for contingency_index in range(0,contingency_increments):
@@ -695,8 +780,12 @@ def show_mitigation_plots(revenue_series, annual_pumping, insurance_cutoff, cont
       insurance_strike = insurance_index*50.0 + 1000.0
       insurance_payout = find_insurance_payment_constant(annual_pumping, revenue_series, insurance_strike)
       insurance_cost = price_insurance(annual_pumping, insurance_strike, insurance_payout, 1.0+insurance_premium)
+      insurance_payment = insurance_payout[0]*max(insurance_strike - annual_pumping[yy - y_adjust], 0.0)
+      if insurance_strike > annual_pumping[yy-y_adjust]:
+        insurance_payment += insurance_payout[1]
 
-      mitigation_dict['insurance'][contingency_index*insurance_increments + insurance_index][:], average_revenue['insurance'][contingency_index*insurance_increments + insurance_index] = find_insurance_mitigation(annual_pumping, revenue_series, average_revenue['none'], int(evaluation_length), insurance_cost, insurance_strike, insurance_payout, contingency_fund_start, insurance_cutoff) 
+
+      mitigation_dict['insurance'][contingency_index*insurance_increments + insurance_index][:][:], average_revenue['insurance'][contingency_index*insurance_increments + insurance_index] = find_insurance_mitigation(annual_pumping, revenue_series, average_revenue['none'], int(evaluation_length), insurance_cost, insurance_strike, insurance_payout, contingency_fund_start, insurance_cutoff) 
       annual_cost['insurance']['contribution'][contingency_index*insurance_increments + insurance_index] = contingency_fund_start*interest_rate*((1.0+interest_rate)**evaluation_length)/(((1.0+interest_rate)**evaluation_length)-1) 
       annual_cost['insurance']['premium'][contingency_index*insurance_increments + insurance_index] = insurance_cost
    
@@ -716,8 +805,9 @@ def show_mitigation_plots(revenue_series, annual_pumping, insurance_cutoff, cont
 	
   contingency_figure_index = find_index(value_at_risk['CF'], average_revenue['CF'], insurance_cutoff)
   insurance_figure_index = find_index(value_at_risk['insurance'], average_revenue['insurance'], value_at_risk['CF'][contingency_figure_index])
-  bar_shapes = find_revenue_buckets(mitigation_dict, contingency_figure_index, insurance_figure_index)
-  show_revenue_variability(bar_shapes, average_revenue, contingency_figure_index, insurance_figure_index, annual_cost, max(mitigation_dict['none']), name)
+ 
+  bar_shapes = find_revenue_buckets(mitigation_dict, contingency_figure_index, insurance_figure_index,evaluation_length, contingency_increments, insurance_increments)
+  show_revenue_variability(bar_shapes, average_revenue, contingency_figure_index, insurance_figure_index, annual_cost, max(mitigation_dict['none'][0]), name)
  
 def find_insurance_payment(annual_pumping, district_revenues, strike):
   payout_years = annual_pumping < strike
@@ -730,6 +820,15 @@ def find_insurance_payment(annual_pumping, district_revenues, strike):
   insurance_payout[1] = 0.0
 	
   return insurance_payout
+  
+def make_insurance_series(annual_pumping, insurance_strike, revenue_series, pay_frac):
+  insurance_payout = find_insurance_payment_constant(annual_pumping, revenue_series, insurance_strike)
+  insurance_revenues = np.zeros(len(annual_pumping))
+  for x in range(0, len(annual_pumping)):
+    if insurance_strike > annual_pumping[x]:
+        insurance_revenues[x] = insurance_payout[1]*pay_frac
+
+  return insurance_revenues
   
 def find_insurance_payment_constant(annual_pumping, district_revenues, strike):
   payout_years = annual_pumping < strike
@@ -754,13 +853,17 @@ def price_insurance(annual_pumping, insurance_strike, insurance_payout, insuranc
   return insurance_cost	  
   
 def show_value_at_risk(district_revenue, average_revenue, percentile):
-  numYears = len(district_revenue)
-  risk = np.zeros(numYears)
-  for y in range(0, len(district_revenue)):
-    risk[y] = max(average_revenue - district_revenue[y], 0.0)
-  contingent_risk = np.sort(risk)
-  percentile_index = int(np.ceil(percentile*numYears))
-  value_at_risk = contingent_risk[percentile_index]
+  a = district_revenue.shape
+  numYears = a[1]
+  numEval = a[0]
+  value_at_risk = 0.0
+  for x in range(0, numEval):
+    risk = np.zeros(numYears)
+    for y in range(0,numYears):
+      risk[y] = max(average_revenue - district_revenue[x][y], 0.0)
+    contingent_risk = np.sort(risk)
+    percentile_index = int(np.ceil(percentile*numYears))
+    value_at_risk = max(contingent_risk[percentile_index], value_at_risk)
   
   return value_at_risk
   
@@ -780,31 +883,243 @@ def find_index(values, averages, max_value):
     if sorted_averages[y] > max_rev:
       max_rev_spot = y
       max_rev = sorted_averages[y]
-	  
+	
   return sorted_index[max_rev_spot]
 
 	
-def find_revenue_buckets(revenues, contingency_index, insurance_index):
+def find_revenue_buckets(revenues, contingency_index, insurance_index, numEval, contInc, insInc):
   bar_shapes = {}
   percentile_groups = ['1_loss', '5_loss', '20_loss', '20_gain', '5_gain', '1_gain']
   percentile_values = [.01, .05, .2, .8 , .95, .99]
   for percentile in percentile_groups:
-    bar_shapes[percentile] = np.zeros(3)
+    bar_shapes[percentile] = np.ones(3)*999999
 	
   for i,v in enumerate(['none', 'CF', 'insurance']):
-    if v == 'CF':
-      sorted_values = np.sort(revenues[v][contingency_index])
-    elif v == 'insurance':
-      sorted_values = np.sort(revenues[v][insurance_index])
-    else:
-      sorted_values = np.sort(revenues[v])
-    numYears = len(sorted_values)
-    for ii,vv in enumerate(percentile_groups):
-      percentile_index = int(np.ceil(percentile_values[ii]*numYears))
-      bar_shapes[vv][i] = sorted_values[percentile_index]
-	  
+    for xx in range(0, numEval):
+      if v == 'CF':
+        sorted_values = np.sort(revenues[v][contingency_index][xx])
+
+      elif v == 'insurance':
+        sorted_values = np.sort(revenues[v][insurance_index][xx])
+
+      else:
+        sorted_values = np.sort(revenues[v][xx])
+
+      numYears = len(sorted_values)
+      for ii,vv in enumerate(percentile_groups):
+        percentile_index = int(np.ceil(percentile_values[ii]*numYears))
+        bar_shapes[vv][i] = min(sorted_values[percentile_index],bar_shapes[vv][i])
+		
   return bar_shapes
-    
+  
+def compare_mitigation_performance(revenue_series, annual_pumping, premium_rate, control_level, insurance_strike, insurance_payment, name):
+  value_at_risk = {}
+  value_at_risk['none'] = {}
+  value_at_risk['CF'] = {}
+  value_at_risk['insurance'] = {}
+  value_at_risk['CF2'] = {}
+  value_at_risk['insurance2'] = {}
+  fund_size = {}
+
+  annual_cost = {}
+  annual_cost['none'] = {}
+  annual_cost['CF'] = {}
+  annual_cost['insurance'] = {}
+  annual_cost['CF2'] = {}
+  annual_cost['insurance2'] = {}
+
+  average_revenue = {}
+  value_at_int0, fund_size['none'], average_revenue['none'] = make_revenue_cumulative(revenue_series, np.zeros(len(revenue_series)), '100')
+  for x in value_at_int0:
+    value_at_risk['none'][x] = value_at_int0[x]
+
+  value_at_int, fund_size['CF'], average_revenue['CF'] = make_revenue_cumulative(revenue_series, np.zeros(len(revenue_series)), control_level[0])
+  for x in value_at_int:
+      value_at_risk['CF'][x] = value_at_int[x]
+  value_at_int, fund_size['CF2'], average_revenue['CF2'] = make_revenue_cumulative(revenue_series, np.zeros(len(revenue_series)), control_level[1])
+  for x in value_at_int:
+      value_at_risk['CF2'][x] = value_at_int[x]
+
+
+  insurance_revenues = make_insurance_series(annual_pumping, insurance_strike, revenue_series, insurance_payment[0])
+  value_at_int2, fund_size['insurance'], average_revenue['insurance'] = make_revenue_cumulative(revenue_series, insurance_revenues, control_level[0])
+  for x in value_at_int2:
+    value_at_risk['insurance'][x] = value_at_int2[x]
+  insurance_revenues2 = make_insurance_series(annual_pumping, insurance_strike, revenue_series, insurance_payment[1])
+  value_at_int2, fund_size['insurance2'], average_revenue['insurance2'] = make_revenue_cumulative(revenue_series, insurance_revenues2, control_level[1])
+  for x in value_at_int2:
+    value_at_risk['insurance2'][x] = value_at_int2[x]
+
+
+  annual_cost['none']['contribution'] = 0.0
+  annual_cost['none']['premium'] = 0.0
+  annual_cost['CF']['contribution'] = fund_size['CF']*1.96/30
+  annual_cost['CF2']['contribution'] = fund_size['CF2']*1.96/30
+
+  annual_cost['insurance']['contribution'] = fund_size['insurance']*1.96/30
+  annual_cost['insurance2']['contribution'] = fund_size['insurance2']*1.96/30
+
+  annual_cost['CF']['premium'] = 0.0
+  annual_cost['insurance']['premium'] = np.mean(insurance_revenues)*(1.0+premium_rate)
+  annual_cost['CF2']['premium'] = 0.0
+  annual_cost['insurance2']['premium'] = np.mean(insurance_revenues2)*(1.0+premium_rate)
+  print(value_at_risk)
+  print(average_revenue)
+  print(annual_cost)
+  bar_shapes = find_bar_shapes(value_at_risk, average_revenue, annual_cost)
+  plot_bar_shapes(bar_shapes, average_revenue, annual_cost, np.ceil(bar_shapes['1_gain'][0]), name)
+  
+def plot_almond_costs():
+
+  init_plotting()
+  sns.set()
+
+  bar_shapes = np.zeros(25)
+  cost_shapes = np.zeros(25)
+  bar_locations = np.arange(25)
+  fig = plt.figure()
+  ax0 = fig.add_subplot(111)
+  bar_shapes[0] = 0.0
+  bar_shapes[1] = 0.0
+  bar_shapes[2] = 1.35
+  bar_shapes[3] = 2.7
+  bar_shapes[4] = 5.4
+  bar_shapes[5] = 11.1
+  cost_shapes[0] = -5.8
+  cost_shapes[1] = -3.0
+  cost_shapes[2] = -4.0
+  cost_shapes[3] = -5.5
+  cost_shapes[4] = -6.0
+  cost_shapes[5] = -6.2
+
+  for x in range(6, 25):
+    bar_shapes[x] = 11.1
+    cost_shapes[x] = -6.2
+	
+  ax1 = plt.bar(bar_locations, bar_shapes, 0.8, bottom = np.zeros(25), color = 'blue', alpha = 0.25)
+  p0 =  plt.bar(bar_locations, bar_shapes, 0.8, bottom = np.zeros(25), edgecolor = ['blue']*len(bar_locations), linewidth = 1, color = 'None')
+  ax2 = plt.bar(bar_locations, np.zeros(25) - cost_shapes, 0.8, bottom = cost_shapes, color = 'red', alpha = 0.25)
+  p0 =  plt.bar(bar_locations, np.zeros(25) - cost_shapes, 0.8, bottom = cost_shapes, edgecolor = ['red']*len(bar_locations), linewidth = 1, color = 'None')
+  
+  plt.ylabel('Annual Costs and Revenues ($1000/acre)')
+  plt.xlabel('Almond Life')
+  plt.ylim([-10, 15])
+  plt.legend((ax1, ax2), ('Revenue', 'Cost'), fontsize = 14)
+  for item in [ax0.xaxis.label, ax0.yaxis.label]:
+    item.set_fontsize(20)  
+  for item in (ax0.get_xticklabels() + ax0.get_yticklabels()):
+    item.set_fontsize(14)  
+
+  
+  plt.show()
+  
+def plot_bar_shapes(bar_shapes, averages, annual_cost, max_revenue, name):	
+  
+  bar_shapes['cont'] = np.zeros(5)
+  bar_shapes['premium'] = np.zeros(5)
+  bar_shapes['average'] = np.zeros(5)
+  bar_shapes['zero'] = np.zeros(5)
+  bar_locations = np.arange(5)  
+  legend_dict = {}
+  legend_list = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue', 'Annual Contingency Fund Contribution', 'Annual Insurance Premium', 'Expected Revenue']
+  top_threshold_list = ['average', '20_loss', '5_loss', '20_gain', '5_gain', '1_gain', 'zero', 'cont']
+  bottom_threshold_list = ['20_loss', '5_loss', '1_loss', 'average', '20_gain', '5_gain', 'cont', 'premium']
+  color_shade = [0.75, 0.5, 0.25, 0.75, 0.5, 0.25, 0.75, 0.25]
+  color_list = ['red', 'red', 'red', 'blue', 'blue', 'blue', 'green', 'green']
+  for i,v in enumerate(['none', 'CF', 'CF2','insurance','insurance2']):
+    if v == 'CF':
+      bar_shapes['average'][i] = averages[v] - (annual_cost[v]['premium']+ annual_cost[v]['contribution'])
+      bar_shapes['cont'][1] = annual_cost[v]['contribution']*-1
+      bar_shapes['premium'][1] = (annual_cost[v]['premium']+ annual_cost[v]['contribution'])*-1
+    elif v == 'CF2':
+      bar_shapes['average'][i] = averages[v] - (annual_cost[v]['premium']+ annual_cost[v]['contribution'])
+      bar_shapes['cont'][2] = annual_cost[v]['contribution']*-1
+      bar_shapes['premium'][2] = (annual_cost[v]['premium']+ annual_cost[v]['contribution'])*-1
+    elif v == 'insurance':
+      bar_shapes['average'][i] = averages[v] - (annual_cost[v]['premium']+ annual_cost[v]['contribution'])
+      bar_shapes['cont'][3] = annual_cost[v]['contribution']*-1
+      bar_shapes['premium'][3] = (annual_cost[v]['premium']+ annual_cost[v]['contribution'])*-1
+    elif v == 'insurance2':
+      bar_shapes['average'][i] = averages[v] - (annual_cost[v]['premium']+ annual_cost[v]['contribution'])
+      bar_shapes['cont'][4] = annual_cost[v]['contribution']*-1
+      bar_shapes['premium'][4] = (annual_cost[v]['premium']+ annual_cost[v]['contribution'])*-1
+
+    else:
+      bar_shapes['average'][i] = averages[v]
+	  
+  max_cost = np.floor(min(bar_shapes['premium'])-0.5)
+  print(max_cost)
+  print(min(bar_shapes['premium']))
+  animation_loop = {}
+  location_loop = {}
+  set_to_loop = {}
+  animation_loop['1'] = ['Expected Revenue']
+  animation_loop['2'] = ['20% Chance of Lower Revenue','Expected Revenue']
+  animation_loop['3'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue','Expected Revenue']
+  animation_loop['4'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue','Expected Revenue']
+  animation_loop['5'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['6'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['7'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['8'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['9'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['10'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue', 'Annual Contingency Fund Contribution', 'Annual Insurance Premium','Expected Revenue']
+
+  location_loop['1'] = [0,]
+  location_loop['2'] = [0,]
+  location_loop['3'] = [0,]
+  location_loop['4'] = [0,]
+  location_loop['5'] = [0,]
+  location_loop['6'] = [0,1]
+  location_loop['7'] = [0,1,2]
+  location_loop['8'] = [0,1,2,3]
+  location_loop['9'] = [0,1,2,3,4]
+  location_loop['10'] = [0,1,2,3,4]
+  for animation in animation_loop:
+    current_block = animation_loop[animation]
+    current_space = location_loop[animation]
+    new_bar_shapes = {}
+    for aa in bar_shapes:
+      new_bar_shapes[aa] = np.zeros(5)
+    for yy in range(0,len(bar_shapes['average'])):
+      counter = 0
+      for zz in current_space:
+        if zz == yy:
+          counter = 1
+      if counter == 1:
+        for aa in bar_shapes:
+          new_bar_shapes[aa][yy] = bar_shapes[aa][yy]
+      else:
+        for aa in bar_shapes:
+          new_bar_shapes[aa][yy] = 0.0
+    fig = plt.figure()
+    ax0 = fig.add_subplot(111) 
+    for x,y,z,shade,color_fill in zip(legend_list, top_threshold_list, bottom_threshold_list, color_shade, color_list):
+      counter = 0
+      for aa in animation_loop[animation]:
+        if aa == x:
+          legend_dict[x] = plt.bar(bar_locations, new_bar_shapes[y] - new_bar_shapes[z], 0.5, bottom = new_bar_shapes[z], color = color_fill, alpha = shade)
+          p0 =  plt.bar(bar_locations, new_bar_shapes[y] - new_bar_shapes[z], 0.5, bottom = new_bar_shapes[z], edgecolor = [color_fill]*len(bar_locations), linewidth = 1, color = 'None')
+          counter = 1
+      if counter == 0:
+        legend_dict[x] = plt.bar(bar_locations, new_bar_shapes[z] - new_bar_shapes[z], 0.5, bottom = new_bar_shapes[z], color = 'None', alpha = 0.1)
+    legend_dict['Expected Revenue'] = plt.bar(bar_locations, new_bar_shapes['average'], 0.5, edgecolor = ['black']*len(bar_locations), linewidth = 5, color = "None")
+
+    plt.ylabel(name + ' Annual Revenue ($MM)')
+    plt.ylim([max_cost, max_revenue])
+    legend_names = tuple(legend_list)
+    legend_object = tuple(legend_dict[e] for e in legend_dict)
+    plt.xticks(bar_locations,('No Mitigation', 'Contingency Fund (A)','Contingency Fund (B)', 'Hybrid Insurance Fund (A)', 'Hybrid Insurance Fund (B)'))
+    columns = int(np.ceil(len(legend_object)/3))
+    plt.legend(legend_object, legend_names, ncol = columns, bbox_to_anchor = (0.0, 1.005, 1.0, .4), loc = 3, borderaxespad = 0.0, fontsize = 14)
+    for item in [ax0.xaxis.label, ax0.yaxis.label]:
+      item.set_fontsize(20)  
+    for item in (ax0.get_xticklabels() + ax0.get_yticklabels()):
+      item.set_fontsize(14)  
+
+    plt.show()
+    del new_bar_shapes
+
+  
 def show_revenue_variability(bar_shapes, averages, contingency_index, insurance_index, annual_cost, max_revenue, name):	
   
   bar_shapes['cont'] = np.zeros(3)
@@ -812,8 +1127,6 @@ def show_revenue_variability(bar_shapes, averages, contingency_index, insurance_
   bar_shapes['average'] = np.zeros(3)
   bar_shapes['zero'] = np.zeros(3)
   bar_locations = np.arange(3)  
-  fig = plt.figure()
-  ax0 = fig.add_subplot(111) 
   legend_dict = {}
   legend_list = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue', 'Annual Contingency Fund Contribution', 'Annual Insurance Premium', 'Expected Revenue']
   top_threshold_list = ['average', '20_loss', '5_loss', '20_gain', '5_gain', '1_gain', 'zero', 'cont']
@@ -833,23 +1146,70 @@ def show_revenue_variability(bar_shapes, averages, contingency_index, insurance_
       bar_shapes['average'][i] = averages[v]
 	  
   max_cost = np.floor(min(bar_shapes['premium']))
-  for x,y,z,shade,color_fill in zip(legend_list, top_threshold_list, bottom_threshold_list, color_shade, color_list):
-    legend_dict[x] = plt.bar(bar_locations, bar_shapes[y] - bar_shapes[z], 0.5, bottom = bar_shapes[z], color = color_fill, alpha = shade)
-    p0 =  plt.bar(bar_locations, bar_shapes[y] - bar_shapes[z], 0.5, bottom = bar_shapes[z], edgecolor = [color_fill]*len(bar_locations), linewidth = 1, color = 'None')
-  legend_dict['Expected Revenue'] = plt.bar(bar_locations, bar_shapes['average'], 0.5, edgecolor = ['black']*len(bar_locations), linewidth = 5, color = "None")
+  animation_loop = {}
+  location_loop = {}
+  set_to_loop = {}
+  animation_loop['1'] = ['Expected Revenue']
+  animation_loop['2'] = ['20% Chance of Lower Revenue','Expected Revenue']
+  animation_loop['3'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue','Expected Revenue']
+  animation_loop['4'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue','Expected Revenue']
+  animation_loop['5'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['6'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['7'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue','Expected Revenue']
+  animation_loop['8'] = ['20% Chance of Lower Revenue', '5% Chance of Lower Revenue', '1% Chance of Lower Revenue', '20% Chance of Greater Revenue', '5% Chance of Greater Revenue', '1% Chance of Greater Revenue', 'Annual Contingency Fund Contribution', 'Annual Insurance Premium','Expected Revenue']
 
-  plt.ylabel(name + ' Annual Revenue ($MM)')
-  plt.ylim([max_cost, max_revenue])
-  legend_names = tuple(legend_list)
-  legend_object = tuple(legend_dict[e] for e in legend_dict)
-  plt.xticks(bar_locations,('No Mitigation', 'Contingency Fund', 'Contingency Fund\n with Index Insurance'))
-  plt.legend(legend_object, legend_list, ncol = 3, bbox_to_anchor = (0.0, 1.005, 1.0, .4), loc = 3, borderaxespad = 0.0, fontsize = 14)
-  for item in [ax0.xaxis.label, ax0.yaxis.label]:
-    item.set_fontsize(20)  
-  for item in (ax0.get_xticklabels() + ax0.get_yticklabels()):
-    item.set_fontsize(14)  
+  location_loop['1'] = [0,]
+  location_loop['2'] = [0,]
+  location_loop['3'] = [0,]
+  location_loop['4'] = [0,]
+  location_loop['5'] = [0,]
+  location_loop['6'] = [0,1]
+  location_loop['7'] = [0,1,2]
+  location_loop['8'] = [0,1,2]
+  for animation in animation_loop:
+    current_block = animation_loop[animation]
+    current_space = location_loop[animation]
+    new_bar_shapes = {}
+    for aa in bar_shapes:
+      new_bar_shapes[aa] = np.zeros(3)
+    for yy in range(0,len(bar_shapes['average'])):
+      counter = 0
+      for zz in current_space:
+        if zz == yy:
+          counter = 1
+      if counter == 1:
+        for aa in bar_shapes:
+          new_bar_shapes[aa][yy] = bar_shapes[aa][yy]
+      else:
+        for aa in bar_shapes:
+          new_bar_shapes[aa][yy] = 0.0
+    fig = plt.figure()
+    ax0 = fig.add_subplot(111) 
+    for x,y,z,shade,color_fill in zip(legend_list, top_threshold_list, bottom_threshold_list, color_shade, color_list):
+      counter = 0
+      for aa in animation_loop[animation]:
+        if aa == x:
+          legend_dict[x] = plt.bar(bar_locations, new_bar_shapes[y] - new_bar_shapes[z], 0.5, bottom = new_bar_shapes[z], color = color_fill, alpha = shade)
+          p0 =  plt.bar(bar_locations, new_bar_shapes[y] - new_bar_shapes[z], 0.5, bottom = new_bar_shapes[z], edgecolor = [color_fill]*len(bar_locations), linewidth = 1, color = 'None')
+          counter = 1
+      if counter == 0:
+        legend_dict[x] = plt.bar(bar_locations, new_bar_shapes[z] - new_bar_shapes[z], 0.5, bottom = new_bar_shapes[z], color = 'None', alpha = 0.1)
+    legend_dict['Expected Revenue'] = plt.bar(bar_locations, new_bar_shapes['average'], 0.5, edgecolor = ['black']*len(bar_locations), linewidth = 5, color = "None")
 
-  plt.show()
+    plt.ylabel(name + ' Annual Revenue ($MM)')
+    plt.ylim([max_cost, max_revenue])
+    legend_names = tuple(legend_list)
+    legend_object = tuple(legend_dict[e] for e in legend_dict)
+    plt.xticks(bar_locations,('No Mitigation', 'Contingency Fund', 'Contingency Fund\n with Index Insurance'))
+    columns = int(np.ceil(len(legend_object)/3))
+    plt.legend(legend_object, legend_names, ncol = columns, bbox_to_anchor = (0.0, 1.005, 1.0, .4), loc = 3, borderaxespad = 0.0, fontsize = 14)
+    for item in [ax0.xaxis.label, ax0.yaxis.label]:
+      item.set_fontsize(20)  
+    for item in (ax0.get_xticklabels() + ax0.get_yticklabels()):
+      item.set_fontsize(14)  
+
+    plt.show()
+    del new_bar_shapes
 	      
 def make_pumping_plots(simulated_results, observed_results, simulated_unit, observed_unit, object_list, title_list, label_loc, freq, freq2):
   init_plotting()
@@ -1068,6 +1428,7 @@ def find_banking_revenues(deposits, withdrawals, take_fee, give_fee):
     average_revenue['withdrawal'][y] = np.mean(total_revenue['withdrawal'][y])
 	
   return total_revenue, average_revenue
+  
 
 def show_district_revenues(timeseries_revenues, min_rev, max_rev, second_type):
   plt.style.use("seaborn-darkgrid")  
@@ -1135,7 +1496,7 @@ def show_district_revenues(timeseries_revenues, min_rev, max_rev, second_type):
   plt.ylabel('Probability')
   plt.xlim([min_rev, max_rev])
   plt.ylim([0.0, max_height])
-  plt.legend((ax1, ax11, ax2, ax3, pp[0]), ('Annual "Table A" Revenues', 'Annual Revenues w/Groundwater Recovery', '5% Risk', '1% Risk', 'Average Revenue'),bbox_to_anchor = (0.005, .995), loc = 'upper left', fontsize = 14)
+  plt.legend((ax1, ax11, ax2, ax3, pp[0]), ('Annual "Table A" Revenues', 'Annual Revenues w/Banking Ops', '5% Risk', '1% Risk', 'Average Revenue'), loc = 'upper right', fontsize = 14)
 
   for item in [ax0.xaxis.label, ax0.yaxis.label]:
     item.set_fontsize(20)  
