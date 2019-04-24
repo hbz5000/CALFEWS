@@ -87,6 +87,14 @@ class Canal():
         for removal_flow in range(starting_point,canal_loc-1,-1):
           self.flow[removal_flow] -= turnback_flows
     else:
+      available_flow -= turnback_flows
+      if flow_dir == "normal":
+        for removal_flow in range(starting_point, canal_loc + 1):
+          self.flow[removal_flow] -= turnback_flows
+      elif flow_dir == "reverse":
+        for removal_flow in range(starting_point, canal_loc-1, -1):
+          self.flow[removal_flow] -= turnback_flows
+
       turnback_flows = 0.0
 		
       #find the 'stopping point' for turnback flow deliveries (i.e., the last node)

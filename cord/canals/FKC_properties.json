@@ -16,12 +16,18 @@
     "recharge": {
       "xvc": "closed",
       "knr": "normal",
-      "aec": "normal"
+      "aec": "normal",
+      "tlr": "closed",
+      "kwr": "closed",
+      "kgr": "closed"
       },
     "recovery": {
       "xvc": "closed",
       "knr": "normal",
-      "aec": "normal"
+      "aec": "normal",
+      "tlr": "closed",
+      "kwr": "closed",
+      "kgr": "closed"
       }
   },
   "name": "fkc"

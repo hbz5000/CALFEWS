@@ -28,7 +28,7 @@ class District():
     self.irrdemand = Crop(self.zone)
 	#initialize dictionary to hold different delivery types
     self.deliveries = {}
-    self.contract_list_all = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern']
+    self.contract_list_all = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern','kings']
     self.non_contract_delivery_list = ['recover_banked','inleiu','leiupumping','recharged','exchanged_GW','exchanged_SW','undelivered_trades']
 
     for x in self.contract_list_all:
@@ -101,7 +101,6 @@ class District():
     #Initialize demands
     self.annualdemand = 0.0
     self.dailydemand = 0.0
-    self.find_baseline_demands()
 
     #recovery and pumping variables
     #self.recovery_fraction = 0.5
@@ -110,6 +109,9 @@ class District():
     self.use_recovery = 0.0
     self.extra_leiu_recovery = 0.0
     self.max_recovery = 0.0
+    self.max_leiu_exchange = 0.0
+    self.direct_recovery_delivery = 0.0
+
 	
     #for in-district recharge & counters (for keeping track of how long a basin has been continuously 'wet'
     self.recharge_rate = self.in_district_direct_recharge*cfs_tafd
@@ -117,11 +119,14 @@ class District():
     self.monthusecounter = 0
     self.monthemptycounter = 0
     self.current_recharge_storage = 0.0
+    self.private_fraction = 0.0
+    self.has_private = False
 	
     #banking dictionaries to keep track of individual member use & accounts
     if self.in_leiu_banking:
       self.recovery_use = {}
       self.inleiubanked = {}
+      self.contract_exchange = {}
       self.leiu_additional_supplies = {}
       self.bank_deliveries = {}
       self.tot_leiu_recovery_use = 0.0
@@ -139,6 +144,8 @@ class District():
         self.direct_storage[x] = 0.0
         self.bank_timeseries[x] = np.zeros(self.T)
         self.annual_timeseries[x] = np.zeros(self.T)
+        self.contract_exchange[x] = np.zeros(self.T)
+
 
 
 #####################################################################################################################
@@ -153,7 +160,7 @@ class District():
       for monthloop in range(0,12):
         self.monthlydemand[wyt][monthloop] += self.urban_profile[monthloop]*self.MDD/self.days_in_month[self.non_leap_year][monthloop]
         for i,v in enumerate(self.crop_list):
-          self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][wyt][monthloop] - self.irrdemand.etM['precip'][wyt][monthloop],0.0)*self.acreage[wyt][i]/(12.0*self.days_in_month[self.non_leap_year][monthloop])
+          self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][wyt][monthloop] - self.irrdemand.etM['precip'][wyt][monthloop],0.0)*(self.acreage[wyt][i]-self.private_acreage[v])/(12.0*self.days_in_month[self.non_leap_year][monthloop])
           #self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][wyt][monthloop] ,0.0)*self.acreage[wyt][i]/(12.0*self.days_in_month[self.non_leap_year][monthloop])
 	  	
 			
@@ -164,7 +171,7 @@ class District():
     if self.dailydemand < 0.0:
       self.dailydemand = 0.0
     #calculate that days 'starting' demand (b/c demand is filled @multiple times, and if we only want to fill a certain fraction of that demand (based on projections of supply & demand for the rest of the year), we want to base that fraction on that day's total demand, not the demand left after other deliveries are made
-    self.dailydemand_start = self.dailydemand
+    self.dailydemand_start = self.monthlydemand[wyt][m-1]*(monthday-da)/monthday + self.monthlydemand[wyt][m1-1]*da/monthday
 	#pro-rate this month's demand based on the day of the month when calculating remaining annual demand
     self.annualdemand = max(self.monthlydemand[wyt][m-1]*(monthday-da), 0.0)
     if m > 9:
@@ -181,15 +188,21 @@ class District():
     #calculates an estimate for water use in the Oct-Dec period (for use in recharge_carryover calculations), happens Oct 1
     self.pre_flood_demand = self.monthlydemand[wyt][9]*self.days_in_month[year][9] + self.monthlydemand[wyt][10]*self.days_in_month[year][10] + self.monthlydemand[wyt][11]*self.days_in_month[year][11]
 		  
-  def get_urban_demand(self, t, m, da, wateryear, year):
+  def get_urban_demand(self, t, m, da, wateryear, year, sri, dowy, total_delta_pumping):
     #this function finds demands for the 'branch pumping' urban nodes - Socal, South Bay, & Central Coast
 	#demand is equal to pumping of the main california aqueduct and into the branches that services these areas
     #cal aqueduct urban demand comes from pumping data, calc seperately
+    if self.has_private:
+      frac_to_district = 1.0 - self.private_fraction
+    else:
+      frac_to_district = 1.0
+	  
     self.dailydemand = self.pumping[t]/1000.0
     self.dailydemand_start = self.dailydemand
     ##Keep track of ytd pumping to Cal Aqueduct Branches
     self.ytd_pumping[wateryear] += self.dailydemand
-    self.annualdemand = self.annual_pumping[wateryear] - self.ytd_pumping[wateryear]
+    sri_estimate = (sri*self.delivery_percent_coefficient[dowy][0] + self.delivery_percent_coefficient[dowy][1])*total_delta_pumping*frac_to_district
+    self.annualdemand = max(0.0, (self.annual_pumping[wateryear]*dowy + sri_estimate*(364.0 - dowy))/364.0 - self.ytd_pumping[wateryear])
     if m == 10 and da == 1:
       start_of_month = 0
       cross_counter_y = 0
@@ -220,6 +233,11 @@ class District():
 	##carryover storage - which is added to their individual current balance (self.carryover[key])
 	##projected_allocation is the water that is forecasted to be available on each contract through the end of the water year *plus* water that has already been delivered on that contract
 	##individual deliveries are then subtracted from this total to determine the individual district's projected contract allocation remaining in that year
+    if self.has_private:
+      frac_to_district = 1.0 - self.private_fraction
+    else:
+      frac_to_district = 1.0
+
     if balance_type == 'contract':
       #district_storage - district's water that is currently available (in storage at reservoir)
       #(water_available - tot_carryover)*self.project_contract[key] - individual district share of the existing (in storage) contract balance, this includes contract water that has already been delivered to all contractors
@@ -227,31 +245,58 @@ class District():
 	  #self.carryover[key] - individual district share of contract carryover
 	  #paper_balance[key] - keeps track of 'paper' groundwater trades (negative means they have accepted GW deliveries in exchange for trading some of their water stored in reservoir, positive means they sent their banked GW to another district in exchage for SW storage
 	  #turnback_pool[key] - how much water was bought/sold on the turnback pool(negative is sold, positive is bought)
-      district_storage = (water_available-tot_carryover)*self.project_contract[key] - self.deliveries[key][wateryear] + self.carryover[key]  + self.paper_balance[key] + self.turnback_pool[key]
+      district_storage = (water_available-tot_carryover)*self.project_contract[key]*frac_to_district - self.deliveries[key][wateryear] + self.carryover[key]  + self.paper_balance[key] + self.turnback_pool[key]
       #annual allocation - remaining (undelivered) district share of expected total contract allocation
 	  #same as above, but projected_allocation*self.project_contract[key] - individual share of expected total contract allocation, this includes contract water that has already been delivered to all contractors
-      annual_allocation = projected_allocation*self.project_contract[key] - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
-      storage_balance = current_water*self.project_contract[key] + max(self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key] - self.deliveries[key][wateryear], 0.0)
+      annual_allocation = projected_allocation*self.project_contract[key]*frac_to_district - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
+      storage_balance = current_water*self.project_contract[key]*frac_to_district + max(self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key] - self.deliveries[key][wateryear], 0.0)
 
     elif balance_type == 'right':
       #same as above, but for contracts that are expressed as 'rights' instead of allocations
-      district_storage = (water_available-tot_carryover)*self.rights[key]['capacity'] - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
-      annual_allocation = projected_allocation*self.rights[key]['capacity'] - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
-      storage_balance = current_water*self.rights[key]['capacity'] + max(self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key] - self.deliveries[key][wateryear], 0.0)
+      district_storage = (water_available-tot_carryover)*self.rights[key]['capacity']*frac_to_district - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
+      annual_allocation = projected_allocation*self.rights[key]['capacity']*frac_to_district - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
+      storage_balance = current_water*self.rights[key]['capacity']*frac_to_district + max(self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key] - self.deliveries[key][wateryear], 0.0)
     
     self.current_balance[key] = max(min(storage_balance,annual_allocation), 0.0)
     self.projected_supply[key] = max(annual_allocation,0.0)
-	
+    if key == 'XXX':
+      if self.rights[key]['capacity'] > 0.0:
+        print(wateryear, end = " ")
+        print(t, end = " ")
+        print(self.key, end = " ")
+        print(key, end = " ")
+        print("%.2f" % projected_allocation, end = " ")
+        print("%.2f" % annual_allocation, end = " ")
+        print("%.2f" % frac_to_district, end = " ")
+        print("%.2f" % current_water, end = " ")
+        print("%.2f" % tot_carryover, end = " ")
+        print("%.2f" % self.deliveries[key][wateryear], end = " ")
+        print("%.2f" % self.carryover[key], end = " ")
+        print("%.2f" % self.paper_balance[key], end = " ")
+        print("%.2f" % self.turnback_pool[key], end = " ")
+        print("%.2f" % self.current_balance[key], end = " ")
+        print("%.2f" % self.projected_supply[key], end = " ")
+        print("%.2f" % self.annualdemand, end = " ")
+        print("%.2f" % self.dailydemand, end = " ")
+        print("%.2f" % self.recharge_carryover[key], end = " ")
+        print("%.2f" % self.use_recovery)
+
+
     return max(self.projected_supply[key] - self.annualdemand, 0.0) , max(self.carryover[key] - self.deliveries[key][wateryear], 0.0)
 	
 
   def calc_carryover(self, existing_balance, wateryear, balance_type, key):
     #at the end of each wateryear, we tally up the full allocation to the contract, how much was used (and moved around in other balances - carryover, 'paper balance' and turnback_pools) to figure out how much each district can 'carryover' to the next year
+    if self.has_private:
+      frac_to_district = 1.0 - self.private_fraction
+    else:
+      frac_to_district = 1.0
+
     if balance_type == 'contract':
-      annual_allocation = existing_balance*self.project_contract[key] - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
+      annual_allocation = existing_balance*self.project_contract[key]*frac_to_district - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
       max_carryover = self.contract_carryover_list[key]
     elif balance_type == 'right':
-      annual_allocation = existing_balance*self.rights[key]['capacity'] - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
+      annual_allocation = existing_balance*self.rights[key]['capacity']*frac_to_district - self.deliveries[key][wateryear] + self.carryover[key] + self.paper_balance[key] + self.turnback_pool[key]
       max_carryover = self.contract_carryover_list[key]
 
     reallocated_water = max(annual_allocation - max_carryover, 0.0)
@@ -268,7 +313,7 @@ class District():
 ##################################RECHARGE/RECOVERY TRIGGERS#########################################################
 #####################################################################################################################
 	
-  def open_recovery(self, dowy, wateryear):
+  def open_recovery(self,t, dowy, wateryear):
     #this function determines if a district wants to recover banked water
 	#based on their demands and existing supplies
     total_balance = 0.0
@@ -287,17 +332,18 @@ class District():
         self.use_recovery = 1.0
     else:
       self.use_recovery = 0.0
-	  
+	  	  
     self.min_direct_recovery = max(self.annualdemand - total_balance,0.0)/(366-dowy)
     
 	  	  
-  def open_recharge(self,m,da,wateryear,year,numdays_fillup, contract_carryover, key, wyt, reachable_turnouts):
+  def open_recharge(self,t,m,da,wateryear,year,numdays_fillup, numdays_fillup2, contract_carryover, key, wyt, reachable_turnouts, additional_carryover, contract_allocation):
     #for a given contract owned by the district (key), how much recharge can they expect to be able to use
 	#before the reservoir associated w/ that contract fills to the point where it needs to begin spilling water
 	#(numdays_fillup) - i.e., how much surface water storage can we keep before start losing it
 	#self.recharge_carryover is the district variable that shows how much 'excess' allocation there is on a particular
 	#contract - i.e., how much of the allocation will not be able to be recharged before the reservoir spills
     total_recharge = 0.0
+    total_recharge2 = 0.0
     carryover_storage_proj = 0.0
     spill_release_carryover = 0.0
     is_reachable = 0
@@ -314,32 +360,42 @@ class District():
       service_area_adjust = 1.0
 	  
     adjusted_sw_sa = self.surface_water_sa*service_area_adjust
-    total_recharge_available = self.projected_supply['tot'] - self.annualdemand*adjusted_sw_sa*self.seepage
 
-    ###Find projected recharge available to district
-    if total_recharge_available > 0.0:
-      current_month_left = (self.days_in_month[year][m]-da)/self.days_in_month[year][m]
-      total_recharge_capacity = (self.max_direct_recharge[0]*self.days_in_month[year][m] + self.max_leiu_recharge[m])*current_month_left
-      ##calculate both direct & in leiu recharge available to the district through the end of this water year
-      if m < 8:
-        for future_month in range(m+1,9):
-          total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year][future_month] + self.max_leiu_recharge[future_month]
-      elif m > 8:
-        for future_month in range(m+1,12):
-          total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year][future_month] + self.max_leiu_recharge[future_month]
-        for future_month in range(0,9):
-          total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year+1][future_month] + self.max_leiu_recharge[future_month]
-    else:
-      total_recharge_capacity = 0.0
-	
-    if numdays_fillup < 365.0:	
+    
+    if numdays_fillup < 365.0:
+      #total_recharge_available = 0.0
+      #for y in self.contract_list:
+        #total_recharge_available += self.projected_supply[y]  
+      #total_recharge_available -= self.annualdemand*adjusted_sw_sa*self.seepage
+
+      ###Find projected recharge available to district
+      #if total_recharge_available > 0.0:
+        #total_recharge_capacity = (self.max_direct_recharge[0] + self.max_leiu_recharge[m])*(self.days_in_month[year][m]-da)
+        ##calculate both direct & in leiu recharge available to the district through the end of this water year
+        #if m < 8:
+          #for future_month in range(m+1,9):
+            #total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year][future_month] + self.max_leiu_recharge[future_month]*self.days_in_month[year][future_month]
+        #elif m > 8:
+          #for future_month in range(m+1,12):
+            #total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year][future_month] + self.max_leiu_recharge[future_month]*self.days_in_month[year][future_month]
+          #for future_month in range(0,9):
+            #total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year+1][future_month] + self.max_leiu_recharge[future_month]*self.days_in_month[year][future_month]
+      #else:
+        #total_recharge_capacity = 0.0
+	  
+      #spill_release_carryover = max(total_recharge_available - total_recharge_capacity - additional_carryover, 0.0)
+
       ##how many days remain before the reservoir fills? 		  
       days_left = numdays_fillup
+      days_left2 = numdays_fillup2
 	  #tabulate how much water can be recharged between now & reservoir fillup (current month)
-      this_month_recharge = (self.max_direct_recharge[0] + self.max_leiu_recharge[m]/self.days_in_month[year][m])*min(self.days_in_month[year][m] - da,days_left)
+      this_month_recharge = (self.max_direct_recharge[0] + self.max_leiu_recharge[0])*min(self.days_in_month[year][m] - da,days_left)
+      this_month_recharge2 = (self.max_direct_recharge[0] + self.max_leiu_recharge[0])*min(self.days_in_month[year][m] - da,days_left2)
       total_recharge += this_month_recharge
+      total_recharge2 += this_month_recharge2
 	  #days before fillup remaining after current month
       days_left -= (self.days_in_month[year][m] - da)
+      days_left2 -= (self.days_in_month[year][m] - da)
 	
 	###if days_left remains positive (i.e., reservoir fills after the end of the current month)
 	###loop through future months to determine how much water can be recharged before reservoir fills
@@ -354,7 +410,7 @@ class District():
           next_year_counter = 1
 		
  	    # continue to tabulate how much water can be recharged between now & reservoir fillup (future months)
-        this_month_recharge = (self.max_direct_recharge[monthcounter+monthcounter_loop] + self.max_leiu_recharge[m+monthcounter]/self.days_in_month[year+next_year_counter][m+monthcounter])*min(self.days_in_month[year+next_year_counter][m+monthcounter],days_left)
+        this_month_recharge = (self.max_direct_recharge[monthcounter+monthcounter_loop] + self.max_leiu_recharge[monthcounter+monthcounter_loop])*min(self.days_in_month[year+next_year_counter][m+monthcounter],days_left)
         total_recharge += this_month_recharge
      
         days_left -= self.days_in_month[year+next_year_counter][m+monthcounter]
@@ -363,35 +419,110 @@ class District():
 	  ###district will recharge water.  Projected allocations are compared to total demand, recharge capacity, and the probability of 
 	  ###surface water storage spilling carryover water.  If any of these conditions triggers recharge, the district will release water
 	  ##for recharge
-      if next_year_counter == 1:
-        #carryover_storage_proj = max(self.projected_supply[key] - self.annualdemand*adjusted_sw_sa - total_recharge*service_area_adjust - self.contract_carryover_list[key]*adjusted_sw_sa, 0.0)
-        carryover_storage_proj = max(self.projected_supply[key] - self.annualdemand*adjusted_sw_sa - total_recharge*service_area_adjust, 0.0)
+	  
+      monthcounter = 0
+      monthcounter_loop = 0
+      next_year_counter = 0
+      while (monthcounter + monthcounter_loop) < 11 and days_left2 > 0.0:
+        monthcounter += 1
+        if (monthcounter + m) > 11:
+          monthcounter -= 12
+          monthcounter_loop = 12
+          next_year_counter = 1
+		
+ 	    # continue to tabulate how much water can be recharged between now & reservoir fillup (future months)
+        this_month_recharge2 = (self.max_direct_recharge[monthcounter+monthcounter_loop] + self.max_leiu_recharge[monthcounter+monthcounter_loop])*min(self.days_in_month[year+next_year_counter][m+monthcounter],days_left2)
+        total_recharge2 += this_month_recharge2
+     
+        days_left2 -= self.days_in_month[year+next_year_counter][m+monthcounter]
+        
+      ###Uses the projected supply calculation to determine when to recharge water.  There are a number of conditions under which a 
+	  ###district will recharge water.  Projected allocations are compared to total demand, recharge capacity, and the probability of 
+	  ###surface water storage spilling carryover water.  If any of these conditions triggers recharge, the district will release water
+	  ##for recharge
 
-      else:
-        carryover_storage_proj = max(self.carryover[key] - self.deliveries[key][wateryear], 0.0) - total_recharge*service_area_adjust
+
+      #carryover_storage_proj = max(self.projected_supply[key] - self.annualdemand*adjusted_sw_sa - total_recharge*service_area_adjust - self.contract_carryover_list[key]*adjusted_sw_sa, 0.0)
+      spill_release_carryover = 0.0
+      for y in self.contract_list:
+        spill_release_carryover += max(self.projected_supply[y] - self.carryover_rights[y], 0.0)
+      spill_release_carryover -= (self.annualdemand*adjusted_sw_sa + total_recharge2*service_area_adjust  + self.demand_days['lookahead'][key])
+      spill_release_carryover = max(spill_release_carryover, 0.0)
+
+      carryover_storage_proj = 0.0
+      for y in self.contract_list:
+        carryover_storage_proj += max(self.carryover[y] - self.deliveries[y][wateryear] - self.carryover_rights[y], 0.0)
+
+      carryover_storage_proj -= (total_recharge*service_area_adjust + self.demand_days['current'][key])
+      carryover_storage_proj = max(carryover_storage_proj, 0.0)
+		
       #carryover_release_proj = min(carryover_storage_proj, max(total_recharge_available - total_recharge_capacity,0.0))
       #carryover_release_current = max(self.carryover[key] - self.deliveries[key][wateryear] - total_recharge_carryover, 0.0)
       #if contract_carryover > 0.0:
       #spill_release_carryover = max(self.carryover[key] - self.deliveries[key][wateryear] - total_recharge, 0.0)
       #else:
       #spill_release_carryover = max(self.projected_supply[key] - self.annualdemand*adjusted_sw_sa - total_recharge*service_area_adjust - self.contract_carryover_list[key]*adjusted_sw_sa, 0.0)
-      spill_release_carryover = max(self.projected_supply[key] - self.annualdemand*adjusted_sw_sa - total_recharge*service_area_adjust, 0.0)
-	
       ##The amount of recharge a district wants is then saved and sent to the canal class where it 'looks' for an available spot to recharge the water
       #self.recharge_carryover[key] = max(carryover_release_proj, carryover_release_current, spill_release_carryover, spill_release_storage)
-      self.recharge_carryover[key] = max(carryover_storage_proj, spill_release_carryover, 0.0)
-
-      ##Similar conditions also calculate the amount of regular tableA deliveries for direct irrigation to request
-      delivery_release = max(total_recharge_available, 0.0)
-      delivery_spill_carryover = max(self.carryover[key] - self.deliveries[key][wateryear], 0.0)
-      if contract_carryover > 0.0:
-        self.delivery_carryover[key] = delivery_spill_carryover
+      if spill_release_carryover > carryover_storage_proj:
+        total_available_for_recharge = 0.0
+        for y in self.contract_list:
+          total_available_for_recharge += max(self.projected_supply[y], 0.0)
+      
+        if total_available_for_recharge > 0.0:
+          self.recharge_carryover[key] = max(spill_release_carryover, 0.0)*max(self.projected_supply[y], 0.0)/total_available_for_recharge
+        else:
+          self.recharge_carryover[key] = 0.0
       else:
-        self.delivery_carryover[key] = total_recharge_available
-		
+        total_available_for_recharge = 0.0
+        for y in self.contract_list:
+          total_available_for_recharge += max(self.carryover[y] - self.deliveries[y][wateryear], 0.0)
+      
+        if total_available_for_recharge > 0.0:
+          self.recharge_carryover[key] = max(carryover_storage_proj, 0.0)*max(self.carryover[key] - self.deliveries[key][wateryear], 0.0)/total_available_for_recharge
+        else:
+          self.recharge_carryover[key] = 0.0
+      #if contract_allocation == 0:
+        #self.recharge_carryover[key] = max(self.recharge_carryover[key], self.projected_supply[key] - total_recharge*service_area_adjust - self.demand_days['current'][key], 0.0)
+      if key == 'XXB' or key == 'XXX':
+        print(self.key, end = " ")
+        print(carryover_storage_proj, end = " ")
+        print(spill_release_carryover, end = " ")
+        print(total_recharge, end = " ")
+        print(self.demand_days['current'][key], end = " ")
+        print(total_recharge2, end = " ")
+        print(self.demand_days['lookahead'][key], end = " ")
+        print(total_available_for_recharge, end = " ")
+        print(self.recharge_carryover[key])
+      ##Similar conditions also calculate the amount of regular tableA deliveries for direct irrigation to request
     else:
       self.delivery_carryover[key] = 0.0
       self.recharge_carryover[key] = 0.0
+	  
+  def get_urban_recovery_target(self, pumping, project_contract, wateryear, dowy, year, wyt, demand_days, t, start_month):
+    max_pumping_shortfall = 0.0
+    pumping_shortfall = 0.0
+    if self.has_private:
+      frac_to_district = 1.0 - self.private_fraction
+    else:
+      frac_to_district = 1.0
+
+    monthcounter = start_month
+    daycounter = 0
+    tot_days = 0
+    if demand_days > 365.0:
+      max_pumping_shortfall = 9999.9
+    else:
+      while tot_days < demand_days:
+        pumping_shortfall += np.sum(self.pumping[(t-dowy+tot_days):(t-dowy+tot_days+min(demand_days -tot_days, 30))]/1000.0) - pumping['swp']['gains'][monthcounter]*project_contract*frac_to_district
+        tot_days += 30
+        monthcounter += 1
+        if monthcounter == 12:
+          monthcounter = 0
+
+        max_pumping_shortfall = max(pumping_shortfall, max_pumping_shortfall)
+	  
+    return max(max_pumping_shortfall, 0.0)
 	  
   def set_turnback_pool(self, key, year):
     ##This function creates the 'turnback pool' (note: only for SWP contracts now, can be used for others)
@@ -454,6 +585,10 @@ class District():
     access_mult = self.surface_water_sa*self.seepage#this accounts for water seepage & the total district area that can be reached by SW canals (seepage is >= 1.0; surface_water_sa <= 1.0)
 	
     total_projected_allocation = 0.0
+    if self.has_private:
+      private_add = self.private_demand
+    else:
+      private_add = 0.0
 
     for y in self.get_iterable(self.contract_list):
       total_projected_allocation += max(self.projected_supply[y], 0.0)#projected allocation
@@ -466,7 +601,8 @@ class District():
         total_demand_met = 1.0
       else:
         if self.annualdemand*access_mult > 0.0:
-          total_demand_met = min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
+          #total_demand_met = min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
+          total_demand_met = 1.0
         else:
           total_demand_met = 0.0		
         #total_demand_met = min(max(total_projected_allocation/(self.annualdemand*access_mult), 0.0), 1.0)
@@ -475,12 +611,12 @@ class District():
     else:
       total_demand_met = 1.0
     #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
-    demand_constraint = max(min(self.dailydemand_start*access_mult*total_demand_met, self.dailydemand*access_mult, total_projected_allocation),0.0)
+    demand_constraint = max(min(self.dailydemand_start*access_mult*total_demand_met, self.dailydemand*access_mult),0.0)
     #if we want to include recharge demands in the demand calculations, add available recharge space
     if toggle_recharge == 1:
       demand_constraint += max(self.in_district_storage - self.current_recharge_storage, 0.0)
 			  
-    return demand_constraint
+    return demand_constraint + private_add
 	
   def find_node_output(self):
     #this function calculates the total recovery capacity that is contained in each district node
@@ -495,16 +631,16 @@ class District():
 	  
     return output_constraint
 	
-  def find_leiu_output(self, contract_list):
+  def find_leiu_output(self, contract_list, ownership, member_name, wateryear):
     member_constraint = 0.0
     total_contract = np.zeros(len(self.contract_list))
     if self.in_leiu_banking:
       bank_counter = 0
       for bank_contracts in self.contract_list:
         for exchange_contracts in contract_list:
-           if bank_contracts == exchange_contracts.name:
-            member_constraint += max(min(self.current_balance[bank_contracts], self.projected_supply[bank_contracts]), 0.0)
-            total_contract[bank_counter] += max(min(self.current_balance[bank_contracts], self.projected_supply[bank_contracts]), 0.0)
+          if bank_contracts == exchange_contracts.name:
+            member_constraint += max(min(self.current_balance[bank_contracts]*ownership, self.projected_supply[bank_contracts]*ownership, (self.projected_supply[bank_contracts] - self.paper_balance[bank_contracts])*ownership - self.contract_exchange[member_name][wateryear]), 0.0)
+            total_contract[bank_counter] += max(min(self.current_balance[bank_contracts]*ownership, self.projected_supply[bank_contracts]*ownership, (self.projected_supply[bank_contracts] - self.paper_balance[bank_contracts])*ownership - self.contract_exchange[member_name][wateryear]), 0.0)
         bank_counter += 1
 		
       if member_constraint > 0.0:
@@ -514,7 +650,7 @@ class District():
     return member_constraint, total_contract
      
 	
-  def set_request_constraints(self, demand, search_type, contract_list, bank_space, dowy):
+  def set_request_constraints(self, demand, search_type, contract_list, bank_space, bank_capacity, dowy, wateryear):
     #this function is used to determine if a district node 'wants' to make a request
 	#under the different usage types (flood, delievery, banking, or recovery) under a given contract
 	#(contract_list)
@@ -527,7 +663,10 @@ class District():
 	#excess contract water that they don't think they can recharge (i.e. they don't purchase
 	#flood water if they can't use all their contract water
     if search_type == "flood":
-      return demand
+      if self.projected_supply['tot'] > self.annualdemand:
+        return demand
+      else:
+        return demand
       #for y in contract_list:
         #tot_recharge += self.delivery_carryover[y.name]
       #if tot_recharge <= 0.0:
@@ -538,23 +677,37 @@ class District():
     #for normal irrigation deliveries, a district requests water if they have enough water currently
 	#in surface water storage under the given contract
     if search_type == "delivery":
+      if self.has_private:
+        private_add = self.private_delivery
+      else:
+        private_add = 0.0
       total_current_balance = 0.0
       total_projected_supply = 0.0
+      total_carryover = 0.0
+      friant_toggle = 0
       for y in contract_list:
         total_current_balance += max(self.current_balance[y.name], 0.0)
         total_projected_supply += max(self.projected_supply[y.name], 0.0)
+        total_carryover += max(self.carryover[y.name] - self.deliveries[y.name][wateryear], 0.0)
+        if y.name == 'friant1':
+          friant_toggle = 1
       if self.seasonal_connection == 1:
         if self.must_fill == 1:
-          return total_current_balance
+          return demand + private_add
+        elif total_carryover > 0.0:
+          return demand + private_add
+        elif total_projected_supply > self.annualdemand:
+          return demand + private_add
         elif dowy < 242:
-          if total_projected_supply > self.annualdemand or self.recharge_carryover[y.name] > 0.0:
-            return total_current_balance
-          else:
-            return 0.0
+          return private_add
         else:
-          return total_current_balance
+          if friant_toggle == 1:
+            return max(min(demand*total_projected_supply/self.annualdemand,total_current_balance), 0.0) + private_add
+          else:
+            return max(min(demand,total_current_balance), 0.0) + private_add
+
       else:
-        return 0.0
+        return private_add
 		
     #for banking, a district requests water if they have enough contract water currently in surface water storage and they have 'excess' water for banking (calculated in self.open_recharge)
     if search_type == "banking":
@@ -563,7 +716,7 @@ class District():
       for y in contract_list:
         total_carryover_recharge += max(self.recharge_carryover[y.name], 0.0)
         total_current_balance += max(self.current_balance[y.name], 0.0)
-      return min(total_carryover_recharge, total_current_balance)
+      return min(total_carryover_recharge, total_current_balance, max(bank_capacity - bank_space, 0.0))
 	  
     #for recovery, a district requests recovery water from a bank if they have contracts under the current contract being searched (i.e., so they aren't requesting water that will be sent to another district that can't make 'paper' trades with them) and if they have their 'recovery threshold' triggered (self.use_recovery, calculated in self.open_recovery)
     if search_type == "recovery":
@@ -599,7 +752,7 @@ class District():
               contractor_toggle = 1
         if contractor_toggle == 1:
           demand_dict['contractor'] = max(min(demand,delivery), 0.0)
-          demand_dict['alternate'] = 0.0
+          demand_dict['alternate'] = min(delivery - max(min(demand,delivery),0.0),demand_constraint-demand_dict['contractor'])
           demand_dict['turnout'] = 0.0
           demand_dict['excess'] = 0.0
         else:
@@ -617,8 +770,17 @@ class District():
       demand_dict[contract_canal] = max(min(demand,delivery), 0.0)
     #in-leiu banks have demands that are either priority (capacity that the district has direct ownership over) or secondary (excess capacity that isn't being used by the owner)
     elif search_type == 'banking':
-      demand_dict['priority'] = max(min(demand,delivery), 0.0)
-      demand_dict['secondary'] = min(delivery - max(min(demand,delivery),0.0),demand_constraint-demand_dict['priority'])
+      priority_toggle = 0
+      for yy in priority_list:#canals that have 'priority' from the given reservoir
+        if yy.name == contract_canal:#current canal
+          priority_toggle = 1
+      if priority_toggle == 1:
+        demand_dict['priority'] = max(min(demand,delivery), 0.0)
+        demand_dict['secondary'] = min(delivery - max(min(demand,delivery),0.0),demand_constraint-demand_dict['priority'])
+      else:
+        demand_dict['priority'] = 0.0
+        demand_dict['secondary'] = max(min(delivery, demand_constraint), 0.0)
+
     #recovery is the same priority structure as banking, but we use different names (initial & supplemental) to keep things straight)
     elif search_type == 'recovery':
       if self.in_leiu_banking:
@@ -646,15 +808,25 @@ class District():
     #this function takes the deliveries, seperated by priority, and updates the district's daily demand and/or recharge storage
     final_deliveries = 0.0
     for zz in type_list:
-      #deliveries at this priority level
       total_deliveries = priorities[zz]*type_fractions[zz]
-      #running total of all deliveries at this node
       final_deliveries += total_deliveries
+	  
+    if self.has_private:
+      private = min(self.private_demand, self.private_delivery)
+      total_direct_deliveries = min(max(final_deliveries - private, 0.0)/self.seepage, self.dailydemand*self.surface_water_sa)
+      if toggle_district_recharge == 1:
+        total_recharge_deliveries = max((final_deliveries - private)/self.seepage - self.dailydemand*self.surface_water_sa, 0.0)
+      else:
+        total_recharge_deliveries = 0.0
+      self.dailydemand -= total_direct_deliveries
+      self.current_recharge_storage += total_recharge_deliveries
+      #final_deliveries += total_recharge_deliveries
+    else:
       #deliveries first go to direct irrigation, if demand remains
-      total_direct_deliveries = min(total_deliveries/self.seepage, self.dailydemand*self.surface_water_sa)
+      total_direct_deliveries = min(final_deliveries/self.seepage, self.dailydemand*self.surface_water_sa)
       #if deliveries are for recharge, send remaining deliveries to recharge
       if toggle_district_recharge == 1:
-        total_recharge_deliveries = max(total_deliveries/self.seepage - self.dailydemand*self.surface_water_sa, 0.0)
+        total_recharge_deliveries = max(final_deliveries/self.seepage - self.dailydemand*self.surface_water_sa, 0.0)
       else:
         total_recharge_deliveries = 0.0
       #adjust demand/recharge space
@@ -670,7 +842,7 @@ class District():
 ##################################ADJUSST ACCOUNTS AFTER DELIVERY####################################################
 #####################################################################################################################
 
-  def give_paper_trade(self, trade_amount, contract_list, wateryear):
+  def give_paper_trade(self, trade_amount, contract_list, wateryear, district_name):
     #this function accepts a delivery of recovered groundwater, and makes a 'paper'
 	#trade, giving up a surface water contract allocation (contract_list) to the district
 	#that owned the groundwater that was recovered
@@ -678,19 +850,24 @@ class District():
       total_alloc = 0.0
       for y in contract_list:
         total_alloc += self.projected_supply[y.name]
+      actual_delivery = min(trade_amount, total_alloc, self.dailydemand*self.seepage*self.surface_water_sa)
+      self.dailydemand -= actual_delivery/self.seepage	  
       if total_alloc > 0.0:
-        self.dailydemand -= trade_amount/self.seepage
         for y in contract_list:
-          self.paper_balance[y.name] -= trade_amount*self.projected_supply[y.name]/total_alloc
-        self.deliveries['exchanged_SW'][wateryear] += trade_amount
+          self.paper_balance[y.name] -= actual_delivery*self.projected_supply[y.name]/total_alloc
+		  
+      self.deliveries['exchanged_SW'][wateryear] += actual_delivery
+
+    return actual_delivery 
 		
-  def give_paper_exchange(self, trade_amount, contract_list, trade_frac, wateryear):
+  def give_paper_exchange(self, trade_amount, contract_list, trade_frac, wateryear, district_name):
     #this function accepts a delivery of recovered groundwater, and makes a 'paper'
 	#trade, giving up a surface water contract allocation (contract_list) to the district
 	#that owned the groundwater that was recovered
     contract_counter = 0
     for y in contract_list:
       self.paper_balance[y] -= trade_amount*trade_frac[contract_counter]
+ 
       contract_counter += 1
     self.deliveries['exchanged_SW'][wateryear] += trade_amount
 	  
@@ -704,10 +881,12 @@ class District():
     if total_alloc > 0.0:
       for y in contract_list:
         self.paper_balance[y.name] += trade_amount*self.projected_supply[y.name]/total_alloc
+
     else:
       contract_frac = 1.0
       for y in contract_list:
         self.paper_balance[y.name] += trade_amount*contract_frac
+
         contract_frac = 0.0
     self.deliveries['exchanged_GW'][wateryear] += trade_amount
 
@@ -720,15 +899,23 @@ class District():
     for y in contract_list:
       self.paper_balance[y] += trade_amount*trade_frac[contract_counter]
       contract_counter += 1
+
     self.deliveries['exchanged_GW'][wateryear] += trade_amount
 
-	
-  def direct_recovery_delivery(self, delivery, wateryear):
+  def record_direct_delivery(self, delivery, wateryear):
+    actual_delivery = min(delivery, self.dailydemand*self.seepage*self.surface_water_sa)
+    self.deliveries['recover_banked'][wateryear] += actual_delivery
+    self.dailydemand -= actual_delivery/(self.seepage*self.surface_water_sa)
+    self.direct_recovery_delivery = 0.0
+    return actual_delivery
+
+  def direct_delivery_bank(self, delivery, wateryear):
     #this function takes a delivery of recoverd groundwater and applies it to irrigation demand in a district
 	#the recovered groundwater is delivered to the district that originally owned the water, so no 'paper' trade is needed
-    actual_delivery = min(delivery, self.dailydemand*self.seepage*self.surface_water_sa)
-    self.deliveries['recover_banked'][wateryear] += delivery
-    self.dailydemand -= actual_delivery/self.seepage*self.surface_water_sa
+    actual_delivery = min(delivery, self.dailydemand*self.seepage*self.surface_water_sa - self.direct_recovery_delivery)
+    #self.deliveries['recover_banked'][wateryear] += actual_delivery
+    self.direct_recovery_delivery += actual_delivery
+    #self.dailydemand -= actual_delivery/self.seepage*self.surface_water_sa
     return actual_delivery
 	
   def adjust_accounts(self, actual_deliveries, contract_list, search_type, wateryear):
@@ -738,12 +925,27 @@ class District():
     total_current_balance = 0.0
     delivery_by_contract = {}
     for y in contract_list:
-      total_current_balance += max(self.current_balance[y.name], 0.0)
+      if search_type == 'flood':
+        total_current_balance += max(self.current_balance[y.name], 0.0)
+      elif search_type == 'delivery':
+        total_current_balance += max(self.projected_supply[y.name], 0.0)
+      elif search_type == 'banking':
+        total_current_balance += max(self.recharge_carryover[y.name], 0.0)
+      elif search_type == 'recovery':
+        total_current_balance += max(self.current_balance[y.name], 0.0)
       delivery_by_contract[y.name] = 0.0
     for y in contract_list:
       #find the percentage of total deliveries that come from each contract
       if total_current_balance > 0.0:
-        contract_deliveries = actual_deliveries*max(self.current_balance[y.name], 0.0)/total_current_balance
+        if search_type == 'flood':
+          contract_deliveries = actual_deliveries*max(self.current_balance[y.name], 0.0)/total_current_balance
+        elif search_type == 'delivery':
+          contract_deliveries = actual_deliveries*max(self.projected_supply[y.name], 0.0)/total_current_balance
+        elif search_type == 'banking':
+          contract_deliveries = actual_deliveries*max(self.recharge_carryover[y.name], 0.0)/total_current_balance
+        elif search_type == 'recovery':
+          contract_deliveries = actual_deliveries*max(self.current_balance[y.name], 0.0)/total_current_balance
+
       else:
         contract_deliveries = 0.0
       delivery_by_contract[y.name] = contract_deliveries
@@ -779,19 +981,22 @@ class District():
     #if recovery deliveries are made, adjust the banking accounts and account for the recovery capacity use
     self.inleiubanked[member_name] -= deliveries#this is the running account of the member's banking storage
     self.deliveries['leiupumping'][wateryear] += deliveries
+    self.contract_exchange[member_name][wateryear] += deliveries
 
 	
   def absorb_storage(self):
     #water delivered to a bank as 'storage' (on the surface) is 'absorbed', clearing up storage space for the next timestep
     #also triggers self.thismonthuse, which keeps track of how many conecutive months a recharge bank is used (and the effect on the recharge rate of the spreading pool)
     if self.in_leiu_banking:
-      if self.current_recharge_storage > 0.0:
+      if self.current_recharge_storage > self.recharge_rate*0.75:
         self.thismonthuse = 1
+      if self.current_recharge_storage > 0.0:
         absorb_fraction = min(self.in_district_direct_recharge*cfs_tafd/self.current_recharge_storage,1.0)
         for x in self.participant_list:
           self.current_recharge_storage -= self.current_recharge_storage*absorb_fraction
     else:
-      self.thismonthuse = 1
+      if self.current_recharge_storage > self.recharge_rate*0.75:
+        self.thismonthuse = 1
       if self.current_recharge_storage > 0.0:
         absorb_fraction = min(self.recharge_rate/self.current_recharge_storage,1.0)
       self.current_recharge_storage -= self.current_recharge_storage*absorb_fraction
@@ -807,6 +1012,8 @@ class District():
   def reset_recharge_recovery(self):
     self.max_direct_recharge = np.zeros(12)
     self.max_leiu_recharge = np.zeros(12)
+    self.total_banked_storage = 0.0
+    self.max_leiu_exchange = 0.0
 
   def accounting_full(self, t, wateryear):
     # keep track of all contract amounts
@@ -882,7 +1089,6 @@ class District():
         for year_counter in range(0, wateryear):
           sum_total += self.annual_timeseries[x][year_counter]
         self.annual_timeseries[x][wateryear] = self.inleiubanked[x] - sum_total
-
 	  
   def accounting_as_df(self, index):
     #wirte district accounts and deliveries into a data fram

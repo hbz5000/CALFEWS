@@ -9,5 +9,9 @@
   "ownership": {
     "SOC": 1.0,
     "RRB": 0.0
+  },
+  "bank_cap": {
+    "SOC": 99999.9,
+    "RRB": 99999.9
   }
 }

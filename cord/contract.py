@@ -45,7 +45,7 @@ class Contract():
 	#before March, allocations are assumed to be equal to last year's allocation (capped at some level)
 	#unless the snowpack is large enough to expect larger flows (i.e., low snowpack early in the year doesn't
 	#cause contracts to predict super-low allocations
-    if dowy < 150:
+    if dowy < 90:
       if forecast_available > self.maxForecastValue:
         if self.allocation_priority == 1:
           forecast_used = forecast_available*self.total/priority_contract
@@ -97,7 +97,7 @@ class Contract():
 	  #priority storage before any of that water is available to them
       self.storage_pool[t] = min(self.allocation[t], max(total_water - priority_storage, 0.0))
       self.available_water[t] = max(min(total_water - priority_storage, self.allocation[t], reservoir_storage), 0.0)
-	  
+	  	  
   def adjust_accounts(self, contract_deliveries, search_type, wateryear):
     #this function records deliveries made on a contract by year - for use in determining if 
     if search_type == "flood":

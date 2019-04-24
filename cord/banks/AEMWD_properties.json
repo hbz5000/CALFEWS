@@ -9,5 +9,10 @@
   "ownership": {
     "ARV": 1.0,
     "SOC": 0.0
+  },
+  "bank_cap": {
+    "ARV": 99999.9,
+    "SOC": 250.0
   }
+
 }

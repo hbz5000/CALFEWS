@@ -22,8 +22,8 @@ from cord import *
 from datetime import datetime
 
 
-model_mode = 'simulation'
-# model_mode = 'validation'
+#model_mode = 'simulation'
+model_mode = 'validation'
 # model_mode = 'forecast'
 
 startTime = datetime.now()
@@ -55,7 +55,8 @@ if model_mode == 'simulation' or model_mode == 'validation':
   modelso = Model(input_data_file, expected_release_datafile, sd, model_mode)
   modelso.max_tax_free = {}
   modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
-  modelso.southern_initialization_routine(startTime)
+  modelso.forecastSRI = modelno.delta.forecastSRI
+  modelso.southern_initialization_routine(startTime, modelno.delta.forecastSRI)
 
   ######################################################################################
   ###Model Simulation
@@ -191,7 +192,11 @@ if model_mode == 'validation' or model_mode == 'simulation':
   del district_results
   district_results_annual = modelso.results_as_df('annual', district_output_list)
   district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
-  del district_results_annual
+  #del district_results_annual
+  private_results_annual = modelso.results_as_df('annual', modelso.private_list)
+  private_results_annual.to_csv('cord/data/annual_private_reults_' + model_mode + '.csv')
+  private_results = modelso.results_as_df('daily', modelso.private_list)
+  private_results.to_csv('cord/data/annual_private_reults_' + model_mode + '.csv')
 
   contract_results = modelso.results_as_df('daily', modelso.contract_list)
   contract_results.to_csv('cord/data/results/contract_results_' + model_mode + '.csv')
@@ -202,11 +207,11 @@ if model_mode == 'validation' or model_mode == 'simulation':
   northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones,
                      modelno.donpedro, modelno.exchequer, modelno.delta]
   southern_res_list = [modelso.sanluisstate, modelso.sanluisfederal, modelso.millerton, modelso.isabella,
-                     modelso.kaweah, modelso.success]
+                     modelso.kaweah, modelso.success, modelso.pineflat]
   reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
   reservoir_results_no.to_csv('cord/data/results/reservoir_results_no_' + model_mode + '.csv')
   del reservoir_results_no
-
+  
   reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
   reservoir_results_so.to_csv('cord/data/results/reservoir_results_so_' + model_mode + '.csv')
   del reservoir_results_so

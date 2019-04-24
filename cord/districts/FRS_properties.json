@@ -1,6 +1,6 @@
 {
-  "contract_list": ["friant2"],
-  "turnout_list": ["fkc"],
+  "contract_list": ["friant2", "kings"],
+  "turnout_list": ["fkc", "kgr"],
   "in_leiu_banking": false,
   "leiu_recovery": 0.0,
   "in_district_direct_recharge": 175.0,
@@ -44,13 +44,13 @@
       "fraction": [1.0, 1.0]
     },
     "kings": {
-      "capacity": 0.0,
+      "capacity": 0.33,
       "carryover": 0.0,
       "numrights": 1,
       "d": [0, 366],
-      "start": [9999999, 9999999],
-      "volume": [0, 0],
-      "fraction": [1.0, 1.0]
+      "start": [0, 0],
+      "volume": [9999999, 9999999],
+      "fraction": [0.33, 0.33]
     },
     "kaweah": {
       "capacity": 0.0,

@@ -2,10 +2,14 @@
   "contract_list": ["tableA"],
   "turnout_list": ["caa"],
   "in_leiu_banking": true,
-  "participant_list": ["SOC", "SOB"],  
+  "participant_list": ["MET", "SOB"],  
   "leiu_ownership": {
-    "SOC": 0.35,
+    "MET": 0.35,
     "SOB": 0.65
+  },
+  "inleiucap": {
+    "MET": 999999.9,
+    "SOB": 999999.9
   },
   "leiu_recovery": 0.2465,
   "in_district_direct_recharge": 0.0,
