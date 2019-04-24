@@ -3449,10 +3449,6 @@ class Model():
           type_list = ['contractor', 'alternate', 'turnout', 'excess']
         else:
           type_list = ['contractor', 'alternate']
-        print(t, end = " ")
-        print(dowy, end = " ")
-        print(wateryear, end = " ")
-        print(z.name, end = " ")
         canal_cap = z.capacity['normal'][1]*cfs_tafd - z.flow[1]
         for demand_type in type_list:
           if flood_demand['tot_' + demand_type] > 0.0:
@@ -3472,21 +3468,12 @@ class Model():
             flood_demand[demand_type + '_frac'] = 0.0
             priority_flows += flood_demand['tot_' + demand_type]
             flood_deliveries += flood_demand[demand_type + '_frac'] * flood_demand[demand_type][canal_counter]
-          print(demand_type, end = " ")
-          print(flood_demand['tot_' + demand_type], end = " ")
-          print(flood_demand[demand_type + '_frac'], end = " ")
-          print(flood_available, end = " ")
-          print(priority_flows, end = " ")
-          print(flood_demand[demand_type][canal_counter], end = " ")
-          print(canal_cap, end = " ")
-        print(flood_deliveries)
 		
         canal_size = len(self.canal_district[z.name])
         if flood_deliveries > 0.0:
           excess_flows, unmet_demands = self.distribute_canal_deliveries(dowy, z, begin_key, z.name, flood_deliveries, canal_size, wateryear, 'normal', flow_type, 'flood')
         else:
           excess_flows = 0.0
-        print(excess_flows)
         canal_counter += 1
         total_flood_deliveries += flood_deliveries
         total_excess_flow += excess_flows

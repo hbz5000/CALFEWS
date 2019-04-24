@@ -259,7 +259,7 @@ class District():
     
     self.current_balance[key] = max(min(storage_balance,annual_allocation), 0.0)
     self.projected_supply[key] = max(annual_allocation,0.0)
-    if key == 'kings':
+    if key == 'XXX':
       if self.rights[key]['capacity'] > 0.0:
         print(wateryear, end = " ")
         print(t, end = " ")

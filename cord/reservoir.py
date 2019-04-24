@@ -472,7 +472,7 @@ class Reservoir():
             self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap)
 		  		  
 
-      if (self.key == 'SUC' or self.key == 'KWH' or self.key == 'PFT'):
+      if (self.key == 'XXX' or self.key == 'XXX' or self.key == 'XXX'):
         print(self.key, end = " ")
         print(t, end = " ")
         print(dowy, end = " ")
