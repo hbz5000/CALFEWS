@@ -1,0 +1,14 @@
+														Table 23
+				U.	S. Dep	artment	of Interi	or - Bu	reau of	Reclamat	ion			
+					C	entral	Valley Ope	rations	Office					
+				Ma	dera Ca	nal and	Millerton	Lake						
+							2006							
+Monthly Deliveries		in AF												
+Water Users	Canal	Jan	Feb	Mar	Apr	May	Jun	Jul	Aug	Sep	Oct	Nov	Dec	Total
+Chowchilla WD	MADERA CANAL	0	4594	6887	19054	25716	27100	25555	15315	13057	2977	0	0	140255
+Madera ID	MADERA CANAL	0	756	2358	24558	29424	25720	26213	14267	10888	8401	6411	1152	150148
+Soquel	MADERA CANAL	0	0	0	1	0	2	4725	7663	2567	923	2	1	15884
+County of Madera	MILLERTON LAKE	2	2	2	3	3	5	5	6	5	3	2	1	39
+Fresno County # 18	MILLERTON LAKE	6	6	6	6	14	23	20	20	18	13	10	6	148
+Gravelly Ford WD	MILLERTON LAKE	0	0	0	1098	1168	3006	1391	1837	1467	1126	59	0	11152
+			.											

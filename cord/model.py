@@ -3353,7 +3353,7 @@ class Model():
     self.poso.initial_recharge = 420.0
     self.poso.recovery = 0.6942
     self.poso.tot_storage = 2.1
-    self.fkc.capacity["normal"] = [3797.0, 3797.0, 3797.0, 3797.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 2921.0, 2921.0, 2921.0, 2793.0, 2299.0, 2299.0, 2299.0, 1893.0, 1893.0, 1893.0, 1893.0, 1000.0, 0.0]
+    self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2017"]
     self.irvineranch.initial_recharge = 300.0
     self.irvineranch.recovery = 0.0479
     self.irvineranch.tot_storage = 0.594
@@ -3410,18 +3410,21 @@ class Model():
       self.millerton.sjrr_release = self.millerton.sj_riv_res_flows(t, dowy)
     if t == 3501:
       self.isabella.capacity = 361.25
-      self.isabella.tocs_rule['storage'] = [[302.6,170,170,245,245,361.25,361.25,302.6],  [302.6,170,170,245,245,361.25,361.25,302.6]]
+      self.isabella.tocs_rule['storage'] = [[302.6,170,170,245,245,361.25,361.25,302.6], [302.6,170,170,245,245,361.25,361.25,302.6]]
     if y == 2009 and dowy == 1:
       self.poso.initial_recharge = 420.0
       self.poso.recovery = 0.6942
       self.poso.tot_storage = 2.1
       self.find_all_triggers()
-      self.fkc.capacity["normal"] = [3797.0, 3797.0, 3797.0, 3797.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 2921.0, 2921.0, 2921.0, 2793.0, 2299.0, 2299.0, 2299.0, 1893.0, 1893.0, 1893.0, 1893.0, 1000.0, 0.0]
+      self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
+    if y == 2016 and dowy == 1:
+      self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2017"]
 
     if y == 2010 and dowy == 1:
       self.irvineranch.initial_recharge = 300.0
       self.irvineranch.recovery = 0.0479
       self.irvineranch.tot_storage = 0.594
+
     if y == 1998 and dowy == 1:
       self.berrenda.project_contract['tableA'] =  0.032076
       self.socal.project_contract['tableA'] = 0.63338264299
