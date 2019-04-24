@@ -103,6 +103,9 @@ class Delta():
     self.cvp_allocation = np.zeros(self.T)
     self.annual_HRO_pump = np.zeros(self.number_years)
     self.annual_TRP_pump = np.zeros(self.number_years)
+    self.remaining_tax_free_storage = {}
+    self.remaining_tax_free_storage['swp'] = np.zeros(self.T)
+    self.remaining_tax_free_storage['cvp'] = np.zeros(self.T)
 	
     self.first_empty_day_SWP = 0
     self.first_empty_day_CVP = 0
@@ -685,6 +688,8 @@ class Delta():
     storage['swp'] = swpAS
     storage['cvp'] = cvpAS
     for project in ['cvp', 'swp']:
+      self.remaining_tax_free_storage[project][t] = self.max_tax_free[wyt][project][dowy]
+
       ######The floor for pumping projections are the amount of available storage (including flow projections) in project
 	  ######reservoirs, or the available 'tax free' pumping remaining that is caused by the delta E/I ratio not being binding due to 
       ######delta outflow/depletion requirements	  
@@ -692,33 +697,39 @@ class Delta():
       taxable_space = 0.0
       taxable_space2 = 0.0
 	  ###Remaining available storage is pumped during the period with the lowest remaining E/I ratio 'tax'
-      monthcounter = m - 1
+      monthcounter = m - 1        
       running_storage = storage[project]
+      running_days = self.dowy_eom[year][monthcounter] - dowy
+
       if monthcounter == 3 or monthcounter == 4:
         pumping['swp']	= self.pump_max['swp']['intake_limit'][2] * cfs_tafd
         pumping['cvp'] = self.pump_max['cvp']['intake_limit'][2] * cfs_tafd
       else:
         pumping['swp']	= self.pump_max['swp']['intake_limit'][5] * cfs_tafd
         pumping['cvp'] = self.pump_max['cvp']['intake_limit'][5] * cfs_tafd
-      running_days = self.dowy_eom[year][monthcounter] - dowy
       if t > self.omr_rule_start - running_days:
         pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year][monthcounter])
         pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year][monthcounter])
+
       #total water available for pumping that isn't stored in reservoir (river gains)
       total_uncontrolled = proj_surplus[project][monthcounter]*running_days/self.days_in_month[year][monthcounter]
       #water available to pump w/o exceeding the I/E tax
       untaxed_releases = max(self.max_tax_free[wyt][project][dowy] - self.max_tax_free[wyt][project][self.dowy_eom[year][monthcounter]+1] - total_uncontrolled, 0.0)
       #total pumping from uncontrolled or untaxed flows
-      untaxed = max(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
+      if monthcounter == 7 or monthcounter == 8:
+        untaxed = min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
+      else:
+        untaxed = min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
 	  ##space for pumping that exceeds the I/E tax
-      if monthcounter > 5 or monthcounter == 0:
-        taxable_space += max(pumping[project]*running_days - untaxed, 0.0)
-      elif monthcounter > 0 and monthcounter < 3:
-        taxable_space2 += max(pumping[project]*running_days - untaxed, 0.0)
-      elif monthcounter == 5:
-        taxable_space2 += max(pumping[project]*running_days - untaxed, 0.0)
+      ############################
+	  #if monthcounter > 5 or monthcounter == 0:
+        #taxable_space += max(pumping[project]*running_days - untaxed, 0.0)
+      #elif monthcounter > 0 and monthcounter < 3:
+        #taxable_space2 += max(pumping[project]*running_days - untaxed, 0.0)
+      #elif monthcounter == 5:
+        #taxable_space2 += max(pumping[project]*running_days - untaxed, 0.0)
       #update running storage
-      running_storage -= min(running_storage, untaxed_releases)
+      #running_storage -= min(running_storage, untaxed_releases)
       monthcounter += 1
       if monthcounter == 12:
         monthcounter -= 12
@@ -747,24 +758,34 @@ class Delta():
         dowy_end = self.dowy_eom[year+cross_counter_y][monthcounter]
         untaxed_releases = max(self.max_tax_free[wyt][project][dowy_begin] - self.max_tax_free[wyt][project][dowy_end+1] - total_uncontrolled, 0.0)
         #total pumping from uncontrolled or untaxed flows
-        untaxed += min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter])
+        if monthcounter == 7 or monthcounter == 8:
+          untaxed += min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter])
+        else:
+          untaxed += min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter])
 	    ##space for pumping that exceeds the I/E tax
-        if monthcounter > 5 or monthcounter == 0:
-          taxable_space += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
-        elif monthcounter > 0 and monthcounter < 3:
-          taxable_space2 += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
-        elif monthcounter == 5:
-          taxable_space2 += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
+		#########
+        #if monthcounter > 5 or monthcounter == 0:
+          #taxable_space += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
+        #elif monthcounter > 0 and monthcounter < 3:
+          #taxable_space2 += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
+        #elif monthcounter == 5:
+          #taxable_space2 += max(pumping[project]*self.days_in_month[year+cross_counter_y][monthcounter] - untaxed, 0.0)
         #update running storage
         running_storage -= min(running_storage, untaxed_releases)
         monthcounter += 1
         if monthcounter == 12:
-          monthcounter -= 12      
+          monthcounter -= 12
+
+
+		  
       if running_storage > 0.0:
         if project == 'swp':
-          self.forecastSWPPUMP = untaxed + max(min(taxable_space, running_storage*self.export_ratio[wyt][0]), 0.0) + max(min(taxable_space2, (running_storage - taxable_space/self.export_ratio[wyt][0])*self.export_ratio[wyt][1]), 0.0)
+          #self.forecastSWPPUMP = untaxed + max(min(taxable_space, running_storage*self.export_ratio[wyt][0]), 0.0) + max(min(taxable_space2, (running_storage - taxable_space/self.export_ratio[wyt][0])*self.export_ratio[wyt][1]), 0.0)
+          self.forecastSWPPUMP = untaxed
         elif project == 'cvp':
-          self.forecastCVPPUMP = untaxed + max(min(taxable_space, running_storage*self.export_ratio[wyt][0]), 0.0) + max(min(taxable_space2, (running_storage - taxable_space/self.export_ratio[wyt][0])*self.export_ratio[wyt][1]), 0.0)
+          #self.forecastCVPPUMP = untaxed + max(min(taxable_space, running_storage*self.export_ratio[wyt][0]), 0.0) + max(min(taxable_space2, (running_storage - taxable_space/self.export_ratio[wyt][0])*self.export_ratio[wyt][1]), 0.0)
+          self.forecastCVPPUMP = untaxed
+
       else:
         if project == 'swp':
           self.forecastSWPPUMP = untaxed
@@ -808,7 +829,6 @@ class Delta():
     ###Send pumping forecasts to the contract class	
     #self.forecastSWPPUMP = forecast_pumping['swp']
     #self.forecastCVPPUMP = forecast_pumping['cvp']
-	        
     return cvp_max, swp_max
 
 
@@ -1021,8 +1041,8 @@ class Delta():
 	  
   def accounting_as_df(self, index):
     df = pd.DataFrame()
-    names = ['TRP_pump','HRO_pump', 'total_outflow','SWP_allocation', 'CVP_allocation', 'X2', 'SCINDEX', 'SJINDEX']
-    things = [self.TRP_pump, self.HRO_pump, self.outflow, self.swp_allocation, self.cvp_allocation, self.x2, self.forecastSRI, self.forecastSJI]
+    names = ['TRP_pump','HRO_pump', 'total_outflow','SWP_allocation', 'CVP_allocation', 'X2', 'SCINDEX', 'SJINDEX', 'tax_swp', 'tax_cvp']
+    things = [self.TRP_pump, self.HRO_pump, self.outflow, self.swp_allocation, self.cvp_allocation, self.x2, self.forecastSRI, self.forecastSJI, self.remaining_tax_free_storage['swp'], self.remaining_tax_free_storage['cvp']]
     for n,t in zip(names,things):
       df['%s_%s' % (self.key,n)] = pd.Series(t, index=index)
     return df

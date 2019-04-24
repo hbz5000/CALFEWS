@@ -183,8 +183,9 @@ class Waterbank():
     #this function takes water applied to a recharge basin and 'absorbs' it into the
 	#ground, clearing up capacity in the recharge basin and adding to the 'bank' accounts
 	#of the wb member that applied it
-    if self.tot_current_storage > 0.0:
+    if self.tot_current_storage > self.recharge_rate*0.75:
       self.thismonthuse = 1
+    if self.tot_current_storage > 0.0:
       absorb_fraction = min(self.recharge_rate/self.tot_current_storage,1.0)
       self.tot_current_storage -= self.tot_current_storage*absorb_fraction
       for x in self.participant_list:
