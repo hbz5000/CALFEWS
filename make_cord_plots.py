@@ -31,8 +31,8 @@ if validation_plots:
        # leiubank_results_new = pd.read_csv('cord/data/results/leiu_results_validation.csv')
 
 else:
-       res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04182019_wy2017FKC/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
-       res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04182019_wy2017FKC/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
+       res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
+       res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
        # district_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/district_results_simulation.csv')
        # waterbank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/bank_results_simulation.csv')
        # leiubank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/leiu_results_simulation.csv')

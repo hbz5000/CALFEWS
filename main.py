@@ -22,14 +22,14 @@ from cord import *
 from datetime import datetime
 
 
-#model_mode = 'simulation'
+# model_mode = 'simulation'
 model_mode = 'validation'
 # model_mode = 'forecast'
 
 startTime = datetime.now()
 
 # To run full dataset, short_test = -1. Else enter number of days to run, starting at sd. e.g. 365 for 1 year only.
-short_test = 3650
+short_test = -1
 
 # always use shorter historical dataframe for expected delta releases
 expected_release_datafile = 'cord/data/input/cord-data.csv'
@@ -179,10 +179,11 @@ else:
 ######################################################################################
 
 if model_mode == 'validation' or model_mode == 'simulation':
-  district_output_list = [modelso.berrenda, modelso.belridge, modelso.buenavista, modelso.cawelo, modelso.henrymiller, modelso.ID4, modelso.kerndelta, modelso.losthills, modelso.rosedale, modelso.semitropic, modelso.tehachapi, modelso.tejon, modelso.westkern, modelso.wheeler, modelso.kcwa,
-                          modelso.arvin, modelso.delano, modelso.exeter, modelso.kerntulare, modelso.lindmore, modelso.lindsay, modelso.lowertule, modelso.porterville,
-                          modelso.saucelito, modelso.shaffer, modelso.sosanjoaquin, modelso.teapot, modelso.terra, modelso.tulare, modelso.fresno, modelso.fresnoid,
-                          modelso.socal, modelso.southbay, modelso.centralcoast, modelso.dudleyridge, modelso.tularelake, modelso.westlands, modelso.othercvp, modelso.othercrossvalley, modelso.otherswp, modelso.otherfriant]
+  # district_output_list = [modelso.berrenda, modelso.belridge, modelso.buenavista, modelso.cawelo, modelso.henrymiller, modelso.ID4, modelso.kerndelta, modelso.losthills, modelso.rosedale, modelso.semitropic, modelso.tehachapi, modelso.tejon, modelso.westkern, modelso.wheeler, modelso.kcwa,
+  #                         modelso.chowchilla, modelso.maderairr, modelso.arvin, modelso.delano, modelso.exeter, modelso.kerntulare, modelso.lindmore, modelso.lindsay, modelso.lowertule, modelso.porterville,
+  #                         modelso.saucelito, modelso.shaffer, modelso.sosanjoaquin, modelso.teapot, modelso.terra, modelso.tulare, modelso.fresno, modelso.fresnoid,
+  #                         modelso.socal, modelso.southbay, modelso.centralcoast, modelso.dudleyridge, modelso.tularelake, modelso.westlands, modelso.othercvp, modelso.othercrossvalley, modelso.otherswp, modelso.otherfriant]
+  district_output_list = modelso.district_list
   district_results = modelso.results_as_df('daily', district_output_list)
   district_results.to_csv('cord/data/results/district_results_' + model_mode + '.csv')
   del district_results
@@ -194,9 +195,10 @@ if model_mode == 'validation' or model_mode == 'simulation':
   district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
   #del district_results_annual
   private_results_annual = modelso.results_as_df('annual', modelso.private_list)
-  private_results_annual.to_csv('cord/data/annual_private_reults_' + model_mode + '.csv')
+  private_results_annual.to_csv('cord/data/results/annual_private_results_' + model_mode + '.csv')
   private_results = modelso.results_as_df('daily', modelso.private_list)
-  private_results.to_csv('cord/data/annual_private_reults_' + model_mode + '.csv')
+  private_results.to_csv('cord/data/results/annual_private_results_' + model_mode + '.csv')
+  del private_results,private_results_annual
 
   contract_results = modelso.results_as_df('daily', modelso.contract_list)
   contract_results.to_csv('cord/data/results/contract_results_' + model_mode + '.csv')

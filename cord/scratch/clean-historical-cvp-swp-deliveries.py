@@ -491,8 +491,8 @@ cvp_historical.WaterUserCode.loc[cvp_historical.Canal=='FRIANT-KERNCANAL'] = 'OF
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'arvin' in v]] = 'ARV'
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'delano' in v]] = 'DLE'
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'exeter' in v]] = 'EXE'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'kern-tulare' in v]] = 'KLT'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'raggulch' in v]] = 'KLT'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'kern-tulare' in v]] = 'KRT'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'raggulch' in v]] = 'KRT'
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'lindmore' in v]] = 'LND'
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'lindsay-strath' in v]] = 'LDS'
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'wutchumna' in v]] = 'LDS'
@@ -508,24 +508,24 @@ cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterU
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'fresno,city' in v]] = 'COF'
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'fresnoi' in v]] = 'FRS'
 # blanket code for other friant contractors not in our model
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'fresno,co' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'countyoffresno' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'garfield' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'hillsvalley' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'international' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'ivanhoe' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'kawaeahdelta' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'lewiscreek' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'lindsay,city' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'cityoflindsay' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'orangecove,city' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'cityoforangecove' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'orangecovei' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'stonecorral' in v]] = 'OFK_contractor'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'tri-valley' in v]] = 'OFK_contractor'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'fresno,co' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'countyoffresno' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'garfield' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'hillsvalley' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'international' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'ivanhoe' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'kawaeahdelta' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'lewiscreek' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'lindsay,city' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'cityoflindsay' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'orangecove,city' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'cityoforangecove' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'orangecovei' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'stonecorral' in v]] = 'OFK'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'tri-valley' in v]] = 'OFK'
 # madera contracts
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'chowchilla' in v]] = 'CWC'
-cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'maderaid' in v]] = 'MAD'
+cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'maderai' in v]] = 'MAD'
 # other districts we model that don't have FKC contracts but seem to get deliveries on friant
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'north-kern' in v]] = 'NKN'
 cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterUser']) if 'kerncountyw' in v]] = 'KCWA'
@@ -538,10 +538,9 @@ cvp_historical.WaterUserCode.loc[[i for i, v in enumerate(cvp_historical['WaterU
 
 ### also set contract (as well as possible- just based on whether they are contractor)
 cvp_historical['contractor'] = 'other'
-cvp_historical.contractor.loc[[i for i,v in enumerate(cvp_historical.WaterUserCode) if v in ['CWC','MAD']]] = 'madera'
 cvp_historical.contractor.loc[[i for i,v in enumerate(cvp_historical.WaterUserCode) if v in
-                               ['ARV','DLE','EXE','KLT','LND','LDS','LWT','PRT','SAU','SFW','SSJ','TPD','TBA','TUL',
-                                'COF','OFK_contractor']]] = 'friant'
+                               ['ARV','DLE','EXE','KRT','LND','LDS','LWT','PRT','SAU','SFW','SSJ','TPD','TBA','TUL',
+                                'COF','CWC','MAD','OFK']]] = 'friant'
 
 
 
