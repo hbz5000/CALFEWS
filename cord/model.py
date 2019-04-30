@@ -13,6 +13,7 @@ from .private import Private
 from .contract import Contract
 from .canal import Canal
 from .waterbank import Waterbank
+from .scenario import Scenario
 from .util import *
 
 
@@ -100,7 +101,7 @@ class Model():
     return self.delta.omr_rule_start, self.delta.max_tax_free
     ######################################################################################
 
-  def southern_initialization_routine(self, startTime, SRI_forecast):
+  def southern_initialization_routine(self, startTime, SRI_forecast, scenario='baseline'):
     ######################################################################################
     # preprocessing for the southern system
     ######################################################################################
@@ -133,7 +134,7 @@ class Model():
     self.initialize_canals()
     print('Initialize Canals, time ', datetime.now() - startTime)
     if self.model_mode != 'validation':
-      self.set_regulations_current_south()
+      self.set_regulations_current_south(scenario)
 
     # create dictionaries that structure the relationships between
     # reservoirs, canals, districts, waterbanks, and contracts
@@ -637,7 +638,7 @@ class Model():
             x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx]
 
 			
-    ###Find Risk in Contract Delivery	
+    ###Find Risk in Contract Delivery
     self.determine_recharge_recovery_risk()
 
 
@@ -4522,14 +4523,14 @@ class Model():
 #####################################################################################################################
 ###############################  Miscellaneous Functions Within Simulation ###############################
 #####################################################################################################################
-  def set_regulations_current_south(self):
+  def set_regulations_current_south(self, scenario):
     self.semitropic.leiu_recovery = 0.7945
     self.isabella.capacity = 361.25
     self.isabella.tocs_rule['storage'] = [[302.6,170,170,245,245,361.25,361.25,302.6],  [302.6,170,170,245,245,361.25,361.25,302.6]]
     self.poso.initial_recharge = 420.0
     self.poso.recovery = 0.6942
     self.poso.tot_storage = 2.1
-    self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2017"]
+    self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
     self.irvineranch.initial_recharge = 300.0
     self.irvineranch.recovery = 0.0479
     self.irvineranch.tot_storage = 0.594
@@ -4554,6 +4555,18 @@ class Model():
     self.kwb.initial_recharge = 1212.12
     self.kwb.recovery = 0.7863
     self.kwb.tot_storage = 2.4
+    if (scenario != 'baseline'):
+      simulation_scenarios = Scenario()
+      self.fkc.capacity["normal"] = simulation_scenarios.FKC_capacity_normal[scenario['FKC_capacity_normal']]
+      self.fkc.LWT_in_district_direct_recharge = simulation_scenarios.LWT_in_district_direct_recharge[scenario['LWT_in_district_direct_recharge']]
+      self.fkc.LWT_in_leiu_banking = simulation_scenarios.LWT_in_leiu_banking[scenario['LWT_in_leiu_banking']]
+      if (self.fkc.LWT_in_leiu_banking):
+        self.fkc.LWT_participant_list = simulation_scenarios.LWT_participant_list[scenario['LWT_participant_list']]
+        self.fkc.LWT_leiu_ownership = simulation_scenarios.LWT_leiu_ownership[scenario['LWT_leiu_ownership']]
+        self.fkc.LWT_inleiucap = simulation_scenarios.LWT_inleiucap[scenario['LWT_inleiucap']]
+        self.fkc.LWT_leiu_recovery = simulation_scenarios.LWT_leiu_recovery[scenario['LWT_leiu_recovery']]
+    # print(self.fkc.LWT_in_district_direct_recharge, self.fkc.LWT_in_leiu_banking, self.fkc.LWT_participant_list,
+    #       self.fkc.LWT_leiu_ownership, self.fkc.LWT_inleiucap, self.fkc.LWT_leiu_recovery)
 	
   def set_regulations_current_north(self):
     self.yuba.env_min_flow = self.yuba.env_min_flow_ya
@@ -4629,8 +4642,7 @@ class Model():
       self.poso.tot_storage = 2.1
       self.find_all_triggers()
       self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
-    if y == 2016 and dowy == 1:
-      self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2017"]
+
 
     if y == 2010 and dowy == 1:
       self.irvineranch.initial_recharge = 300.0
