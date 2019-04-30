@@ -7,7 +7,7 @@ from cord import *
 ###Plot Simulation Results
 ######################################################################################
 # plot validation mode (1) or simulation mode (0)
-validation_plots = 1
+validation_plots = 0
 
 # set plot number to number from results lists below, or -1 to plot all
 plot_number = -1
@@ -16,12 +16,14 @@ observations = pd.read_csv('cord/data/input/cord-data.csv', index_col=0, parse_d
 
 # Note: change file paths to local storage. 'old' should be a previous run of results with an old branch of code, and 'new' is the results from the new code being tested.
 if validation_plots:
-       res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01142019/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
-       res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01142019/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
+       res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_04042019/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
+       res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_04042019/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
        # district_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/master_district_results_validation.csv')
        # waterbank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/bank_results_validation.csv')
        # leiubank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/leiu_results_validation.csv')
 
+       # res_results_no_new = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_validation_02172019/reservoir_results_no_simulation_validation.csv', index_col=0, parse_dates=True)
+       # res_results_so_new = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_validation_02172019/reservoir_results_so_simulation_validation.csv', index_col=0, parse_dates=True)
        res_results_no_new = pd.read_csv('cord/data/results/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
        res_results_so_new = pd.read_csv('cord/data/results/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
        # district_results_new = pd.read_csv('cord/data/results/district_results_validation.csv')
@@ -29,16 +31,16 @@ if validation_plots:
        # leiubank_results_new = pd.read_csv('cord/data/results/leiu_results_validation.csv')
 
 else:
-       # res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
-       # res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
+       res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
+       res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
        # district_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/district_results_simulation.csv')
        # waterbank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/bank_results_simulation.csv')
        # leiubank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/leiu_results_simulation.csv')
 
-       res_results_no_old = pd.read_csv('cord/data/results/reservoir_results_no_simulation_validation.csv', index_col=0,
-                                        parse_dates=True)
-       res_results_so_old = pd.read_csv('cord/data/results/reservoir_results_so_simulation_validation.csv', index_col=0,
-                                        parse_dates=True)
+       # res_results_no_old = pd.read_csv('cord/data/results/reservoir_results_no_simulation_validation.csv', index_col=0,
+       #                                  parse_dates=True)
+       # res_results_so_old = pd.read_csv('cord/data/results/reservoir_results_so_simulation_validation.csv', index_col=0,
+       #                                  parse_dates=True)
        res_results_no_new = pd.read_csv('cord/data/results/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
        res_results_so_new = pd.read_csv('cord/data/results/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
        # district_results_new = pd.read_csv('cord/data/results/district_results_simulation.csv')

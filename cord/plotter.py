@@ -87,7 +87,7 @@ def compare_simulation(res_old,res_new,obs,name,freq,freq2, data_name):
   # input two series and a frequency
   init_plotting()
 
-  res_new = res_new.loc[res_new.index.year > 1995]
+  # res_new = res_new.loc[res_new.index.year > 1995]
   res_old1 = res_old.resample(freq).mean()*7*1.98/1000.0
   res_new1 = res_new.resample(freq).mean()*7*1.98/1000.0
   obs1 = obs.resample(freq).mean()*7*1.98/1000.0

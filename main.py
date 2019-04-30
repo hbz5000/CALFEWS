@@ -22,7 +22,7 @@ from cord import *
 from datetime import datetime
 
 
-#model_mode = 'simulation'
+# model_mode = 'simulation'
 model_mode = 'validation'
 # model_mode = 'forecast'
 
@@ -36,6 +36,8 @@ expected_release_datafile = 'cord/data/input/cord-data.csv'
 
 # data for actual simulation
 if model_mode == 'simulation':
+  # sd = '10-01-1996'
+  # input_data_file = 'cord/data/input/cord-data.csv'
   sd = '10-01-1905'
   input_data_file = 'cord/data/input/cord-data-sim.csv'
 elif model_mode == 'validation':
@@ -177,11 +179,15 @@ else:
 ######################################################################################
 
 if model_mode == 'validation' or model_mode == 'simulation':
-  district_output_list = [modelso.berrenda, modelso.belridge, modelso.buenavista, modelso.cawelo, modelso.henrymiller, modelso.ID4, modelso.kerndelta, modelso.losthills, modelso.rosedale, modelso.semitropic, modelso.tehachapi, modelso.tejon, modelso.westkern, modelso.wheeler, modelso.kcwa, modelso.arvin, modelso.delano, modelso.lowertule, modelso.porterville, modelso.socal, modelso.southbay, modelso.centralcoast, modelso.dudleyridge, modelso.tularelake, modelso.westlands, modelso.othercvp, modelso.othercrossvalley, modelso.otherswp, modelso.consolidated, modelso.alta, modelso.krwa]
+  # district_output_list = [modelso.berrenda, modelso.belridge, modelso.buenavista, modelso.cawelo, modelso.henrymiller, modelso.ID4, modelso.kerndelta, modelso.losthills, modelso.rosedale, modelso.semitropic, modelso.tehachapi, modelso.tejon, modelso.westkern, modelso.wheeler, modelso.kcwa,
+  #                         modelso.chowchilla, modelso.maderairr, modelso.arvin, modelso.delano, modelso.exeter, modelso.kerntulare, modelso.lindmore, modelso.lindsay, modelso.lowertule, modelso.porterville,
+  #                         modelso.saucelito, modelso.shaffer, modelso.sosanjoaquin, modelso.teapot, modelso.terra, modelso.tulare, modelso.fresno, modelso.fresnoid,
+  #                         modelso.socal, modelso.southbay, modelso.centralcoast, modelso.dudleyridge, modelso.tularelake, modelso.westlands, modelso.othercvp, modelso.othercrossvalley, modelso.otherswp, modelso.otherfriant]
+  district_output_list = modelso.district_list
   district_results = modelso.results_as_df('daily', district_output_list)
   district_results.to_csv('cord/data/results/district_results_' + model_mode + '.csv')
   del district_results
-  
+
   district_results = modelso.results_as_df_full('daily', district_output_list)
   district_results.to_csv('cord/data/results/district_results_full_' + model_mode + '.csv')
   del district_results
@@ -189,15 +195,16 @@ if model_mode == 'validation' or model_mode == 'simulation':
   district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
   #del district_results_annual
   private_results_annual = modelso.results_as_df('annual', modelso.private_list)
-  private_results_annual.to_csv('cord/data/annual_private_reults_' + model_mode + '.csv')
+  private_results_annual.to_csv('cord/data/results/annual_private_results_' + model_mode + '.csv')
   private_results = modelso.results_as_df('daily', modelso.private_list)
-  private_results.to_csv('cord/data/annual_private_reults_' + model_mode + '.csv')
+  private_results.to_csv('cord/data/results/annual_private_results_' + model_mode + '.csv')
+  del private_results,private_results_annual
 
   contract_results = modelso.results_as_df('daily', modelso.contract_list)
   contract_results.to_csv('cord/data/results/contract_results_' + model_mode + '.csv')
   contract_results_annual = modelso.results_as_df('annual', modelso.contract_list)
   contract_results_annual.to_csv('cord/data/results/contract_results_annual_' + model_mode + '.csv')
-  #del contract_results
+  del contract_results, contract_results_annual
 
   northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones,
                      modelno.donpedro, modelno.exchequer, modelno.delta]
@@ -205,7 +212,7 @@ if model_mode == 'validation' or model_mode == 'simulation':
                      modelso.kaweah, modelso.success, modelso.pineflat]
   reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
   reservoir_results_no.to_csv('cord/data/results/reservoir_results_no_' + model_mode + '.csv')
-  del reservoir_results_no  
+  del reservoir_results_no
   
   reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
   reservoir_results_so.to_csv('cord/data/results/reservoir_results_so_' + model_mode + '.csv')
@@ -219,13 +226,13 @@ if model_mode == 'validation' or model_mode == 'simulation':
   bank_results.to_csv('cord/data/results/bank_results_' + model_mode + '.csv')
   bank_results_annual = modelso.bank_as_df('annual', modelso.waterbank_list)
   bank_results_annual.to_csv('cord/data/results/bank_results_annual_' + model_mode + '.csv')
-  del bank_results
+  del bank_results, bank_results_annual
 
   leiu_results = modelso.bank_as_df('daily', modelso.leiu_list)
   leiu_results.to_csv('cord/data/results/leiu_results_' + model_mode + '.csv')
   leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
   leiu_results_annual.to_csv('cord/data/results/leiu_results_annual_' + model_mode + '.csv')
-  del leiu_results
+  del leiu_results, leiu_results_annual
 
 print ('completed in ', datetime.now() - startTime)
 

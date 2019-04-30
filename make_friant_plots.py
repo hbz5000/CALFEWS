@@ -8,10 +8,10 @@ from cord import *
 ######################################################################################
 ###Plot Simulation Results
 ######################################################################################
-district_results = pd.read_csv('cord/data/annual_district_results_simulation.csv')
-contract_results = pd.read_csv('cord/data/contract_results_annual_simulation.csv')
+district_results = pd.read_csv('cord/data/results/annual_district_results_simulation.csv')
+contract_results = pd.read_csv('cord/data/results/contract_results_annual_simulation.csv')
 
-modelplot = Model('cord/data/cord-data.csv', sd='10-01-1996')
+modelplot = Model('cord/data/input/cord-data.csv', sd='10-01-1996')
 modelplot.initialize_water_districts()
 
 cross_valley_list = [modelplot.lowertule, modelplot.kerntulare, modelplot.othercrossvalley]

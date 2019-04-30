@@ -13,6 +13,7 @@ from .private import Private
 from .contract import Contract
 from .canal import Canal
 from .waterbank import Waterbank
+from .scenario import Scenario
 from .util import *
 
 
@@ -100,7 +101,7 @@ class Model():
     return self.delta.omr_rule_start, self.delta.max_tax_free
     ######################################################################################
 
-  def southern_initialization_routine(self, startTime, SRI_forecast):
+  def southern_initialization_routine(self, startTime, SRI_forecast, scenario='baseline'):
     ######################################################################################
     # preprocessing for the southern system
     ######################################################################################
@@ -133,7 +134,7 @@ class Model():
     self.initialize_canals()
     print('Initialize Canals, time ', datetime.now() - startTime)
     if self.model_mode != 'validation':
-      self.set_regulations_current_south()
+      self.set_regulations_current_south(scenario)
 
     # create dictionaries that structure the relationships between
     # reservoirs, canals, districts, waterbanks, and contracts
@@ -637,7 +638,7 @@ class Model():
             x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx]
 
 			
-    ###Find Risk in Contract Delivery	
+    ###Find Risk in Contract Delivery
     self.determine_recharge_recovery_risk()
 
 
@@ -706,7 +707,7 @@ class Model():
 	#Objects can be districts, waterbanks, or other canals.  Canal objects show an intersection with the canal represented by the dictionary 'key' that holds the list.  Dictionary keys are all canal keys.  If a canal is located on a list, the canal associated with that list's key will also be on the list associated with the canal of the first key (i.e., if self.fkc is on the list with the key 'self.canal_district['xvc'], then the object self.xvc will be on the list with the key self.canal_district['fkc'] - these intersections help to organize these lists into a structure that models the interconnected canal structure
 	#The first object on each list is either a reservoir or another canal
     self.canal_district = {}
-    self.canal_district['fkc'] = [self.millerton, self.otherfriant, self.othercrossvalley, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherkaweah, self.kaweahriverchannel, self.tulare, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.teapot, self.saucelito, self.terra, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
+    self.canal_district['fkc'] = [self.millerton, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherfriant, self.tulare, self.otherkaweah, self.kaweahriverchannel, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.teapot, self.saucelito, self.terra, self.othercrossvalley, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
     self.canal_district['mdc'] = [self.millerton, self.maderairr, self.chowchilla]
     self.canal_district['caa'] = [self.sanluis, self.southbay, self.otherswp, self.othercvp, self.otherexchange, self.westlands, self.centralcoast, self.tularelake, self.dudleyridge, self.losthills, self.berrenda, self.belridge, self.semitropic, self.buenavista, self.wkwb, self.xvc, self.kwbcanal, self.kernriverchannel, self.henrymiller, self.wheeler, self.aecanal, self.tejon, self.tehachapi, self.socal]
     self.canal_district['xvc'] = [self.calaqueduct, self.buenavista, self.kwb, self.irvineranch, self.pioneer, self.b2800, self.berrendawb, self.gooseslough, self.kernriverchannel, self.fkc, self.aecanal, self.beardsley]
@@ -1249,7 +1250,9 @@ class Model():
 
       #if a node is a canal node, jump to that canal (function calls itself, but for another canal) 
       elif isinstance(x, Canal):
-        new_loc_demand = 0.0	  
+        new_loc_demand = 0.0
+        if x.name == 'kgr':
+          print(x.name, flow_type, flow_dir)
         if canal.turnout[flow_dir][canal_loc] > 0.0:
           new_flow_dir = canal.flow_directions[flow_type][x.name]
           new_loc_demand = self.find_flood_trigger(x, canal.key, contract_canal, new_flow_dir,flow_type)
@@ -4574,14 +4577,14 @@ class Model():
 #####################################################################################################################
 ###############################  Miscellaneous Functions Within Simulation ###############################
 #####################################################################################################################
-  def set_regulations_current_south(self):
+  def set_regulations_current_south(self, scenario):
     self.semitropic.leiu_recovery = 0.7945
     self.isabella.capacity = 361.25
     self.isabella.tocs_rule['storage'] = [[302.6,170,170,245,245,361.25,361.25,302.6],  [302.6,170,170,245,245,361.25,361.25,302.6]]
     self.poso.initial_recharge = 420.0
     self.poso.recovery = 0.6942
     self.poso.tot_storage = 2.1
-    self.fkc.capacity["normal"] = [5000.0, 5000.0, 5000.0, 5000.0, 5000.0, 5000.0, 3797.0, 3797.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 2921.0, 2921.0, 2921.0, 2921.0, 2793.0, 2299.0, 2299.0, 2299.0, 1893.0, 1893.0, 1893.0, 1893.0, 1000.0, 0.0]
+    self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
     self.irvineranch.initial_recharge = 300.0
     self.irvineranch.recovery = 0.0479
     self.irvineranch.tot_storage = 0.594
@@ -4606,6 +4609,18 @@ class Model():
     self.kwb.initial_recharge = 1212.12
     self.kwb.recovery = 0.7863
     self.kwb.tot_storage = 2.4
+    if (scenario != 'baseline'):
+      simulation_scenarios = Scenario()
+      self.fkc.capacity["normal"] = simulation_scenarios.FKC_capacity_normal[scenario['FKC_capacity_normal']]
+      self.fkc.LWT_in_district_direct_recharge = simulation_scenarios.LWT_in_district_direct_recharge[scenario['LWT_in_district_direct_recharge']]
+      self.fkc.LWT_in_leiu_banking = simulation_scenarios.LWT_in_leiu_banking[scenario['LWT_in_leiu_banking']]
+      if (self.fkc.LWT_in_leiu_banking):
+        self.fkc.LWT_participant_list = simulation_scenarios.LWT_participant_list[scenario['LWT_participant_list']]
+        self.fkc.LWT_leiu_ownership = simulation_scenarios.LWT_leiu_ownership[scenario['LWT_leiu_ownership']]
+        self.fkc.LWT_inleiucap = simulation_scenarios.LWT_inleiucap[scenario['LWT_inleiucap']]
+        self.fkc.LWT_leiu_recovery = simulation_scenarios.LWT_leiu_recovery[scenario['LWT_leiu_recovery']]
+    # print(self.fkc.LWT_in_district_direct_recharge, self.fkc.LWT_in_leiu_banking, self.fkc.LWT_participant_list,
+    #       self.fkc.LWT_leiu_ownership, self.fkc.LWT_inleiucap, self.fkc.LWT_leiu_recovery)
 	
   def set_regulations_current_north(self):
     self.yuba.env_min_flow = self.yuba.env_min_flow_ya
@@ -4680,12 +4695,14 @@ class Model():
       self.poso.recovery = 0.6942
       self.poso.tot_storage = 2.1
       self.find_all_triggers()
-      self.fkc.capacity["normal"] = [5000.0, 5000.0, 5000.0, 5000.0, 5000.0, 5000.0, 3797.0, 3797.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 3427.0, 2921.0, 2921.0, 2921.0, 2921.0, 2793.0, 2299.0, 2299.0, 2299.0, 1893.0, 1893.0, 1893.0, 1893.0, 1000.0, 0.0]
+      self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
+
 
     if y == 2010 and dowy == 1:
       self.irvineranch.initial_recharge = 300.0
       self.irvineranch.recovery = 0.0479
       self.irvineranch.tot_storage = 0.594
+
     if y == 1998 and dowy == 1:
       self.berrenda.project_contract['tableA'] =  0.032076
       self.socal.project_contract['tableA'] = 0.63338264299
