@@ -45,7 +45,7 @@
     },
     "kings": {
       "capacity": 0.19,
-      "carryover": 0.0,
+      "carryover": 0.19,
       "numrights": 1,
       "d": [0, 366],
       "start": [0, 0],

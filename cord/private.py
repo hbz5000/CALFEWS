@@ -778,7 +778,7 @@ class Private():
 	#(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
     total_demand_met = 1.0
     #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
-    demand_constraint = max(min(self.dailydemand_start[district_name]*access_mult*total_demand_met, self.dailydemand[district_name]*access_mult, total_projected_allocation),0.0)
+    demand_constraint = max(min(self.dailydemand_start[district_name]*access_mult*total_demand_met, self.dailydemand[district_name]*access_mult),0.0)
     #if we want to include recharge demands in the demand calculations, add available recharge space
 			  
     return demand_constraint     
@@ -817,6 +817,8 @@ class Private():
           return total_current_balance
       else:
         return 0.0
+    else:
+      return 0.0
 		
   def set_request_constraints(self, demand, search_type, contract_list, bank_space, bank_capacity, dowy, wateryear):		
     #for banking, a district requests water if they have enough contract water currently in surface water storage and they have 'excess' water for banking (calculated in self.open_recharge)
@@ -1075,12 +1077,32 @@ class Private():
     total_current_balance = 0.0
     delivery_by_contract = {}
     for y in contract_list:
-      total_current_balance += max(self.current_balance[district_name][y.name], 0.0)
+      if search_type == 'flood':
+        total_current_balance += 1.0
+      elif search_type == 'delivery':
+        total_current_balance += max(self.projected_supply[district_name][y.name], 0.0)
+      elif search_type == 'banking':
+        total_current_balance += max(self.recharge_carryover[district_name][y.name], 0.0)
+      elif search_type == 'recovery':
+        total_current_balance += max(self.current_balance[district_name][y.name], 0.0)
       delivery_by_contract[y.name] = 0.0
+    flood_counter = 0
     for y in contract_list:
       #find the percentage of total deliveries that come from each contract
       if total_current_balance > 0.0:
-        contract_deliveries = actual_deliveries*max(self.current_balance[district_name][y.name], 0.0)/total_current_balance
+        if search_type == 'flood':
+          if flood_counter == 0:
+            contract_deliveries = actual_deliveries
+            flood_counter = 1
+          else:
+            contract_deliveries = 0.0
+        elif search_type == 'delivery':
+          contract_deliveries = actual_deliveries*max(self.projected_supply[district_name][y.name], 0.0)/total_current_balance
+        elif search_type == 'banking':
+          contract_deliveries = actual_deliveries*max(self.recharge_carryover[district_name][y.name], 0.0)/total_current_balance
+        elif search_type == 'recovery':
+          contract_deliveries = actual_deliveries*max(self.current_balance[district_name][y.name], 0.0)/total_current_balance
+
       else:
         contract_deliveries = 0.0
       delivery_by_contract[y.name] = contract_deliveries

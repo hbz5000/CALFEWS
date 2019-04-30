@@ -280,6 +280,28 @@ class District():
         print("%.2f" % self.dailydemand, end = " ")
         print("%.2f" % self.recharge_carryover[key], end = " ")
         print("%.2f" % self.use_recovery)
+    elif key == 'XXX':
+      if self.project_contract[key] > 0.0:
+        print(wateryear, end = " ")
+        print(t, end = " ")
+        print(self.key, end = " ")
+        print(key, end = " ")
+        print("%.2f" % projected_allocation, end = " ")
+        print("%.2f" % annual_allocation, end = " ")
+        print("%.2f" % frac_to_district, end = " ")
+        print("%.2f" % current_water, end = " ")
+        print("%.2f" % tot_carryover, end = " ")
+        print("%.2f" % self.deliveries[key][wateryear], end = " ")
+        print("%.2f" % self.carryover[key], end = " ")
+        print("%.2f" % self.paper_balance[key], end = " ")
+        print("%.2f" % self.turnback_pool[key], end = " ")
+        print("%.2f" % self.current_balance[key], end = " ")
+        print("%.2f" % self.projected_supply[key], end = " ")
+        print("%.2f" % self.annualdemand, end = " ")
+        print("%.2f" % self.dailydemand, end = " ")
+        print("%.2f" % self.recharge_carryover[key], end = " ")
+        print("%.2f" % self.use_recovery)
+	  
 
 
     return max(self.projected_supply[key] - self.annualdemand, 0.0) , max(self.carryover[key] - self.deliveries[key][wateryear], 0.0)
@@ -470,7 +492,7 @@ class District():
           total_available_for_recharge += max(self.projected_supply[y], 0.0)
       
         if total_available_for_recharge > 0.0:
-          self.recharge_carryover[key] = max(spill_release_carryover, 0.0)*max(self.projected_supply[y], 0.0)/total_available_for_recharge
+          self.recharge_carryover[key] = max(spill_release_carryover, 0.0)*max(self.projected_supply[key], 0.0)/total_available_for_recharge
         else:
           self.recharge_carryover[key] = 0.0
       else:
@@ -484,7 +506,7 @@ class District():
           self.recharge_carryover[key] = 0.0
       #if contract_allocation == 0:
         #self.recharge_carryover[key] = max(self.recharge_carryover[key], self.projected_supply[key] - total_recharge*service_area_adjust - self.demand_days['current'][key], 0.0)
-      if key == 'XXB' or key == 'XXX':
+      if key == 'XXX':
         print(self.key, end = " ")
         print(carryover_storage_proj, end = " ")
         print(spill_release_carryover, end = " ")
@@ -693,18 +715,21 @@ class District():
           friant_toggle = 1
       if self.seasonal_connection == 1:
         if self.must_fill == 1:
-          return demand + private_add
+          return max(min(demand, total_current_balance), 0.0) + private_add
         elif total_carryover > 0.0:
-          return demand + private_add
+          return max(min(demand, total_current_balance), 0.0) + private_add
         elif total_projected_supply > self.annualdemand:
-          return demand + private_add
+          return max(min(demand, total_current_balance), 0.0) + private_add
         elif dowy < 242:
           return private_add
         else:
           if friant_toggle == 1:
-            return max(min(demand*total_projected_supply/self.annualdemand,total_current_balance), 0.0) + private_add
+            if self.annualdemand > 0.0:
+              return max(min(demand*total_projected_supply/self.annualdemand,total_current_balance), 0.0) + private_add
+            else:
+              return max(min(demand,total_current_balance), 0.0) + private_add
           else:
-            return max(min(demand,total_current_balance), 0.0) + private_add
+            return max(min(demand,total_current_balance, total_projected_supply), 0.0) + private_add
 
       else:
         return private_add
@@ -926,7 +951,7 @@ class District():
     delivery_by_contract = {}
     for y in contract_list:
       if search_type == 'flood':
-        total_current_balance += max(self.current_balance[y.name], 0.0)
+        total_current_balance += 1.0
       elif search_type == 'delivery':
         total_current_balance += max(self.projected_supply[y.name], 0.0)
       elif search_type == 'banking':
@@ -934,11 +959,16 @@ class District():
       elif search_type == 'recovery':
         total_current_balance += max(self.current_balance[y.name], 0.0)
       delivery_by_contract[y.name] = 0.0
+    flood_counter = 0
     for y in contract_list:
       #find the percentage of total deliveries that come from each contract
       if total_current_balance > 0.0:
         if search_type == 'flood':
-          contract_deliveries = actual_deliveries*max(self.current_balance[y.name], 0.0)/total_current_balance
+          if flood_counter == 0:
+            contract_deliveries = actual_deliveries
+            flood_counter = 1
+          else:
+            contract_deliveries = 0.0
         elif search_type == 'delivery':
           contract_deliveries = actual_deliveries*max(self.projected_supply[y.name], 0.0)/total_current_balance
         elif search_type == 'banking':

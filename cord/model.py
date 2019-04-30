@@ -718,9 +718,9 @@ class Model():
     self.canal_district['cwy'] = [self.kernriverchannel, self.beardsley, self.cawelo, self.northkern, self.poso, self.northkernwb]
     self.canal_district['lrd'] = [self.kernriverchannel, self.cawelo, self.northkern, self.poso, self.northkernwb]
     self.canal_district['bly'] = [self.xvc, self.calloway]
-    self.canal_district['kwr'] = [self.kaweah, self.otherkaweah, self.tularelake, self.fkc]
-    self.canal_district['tlr'] = [self.success, self.othertule, self.lowertule, self.porterville, self.fkc]
-    self.canal_district['kgr'] = [self.pineflat, self.consolidated, self.alta, self.krwa, self.fresnoid, self.fkc]
+    self.canal_district['kwr'] = [self.kaweah, self.otherkaweah, self.tulare, self.fkc, self.tularelake]
+    self.canal_district['tlr'] = [self.success, self.othertule, self.lowertule, self.porterville, self.fkc, self.tularelake]
+    self.canal_district['kgr'] = [self.pineflat, self.consolidated, self.alta, self.krwa, self.fresnoid, self.fkc, self.tularelake]
 
     for x in self.private_list:
       x.seepage = {}
@@ -927,9 +927,8 @@ class Model():
 	
     for reservoir in self.reservoir_list:	
       reservoir.total_capacity = 0.0
-      for canal_to_reservoir in self.reservoir_canal[res.key]:
+      for canal_to_reservoir in self.reservoir_canal[reservoir.key]:
         reservoir.total_capacity += canal_to_reservoir.capacity['normal'][0]
-
 	
     self.pumping_turnback = {}
     for z in ['SLS', 'SLF', 'MIL', 'ISB', 'SUC', 'KWH', 'PFT']:
@@ -2077,7 +2076,7 @@ class Model():
 	##Note: most of the contracts have provisions that flood flows 'cannot displace' scheduled 
     ##deliveries (i.e. you can't use flood releases to fill demand that would be met by your contract
 	##schedule), so might want to put this AFTER regular delivery routing
-    flood_order_list = [self.pineflat, self.success, self.kaweah, self.isabella, self.millerton]
+    flood_order_list = [self.pineflat, self.success, self.kaweah, self.isabella]
     #toggle to enable flood releases to go to districts/banks that don't have a contract w/the reservoir
     #only san luis restricts flood releases to contractors only (b/c otherwise they just dont pump)
     overflow_deliveries = 1
@@ -2091,21 +2090,6 @@ class Model():
       self.flood_operations(t, m, dowy, wateryear, a, flow_type, overflow_deliveries, wyt)
 	  
     self.set_canal_direction(flow_type)	
-
-    #Flood releases	
-    #article21 releases from san luis - state
-    self.canal_contract['caa'] = [self.swpdelta]#for swp flood releases, only swp contracts are considered
-    flow_type = "recharge"
-    overflow_deliveries = 0#no flood deliveries to non-contractors in swp or cvp
-    self.set_canal_direction(flow_type)   
-    self.flood_operations(t, m, dowy, wateryear, self.sanluisstate, flow_type, overflow_deliveries, wyt)	  
-
-    #flood releases from san luis - federal
-    self.canal_contract['caa'] = [self.cvpdelta, self.cvpexchange, self.crossvalley]
-    self.set_canal_direction(flow_type)
-    self.flood_operations(t, m, dowy, wateryear, self.sanluisfederal, flow_type, overflow_deliveries, wyt)	  
-    self.set_canal_direction(flow_type)
-    self.canal_contract['caa'] = [self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley]#reset california aqueduct contracts to be all san luis contracts	
 
 	  
 	#Update Contract Allocations
@@ -2306,7 +2290,7 @@ class Model():
 
 	##Direct deliveries from surface water sources
     flow_type = "recharge"
-    for a in [self.sanluis, self.isabella, self.pineflat, self.millerton, self.success, self.kaweah]:
+    for a in [self.pineflat, self.success, self.kaweah, self.isabella]:
       for z in self.reservoir_canal[a.key]:
         self.set_canal_direction(flow_type)
 
@@ -2408,7 +2392,7 @@ class Model():
         elif y == 'cvpdelta' or y == 'exchange' or y == 'cvc':
           lookahead_days = fill_up_cross_cvp
           carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
-        elif y == 'friant2' or y == 'friant1':
+        elif y == 'friant2' or y == 'kings':
           lookahead_days = min(reservoir.numdays_fillup['lookahead'], max(365.0 - dowy, 0.0))
           carryover_days = min(reservoir.numdays_fillup['demand'], 0.0)
         else:
@@ -2449,7 +2433,7 @@ class Model():
 		
 	##Deliveries for banking
     flow_type = "recharge"
-    for a in [self.sanluis, self.millerton, self.isabella, self.pineflat, self.success, self.kaweah]:
+    for a in [self.isabella, self.pineflat, self.success, self.kaweah]:
       for z in self.reservoir_canal[a.key]:
         self.set_canal_direction(flow_type)
 
@@ -2461,7 +2445,66 @@ class Model():
         excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, z, a.key, z.name, available_flow, canal_size, wateryear, 'normal', flow_type, 'banking')
 		
     self.set_canal_direction(flow_type)
+	
+	
+	
+    #toggle to enable flood releases to go to districts/banks that don't have a contract w/the reservoir
+    #only san luis restricts flood releases to contractors only (b/c otherwise they just dont pump)
+    overflow_deliveries = 1
+    flow_type = "recharge"
+    self.set_canal_direction(flow_type)	
+    #if flow is already on a bi-directional canal, it becomes closed to canals going the other direction
+    #checks the calaqueduct turnout to xvc is used, if not, xvc is open to fkc and kern river
+    self.set_canal_direction(flow_type)
+    #release flood flows to canals
+    self.flood_operations(t, m, dowy, wateryear, self.millerton, flow_type, overflow_deliveries, wyt)  
+    self.set_canal_direction(flow_type)	
+
+    #Flood releases	
+    #article21 releases from san luis - state
+    self.canal_contract['caa'] = [self.swpdelta]#for swp flood releases, only swp contracts are considered
+    flow_type = "recharge"
+    overflow_deliveries = 0#no flood deliveries to non-contractors in swp or cvp
+    self.set_canal_direction(flow_type)   
+    self.flood_operations(t, m, dowy, wateryear, self.sanluisstate, flow_type, overflow_deliveries, wyt)	  
+
+    #flood releases from san luis - federal
+    self.canal_contract['caa'] = [self.cvpdelta, self.cvpexchange, self.crossvalley]
+    self.set_canal_direction(flow_type)
+    self.flood_operations(t, m, dowy, wateryear, self.sanluisfederal, flow_type, overflow_deliveries, wyt)	  
+    self.set_canal_direction(flow_type)
+    self.canal_contract['caa'] = [self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley]#reset california aqueduct contracts to be all san luis contracts	
+
+    flow_type = "recharge"
+    for a in [self.sanluis, self.millerton]:
+      for z in self.reservoir_canal[a.key]:
+        self.set_canal_direction(flow_type)
+
+        canal_size = len(self.canal_district[z.name])
+        total_canal_demand = self.search_canal_demand(dowy, z, a.key, z.name, 'normal', flow_type, wateryear,'delivery')
+        available_flow = 0.0
+        for zz in total_canal_demand:
+          available_flow += total_canal_demand[zz]
+        excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, z, a.key, z.name, available_flow, canal_size, wateryear, 'normal', flow_type, 'delivery')
+
+        #total_canal_demand = self.find_contract_demand(t, dowy, wateryear, z, a.key, z.name, 'normal',flow_type)
+        #excess_water, unmet_demand = self.deliver_contracts(t, dowy, z, a.key, z.name, total_canal_demand, canal_size, wateryear, 'normal',flow_type)
+    self.set_canal_direction(flow_type)
 		
+	##Deliveries for banking
+    flow_type = "recharge"
+    for a in [self.sanluis, self.millerton]:
+      for z in self.reservoir_canal[a.key]:
+        self.set_canal_direction(flow_type)
+
+        canal_size = len(self.canal_district[z.name])
+        total_canal_demand = self.search_canal_demand(dowy, z, a.key, z.name, 'normal',flow_type,wateryear,'banking')
+        available_flow = 0.0
+        for zz in total_canal_demand:
+          available_flow += total_canal_demand[zz]
+        excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, z, a.key, z.name, available_flow, canal_size, wateryear, 'normal', flow_type, 'banking')
+		
+    self.set_canal_direction(flow_type)
 	
     #swp/cvp_pump - find maximum pumping levels based on space in san luis(inputs for the northern model)
 	#swp/cvp_release -  toggle for 'max pumping' releases, based on space in san luis (inputs for the northern model)
@@ -3102,7 +3145,7 @@ class Model():
           else:
             daysmonth = self.days_in_month[year + 1][monthcounter]
           if res.monthly_demand[wyt][monthcounter] > res.total_capacity*cfs_tafd*daysmonth:
-            res.monthly_demand[wyt][monthcounter]  = res.total_capacity*cfs_tafd*daysmonth
+            res.monthly_demand[wyt][monthcounter] = res.total_capacity*cfs_tafd*daysmonth
               			  
   def appropriate_carryover(self, forgone, key, wateryear):
     #if pumping is turned 'off' because of san luis storage conditions,
@@ -3412,6 +3455,13 @@ class Model():
     else:
       flood_available = max(reservoir.fcr, reservoir.min_daily_uncontrolled + (reservoir.monthly_demand[wyt][m-1] + reservoir.monthly_demand_must_fill[wyt][m-1])/30.0)
 	  
+    #print(reservoir.key, end = " ")
+    #print(flood_available, end = " ")
+    #print(reservoir.fcr, end = " ")
+    #print(reservoir.flood_flow_min, end = " ")
+    #print(reservoir.min_daily_uncontrolled, end = " ")
+    #print(reservoir.monthly_demand[wyt][m-1], end = " ")
+    #print(reservoir.monthly_demand_must_fill[wyt][m-1], end = " ")
 
     if flood_available > 0.0:
       delivery_key = reservoir.key + "_flood"		
@@ -3468,7 +3518,11 @@ class Model():
             flood_demand[demand_type + '_frac'] = 0.0
             priority_flows += flood_demand['tot_' + demand_type]
             flood_deliveries += flood_demand[demand_type + '_frac'] * flood_demand[demand_type][canal_counter]
-		
+          #print(demand_type, end = " ")
+          #print(flood_demand[demand_type][canal_counter], end = " ")
+          #print(flood_demand[demand_type + '_frac'], end = " ")
+          #print(flood_deliveries, end = " ")
+    
         canal_size = len(self.canal_district[z.name])
         if flood_deliveries > 0.0:
           excess_flows, unmet_demands = self.distribute_canal_deliveries(dowy, z, begin_key, z.name, flood_deliveries, canal_size, wateryear, 'normal', flow_type, 'flood')
@@ -3477,6 +3531,7 @@ class Model():
         canal_counter += 1
         total_flood_deliveries += flood_deliveries
         total_excess_flow += excess_flows
+      #print()
       #if all deliveries cannot be taken, then only need to 'spill' from the 
       #reservoir what was actually delivered (unless over the flood pool - then spill into channel (not tracked)
       total_spill = max(total_flood_deliveries - total_excess_flow, reservoir.fcr)
@@ -3712,13 +3767,14 @@ class Model():
         district_object = self.district_keys[xx]
         private_demand_constraint = x.find_node_demand(contract_list, xx)
         district_object.private_demand += private_demand_constraint
-        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,'delivery',contract_list,0.0,dowy,xx)
+        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,search_type,contract_list,0.0,dowy,xx)
     for x in self.city_list:
       for xx in x.district_list:
         district_object = self.district_keys[xx]
         private_demand_constraint = x.find_node_demand(contract_list, xx)
         district_object.private_demand += private_demand_constraint
-        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,'delivery',contract_list,0.0,dowy,xx)
+        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,search_type,contract_list,0.0,dowy,xx)
+
 
     #initial capacity check on flow available for delivery (i.e., canal capacity at starting node)
     #MAIN DISTRIBUTION LOOP - within the canal range identified above, distribute the available flow to each node based on the canal capacity and the different demand magnitudes and priorities at each node
@@ -3806,7 +3862,7 @@ class Model():
                 contract_object.adjust_accounts(delivery_by_contract[y], search_type, wateryear)
         else:
           #find if district wants to purchase this type of flow
-          deliveries =  x.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 0.0, dowy, wateryear)
+          deliveries =  x.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)
           #find what priority district has for flow purchases
           priorities = x.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, demand_constraint, search_type, contract_canal)
           priority_turnout_adjusted = {}
@@ -3815,36 +3871,41 @@ class Model():
             priority_turnout_adjusted[zz] = priorities[zz]*canal.turnout_frac[zz][canal_loc]
           #make deliveries, adjust demands & recharge availability
           actual_deliveries = x.set_deliveries(priority_turnout_adjusted,canal_fractions,type_list,toggle_district_recharge,'none',wateryear)
-          location_delivery += actual_deliveries          
           #adjust accounts for overall contracts and invididual districts
           if x.has_private:
             for private_land in self.private_list:
               for district_lands in private_land.district_list:
                 if district_lands == x.key:
                   private_demand_constraint = private_land.find_node_demand(contract_list, district_lands)
-                  private_delivery_constraint = private_land.set_request_to_district(private_demand_constraint,'delivery',contract_list,0.0,dowy,district_lands)
+                  private_delivery_constraint = private_land.set_request_to_district(private_demand_constraint,search_type,contract_list,0.0,dowy,district_lands)
                   delivery_to_private = min(private_demand_constraint, private_delivery_constraint,actual_deliveries)
                   actual_deliveries -= delivery_to_private
                   private_deliveries = private_land.adjust_account_district(delivery_to_private,contract_list,search_type,wateryear, district_lands)
                   for y in private_deliveries:
                     contract_object = self.contract_keys[y]
                     contract_object.adjust_accounts(private_deliveries[y], search_type, wateryear)
+                    location_delivery += private_deliveries[y]
+					
             for city_pump in self.city_list:
               for district_pump in city_pump.district_list:
                 if district_pump == x.key:
                   city_demand_constraint = city_pump.find_node_demand(contract_list, district_pump)
-                  city_delivery_constraint = city_pump.set_request_to_district(city_demand_constraint,'delivery',contract_list,0.0,dowy,district_pump)
+                  city_delivery_constraint = city_pump.set_request_to_district(city_demand_constraint,search_type,contract_list,0.0,dowy,district_pump)
                   delivery_to_private = min(city_demand_constraint, city_delivery_constraint,actual_deliveries)
+
                   actual_deliveries -= delivery_to_private
                   city_deliveries = city_pump.adjust_account_district(delivery_to_private,contract_list,search_type,wateryear, district_pump)
+
                   for y in city_deliveries:
                     contract_object = self.contract_keys[y]
                     contract_object.adjust_accounts(city_deliveries[y], search_type, wateryear)
-
+                    location_delivery += city_deliveries[y]
+					
           delivery_by_contract = x.adjust_accounts(actual_deliveries,contract_list, search_type, wateryear)
           for y in delivery_by_contract:
             contract_object = self.contract_keys[y]
             contract_object.adjust_accounts(delivery_by_contract[y], search_type, wateryear)
+            location_delivery += delivery_by_contract[y]
           #record flow and turnout on each canal, check for capacity turnback at the next node				
         #find new district demand at the node
         demand_constraint = x.find_node_demand(contract_list, toggle_partial_delivery, toggle_district_recharge)
@@ -3925,28 +3986,22 @@ class Model():
           new_excess_flow = 0.0
           location_delivery = 0.0
         canal.find_turnout_adjustment(turnout_available, flow_dir, canal_loc, type_list)
-
-      #print(wateryear, end = " ")
-      #print(dowy, end = " ")
-      #print(search_type, end = " ")
-      #print(canal.key, end = " ")
-      #print(canal_loc, end = " ")
-      #print(x.key, end = " ")
-      #for zz in type_list:
-        #print(zz, end = " ")
-        #print("%.2f" % canal.demand[zz][canal_loc], end =  " ")
-        #print("%.2f" % type_fractions[zz], end = " ")
-        #print("%.2f" % canal.turnout_frac[zz][canal_loc], end = " ")
-        #print("%.2f" % priorities[zz], end = " ")
-        #print("%.2f" % priority_turnout_adjusted[zz], end = " ")
-      #print("%.2f" % available_flow, end = " ")
-      #print("%.2f" % location_delivery)
-      #record flow and turnout on each canal, check for capacity turnback at the next node				
+      #record flow and turnout on each canal, check for capacity turnback at the next node
       available_flow, turnback_flow, turnback_end = canal.update_canal_use(available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list)
+
       #if there is more demand/available water than canal capacity at the next canal node, the 'extra' water (that was expected to be delivered down-canal in earlier calculations) can be distributed among upstream nodes if there is remaining demand
+      type_demands[zz] -= canal.demand[zz][canal_loc]
       if turnback_flow > 0.001:
         remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type)
         excess_flow += remaining_excess_flow
+        available_capacity_int = max(available_flow, 0.0)
+        for zz in type_list:
+          if type_demands[zz] > 0.0:
+            type_fractions[zz] = max(min(available_capacity_int/type_demands[zz], 1.0), 0.0)
+          else:
+            type_fractions[zz] = 0.0
+          available_capacity_int -= type_demands[zz]*type_fractions[zz]
+
 	#sum remaining demand after all deliveries have been madw
     unmet_demands = {}
     for zz in type_list:
@@ -4018,16 +4073,17 @@ class Model():
         district_object = self.district_keys[xx]
         private_demand_constraint = x.find_node_demand(contract_list, xx)
         district_object.private_demand += private_demand_constraint
-        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,'delivery',contract_list,0.0,dowy,xx)
+        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,search_type,contract_list,0.0,dowy,xx)
     for x in self.city_list:
       for xx in x.district_list:
         district_object = self.district_keys[xx]
         private_demand_constraint = x.find_node_demand(contract_list, xx)
         district_object.private_demand += private_demand_constraint
-        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,'delivery',contract_list,0.0,dowy,xx)
+        district_object.private_delivery += x.set_request_to_district(private_demand_constraint,search_type,contract_list,0.0,dowy,xx)
 	  
     for canal_loc in canal_range:
       x = self.canal_district[canal.name][canal_loc]
+      demand_constraint = 0.0
       if isinstance(x,District):
         #find demand at the node
         #partial delivery is used if the district recieves less than full daily demand due to projected contract allocations being lower than expected remaining annual demand
@@ -4092,11 +4148,9 @@ class Model():
           #for zz in type_list:
             #print(canal.demand[zz][canal_loc], end = " ")
           #print()
-
       #sum demand at all canal nodes
       for zz in type_list:
         type_deliveries[zz] += canal.demand[zz][canal_loc]
-
       if search_type == "recovery":
         if isinstance(x,District):
           if x.in_leiu_banking:
@@ -4424,7 +4478,7 @@ class Model():
 
     else:
       #find if district wants to purchase this type of flow
-      deliveries =  district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 0.0, dowy, wateryear)
+      deliveries =  district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)
       #find what priority district has for flow purchases
       priorities = district_node.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, demand_constraint, search_type, contract_canal)
 

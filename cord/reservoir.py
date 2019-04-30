@@ -421,10 +421,12 @@ class Reservoir():
       reservoir_change_rate = month_flow_int - total_mandatory_releases
       if reservoir_change_rate < 0.0:
         drawdown_toggle = 1
+        numdays_fillup_cap = 999.9
 
       #flood control pool at start and end of the month
       storage_cap_start, max_cap_start = self.current_tocs(np.where(block_start > 0, block_start - 1, 0) ,self.fci[t])
       storage_cap_end, max_cap_end = self.current_tocs(block_end, self.fci[t])
+	  
       eom_storage = running_storage
 
       crossover_date = 0.0
@@ -460,7 +462,7 @@ class Reservoir():
         self.numdays_fillup['lookahead'] = min(numdays_fillup_next_year, self.numdays_fillup['lookahead'])
         self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
 
-      if drawdown_toggle == 0 and release == 'demand' and self.key != 'MIL':
+      if release == 'demand' and self.key == 'MIL':
         	  
         if eom_storage > self.capacity:
           crossover_date = max((self.capacity - running_storage)/reservoir_change_rate, 0.0)
@@ -472,20 +474,26 @@ class Reservoir():
             self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap)
 		  		  
 
-      if (self.key == 'XXX' or self.key == 'XXX' or self.key == 'XXX'):
-        print(self.key, end = " ")
-        print(t, end = " ")
-        print(dowy, end = " ")
-        print(m, end = " ")
-        print(month_evaluate, end = " ")
-        print(running_storage, end = " ")
-        print(month_flow_int, end = " ")
-        print(total_mandatory_releases, end = " ")
-        print(storage_cap_start, end = " ")
-        print(self.min_daily_uncontrolled, end = " ")
-        print(self.numdays_fillup[release], end = " ")
-        print(block_end, end = " ")
-        print(block_start)
+      #if (self.key == 'MIL' or self.key == 'PFT' or self.key == 'SUC' or self.key == 'KWH' or self.key == 'ISB'):
+        #print(self.key, end = " ")
+        #print(t, end = " ")
+        #print(dowy, end = " ")
+        #print(m, end = " ")
+        #print(month_evaluate, end = " ")
+        #print(running_storage, end = " ")
+        #print(month_flow_int, end = " ")
+        #print(total_mandatory_releases, end = " ")
+        #print(storage_cap_start, end = " ")
+        #print(self.min_daily_uncontrolled, end = " ")
+        #print(self.numdays_fillup[release], end = " ")
+        #print(self.monthly_demand[wyt][month_evaluate], end = " ")
+        #print(self.monthly_demand_must_fill[wyt][month_evaluate], end = " ")
+        #print(self.cum_min_release[wyt][block_start], end = " ")
+        #print(self.cum_min_release[wyt][block_end+1], end = " ")
+        #print(self.aug_sept_min_release[wyt][block_start], end = " ")
+        #print(self.aug_sept_min_release[wyt][block_end+1], end = " ")
+        #print(block_end, end = " ")
+        #print(block_start)
       #         self.min_daily_uncontrolled,self.uncontrolled_available,eom_storage,storage_cap_end)
       running_storage = eom_storage
 

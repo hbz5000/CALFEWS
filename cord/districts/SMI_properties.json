@@ -1,6 +1,6 @@
 {
-  "contract_list": ["tableA"],
-  "turnout_list": ["caa"],
+  "contract_list": ["tableA", "kings"],
+  "turnout_list": ["caa", "kgr"],
   "in_leiu_banking": true,
   "participant_list": ["MET", "SOB"],  
   "leiu_ownership": {

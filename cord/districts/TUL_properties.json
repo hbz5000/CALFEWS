@@ -53,13 +53,13 @@
       "fraction": [1.0, 1.0]
     },
     "kaweah": {
-      "capacity": 0.2,
+      "capacity": 0.4,
       "carryover": 0.0,
       "numrights": 1,
       "d": [0, 366],
       "start": [0.0, 0.0],
       "volume": [9999999, 9999999],
-      "fraction": [0.2, 0.2]
+      "fraction": [0.4, 0.4]
     },
     "tule": {
       "capacity": 0.0,
