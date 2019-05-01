@@ -124,7 +124,9 @@ class Canal():
   def accounting_as_df(self, index):
     df = pd.DataFrame()
     for n in self.daily_flow:    
-      df['%s_%s' % (self.key,n)] = pd.Series(self.daily_flow[n], index = index)
+      df['%s_%s_flow' % (self.key,n)] = pd.Series(self.daily_flow[n], index = index)
+    for n in self.daily_turnout:
+      df['%s_%s_turnout' % (self.key, n)] = pd.Series(self.daily_turnout[n], index=index)
     return df
 	
 

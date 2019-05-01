@@ -4612,13 +4612,13 @@ class Model():
     if (scenario != 'baseline'):
       simulation_scenarios = Scenario()
       self.fkc.capacity["normal"] = simulation_scenarios.FKC_capacity_normal[scenario['FKC_capacity_normal']]
-      self.fkc.LWT_in_district_direct_recharge = simulation_scenarios.LWT_in_district_direct_recharge[scenario['LWT_in_district_direct_recharge']]
-      self.fkc.LWT_in_leiu_banking = simulation_scenarios.LWT_in_leiu_banking[scenario['LWT_in_leiu_banking']]
-      if (self.fkc.LWT_in_leiu_banking):
-        self.fkc.LWT_participant_list = simulation_scenarios.LWT_participant_list[scenario['LWT_participant_list']]
-        self.fkc.LWT_leiu_ownership = simulation_scenarios.LWT_leiu_ownership[scenario['LWT_leiu_ownership']]
-        self.fkc.LWT_inleiucap = simulation_scenarios.LWT_inleiucap[scenario['LWT_inleiucap']]
-        self.fkc.LWT_leiu_recovery = simulation_scenarios.LWT_leiu_recovery[scenario['LWT_leiu_recovery']]
+      # self.lowertule.LWT_in_district_direct_recharge = simulation_scenarios.LWT_in_district_direct_recharge[scenario['LWT_in_district_direct_recharge']]
+      self.lowertule.LWT_in_leiu_banking = simulation_scenarios.LWT_in_leiu_banking[scenario['LWT_in_leiu_banking']]
+      if (self.lowertule.LWT_in_leiu_banking):
+        self.lowertule.LWT_participant_list = simulation_scenarios.LWT_participant_list[scenario['LWT_participant_list']]
+        self.lowertule.LWT_leiu_ownership = simulation_scenarios.LWT_leiu_ownership[scenario['LWT_leiu_ownership']]
+        self.lowertule.LWT_inleiucap = simulation_scenarios.LWT_inleiucap[scenario['LWT_inleiucap']]
+        self.lowertule.LWT_leiu_recovery = simulation_scenarios.LWT_leiu_recovery[scenario['LWT_leiu_recovery']]
     # print(self.fkc.LWT_in_district_direct_recharge, self.fkc.LWT_in_leiu_banking, self.fkc.LWT_participant_list,
     #       self.fkc.LWT_leiu_ownership, self.fkc.LWT_inleiucap, self.fkc.LWT_leiu_recovery)
 	
