@@ -187,13 +187,13 @@ if model_mode == 'validation' or model_mode == 'simulation':
   district_results = modelso.results_as_df('daily', district_output_list)
   district_results.to_csv('cord/data/results/district_results_' + model_mode + '.csv')
   del district_results
-
   district_results = modelso.results_as_df_full('daily', district_output_list)
   district_results.to_csv('cord/data/results/district_results_full_' + model_mode + '.csv')
   del district_results
   district_results_annual = modelso.results_as_df('annual', district_output_list)
   district_results_annual.to_csv('cord/data/results/annual_district_results_' + model_mode + '.csv')
-  #del district_results_annual
+  del district_results_annual
+
   private_results_annual = modelso.results_as_df('annual', modelso.private_list)
   private_results_annual.to_csv('cord/data/results/annual_private_results_' + model_mode + '.csv')
   private_results = modelso.results_as_df('daily', modelso.private_list)
@@ -213,7 +213,6 @@ if model_mode == 'validation' or model_mode == 'simulation':
   reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
   reservoir_results_no.to_csv('cord/data/results/reservoir_results_no_' + model_mode + '.csv')
   del reservoir_results_no
-  
   reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
   reservoir_results_so.to_csv('cord/data/results/reservoir_results_so_' + model_mode + '.csv')
   del reservoir_results_so
