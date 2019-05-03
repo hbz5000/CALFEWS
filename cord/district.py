@@ -4,13 +4,14 @@ import matplotlib.pyplot as plt
 import collections as cl
 import pandas as pd
 from .crop import Crop
+from .scenario import Scenario
 import json
 from .util import *
 
 
 class District():
 
-  def __init__(self, df, key):
+  def __init__(self, df, key, scenario_file = 'baseline'):
     self.T = len(df)
     self.starting_year = df.index.year[0]
     self.number_years = df.index.year[-1]-df.index.year[0]
@@ -21,8 +22,12 @@ class District():
     self.dowy_eom = dowy_eom(year_list, self.leap)
     self.non_leap_year = first_non_leap_year(self.dowy_eom)
 
-    for k,v in json.load(open('cord/districts/%s_properties.json' % key)).items():
-        setattr(self,k,v)
+    if (scenario_file == 'baseline'):
+      for k,v in json.load(open('cord/districts/%s_properties.json' % key)).items():
+          setattr(self,k,v)
+    else:
+      for k,v in json.load(open(scenario_file)).items():
+          setattr(self,k,v)
 
     #intialize crop acreages and et demands for crops
     self.irrdemand = Crop(self.zone)

@@ -6,12 +6,19 @@ from .util import *
 
 class Canal():
 
-  def __init__(self, key):
+  def __init__(self, key, scenario_file = 'baseline'):
     self.key = key
     self.locked = 0#toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
     for k,v in json.load(open('cord/canals/%s_properties.json' % key)).items():
-        setattr(self,k,v)            
-	
+        setattr(self,k,v)
+
+    if (scenario_file == 'baseline'):
+      for k, v in json.load(open('cord/canals/%s_properties.json' % key)).items():
+        setattr(self, k, v)
+    else:
+      for k, v in json.load(open(scenario_file)).items():
+        setattr(self, k, v)
+
   def check_flow_capacity(self, available_flow, canal_loc, flow_dir):
     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal at the current node 
     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]	

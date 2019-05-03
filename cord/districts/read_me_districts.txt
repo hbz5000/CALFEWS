@@ -10,8 +10,8 @@
     "LWT": 0.0,
     "KRT": 0.0
   },
-  "leiu_recovery": 0.0 - total groundwater recovery (pump into canal) capacity in the district
-  "in_district_direct_recharge": 0.0 - total direct recharge rate for in-district spreading basins
+  "leiu_recovery": 0.0 - total groundwater recovery (pump into canal) capacity in the district (tafd)
+  "in_district_direct_recharge": 0.0 - total direct recharge rate for in-district spreading basins (CFS)
   "in_district_storage": 0.0 - total above ground storage capacity for in-district spreading basins
   "loss_rate": 0.1 - losses encountered when spreading water for recharge
   "recovery_fraction": 0.5 - total SW contract allocation, as a % of total district demand, below which the district requests recovery

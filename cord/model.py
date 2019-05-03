@@ -113,7 +113,7 @@ class Model():
     # generates - water district parameters (see cord-combined/cord/districts/readme.txt)
     # self.district_list - list of district objects
     # self.district_keys - dictionary pairing district keys w/district class objects
-    self.initialize_water_districts()
+    self.initialize_water_districts(scenario)
     print('Initialize Water Districts, time ', datetime.now() - startTime)
     # initialize water contracts for southern model
     # generates - water contract parameters (see cord-combined/cord/contracts/readme.txt)
@@ -131,7 +131,7 @@ class Model():
     # initialize canals/waterways for southern model
     # generates - canal parameters (see cord-combined/cord/canals/readme.txt)
     # self.canal_list - list of canal objects
-    self.initialize_canals()
+    self.initialize_canals(scenario)
     print('Initialize Canals, time ', datetime.now() - startTime)
     if self.model_mode != 'validation':
       self.set_regulations_current_south(scenario)
@@ -467,7 +467,7 @@ class Model():
     df_res_process.to_csv('cord/data/input/res_preprocess_daily.csv')
     df_res_annual.to_csv('cord/data/input/res_presprocess_annual.csv')
 	
-  def initialize_water_districts(self):		  
+  def initialize_water_districts(self, scenario = 'baseline'):
     ############################################################################
     ###District Initialization
 	############################################################################
@@ -497,7 +497,10 @@ class Model():
     self.kerntulare = District(self.df, 'KRT')
     self.lindmore = District(self.df, 'LND')
     self.lindsay = District(self.df, 'LDS')
-    self.lowertule = District(self.df, 'LWT')
+    if ((scenario == 'baseline') | (scenario['LWT'] == 'baseline')):
+      self.lowertule = District(self.df, 'LWT')
+    else:
+      self.lowertule = District(self.df, 'LWT', scenario['LWT'])
     self.porterville = District(self.df, 'PRT')
     self.saucelito = District(self.df, 'SAU')
     self.shaffer = District(self.df, 'SFW')
@@ -662,16 +665,25 @@ class Model():
     self.northkernwb = Waterbank(self.df, 'NKB')
 	
     self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.rosedale21, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb]
-    self.leiu_list = [self.semitropic, self.arvin]##these are districts that operate water banks (some mix of in-leiu deliveries and direct recharge)
+    self.leiu_list = []
+    for x in self.district_list:
+      if (x.in_leiu_banking == True):
+        self.leiu_list.append(x)
+        # print (x.key)
+    # self.leiu_list = [self.semitropic, self.arvin]##these are districts that operate water banks (some mix of in-leiu deliveries and direct recharge)
     if self.model_mode == 'validation':
       self.semitropic.inleiubanked['MET'] = 130.0
     
-  def initialize_canals(self):
+  def initialize_canals(self, scenario = 'baseline'):
     ############################################################################
     ###Canal Initialization
 	############################################################################
     #Waterways
-    self.fkc = Canal('FKC')
+    if ((scenario == 'baseline') | (scenario['FKC'] == 'baseline')):
+      self.fkc = Canal('FKC')
+    else:
+      self.fkc = Canal('FKC', scenario['FKC'])
+
     self.xvc = Canal('XVC')
     self.madera = Canal('MDC')
     self.calaqueduct = Canal('CAA')
@@ -1251,8 +1263,8 @@ class Model():
       #if a node is a canal node, jump to that canal (function calls itself, but for another canal) 
       elif isinstance(x, Canal):
         new_loc_demand = 0.0
-        if x.name == 'kgr':
-          print(x.name, flow_type, flow_dir)
+        # if x.name == 'kgr':
+        #   print(x.name, flow_type, flow_dir)
         if canal.turnout[flow_dir][canal_loc] > 0.0:
           new_flow_dir = canal.flow_directions[flow_type][x.name]
           new_loc_demand = self.find_flood_trigger(x, canal.key, contract_canal, new_flow_dir,flow_type)
@@ -4584,7 +4596,6 @@ class Model():
     self.poso.initial_recharge = 420.0
     self.poso.recovery = 0.6942
     self.poso.tot_storage = 2.1
-    self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
     self.irvineranch.initial_recharge = 300.0
     self.irvineranch.recovery = 0.0479
     self.irvineranch.tot_storage = 0.594
@@ -4609,18 +4620,9 @@ class Model():
     self.kwb.initial_recharge = 1212.12
     self.kwb.recovery = 0.7863
     self.kwb.tot_storage = 2.4
-    if (scenario != 'baseline'):
-      simulation_scenarios = Scenario()
-      self.fkc.capacity["normal"] = simulation_scenarios.FKC_capacity_normal[scenario['FKC_capacity_normal']]
-      # self.lowertule.LWT_in_district_direct_recharge = simulation_scenarios.LWT_in_district_direct_recharge[scenario['LWT_in_district_direct_recharge']]
-      self.lowertule.LWT_in_leiu_banking = simulation_scenarios.LWT_in_leiu_banking[scenario['LWT_in_leiu_banking']]
-      if (self.lowertule.LWT_in_leiu_banking):
-        self.lowertule.LWT_participant_list = simulation_scenarios.LWT_participant_list[scenario['LWT_participant_list']]
-        self.lowertule.LWT_leiu_ownership = simulation_scenarios.LWT_leiu_ownership[scenario['LWT_leiu_ownership']]
-        self.lowertule.LWT_inleiucap = simulation_scenarios.LWT_inleiucap[scenario['LWT_inleiucap']]
-        self.lowertule.LWT_leiu_recovery = simulation_scenarios.LWT_leiu_recovery[scenario['LWT_leiu_recovery']]
-    # print(self.fkc.LWT_in_district_direct_recharge, self.fkc.LWT_in_leiu_banking, self.fkc.LWT_participant_list,
-    #       self.fkc.LWT_leiu_ownership, self.fkc.LWT_inleiucap, self.fkc.LWT_leiu_recovery)
+    if (scenario['FKC'] == 'baseline'):
+      self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
+
 	
   def set_regulations_current_north(self):
     self.yuba.env_min_flow = self.yuba.env_min_flow_ya
