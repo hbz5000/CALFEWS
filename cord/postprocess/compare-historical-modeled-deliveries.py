@@ -55,7 +55,7 @@ canal_results_aggregate_Wateryear = canal_results.groupby(by = 'Wateryear').sum(
 canal_results_aggregate_Wateryear['Wateryear'] = canal_results.groupby(by = 'Wateryear')['Wateryear'].first()
 canal_results_aggregate_Wateryear['Date'] = canal_results.groupby(by = 'Wateryear')['Date'].first()
 
-# get aggregated deliveries - monthly
+# get aggregated deliveries - annual/monthly
 canal_results['Wateryear__Month'] = canal_results.Wateryear.map(int).map(str) + '__' + canal_results.Month.map(int).map(str)
 canal_results_aggregate_Wateryear_Month = canal_results.groupby(by = 'Wateryear__Month').sum()
 canal_results_aggregate_Wateryear_Month['Wateryear'] = canal_results.groupby(by = 'Wateryear__Month')['Wateryear'].first()
@@ -63,6 +63,12 @@ canal_results_aggregate_Wateryear_Month['Month'] = canal_results.groupby(by = 'W
 canal_results_aggregate_Wateryear_Month['Date'] = canal_results.groupby(by = 'Wateryear__Month')['Date'].first()
 canal_results_aggregate_Wateryear_Month = canal_results_aggregate_Wateryear_Month.sort_values('Date')
 
+# get aggregated deliveries - aggregate months across years
+canal_results_aggregate_Month = canal_results.groupby(by = 'Month').sum()
+canal_results_aggregate_Month['Wateryear'] = canal_results.groupby(by = 'Month')['Wateryear'].first()
+canal_results_aggregate_Month['Month'] = canal_results.groupby(by = 'Month')['Month'].first()
+canal_results_aggregate_Month['Date'] = canal_results.groupby(by = 'Month')['Date'].first()
+canal_results_aggregate_Month = canal_results_aggregate_Month.sort_values('Date')
 
 
 
@@ -164,6 +170,24 @@ cvp_historical_aggregate_Canal_Wateryear_Month = cvp_historical_aggregate_Canal_
 
 
 
+### get monthly aggregated deliveries, across years
+cvp_historical['WaterUserCode__Month'] = cvp_historical.WaterUserCode + '__' + cvp_historical.Month.map(int).map(str)
+cvp_historical_aggregate_WaterUserCode_Month =  cvp_historical.groupby(by = ['WaterUserCode__Month']).sum()
+cvp_historical_aggregate_WaterUserCode_Month['WaterUserCode'] = cvp_historical.groupby(by = ['WaterUserCode__Month'])['WaterUserCode'].first()
+cvp_historical_aggregate_WaterUserCode_Month['Month'] = cvp_historical.groupby(by = ['WaterUserCode__Month'])['Month'].first()
+cvp_historical_aggregate_WaterUserCode_Month['Canal'] = cvp_historical.groupby(by = ['WaterUserCode__Month'])['Canal'].first()
+
+cvp_historical['Contractor__Month'] = cvp_historical.contractor + '__' + cvp_historical.Month.map(int).map(str)
+cvp_historical_aggregate_contractor_Month =  cvp_historical.groupby(by = ['Contractor__Month']).sum()
+cvp_historical_aggregate_contractor_Month['contractor'] = cvp_historical.groupby(by = ['Contractor__Month'])['contractor'].first()
+cvp_historical_aggregate_contractor_Month['Month'] = cvp_historical.groupby(by = ['Contractor__Month'])['Month'].first()
+cvp_historical_aggregate_contractor_Month['Date'] = cvp_historical.groupby(by = ['Contractor__Month'])['Date'].first()
+
+cvp_historical['Canal__Month'] = cvp_historical.Canal + '__' + cvp_historical.Month.map(int).map(str)
+cvp_historical_aggregate_Canal_Month =  cvp_historical.groupby(by = ['Canal__Month']).sum()
+cvp_historical_aggregate_Canal_Month['Canal'] = cvp_historical.groupby(by = ['Canal__Month'])['Canal'].first()
+cvp_historical_aggregate_Canal_Month['Month'] = cvp_historical.groupby(by = ['Canal__Month'])['Month'].first()
+cvp_historical_aggregate_Canal_Month['Date'] = cvp_historical.groupby(by = ['Canal__Month'])['Date'].first()
 
 
 ### plot historical & modeled deliveries (based on turnouts) - friant contractors
@@ -447,6 +471,64 @@ for k in range(3):
   plt.savefig('cord/figs/compareCVP/monthly_timeseries_%s.png' % name, dpi=150)
 
 
+
+
+### plot historical & modeled deliveries (based on turnouts) - friant contractors
+fig = plt.figure(figsize=(18, 9))
+gs1 = gridspec.GridSpec(3,4)
+months = [10,11,12,1,2,3,4,5,6,7,8,9]
+for i in range(3):
+  for j in range(4):
+    month = months[4*i + j]
+    ax = plt.subplot2grid((3,4), (i,j))
+    ind_turnout = ((waterway == 'FKC') | (waterway == 'MDC')) & (contractor == 'friant')
+    ind_month = canal_results_aggregate_Wateryear_Month.Month == month
+    ax.scatter(cvp_historical_aggregate_contractor_Wateryear_Month['delivery_taf'].loc[
+                        (cvp_historical_aggregate_contractor_Wateryear_Month.contractor == 'friant') & (cvp_historical_aggregate_contractor_Wateryear_Month.Month == month)],
+               np.sum(canal_results_aggregate_Wateryear_Month.loc[ind_month, ind_turnout], axis=1),c=cols[0],alpha=0.7)
+    ax.plot(ax.get_xlim(), ax.get_xlim(), ls="--", c=".7")
+    ax.annotate('m='+str(month), xy=(ax.get_xlim()[0] + (ax.get_xlim()[1] - ax.get_xlim()[0])*0.8,
+                              ax.get_ylim()[0] + (ax.get_ylim()[1] - ax.get_ylim()[0])*0.12))
+    ax.annotate(r'$\rho=$' + str(round(np.corrcoef(cvp_historical_aggregate_contractor_Wateryear_Month['delivery_taf'].loc[
+                        (cvp_historical_aggregate_contractor_Wateryear_Month.contractor == 'friant') & (cvp_historical_aggregate_contractor_Wateryear_Month.Month == month)],
+                                               np.sum(canal_results_aggregate_Wateryear_Month.loc[ind_month, ind_turnout],axis=1))[1][0], 2)),
+                xy=(ax.get_xlim()[0] + (ax.get_xlim()[1] - ax.get_xlim()[0])*0.8,
+                    ax.get_ylim()[0] + (ax.get_ylim()[1] - ax.get_ylim()[0])*0.03))
+    ax.set_ylabel('Modeled deliveries (taf/month)')
+    ax.set_xlabel('Historical deliveries (taf/month)')
+fig.savefig('cord/figs/compareCVP/scatter_byMonth_allContractors.png', dpi=150)
+
+
+
+### plot historical & modeled deliveries (based on turnouts) - friant contractors
+d_list = ['MAD','CWC','FRS','COF','TUL','EXE','LND','LDS','LWT','PRT','TPD','SAU','TBA','DLE','KRT','SSJ','SFW','ARV']
+months = [10,11,12,1,2,3,4,5,6,7,8,9]
+for d in d_list:
+  fig = plt.figure(figsize=(18, 9))
+  gs1 = gridspec.GridSpec(3, 4)
+  for i in range(3):
+    for j in range(4):
+      month = months[4*i + j]
+      ax = plt.subplot2grid((3,4), (i,j))
+      ind_turnout = (turnout == d)
+      ind_month = canal_results_aggregate_Wateryear_Month.Month == month
+      ax.scatter(cvp_historical_aggregate_WaterUserCode_Wateryear_Month['delivery_taf'].loc[
+                          (cvp_historical_aggregate_WaterUserCode_Wateryear_Month.WaterUserCode == d)&(cvp_historical_aggregate_WaterUserCode_Wateryear_Month.Month == month)],
+                 np.sum(canal_results_aggregate_Wateryear_Month.loc[ind_month, ind_turnout], axis=1),c=cols[0],alpha=0.7)
+      ax.plot(ax.get_xlim(), ax.get_xlim(), ls="--", c=".7")
+      ax.annotate(d, xy=(ax.get_xlim()[0] + (ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.65,
+                         ax.get_ylim()[0] + (ax.get_ylim()[1] - ax.get_ylim()[0]) * 0.02))
+      ax.annotate('m=' + str(month), xy=(ax.get_xlim()[0] + (ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.8,
+                                         ax.get_ylim()[0] + (ax.get_ylim()[1] - ax.get_ylim()[0]) * 0.12))
+      ax.annotate(r'$\rho=$' + str(round(np.corrcoef(cvp_historical_aggregate_WaterUserCode_Wateryear_Month['delivery_taf'].loc[
+                          (cvp_historical_aggregate_WaterUserCode_Wateryear_Month.WaterUserCode == d)&(cvp_historical_aggregate_WaterUserCode_Wateryear_Month.Month == month)],
+                                                     np.sum(canal_results_aggregate_Wateryear_Month.loc[
+                                                              ind_month, ind_turnout], axis=1))[1][0], 2)),
+                  xy=(ax.get_xlim()[0] + (ax.get_xlim()[1] - ax.get_xlim()[0])*0.8,
+                      ax.get_ylim()[0] + (ax.get_ylim()[1] - ax.get_ylim()[0])*0.03))
+      ax.set_ylabel('Modeled deliveries (taf/month)')
+      ax.set_xlabel('Historical deliveries (taf/month)')
+  fig.savefig('cord/figs/compareCVP/scatter_byMonth_%s.png' %d, dpi=150)
 
 
 #############################################################################

@@ -22,70 +22,64 @@ model_mode = 'simulation'
 short_test = -1
 
 ### simulation scenarios for testing (see model.set_regulations_current_south)
-# # scenario = 'baseline'  # run baseline scenario: friant @ wy2010, no change to LWT
-# # simulation_scenarios = Scenario()
-# scenario = {}
-# # # simulation_scenarios.FKC_capacity_normal.keys()
-# scenario['FKC_capacity_normal'] = 'normal_wy2017'
-# # # simulation_scenarios.LWT_in_district_direct_recharge.keys()
-# scenario['LWT_in_district_direct_recharge'] = 'baseline'
-# scenario['LWT_in_leiu_banking'] = 'false'
-# # scenario['LWT_participant_list'] = 'KRT'
-# # scenario['LWT_leiu_ownership'] = 'LWT_only'
-# # scenario['LWT_inleiucap'] = 'none'
-# # scenario['LWT_leiu_recovery'] = 'same_ARV'
-
-# # folder for results (no backslash at end)
-# results_folder = 'cord/data/results/friant_wy2017'
-# os.makedirs(results_folder, exist_ok=True)
+scenarios = []
 
 scenario1 = {}
-scenario1['FKC_capacity_normal'] = 'normal_wy2017'
-scenario1['LWT_in_district_direct_recharge'] = 'baseline'
-scenario1['LWT_in_leiu_banking'] = 'false'
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+scenario1['LWT'] = 'baseline'
+scenarios.append(scenario1)
 
-scenario2 = {}
-scenario2['FKC_capacity_normal'] = 'normal'
-scenario2['LWT_in_district_direct_recharge'] = 'baseline'
-scenario2['LWT_in_leiu_banking'] = 'false'
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+scenario1['LWT'] = 'baseline'
+scenarios.append(scenario1)
 
-scenario3 = {}
-scenario3['FKC_capacity_normal'] = 'normal_rehab_wy2019'
-scenario3['LWT_in_district_direct_recharge'] = 'baseline'
-scenario3['LWT_in_leiu_banking'] = 'false'
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_recharge_double'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double.json'
+scenarios.append(scenario1)
 
-scenario4 = {}
-scenario4['FKC_capacity_normal'] = 'normal_rehab_wy2019_kings_5ave_full'
-scenario4['LWT_in_district_direct_recharge'] = 'baseline'
-scenario4['LWT_in_leiu_banking'] = 'false'
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_recharge_double'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double.json'
+scenarios.append(scenario1)
 
-scenario5 = {}
-scenario5['FKC_capacity_normal'] = 'normal_rehab_wy2019'
-scenario5['LWT_in_district_direct_recharge'] = 'double'
-scenario5['LWT_in_leiu_banking'] = 'false'
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank.json'
+scenarios.append(scenario1)
 
-scenario6 = {}
-scenario6['FKC_capacity_normal'] = 'normal_rehab_wy2019'
-scenario6['LWT_in_district_direct_recharge'] = 'double'
-scenario6['LWT_in_leiu_banking'] = 'true'
-scenario6['LWT_participant_list'] = 'KRT'
-scenario6['LWT_leiu_ownership'] = 'LWT_only'
-scenario6['LWT_inleiucap'] = 'none'
-scenario6['LWT_leiu_recovery'] = 'same_ARV'
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank.json'
+scenarios.append(scenario1)
 
-scenarios = [scenario1, scenario2, scenario3, scenario4, scenario5, scenario6]
-results_folders = ['cord/data/results/friant_wy2017',
-                   'cord/data/results/friant_rehab_full',
-                   'cord/data/results/friant_rehab_wy2019',
-                   'cord/data/results/friant_rehab_wy2019_kings_5ave_full',
-                   'cord/data/results/friant_rehab_wy2019__LWT_recharge_double',
-                   'cord/data/results/friant_rehab_wy2019__LWT_recharge_double__LWT_in_leiu_banking_KRT']
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_recharge_double__LWT_inleiubank'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double__inleiubank.json'
+scenarios.append(scenario1)
 
-for i in range(len(scenarios)):
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_recharge_double__LWT_inleiubank'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double__inleiubank.json'
+scenarios.append(scenario1)
+
+
+for i in [3,7]:
   try:
     scenario = scenarios[i]
-    results_folder = results_folders[i]
+    results_folder = scenarios[i]['results_folder']
+    print(results_folder)
     os.makedirs(results_folder, exist_ok=True)
+    pd.to_pickle(scenario, results_folder + '/scenario.pkl')
     ##################################################################
 
     # always use shorter historical dataframe for expected delta releases
@@ -97,7 +91,7 @@ for i in range(len(scenarios)):
 
     ######################################################################################
     # Model Class Initialization
-    ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
+    ## There are two instances of the class 'Model', one for the Northern System and one for the Southern System
     ##
     modelno = Model(input_data_file, expected_release_datafile, sd, model_mode)
     modelso = Model(input_data_file, expected_release_datafile, sd, model_mode)

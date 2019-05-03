@@ -892,7 +892,7 @@ class Reservoir():
         snowinf[current_year-1] += self.Q[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
       elif section_inf == 3:
         baseinf[current_year-1] += self.Q[t-1]
-    print(self.key)	
+    # print(self.key)
 
     for x in range(1,365):
       
