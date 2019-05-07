@@ -39,9 +39,11 @@ class District():
     for x in self.contract_list_all:
       #normal contract deliveries
       self.deliveries[x] = np.zeros(self.number_years)
-	  #uncontrolled deliveries from contract
+	    #uncontrolled deliveries from contract
       self.deliveries[x + '_flood'] = np.zeros(self.number_years)
-	#deliveries from a groundwater bank (reocrded by banking partner recieving recovery water)
+      # contract-specific recharge (same as 'recharged', but disaggregated)
+      self.deliveries[x + '_recharged'] = np.zeros(self.number_years)
+    #deliveries from a groundwater bank (reocrded by banking partner recieving recovery water)
     self.deliveries['recover_banked'] = np.zeros(self.number_years)
 	#deliveries to a in-leiu bank from a banking partner (recorded by the district acting as a bank)
     self.deliveries['inleiu'] = np.zeros(self.number_years)
@@ -95,12 +97,14 @@ class District():
     for x in self.contract_list_all:
       self.daily_supplies_full[x + '_delivery'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_flood'] = np.zeros(self.T)
+      self.daily_supplies_full[x + '_recharged'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_projected'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_paper'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_carryover'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_turnback'] = np.zeros(self.T)
     for x in self.non_contract_delivery_list:
       self.daily_supplies_full[x] = np.zeros(self.T)
+    self.daily_supplies_full['pumping'] = np.zeros(self.T)
 
     # ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'undelivered_trades']
     #Initialize demands
@@ -996,6 +1000,7 @@ class District():
         if search_type == 'banking':
           #if deliveries ar for banking, update banking accounts
           self.deliveries['recharged'][wateryear] += contract_deliveries
+          self.deliveries[y.name+'_recharged'][wateryear] += contract_deliveries
           self.recharge_carryover[y.name] -= min(contract_deliveries, self.recharge_carryover[y.name])
 		
     return delivery_by_contract
@@ -1055,13 +1060,14 @@ class District():
     for x in self.contract_list_all:
       self.daily_supplies_full[x + '_delivery'][t] = self.deliveries[x][wateryear]
       self.daily_supplies_full[x + '_flood'][t] = self.deliveries[x + '_flood'][wateryear]
+      self.daily_supplies_full[x + '_recharged'][t] = self.deliveries[x + '_recharged'][wateryear]
       self.daily_supplies_full[x + '_projected'][t] = self.projected_supply[x]
       self.daily_supplies_full[x + '_paper'][t] = self.paper_balance[x]
       self.daily_supplies_full[x + '_carryover'][t] = self.carryover[x]
       self.daily_supplies_full[x + '_turnback'][t] = self.turnback_pool[x]
     for x in self.non_contract_delivery_list:
       self.daily_supplies_full[x][t] = self.deliveries[x][wateryear]
-
+    self.daily_supplies_full['pumping'][t] = -self.daily_supplies['pumping'][t]
 
   def accounting(self,t, da, m, wateryear,key):
     #takes delivery/allocation values and builds timeseries that show what water was used for (recharge, banking, irrigation etc...)

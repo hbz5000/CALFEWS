@@ -24,9 +24,12 @@ folder_name = 'FKC_capacity_rehab_full__LWT_inleiubank'
 os.makedirs('cord/figs/compareScenarios/' + folder_name, exist_ok=True)
 
 
+### organize data for alluvial plots in R
+
+
+
+
 ####### plots
-
-
 ### plot historical & modeled deliveries (based on turnouts) - FKC & MDC, contractors & non-contractors
 flow_type = 'turnout'   # 'flow' or 'turnout'
 

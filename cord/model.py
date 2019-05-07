@@ -497,7 +497,9 @@ class Model():
     self.kerntulare = District(self.df, 'KRT')
     self.lindmore = District(self.df, 'LND')
     self.lindsay = District(self.df, 'LDS')
-    if ((scenario == 'baseline') | (scenario['LWT'] == 'baseline')):
+    if (scenario == 'baseline'):
+      self.lowertule = District(self.df, 'LWT')
+    elif (scenario['LWT'] == 'baseline'):
       self.lowertule = District(self.df, 'LWT')
     else:
       self.lowertule = District(self.df, 'LWT', scenario['LWT'])
@@ -645,7 +647,7 @@ class Model():
     self.determine_recharge_recovery_risk()
 
 
-  def initialize_water_banks(self):
+  def initialize_water_banks(self, scenario='baseline'):
     ############################################################################
     ###Water Bank Initialization
 	############################################################################
@@ -679,7 +681,9 @@ class Model():
     ###Canal Initialization
 	############################################################################
     #Waterways
-    if ((scenario == 'baseline') | (scenario['FKC'] == 'baseline')):
+    if (scenario == 'baseline'):
+      self.fkc = Canal('FKC')
+    elif (scenario['FKC'] == 'baseline'):
       self.fkc = Canal('FKC')
     else:
       self.fkc = Canal('FKC', scenario['FKC'])

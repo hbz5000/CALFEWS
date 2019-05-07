@@ -73,7 +73,7 @@ scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double__inleiubank.j
 scenarios.append(scenario1)
 
 
-for i in [3,7]:
+for i in [4,5,6]:
   try:
     scenario = scenarios[i]
     results_folder = scenarios[i]['results_folder']

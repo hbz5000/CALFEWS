@@ -12,7 +12,7 @@ district_results = pd.read_csv('cord/data/results/annual_district_results_simula
 contract_results = pd.read_csv('cord/data/results/contract_results_annual_simulation.csv')
 
 modelplot = Model('cord/data/input/cord-data.csv', 'cord/data/input/cord-data.csv', '10-01-1996', 'simulation')
-modelplot.initialize_water_districts()
+modelplot.initialize_water_districts(scenario='baseline')
 
 kern_county_list = [modelplot.berrenda, modelplot.belridge, modelplot.buenavista, modelplot.cawelo, modelplot.henrymiller, modelplot.kerndelta, modelplot.losthills, modelplot.rosedale, modelplot.semitropic, modelplot.tehachapi, modelplot.tejon, modelplot.westkern, modelplot.wheeler, modelplot.dudleyridge]
 
