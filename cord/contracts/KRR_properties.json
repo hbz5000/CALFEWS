@@ -1,7 +1,7 @@
 {
   "total": 9999999.0,
   "maxForecastValue": 550.0,
-  "carryover": 245.0,
+  "carryover": 215.0,
   "type": "right",
   "name": "kern",
   "allocation_priority": 1,

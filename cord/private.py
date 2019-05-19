@@ -20,6 +20,8 @@ class Private():
     self.days_in_month = days_in_month(year_list, self.leap)
     self.dowy_eom = dowy_eom(year_list, self.leap)
     self.non_leap_year = first_non_leap_year(self.dowy_eom)
+    self.turnback_use = True
+
 
     for k,v in json.load(open('cord/private/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -44,6 +46,8 @@ class Private():
         self.deliveries[district][x] = np.zeros(self.number_years)
 	    #uncontrolled deliveries from contract
         self.deliveries[district][x + '_flood'] = np.zeros(self.number_years)
+        self.deliveries[district][x + '_flood_irrigation'] = np.zeros(self.number_years)
+
       for x in self.non_contract_delivery_list:
 	    #deliveries from a groundwater bank (reocrded by banking partner recieving recovery water)
         self.deliveries[district][x] = np.zeros(self.number_years)
@@ -767,7 +771,7 @@ class Private():
 #####################################################################################################################
 
 			
-  def find_node_demand(self,contract_list, district_name):
+  def find_node_demand(self,contract_list, search_type, district_name):
     #this function is used to calculate the current demand at each 'district' node
     access_mult = self.seepage[district_name]#this accounts for water seepage & the total district area that can be reached by SW canals (seepage is >= 1.0; surface_water_sa <= 1.0)
     total_projected_allocation = 0.0
@@ -778,7 +782,14 @@ class Private():
 	#(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
     total_demand_met = 1.0
     #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
-    demand_constraint = max(min(self.dailydemand_start[district_name]*access_mult*total_demand_met, self.dailydemand[district_name]*access_mult),0.0)
+    if search_type == 'flood':
+      if self.annualdemand[district_name] > 0.0 and total_projected_allocation > self.annualdemand[district_name]:
+        demand_constraint = (1.0 - min(total_projected_allocation/self.annualdemand[district_name], 1.0))*max(min(self.dailydemand_start[district_name]*access_mult*total_demand_met, self.dailydemand[district_name]*access_mult),0.0)	  
+      else:
+        demand_constraint = max(min(self.dailydemand_start[district_name]*access_mult*total_demand_met, self.dailydemand[district_name]*access_mult),0.0)	  
+
+    else:
+      demand_constraint = max(min(self.dailydemand_start[district_name]*access_mult*total_demand_met, self.dailydemand[district_name]*access_mult),0.0)
     #if we want to include recharge demands in the demand calculations, add available recharge space
 			  
     return demand_constraint     
@@ -812,9 +823,9 @@ class Private():
         total_projected_supply += max(self.projected_supply[district_name][y.name], 0.0)
       if self.seasonal_connection[district_name] == 1:
         if self.must_fill == 1:
-          return total_current_balance
+          return min(total_current_balance, total_projected_supply)
         else:
-          return total_current_balance
+          return min(total_current_balance, total_projected_supply)
       else:
         return 0.0
     else:
@@ -1025,7 +1036,7 @@ class Private():
     #self.dailydemand[district] -= actual_delivery/self.seepage[district]*self.surface_water_sa[district]
     return actual_delivery
 	
-  def adjust_accounts(self, actual_deliveries, contract_list, search_type, wateryear):
+  def adjust_accounts(self, direct_deliveries, recharge_deliveries, contract_list, search_type, wateryear):
     #this function accepts water under a specific condition (flood, irrigation delivery, banking), and 
 	#adjusts the proper accounting balances
     total_recharge_balance = 0.0
@@ -1037,23 +1048,34 @@ class Private():
         total_current_balance += max(self.current_balance[x][y.name], 0.0)
         total_recharge_balance += max(self.recharge_carryover[x][y.name], 0.0)
       delivery_by_contract[y.name] = 0.0
+    flood_counter = 0
     for y in contract_list:
       #find the percentage of total deliveries that come from each contract
-      if total_current_balance > 0.0:
-        contract_deliveries = 0.0
+      contract_deliveries = 0.0
+      if search_type == 'flood':
+          if flood_counter == 0:
+            contract_deliveries = (direct_deliveries + recharge_deliveries)
+            flood_counter = 1
+          else:
+            contract_deliveries = 0.0
+      elif total_current_balance > 0.0:
         for x in self.district_list:
-          contract_deliveries += actual_deliveries*max(self.current_balance[x][y.name], 0.0)/total_current_balance
+          if search_type == 'delivery':
+            contract_deliveries += (direct_deliveries + recharge_deliveries)*max(self.projected_supply[x][y.name], 0.0)/total_current_balance
+          elif search_type == 'banking':
+            contract_deliveries += (direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][y.name], 0.0)/total_current_balance
+          elif search_type == 'recovery':
+            contract_deliveries += (direct_deliveries + recharge_deliveries)*max(self.current_balance[x][y.name], 0.0)/total_current_balance
       else:
         contract_deliveries = 0.0
+
       delivery_by_contract[y.name] = contract_deliveries
       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
       if search_type == "flood":
         for x in self.district_list:
-          if total_current_balance > 0.0:
-            self.deliveries[x][y.name + '_flood'][wateryear] += actual_deliveries*max(self.current_balance[x][y.name], 0.0)/total_current_balance
-          else:
-            self.deliveries[x][y.name + '_flood'][wateryear] += 0.0
-
+          if contract_deliveries > 0.0:
+            self.deliveries[x][y.name + '_flood'][wateryear] += recharge_deliveries
+            self.deliveries[x][y.name + '_flood_irrigation'][wateryear] += direct_deliveries
       else:
         #irrigation/banking deliveries are recorded under the contract name so they are included in the 
 		#contract balance calculations
@@ -1061,15 +1083,15 @@ class Private():
         if search_type == 'banking':
           for x in self.district_list:
             if total_recharge_balance > 0.0:
-              self.deliveries[x][y.name][wateryear] += actual_deliveries*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance
-              self.current_balance[x][y.name] -= actual_deliveries*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance
-              self.deliveries[x]['recharged'][wateryear] += actual_deliveries*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance
-              self.recharge_carryover[x][y.name] -= min(actual_deliveries*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance, self.recharge_carryover[x][y.name])
+              self.deliveries[x][y.name][wateryear] += (direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance
+              self.current_balance[x][y.name] -= (direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance
+              self.deliveries[x]['recharged'][wateryear] += (direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance
+              self.recharge_carryover[x][y.name] -= min((direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][y.name], 0.0)/total_recharge_balance, self.recharge_carryover[x][y.name])
         else:
           for x in self.district_list:
             if total_current_balance > 0.0:
-              self.deliveries[x][y.name][wateryear] += actual_deliveries*max(self.current_balance[x][y.name], 0.0)/total_current_balance
-              self.current_balance[x][y.name] -= actual_deliveries*max(self.current_balance[x][y.name], 0.0)/total_current_balance
+              self.deliveries[x][y.name][wateryear] += (direct_deliveries + recharge_deliveries)*max(self.current_balance[x][y.name], 0.0)/total_current_balance
+              self.current_balance[x][y.name] -= (direct_deliveries + recharge_deliveries)*max(self.current_balance[x][y.name], 0.0)/total_current_balance
 	
     return delivery_by_contract
 	

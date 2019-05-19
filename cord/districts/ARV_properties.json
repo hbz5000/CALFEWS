@@ -8,14 +8,16 @@
     "MET": 0.0,
     "OXV": 0.0,
     "LWT": 0.0,
-    "KRT": 0.0
+    "KRT": 0.0,
+    "PIX": 0.0
   },
   "inleiucap": {
     "ARV": 99999.9,
     "MET": 350.0,
     "OXV": 99999.9,
     "LWT": 99999.9,
-    "KRT": 99999.9
+    "KRT": 99999.9,
+    "PIX": 99999.9
   },
   "leiu_recovery": 0.411,
   "in_district_direct_recharge": 378.79,

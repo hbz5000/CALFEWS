@@ -149,10 +149,13 @@ class Reservoir():
     self.evap_forecast = 0.0
     self.max_direct_recharge = np.zeros(12)
     self.monthly_demand = {}
+    self.monthly_demand_full = {}
     self.monthly_demand_must_fill = {}
     self.numdays_fillup = {}
     self.lastYearRainflood = 9999.9
     self.variable_min_flow = 0.0
+    self.min_daily_overflow = 0.0
+
 
   def find_available_storage(self, t):
     ##this function uses the linear regression variables calculated in find_release_func (called before simulation loop) to figure out how
@@ -318,6 +321,7 @@ class Reservoir():
 	#save this value as 'forced spills' to add to delta inflow
 	#in model.py
     self.force_spill = max(W - self.R[t] - self.capacity, 0.0)
+    self.fcr += self.force_spill
     self.R[t] +=  self.force_spill # spill
     if t < (self.T - 1):
       self.S[t+1] = max(W - self.R[t] - self.E[t], 0) # mass balance update
@@ -351,11 +355,15 @@ class Reservoir():
     drawdown_toggle = 0
     numdays_fillup_cap = 999.99
     uncontrolled_cap = 0.0
+    additional_drawdown_cap = 0.0
+    self.min_daily_overflow = 0.0
 
     # this_month_flow = 0.0#period-to-date flow (for calculating monthly distribution)
     cross_counter_wy = 0
     cross_counter_y = 0
-    for month_counter in range(0,12):
+    excess_toggle = 0
+    excess_toggle2 = 0
+    for month_counter in range(0,6):
       month_evaluate = m - 1 + month_counter
       if month_evaluate > 11:
         month_evaluate -= 12
@@ -392,10 +400,10 @@ class Reservoir():
           month_flow_int = (self.flow_shape_regression['slope'][dowy][month_evaluate]*min(running_fnf,0.25) + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
       else:
         if month_evaluate > 2 and month_evaluate < 7:
-          if dowy > 181 and dowy < 304:
-            month_flow_int = (self.flow_shape_regression['slope'][dowy][month_evaluate]*running_fnf + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
-          else:
-            month_flow_int = (self.flow_shape_regression['slope'][dowy][month_evaluate]*self.SNPK[t] + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
+          #if dowy > 181 and dowy < 304:
+            #month_flow_int = (self.flow_shape_regression['slope'][dowy][month_evaluate]*running_fnf + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
+          #else:
+          month_flow_int = (self.flow_shape_regression['slope'][dowy][month_evaluate]*self.SNPK[t] + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
         else:
           month_flow_int = (self.flow_shape_regression['slope'][dowy][month_evaluate]*running_fnf + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
 
@@ -405,20 +413,27 @@ class Reservoir():
       #current month start dowy
 	  #what are the mandatory releases between now and the end of this month?
       if release == 'demand':
-        if self.key == "MIL" or self.key == "ISB":
-          if month_evaluate > 8 or month_evaluate < 5:
+        if self.key == "MIL":
+          if month_evaluate > 8 or month_evaluate < 2:
             total_mandatory_releases = (self.cum_min_release[wyt][block_start] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][block_start] - self.aug_sept_min_release[wyt][block_end+1])/(block_end-block_start + 1)
           else:
             total_mandatory_releases = (self.monthly_demand[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) + (self.cum_min_release[wyt][block_start] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][block_start] - self.aug_sept_min_release[wyt][block_end+1])/(block_end-block_start + 1)
         else:
           total_mandatory_releases = (self.monthly_demand[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) + (self.cum_min_release[wyt][block_start] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][block_start] - self.aug_sept_min_release[wyt][block_end+1])/(block_end-block_start + 1)
+		  
+        total_possible_releases = (self.monthly_demand_full[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) + (self.cum_min_release[wyt][block_start] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][block_start] - self.aug_sept_min_release[wyt][block_end+1])/(block_end-block_start + 1)
+        additional_drawdown_cap += max(total_possible_releases - total_mandatory_releases, 0.0)*(block_end - block_start + 1)
+
 
       elif release == 'env':
         # Note: cum_min_release is indexed 0 (for cum total before year starts), 1 for min release left after subtracting first day, ..., to 366 after last day. So for each month, we want the end of this month minus end of last month, indexed +1
         total_mandatory_releases = (self.cum_min_release[wyt][block_start] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][block_start] - self.aug_sept_min_release[wyt][block_end+1])/(block_end-block_start + 1)
       #expected change in reservoir storage
       #reservoir_change_rate = (month_flow_int - total_mandatory_releases)/self.days_in_month[year+cross_counter_y][month_evaluate]
+      if month_counter == 0:
+        month_flow_int = max(month_flow_int, np.mean(self.Q[(t-min(t,4)):t]))
       reservoir_change_rate = month_flow_int - total_mandatory_releases
+	  
       if reservoir_change_rate < 0.0:
         drawdown_toggle = 1
         numdays_fillup_cap = 999.9
@@ -438,62 +453,95 @@ class Reservoir():
       if eom_storage > storage_cap_end:
         #rate of release to avoid flood pool
         if storage_cap_start > running_storage:
-          this_month_min_release = (eom_storage - storage_cap_end ) / (block_end + 1 + cross_counter_wy*365 - dowy)
+          #this_month_min_release = (eom_storage - storage_cap_end ) / (block_end + 1 + cross_counter_wy*365 - dowy)
+          if self.key == 'MIL' or self.key == 'KWH':
+            this_month_min_release = max((eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+            total_min_release = eom_storage - storage_cap_end
+          else:
+            this_month_min_release = max((eom_storage - self.capacity) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+            total_min_release = eom_storage - self.capacity
+
           #volume of water over the flood pool, no release
-          total_min_release = eom_storage - storage_cap_end
           differential_storage_change = reservoir_change_rate - (storage_cap_end - storage_cap_start)/(block_end - block_start + 1)
           crossover_date = (storage_cap_start - running_storage)/differential_storage_change
         else:
           crossover_date = 0.0
           if (block_start + cross_counter_wy*365 - dowy) > 0.0:
-            this_month_min_release = max((running_storage - storage_cap_start)/(block_start + cross_counter_wy*365 - dowy), (eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy))
-            total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
-          else:
-            this_month_min_release = max(running_storage - storage_cap_start, (eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy))
-            total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
+            if self.key == 'MIL' or self.key == 'KWH':
+              this_month_min_release = max((running_storage - storage_cap_start)/(block_start + cross_counter_wy*365 - dowy), (eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
+            else:
+              this_month_min_release = max((running_storage - self.capacity)/(block_start + cross_counter_wy*365 - dowy), (eom_storage - self.capacity) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              total_min_release = max(running_storage - self.capacity, eom_storage - self.capacity)
 
+          else:
+            if self.key == 'MIL' or self.key == 'KWH':
+              this_month_min_release = max(running_storage - storage_cap_start, (eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
+
+            else:
+              this_month_min_release = max(running_storage - self.capacity, (eom_storage - self.capacity) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              total_min_release = max(running_storage - self.capacity, eom_storage - self.capacity)
+
+        
         numdays_fillup = block_start + crossover_date + cross_counter_wy*365 - dowy
         if cross_counter_wy == 1:
           numdays_fillup_next_year = block_start + crossover_date + cross_counter_wy*365 - dowy
 		  
         #total volume & rate are the maximum monthly value over the next 12 months
-        self.min_daily_uncontrolled = min(max(this_month_min_release, self.min_daily_uncontrolled), self.max_daily_uncontrolled)
+        self.min_daily_uncontrolled = max(min(this_month_min_release, self.max_daily_uncontrolled), self.min_daily_uncontrolled)
+        if release == 'demand':
+          if (min(reservoir_change_rate, self.min_daily_uncontrolled) + (self.monthly_demand[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1)) > (self.total_capacity*cfs_tafd+.1):
+            if excess_toggle == 0:
+              excess_toggle = 1
+              fillup_fraction = 31.0/(block_start - dowy + 1 + cross_counter_wy*365)
+            self.min_daily_uncontrolled += max(min(reservoir_change_rate, self.min_daily_uncontrolled) + (self.monthly_demand[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) - self.total_capacity*cfs_tafd,0.0)*fillup_fraction
+			
         self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
         self.numdays_fillup['lookahead'] = min(numdays_fillup_next_year, self.numdays_fillup['lookahead'])
         self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
+        if release == 'demand':
+          if self.uncontrolled_available > additional_drawdown_cap:
+            self.min_daily_overflow = max((self.uncontrolled_available - additional_drawdown_cap)/(block_end + 1 + cross_counter_wy*365 - dowy), self.min_daily_overflow)
+          if (min(reservoir_change_rate, self.min_daily_overflow) + (self.monthly_demand_full[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1)) > (self.total_capacity*cfs_tafd+.1) and self.uncontrolled_available > additional_drawdown_cap:
+            if excess_toggle2 == 0:
+              excess_toggle2 = 1
+              fillup_fraction2 = 31.0/(block_start - dowy + 1 + cross_counter_wy*365)
+            self.min_daily_overflow += max(min(reservoir_change_rate, self.min_daily_overflow) + (self.monthly_demand_full[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) - self.total_capacity*cfs_tafd, 0.0)*fillup_fraction2
+         
 
-      if release == 'demand' and self.key == 'MIL':
+      #if release == 'demand' and self.key == 'MIL':
         	  
-        if eom_storage > self.capacity:
-          crossover_date = max((self.capacity - running_storage)/reservoir_change_rate, 0.0)
-          numdays_fillup_cap = min(block_start + crossover_date + cross_counter_wy*365 - dowy, numdays_fillup_cap)
-          uncontrolled_cap = max(uncontrolled_cap, eom_storage - self.capacity)
-          if numdays_fillup_cap > 0.0:
-            self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap/numdays_fillup_cap)
-          else:
-            self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap)
+        #if eom_storage > self.capacity:
+          #crossover_date = max((self.capacity - running_storage)/reservoir_change_rate, 0.0)
+          #numdays_fillup_cap = min(block_start + crossover_date + cross_counter_wy*365 - dowy, numdays_fillup_cap)
+          #uncontrolled_cap = max(uncontrolled_cap, eom_storage - self.capacity)
+          #if numdays_fillup_cap > 0.0:
+            #self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap/numdays_fillup_cap)
+          #else:
+            #self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap)
 		  		  
 
-      #if (self.key == 'MIL' or self.key == 'PFT' or self.key == 'SUC' or self.key == 'KWH' or self.key == 'ISB'):
-        #print(self.key, end = " ")
-        #print(t, end = " ")
-        #print(dowy, end = " ")
-        #print(m, end = " ")
-        #print(month_evaluate, end = " ")
-        #print(running_storage, end = " ")
-        #print(month_flow_int, end = " ")
-        #print(total_mandatory_releases, end = " ")
-        #print(storage_cap_start, end = " ")
-        #print(self.min_daily_uncontrolled, end = " ")
-        #print(self.numdays_fillup[release], end = " ")
-        #print(self.monthly_demand[wyt][month_evaluate], end = " ")
-        #print(self.monthly_demand_must_fill[wyt][month_evaluate], end = " ")
-        #print(self.cum_min_release[wyt][block_start], end = " ")
-        #print(self.cum_min_release[wyt][block_end+1], end = " ")
-        #print(self.aug_sept_min_release[wyt][block_start], end = " ")
-        #print(self.aug_sept_min_release[wyt][block_end+1], end = " ")
-        #print(block_end, end = " ")
-        #print(block_start)
+      if (self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx'):
+        print(self.key, end = " ")
+        print(t, end = " ")
+        print(dowy, end = " ")
+        print(m, end = " ")
+        print(month_evaluate, end = " ")
+        print(running_storage, end = " ")
+        print(eom_storage, end = " ")
+        print(month_flow_int, end = " ")
+        print(total_mandatory_releases, end = " ")
+        print(storage_cap_start, end = " ")
+        print(storage_cap_end, end = " ")
+        print(self.min_daily_uncontrolled, end = " ")
+        print(self.uncontrolled_available, end = " ")
+        print(additional_drawdown_cap, end = " ")
+        print(self.min_daily_overflow, end = " ")
+        print(self.numdays_fillup[release], end = " ")
+        print(self.numdays_fillup['lookahead'], end = " ")
+        print(block_end, end = " ")
+        print(block_start)
       #         self.min_daily_uncontrolled,self.uncontrolled_available,eom_storage,storage_cap_end)
       running_storage = eom_storage
 
@@ -542,7 +590,7 @@ class Reservoir():
 	##to get the total daily releases needed to be made under the SJ River Restoration Program (note: rules go into effect
 	##in 2009 - they are triggered by the model.update_regulations function
     for i,v in enumerate(self.sj_restoration_proj['dowy']):
-      if d > v:
+      if v > d:
         break
     
     ix = self.rainflood_fnf[t] + self.snowflood_fnf[t]
@@ -729,10 +777,10 @@ class Reservoir():
       for mm in range(0,12):
         if x <= self.dowy_eom[self.non_leap_year][mm]:
           if mm > 2 and mm < 7:
-            if x > 181 and x < 304:
-              one_year_runfnf = running_fnf[x]
-            else:
-              one_year_runfnf = max_snow[x]
+            #if x > 181 and x < 304:
+              #one_year_runfnf = running_fnf[x]
+            #else:
+            one_year_runfnf = max_snow[x]
           else:
             one_year_runfnf = running_fnf[x]
 			
@@ -743,10 +791,10 @@ class Reservoir():
           for yy in range(1,numYears):
             monthly_flow_predict[yy-1] = monthly_flow[mm][yy]
             if mm > 2 and mm < 7:
-              if x > 181 and x < 304:
-                one_year_runfnf[yy-1] = running_fnf[x][yy-1]
-              else:
-                one_year_runfnf[yy-1] = max_snow[x][yy-1]
+              #if x > 181 and x < 304:
+                #one_year_runfnf[yy-1] = running_fnf[x][yy-1]
+              #else:
+              one_year_runfnf[yy-1] = max_snow[x][yy-1]
             else:
               one_year_runfnf[yy-1] = running_fnf[x][yy-1]
 
@@ -772,10 +820,10 @@ class Reservoir():
           if x <= self.dowy_eom[self.non_leap_year][mm]:
             monthly_flow_predict = monthly_flow[mm]
             if mm > 2 and mm < 7:
-              if x > 181 and x < 304:
-                one_year_runfnf = running_fnf[x]
-              else:
-                one_year_runfnf = max_snow[x]
+              #if x > 181 and x < 304:
+                #one_year_runfnf = running_fnf[x]
+              #else:
+              one_year_runfnf = max_snow[x]
             else:
               one_year_runfnf = running_fnf[x]
           else:
@@ -784,10 +832,10 @@ class Reservoir():
             for yy in range(1,numYears):
               monthly_flow_predict[yy-1] = monthly_flow[mm][yy]
               if mm > 2 and mm < 7:
-                if x > 181 and x < 304:
-                  one_year_runfnf[yy-1] = running_fnf[x][yy-1]
-                else:
-                  one_year_runfnf[yy-1] = max_snow[x][yy-1]
+                #if x > 181 and x < 304:
+                  #one_year_runfnf[yy-1] = running_fnf[x][yy-1]
+                #else:
+                one_year_runfnf[yy-1] = max_snow[x][yy-1]
               else:
                 one_year_runfnf[yy-1] = running_fnf[x][yy-1]
 
@@ -798,32 +846,39 @@ class Reservoir():
         plt.close()
 
 			
-  def find_release_func(self):
+  def find_release_func(self, df):
     ##this function is used to make forecasts when calculating available storage for export releases from reservoir
     ##using data from 1996 to 2016 (b/c data is available for all inputs needed), calculate total flows in oct-mar period and apr-jul period
     ##based on linear regression w/snowpack (apr-jul) and w/inflow (oct-mar)
     ##this function is called before simulation loop, and the linear regression coefficient & standard deviation of linear regresion residuals
     ##is used in the find_available_storage function
-    rainfnf = np.zeros(self.number_years)###total full-natural flow OCT-MAR
-    snowfnf = np.zeros(self.number_years)###total full-natural flow APR-JUL
-    fnf_regression = np.zeros((365,4))##constants for linear regression: 2 for oct-mar, 2 for apr-jul
-    rainfnf_cumulative = np.zeros((365,self.number_years))###cumulative daily full-natural flow, rainfall runoff
-    snowfnf_cumulative = np.zeros((365,self.number_years))###cumulative daily full-natural flow, snowmelt runoff
+    startYear = self.short_starting_year
+    endYear = self.short_ending_year
+    numYears = endYear - startYear
+    self.Q_predict = df['%s_inf'% self.key].values * cfs_tafd
+    self.fnf_predict = df['%s_fnf'% self.key].values / 1000000.0
 
-    raininf = np.zeros(self.number_years)##total reservoir inflow, OCT-Start of snowmelt season
-    snowinf = np.zeros(self.number_years)##total reservoir inflow, Start of snowmelt season - July
-    baseinf = np.zeros(self.number_years)##total reservoir inflow, Aug-Sept
+    rainfnf = np.zeros(numYears)###total full-natural flow OCT-MAR
+    snowfnf = np.zeros(numYears)###total full-natural flow APR-JUL
+    fnf_regression = np.zeros((365,4))##constants for linear regression: 2 for oct-mar, 2 for apr-jul
+    rainfnf_cumulative = np.zeros((365,numYears))###cumulative daily full-natural flow, rainfall runoff
+    snowfnf_cumulative = np.zeros((365,numYears))###cumulative daily full-natural flow, snowmelt runoff
+
+    raininf = np.zeros(numYears)##total reservoir inflow, OCT-Start of snowmelt season
+    snowinf = np.zeros(numYears)##total reservoir inflow, Start of snowmelt season - July
+    baseinf = np.zeros(numYears)##total reservoir inflow, Aug-Sept
     inf_regression = np.zeros((365,6))##constants for linear regression: 2 for oct-mar, 2 for apr-jul, 2 for Aug-Sept
-    raininf_cumulative = np.zeros((365,self.number_years))##cumulative daily reservoir inflow, rainfall runoff
-    snowinf_cumulative = np.zeros((365,self.number_years))##cumulative daily reservoir inflow, snowmelt runoff
-    baseinf_cumulative = np.zeros((365,self.number_years))##cumulative daily reservoir inflow, baseline runoff
+    raininf_cumulative = np.zeros((365,numYears))##cumulative daily reservoir inflow, rainfall runoff
+    snowinf_cumulative = np.zeros((365,numYears))##cumulative daily reservoir inflow, snowmelt runoff
+    baseinf_cumulative = np.zeros((365,numYears))##cumulative daily reservoir inflow, baseline runoff
+
     
-    snowPattern = np.zeros((365,self.number_years))###daily cumulative snowpack
+    snowPattern = np.zeros((365,numYears))###daily cumulative snowpack
 	
     section = 0;##1 is oct-mar, 2 is apr-jul, 3 is aug-sept
     current_year = 0;
     complete_year = 0;##complete year counts all the years that have complete oct-jul data (partial years not used for lin. regression)
-    for t in range(1,self.T):
+    for t in range(1,self.T_short):
       ##Get date information
       m = self.month[t - 1]
       da = self.day_month[t - 1]
@@ -846,14 +901,14 @@ class Reservoir():
 	  #find the cumulative full natural flows through each day of the rainflood season - each day has a unique 21 value (year) vector which is the independent variable in the regression to predict total rainflood season flows
       if m == 10 and da == 1:
         current_year +=1
-        rainfnf_cumulative[dowy][current_year-1] = self.fnf[t-1]
+        rainfnf_cumulative[dowy][current_year-1] = self.fnf_predict[t-1]
         snowfnf_cumulative[dowy][current_year-1] = 0
       elif section_fnf == 1:
-        rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1] + self.fnf[t-1]
+        rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1] + self.fnf_predict[t-1]
         snowfnf_cumulative[dowy][current_year-1] = 0
       elif section_fnf == 2:
         rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1] ##no rainflood predictions after the rainflood season ends
-        snowfnf_cumulative[dowy][current_year-1] = snowfnf_cumulative[dowy-1][current_year-1] + self.fnf[t-1]
+        snowfnf_cumulative[dowy][current_year-1] = snowfnf_cumulative[dowy-1][current_year-1] + self.fnf_predict[t-1]
       elif section_fnf == 3:
         rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1]
         snowfnf_cumulative[dowy][current_year-1] = snowfnf_cumulative[dowy-1][current_year-1]
@@ -864,34 +919,34 @@ class Reservoir():
         snowinf_cumulative[dowy][current_year-1] = 0.0
         baseinf_cumulative[dowy][current_year-1] = 0.0
       elif section_inf == 1:
-        raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1] + self.Q[t-1]
+        raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1] + self.Q_predict[t-1]
         snowinf_cumulative[dowy][current_year-1] = 0.0
         baseinf_cumulative[dowy][current_year-1] = 0.0
       elif section_inf == 2:
         raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1] ##no rainflood predictions after the rainflood season ends
-        snowinf_cumulative[dowy][current_year-1] = snowinf_cumulative[dowy-1][current_year-1] + self.Q[t-1]
+        snowinf_cumulative[dowy][current_year-1] = snowinf_cumulative[dowy-1][current_year-1] + self.Q_predict[t-1]
         baseinf_cumulative[dowy][current_year-1] = 0.0
       elif section_inf == 3:
         raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1]
         snowinf_cumulative[dowy][current_year-1] = snowinf_cumulative[dowy-1][current_year-1]
-        baseinf_cumulative[dowy][current_year-1] = baseinf_cumulative[dowy-1][current_year-1] + self.Q[t-1]
+        baseinf_cumulative[dowy][current_year-1] = baseinf_cumulative[dowy-1][current_year-1] + self.Q_predict[t-1]
 		
 	  ##find cumulative snowpack through each day of the year - each day has a unique 21 value (year) vector giving us 365 sepearte lin regressions)	  
       snowPattern[dowy][current_year-1] = self.SNPK[t-1]
  
 	  #find the total full natural flows during the rainflood and snowflood seasons
       if section_fnf == 1:
-        rainfnf[current_year-1] += self.fnf[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
+        rainfnf[current_year-1] += self.fnf_predict[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
       elif section_fnf == 2:
-        snowfnf[current_year-1] += self.fnf[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
+        snowfnf[current_year-1] += self.fnf_predict[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
 
 	  #find the total reservoir inflow during the rainflood and snowmelt seasons
       if section_inf == 1:
-        raininf[current_year-1] += self.Q[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
+        raininf[current_year-1] += self.Q_predict[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
       elif section_inf == 2:
-        snowinf[current_year-1] += self.Q[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
+        snowinf[current_year-1] += self.Q_predict[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
       elif section_inf == 3:
-        baseinf[current_year-1] += self.Q[t-1]
+        baseinf[current_year-1] += self.Q_predict[t-1]
     # print(self.key)
 
     for x in range(1,365):
@@ -936,8 +991,8 @@ class Reservoir():
 	  #########################################################################################################################
 	  ###rainflood season regression - reservoir inflow (regress cumulative reservoir inflow through each day with total full natural flow, Oct-Start of Snowmelt Season at that reservroi)
       one_year_flow = raininf_cumulative[x-1]##this days set of cumulative flow values (X vector)
-      remaining_flow = np.zeros(self.number_years)
-      for xx in range(0, self.number_years):
+      remaining_flow = np.zeros(numYears)
+      for xx in range(0, numYears):
         remaining_flow[xx] = raininf[xx] - one_year_flow[xx]
       if sum(one_year_flow) == 0.0:
         coef[0] = 0.0
@@ -955,8 +1010,8 @@ class Reservoir():
 		##use z-score to make estimate at different confidence levels, ie 90% exceedence is linear regression plus standard deviation * -1.28, z table in util.py
 	  ###snowflood season regression - reservoir inflow (regress cumulative snowpack & reservoir inflow through each day with total reservoir inflow, Snowmelta season at the reservoir)
       one_year_snow = snowPattern[x-1]##this days set of cumulative snowpack values (X vector)
-      remaining_snow = np.zeros(self.number_years)
-      for xx in range(0, self.number_years):
+      remaining_snow = np.zeros(numYears)
+      for xx in range(0, numYears):
         remaining_snow[xx] = snowinf[xx] - snowinf_cumulative[x-1][xx]
       
       if sum(one_year_snow) == 0.0:
@@ -975,8 +1030,8 @@ class Reservoir():
       ##for conservative estimate, ie 90% exceedence is linear regression plus standard deviation * -1.28, z table in util.py
 	  ###baseline season regression - reservoir inflow (regress cumulative snowpack & reservoir inflow through each day with total reservoir inflow, Aug-Sept at the reservoir)
       one_year_snow = snowPattern[x-1]##this days set of cumulative snowpack values (X vector)
-      remaining_base = np.zeros(self.number_years)
-      for xx in range(0, self.number_years):
+      remaining_base = np.zeros(numYears)
+      for xx in range(0, numYears):
         remaining_base[xx] = baseinf[xx] - baseinf_cumulative[x-1][xx]
       
       if sum(one_year_snow) == 0.0:
