@@ -66,8 +66,8 @@ scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
 scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0125.json'
 scenarios.append(scenario1)
 
-for i in [4,5,6]:
-  try:
+for i in [0,4,5]:
+  # try:
     scenario = scenarios[i]
     results_folder = scenarios[i]['results_folder']
     print(results_folder)
@@ -198,6 +198,6 @@ for i in [4,5,6]:
 
     print('completed ' + results_folder + ' in ', datetime.now() - startTime)
 
-  except:
-    print(results_folder + ' `failed')
+  # except:
+  #   print(results_folder + ' `failed')
 

@@ -1273,8 +1273,6 @@ class Model():
       #if a node is a canal node, jump to that canal (function calls itself, but for another canal) 
       elif isinstance(x, Canal):
         new_loc_demand = 0.0
-        # if x.name == 'kgr':
-        #   print(x.name, flow_type, flow_dir)
         if canal.turnout[flow_dir][canal_loc] > 0.0:
           new_flow_dir = canal.flow_directions[flow_type][x.name]
           new_loc_demand = self.find_flood_trigger(x, canal.key, contract_canal, new_flow_dir,flow_type)

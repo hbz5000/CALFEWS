@@ -1051,17 +1051,17 @@ class Reservoir():
 
 	  ############################################################################################################################################################
     current_year = 0
-    for t in range(1,self.T):
+    for t in range(1,self.T_short):
       m = self.month[t - 1]
       da = self.day_month[t - 1]
       dowy = self.dowy[t - 1]
 	  
       if m == 10 and da == 1:
         current_year += 1
-      	  
+
       self.rainflood_fnf[t-1] = fnf_regression[dowy-1][0]*rainfnf_cumulative[dowy][current_year-1] + fnf_regression[dowy-1][1]
       self.snowflood_fnf[t-1] = fnf_regression[dowy-1][2]*self.SNPK[t-1] + fnf_regression[dowy-1][3]
-      
+
       self.rainflood_inf[t-1] = inf_regression[dowy-1][0]*raininf_cumulative[dowy][current_year-1] + inf_regression[dowy-1][1]
       self.snowflood_inf[t-1] = inf_regression[dowy-1][2]*self.SNPK[t-1] + inf_regression[dowy-1][3]
       self.baseline_inf[t-1] = inf_regression[dowy-1][4]*self.SNPK[t-1] + inf_regression[dowy-1][5]
