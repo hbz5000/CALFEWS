@@ -105,6 +105,7 @@ class District():
     for x in self.non_contract_delivery_list:
       self.daily_supplies_full[x] = np.zeros(self.T)
     self.daily_supplies_full['pumping'] = np.zeros(self.T)
+    self.daily_supplies_full['irr_demand'] = np.zeros(self.T)
 
     # ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'undelivered_trades']
     #Initialize demands
@@ -901,7 +902,6 @@ class District():
     contract_counter = 0
     for y in contract_list:
       self.paper_balance[y] -= trade_amount*trade_frac[contract_counter]
- 
       contract_counter += 1
     self.deliveries['exchanged_SW'][wateryear] += trade_amount
 	  
@@ -920,7 +920,6 @@ class District():
       contract_frac = 1.0
       for y in contract_list:
         self.paper_balance[y.name] += trade_amount*contract_frac
-
         contract_frac = 0.0
     self.deliveries['exchanged_GW'][wateryear] += trade_amount
 
@@ -933,7 +932,6 @@ class District():
     for y in contract_list:
       self.paper_balance[y] += trade_amount*trade_frac[contract_counter]
       contract_counter += 1
-
     self.deliveries['exchanged_GW'][wateryear] += trade_amount
 
   def record_direct_delivery(self, delivery, wateryear):
@@ -1010,7 +1008,8 @@ class District():
     self.bank_deliveries[member_name] += deliveries#keeps track of how much of the capacity is being used in the current timestep
     self.deliveries['inleiu'][wateryear] += deliveries#if deliveries being made 'inleiu', then count as inleiu deliveries
     self.inleiubanked[member_name] += deliveries * self.inleiuhaircut#this is the running account of the member's banking storage
-	
+
+
   def adjust_recovery(self, deliveries, member_name, wateryear):
     #if recovery deliveries are made, adjust the banking accounts and account for the recovery capacity use
     self.inleiubanked[member_name] -= deliveries#this is the running account of the member's banking storage
@@ -1067,7 +1066,8 @@ class District():
       self.daily_supplies_full[x + '_turnback'][t] = self.turnback_pool[x]
     for x in self.non_contract_delivery_list:
       self.daily_supplies_full[x][t] = self.deliveries[x][wateryear]
-    self.daily_supplies_full['pumping'][t] = -self.daily_supplies['pumping'][t]
+    self.daily_supplies_full['pumping'][t] = self.annual_private_pumping
+    self.daily_supplies_full['irr_demand'][t] = self.dailydemand_start
 
   def accounting(self,t, da, m, wateryear,key):
     #takes delivery/allocation values and builds timeseries that show what water was used for (recharge, banking, irrigation etc...)
@@ -1104,7 +1104,6 @@ class District():
 	#recharge uncontrolled is recharge water from flood flows (flood flows added in self.accounting() - this is only adjustment for stacked plot)
     self.daily_supplies['recharge_uncontrolled'][t] += self.daily_supplies['recharge_delivery'][t] 
 
-	
     if m == 9 and da == 30:
       self.annual_supplies['delivery'][wateryear] += self.deliveries['exchanged_SW'][wateryear] - self.deliveries['recharged'][wateryear] - (self.deliveries['exchanged_GW'][wateryear] - self.deliveries['undelivered_trades'][wateryear])
       recharged_recovery = 0.0

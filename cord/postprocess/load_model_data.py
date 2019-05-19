@@ -95,6 +95,9 @@ def load_district_data(datafile):
   otherDelivery_modeled = df_modeled.columns.map(lambda x: False)
   recharged_modeled = df_modeled.columns.map(lambda x: False)
   pumping_modeled = df_modeled.columns.map(lambda x: False)
+  irr_demand_modeled = df_modeled.columns.map(lambda x: False)
+  exchanged_SW = df_modeled.columns.map(lambda x: False)
+  exchanged_GW = df_modeled.columns.map(lambda x: False)
   friantDelivery_modeled.values[((source_modeled == 'friant1')|(source_modeled=='friant2')) & ((WT_modeled == 'delivery')|(WT_modeled == 'flood'))] = True
   cvcDelivery_modeled.values[((source_modeled=='cvc')) & ((WT_modeled == 'delivery')|(WT_modeled == 'flood'))] = True
   swpDelivery_modeled.values[((source_modeled == 'tableA')) & ((WT_modeled == 'delivery')|(WT_modeled == 'flood'))] = True
@@ -104,6 +107,9 @@ def load_district_data(datafile):
   otherDelivery_modeled.values[[i for i,v in enumerate(source_modeled) if v in ['recover','inleiu']]] = True
   recharged_modeled.values[[i for i,v in enumerate(WT_modeled) if v in ['recharged']]] = True
   pumping_modeled.values[[i for i,v in enumerate(source_modeled) if v in ['pumping']]] = True
+  irr_demand_modeled.values[[i for i,v in enumerate(source_modeled) if v in ['irr']]] = True
+  exchanged_SW.values[[i for i,v in enumerate(WT_modeled) if v in ['SW']]] = True
+  exchanged_GW.values[[i for i,v in enumerate(WT_modeled) if v in ['GW']]] = True
 
   df_modeled['Date'] = df_modeled['Date__']
   df_modeled['Year'] = df_modeled['Year__']
@@ -112,7 +118,9 @@ def load_district_data(datafile):
   del df_modeled['Date__'], df_modeled['Year__'], df_modeled['Month__'], df_modeled['Wateryear__']
 
   # deliveries are cumulative over water year, so difference to get monthly deliveries
-  ind = np.where((friantDelivery_modeled == True) | (cvcDelivery_modeled == True) | (swpDelivery_modeled == True) | (cvpdeltaDelivery_modeled == True) | (localDelivery_modeled == True) | (otherDelivery_modeled == True) | (recharged_modeled == True) | (pumping_modeled == True))[0]
+  ind = np.where((friantDelivery_modeled == True) | (cvcDelivery_modeled == True) | (swpDelivery_modeled == True) |
+                 (cvpdeltaDelivery_modeled == True) | (localDelivery_modeled == True) | (otherDelivery_modeled == True) |
+                 (recharged_modeled == True) | (pumping_modeled == True))[0]
   for i in ind:
     for wy in range(min(df_modeled.Wateryear), max(df_modeled.Wateryear)+1):
       startDay = np.where(df_modeled.Wateryear == wy)[0][0]
@@ -151,23 +159,28 @@ def load_leiu_data(datafile):
   df_modeled['Wateryear__'] = df_modeled.Year__
   df_modeled.Wateryear__.loc[df_modeled.Month__ > 9] = df_modeled.Wateryear__.loc[df_modeled.Month__ > 9] + 1
 
-
   ### get banker & bankee
   banker_modeled = df_modeled.columns.map(lambda x: x.split('_')[0])
   bankee_modeled = df_modeled.columns.map(lambda x: x.split('_')[1])
   WT_modeled = df_modeled.columns.map(lambda x: x.split('_')[-1])
 
+  ### entries are stacked for each banker - difference across bankees to get individual balances
+  for b in banker_modeled.unique()[:-3]:
+    ind = np.where(banker_modeled == b)[0]
+    if (len(ind) > 1):
+      for i in np.arange(len(ind)-1, 0, -1):
+        df_modeled.iloc[:,ind[i]] = df_modeled.iloc[:,ind[i]] - df_modeled.iloc[:,ind[i-1]]
+
   ### only keep friant bankees, and bankers w/ friant bankees
   friant_districts = ['COF', 'FRS', 'OFK', 'TUL', 'OKW', 'EXE', 'LDS', 'LND', 'PRT', 'LWT',
        'OTL', 'TPD', 'SAU', 'TBA', 'OXV', 'DLE', 'KRT', 'SSJ', 'SFW', 'NKN',
        'NKB', 'ARV','']
-  df_modeled = df_modeled.loc[:, ((banker_modeled=='ARV')&(WT_modeled == 'leiu'))|(WT_modeled == '')]
+  df_modeled = df_modeled.loc[:, ((banker_modeled=='ARV')|(banker_modeled=='LWT')|(bankee_modeled==''))]
   banker_modeled = df_modeled.columns.map(lambda x: x.split('_')[0])
   bankee_modeled = df_modeled.columns.map(lambda x: x.split('_')[1])
   df_modeled = df_modeled.loc[:, [d in friant_districts for d in bankee_modeled]]
   banker_modeled = df_modeled.columns.map(lambda x: x.split('_')[0])
   bankee_modeled = df_modeled.columns.map(lambda x: x.split('_')[1])
-  WT_modeled = df_modeled.columns.map(lambda x: x.split('_')[-1])
 
 
   # only keep if actually used over simulation
@@ -220,6 +233,14 @@ def load_bank_data(datafile):
   ### get banker & bankee
   banker_modeled = df_modeled.columns.map(lambda x: x.split('_')[0])
   bankee_modeled = df_modeled.columns.map(lambda x: x.split('_')[1])
+
+
+  ### entries are stacked for each banker - difference across bankees to get individual balances
+  for b in banker_modeled.unique()[:-3]:
+    ind = np.where(banker_modeled == b)[0]
+    if (len(ind) > 1):
+      for i in np.arange(len(ind)-1, 0, -1):
+        df_modeled.iloc[:,ind[i]] = df_modeled.iloc[:,ind[i]] - df_modeled.iloc[:,ind[i-1]]
 
   ### only keep friant bankees, and bankers w/ friant bankees
   friant_districts = ['COF', 'FRS', 'OFK', 'TUL', 'OKW', 'EXE', 'LDS', 'LND', 'PRT', 'LWT',
