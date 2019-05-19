@@ -29,13 +29,13 @@
 
   },
   "carryover_target": {
-    "W": 135,
-    "AN": 135,
-    "BN": 135,
-    "D": 135,
-    "C": 135
+    "W": 100.0,
+    "AN": 100.0,
+    "BN": 100.0,
+    "D": 100.0,
+    "C": 100.0
   },
-  "max_carryover_target": 135.0,
+  "max_carryover_target": 100.0,
   "carryover_excess_use": 0.0,
   "nodd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   "sodd_pct": 0.80,

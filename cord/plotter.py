@@ -1517,7 +1517,7 @@ def make_reservoir_plots(simulated_results, simulated_results2, observed_results
   counter = 0
   counter2 = 0
   for x,y  in zip(object_list, title_list):
-    if x == 'MIL' or x == 'ISB':
+    if x == 'MIL' or x == 'ISB' or x == 'PFT' or x == 'KWH' or x == 'SUC':
       sim_values = simulated_results2[x + data_type]*simulated_unit
     else:
       sim_values = simulated_results[x + data_type]*simulated_unit

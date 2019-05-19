@@ -1,7 +1,7 @@
 {
   "total": 9999999.0,
   "maxForecastValue": 2000.0,
-  "carryover": 525.0,
+  "carryover": 425.0,
   "type": "right",
   "name": "kings",
   "allocation_priority": 1,
