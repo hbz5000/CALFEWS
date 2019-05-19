@@ -26,27 +26,35 @@ def init_plotting():
     plt.rcParams['xtick.labelsize'] = plt.rcParams['font.size']
     plt.rcParams['ytick.labelsize'] = plt.rcParams['font.size']
 
-def compare_validation(res_old,res_new,obs,name,freq,freq2, data_name):
+
+def compare_validation(res_old,res_new,obs,name,freq,freq2, data_name, old_new):
   # input two series and a frequency
   init_plotting()
 
-  res_old1 = res_old.resample(freq).mean()*7*1.98/1000.0
-  res_new1 = res_new.resample(freq).mean()*7*1.98/1000.0
-  obs1 = obs.resample(freq).mean()*7*1.98/1000.0
+  res_old1 = res_old.resample(freq).mean()#*7*1.98/1000.0
+  res_new1 = res_new.resample(freq).mean()#*7*1.98/1000.0
+  obs1 = obs.resample(freq).mean()#*7*1.98/1000.0
 
   sns.set()
+  sns.set_context('paper', font_scale=2)
   fig = plt.figure(figsize=(16, 4))
   gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 
   ax0 = plt.subplot(gs[0, 0])
   obs1.plot(ax=ax0, color='k', use_index=True, alpha = 0.7, linewidth = 3)
-  res_old1.plot(ax=ax0, color='indianred', use_index=True, alpha = 0.7, linewidth = 3)
-  res_new1.plot(ax=ax0, color='steelblue', use_index=True, alpha = 0.7, linewidth = 3, linestyle = '--')
+  if (old_new):
+    res_old1.plot(ax=ax0, color='steelblue', use_index=True, alpha = 0.7, linewidth = 3)
+    res_new1.plot(ax=ax0, color='indianred', use_index=True, alpha = 0.7, linewidth = 3, linestyle = '--')
+  else:
+    res_new1.plot(ax=ax0, color='indianred', use_index=True, alpha = 0.7, linewidth = 3)
   #ax0.set_xlim([datetime.date(2004,10,1), datetime.date(2006,9,30)])
   #ax0.set_title('%s, %s' % (res.name, obs.name), family='OfficinaSanITCMedium', loc='left')
   ax0.set_title(name)
-  ax0.legend(['Observed', 'Old', 'New'], ncol=1)
-  ax0.set_ylabel('Pumping (tAF)')
+  if (old_new):
+    ax0.legend(['Observed', 'Old', 'New'], ncol=1)
+  else:
+    ax0.legend(['Observed', 'Simulated'], ncol=1)
+  ax0.set_ylabel('Storage (tAF)')
   ax0.set_xlabel('')
   # ax11 = plt.subplot(gs[1, 0])
   # obs1.plot(ax=ax11, color='k', use_index=True, alpha = 0.7, linewidth = 3)
@@ -57,21 +65,23 @@ def compare_validation(res_old,res_new,obs,name,freq,freq2, data_name):
   # ax11.set_ylabel('Pumping (tAF)')
   # ax11.set_xlabel('')
 
-  res_old2 = res_old.resample(freq2).mean()*365*1.98/1000
-  res_new2 = res_new.resample(freq2).mean()*365*1.98/1000
-  obs2 = obs.resample(freq2).mean()*365*1.98/1000
+  res_old2 = res_old.resample(freq2).mean()#*365*1.98/1000
+  res_new2 = res_new.resample(freq2).mean()#*365*1.98/1000
+  obs2 = obs.resample(freq2).mean()#*365*1.98/1000
 
   ax22 = plt.subplot(gs[0,1])
   r_old = np.corrcoef(obs2.values,res_old2.values)[0,1]
   r_new = np.corrcoef(obs2.values,res_new2.values)[0,1]
-  ax22.scatter(obs2.values, res_old2.values, s=75, c='indianred', edgecolor='none', alpha=0.8)
-  ax22.scatter(obs2.values, res_new2.values, s=75, c='steelblue', edgecolor='none', alpha=0.8)
+  if (old_new):
+    ax22.scatter(obs2.values, res_old2.values, s=75, c='steelblue', edgecolor='none', alpha=0.8)
+  ax22.scatter(obs2.values, res_new2.values, s=75, c='indianred', edgecolor='none', alpha=0.8)
   ax22.plot([0.0, max([max(obs2.values), max(res_old2.values)])], [0.0, max([max(obs2.values), max(res_old2.values)])], linestyle = 'dashed', color = 'black', linewidth = 3)
   ax22.set_ylabel('Simulated (tAF/yr)')
   ax22.set_xlabel('Observed (tAF/yr)')
   ax22.set_title('Annual '+ data_name + ' vs. Simulated')
-  ax22.annotate('$R^2 = %f$' % r_old**2, xy=(0,0), color='indianred')
-  ax22.annotate('$R^2 = %f$' % r_new**2, xy=(max(obs2.values)*0.6,0), color='steelblue')
+  if (old_new):
+    ax22.annotate('$R^2 = %f$' % r_old**2, xy=(0,0), color='steelblue')
+  ax22.annotate('$R^2 = %f$' % r_new**2, xy=(max(obs2.values)*0.6,0), color='indianred')
   ax22.set_xlim([0.0, ax22.get_xlim()[1]])
   ax22.set_ylim([0.0, ax22.get_ylim()[1]])
   # for item in [ax0.xaxis.label, ax0.yaxis.label, ax11.xaxis.label, ax11.yaxis.label,ax22.xaxis.label, ax22.yaxis.label, ax0.title, ax11.title, ax22.title]:
@@ -83,7 +93,7 @@ def compare_validation(res_old,res_new,obs,name,freq,freq2, data_name):
 
 
 
-def compare_simulation(res_old,res_new,obs,name,freq,freq2, data_name):
+def compare_simulation(res_old,res_new,obs,name,freq,freq2, data_name, old_new):
   # input two series and a frequency
   init_plotting()
 
@@ -98,13 +108,17 @@ def compare_simulation(res_old,res_new,obs,name,freq,freq2, data_name):
 
   ax0 = plt.subplot(gs[0, 0])
   obs1.plot(ax=ax0, color='k', use_index=True, alpha = 0.7, linewidth = 3)
-  res_old1.plot(ax=ax0, color='indianred', use_index=True, alpha = 0.7, linewidth = 3)
+  if (old_new):
+    res_old1.plot(ax=ax0, color='indianred', use_index=True, alpha = 0.7, linewidth = 3)
   res_new1.plot(ax=ax0, color='steelblue', use_index=True, alpha = 0.7, linewidth = 3, linestyle = '--')
   #ax0.set_xlim([datetime.date(2004,10,1), datetime.date(2006,9,30)])
   #ax0.set_title('%s, %s' % (res.name, obs.name), family='OfficinaSanITCMedium', loc='left')
   ax0.set_title(name)
-  ax0.legend(['Observed', 'Old', 'New'], ncol=1)
-  ax0.set_ylabel('Pumping (tAF)')
+  if (old_new):
+    ax0.legend(['Observed', 'Old', 'New'], ncol=1)
+  else:
+    ax0.legend(['Observed', 'Modeled'], ncol=1)
+  ax0.set_ylabel('Storage (taf)')
   ax0.set_xlabel('')
   # ax11 = plt.subplot(gs[1, 0])
   # obs1.plot(ax=ax11, color='k', use_index=True, alpha = 0.7, linewidth = 3)
@@ -115,9 +129,9 @@ def compare_simulation(res_old,res_new,obs,name,freq,freq2, data_name):
   # ax11.set_ylabel('Pumping (tAF)')
   # ax11.set_xlabel('')
 
-  res_old2 = res_old.resample(freq2).mean()*365*1.98/1000
-  res_new2 = res_new.resample(freq2).mean()*365*1.98/1000
-
+  # res_old2 = res_old.resample(freq2).mean()*365*1.98/1000
+  # res_new2 = res_new.resample(freq2).mean()*365*1.98/1000
+  #
   # ax22 = plt.subplot(gs[0,1])
   # r = np.corrcoef(res_new2.values,res_old2.values)[0,1]
   # ax22.scatter(res_old2.values, res_new2.values, s=75, c='steelblue', edgecolor='none', alpha=0.8)
@@ -1517,7 +1531,7 @@ def make_reservoir_plots(simulated_results, simulated_results2, observed_results
   counter = 0
   counter2 = 0
   for x,y  in zip(object_list, title_list):
-    if x == 'MIL' or x == 'ISB':
+    if x == 'MIL' or x == 'ISB' or x == 'PFT' or x == 'KWH' or x == 'SUC':
       sim_values = simulated_results2[x + data_type]*simulated_unit
     else:
       sim_values = simulated_results[x + data_type]*simulated_unit

@@ -2,20 +2,20 @@
   "contract_list": ["friant1", "friant2", "cvc", "tule"],
   "turnout_list": ["fkc", "tlr"],
   "in_leiu_banking": true,
-  "participant_list": ["KRT", "SSJ", "SFW", "ARV"],  
+  "participant_list": ["LWT","DLE","KRT", "SSJ", "SFW"],  
   "leiu_ownership": {
     "LWT": 1.0,
+	"DLE": 0.0,
 	"KRT": 0.0,
 	"SSJ": 0.0,
-	"SFW": 0.0,
-	"ARV": 0.0
+	"SFW": 0.0
 	},
   "inleiucap": {
     "LWT": 99999.9,
+	"DLE": 99999.9,
 	"KRT": 99999.9,
 	"SSJ": 99999.9,
-	"SFW": 99999.9,
-	"ARV": 99999.9		
+	"SFW": 99999.9	
 	},
   "leiu_recovery": 0.411,
   "in_district_direct_recharge": 750.0,

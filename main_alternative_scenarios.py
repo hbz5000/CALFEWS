@@ -37,44 +37,37 @@ scenario1['LWT'] = 'baseline'
 scenarios.append(scenario1)
 
 scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_recharge_double'
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_ARV_0'
 scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_0.json'
 scenarios.append(scenario1)
 
 scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_recharge_double'
-scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double.json'
-scenarios.append(scenario1)
-
-scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank'
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_ARV_025'
 scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_025.json'
 scenarios.append(scenario1)
 
 scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank'
-scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank.json'
-scenarios.append(scenario1)
-
-scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_recharge_double__LWT_inleiubank'
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_DLEKRTSSJSFW_0'
 scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double__inleiubank.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json'
 scenarios.append(scenario1)
 
 scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_recharge_double__LWT_inleiubank'
-scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__recharge_double__inleiubank.json'
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_DLEKRTSSJSFW_0125'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0125.json'
 scenarios.append(scenario1)
 
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank_DLEKRTSSJSFW_0125'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0125.json'
+scenarios.append(scenario1)
 
-for i in [3,7]:
-  try:
+for i in [0,4,5]:
+  # try:
     scenario = scenarios[i]
     results_folder = scenarios[i]['results_folder']
     print(results_folder)
@@ -205,6 +198,6 @@ for i in [3,7]:
 
     print('completed ' + results_folder + ' in ', datetime.now() - startTime)
 
-  except:
-    print(results_folder + ' `failed')
+  # except:
+  #   print(results_folder + ' `failed')
 

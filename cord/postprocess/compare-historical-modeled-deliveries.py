@@ -200,6 +200,8 @@ ax.plot_date(cvp_historical_aggregate_contractor_Wateryear_Month['Date'].loc[
                   cvp_historical_aggregate_contractor_Wateryear_Month['delivery_taf'].loc[
                     (cvp_historical_aggregate_contractor_Wateryear_Month.contractor == 'friant')],
                   fmt='-', c=cols[0],alpha=0.7)
+print(canal_results_aggregate_Wateryear_Month.Date)
+print(canal_results_aggregate_Wateryear_Month.loc[:, ind])
 ax.plot_date(canal_results_aggregate_Wateryear_Month.Date,
                   np.sum(canal_results_aggregate_Wateryear_Month.loc[:, ind], axis=1), fmt='--', c=cols[3],alpha=0.7)
 ax.legend(['Historical', 'Modeled'])

@@ -3,49 +3,58 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from cord import *
 
+
+
+
 ######################################################################################
 ###Plot Simulation Results
 ######################################################################################
 # plot validation mode (1) or simulation mode (0)
-validation_plots = 0
+validation_plots = 1
+
+# plot two different models? yes (1) or no (0)
+old_new = 0
 
 # set plot number to number from results lists below, or -1 to plot all
 plot_number = -1
 
-observations = pd.read_csv('cord/data/input/cord-data.csv', index_col=0, parse_dates=True)
 
 # Note: change file paths to local storage. 'old' should be a previous run of results with an old branch of code, and 'new' is the results from the new code being tested.
 if validation_plots:
-       res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_04042019/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
-       res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_04042019/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
-       # district_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/master_district_results_validation.csv')
-       # waterbank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/bank_results_validation.csv')
-       # leiubank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/leiu_results_validation.csv')
+  # res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_04042019/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
+  # res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_04042019/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
+  res_results_no_old = pd.read_csv('cord/data/results/reservoir_results_no_validation.csv', index_col=0,
+                                   parse_dates=True)
+  res_results_so_old = pd.read_csv('cord/data/results/reservoir_results_so_validation.csv', index_col=0,
+                                   parse_dates=True)
+  # district_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/master_district_results_validation.csv')
+  # waterbank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/bank_results_validation.csv')
+  # leiubank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/validation_01292019/leiu_results_validation.csv')
 
-       # res_results_no_new = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_validation_02172019/reservoir_results_no_simulation_validation.csv', index_col=0, parse_dates=True)
-       # res_results_so_new = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_validation_02172019/reservoir_results_so_simulation_validation.csv', index_col=0, parse_dates=True)
-       res_results_no_new = pd.read_csv('cord/data/results/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
-       res_results_so_new = pd.read_csv('cord/data/results/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
-       # district_results_new = pd.read_csv('cord/data/results/district_results_validation.csv')
-       # waterbank_results_new = pd.read_csv('cord/data/results/bank_results_validation.csv')
-       # leiubank_results_new = pd.read_csv('cord/data/results/leiu_results_validation.csv')
+  # res_results_no_new = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_validation_02172019/reservoir_results_no_simulation_validation.csv', index_col=0, parse_dates=True)
+  # res_results_so_new = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_validation_02172019/reservoir_results_so_simulation_validation.csv', index_col=0, parse_dates=True)
+  res_results_no_new = pd.read_csv('cord/data/results/reservoir_results_no_validation.csv', index_col=0, parse_dates=True)
+  res_results_so_new = pd.read_csv('cord/data/results/reservoir_results_so_validation.csv', index_col=0, parse_dates=True)
+  # district_results_new = pd.read_csv('cord/data/results/district_results_validation.csv')
+  # waterbank_results_new = pd.read_csv('cord/data/results/bank_results_validation.csv')
+  # leiubank_results_new = pd.read_csv('cord/data/results/leiu_results_validation.csv')
 
 else:
-       # res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
-       # res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
-       # district_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/district_results_simulation.csv')
-       # waterbank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/bank_results_simulation.csv')
-       # leiubank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/leiu_results_simulation.csv')
+  # res_results_no_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
+  # res_results_so_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation_04252019_wy2017fkc/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
+  # district_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/district_results_simulation.csv')
+  # waterbank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/bank_results_simulation.csv')
+  # leiubank_results_old = pd.read_csv('../../Documents/DataFilesNonGit/ORCA_master/simulation/leiu_results_simulation.csv')
 
-       res_results_no_old = pd.read_csv('cord/data/results/friant_rehab_wy2019/reservoir_results_no_simulation.csv', index_col=0,
-                                        parse_dates=True)
-       res_results_so_old = pd.read_csv('cord/data/results/friant_rehab_wy2019/reservoir_results_so_simulation.csv', index_col=0,
-                                        parse_dates=True)
-       res_results_no_new = pd.read_csv('cord/data/results/friant_rehab_wy2019__LWT_recharge_double/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
-       res_results_so_new = pd.read_csv('cord/data/results/friant_rehab_wy2019__LWT_recharge_double/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
-       # district_results_new = pd.read_csv('cord/data/results/district_results_simulation.csv')
-       # waterbank_results_new = pd.read_csv('cord/data/results/bank_results_simulation.csv')
-       # leiubank_results_new = pd.read_csv('cord/data/results/leiu_results_simulation.csv')
+  res_results_no_old = pd.read_csv('cord/data/results/friant_rehab_wy2019/reservoir_results_no_simulation.csv', index_col=0,
+                                   parse_dates=True)
+  res_results_so_old = pd.read_csv('cord/data/results/friant_rehab_wy2019/reservoir_results_so_simulation.csv', index_col=0,
+                                   parse_dates=True)
+  res_results_no_new = pd.read_csv('cord/data/results/friant_rehab_wy2019__LWT_recharge_double/reservoir_results_no_simulation.csv', index_col=0, parse_dates=True)
+  res_results_so_new = pd.read_csv('cord/data/results/friant_rehab_wy2019__LWT_recharge_double/reservoir_results_so_simulation.csv', index_col=0, parse_dates=True)
+  # district_results_new = pd.read_csv('cord/data/results/district_results_simulation.csv')
+  # waterbank_results_new = pd.read_csv('cord/data/results/bank_results_simulation.csv')
+  # leiubank_results_new = pd.read_csv('cord/data/results/leiu_results_simulation.csv')
 
 # columns for results files ***make sure these match the corresponding columns in observations***
 columns = ['DEL_HRO_pump',
@@ -62,88 +71,100 @@ columns = ['DEL_HRO_pump',
            'EXC_storage',
            'ISB_storage',
            'MIL_storage',
+           'PFT_storage',
+           'KWH_storage',
+           'SUC_storage',
            'SLF_storage',
            'SLS_storage']
 
 #calibration points (lists of pandas series)
 sim_old = [
-       res_results_no_old[columns[0]] / cfs_tafd,
-       res_results_no_old[columns[1]] / cfs_tafd,
-       res_results_no_old[columns[2]] * 1000.0,
-       res_results_no_old[columns[3]] / cfs_tafd,
-       res_results_no_old[columns[4]] * 1000.0,
-       res_results_no_old[columns[5]] / cfs_tafd,
-       res_results_no_old[columns[6]] * 1000.0,
-       res_results_no_old[columns[7]] / cfs_tafd,
-       res_results_no_old[columns[8]] * 1000.0,
-       res_results_no_old[columns[9]] * 1000.0,
-       res_results_no_old[columns[10]] * 1000.0,
-       res_results_no_old[columns[11]] * 1000.0,
-       res_results_so_old[columns[12]] * 1000.0,
-       res_results_so_old[columns[13]] * 1000.0,
-       res_results_so_old[columns[14]] * 1000.0,
-       res_results_so_old[columns[15]] * 1000.0
-       ]
+  res_results_no_old[columns[0]] / cfs_tafd,
+  res_results_no_old[columns[1]] / cfs_tafd,
+  res_results_no_old[columns[2]],
+  res_results_no_old[columns[3]] / cfs_tafd,
+  res_results_no_old[columns[4]],
+  res_results_no_old[columns[5]] / cfs_tafd,
+  res_results_no_old[columns[6]],
+  res_results_no_old[columns[7]] / cfs_tafd,
+  res_results_no_old[columns[8]],
+  res_results_no_old[columns[9]],
+  res_results_no_old[columns[10]],
+  res_results_no_old[columns[11]],
+  res_results_so_old[columns[12]],
+  res_results_so_old[columns[13]],
+  res_results_so_old[columns[14]],
+  res_results_so_old[columns[15]],
+  res_results_so_old[columns[16]],
+  res_results_so_old[columns[17]],
+  res_results_so_old[columns[18]]
+]
 
 sim_new = [
-       res_results_no_new[columns[0]] / cfs_tafd,
-       res_results_no_new[columns[1]] / cfs_tafd,
-       res_results_no_new[columns[2]] * 1000.0,
-       res_results_no_new[columns[3]] / cfs_tafd,
-       res_results_no_new[columns[4]] * 1000.0,
-       res_results_no_new[columns[5]] / cfs_tafd,
-       res_results_no_new[columns[6]] * 1000.0,
-       res_results_no_new[columns[7]] / cfs_tafd,
-       res_results_no_new[columns[8]] * 1000.0,
-       res_results_no_new[columns[9]] * 1000.0,
-       res_results_no_new[columns[10]] * 1000.0,
-       res_results_no_new[columns[11]] * 1000.0,
-       res_results_so_new[columns[12]] * 1000.0,
-       res_results_so_new[columns[13]] * 1000.0,
-       res_results_so_new[columns[14]] * 1000.0,
-       res_results_so_new[columns[15]] * 1000.0
-       ]
+  res_results_no_new[columns[0]] / cfs_tafd,
+  res_results_no_new[columns[1]] / cfs_tafd,
+  res_results_no_new[columns[2]],
+  res_results_no_new[columns[3]] / cfs_tafd,
+  res_results_no_new[columns[4]],
+  res_results_no_new[columns[5]] / cfs_tafd,
+  res_results_no_new[columns[6]],
+  res_results_no_new[columns[7]] / cfs_tafd,
+  res_results_no_new[columns[8]],
+  res_results_no_new[columns[9]],
+  res_results_no_new[columns[10]],
+  res_results_no_new[columns[11]],
+  res_results_so_new[columns[12]],
+  res_results_so_new[columns[13]],
+  res_results_so_new[columns[14]],
+  res_results_so_new[columns[15]],
+  res_results_so_new[columns[16]],
+  res_results_so_new[columns[17]],
+  res_results_so_new[columns[18]]
+]
 
 obs = [
-       observations['HRO_pump'],
-       observations['TRP_pump'],
-       observations['SHA_storage'],
-       observations['SHA_otf'],
-       observations['FOL_storage'],
-       observations['FOL_otf'],
-       observations['ORO_storage'],
-       observations['ORO_otf'],
-       observations['YRS_storage'],
-       observations['NML_storage'],
-       observations['DNP_storage'],
-       observations['EXC_storage'],
-       observations['ISB_storage'],
-       observations['MIL_storage'],
-       observations['SLF_storage'],
-       observations['SLS_storage'],
-       ]
+  observations['HRO_pump'],
+  observations['TRP_pump'],
+  observations['SHA_storage'] / 1e3,
+  observations['SHA_otf'],
+  observations['FOL_storage'] / 1e3,
+  observations['FOL_otf'],
+  observations['ORO_storage'] / 1e3,
+  observations['ORO_otf'],
+  observations['YRS_storage'] / 1e3,
+  observations['NML_storage'] / 1e3,
+  observations['DNP_storage'] / 1e3,
+  observations['EXC_storage'] / 1e3,
+  observations['ISB_storage'] / 1e3,
+  observations['MIL_storage'] / 1e3,
+  observations['PFT_storage'] / 1e3,
+  observations['KWH_storage'] / 1e3,
+  observations['SUC_storage'] / 1e3,
+  observations['SLF_storage'] / 1e3,
+  observations['SLS_storage'] / 1e3,
+]
 
 
 if validation_plots:
-       if plot_number > 0:
-              for s_old, s_new, o, name in zip([sim_old[plot_number]], [sim_new[plot_number]], [obs[plot_number]], [columns[plot_number]]):
-                     plotter.compare_validation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level')
-                     plt.savefig('cord/figs/validation_%s.png' % (name), dpi=150)
+  if plot_number > 0:
+    for s_old, s_new, o, name in zip([sim_old[plot_number]], [sim_new[plot_number]], [obs[plot_number]], [columns[plot_number]]):
+      plotter.compare_validation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level', old_new)
+      plt.savefig('cord/figs/validation_%s.png' % (name), dpi=150)
 
-       else:
-              for s_old, s_new, o, name in zip(sim_old,sim_new,obs, columns):
-                     plotter.compare_validation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level')
-                     plt.savefig('cord/figs/validation_%s.png' % (name), dpi=150)
+  else:
+    for s_old, s_new, o, name in zip(sim_old,sim_new,obs, columns):
+      plotter.compare_validation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level', old_new)
+      plt.savefig('cord/figs/validation_%s.png' % (name), dpi=150)
 else:
-       if plot_number > 0:
-              for s_old, s_new, o, name in zip([sim_old[plot_number]], [sim_new[plot_number]], [obs[plot_number]], [columns[plot_number]]):
-                     plotter.compare_simulation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level')
-                     plt.savefig('cord/figs/simulation_%s.png' % (name), dpi=150)
+  if plot_number > 0:
+    for s_old, s_new, o, name in zip([sim_old[plot_number]], [sim_new[plot_number]], [obs[plot_number]], [columns[plot_number]]):
+      plotter.compare_simulation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level', old_new)
+      plt.savefig('cord/figs/simulation_%s.png' % (name), dpi=150)
 
-       else:
-              for s_old, s_new, o, name in zip(sim_old, sim_new, obs, columns):
-                     plotter.compare_simulation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level')
-                     plt.savefig('cord/figs/simulation_%s.png' % (name), dpi=150)
+  else:
+    for s_old, s_new, o, name in zip(sim_old, sim_new, obs, columns):
+      plotter.compare_simulation(s_old, s_new, o, name, 'D', 'AS-OCT', 'level', old_new)
+      plt.savefig('cord/figs/simulation_%s.png' % (name), dpi=150)
 
 #
 # # results = pd.read_csv('cord/data/reservoir_results_so.csv', index_col=0, parse_dates=True)
