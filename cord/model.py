@@ -1455,8 +1455,9 @@ class Model():
     for w in self.leiu_list:
       for member in w.participant_list:
         num_districts = len(self.get_iterable(self.district_keys[member]))
-        for irr_district in self.get_iterable(self.district_keys[member]):
-          irr_district.max_recovery += w.leiu_ownership[member]*w.leiu_recovery/num_districts
+        if member != w.key:
+          for irr_district in self.get_iterable(self.district_keys[member]):
+            irr_district.max_recovery += w.leiu_ownership[member]*w.leiu_recovery/num_districts
       
   def project_urban(self, datafile, datafile_cvp, SRI_forecast):
     #########################################################################################
@@ -2989,7 +2990,7 @@ class Model():
      		
       if next_month_storage < 0.0 and cross_counter_y == 0:
         tax_free_toggle_override = 1
-      if m == 7 or m == 8:
+      if m == 7 or m == 8 or m == 9:
         tax_free_toggle_override = 1
       if month_evaluate == 9:
         if m < 4 or m > 9 or key == 'cvp':
@@ -3483,8 +3484,9 @@ class Model():
     #initialize individual banking partner's recovery capacity
     for w in self.leiu_list:
       for member in w.participant_list:
-        for irr_district in self.get_iterable(self.district_keys[member]):
-          irr_district.extra_leiu_recovery = 0.0
+        if member != w.key:
+          for irr_district in self.get_iterable(self.district_keys[member]):
+            irr_district.extra_leiu_recovery = 0.0
     #find individual banking partner's (district') recovery capacity based on their total 
 	#supply in reservoirs accessable by their partners
     for w in self.leiu_list:
@@ -4278,26 +4280,27 @@ class Model():
         if isinstance(x,District):
           if x.in_leiu_banking:
             for xx in x.participant_list:
-              num_members = len(self.get_iterable(self.district_keys[xx]))
-              for wb_member in self.get_iterable(self.district_keys[xx]):
-                #find waterbank partner demand (i.e., recovery capacity of their ownership share)                 
-                demand_constraint, demand_constraint_by_contracts = x.find_leiu_output(contract_list, x.leiu_ownership[xx], xx, wateryear)
-                #does this partner want recovery water?
-                deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, x.inleiubanked[xx], x.inleiucap[xx], dowy, wateryear)
-                #what is their priority over the water/canal space?
-                priority_bank_space = x.find_leiu_priority_space(demand_constraint, num_members, xx, 0, search_type)
+              if xx != x.key:
+                num_members = len(self.get_iterable(self.district_keys[xx]))
+                for wb_member in self.get_iterable(self.district_keys[xx]):
+                  #find waterbank partner demand (i.e., recovery capacity of their ownership share)                 
+                  demand_constraint, demand_constraint_by_contracts = x.find_leiu_output(contract_list, x.leiu_ownership[xx], xx, wateryear)
+                  #does this partner want recovery water?
+                  deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, x.inleiubanked[xx], x.inleiucap[xx], dowy, wateryear)
+                  #what is their priority over the water/canal space?
+                  priority_bank_space = x.find_leiu_priority_space(demand_constraint, num_members, xx, 0, search_type)
 			  
-                priorities = x.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A")
-                #need to adjust the water request to account for the banking partner share of the turnout
-                for zz in type_list:
-                #paper trade recovery is equal to 
-                  paper_amount = priorities[zz]
-                  direct_amount = 0.0
-                  contract_frac_list = np.zeros(len(x.contract_list))
+                  priorities = x.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A")
+                  #need to adjust the water request to account for the banking partner share of the turnout
+                  for zz in type_list:
+                  #paper trade recovery is equal to 
+                    paper_amount = priorities[zz]
+                    direct_amount = 0.0
+                    contract_frac_list = np.zeros(len(x.contract_list))
 				  
-                  wb_member.get_paper_exchange(paper_amount, x.contract_list, demand_constraint_by_contracts, wateryear)
-                  x.adjust_exchange(paper_amount, xx, wateryear)
-                  x.give_paper_exchange(paper_amount, x.contract_list, demand_constraint_by_contracts, wateryear, x.key)
+                    wb_member.get_paper_exchange(paper_amount, x.contract_list, demand_constraint_by_contracts, wateryear)
+                    x.adjust_exchange(paper_amount, xx, wateryear)
+                    x.give_paper_exchange(paper_amount, x.contract_list, demand_constraint_by_contracts, wateryear, x.key)
 
           #for non-bank district nodes, they can accept recovery water.  we want to find how much water they can accept (based on their ability to make paper trades using the contracts in contract_list, then determine how much of the recovery water up-canal, can be delivered here as a 'paper' trade, and then how much additional water can be delivered here 'directly' (i.e., the pumping out of the water bank is going to the district that owns capacity in the water bank, so no paper trades needed - this is useful if there is no surface water storage, but a district still wants water from its water bank (and can get that water directly, from the run of the canal)
           total_district_demand = x.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge)
@@ -4443,52 +4446,53 @@ class Model():
         if recovery_source.in_leiu_banking:
           for xx in recovery_source.participant_list:
             num_members = len(self.get_iterable(self.district_keys[xx]))
-            for wb_member in self.get_iterable(self.district_keys[xx]):
-              #find waterbank partner demand (i.e., recovery capacity of their ownership share)
-              demand_constraint = recovery_source.find_node_output()
-              #does this partner want recovery water?
-              deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, recovery_source.inleiubanked[xx], recovery_source.inleiucap[xx], dowy, wateryear)
-              #what is their priority over the water/canal space?
-              priority_bank_space = recovery_source.find_leiu_priority_space(demand_constraint, num_members, xx, 0, search_type)
+            if xx != recovery_source.key:
+              for wb_member in self.get_iterable(self.district_keys[xx]):
+                #find waterbank partner demand (i.e., recovery capacity of their ownership share)
+                demand_constraint = recovery_source.find_node_output()
+                #does this partner want recovery water?
+                deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, recovery_source.inleiubanked[xx], recovery_source.inleiucap[xx], dowy, wateryear)
+                #what is their priority over the water/canal space?
+                priority_bank_space = recovery_source.find_leiu_priority_space(demand_constraint, num_members, xx, 0, search_type)
 			  
-              priorities = recovery_source.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A")
-              priority_turnout_adjusted = {}
-              #need to adjust the water request to account for the banking partner share of the turnout
-              for zz in type_list:
-                priority_turnout_adjusted[zz] = priorities[zz]*canal.turnout_frac[zz][lookback_loc]
-              for zz in type_list:
-                #paper trade recovery is equal to 
-                paper_amount = priority_turnout_adjusted[zz]*min(paper_fractions[zz], canal.recovery_flow_frac[zz][lookback_loc])
-                direct_amount = min(direct_recovery, priority_turnout_adjusted[zz]*canal.recovery_flow_frac[zz][lookback_loc] - paper_amount)
-                recovery_source.adjust_recovery(paper_amount, xx, wateryear)
-                location_pumpout += paper_amount
-                actual_delivery = 0.0
-                if delivery_loc_name == wb_member.key:
-                  demand_constraint = recovery_source.find_node_output()
-                  max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.inleiubanked[xx]/num_members)
-                  actual_delivery = wb_member.direct_delivery_bank(max_direct_recovery, wateryear)
-                  direct_recovery -= actual_delivery
-                  recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
-                  location_pumpout += actual_delivery
-                elif isinstance(wb_member, Private):
-                  counter_toggle = 0
-                  for district_pump in wb_member.district_list:
-                    if delivery_loc_name == district_pump:
-                      demand_constraint = recovery_source.find_node_output()
-                      max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.inleiubanked[xx]/num_members)
-                      actual_delivery = wb_member.direct_delivery_bank(max_direct_recovery, wateryear, district_pump)
-                      direct_recovery -= actual_delivery
-                      recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
-                      location_pumpout += actual_delivery
-                      counter_toggle = 1
-                    if counter_toggle == 0:
-                      wb_member.get_paper_trade(paper_amount, contract_list, wateryear)
-                      total_paper += paper_amount
-                else:
-                  wb_member.get_paper_trade(paper_amount, contract_list, wateryear)
-                  total_paper += paper_amount
+                priorities = recovery_source.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A")
+                priority_turnout_adjusted = {}
+                #need to adjust the water request to account for the banking partner share of the turnout
+                for zz in type_list:
+                  priority_turnout_adjusted[zz] = priorities[zz]*canal.turnout_frac[zz][lookback_loc]
+                for zz in type_list:
+                  #paper trade recovery is equal to 
+                  paper_amount = priority_turnout_adjusted[zz]*min(paper_fractions[zz], canal.recovery_flow_frac[zz][lookback_loc])
+                  direct_amount = min(direct_recovery, priority_turnout_adjusted[zz]*canal.recovery_flow_frac[zz][lookback_loc] - paper_amount)
+                  recovery_source.adjust_recovery(paper_amount, xx, wateryear)
+                  location_pumpout += paper_amount
+                  actual_delivery = 0.0
+                  if delivery_loc_name == wb_member.key:
+                    demand_constraint = recovery_source.find_node_output()
+                    max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.inleiubanked[xx]/num_members)
+                    actual_delivery = wb_member.direct_delivery_bank(max_direct_recovery, wateryear)
+                    direct_recovery -= actual_delivery
+                    recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
+                    location_pumpout += actual_delivery
+                  elif isinstance(wb_member, Private):
+                    counter_toggle = 0
+                    for district_pump in wb_member.district_list:
+                      if delivery_loc_name == district_pump:
+                        demand_constraint = recovery_source.find_node_output()
+                        max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.inleiubanked[xx]/num_members)
+                        actual_delivery = wb_member.direct_delivery_bank(max_direct_recovery, wateryear, district_pump)
+                        direct_recovery -= actual_delivery
+                        recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
+                        location_pumpout += actual_delivery
+                        counter_toggle = 1
+                      if counter_toggle == 0:
+                        wb_member.get_paper_trade(paper_amount, contract_list, wateryear)
+                        total_paper += paper_amount
+                  else:
+                    wb_member.get_paper_trade(paper_amount, contract_list, wateryear)
+                    total_paper += paper_amount
 
-              #if recovery_source.key == "ARV" or recovery_source.key == "SMI":
+              #if recovery_source.key == "ARV":
                 #print(wateryear, end = " ")
                 #print(xx, end = " ")
                 #print(search_type, end = " ")
@@ -4864,8 +4868,6 @@ class Model():
       self.rosedale.in_district_direct_recharge = 606.1
       self.rosedale.in_district_storage = 1.2
 
-      #self.buenavista.in_district_direct_recharge = 330.0
-      #self.buenavista.in_district_storage = 0.6534
 	  
       self.find_all_triggers()
 	  
