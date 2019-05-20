@@ -102,6 +102,7 @@ class District():
     for x in self.contract_list_all:
       self.daily_supplies_full[x + '_delivery'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_flood'] = np.zeros(self.T)
+      self.daily_supplies_full[x + '_flood_irrigation'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_recharged'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_projected'] = np.zeros(self.T)
       self.daily_supplies_full[x + '_paper'] = np.zeros(self.T)
@@ -1094,6 +1095,7 @@ class District():
     for x in self.contract_list_all:
       self.daily_supplies_full[x + '_delivery'][t] = self.deliveries[x][wateryear]
       self.daily_supplies_full[x + '_flood'][t] = self.deliveries[x + '_flood'][wateryear]
+      self.daily_supplies_full[x + '_flood_irrigation'][t] = self.deliveries[x + '_flood_irrigation'][wateryear]
       self.daily_supplies_full[x + '_recharged'][t] = self.deliveries[x + '_recharged'][wateryear]
       self.daily_supplies_full[x + '_projected'][t] = self.projected_supply[x]
       self.daily_supplies_full[x + '_paper'][t] = self.paper_balance[x]
