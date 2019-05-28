@@ -1,10 +1,19 @@
 {
-  "contract_list": ["friant1", "friant2"],
-  "turnout_list": ["fkc"],
-  "in_leiu_banking": false,
-  "leiu_recovery": 0.0,
-  "in_district_direct_recharge": 40.0,
-  "in_district_storage": 0.10,
+  "contract_list": ["friant1", "friant2", "cvc", "tule"],
+  "turnout_list": ["fkc", "tlr"],
+  "in_leiu_banking": true,
+  "participant_list": ["LWT","ARV"],  
+  "leiu_ownership": {
+    "LWT": 0.8824,
+	"ARV": 0.1176
+	},
+  "inleiucap": {
+    "LWT": 99999.9,
+	"ARV": 100.0
+	},
+  "leiu_recovery": 0.411,
+  "in_district_direct_recharge": 850.0,
+  "in_district_storage": 1.7,
   "loss_rate": 0.1,
   "recovery_fraction": 0.85,
   "surface_water_sa" : 1.0,
@@ -16,9 +25,9 @@
   "project_contract": {
     "tableA": 0.0,
     "cvpdelta": 0.0,
-    "friant1": 0.136,
-    "friant2": 0.053158,
-    "cvc": 0.0,
+    "friant1": 0.0765,
+    "friant2": 0.169878,
+    "cvc": 0.2424162,
     "exchange": 0.0,
     "hidden": 0.0,
     "buchannon": 0.0,
@@ -62,13 +71,13 @@
       "fraction": [1.0, 1.0]
     },
     "tule": {
-      "capacity": 0.0,
+      "capacity": 0.5,
       "carryover": 0.0,
       "numrights": 1,
       "d": [0, 366],
-      "start": [9999999, 9999999],
-      "volume": [0, 0],
-      "fraction": [0.0, 0.0]
+      "start": [0, 0],
+      "volume": [9999999, 9999999],
+      "fraction": [0.5, 0.5]
     },
     "kern": {
       "capacity": 0.0,
@@ -81,19 +90,20 @@
     }
   },
   "service": {
-    "storage": 0.0226,
-    "unlined": 0.0,
-    "recharge": 0.0
+    "storage": 12.445,
+    "unlined": 163.0,
+    "recharge": 3.7
   },
-  "crop_list": ["grape", "almond", "pistachio", "citrus", "apple", "deciduous_misc", "field_misc", "idle"],
+  "crop_list": ["corn", "alfalfa", "grain", "cotton", "almond", "walnut", "pistachio", "grape", "deciduous_misc", "field_misc", "idle"],
   "zone": "zone15",
   "acreage":{
-    "W": [25.792, 11.994, 6.703, 2.141, 1.578, 0.427, 0.380, 6.518],
-    "AN": [25.792, 11.994, 6.703, 2.141, 1.578, 0.427, 0.380, 6.518],
-    "BN": [25.792, 11.994, 6.703, 2.141, 1.578, 0.427, 0.380, 6.518],
-    "D": [25.792, 11.994, 6.703, 2.141, 1.578, 0.427, 0.380, 6.518],
-    "C": [25.792, 11.994, 6.703, 2.141, 1.578, 0.427, 0.380, 6.518]
+    "W": [53.502, 20.556, 18.509, 4.853, 3.106, 3.088, 2.064, 2.025, 1.447, 2.788, 0.0],
+    "AN": [53.502, 20.556, 18.509, 4.853, 3.106, 3.088, 2.064, 2.025, 1.447, 2.788, 0.0],
+    "BN": [53.502, 20.556, 18.509, 4.853, 3.106, 3.088, 2.064, 2.025, 1.447, 2.788, 0.0],
+    "D": [53.502, 20.556, 18.509, 4.853, 3.106, 3.088, 2.064, 2.025, 1.447, 2.788, 0.0],
+    "C": [53.502, 20.556, 18.509, 4.853, 3.106, 3.088, 2.064, 2.025, 1.447, 2.788, 0.0]
   },
   "MDD": 0.0,
   "urban_profile":[0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333]
 }
+
