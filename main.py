@@ -23,7 +23,7 @@ from datetime import datetime
 
 
 # model_mode = 'simulation'
-model_mode = 'simulation'
+model_mode = 'validation'
 # model_mode = 'forecast'
 
 startTime = datetime.now()

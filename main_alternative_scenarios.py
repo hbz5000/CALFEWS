@@ -36,29 +36,29 @@ scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
 scenario1['LWT'] = 'baseline'
 scenarios.append(scenario1)
 
-scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_ARV_0'
-scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_0.json'
-scenarios.append(scenario1)
+# scenario1 = {}
+# scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_ARV_0'
+# scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+# scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_0.json'
+# scenarios.append(scenario1)
+#
+# scenario1 = {}
+# scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank_ARV_0'
+# scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+# scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_0.json'
+# scenarios.append(scenario1)
 
-scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank_ARV_0'
-scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_0.json'
-scenarios.append(scenario1)
-
-scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_ARV_withRecharge_100'
-scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_withRecharge_100.json'
-scenarios.append(scenario1)
-
-scenario1 = {}
-scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank_withRecharge_100'
-scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
-scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_withRecharge_100.json'
-scenarios.append(scenario1)
+# scenario1 = {}
+# scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_ARV_withRecharge_100'
+# scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+# scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_withRecharge_100.json'
+# scenarios.append(scenario1)
+#
+# scenario1 = {}
+# scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank_withRecharge_100'
+# scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+# scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_withRecharge_100.json'
+# scenarios.append(scenario1)
 
 # scenario1 = {}
 # scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_ARV_025'
@@ -66,17 +66,17 @@ scenarios.append(scenario1)
 # scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_ARV_025.json'
 # scenarios.append(scenario1)
 
-# scenario1 = {}
-# scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_DLEKRTSSJSFW_0'
-# scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
-# scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json'
-# scenarios.append(scenario1)
-#
-# scenario1 = {}
-# scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank_DLEKRTSSJSFW_0'
-# scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
-# scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json'
-# scenarios.append(scenario1)
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_DLESSJSFW_0'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_wy2017.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLESSJSFW_0.json'
+scenarios.append(scenario1)
+
+scenario1 = {}
+scenario1['results_folder'] = 'cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank_DLESSJSFW_0'
+scenario1['FKC'] = 'cord/scenarios/FKC_properties__capacity_rehab_full.json'
+scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLESSJSFW_0.json'
+scenarios.append(scenario1)
 
 # scenario1 = {}
 # scenario1['results_folder'] = 'cord/data/results/FKC_capacity_wy2017__LWT_inleiubank_DLEKRTSSJSFW_0125'
@@ -90,7 +90,7 @@ scenarios.append(scenario1)
 # scenario1['LWT'] = 'cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0125.json'
 # scenarios.append(scenario1)
 
-for i in [4,5]:
+for i in [0,1]:
   # try:
     scenario = scenarios[i]
     results_folder = scenarios[i]['results_folder']
