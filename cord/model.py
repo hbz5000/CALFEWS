@@ -19,10 +19,11 @@ from .util import *
 
 class Model():
 
-  def __init__(self, input_data_file, expected_release_datafile, sd, model_mode):
+  def __init__(self, input_data_file, expected_release_datafile, sd, model_mode, demand_type):
     ##Set model dataset & index length
     self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
     self.model_mode = model_mode
+    self.demand_type = demand_type
     self.index = self.df.index
     self.T = len(self.df)
     self.day_year = self.index.dayofyear
@@ -151,6 +152,7 @@ class Model():
     # self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
     self.create_object_associations()
     print('Create Object Associations, time ', datetime.now() - startTime)
+	
     ###Applies initial carryover balances to districts
     ##based on initial reservoir storage conditions
     ##PLEASE NOTE CARRYOVER STORAGE IN SAN LUIS IS HARD-CODED
@@ -528,6 +530,9 @@ class Model():
     self.tularelake = District(self.df, 'TLB')
     self.kaweahdelta = District(self.df, 'KWD')
     self.westlands = District(self.df, 'WSL')
+    self.sanluiswater = District(self.df, 'SNL')
+    self.panoche = District(self.df, 'PNC')
+    self.delpuerto = District(self.df, 'DLP')
     self.chowchilla = District(self.df, 'CWC')
     self.maderairr = District(self.df, 'MAD')
     self.othertule = District(self.df, 'OTL')
@@ -549,7 +554,7 @@ class Model():
     self.coachella = Private(self.df, 'CCH', 1.0)
 	
 	##List of all intialized districts for looping
-    self.district_list = [self.berrenda, self.belridge, self.buenavista, self.cawelo, self.henrymiller, self.ID4, self.kerndelta, self.losthills, self.rosedale, self.semitropic, self.tehachapi, self.tejon, self.westkern, self.wheeler, self.kcwa, self.bakersfield, self.northkern, self.arvin, self.delano, self.pixley, self.exeter, self.kerntulare, self.lindmore, self.lindsay, self.lowertule, self.porterville, self.saucelito, self.shaffer, self.sosanjoaquin, self.teapot, self.terra, self.tulare, self.fresno, self.fresnoid, self.socal, self.southbay, self.centralcoast, self.dudleyridge, self.tularelake, self.westlands, self.chowchilla, self.maderairr, self.othertule, self.otherkaweah, self.otherfriant, self.othercvp, self.otherexchange, self.othercrossvalley, self.otherswp, self.consolidated, self.alta, self.krwa, self.kaweahdelta]
+    self.district_list = [self.berrenda, self.belridge, self.buenavista, self.cawelo, self.henrymiller, self.ID4, self.kerndelta, self.losthills, self.rosedale, self.semitropic, self.tehachapi, self.tejon, self.westkern, self.wheeler, self.kcwa, self.bakersfield, self.northkern, self.arvin, self.delano, self.pixley, self.exeter, self.kerntulare, self.lindmore, self.lindsay, self.lowertule, self.porterville, self.saucelito, self.shaffer, self.sosanjoaquin, self.teapot, self.terra, self.tulare, self.fresno, self.fresnoid, self.socal, self.southbay, self.centralcoast, self.dudleyridge, self.tularelake, self.westlands, self.chowchilla, self.maderairr, self.othertule, self.otherkaweah, self.otherfriant, self.othercvp, self.otherexchange, self.othercrossvalley, self.otherswp, self.consolidated, self.alta, self.krwa, self.kaweahdelta, self.sanluiswater, self.panoche, self.delpuerto]
     #list of all california aqueduct branch urban users (their demands are generated from pumping data - different than other district objects)
     self.urban_list = [self.socal, self.centralcoast, self.southbay]
     self.private_list = [self.wonderful, ]
@@ -564,9 +569,15 @@ class Model():
     for city_included in self.city_list:
       self.district_keys[city_included.key] = city_included
     
+    if self.demand_type == 'pesticide':
+      self.load_pesticide_acreage()
+    elif self.demand_type == 'pmp':
+      self.load_pmp_model()
+    
     self.allocate_private_contracts()
+	
     for x in self.district_list:
-      x.find_baseline_demands()
+      x.find_baseline_demands(0)
     for x in self.private_list:
       x.find_baseline_demands()
       x.turnout_list = {}
@@ -613,9 +624,16 @@ class Model():
       for y in x.contract_list:
         contract_object = self.contract_keys[y]
         if contract_object.type == "contract":
-          x.contract_carryover_list[y] = contract_object.carryover*x.project_contract[y]*(1.0-x.private_fraction)
+          if x.has_pesticide:
+            x.contract_carryover_list[y] = contract_object.carryover*x.project_contract[y]*(1.0-x.private_fraction[0])
+          else:
+            x.contract_carryover_list[y] = contract_object.carryover*x.project_contract[y]*(1.0-x.private_fraction)
+
         elif contract_object.type == "right":
-          x.contract_carryover_list[y] = contract_object.carryover*x.rights[y]['carryover']*(1.0-x.private_fraction)
+          if x.has_pesticide:
+            x.contract_carryover_list[y] = contract_object.carryover*x.rights[y]['carryover']*(1.0-x.private_fraction[0])
+          else:
+            x.contract_carryover_list[y] = contract_object.carryover*x.rights[y]['carryover']*(1.0-x.private_fraction)
         if y == "tableA":
           x.initial_table_a = x.project_contract[y]
     for x in self.private_list:
@@ -630,9 +648,10 @@ class Model():
         for yy in district_object.contract_list:
           contract_object = self.contract_keys[yy]
           if contract_object.type == "contract":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.project_contract[y]*x.private_fraction[xx]
+            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.project_contract[y]*x.private_fraction[xx][0]
+
           elif contract_object.type == "right":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx]
+            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx][0]
     for x in self.city_list:
       x.contract_list = []
       for xx in x.district_list:
@@ -645,9 +664,9 @@ class Model():
         for yy in district_object.contract_list:
           contract_object = self.contract_keys[yy]
           if contract_object.type == "contract":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.project_contract[y]*x.private_fraction[xx]
+            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.project_contract[y]*x.private_fraction[xx][0]
           elif contract_object.type == "right":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx]
+            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx][0]
 
 			
     ###Find Risk in Contract Delivery
@@ -730,7 +749,7 @@ class Model():
     self.canal_district = {}
     self.canal_district['fkc'] = [self.millerton, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherfriant, self.tulare, self.kaweahdelta, self.otherkaweah, self.kaweahriverchannel, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.teapot, self.saucelito, self.terra, self.othercrossvalley, self.pixley, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
     self.canal_district['mdc'] = [self.millerton, self.maderairr, self.chowchilla]
-    self.canal_district['caa'] = [self.sanluis, self.southbay, self.otherswp, self.othercvp, self.otherexchange, self.westlands, self.centralcoast, self.tularelake, self.dudleyridge, self.losthills, self.berrenda, self.belridge, self.semitropic, self.buenavista, self.wkwb, self.xvc, self.kwbcanal, self.kernriverchannel, self.henrymiller, self.wheeler, self.aecanal, self.tejon, self.tehachapi, self.socal]
+    self.canal_district['caa'] = [self.sanluis, self.southbay, self.sanluiswater, self.panoche, self.delpuerto, self.otherswp, self.othercvp, self.otherexchange, self.westlands, self.centralcoast, self.tularelake, self.dudleyridge, self.losthills, self.berrenda, self.belridge, self.semitropic, self.buenavista, self.wkwb, self.xvc, self.kwbcanal, self.kernriverchannel, self.henrymiller, self.wheeler, self.aecanal, self.tejon, self.tehachapi, self.socal]
     self.canal_district['xvc'] = [self.calaqueduct, self.buenavista, self.kwb, self.irvineranch, self.pioneer, self.b2800, self.berrendawb, self.rosedale, self.kernriverchannel, self.fkc, self.aecanal, self.beardsley]
     self.canal_district['kbc'] = [self.calaqueduct, self.kwb, self.kerncanal]
     self.canal_district['aec'] = [self.fkc, self.xvc, self.kernriverchannel, self.arvin, self.calaqueduct]
@@ -824,7 +843,11 @@ class Model():
       x.carryover_rights = {}
       for y in self.contract_list:
         if y.type == 'right':
-          x.carryover_rights[y.name] = y.carryover*x.rights[y.name]['carryover']
+          if x.has_pesticide:
+            x.carryover_rights[y.name] = y.carryover*x.rights[y.name]['carryover']*(1.0-x.private_fraction[0])
+          else:
+            x.carryover_rights[y.name] = y.carryover*x.rights[y.name]['carryover']*(1.0-x.private_fraction)
+
         else:
           x.carryover_rights[y.name] = 0.0
     for x in self.private_list:
@@ -834,7 +857,7 @@ class Model():
         x.carryover_rights[xx] = {}
         for y in self.contract_list:
           if y.type == 'right':
-            x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx]
+            x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx][0]
           else:
             x.carryover_rights[xx][y.name] = 0.0
     for x in self.city_list:
@@ -844,7 +867,7 @@ class Model():
         x.carryover_rights[xx] = {}
         for y in self.contract_list:
           if y.type == 'right':
-            x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx]
+            x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx][0]
           else:
             x.carryover_rights[xx][y.name] = 0.0
 		  
@@ -1326,60 +1349,143 @@ class Model():
   def allocate_private_contracts(self):
     crop_life = 25
     for district in self.district_list:
-      district.private_fraction = 0.0
       district.private_acreage = {}
-      for crops in district.crop_list:
-        district.private_acreage[crops] = 0.0
+      if district.has_pesticide:
+        district.private_fraction = np.zeros(self.number_years)
+        for crops in district.acreage_by_year:
+          district.private_acreage[crops] = np.zeros(self.number_years)
+      elif district.has_pmp:
+        for crops in district.pmp_acreage:
+          district.private_acreage[crops] = 0.0
+      else:
+        district.private_fraction = 0.0
+        for crops in district.crop_list:
+          district.private_acreage[crops] = 0.0
     for x in self.private_list:
       x.acreage = {}
       x.contract_fraction = {}
       x.private_fraction = {}
       x.contract_list = []
       x.initial_planting = {}
-      x.total_acreage = 0.0
       for land_keys in x.district_list:
-        x.private_fraction[land_keys] = 0.0
+        district_land = self.district_keys[land_keys]
+        if district_land.has_pesticide:
+          x.has_pesticide = True
+        elif district_land.has_pmp:
+          x.has_pmp = True
+      for land_keys in x.district_list:
         x.acreage[land_keys] = {}
         x.initial_planting[land_keys] = {}
+        for crops in x.crop_list:
+          if x.has_pesticide:
+            x.initial_planting[land_keys][crops] = np.zeros(self.number_years)
+          else:
+            x.initial_planting[land_keys][crops] = 0.0
         for private_crop_types in x.crop_list:
           x.acreage[land_keys][private_crop_types] = np.zeros(crop_life)
+		  
         district_land = self.district_keys[land_keys]
         for contract in district_land.contract_list:
           if contract not in x.contract_list:
             x.contract_list.append(contract)
-        total_acres = 0.0
-        district_acres = 0.0
-        private_acres = 0.0
-        for i,crops in enumerate(district_land.crop_list):
-          counter = 0
-          for private_crops in x.crop_list:
-            if private_crops == crops:
-              counter = 1
-              total_acres += district_land.acreage['BN'][i]
-              private_acres += x.contract_fractions[land_keys]*district_land.acreage['BN'][i]
-              x.initial_planting[land_keys][private_crops] = x.contract_fractions[land_keys]*district_land.acreage['BN'][i]/float(crop_life)
-              district_land.private_acreage[private_crops] += x.contract_fractions[land_keys]*district_land.acreage['BN'][i]
-              for crop_year in range(0,crop_life):
-                x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops]
-                x.total_acreage += x.acreage[land_keys][private_crops][crop_year]
-                
-              district_acres += (1.0 - x.contract_fractions[land_keys])*district_land.acreage['BN'][i]
-          if counter == 0 and crops != 'idle':
-            total_acres += district_land.acreage['BN'][i]
-            district_acres += district_land.acreage['BN'][i]
+			
+        if district_land.has_pesticide:
+          x.private_fraction[land_keys] = np.zeros(self.number_years)
+          total_acres = np.zeros(self.number_years)
+          private_acres = np.zeros(self.number_years)
+        else:
+          x.private_fraction[land_keys] = np.zeros(self.number_years)
+          total_acres = 0.0
+          private_acres = 0.0
+        if district_land.has_pesticide:
+          for crops in district_land.acreage_by_year:
+            for private_crops in x.crop_list:
+              if private_crops == crops:
+                for future_year in range(0, self.number_years):
+                  private_acres[future_year] += x.contract_fractions[land_keys]*district_land.acreage_by_year[crops][future_year]
+                  district_land.private_acreage[private_crops][future_year] += x.contract_fractions[land_keys]*district_land.acreage_by_year[crops][future_year]
+                  if future_year == 0:
+                    x.initial_planting[land_keys][private_crops][future_year] = x.contract_fractions[land_keys]*district_land.acreage_by_year[crops][future_year]/float(crop_life)
+                  else:
+                    x.initial_planting[land_keys][private_crops][future_year] = x.initial_planting[land_keys][private_crops][future_year-1] + max(x.contract_fractions[land_keys]*(district_land.acreage_by_year[crops][future_year] - district_land.acreage_by_year[crops][future_year-1]),0.0)
+					
+                for crop_year in range(0,crop_life):
+                  if x.has_pesticide:
+                    x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops][0]
+                  else:
+                    x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops]
+					
+            if crops != 'idle':
+              for future_year in range(0, self.number_years):
+                total_acres[future_year] += district_land.acreage_by_year[crops][future_year]
 
-        x.private_fraction[land_keys] += private_acres/total_acres
-        district_land.private_fraction += private_acres/total_acres
-        if district_land.private_fraction > 1.0:
-          print("You have overallocated private lands in " + district_land.key)
-		  
+        elif district_land.has_pmp:
+          for crops in district_land.pmp_acreage:
+            for private_crops in x.crop_list:
+              if private_crops == crops:
+                private_acres += x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]
+                district_land.private_acreage[private_crops] += x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]
+                if x.has_pesticide:
+                  for future_year in range(0, self.number_years):
+                    x.initial_planting[land_keys][private_crops][future_year] = x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]/float(crop_life)
+                else:
+                  x.initial_planting[land_keys][private_crops] = x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]/float(crop_life)
+
+                for crop_year in range(0,crop_life):
+                  if x.has_pesticide:
+                    x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops][0]
+                  else:
+                    x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops]
+
+            if crops != 'idle':
+              total_acres += district_land.pmp_acreage[crops]
+
+				
+        else:
+          for i,crops in enumerate(district_land.crop_list):
+            for private_crops in x.crop_list:
+              if private_crops == crops:
+                private_acres += x.contract_fractions[land_keys]*district_land.acreage['BN'][i]
+                district_land.private_acreage[private_crops] += x.contract_fractions[land_keys]*district_land.acreage['BN'][i]
+                if x.has_pesticide:
+                  for future_year in range(0, self.number_years):
+                    x.initial_planting[land_keys][private_crops][future_year] = x.contract_fractions[land_keys]*district_land.acreage['BN'][i]/float(crop_life)
+                else:
+                  x.initial_planting[land_keys][private_crops] = x.contract_fractions[land_keys]*district_land.acreage['BN'][i]/float(crop_life)
+
+                for crop_year in range(0,crop_life):
+                  if x.has_pesticide:
+                    x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops][0]
+                  else:
+                    x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops]
+				
+                
+            if crops != 'idle':
+              total_acres += district_land.acreage['BN'][i]
+
+        if district_land.has_pesticide:
+          for future_year in range(0, self.number_years):
+            x.private_fraction[land_keys][future_year] += private_acres[future_year]/total_acres[future_year]
+            district_land.private_fraction[future_year] += private_acres[future_year]/total_acres[future_year]
+            if district_land.private_fraction[future_year] > 1.0:
+              print("You have overallocated private lands in " + district_land.key)
+        else:
+          for future_year in range(0, self.number_years):
+            x.private_fraction[land_keys][future_year] += private_acres/total_acres
+          district_land.private_fraction += private_acres/total_acres
+          if district_land.private_fraction > 1.0:
+            print("You have overallocated private lands in " + district_land.key)
+
+
     for x in self.city_list:
       x.contract_fraction = {}
       x.private_fraction = {}
       x.contract_list = []
       for pump_keys in x.district_list:
         pump = self.district_keys[pump_keys]
-        x.private_fraction[pump_keys] = x.pump_out_fraction[pump_keys]
+        x.private_fraction[pump_keys] = np.zeros(self.number_years)
+        for future_years in range(0, self.number_years):
+          x.private_fraction[pump_keys][future_years] = x.pump_out_fraction[pump_keys]
         pump.private_fraction += x.pump_out_fraction[pump_keys]
         for contract in pump.contract_list:
           if contract not in x.contract_list:
@@ -1392,18 +1498,16 @@ class Model():
       total_available = contract_estimates[y.key + '_contract'] + contract_estimates[y.key + '_flood'] + contract_estimates[y.key + '_carryover'] + contract_estimates[y.key + '_turnback']
       delivery_values[y.key] = total_available
     for x in self.private_list:
-      x.target_annual_demand = 0.0
+      x.target_annual_demand = np.zeros(self.number_years)
       for district in x.district_list:
           district_object = self.district_keys[district]
           for contracts in district_object.contract_list:
             contract_object = self.contract_keys[contracts]
-            x.target_annual_demand += np.mean(delivery_values[contract_object.key])*district_object.project_contract[contract_object.name]*x.private_fraction[district]
+            for future_year in range(0, self.number_years):
+              x.target_annual_demand[future_year] += np.mean(delivery_values[contract_object.key])*district_object.project_contract[contract_object.name]*x.private_fraction[district][future_year]
 
       x.delivery_risk = np.zeros(len(total_available))
       x.delivery_risk_rate = np.zeros(len(total_available))
-      #for district in x.district_list:
-        #for monthloop in range(0,12):
-          #x.target_annual_demand += x.monthlydemand[district]['BN'][monthloop]*self.days_in_month[0][monthloop]*x.seepage[district]
       cumulative_balance = 0.0
       cumulative_years = 0.0
       total_delivery_record = np.zeros(len(total_available))
@@ -1414,11 +1518,12 @@ class Model():
           for contracts in district_object.contract_list:
             contract_object = self.contract_keys[contracts]
             if contract_object.type == 'contract':
-              private_deliveries += delivery_values[contract_object.key][hist_year]*district_object.project_contract[contract_object.name]*x.private_fraction[district]
+              private_deliveries += delivery_values[contract_object.key][hist_year]*district_object.project_contract[contract_object.name]*x.private_fraction[district][0]
             else:
-              private_deliveries += delivery_values[contract_object.key][hist_year]*district_object.rights[contract_object.name]['capacity']*x.private_fraction[district]
+              private_deliveries += delivery_values[contract_object.key][hist_year]*district_object.rights[contract_object.name]['capacity']*x.private_fraction[district][0]
+
         total_delivery_record[hist_year] = private_deliveries
-        annual_balance = private_deliveries - x.target_annual_demand
+        annual_balance = private_deliveries - x.target_annual_demand[0]
         cumulative_balance += annual_balance
         cumulative_years += 1.0
         if cumulative_balance > 0.0:
@@ -1429,7 +1534,7 @@ class Model():
       df = pd.DataFrame()
       df['delivery_risk'] = pd.Series(x.delivery_risk)
       df['deliveries'] = pd.Series(total_delivery_record)
-      df['average_demand'] = pd.Series(np.ones(len(x.delivery_risk))*x.target_annual_demand)
+      df['average_demand'] = pd.Series(np.ones(len(x.delivery_risk))*x.target_annual_demand[0])
       df.to_csv('cord/data/results/delivery_risk_' + x.key + '.csv')
 		     		
   def init_tot_recovery(self):
@@ -1459,6 +1564,154 @@ class Model():
           for irr_district in self.get_iterable(self.district_keys[member]):
             irr_district.max_recovery += w.leiu_ownership[member]*w.leiu_recovery/num_districts
       
+  def load_pesticide_acreage(self):
+    id_dict = {}
+    id_dict['ALT'] = 'Alta Irrigation District'
+    id_dict['ARV'] = 'Arvin - Edison Water Storage District'
+    id_dict['BDM'] = 'Berrenda Mesa Water District'
+    id_dict['BVA'] = 'Buena Vista Water Storage District'
+    id_dict['CWO'] = 'Cawelo Water District'
+    id_dict['CNS'] = 'Consolidated Irrigation District'
+    id_dict['COR'] = 'Corcoran Irrigation District'
+    id_dict['DLE'] = 'Delano - Earlimart Irrigation District'
+    id_dict['DLR'] = 'Dudley Ridge Water District'
+    id_dict['FRB'] = 'Firebaugh Canal Company'
+    id_dict['FRS'] = 'Fresno Irrigation District'
+    id_dict['JMS'] = 'James Irrigation District'
+    id_dict['KRT'] = 'Kern - Tulare Water District'
+    id_dict['KND'] = 'Kern Delta Water District'
+    id_dict['KRWD'] = 'Kings River Water District'
+    id_dict['LND'] = 'Lindmore Irrigation District'
+    id_dict['LHL'] = 'Lost Hills Water District'
+    id_dict['LWT'] = 'Lower Tule River Irrigation District'
+    id_dict['NKN'] = 'North Kern Water Storage District'
+    id_dict['ORC'] = 'Orange Cove Irrigation District'
+    id_dict['PNC'] = 'Panoche Water District'
+    id_dict['PIX'] = 'Pixley Irrigation District'
+    id_dict['RVD'] = 'Riverdale Irrigation District'
+    id_dict['SMI'] = 'Semitropic Water Service District'
+    id_dict['SFW'] = 'Shafter - Wasco Irrigation District'
+    id_dict['TUL'] = 'Tulare Irrigation District'
+    id_dict['TLB'] = 'Tulare Lake Basin Water Storage District'
+    id_dict['WSL'] = 'Westlands Water District'
+    id_dict['WRM'] = 'Wheeler Ridge - Maricopa Water Storage District'
+    for x in self.district_list:
+      if x.key in id_dict:
+        x.has_pesticide = True
+        x.acreage_by_year = {}
+        district_filename = id_dict[x.key]
+        pesticide_data = pd.read_csv('cord/data/input/pesticide_acreage/' + district_filename + '.csv', index_col = 0)
+        data_start_year = 0
+        for crop_type in pesticide_data:
+          x.acreage_by_year[crop_type] = np.zeros(self.number_years)
+          for y in range(0, self.number_years):
+            x.acreage_by_year[crop_type][y] = pesticide_data[crop_type][y+data_start_year]
+
+  def load_pmp_model(self):
+    color_list = ['black', 'gray', 'firebrick', 'red', 'darksalmon', 'sandybrown', 'gold', 'chartreuse', 'seagreen', 'deepskyblue', 'royalblue', 'darkorchid', 'darkcyan', 'crimson', 'fuchsia', 'cyan', 'green', 'yellowgreen', 'coral', 'orange', 'hotpink', 'thistle', 'azure', 'yellow', 'dimgray', 'turquoise', 'navy', 'mediumspringgreen']
+
+    pmp_coef = {}
+    pmp_coef_list = ['TAU', 'GAMMA', 'ETA', 'DELTA', 'BETA', 'LEONTIEF', 'INPUTS', 'REV']
+    for x in pmp_coef_list:
+      pmp_coef[x] = pd.read_csv('cord/data/input/pmp_modelling/BASE' + x + '.csv', index_col = None)
+
+    econ_data = {}
+    econ_data_list = ['PRICE', 'WSOU', 'WCST', 'LANDCOST', 'LABOR', 'SUPPL']
+    for x in econ_data_list:
+      econ_data[x] = pd.read_excel('cord/data/input/pmp_modelling/Aligned_OAE_Kern_V05.xlsx', sheet_name = x, index_col = None) 
+    
+    self.district_codes = {}
+    self.district_codes['D02'] = 'KND'
+    self.district_codes['D03'] = 'WRM'
+    self.district_codes['D04'] = 'WKN'
+    self.district_codes['D05'] = 'BDM'
+    self.district_codes['D06'] = 'SMI'
+    self.district_codes['D07'] = 'RRB'
+    self.district_codes['D08'] = 'BVA'
+    self.district_codes['D09'] = 'CWO'
+    self.district_codes['D10'] = 'HML'
+    self.district_codes['D11'] = 'LHL'
+    self.district_codes['fk01'] = 'DLE'
+    self.district_codes['fk02'] = 'EXE'
+    self.district_codes['fk03'] = 'KRT'
+    self.district_codes['fk04'] = 'LND'
+    self.district_codes['fk05'] = 'LDS'
+    self.district_codes['fk06'] = 'LWT'
+    self.district_codes['fk07'] = 'PRT'
+    self.district_codes['fk08'] = 'SAU'
+    self.district_codes['fk09'] = 'SFW'
+    self.district_codes['fk10'] = 'SSJ'
+    self.district_codes['fk11'] = 'TPD'
+    self.district_codes['fk12'] = 'TBA'
+    self.district_codes['fk13'] = 'TLR'
+    self.district_codes['fk14'] = 'VAN'
+    self.district_codes['ot1'] = 'DLR'
+    self.district_codes['ot2'] = 'NKN'
+    self.district_codes['ot3'] = 'OLC'
+	
+    self.source_codes = {}
+    self.source_codes['SWP'] = ['tableA',]
+    self.source_codes['CVP'] = ['cvpdelta',]
+    self.source_codes['CLASS1'] = ['friant1',]
+    self.source_codes['CLASS2'] = ['friant2',]
+    self.source_codes['LDIV'] = ['kern', 'kings', 'tule', 'kaweah']
+    legend_dict = {}
+    xx = 0
+    for district in self.district_codes:
+      district_id = self.district_codes[district]
+      if district_id in self.district_keys:
+        district_object = self.district_keys[district_id]
+        district_object.has_pmp = True
+        district_object.irrdemand.set_pmp_parameters(pmp_coef, district)
+        district_object.irrdemand.make_crop_list()
+        district_object.irrdemand.set_econ_parameters(econ_data, district)
+        district_object.total_water_base = 0.0
+        land_constraint = 0.0
+        for crop in district_object.irrdemand.crop_list:
+          district_object.total_water_base += district_object.irrdemand.baseline_inputs['WATER'][crop]##base case water inputs to validate pmp model - within timestep use self.source_codes to get contracts
+          land_constraint += district_object.irrdemand.baseline_inputs['LAND'][crop]
+        water_constraint_by_source = {}
+        for source in district_object.irrdemand.water_source_list:
+          water_constraint_by_source[source] = district_object.irrdemand.econ_factors[source]*district_object.total_water_base
+		  
+        x0 = np.zeros(len(district_object.irrdemand.crop_list))
+        district_object.set_pmp_acreage(water_constraint_by_source, land_constraint, x0)		
+        observed_acreage = {}
+        for crop in district_object.irrdemand.crop_list:
+          district_crops = district_object.irrdemand.crop_keys[crop]
+          if district_crops in observed_acreage:
+            observed_acreage[district_crops] += district_object.irrdemand.baseline_inputs['LAND'][crop]
+          else:
+            observed_acreage[district_crops] = district_object.irrdemand.baseline_inputs['LAND'][crop]
+        i = 0
+        calculated = np.zeros(len(observed_acreage))
+        observed = np.zeros(len(observed_acreage))
+        total_land = 0.0
+        for crop in observed_acreage:
+          calculated[i] = district_object.pmp_acreage[crop]
+          observed[i] = observed_acreage[crop]
+          total_land += calculated[i]
+          #print(district_id, end = " ")
+          #print(crop, end = " ")
+          #print(calculated[i], end = " ")
+          #print(observed[i], end = " ")
+          #print(land_constraint, end = " ")
+          #print(total_land)
+          i += 1
+		  
+        #legend_dict[district] = plt.plot(calculated, observed, 'o', color = color_list[xx])
+        xx += 1
+    #legend_obj = tuple([legend_dict[e] for e in legend_dict])
+    #legend_names = tuple([self.district_codes[e] for e in legend_dict])
+    #plt.xlabel('Calculated Acreage')
+    #plt.ylabel('Observed Acreage')
+    #plt.legend(legend_names)
+    #plt.show()
+    #plt.close()
+
+
+		  
+
   def project_urban(self, datafile, datafile_cvp, SRI_forecast):
     #########################################################################################
     ###initializes variables needed for district objects that are pumping plants on branches
@@ -1935,7 +2188,7 @@ class Model():
 	####Various infrastructure & regulatory changes that 
 	####occurred during the duration of the 1996-2016 calibration period
     if self.model_mode == 'validation':
-      self.update_regulations_south(t,dowy,m,year + self.starting_year)
+      self.update_regulations_south(t,dowy,m,year + self.starting_year, wateryear)
     else:
       self.millerton.sjrr_release = self.millerton.sj_riv_res_flows(t, dowy)
 
@@ -1986,6 +2239,29 @@ class Model():
 	###When crop allocation functions are added, this demand must be calculated at least once
 	###per year (as acreages update).  Daily demands are just monthly demands divided by the number
 	###of days in a month
+    if m == 3 and da == 2:
+      for x in self.district_list:
+        if x.has_pmp:
+          total_water_base = 0.0
+          land_constraint = 0.0
+          for crop in x.irrdemand.crop_list:
+            land_constraint += x.irrdemand.baseline_inputs['LAND'][crop]
+          water_constraint_by_source = {}
+          water_available = 0.0
+          for source in x.irrdemand.water_source_list:
+            if source != 'GW':
+              contracts_from_source = self.source_codes[source]
+              water_constraint_by_source[source] = 0.0
+              for source_contracts in contracts_from_source:
+                water_available += (x.deliveries[source_contracts][wateryear] + x.projected_supply[source_contracts])*1000.0
+                water_constraint_by_source[source] += (x.deliveries[source_contracts][wateryear] + x.projected_supply[source_contracts])*1000.0
+          water_constraint_by_source['GW'] = max(x.total_water_base - water_available, 0.0)
+          i = 0
+          x0 = np.zeros(len(x.acreage_by_pmp_crop_type))
+          for i in range(0, len(x.acreage_by_pmp_crop_type)):
+            x0[i] = x.acreage_by_pmp_crop_type[i]
+          x.set_pmp_acreage(water_constraint_by_source, land_constraint, x0)
+
     if dowy == 0:
       for x in self.private_list:
         if wateryear > 0:
@@ -2017,7 +2293,12 @@ class Model():
 	  ###Pre flood demands - used to approximate the limit 
       ###for carryover storage (don't want to carryover more water than you can
       ###use from Oct-Jan).  Values for aqueduct branches are estimated to 
-      ###avoid 'perfect foresight'	  
+      ###avoid 'perfect foresight'
+      for x in self.district_list:
+        x.find_baseline_demands(wateryear)
+      for x in self.private_list:
+        x.find_baseline_demands()
+	  
       for x in self.district_list:
         x.find_pre_flood_demand(wyt, year)
       self.socal.pre_flood_demand = 500.0
@@ -3032,7 +3313,7 @@ class Model():
       self.year_demand_error = randint(0,18)
     for x in urban_list:
       if x.has_private:
-        frac_to_district = 1.0 - x.private_fraction
+        frac_to_district = 1.0 - x.private_fraction[wateryear]
       else:
         frac_to_district = 1.0
 
@@ -3076,7 +3357,7 @@ class Model():
           for wyt in ['W', 'AN', 'BN', 'D', 'C']:
             for y in urban_list:
               if y.has_private:
-                frac_to_district = 1.0 - y.private_fraction
+                frac_to_district = 1.0 - y.private_fraction[wateryear]
               else:
                 frac_to_district = 1.0
               sri_estimate = (sri*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.year_demand_error])*total_delta_pumping*frac_to_district
@@ -3092,7 +3373,7 @@ class Model():
     for y in urban_list:
       y.dailydemand = 0.0
       if y.has_private:
-        frac_to_district = 1.0 - y.private_fraction
+        frac_to_district = 1.0 - y.private_fraction[wateryear]
       else:
         frac_to_district = 1.0
 
@@ -3655,9 +3936,9 @@ class Model():
     adjust_both_types = 1
     adjust_one_type = 0
     if flow_type == "recharge":
-      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[15], "normal", "normal", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
+      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[18], "normal", "normal", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
       #self.fkc.find_bi_directional(self.calaqueduct.turnout_use[15], "normal", "reverse", flow_type, 'xvc', adjust_both_types,  self.xvc.locked)
-      if self.calaqueduct.turnout_use[15] > 0.0:
+      if self.calaqueduct.turnout_use[18] > 0.0:
         self.xvc.locked = 1
       #if self.kwbcanal.capacity["reverse"][2] > 0.0:
         #self.calaqueduct.find_bi_directional(self.fkc.turnout_use[22], "normal", "normal", flow_type, 'xvc')
@@ -3668,9 +3949,9 @@ class Model():
       #if self.fkc.turnout_use[22] > 0.0:
         #self.xvc.locked = 1
 
-      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[16], "normal", "normal", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[16], "closed", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      if self.calaqueduct.turnout_use[16] > 0.0:
+      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[19], "normal", "normal", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[19], "closed", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      if self.calaqueduct.turnout_use[19] > 0.0:
         self.kwbcanal.locked = 1
 
       self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "normal", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
@@ -3679,10 +3960,10 @@ class Model():
         self.kwbcanal.locked = 1
 
     elif flow_type == "recovery":
-      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[15], "reverse", "reverse", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
+      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[18], "reverse", "reverse", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
       #self.fkc.find_bi_directional(self.calaqueduct.turnout_use[15], "reverse", "normal", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
-      self.kernriverchannel.find_bi_directional(self.calaqueduct.turnout_use[15], "reverse", "reverse", flow_type, 'xvc', adjust_one_type, self.xvc.locked)
-      if self.calaqueduct.turnout_use[15] > 0.0:
+      self.kernriverchannel.find_bi_directional(self.calaqueduct.turnout_use[18], "reverse", "reverse", flow_type, 'xvc', adjust_one_type, self.xvc.locked)
+      if self.calaqueduct.turnout_use[18] > 0.0:
         self.xvc.locked = 1
 
       #self.calaqueduct.find_bi_directional(self.fkc.turnout_use[22], "normal", "reverse", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
@@ -3698,9 +3979,9 @@ class Model():
         self.xvc.locked = 1
 	  
 	  
-      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[16], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[16], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      if self.calaqueduct.turnout_use[16] > 0.0:
+      self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[19], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[19], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      if self.calaqueduct.turnout_use[19] > 0.0:
         self.kwbcanal.locked = 1
 
       self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
@@ -4748,7 +5029,7 @@ class Model():
       self.delta.x2constraint['AN'][x] = 81.0
 
 	
-  def update_regulations_south(self,t,dowy,m,y):
+  def update_regulations_south(self,t,dowy,m,y, wateryear):
     ##San Joaquin River Restoration Project, started in October of 2009 (WY 2009)
 	##Additional Releases from Millerton Lake depending on WYT
     if y >= 2006:
@@ -4792,7 +5073,7 @@ class Model():
           x.carryover_rights[xx] = {}
           for y in self.contract_list:
             if y.type == 'right':
-              x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx]
+              x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx][wateryear]
             else:
               x.carryover_rights[xx][y.name] = 0.0
       for x in self.city_list:
@@ -4802,7 +5083,7 @@ class Model():
           x.carryover_rights[xx] = {}
           for y in self.contract_list:
             if y.type == 'right':
-              x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx]
+              x.carryover_rights[xx][y.name] = y.carryover*district_object.rights[y.name]['carryover']*x.private_fraction[xx][wateryear]
             else:
               x.carryover_rights[xx][y.name] = 0.0
 		  
