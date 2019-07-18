@@ -1,0 +1,101 @@
+{
+  "contract_list": ["cvpdelta"],
+  "turnout_list": ["caa"],
+  "in_leiu_banking": false,
+  "leiu_recovery": 0.0,
+  "in_district_direct_recharge": 0.0,
+  "in_district_storage": 0.0,
+  "loss_rate": 0.1,
+  "recovery_fraction": 0.5,
+  "surface_water_sa" : 1.0,
+  "must_fill" : 0,
+  "seasonal_connection" : 1.0,
+  "seepage" : 1.25,
+  "inleiuhaircut" : 0.9,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "project_contract": {
+    "tableA": 0.0,
+    "cvpdelta": 0.0758,
+    "friant1": 0.0,
+    "friant2": 0.0,
+    "cvc": 0.0,
+    "exchange": 0.0,
+    "hidden": 0.0,
+    "buchannon": 0.0,
+    "eastside": 0.0
+  },
+  "rights": {
+    "tuolumne": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "merced": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kings": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kaweah": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "tule": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    },
+    "kern": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    }
+  },
+  "service": {
+    "storage": 0.0,
+    "unlined": 7.4,
+    "recharge": 0.0
+  },
+  "crop_list": ["almond", "tomato", "field_misc", "deciduous_misc", "grain", "idle"],
+  "zone": "zone15",
+  "acreage":{
+    "W": [14.707, 3.409, 14.641, 2.69, 3.042, 0.0],
+    "AN": [14.707, 3.409, 14.641, 2.69, 3.042, 0.0],
+    "BN": [14.707, 3.409, 14.641, 2.69, 3.042, 0.0],
+    "D": [14.707, 3.409, 14.641, 2.69, 3.042, 0.0],
+    "C": [14.707, 3.409, 14.641, 2.69, 3.042, 0.0]
+  },
+
+  "MDD": 0.0,
+  "urban_profile":[0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333]
+
+}

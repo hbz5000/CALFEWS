@@ -21,6 +21,8 @@ class Private():
     self.dowy_eom = dowy_eom(year_list, self.leap)
     self.non_leap_year = first_non_leap_year(self.dowy_eom)
     self.turnback_use = True
+    self.has_pesticide = False
+    self.has_pmp = False
 
 
     for k,v in json.load(open('cord/private/%s_properties.json' % key)).items():
@@ -186,7 +188,11 @@ class Private():
         for ageloop in range(24, 0, -1):
           self.acreage[x][v][ageloop] = self.acreage[x][v][ageloop-1]*percent_filled[v][ageloop-1]
           self.total_acreage += self.acreage[x][v][ageloop]
-        self.acreage[x][v][0] = self.initial_planting[x][v]
+        if self.has_pesticide:
+          self.acreage[x][v][0] = self.initial_planting[x][v][wateryear]
+        else:
+          self.acreage[x][v][0] = self.initial_planting[x][v]
+
         self.total_acreage += self.acreage[x][v][0]
     for x in self.district_list:
       self.per_acre[x] = {}
@@ -323,17 +329,17 @@ class Private():
 	  #self.carryover[key] - individual district share of contract carryover
 	  #paper_balance[key] - keeps track of 'paper' groundwater trades (negative means they have accepted GW deliveries in exchange for trading some of their water stored in reservoir, positive means they sent their banked GW to another district in exchage for SW storage
 	  #turnback_pool[key] - how much water was bought/sold on the turnback pool(negative is sold, positive is bought)
-      district_storage = (water_available-tot_carryover)*project_contract[key]*self.private_fraction[district_name] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
+      district_storage = (water_available-tot_carryover)*project_contract[key]*self.private_fraction[district_name][wateryear] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
       #annual allocation - remaining (undelivered) district share of expected total contract allocation
 	  #same as above, but projected_allocation*self.project_contract[key] - individual share of expected total contract allocation, this includes contract water that has already been delivered to all contractors
-      annual_allocation = projected_allocation*project_contract[key]*self.private_fraction[district_name] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
-      storage_balance = current_water*project_contract[key]*self.private_fraction[district_name] + max(self.carryover[district_name][key] + self.turnback_pool[district_name][key] - self.deliveries[district_name][key][wateryear], 0.0)
+      annual_allocation = projected_allocation*project_contract[key]*self.private_fraction[district_name][wateryear] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
+      storage_balance = current_water*project_contract[key]*self.private_fraction[district_name][wateryear] + max(self.carryover[district_name][key] + self.turnback_pool[district_name][key] - self.deliveries[district_name][key][wateryear], 0.0)
 
     elif balance_type == 'right':
       #same as above, but for contracts that are expressed as 'rights' instead of allocations
-      district_storage = (water_available-tot_carryover)*rights[key]['capacity']*self.private_fraction[district_name] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
-      annual_allocation = projected_allocation*rights[key]['capacity']*self.private_fraction[district_name] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
-      storage_balance = current_water*rights[key]['capacity']*self.private_fraction[district_name] + max(self.carryover[district_name][key] + self.turnback_pool[district_name][key] - self.deliveries[district_name][key][wateryear], 0.0)
+      district_storage = (water_available-tot_carryover)*rights[key]['capacity']*self.private_fraction[district_name][wateryear] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
+      annual_allocation = projected_allocation*rights[key]['capacity']*self.private_fraction[district_name][wateryear] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
+      storage_balance = current_water*rights[key]['capacity']*self.private_fraction[district_name][wateryear] + max(self.carryover[district_name][key] + self.turnback_pool[district_name][key] - self.deliveries[district_name][key][wateryear], 0.0)
     
     self.current_balance[district_name][key] = storage_balance
     self.projected_supply[district_name][key] = annual_allocation
@@ -463,10 +469,10 @@ class Private():
   def calc_carryover(self, existing_balance, wateryear, balance_type, key, district_name, project_contract, rights):
     #at the end of each wateryear, we tally up the full allocation to the contract, how much was used (and moved around in other balances - carryover, 'paper balance' and turnback_pools) to figure out how much each district can 'carryover' to the next year
     if balance_type == 'contract':
-      annual_allocation = existing_balance*project_contract[key]*self.private_fraction[district_name] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
+      annual_allocation = existing_balance*project_contract[key]*self.private_fraction[district_name][wateryear] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
       max_carryover = self.contract_carryover_list[district_name][key]
     elif balance_type == 'right':
-      annual_allocation = existing_balance*rights[key]['capacity']*self.private_fraction[district_name] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
+      annual_allocation = existing_balance*rights[key]['capacity']*self.private_fraction[district_name][wateryear] - self.deliveries[district_name][key][wateryear] + self.carryover[district_name][key] + self.turnback_pool[district_name][key]
       max_carryover = self.contract_carryover_list[district_name][key]
 	  
     self.carryover[district_name][key] = annual_allocation
@@ -497,7 +503,7 @@ class Private():
         delivery_tolerance = sorted_rates[risk_index]*-1.0
     else:
       delivery_tolerance = 0.0
-      self.target_annual_demand = 999999.9
+      self.target_annual_demand = 999999.9*np.ones(self.number_years)
       #for district in self.district_list:
         #self.target_annual_demand += self.annual_pumping[district][wateryear]
     total_balance = 0.0
@@ -515,7 +521,7 @@ class Private():
     total_needs += additional_carryover
     self.daily_supplies['recovery_cap'][t] = total_recovery
 
-    if (total_balance + total_recovery) < total_needs and (total_balance + total_deliveries) < (self.target_annual_demand - delivery_tolerance):
+    if (total_balance + total_recovery) < total_needs and (total_balance + total_deliveries) < (self.target_annual_demand[wateryear] - delivery_tolerance):
       self.use_recovery = 1.0
     else:
       self.use_recovery = 0.0
@@ -706,7 +712,7 @@ class Private():
       max_pumping_shortfall = 999.9
     else:
       while tot_days < demand_days:
-        pumping_shortfall += np.sum(self.pumping[district][(t-dowy+tot_days):(t-dowy+tot_days+min(demand_days - tot_days, 30))]/1000.0) - pumping['swp']['gains'][monthcounter]*project_contract*self.private_fraction[district]
+        pumping_shortfall += np.sum(self.pumping[district][(t-dowy+tot_days):(t-dowy+tot_days+min(demand_days - tot_days, 30))]/1000.0) - pumping['swp']['gains'][monthcounter]*project_contract*self.private_fraction[district][wateryear]
         tot_days += 30
         monthcounter += 1
         if monthcounter == 12:

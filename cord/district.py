@@ -137,6 +137,8 @@ class District():
     self.current_recharge_storage = 0.0
     self.private_fraction = 0.0
     self.has_private = False
+    self.has_pesticide = False
+    self.has_pmp = False
 	
     #banking dictionaries to keep track of individual member use & accounts
     if self.in_leiu_banking:
@@ -168,15 +170,23 @@ class District():
 ##################################DEMAND CALCULATION#################################################################
 #####################################################################################################################
 		
-  def find_baseline_demands(self):
+  def find_baseline_demands(self,wateryear):
     self.monthlydemand = {}
     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
+    
     for wyt in wyt_list:
       self.monthlydemand[wyt] = np.zeros(12)
       for monthloop in range(0,12):
         self.monthlydemand[wyt][monthloop] += self.urban_profile[monthloop]*self.MDD/self.days_in_month[self.non_leap_year][monthloop]
-        for i,v in enumerate(self.crop_list):
-          self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][wyt][monthloop] - self.irrdemand.etM['precip'][wyt][monthloop],0.0)*(self.acreage[wyt][i]-self.private_acreage[v])/(12.0*self.days_in_month[self.non_leap_year][monthloop])
+        if self.has_pesticide:
+          for i,v in enumerate(self.acreage_by_year):
+            self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][wyt][monthloop] - self.irrdemand.etM['precip'][wyt][monthloop],0.0)*(self.acreage_by_year[v][wateryear]-self.private_acreage[v][wateryear])/(12.0*self.days_in_month[self.non_leap_year][monthloop])
+        elif self.has_pmp:
+          for crop in self.pmp_acreage:
+            self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[crop][wyt][monthloop] - self.irrdemand.etM['precip'][wyt][monthloop],0.0)*max(self.pmp_acreage[crop]-self.private_acreage[crop], 0.0)/(12.0*self.days_in_month[self.non_leap_year][monthloop])
+        else:
+          for i,v in enumerate(self.crop_list):
+            self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][wyt][monthloop] - self.irrdemand.etM['precip'][wyt][monthloop],0.0)*(self.acreage[wyt][i]-self.private_acreage[v])/(12.0*self.days_in_month[self.non_leap_year][monthloop])
           #self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][wyt][monthloop] ,0.0)*self.acreage[wyt][i]/(12.0*self.days_in_month[self.non_leap_year][monthloop])
 	  	
 			
@@ -212,7 +222,10 @@ class District():
 	#demand is equal to pumping of the main california aqueduct and into the branches that services these areas
     #cal aqueduct urban demand comes from pumping data, calc seperately
     if self.has_private:
-      frac_to_district = 1.0 - self.private_fraction
+      if self.has_pesticide:
+        frac_to_district = 1.0 - self.private_fraction[wateryear]
+      else:
+        frac_to_district = 1.0 - self.private_fraction
     else:
       frac_to_district = 1.0
 	  
@@ -235,6 +248,19 @@ class District():
         for wyt in ['W', 'AN', 'BN', 'D', 'C']:
           self.monthlydemand[wyt][monthcounter] = np.mean(self.pumping[(t + start_of_month):(t + start_next_month)])/1000.0
         start_of_month = start_next_month
+		
+  def set_pmp_acreage(self, water_constraint_by_source, land_constraint, x0):
+
+    self.acreage_by_pmp_crop_type = self.irrdemand.find_pmp_acreage(water_constraint_by_source,land_constraint, x0)
+    self.pmp_acreage = {}
+    i = 0
+    for crop in self.irrdemand.crop_list:
+      district_crops = self.irrdemand.crop_keys[crop]
+      if district_crops in self.pmp_acreage:
+        self.pmp_acreage[district_crops] += self.acreage_by_pmp_crop_type[i]/1000.0
+      else:
+        self.pmp_acreage[district_crops] = self.acreage_by_pmp_crop_type[i]/1000.0
+      i += 1
 
 		
 #####################################################################################################################
@@ -253,7 +279,10 @@ class District():
 	##projected_allocation is the water that is forecasted to be available on each contract through the end of the water year *plus* water that has already been delivered on that contract
 	##individual deliveries are then subtracted from this total to determine the individual district's projected contract allocation remaining in that year
     if self.has_private:
-      frac_to_district = 1.0 - self.private_fraction
+      if self.has_pesticide:
+        frac_to_district = 1.0 - self.private_fraction[wateryear]
+      else:
+        frac_to_district = 1.0 - self.private_fraction
     else:
       frac_to_district = 1.0
 
@@ -329,7 +358,10 @@ class District():
   def calc_carryover(self, existing_balance, wateryear, balance_type, key):
     #at the end of each wateryear, we tally up the full allocation to the contract, how much was used (and moved around in other balances - carryover, 'paper balance' and turnback_pools) to figure out how much each district can 'carryover' to the next year
     if self.has_private:
-      frac_to_district = 1.0 - self.private_fraction
+      if self.has_pesticide:
+        frac_to_district = 1.0 - self.private_fraction[wateryear]
+      else:
+        frac_to_district = 1.0 - self.private_fraction
     else:
       frac_to_district = 1.0
 
@@ -546,7 +578,10 @@ class District():
     max_pumping_shortfall = 0.0
     pumping_shortfall = 0.0
     if self.has_private:
-      frac_to_district = 1.0 - self.private_fraction
+      if self.has_pesticide:
+        frac_to_district = 1.0 - self.private_fraction[wateryear]
+      else:
+        frac_to_district = 1.0 - self.private_fraction
     else:
       frac_to_district = 1.0
 

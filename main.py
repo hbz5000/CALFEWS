@@ -26,6 +26,7 @@ from datetime import datetime
 model_mode = 'validation'
 # model_mode = 'forecast'
 
+demand_type = 'pesticide'
 startTime = datetime.now()
 
 # To run full dataset, short_test = -1. Else enter number of days to run, starting at sd. e.g. 365 for 1 year only.
@@ -51,8 +52,8 @@ if model_mode == 'simulation' or model_mode == 'validation':
   # Model Class Initialization
   ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
   ##
-  modelno = Model(input_data_file, expected_release_datafile, sd, model_mode)
-  modelso = Model(input_data_file, expected_release_datafile, sd, model_mode)
+  modelno = Model(input_data_file, expected_release_datafile, sd, model_mode, demand_type)
+  modelso = Model(input_data_file, expected_release_datafile, sd, model_mode, demand_type)
   modelso.max_tax_free = {}
   modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
   modelso.forecastSRI = modelno.delta.forecastSRI
