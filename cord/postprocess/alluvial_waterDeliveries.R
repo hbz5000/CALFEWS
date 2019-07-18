@@ -3,10 +3,10 @@ library('ggalluvial')
 library('viridis')
 
 folder1 = 'FKC_capacity_wy2017'
-wy1 = 2014
+wy1 = 2011
 
-folder2 = 'FKC_capacity_rehab_full'
-wy2 = 2014
+folder2 = 'FKC_capacity_wy2017__LWT_inleiubank_DLESSJSFW_0'
+wy2 = 2011
 
 
 
@@ -35,19 +35,6 @@ df_wy1$Axis <- factor(df_wy1$Axis, levels=c('Source','District','Use'))
 
 df_wy1$dataset <- 1
 
-# df_wy1 <- df_wy1[order(df_wy1$Axis, df_wy1$Label_grp, df_wy1$District_grp),]
-
-# pdf(file=paste('alluvial_',wy1,'_',folder1,'.pdf',sep=''), width=7.7, height=7)
-# ggplot(data = df_wy1,
-#     aes(x = Axis, stratum = Label, alluvium = Obs, y = Volume)) +
-#     scale_x_discrete(expand = c(.1, .05)) +
-#     geom_alluvium(aes(fill = District)) + scale_fill_viridis(discrete=T) +
-#     geom_stratum() +
-#     geom_text(stat = "stratum", label.strata = T) +
-#     theme_minimal(base_size=20) + ylab('Water volume (tAF/yr)') +
-#     guides(fill=guide_legend(title=NULL))
-# dev.off()
-
 
 
 df <- read.csv(file=paste('C:/Users/Andrew/PycharmProjects/ORCA_COMBINED/cord/data/results/',folder2,'/district_reorg.csv', sep=''), header=TRUE, sep=",", stringsAsFactors = F)
@@ -75,23 +62,11 @@ df_wy2$Axis <- factor(df_wy2$Axis, levels=c('Source','District','Use'))
 
 df_wy2$dataset <- 2
 
-# df_wy2 <- df_wy2[order(df_wy2$Axis, df_wy2$Label_grp, df_wy2$District_grp),]
-
-# pdf(file=paste('alluvial_',wy2,'_',folder2,'.pdf',sep=''), width=7.7, height=7)
-# ggplot(data = df_wy2,
-#     aes(x = Axis, stratum = Label, alluvium = Obs, y = Volume)) +
-#     scale_x_discrete(expand = c(.1, .05)) +
-#     geom_alluvium(aes(fill = District)) + scale_fill_viridis(discrete=T) +
-#     geom_stratum() +
-#     geom_text(stat = "stratum", label.strata = T) +
-#     theme_minimal(base_size=20) + ylab('Water volume (tAF/yr)') + 
-#     guides(fill=guide_legend(title=NULL))
-# dev.off()
 
 
 df_wy3 = rbind(df_wy1, df_wy2)
 
-pdf(file=paste('alluvial_',wy1,'_',folder1,'___',wy2,'_',folder2,'.pdf',sep=''), width=14, height=7)
+pdf(file=paste('../figs/alluvial_',wy1,'_',folder1,'___',wy2,'_',folder2,'.pdf',sep=''), width=14, height=7)
 ggplot(data = df_wy3,
     aes(x = Axis, stratum = Label, alluvium = Obs, y = Volume)) +
     scale_x_discrete(expand = c(.1, .05)) +
