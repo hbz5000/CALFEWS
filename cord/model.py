@@ -1916,7 +1916,7 @@ class Model():
       for wateryear_day in range(0,365):
         coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent,1)
         if self.use_sensitivity:
-          x.delivery_percent_coefficient[wateryear_day][0] = 1.0 - self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*(1.0 - coef[0])
+          x.delivery_percent_coefficient[wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
         else:
           x.delivery_percent_coefficient[wateryear_day][0] = coef[0]
         x.delivery_percent_coefficient[wateryear_day][1] = coef[1]
@@ -1952,7 +1952,7 @@ class Model():
           coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent[xx],1)
           r = np.corrcoef(sri_forecast_dowy[wateryear_day],x.regression_percent[xx])[0,1]
           if self.use_sensitivity:
-            x.delivery_percent_coefficient[xx][wateryear_day][0] = 1.0 - self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*(1.0 - coef[0])
+            x.delivery_percent_coefficient[xx][wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
           else:
             x.delivery_percent_coefficient[xx][wateryear_day][0] = coef[0]
 		  

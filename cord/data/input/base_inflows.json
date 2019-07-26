@@ -200,8 +200,8 @@
       "status_quo": 0.0
       },
     "urban_wet_year_demand_reduction":{
-      "low": 0.5,
-      "high": 1.5,
+      "low": 0.25,
+      "high": 1.0,
       "status_quo": 1.0
       },
     "omr_probability":{
