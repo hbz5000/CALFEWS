@@ -165,11 +165,21 @@ class District():
         self.contract_exchange[x] = np.zeros(self.T)
 
 
-
+##################################SENSITIVITY ANALYSIS#################################################################
+  def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):
+    wyt_list = ['W', 'AN', 'BN', 'D', 'C']
+    for wyt in wyt_list:
+      for i,v in enumerate(self.crop_list):
+        self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
+        for monthloop in range(0,12):
+          self.irrdemand.etM[v][wyt][monthloop] = self.irrdemand.etM[v][wyt][monthloop]*et_factor
+    self.seepage = 1.0 + irr_eff_factor
+    for recharge_count in range(0, len(self.recharge_decline)):
+      self.recharge_decline[recharge_count] = 1.0 - recharge_decline_factor*(1.0 - self.recharge_decline[recharge_count])
 #####################################################################################################################
 ##################################DEMAND CALCULATION#################################################################
 #####################################################################################################################
-		
+
   def find_baseline_demands(self,wateryear):
     self.monthlydemand = {}
     wyt_list = ['W', 'AN', 'BN', 'D', 'C']

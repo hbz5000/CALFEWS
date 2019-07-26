@@ -80,11 +80,15 @@ class Delta():
     self.sac_fnf = np.zeros(self.number_years)
 	##Old/Middle River Calculations
     if self.model_mode == 'validation':
-      self.hist_OMR = df.OMR * cfs_tafd
-      self.hist_TRP_pump = df.TRP_pump * cfs_tafd
-      self.hist_HRO_pump = df.HRO_pump * cfs_tafd
-      self.omr_record_start = 4440
-      self.omr_rule_start = 4080
+      if 'OMR' in df:
+        self.hist_OMR = df.OMR * cfs_tafd
+        self.hist_TRP_pump = df.TRP_pump * cfs_tafd
+        self.hist_HRO_pump = df.HRO_pump * cfs_tafd
+        self.omr_record_start = 4440
+      else:
+        self.omr_record_start = self.T + 1
+
+      self.omr_rule_start = 2007
       self.vamp_rule_start = 2009
     else:
       self.omr_record_start = self.T + 1
@@ -112,6 +116,13 @@ class Delta():
     self.final_allocation_swp = 0.0
     self.final_allocation_cvp = 0.0
 
+  def set_sensitivity_factors(self, delta_outflow_factor, omr_flow_factor, omr_prob_factor):
+    for wyt in ['W', 'AN', 'BN', 'D', 'C']:
+      for monthcount in range(0,12):
+        self.min_outflow[wyt][monthcount] = self.min_outflow[wyt][monthcount]*delta_outflow_factor
+    for omr_threshold in range(0, 4):
+      self.omr_reqr['probability'][omr_threshold] = omr_prob_factor*(omr_threshold+1.0)
+      self.omr_reqr['shortage_flow'][omr_threshold] = omr_flow_factor - (5000.0 + omr_flow_factor)*omr_threshold/4.0
 
   def calc_expected_delta_outflow(self,shastaD,orovilleD,yubaD,folsomD,shastaMIN,orovilleMIN,yubaMIN,folsomMIN, gains_sac_short, gains_sj_short, depletions_short, eastside_short):
   #this function calculates an expectation for the volume of environmental releases expected to be made from each reservoir,
@@ -162,11 +173,11 @@ class Delta():
         #outflow ratio 
         tax_free_pumping = (self.min_outflow[wyt][x]*cfs_tafd - self.expected_depletion[x])*((1/(1-self.export_ratio[wyt][x]))-1)
         if tax_free_pumping*0.55 > pump_max_cvp:
-          self.max_tax_free[wyt]['cvp'][0] += pump_max_cvp*self.days_in_month[y][x]
-          self.max_tax_free[wyt]['swp'][0] += min(tax_free_pumping - pump_max_cvp, pump_max_swp)*self.days_in_month[y][x]
+          self.max_tax_free[wyt]['cvp'][0] += pump_max_cvp*self.days_in_month[0][x]
+          self.max_tax_free[wyt]['swp'][0] += min(tax_free_pumping - pump_max_cvp, pump_max_swp)*self.days_in_month[0][x]
         else:
-          self.max_tax_free[wyt]['cvp'][0] += tax_free_pumping*self.days_in_month[y][x]*0.55
-          self.max_tax_free[wyt]['swp'][0] += tax_free_pumping*self.days_in_month[y][x]*0.45
+          self.max_tax_free[wyt]['cvp'][0] += tax_free_pumping*self.days_in_month[0][x]*0.55
+          self.max_tax_free[wyt]['swp'][0] += tax_free_pumping*self.days_in_month[0][x]*0.45
     for x in range(0,365):
       if x > 182 and x < 243:
         pump_max_cvp = 750.0*cfs_tafd
@@ -444,20 +455,22 @@ class Delta():
     if self.model_mode == 'validation':
       fish_trigger_adj = np.interp(t, self.omr_reqr['t'], self.omr_reqr['adjustment']) * cfs_tafd
     elif dowy > 92 and dowy < 258:
-      if self.fish_condition[t] < 0.05:
-        fish_trigger_adj = -2000.0 *cfs_tafd
-      elif self.fish_condition[t] < 0.1:
-        fish_trigger_adj = -2500.0 *cfs_tafd
-      elif self.fish_condition[t] < 0.15:
-        fish_trigger_adj = -3000.0 *cfs_tafd
-      elif self.fish_condition[t] < 0.2:
-        fish_trigger_adj = -3500.0 *cfs_tafd
+      if self.fish_condition[t] < self.omr_reqr['probability'][0]:
+        fish_trigger_adj = self.omr_reqr['shortage_flow'][0] *cfs_tafd
+      elif self.fish_condition[t] < self.omr_reqr['probability'][1]:
+        fish_trigger_adj = self.omr_reqr['shortage_flow'][1] *cfs_tafd
+      elif self.fish_condition[t] < self.omr_reqr['probability'][2]:
+        fish_trigger_adj = self.omr_reqr['shortage_flow'][2] *cfs_tafd
+      elif self.fish_condition[t] < self.omr_reqr['probability'][3]:
+        fish_trigger_adj = self.omr_reqr['shortage_flow'][3] *cfs_tafd
       else:
         fish_trigger_adj = -9999999.0
     else:
       fish_trigger_adj = -9999999.0
 	  
-    if t < self.omr_rule_start:
+    if self.year[t] < self.omr_rule_start:
+      omrRequirement = fish_trigger_adj
+    elif self.year[t] == self.omr_rule_start and self.month[t] < 12:
       omrRequirement = fish_trigger_adj
     else:
       omrRequirement = max(omr_condition, omr_condition_2, fish_trigger_adj)
@@ -707,9 +720,13 @@ class Delta():
       else:
         pumping['swp']	= self.pump_max['swp']['intake_limit'][5] * cfs_tafd
         pumping['cvp'] = self.pump_max['cvp']['intake_limit'][5] * cfs_tafd
-      if t > self.omr_rule_start - running_days:
+      if self.year[t] > self.omr_rule_start:
         pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year][monthcounter])
         pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year][monthcounter])
+      if self.year[t] == self.omr_rule_start and m == 12:
+        pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year][monthcounter])
+        pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year][monthcounter])
+
 
       #total water available for pumping that isn't stored in reservoir (river gains)
       total_uncontrolled = proj_surplus[project][monthcounter]*running_days/self.days_in_month[year][monthcounter]
@@ -747,7 +764,10 @@ class Delta():
           pumping['cvp'] = self.pump_max['cvp']['intake_limit'][5] * cfs_tafd
 		  
         running_days += self.days_in_month[year+cross_counter_y][monthcounter]
-        if t > self.omr_rule_start - running_days:
+        if self.year[t] > self.omr_rule_start:
+          pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year+cross_counter_y][monthcounter])
+          pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year+cross_counter_y][monthcounter])
+        if self.year[t] == self.omr_rule_start and m == 12:
           pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year+cross_counter_y][monthcounter])
           pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year+cross_counter_y][monthcounter])
 

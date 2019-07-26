@@ -6,17 +6,20 @@ import calendar
 import scipy.stats as stats
 from .reservoir import Reservoir
 import math
-import datetime
+from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import matplotlib.dates as mdates
 from matplotlib import gridspec
 from matplotlib.lines import Line2D
 from .util import *
 import seaborn as sns
+import json
+
 
 class Inputter():
 
-    def __init__(self, input_data_file, expected_release_datafile, model_mode):
+    def __init__(self, input_data_file, expected_release_datafile, model_mode, use_sensitivity = False):
         self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
@@ -30,6 +33,7 @@ class Inputter():
         self.number_years = self.ending_year - self.starting_year
         self.dowy = water_day(self.day_year, self.year)
         self.water_year = water_year(self.month, self.year, self.starting_year)
+        self.use_sensitivity = use_sensitivity
 
         self.leap = leap(np.arange(min(self.year), max(self.year) + 2))
         year_list = np.arange(min(self.year), max(self.year) + 2)
@@ -59,10 +63,16 @@ class Inputter():
         self.kaweah = Reservoir(self.df, self.df_short, 'KWH', model_mode)
         self.success = Reservoir(self.df, self.df_short, 'SUC', model_mode)
         self.isabella = Reservoir(self.df, self.df_short, 'ISB', model_mode)
+        for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
+            setattr(self,k,v)
 
+
+        #self.reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro,
+                               #self.exchequer, self.millerton, self.pineflat, self.kaweah, self.success, self.isabella,
+                               #self.newhogan, self.pardee, self.consumnes]
         self.reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro,
-                               self.exchequer, self.millerton, self.pineflat, self.kaweah, self.success, self.isabella,
-                               self.newhogan, self.pardee, self.consumnes]
+                               self.exchequer, self.millerton, self.pineflat, self.kaweah, self.success, self.isabella]
+
         self.data_type_list = ['fnf', 'inf', 'otf', 'gains', 'evap', 'precip', 'fci']
         self.monthlist = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
 
@@ -70,10 +80,39 @@ class Inputter():
 
         sns.set()
 
-    def run_routine(self, file_folder, file_name, timestep_length, start_month, number_years, first_leap,
-                    start_timestep, end_timestep, start_year):
-        print('Load New Full-Natural Flows from ' + file_name)
-        self.read_new_fnf_data(file_folder + file_name, timestep_length, start_month, first_leap, number_years)
+    #def run_routine(self, file_folder, file_name, timestep_length, start_month, number_years, first_leap,
+                    #start_timestep, end_timestep, start_year, file_has_leap, use_cfs, start_file, end_file, write_name):
+    def run_initialization(self, plot_key):
+        self.initialize_reservoirs()
+        self.generate_relationships(plot_key)
+        self.autocorrelate_residuals(plot_key)
+        self.fill_snowpack(plot_key)
+        self.generate_relationships_delta(plot_key)
+        self.autocorrelate_residuals_delta(plot_key)
+   
+    def run_routine(self, scenario_name, model_name, sensitivity_index):
+        #print('Load New Full-Natural Flows from ' + file_name)
+        #self.read_new_fnf_data(file_folder + file_name, timestep_length, start_month, first_leap, start_timestep, end_timestep, number_years, file_has_leap, use_cfs, start_file, end_file)
+        #self.whiten_by_historical_moments(number_years, 'XXX')
+        #self.whiten_by_historical_moments_delta(number_years, 'XXX')
+        #self.make_fnf_prediction(number_years, 'XXX')
+        #self.make_fnf_prediction_delta(number_years, 'XXX')
+        #self.find_residuals(start_month, number_years, 'XXX')
+        #self.find_residuals_delta(start_month, number_years, 'XXX')
+        #self.add_error(number_years, 'XXX')
+        #self.add_error_delta(number_years, 'XXX')
+        #print('Print ORCA Inputs: ' + file_name)
+        #self.make_daily_timeseries(number_years, start_timestep, end_timestep, start_year, first_leap, 'N', file_folder, write_name, 0)
+
+        start_month = 10
+        end_month = 9
+        start_year = self.simulation_period_start[scenario_name][model_name]
+        number_years = self.simulation_period_end[scenario_name][model_name] - self.simulation_period_start[scenario_name][model_name] + 1
+        for first_leap in range(0,4):
+          if (start_year + first_leap + 1) % 4 == 0:
+            break
+        self.set_sensitivity_factors(sensitivity_index)
+        self.read_new_fnf_data(scenario_name, model_name, start_month, first_leap, number_years)
         self.whiten_by_historical_moments(number_years, 'XXX')
         self.whiten_by_historical_moments_delta(number_years, 'XXX')
         self.make_fnf_prediction(number_years, 'XXX')
@@ -82,8 +121,8 @@ class Inputter():
         self.find_residuals_delta(start_month, number_years, 'XXX')
         self.add_error(number_years, 'XXX')
         self.add_error_delta(number_years, 'XXX')
-        print('Print ORCA Inputs: ' + file_name)
-        self.make_daily_timeseries(number_years, '1/1/1950', '12/31/2099', 1950, first_leap, 'XXX', file_folder, file_name)
+        self.make_daily_timeseries(scenario_name, model_name, number_years, start_year, start_month, end_month, first_leap, 'N')
+
 
     def initialize_reservoirs(self):
         for x in self.reservoir_list:
@@ -708,17 +747,98 @@ class Inputter():
                 plt.tight_layout()
                 plt.show()
                 plt.close()
+    def set_sensitivity_factors(self, sensitivity_index):
+        for sensitivity_factor in self.sensitivity_factors['inflow_factor_list']:
+            if sensitivity_index == 0:
+                self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
+            else:
+                self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
+            print(sensitivity_factor, end = " ")
+            print(self.sensitivity_factors[sensitivity_factor]['realization'])
+				
+    def perturb_flows(self, numYears):
+        for reservoir in self.reservoir_list:
+            sensitivity = {}
+            sensitivity['annual'] = np.zeros(numYears-1)
+            sensitivity['oct_mar'] = np.zeros(numYears-1)
+            sensitivity['apr_jul'] = np.zeros(numYears-1)
+            sensitivity['apr_may'] = np.zeros(numYears-1)
+            sensitivity['jun_jul'] = np.zeros(numYears-1)
+            for yearcount in range(0, numYears-1):
+                this_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount]
+                next_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount + 1]
+                sensitivity['annual'][yearcount] = np.sum(this_year_flow)
+                sensitivity['oct_mar'][yearcount] = np.sum(next_year_flow[0:3]) + np.sum(this_year_flow[9:])
+                sensitivity['apr_jul'][yearcount] = np.sum(next_year_flow[3:7])
+                sensitivity['apr_may'][yearcount] = np.sum(next_year_flow[3:5])
+                sensitivity['jun_jul'][yearcount] = np.sum(next_year_flow[5:7])
+                del this_year_flow
+                del next_year_flow
 
-    def read_new_fnf_data(self, filename, timestep_length, start_month, first_leap_year, numYears):
+            annual_mean = np.mean(np.log(sensitivity['annual']))
+            for yearcount in range(0, numYears-1):
+                volatility_adjust = (np.log(sensitivity['annual'][yearcount]) - annual_mean)*self.sensitivity_factors['annual_vol_scale']['realization']
+                total_adjust = (np.exp(volatility_adjust + np.log(np.exp(annual_mean)*self.sensitivity_factors['annual_mean_scale']['realization'])))/sensitivity['annual'][yearcount]
+                total_oct_mar = sensitivity['apr_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']
+                total_apr_may = sensitivity['jun_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']*self.sensitivity_factors['shift_apr_may']['realization']
+                for monthcount in range(0,12):
+                    if monthcount > 8:
+                        reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]/sensitivity['oct_mar'][yearcount]
+                    elif monthcount < 3:
+                        reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['oct_mar'][yearcount]
+                    elif monthcount == 3 or monthcount == 4:
+                        reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization']) + total_apr_may*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['apr_may'][yearcount]
+                    elif monthcount == 5 or monthcount == 6:
+                        reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization'])*(1.0 - self.sensitivity_factors['shift_apr_may']['realization'])
+                    if monthcount > 8:
+                      reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]*total_adjust
+                    else:
+                      reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*total_adjust
+					
+                reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
+				
+    def read_new_fnf_data(self, scenario_name, model_name, start_month, first_leap_year, numYears):    
         monthcount = start_month - 1
         daycount = 0
         yearcount = 0
         thismonthday = np.where(first_leap_year == 0, self.days_in_month[self.leap_year][monthcount],
                                 self.days_in_month[self.non_leap_year][monthcount])
         leapcount = 0
+		
+        filename = self.inflow_series[scenario_name][model_name]
         self.fnf_df = pd.read_csv(filename)
+
+
+        if 'datetime' in self.fnf_df:
+          dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])
+        else:
+          start_file = self.file_start[scenario_name][model_name]
+          end_file = self.file_end[scenario_name][model_name]
+          file_start_date = datetime.strptime(start_file, '%m/%d/%Y')
+          file_end_date = datetime.strptime(end_file, '%m/%d/%Y')
+          dates_as_datetime = pd.date_range(start=file_start_date, end=file_end_date, freq='D')
+		  
+        if start_month == 1:
+          end_month = 12
+        else:
+          end_month = start_month - 1
+        start_date = datetime(self.simulation_period_start[scenario_name][model_name],start_month,1)
+        end_date = datetime(self.simulation_period_end[scenario_name][model_name],end_month,30)
+
+        date_mask = (dates_as_datetime >= start_date) & (dates_as_datetime <= end_date)
+        fnf_values = self.fnf_df[date_mask]
+		
+        fnf_unit = self.inflow_unit[scenario_name][model_name]
         for reservoir in self.reservoir_list:
-            reservoir.fnf_new = self.fnf_df['%s_fnf' % reservoir.key].values * cfs_tafd
+            if fnf_unit == 'cfs':
+              reservoir.fnf_new = fnf_values['%s_fnf' % reservoir.key].values * cfs_tafd
+            elif fnf_unit == 'af':
+              reservoir.fnf_new = fnf_values['%s_fnf' % reservoir.key].values / 1000.0
+            elif fnf_unit == 'taf':
+              reservoir.fnf_new = fnf_values['%s_fnf' % reservoir.key].values
+            elif fnf_unit == 'cms':
+              reservoir.fnf_new = fnf_values['%s_fnf' % reservoir.key].values * 70.045 / 1000.0
+              
             reservoir.monthly_new = {}
             reservoir.snowpack['new_melt_fnf'] = np.zeros(numYears)
             for data_type in self.data_type_list:
@@ -741,11 +861,14 @@ class Inputter():
                     leapcount += 1
                     if leapcount == 4:
                         leapcount = 0
-                if leapcount == first_leap_year:
+                if leapcount == first_leap_year and self.has_leap[scenario_name][model_name]:
                     thismonthday = self.days_in_month[self.leap_year][monthcount]
                 else:
                     thismonthday = self.days_in_month[self.non_leap_year][monthcount]
-
+        
+        if self.use_sensitivity:
+            self.perturb_flows(numYears)
+					
         self.monthly_new = {}
         for deltaname in self.delta_list:
             self.monthly_new[deltaname] = {}
@@ -1084,7 +1207,9 @@ class Inputter():
                 plt.show()
                 plt.close()
 
-    def make_daily_timeseries(self, numYears, start_date, end_date, start_year, first_leap, plot_key, file_folder, file_name):
+    def make_daily_timeseries(self, scenario_name, model_name, numYears, start_year, start_month, end_month, first_leap, plot_key):        
+        start_date = datetime(self.simulation_period_start[scenario_name][model_name],start_month,1)
+        end_date = datetime(self.simulation_period_end[scenario_name][model_name],end_month,30)
         dates_for_output = pd.date_range(start=start_date, end=end_date, freq='D')
         output_day_year = dates_for_output.dayofyear
         output_year = dates_for_output.year
@@ -1110,6 +1235,7 @@ class Inputter():
             yearcounter = output_year[t] - start_year
             daycounter = output_day_month[t] - 1
             dowy = output_dowy[t]
+
             is_leap = (yearcounter % 4 == first_leap)
             year_leap_non_leap = np.where(is_leap, self.leap_year, self.non_leap_year)
 
@@ -1138,6 +1264,8 @@ class Inputter():
                                                                 reservoir.monthly[data_type]['baseline_value'][
                                                                     monthcounter][
                                                                     reservoir.k_close_wateryear[data_type]]
+
+
                 if last_step_month != monthcounter:
                     this_year_fnf_melt = 0.0
                     for melt_month in range(3, 7):
@@ -1222,66 +1350,69 @@ class Inputter():
             else:
                 df_for_output['%s_pump' % deltaname] = pd.Series(self.daily_df_data[deltaname] * multiplier,
                                                                  index=df_for_output.index)
-        df_for_output.to_csv(file_folder + 'cord-data-' + file_name, index=True, index_label='datetime')
-
-        for reservoir in self.reservoir_list:
-            if plot_key == reservoir.key:
-                for data_type in self.data_type_list:
-                    fig = plt.figure()
-                    gs = gridspec.GridSpec(2, 1)
+        df_for_output.to_csv(self.export_series[scenario_name][model_name], index=True, index_label='datetime')
+		  
+        for data_type in self.data_type_list:
+            if plot_key == 'Y' and (data_type == 'fnf' or data_type == 'inf'):
+              fig = plt.figure()
+              gs = gridspec.GridSpec(4, 3)
+              if start_year + numYears > self.df_short.index.year[-1]:
+                hist_start_point = 0
+              else:
+                hist_start_point = (start_year - self.df_short.index.year[0])*365
+            counter1 = 0
+            counter2 = 0
+            for reservoir in self.reservoir_list:
+                if plot_key == 'Y':
+                    date_for_plotting = mdates.date2num(dates_for_output.to_pydatetime())
                     if data_type == 'fnf':
-                        ax1 = plt.subplot(gs[0, 0])
-                        ax1.plot(reservoir.daily_output_data[data_type][0:len(reservoir.fnf)], c='red')
-                        ax1.plot(range(274, 274 + len(reservoir.fnf)), reservoir.fnf * 1000.0, c='black')
-                        ax2 = plt.subplot(gs[1, 0])
-                        ax2.plot(reservoir.daily_output_data[data_type], c='red')
+                        ax1 = plt.subplot(gs[counter1, counter2])
+                        ax1.plot_date(date_for_plotting, np.log(reservoir.daily_output_data[data_type]), fmt = '-', c='red')
+                        ax1.plot_date(date_for_plotting, np.log(reservoir.fnf[hist_start_point:(hist_start_point + len(reservoir.daily_output_data[data_type]))]* 1000.0), fmt = '-', c='black')
+                        ax1.set_ylabel('ln(tAF)/day')
                     elif data_type == 'inf':
-                        ax1 = plt.subplot(gs[0, 0])
-                        ax1.plot(reservoir.daily_output_data[data_type][0:len(reservoir.fnf)], c='red')
-                        ax1.plot(range(274, 274 + len(reservoir.Q)), reservoir.Q, c='black')
-                        ax2 = plt.subplot(gs[1, 0])
-                        ax2.plot(reservoir.daily_output_data[data_type], c='red')
-                    elif data_type == 'gains':
-                        ax1 = plt.subplot(gs[0, 0])
-                        ax1.plot(reservoir.daily_output_data[data_type][0:len(reservoir.fnf)], c='red')
-                        ax1.plot(range(274, 274 + len(reservoir.downstream)), reservoir.downstream, c='black')
-                        ax2 = plt.subplot(gs[1, 0])
-                        ax2.plot(reservoir.daily_output_data[data_type], c='red')
-                    elif data_type == 'evap':
-                        ax1 = plt.subplot(gs[0, 0])
-                        ax1.plot(reservoir.daily_output_data[data_type][0:len(reservoir.fnf)], c='red')
-                        ax1.plot(range(274, 274 + len(reservoir.E)), reservoir.E, c='black')
-                        ax2 = plt.subplot(gs[1, 0])
-                        ax2.plot(reservoir.daily_output_data[data_type], c='red')
-                    elif data_type == 'precip':
-                        ax1 = plt.subplot(gs[0, 0])
-                        ax1.plot(reservoir.daily_output_data[data_type][0:len(reservoir.fnf)], c='red')
-                        ax1.plot(range(274, 274 + len(reservoir.precip)), reservoir.precip, c='black')
-                        ax2 = plt.subplot(gs[1, 0])
-                        ax2.plot(reservoir.daily_output_data[data_type], c='red')
-                    elif data_type == 'fci':
-                        ax1 = plt.subplot(gs[0, 0])
-                        ax1.plot(reservoir.daily_output_data[data_type][0:len(reservoir.fnf)], c='red')
-                        ax1.plot(range(274, 274 + len(reservoir.fci)), reservoir.fci, c='black')
-                        ax2 = plt.subplot(gs[1, 0])
-                        ax2.plot(reservoir.daily_output_data[data_type], c='red')
-                    fig.suptitle(reservoir.key + " " + data_type)
-                    plt.show()
-                    plt.close()
+                        ax1 = plt.subplot(gs[counter1, counter2])
+                        ax1.plot_date(date_for_plotting, reservoir.daily_output_data[data_type], fmt = '-', c='red')
+                        ax1.plot_date(date_for_plotting, reservoir.Q[hist_start_point:(hist_start_point + len(reservoir.daily_output_data[data_type]))], fmt = '-', c='black')
+                        ax1.set_ylabel('tAF/day')
+                    ax1.title.set_text(reservoir.key + " " + data_type)
+                    if counter1 == 3:
+                      xmin, xmax = ax1.get_xlim()
+                      ax1.set_xticks(np.round(np.linspace(xmin, xmax, 5), 2))
+                    else:
+                      ax1.set_xticklabels('')
+					
+                    if counter1 == 0 and counter2 == 0:
+                      plt.legend(('WRF', 'Observed - CDEC'))
 
-                fig = plt.figure()
-                gs = gridspec.GridSpec(2, 1)
-                ax1 = plt.subplot(gs[0, 0])
-                ax1.plot(reservoir.daily_output_data['snow'][0:len(reservoir.fnf)], c='red')
-                ax1.plot(range(274, 274 + len(reservoir.SNPK)), reservoir.SNPK, c='black')
-                ax2 = plt.subplot(gs[1, 0])
-                ax2.plot(reservoir.daily_output_data['snow'], c='red')
-                fig.suptitle(reservoir.key + " snow")
-                plt.show()
-                plt.close()
+                if plot_key == 'X':
+                    if data_type == 'gains':
+                        ax1 = plt.subplot(gs[counter1, counter2])
+                        ax1.plot(reservoir.daily_output_data[data_type], c='red')
+                        ax1.plot(range(hist_start_point, hist_start_point + len(reservoir.daily_output_data[data_type])), reservoir.downstream[hist_start_point:(hist_start_point + len(reservoir.daily_output_data[data_type]))], c='black')
+                    elif data_type == 'evap':
+                        ax1 = plt.subplot(gs[counter1, counter2])
+                        ax1.plot(reservoir.daily_output_data[data_type], c='red')
+                        ax1.plot(range(hist_start_point, hist_start_point + len(reservoir.daily_output_data[data_type])), reservoir.E[hist_start_point:(hist_start_point + len(reservoir.daily_output_data[data_type]))], c='black')
+                    elif data_type == 'precip':
+                        ax1 = plt.subplot(gs[counter1, counter2])
+                        ax1.plot(reservoir.daily_output_data[data_type], c='red')
+                        ax1.plot(range(hist_start_point, hist_start_point + len(reservoir.daily_output_data[data_type])), reservoir.precip[hist_start_point:(hist_start_point + len(reservoir.daily_output_data[data_type]))], c='black')
+                    elif data_type == 'fci':
+                        ax1 = plt.subplot(gs[counter1, counter2])
+                        ax1.plot(reservoir.daily_output_data[data_type], c='red')
+                        ax1.plot(range(hist_start_point, hist_start_point + len(reservoir.daily_output_data[data_type])), reservoir.fci[hist_start_point:(hist_start_point + len(reservoir.daily_output_data[data_type]))], c='black')
+                counter1 += 1
+                if counter1 == 4:
+                  counter1 = 0
+                  counter2 += 1
+            if plot_key == 'Y' and (data_type == 'fnf' or data_type == 'inf'):
+              plt.show()
+              plt.close()
+
 
         for deltaname in self.delta_list:
-            if plot_key == deltaname:
+            if plot_key == 'X':
                 fig = plt.figure()
                 gs = gridspec.GridSpec(2, 1)
                 ax1 = plt.subplot(gs[0, 0])
@@ -1302,6 +1433,7 @@ class Inputter():
                 elif deltaname == 'BRK':
                     ax2.plot(range(274, 274 + len(self.df.BRK_pump)), self.df.BRK_pump * cfs_tafd, c='black')
                 fig.suptitle(deltaname)
+                plt.tight_layout()
                 plt.show()
                 plt.close()
 
