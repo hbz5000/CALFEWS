@@ -19,6 +19,39 @@ class Canal():
       for k, v in json.load(open(scenario_file)).items():
         setattr(self, k, v)
 
+
+  def object_equals(self, other):
+    ##This function compares two instances of an object, returns True if all attributes are identical.
+    equality = {}
+    if (self.__dict__.keys() != other.__dict__.keys()):
+      return ('Different Attributes')
+    else:
+      differences = 0
+      for i in self.__dict__.keys():
+        if type(self.__getattribute__(i)) is dict:
+          equality[i] = True
+          for j in self.__getattribute__(i).keys():
+            if ((type(j) == Canal) == False):
+              if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
+                if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
+                  equality[i] = False
+                  differences += 1
+              else:
+                if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
+                  equality[i] = False
+                  differences += 1
+        else:
+          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
+            if equality[i] == False:
+              differences += 1
+          else:
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
+            if equality[i] == False:
+              differences += 1
+    return (differences == 0)
+
+
   def check_flow_capacity(self, available_flow, canal_loc, flow_dir):
     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal at the current node 
     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]	
@@ -29,8 +62,8 @@ class Canal():
       excess_flow = 0.0
    
     return available_flow, excess_flow
-    
-	
+
+
   def find_priority_fractions(self, node_capacity, type_fractions, type_list, canal_loc, flow_dir):
     #this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the total demand at that node 
     total_delivery_capacity = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], node_capacity), 0.0)

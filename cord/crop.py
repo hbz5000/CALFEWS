@@ -55,7 +55,7 @@ class Crop():
 	
     for k,v in json.load(open('cord/crop/%s_properties.json' % key)).items():
         setattr(self,k,v)
-
+		
   def set_pmp_parameters(self, all_parameters, district):
     for parameter_name in all_parameters:
       parameter_data = all_parameters[parameter_name]

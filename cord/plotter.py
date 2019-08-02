@@ -27,6 +27,85 @@ def init_plotting():
     plt.rcParams['ytick.labelsize'] = plt.rcParams['font.size']
 
 
+def compare_hydrology(filename_list, filename_label, color_list, key_list, key_label, plot_dim_1, plot_dim_2, index_avail, adjustment_list, value_to_plot, observation_keys = None, index_labels = 0, aggregate = None):
+  sns.set()
+  sns.set_context('paper', font_scale=2)
+  fig = plt.figure()
+  gs = gridspec.GridSpec(plot_dim_1, plot_dim_2)
+  counter = 0
+  for files, value_adjust, this_color, plot_label in zip(filename_list, adjustment_list, color_list, filename_label):
+    if index_avail:
+      if aggregate is None:
+        file_values = pd.read_csv(files)
+        file_values['Date'] = pd.to_datetime(file_values.datetime)
+        file_values.set_index('Date', inplace = True)
+        
+      else:
+        file_values_daily = pd.read_csv(files)
+        file_values_daily['Date'] = pd.to_datetime(file_values_daily.datetime)
+        file_values_daily.set_index('Date', inplace = True)
+        file_values = file_values_daily.resample(aggregate).sum()
+      print(file_values)
+      dates_as_datetime = file_values.index
+      if counter == 0:
+        start_date = dates_as_datetime[0]
+        end_date = dates_as_datetime[-1]
+        index_values = dates_as_datetime
+        
+      else:
+        date_mask = (dates_as_datetime >= start_date) & (dates_as_datetime <= end_date)
+        file_values = file_values[date_mask]
+        file_values.set_index(index_values)
+
+      if plot_label != 'Observations' or observation_keys is None:
+        for  key_names in key_list:
+          file_values[key_names] = file_values[key_names] / value_adjust
+      else:
+        for key_names in observation_keys:
+          file_values[key_names] = file_values[key_names] / value_adjust
+
+    else:
+      file_values = pd.read_csv(files)
+      file_values.set_index(index_labels)
+    counter1 = 0
+    counter2 = 0
+    if observation_keys is None:
+      for key_names, key_labels in zip(key_list, key_label):
+        ax0 = plt.subplot(gs[counter1, counter2])
+        file_values.plot(ax=ax0, x = index_values, y = key_names, use_index = True, color = this_color, alpha = 0.9, linewidth = 3)
+        ax0.set_title(key_labels)
+        plt.xlabel('')
+        plt.ylabel(value_to_plot)
+        ax0.get_legend().remove()
+
+        counter1 += 1
+        if counter1 == plot_dim_1:
+          counter1 = 0
+          counter2 += 1
+
+    else:
+      for key_names, key_labels, key_names_2 in zip(key_list, key_label, observation_keys):
+        ax0 = plt.subplot(gs[counter1, counter2])
+        print(key_labels)
+        if plot_label == 'Observations':
+          file_values.plot(ax=ax0, x = index_values, y = key_names_2, use_index = True, color = this_color, alpha = 0.9, linewidth = 3)
+        else:
+          file_values.plot(ax=ax0, x = index_values, y = key_names, use_index = True, color = this_color, alpha = 0.9, linewidth = 3)
+        ax0.set_title(key_labels)
+        plt.xlabel('')
+        plt.ylabel(value_to_plot)
+        ax0.get_legend().remove()
+
+        counter1 += 1
+        if counter1 == plot_dim_1:
+          counter1 = 0
+          counter2 += 1
+    counter += 1
+    if counter == len(filename_list):
+      plt.legend(filename_label)
+  plt.show()
+      
+	
 def compare_validation(res_old,res_new,obs,name,freq,freq2, data_name, old_new):
   # input two series and a frequency
   init_plotting()

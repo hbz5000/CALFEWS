@@ -165,11 +165,55 @@ class District():
         self.contract_exchange[x] = np.zeros(self.T)
 
 
+		
+  def object_equals(self, other):
+    ##This function compares two instances of an object, returns True if all attributes are identical.
+    equality = {}
+    if (self.__dict__.keys() != other.__dict__.keys()):
+      return ('Different Attributes')
+    else:
+      differences = 0
+      for i in self.__dict__.keys():
+        if type(self.__getattribute__(i)) is dict:
+          equality[i] = True
+          for j in self.__getattribute__(i).keys():
+            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
+                equality[i] = False
+                differences += 1
+            else:
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
+                equality[i] = False
+                differences += 1
+        else:
+          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
+            if equality[i] == False:
+              differences += 1
+          else:
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
+            if equality[i] == False:
+              differences += 1
+    return (differences == 0)
+
+
+
+##################################SENSITIVITY ANALYSIS#################################################################
+  def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):
+    wyt_list = ['W', 'AN', 'BN', 'D', 'C']
+    for wyt in wyt_list:
+      for i,v in enumerate(self.crop_list):
+        self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
+        for monthloop in range(0,12):
+          self.irrdemand.etM[v][wyt][monthloop] = self.irrdemand.etM[v][wyt][monthloop]*et_factor
+    self.seepage = 1.0 + irr_eff_factor
+    for recharge_count in range(0, len(self.recharge_decline)):
+      self.recharge_decline[recharge_count] = 1.0 - recharge_decline_factor*(1.0 - self.recharge_decline[recharge_count])
 
 #####################################################################################################################
 ##################################DEMAND CALCULATION#################################################################
 #####################################################################################################################
-		
+
   def find_baseline_demands(self,wateryear):
     self.monthlydemand = {}
     wyt_list = ['W', 'AN', 'BN', 'D', 'C']

@@ -23,41 +23,41 @@ from datetime import datetime
 
 
 # model_mode = 'simulation'
-model_mode = 'validation'
-# model_mode = 'forecast'
-
-demand_type = 'pesticide'
+# model_mode = 'validation'
+model_mode = 'sensitivity'
 startTime = datetime.now()
 
 # To run full dataset, short_test = -1. Else enter number of days to run, starting at sd. e.g. 365 for 1 year only.
 short_test = -1
 
+# save output models as pkl? Careful of memory with large sensitivity analyses...
+save_pkl = True
+
 # always use shorter historical dataframe for expected delta releases
 expected_release_datafile = 'cord/data/input/cord-data.csv'
-
 # data for actual simulation
 if model_mode == 'simulation':
-  # sd = '10-01-1996'
-  # input_data_file = 'cord/data/input/cord-data.csv'
-  sd = '10-01-1905'
+  demand_type = 'baseline'
+  #demand_type = 'pmp'
   input_data_file = 'cord/data/input/cord-data-sim.csv'
 elif model_mode == 'validation':
-  sd = '10-01-1996'
+  demand_type = 'pesticide'
   input_data_file = 'cord/data/input/cord-data.csv'
-elif model_mode == 'forecast':
-  sd = '01-01-1950'
+elif model_mode == 'sensitivity':
+  demand_type = 'baseline'
   base_data_file = 'cord/data/input/cord-data.csv'
+
 if model_mode == 'simulation' or model_mode == 'validation':
   ######################################################################################
   # Model Class Initialization
   ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
   ##
-  modelno = Model(input_data_file, expected_release_datafile, sd, model_mode, demand_type)
-  modelso = Model(input_data_file, expected_release_datafile, sd, model_mode, demand_type)
+  modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
+  modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
   modelso.max_tax_free = {}
   modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
   modelso.forecastSRI = modelno.delta.forecastSRI
-  modelso.southern_initialization_routine(startTime, modelno.delta.forecastSRI)
+  modelso.southern_initialization_routine(startTime)
 
   ######################################################################################
   ###Model Simulation
@@ -85,95 +85,75 @@ if model_mode == 'simulation' or model_mode == 'validation':
     swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
 
     swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
+
+
 ######################################################################################
-else:
+elif model_mode == 'sensitivity':
   #####FLOW GENERATOR#####
   #seed
   np.random.seed(1001)
+  #Initialize flow input scenario
+  new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, use_sensitivity = True)
+  new_inputs.run_initialization('XXX')
+  scenario_name = 'observations'
+  model_name = 'CDEC'
+  
+  ##Initialize dataframes to store sensitivity parameters and results
+  sensitivity_df = pd.DataFrame()
+  param_df = pd.DataFrame()
+  for n in new_inputs.sensitivity_factors['factor_list']:
+    param_df[n] = np.zeros(new_inputs.sensitivity_factors['total_factors'])
+	
+  #Loop through sensitivity realizations
+  for x in range(0, new_inputs.sensitivity_factors['total_factors']):
+    new_inputs.run_routine(scenario_name, model_name, x)
+    input_data_file = new_inputs.export_series[scenario_name][model_name]
+	
+    modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type, x, new_inputs.sensitivity_factors)
+    modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type, x, new_inputs.sensitivity_factors)
+    modelso.max_tax_free = {}
+    modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
+    modelso.forecastSRI = modelno.delta.forecastSRI
+    modelso.southern_initialization_routine(startTime)
+    if (short_test < 0):
+      timeseries_length = min(modelno.T, modelso.T)
+    else:
+      timeseries_length = short_test
+    swp_release = 1
+    cvp_release = 1
+    swp_release2 = 1
+    cvp_release2 = 1
+    swp_pump = 999.0
+    cvp_pump = 999.0
+    proj_surplus = 0.0
+    swp_available = 0.0
+    cvp_available = 0.0
+    for t in range(0, timeseries_length):
+      if (t % 365 == 364):
+        print('Year ', (t+1)/365, ', ', datetime.now() - startTime)
+      # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
+      swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
 
-  file_folder = 'cord/data/CA_FNF_climate_change/'
-  model_name_list = ['gfdl-esm2m']#, 'canesm2', 'ccsm4', 'cnrm-cm5', 'csiro-mk3-6-0', 'gfdl-cm3', 'hadgem2-cc', 'hadgem2-es', 'inmcm4', 'ipsl-cm5a-mr', 'miroc5']
-  proj_list = ['rcp45']#, 'rcp85']
-  new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode)
-  new_inputs.initialize_reservoirs()
-  new_inputs.generate_relationships('XXX')
-  new_inputs.autocorrelate_residuals('XXX')
-  new_inputs.fill_snowpack('XXX')
-  new_inputs.generate_relationships_delta('XXX')
-  new_inputs.autocorrelate_residuals_delta('XXX')
-  for model_name in model_name_list:
-    for projection in proj_list:
-      file_name = 'CA_FNF_' + model_name + '_' + projection + '_r1i1p1.csv'
-      print('Starting ' + file_name)
-      new_inputs.run_routine(file_folder, file_name, 'daily', 1, 150, 2, '1/1/1950', '12/31/2099', 1950)
-      input_data_file = file_folder + 'cord-data-' + file_name
+      swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
+	  
+    for n in new_inputs.sensitivity_factors['factor_list']:
+      param_df[n][x] = new_inputs.sensitivity_factors[n]['realization']
+	  
+    sensitivity_df['SWP_%s' % x] = pd.Series(modelso.annual_SWP)
+    sensitivity_df['CVP_%s' % x] = pd.Series(modelso.annual_CVP)
+    sensitivity_df['SMI_deliver_%s' %x] = pd.Series(modelso.semitropic.annual_supplies['delivery'])
+    sensitivity_df['SMI_take_%s' %x] = pd.Series(modelso.semitropic.annual_supplies['leiu_applied'])
+    sensitivity_df['SMI_give_%s' %x] = pd.Series(modelso.semitropic.annual_supplies['leiu_delivered'])
+    sensitivity_df['WON_land_%s' %x] = pd.Series(modelso.wonderful.annual_supplies['acreage'])
 
-      ######################################################################################
-      # Model Class Initialization
-      ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
-      ##
-      modelno = Model(input_data_file, expected_release_datafile, sd, model_mode)
-      modelso = Model(input_data_file, expected_release_datafile, sd, model_mode)
-      modelso.max_tax_free = {}
-      modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
-      modelso.southern_initialization_routine(startTime)
-      ######################################################################################
-      ###Model Simulation
-      ######################################################################################
-      if (short_test < 0):
-        timeseries_length = min(modelno.T, modelso.T)
-      else:
-        timeseries_length = short_test
-      ###initial parameters for northern model input
-      ###generated from southern model at each timestep
-      swp_release = 1
-      cvp_release = 1
-      swp_release2 = 1
-      cvp_release2 = 1
-      swp_pump = 999.0
-      cvp_pump = 999.0
-      proj_surplus = 0.0
-      swp_available = 0.0
-      cvp_available = 0.0
-      ############################################
-      for t in range(0, timeseries_length):
-        if (t % 365 == 364):
-          print('Year ', (t+1)/365, ', ', datetime.now() - startTime)        # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
-        swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
+    if (save_pkl):
+      pd.to_pickle(modelno, 'cord/data/results/modelno' + str(x) + '.pkl')
+      pd.to_pickle(modelso, 'cord/data/results/modelso' + str(x) + '.pkl')
 
-        swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
-        ######################################################################################
-      release_df = pd.DataFrame(index=modelno.index)
-      northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones,
-                           modelno.donpedro, modelno.exchequer]
-      southern_res_list = [modelso.millerton, modelso.success, modelso.kaweah, modelso.isabella]
-      canal_list = [modelso.fkc, modelso.madera, modelso.kernriverchannel, modelso.kaweahriverchannel,
-                    modelso.tuleriverchannel]
-      canal_turnout_list = ['OFK', 'MAD', 'CWY', 'OKW', 'OTL']
-      pump_list = [modelno.delta.TRP_pump, modelno.delta.HRO_pump, modelso.calaqueduct.daily_flow['OSW'],
-                   modelso.calaqueduct.daily_flow['WRM'], modelso.calaqueduct.daily_flow['SOC']]
-      pump_names = ['TRP_pump', 'HRO_pump', 'DOS_pump', 'BVA_pump', 'EDM_pump']
-      for x in northern_res_list:
-        temp_df = pd.DataFrame(index=modelno.index)
-        temp_df['%s_release' % x.key] = pd.Series(x.R, index=modelno.index)
-        release_df = pd.concat([release_df, temp_df], axis=1)
-      for x in southern_res_list:
-        temp_df = pd.DataFrame(index=modelno.index)
-        temp_df['%s_release' % x.key] = pd.Series(x.R, index=modelso.index)
-        release_df = pd.concat([release_df, temp_df], axis=1)
-      for x, y in zip(canal_list, canal_turnout_list):
-        temp_df = pd.DataFrame(index=modelno.index)
-        temp_df['%s_release' % x.key] = pd.Series(x.daily_flow[y], index=modelso.index)
-        release_df = pd.concat([release_df, temp_df], axis=1)
-      for x, y in zip(pump_list, pump_names):
-        temp_df = pd.DataFrame(index=modelno.index)
-        temp_df[y] = pd.Series(x, index=modelso.index)
-        release_df = pd.concat([release_df, temp_df], axis=1)
-      release_df.to_csv('cord/data/results/release_results_' + file_name)
-
-      # del modelno
-      # del modelso
-      # del release_df
+    del modelno
+    del modelso
+  param_df.to_csv('cord/data/results/sensitivity_params.csv')
+  sensitivity_df.to_csv('cord/data/results/sensitivity_results.csv')
 
 ######################################################################################
 ###Record Simulation Results

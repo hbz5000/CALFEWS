@@ -39,6 +39,11 @@ class Reservoir():
     self.short_ending_year = int(self.short_year[self.T_short-1])
     self.short_dowy = water_day(self.short_day_year, self.short_year)
     self.short_water_year = water_year(self.short_month, self.short_year, self.short_starting_year)
+	
+    self.short_leap = leap(np.arange(min(self.short_year), max(self.short_year)+2))
+    short_year_list = np.arange(min(self.short_year), max(self.short_year)+2)
+    self.short_days_in_month = days_in_month(short_year_list, self.short_leap)
+
 
     self.days_through_month = [60, 91, 122, 150, 181]
     self.hist_wyt = ['W', 'W', 'W', 'AN', 'D', 'D', 'AN', 'BN', 'AN', 'W', 'D', 'C', 'D', 'BN', 'W', 'BN', 'D', 'C', 'C', 'AN']
@@ -54,9 +59,6 @@ class Reservoir():
     self.flood_storage = np.zeros(self.T)
     self.Rtarget = np.zeros(self.T)
     self.R_to_delta = np.zeros(self.T)
-
-		
-	###Reservoir Input Data
     if self.key == "SLS":
       #San Luis - State portion
       #San Luis Reservoir is off-line so it doesn't need the full reservoir class parameter set contained in the KEY_properties.json files
@@ -95,16 +97,20 @@ class Reservoir():
       self.downstream = df['%s_gains'% key].values * cfs_tafd
       self.fnf = df['%s_fnf'% key].values / 1000000.0
       self.R[0] = 0
-      if model_mode == 'validation':
-        self.historical_storage = df['%s_storage'% key].values
-        self.hist_releases = df['%s_otf' % key].values * cfs_tafd
-        self.S[0] = df['%s_storage' % key].iloc[0] / 1000.0
-        self.EOS_target = df['%s_storage' % key].iloc[0] / 1000.0
-        self.lastYearEOS_target = df['%s_storage' % key].iloc[0] / 1000.0
+      use_capacity = False
+      storage_start_date = df.index[0]
+      if df_short.index.contains(storage_start_date):
+        storage_start_index = df_short.index.get_loc(storage_start_date)
       else:
+        use_capacity = True
+      if use_capacity:
         self.S[0] = self.capacity
         self.EOS_target = (self.capacity - 1000.0)/2 + 1000.0
         self.lastYearEOS_target = (self.capacity - 1000.0)/2 + 1000.0
+      else:
+        self.S[0] = df_short['%s_storage' % key].iloc[storage_start_index] / 1000.0
+        self.EOS_target = df_short['%s_storage' % key].iloc[storage_start_index] / 1000.0
+        self.lastYearEOS_target = df_short['%s_storage' % key].iloc[storage_start_index] / 1000.0
 	  
     #Environmental release requirements
     #environmental rules are dependent on the water year type	
@@ -140,6 +146,9 @@ class Reservoir():
     self.baseinf_stds = np.zeros(365)
     self.rainflood_fnf = np.zeros(self.T)
     self.snowflood_fnf = np.zeros(self.T)
+    self.short_rainflood_fnf = np.zeros(self.T_short)
+    self.short_snowflood_fnf = np.zeros(self.T_short)
+
     self.rainflood_inf = np.zeros(self.T)##linear projections (i.e. 50% exceedence)
     self.snowflood_inf = np.zeros(self.T)##linear projections (i.e. 50% exceedence)
     self.baseline_inf = np.zeros(self.T)
@@ -155,6 +164,37 @@ class Reservoir():
     self.lastYearRainflood = 9999.9
     self.variable_min_flow = 0.0
     self.min_daily_overflow = 0.0
+
+
+  def object_equals(self, other):
+    ##This function compares two instances of an object, returns True if all attributes are identical.
+    equality = {}
+    if (self.__dict__.keys() != other.__dict__.keys()):
+      return ('Different Attributes')
+    else:
+      differences = 0
+      for i in self.__dict__.keys():
+        if type(self.__getattribute__(i)) is dict:
+          equality[i] = True
+          for j in self.__getattribute__(i).keys():
+            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
+                equality[i] = False
+                differences += 1
+            else:
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
+                equality[i] = False
+                differences += 1
+        else:
+          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
+            if equality[i] == False:
+              differences += 1
+          else:
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
+            if equality[i] == False:
+              differences += 1
+    return (differences == 0)
 
 
   def find_available_storage(self, t):
@@ -585,7 +625,7 @@ class Reservoir():
       else:
         self.gains_to_delta += downstream_flow
 	  
-  def sj_riv_res_flows(self,t,d):
+  def sj_riv_res_flows(self,t,d,toggle_short_series = 0):
     ##Interpolates rules from sj_restoration_proj in *_properties.json file (note: only for Lake Millerton)
 	##to get the total daily releases needed to be made under the SJ River Restoration Program (note: rules go into effect
 	##in 2009 - they are triggered by the model.update_regulations function
@@ -593,7 +633,10 @@ class Reservoir():
       if v > d:
         break
     
-    ix = self.rainflood_fnf[t] + self.snowflood_fnf[t]
+    if toggle_short_series == 1:
+      ix = self.short_rainflood_fnf[t] + self.short_snowflood_fnf[t]
+    else:
+      ix = self.rainflood_fnf[t] + self.snowflood_fnf[t]
     release_schedule = self.sj_restoration_proj['release'][i]
     return np.interp(ix, self.sj_restoration_proj['index'], release_schedule)*cfs_tafd
 	
@@ -661,14 +704,14 @@ class Reservoir():
         wyt = self.hist_wyt[wateryear]
         if m == 9 and da == 30:
           for month_count in range(0,9):
-            if current_obs[month_count]/self.days_in_month[y][month_count] > downstream_release[wyt][month_count]:
-              downstream_release[wyt][month_count] = current_obs[month_count]/self.days_in_month[y][month_count]
+            if current_obs[month_count]/self.short_days_in_month[y][month_count] > downstream_release[wyt][month_count]:
+              downstream_release[wyt][month_count] = current_obs[month_count]/self.short_days_in_month[y][month_count]
           for month_count in range(9,12):
-            if current_obs[month_count]/self.days_in_month[y-1][month_count] > downstream_release[wyt][month_count]:
-              downstream_release[wyt][month_count] = current_obs[month_count]/self.days_in_month[y-1][month_count]
+            if current_obs[month_count]/self.short_days_in_month[y-1][month_count] > downstream_release[wyt][month_count]:
+              downstream_release[wyt][month_count] = current_obs[month_count]/self.short_days_in_month[y-1][month_count]
           current_obs = np.zeros(12)
         if sjrr_toggle == 1:
-          sjrr_flow = self.sj_riv_res_flows(t, dowy)
+          sjrr_flow = self.sj_riv_res_flows(t, dowy, 1)
           downstream_req = max(self.temp_releases[wyt][m-1]*cfs_tafd, sjrr_flow)
         else:
           sjrr_flow = 0.0
@@ -846,7 +889,7 @@ class Reservoir():
         plt.close()
 
 			
-  def find_release_func(self, df):
+  def find_release_func(self, df_short):
     ##this function is used to make forecasts when calculating available storage for export releases from reservoir
     ##using data from 1996 to 2016 (b/c data is available for all inputs needed), calculate total flows in oct-mar period and apr-jul period
     ##based on linear regression w/snowpack (apr-jul) and w/inflow (oct-mar)
@@ -855,8 +898,9 @@ class Reservoir():
     startYear = self.short_starting_year
     endYear = self.short_ending_year
     numYears = endYear - startYear
-    self.Q_predict = df['%s_inf'% self.key].values * cfs_tafd
-    self.fnf_predict = df['%s_fnf'% self.key].values / 1000000.0
+    Q_predict = df_short['%s_inf'% self.key].values * cfs_tafd
+    fnf_predict = df_short['%s_fnf'% self.key].values / 1000000.0
+    SNPK_predict = df_short['%s_snow' % self.key].values
 
     rainfnf = np.zeros(numYears)###total full-natural flow OCT-MAR
     snowfnf = np.zeros(numYears)###total full-natural flow APR-JUL
@@ -880,9 +924,9 @@ class Reservoir():
     complete_year = 0;##complete year counts all the years that have complete oct-jul data (partial years not used for lin. regression)
     for t in range(1,self.T_short):
       ##Get date information
-      m = self.month[t - 1]
-      da = self.day_month[t - 1]
-      dowy = self.dowy[t - 1]
+      dowy = self.short_dowy[t - 1]
+      m = self.short_month[t - 1]
+      da = self.short_day_month[t - 1]
       
 	  #Use date information to determine if its the rainflood season
       if m == 10:
@@ -901,52 +945,52 @@ class Reservoir():
 	  #find the cumulative full natural flows through each day of the rainflood season - each day has a unique 21 value (year) vector which is the independent variable in the regression to predict total rainflood season flows
       if m == 10 and da == 1:
         current_year +=1
-        rainfnf_cumulative[dowy][current_year-1] = self.fnf_predict[t-1]
+        rainfnf_cumulative[dowy][current_year-1] = fnf_predict[t-1]
         snowfnf_cumulative[dowy][current_year-1] = 0
       elif section_fnf == 1:
-        rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1] + self.fnf_predict[t-1]
+        rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1] + fnf_predict[t-1]
         snowfnf_cumulative[dowy][current_year-1] = 0
       elif section_fnf == 2:
         rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1] ##no rainflood predictions after the rainflood season ends
-        snowfnf_cumulative[dowy][current_year-1] = snowfnf_cumulative[dowy-1][current_year-1] + self.fnf_predict[t-1]
+        snowfnf_cumulative[dowy][current_year-1] = snowfnf_cumulative[dowy-1][current_year-1] + fnf_predict[t-1]
       elif section_fnf == 3:
         rainfnf_cumulative[dowy][current_year-1] = rainfnf_cumulative[dowy-1][current_year-1]
         snowfnf_cumulative[dowy][current_year-1] = snowfnf_cumulative[dowy-1][current_year-1]
 
 	  #find the cumulative reservoir inflows through each day of the rainflood season - each day has a unique 21 value (year) vector which is the independent variable in the regression to predict total rainflood season flows
       if m == 10 and da == 1:
-        raininf_cumulative[dowy][current_year-1] = self.Q[t-1]
+        raininf_cumulative[dowy][current_year-1] = Q_predict[t-1]
         snowinf_cumulative[dowy][current_year-1] = 0.0
         baseinf_cumulative[dowy][current_year-1] = 0.0
       elif section_inf == 1:
-        raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1] + self.Q_predict[t-1]
+        raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1] + Q_predict[t-1]
         snowinf_cumulative[dowy][current_year-1] = 0.0
         baseinf_cumulative[dowy][current_year-1] = 0.0
       elif section_inf == 2:
         raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1] ##no rainflood predictions after the rainflood season ends
-        snowinf_cumulative[dowy][current_year-1] = snowinf_cumulative[dowy-1][current_year-1] + self.Q_predict[t-1]
+        snowinf_cumulative[dowy][current_year-1] = snowinf_cumulative[dowy-1][current_year-1] + Q_predict[t-1]
         baseinf_cumulative[dowy][current_year-1] = 0.0
       elif section_inf == 3:
         raininf_cumulative[dowy][current_year-1] = raininf_cumulative[dowy-1][current_year-1]
         snowinf_cumulative[dowy][current_year-1] = snowinf_cumulative[dowy-1][current_year-1]
-        baseinf_cumulative[dowy][current_year-1] = baseinf_cumulative[dowy-1][current_year-1] + self.Q_predict[t-1]
+        baseinf_cumulative[dowy][current_year-1] = baseinf_cumulative[dowy-1][current_year-1] + Q_predict[t-1]
 		
 	  ##find cumulative snowpack through each day of the year - each day has a unique 21 value (year) vector giving us 365 sepearte lin regressions)	  
-      snowPattern[dowy][current_year-1] = self.SNPK[t-1]
+      snowPattern[dowy][current_year-1] = SNPK_predict[t-1]
  
 	  #find the total full natural flows during the rainflood and snowflood seasons
       if section_fnf == 1:
-        rainfnf[current_year-1] += self.fnf_predict[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
+        rainfnf[current_year-1] += fnf_predict[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
       elif section_fnf == 2:
-        snowfnf[current_year-1] += self.fnf_predict[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
+        snowfnf[current_year-1] += fnf_predict[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
 
 	  #find the total reservoir inflow during the rainflood and snowmelt seasons
       if section_inf == 1:
-        raininf[current_year-1] += self.Q_predict[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
+        raininf[current_year-1] += Q_predict[t-1] ##total oct-mar inflow (one value per year - Y vector in lin regression)
       elif section_inf == 2:
-        snowinf[current_year-1] += self.Q_predict[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
+        snowinf[current_year-1] += Q_predict[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
       elif section_inf == 3:
-        baseinf[current_year-1] += self.Q_predict[t-1]
+        baseinf[current_year-1] += Q_predict[t-1]
     # print(self.key)
 
     for x in range(1,365):
@@ -1050,21 +1094,31 @@ class Reservoir():
 	 
 
 	  ############################################################################################################################################################
-    current_year = 0
-    for t in range(1,self.T_short):
+    for t in range(1,self.T):
       m = self.month[t - 1]
       da = self.day_month[t - 1]
       dowy = self.dowy[t - 1]
 	  
-      if m == 10 and da == 1:
-        current_year += 1
-
-      self.rainflood_fnf[t-1] = fnf_regression[dowy-1][0]*rainfnf_cumulative[dowy][current_year-1] + fnf_regression[dowy-1][1]
+      running_rain_fnf = np.sum(self.fnf[(t-dowy):(min(t, t-dowy+180))])
+      running_rain_inf = np.sum(self.Q[(t-dowy):(min(t, t-dowy+180))])
+      self.rainflood_fnf[t-1] = fnf_regression[dowy-1][0]*running_rain_fnf + fnf_regression[dowy-1][1]
       self.snowflood_fnf[t-1] = fnf_regression[dowy-1][2]*self.SNPK[t-1] + fnf_regression[dowy-1][3]
 
-      self.rainflood_inf[t-1] = inf_regression[dowy-1][0]*raininf_cumulative[dowy][current_year-1] + inf_regression[dowy-1][1]
+      self.rainflood_inf[t-1] = inf_regression[dowy-1][0]*running_rain_inf + inf_regression[dowy-1][1]
       self.snowflood_inf[t-1] = inf_regression[dowy-1][2]*self.SNPK[t-1] + inf_regression[dowy-1][3]
       self.baseline_inf[t-1] = inf_regression[dowy-1][4]*self.SNPK[t-1] + inf_regression[dowy-1][5]
+	  
+    current_year = 0
+    for t in range(1, self.T_short):
+      dowy = self.short_dowy[t - 1]
+      m = self.short_month[t - 1]
+      da = self.short_day_month[t - 1]
+      if m == 10 and da == 1:
+        current_year += 1
+      self.short_rainflood_fnf[t-1] = fnf_regression[dowy-1][0]*raininf_cumulative[dowy][current_year-1] + fnf_regression[dowy-1][1]
+      self.short_snowflood_fnf[t-1] = fnf_regression[dowy-1][2]*SNPK_predict[t-1] + fnf_regression[dowy-1][3]
+
+	  
 	  
   def accounting_as_df(self, index):
     df = pd.DataFrame()
