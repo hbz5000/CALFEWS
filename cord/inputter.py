@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import collections as cl
-import toyplot as tp
+# import toyplot as tp
 import calendar
 import scipy.stats as stats
 from .reservoir import Reservoir

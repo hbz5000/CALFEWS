@@ -155,8 +155,9 @@
 
 	  
   "sensitivity_factors":{
-    "total_factors": 30,
-    "factor_list": ["annual_mean_scale", "annual_vol_scale", "shift_oct_mar", "shift_apr_may", "et_multiplier", "acreage_multiplier", "irrigation_efficiency", "recharge_decline", "urban_wet_year_demand_reduction", "omr_flow", "omr_probability", "delta_outflow_multiplier"],
+    "total_factors": 45,
+    "factor_list": ["annual_mean_scale", "annual_vol_scale", "shift_oct_mar", "shift_apr_may"],
+    "factor_list_full": ["annual_mean_scale", "annual_vol_scale", "shift_oct_mar", "shift_apr_may", "et_multiplier", "acreage_multiplier", "irrigation_efficiency", "recharge_decline", "urban_wet_year_demand_reduction", "omr_flow", "omr_probability", "delta_outflow_multiplier"],
     "inflow_factor_list": ["annual_mean_scale", "annual_vol_scale", "shift_oct_mar", "shift_apr_may"],
     "district_factor_list": ["et_multiplier", "acreage_multiplier", "irrigation_efficiency", "recharge_decline", "urban_wet_year_demand_reduction", "omr_flow", "omr_probability", "delta_outflow_multiplier"], 
     "annual_mean_scale":{

@@ -91,7 +91,7 @@ if model_mode == 'simulation' or model_mode == 'validation':
 elif model_mode == 'sensitivity':
   #####FLOW GENERATOR#####
   #seed
-  np.random.seed(1001)
+  # np.random.seed(1001)
   #Initialize flow input scenario
   new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, use_sensitivity = True)
   new_inputs.run_initialization('XXX')
