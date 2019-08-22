@@ -42,27 +42,27 @@ class Inputter():
         self.non_leap_year = first_non_leap_year(self.dowy_eom)
         self.leap_year = first_leap_year(self.dowy_eom)
 
-        self.shasta = Reservoir(self.df, self.df_short, 'SHA', model_mode)
-        self.folsom = Reservoir(self.df, self.df_short, 'FOL', model_mode)
-        self.oroville = Reservoir(self.df, self.df_short, 'ORO', model_mode)
-        self.yuba = Reservoir(self.df, self.df_short, 'YRS', model_mode)
+        self.shasta = Reservoir(self.df, self.df_short, 'shasta', 'SHA', model_mode)
+        self.folsom = Reservoir(self.df, self.df_short, 'folsom', 'FOL', model_mode)
+        self.oroville = Reservoir(self.df, self.df_short, 'oroville', 'ORO', model_mode)
+        self.yuba = Reservoir(self.df, self.df_short, 'yuba', 'YRS', model_mode)
 
-        self.newhogan = Reservoir(self.df, self.df_short, 'NHG', model_mode)
-        self.pardee = Reservoir(self.df, self.df_short, 'PAR', model_mode)
-        self.consumnes = Reservoir(self.df, self.df_short, 'MHB', model_mode)
+        self.newhogan = Reservoir(self.df, self.df_short, 'newhogan', 'NHG', model_mode)
+        self.pardee = Reservoir(self.df, self.df_short, 'pardee', 'PAR', model_mode)
+        self.consumnes = Reservoir(self.df, self.df_short, 'consumnes', 'MHB', model_mode)
 
         # 3 San Joaquin River Reservoirs (to meet Vernalis flow targets)
-        self.newmelones = Reservoir(self.df, self.df_short, 'NML', model_mode)
-        self.donpedro = Reservoir(self.df, self.df_short, 'DNP', model_mode)
-        self.exchequer = Reservoir(self.df, self.df_short, 'EXC', model_mode)
+        self.newmelones = Reservoir(self.df, self.df_short, 'newmelones', 'NML', model_mode)
+        self.donpedro = Reservoir(self.df, self.df_short, 'donpedro', 'DNP', model_mode)
+        self.exchequer = Reservoir(self.df, self.df_short, 'exchequer', 'EXC', model_mode)
 
         # Millerton Reservoir (flows used to calculate San Joaquin River index, not in northern simulation)
-        self.millerton = Reservoir(self.df, self.df_short, 'MIL', model_mode)
+        self.millerton = Reservoir(self.df, self.df_short, 'millerton', 'MIL', model_mode)
 
-        self.pineflat = Reservoir(self.df, self.df_short, 'PFT', model_mode)
-        self.kaweah = Reservoir(self.df, self.df_short, 'KWH', model_mode)
-        self.success = Reservoir(self.df, self.df_short, 'SUC', model_mode)
-        self.isabella = Reservoir(self.df, self.df_short, 'ISB', model_mode)
+        self.pineflat = Reservoir(self.df, self.df_short, 'pineflat', 'PFT', model_mode)
+        self.kaweah = Reservoir(self.df, self.df_short, 'kaweah', 'KWH', model_mode)
+        self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', model_mode)
+        self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', model_mode)
         for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
             setattr(self,k,v)
 

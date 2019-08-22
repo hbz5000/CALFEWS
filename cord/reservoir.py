@@ -9,7 +9,7 @@ from .util import *
 
 class Reservoir():
 
-  def __init__(self, df, df_short, key, model_mode):
+  def __init__(self, df, df_short, name, key, model_mode):
     self.T = len(df)
     self.index = df.index
     self.day_year = self.index.dayofyear
@@ -49,6 +49,7 @@ class Reservoir():
     self.hist_wyt = ['W', 'W', 'W', 'AN', 'D', 'D', 'AN', 'BN', 'AN', 'W', 'D', 'C', 'D', 'BN', 'W', 'BN', 'D', 'C', 'C', 'AN']
 
     self.key = key
+    self.name = name
     self.forecastWYT = "AN"
 
 	##Reservoir Parameters

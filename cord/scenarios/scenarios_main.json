@@ -1,0 +1,17 @@
+{
+  "baseline_wy2017": {
+    "results_folder":	"cord/data/results/baseline_wy2017",
+	"FKC":				"cord/scenarios/FKC_properties__capacity_wy2017.json",
+	"LWT":				"baseline"
+    },
+  "FKC_capacity_rehab_full": {
+    "results_folder":	"cord/data/results/FKC_capacity_rehab_full",
+	"FKC":				"cord/scenarios/FKC_properties__capacity_rehab_full.json",
+	"LWT":				"baseline"
+    },
+  "LWT_inleiubank": {
+    "results_folder":	"cord/data/results/LWT_inleiubank",
+	"FKC":				"baseline",
+	"LWT":				"cord/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json"
+    }
+}

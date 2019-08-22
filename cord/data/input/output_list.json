@@ -1,0 +1,47 @@
+{
+ "north": {
+  "reservoirs": {
+   "any": true,
+   "shasta": {
+    "any": true,
+    "baseline_inf": true,
+    "snowflood_inf": true
+   },
+   "oroville": {
+    "any": true,
+    "baseline_inf": true,
+    "snowflood_inf": true
+   },
+   "yuba": {
+    "any": true,
+    "baseline_inf": true,
+    "snowflood_inf": true
+   },
+   "folsom": {
+    "any": true,
+    "baseline_inf": true,
+    "snowflood_inf": true
+   },
+   "newmelones": {
+    "any": true,
+    "baseline_inf": true,
+    "snowflood_inf": true
+   },
+   "donpedro": {
+    "any": true,
+    "baseline_inf": true,
+    "snowflood_inf": true
+   },
+   "exchequer": {
+    "any": true,
+    "baseline_inf": true,
+    "snowflood_inf": true
+   }
+  }
+ },
+ "south": {
+  "reservoirs": {
+   "any": true
+  }
+ }
+}

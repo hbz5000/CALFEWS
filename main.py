@@ -20,18 +20,33 @@ import matplotlib.pyplot as plt
 import cord
 from cord import *
 from datetime import datetime
+import os
+import shutil
+from configobj import ConfigObj
+import json
+import h5py
 
-
-# model_mode = 'simulation'
-# model_mode = 'validation'
-model_mode = 'sensitivity'
 startTime = datetime.now()
 
-# To run full dataset, short_test = -1. Else enter number of days to run, starting at sd. e.g. 365 for 1 year only.
-short_test = -1
+# get runtime params from config file
+config = ConfigObj('cord/data/input/runtime_params.ini')
+model_mode = config['model_mode']
+short_test = int(config['short_test'])
+save_all = bool(config['save_all'])
+seed = int(config['seed'])
+scenario_name = config['scenario_name']
+flow_input_type = config['flow_input_type']
+flow_input_source = config['flow_input_source']
+total_sensitivity_factors = int(config['total_sensitivity_factors'])
 
-# save output models as pkl? Careful of memory with large sensitivity analyses...
-save_pkl = True
+# infrastructure scenario file
+with open('cord/scenarios/scenarios_main.json') as f:
+  scenarios = json.load(f)
+scenario = scenarios[scenario_name]
+results_folder = scenario['results_folder']
+print(results_folder)
+os.makedirs(results_folder, exist_ok=True)
+shutil.copy('cord/data/input/runtime_params.ini', results_folder + '/runtime_params.ini')
 
 # always use shorter historical dataframe for expected delta releases
 expected_release_datafile = 'cord/data/input/cord-data.csv'
@@ -49,7 +64,7 @@ elif model_mode == 'sensitivity':
 
 if model_mode == 'simulation' or model_mode == 'validation':
   ######################################################################################
-  # Model Class Initialization
+  #   # Model Class Initialization
   ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
   ##
   modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
@@ -91,30 +106,30 @@ if model_mode == 'simulation' or model_mode == 'validation':
 elif model_mode == 'sensitivity':
   #####FLOW GENERATOR#####
   #seed
-  # np.random.seed(1001)
+  if (seed > 0):
+    np.random.seed(seed)
+
   #Initialize flow input scenario
   new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, use_sensitivity = True)
   new_inputs.run_initialization('XXX')
-  scenario_name = 'observations'
-  model_name = 'CDEC'
-  
+
   ##Initialize dataframes to store sensitivity parameters and results
   sensitivity_df = pd.DataFrame()
   param_df = pd.DataFrame()
   for n in new_inputs.sensitivity_factors['factor_list']:
-    param_df[n] = np.zeros(new_inputs.sensitivity_factors['total_factors'])
+    param_df[n] = np.zeros(total_sensitivity_factors)
 	
   #Loop through sensitivity realizations
-  for x in range(0, new_inputs.sensitivity_factors['total_factors']):
-    new_inputs.run_routine(scenario_name, model_name, x)
-    input_data_file = new_inputs.export_series[scenario_name][model_name]
+  for x in range(0, total_sensitivity_factors):
+    new_inputs.run_routine(flow_input_type, flow_input_source, x)
+    input_data_file = new_inputs.export_series[flow_input_type][flow_input_source]
 	
     modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type, x, new_inputs.sensitivity_factors)
     modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type, x, new_inputs.sensitivity_factors)
     modelso.max_tax_free = {}
     modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
     modelso.forecastSRI = modelno.delta.forecastSRI
-    modelso.southern_initialization_routine(startTime)
+    modelso.southern_initialization_routine(startTime, scenario)
     if (short_test < 0):
       timeseries_length = min(modelno.T, modelso.T)
     else:
@@ -146,14 +161,15 @@ elif model_mode == 'sensitivity':
     sensitivity_df['SMI_give_%s' %x] = pd.Series(modelso.semitropic.annual_supplies['leiu_delivered'])
     sensitivity_df['WON_land_%s' %x] = pd.Series(modelso.wonderful.annual_supplies['acreage'])
 
-    if (save_pkl):
-      pd.to_pickle(modelno, 'cord/data/results/modelno' + str(x) + '.pkl')
-      pd.to_pickle(modelso, 'cord/data/results/modelso' + str(x) + '.pkl')
+    if (save_all):
+      pd.to_pickle(modelno, results_folder + '/modelno' + str(x) + '.pkl')
+      pd.to_pickle(modelso, results_folder + '/modelso' + str(x) + '.pkl')
 
     del modelno
     del modelso
-  param_df.to_csv('cord/data/results/sensitivity_params.csv')
-  sensitivity_df.to_csv('cord/data/results/sensitivity_results.csv')
+
+  param_df.to_csv(results_folder + '/sensitivity_params.csv')
+  sensitivity_df.to_csv(results_folder + '/sensitivity_results.csv')
 
 ######################################################################################
 ###Record Simulation Results

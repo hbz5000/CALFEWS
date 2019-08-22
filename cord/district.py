@@ -11,7 +11,7 @@ from .util import *
 
 class District():
 
-  def __init__(self, df, key, scenario_file = 'baseline'):
+  def __init__(self, df, name, key, scenario_file = 'baseline'):
     self.T = len(df)
     self.starting_year = df.index.year[0]
     self.number_years = df.index.year[-1]-df.index.year[0]
@@ -23,10 +23,9 @@ class District():
     self.non_leap_year = first_non_leap_year(self.dowy_eom)
     self.turnback_use = True
 
-    if (scenario_file == 'baseline'):
-      for k,v in json.load(open('cord/districts/%s_properties.json' % key)).items():
-          setattr(self,k,v)
-    else:
+    for k, v in json.load(open('cord/districts/%s_properties.json' % key)).items():
+      setattr(self, k, v)
+    if ((scenario_file == 'baseline') == False):
       for k,v in json.load(open(scenario_file)).items():
           setattr(self,k,v)
 

@@ -1,5 +1,6 @@
 import calendar
 import numpy as np
+import h5py
 
 cfs_tafd = 2.29568411*10**-5 * 86400 / 1000
 tafd_cfs = 1000 / 86400 * 43560
@@ -76,4 +77,14 @@ def first_d_of_month(dowyeom, daysinmonth):
     first_d[i][:] = dowyeom[i] - daysinmonth[i] - 90
     first_d[i][first_d[i][:] < 0] = first_d[i][first_d[i][:] < 0] + 365
   return first_d
+
+# function to take northern & southern model, process & output data
+def data_output(config, results_folder, modelno, modelso):
+  nt = modelno.shasta.baseline_inf.shape[0]
+
+  with h5py.File(results_folder + '/results.hdf5', 'w', dtype='float') as f:
+    d = f.create_dataset('dataset', (nt, 100), dtype='float')
+
+
+
 

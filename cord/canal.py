@@ -11,11 +11,7 @@ class Canal():
     self.locked = 0#toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
     for k,v in json.load(open('cord/canals/%s_properties.json' % key)).items():
         setattr(self,k,v)
-
-    if (scenario_file == 'baseline'):
-      for k, v in json.load(open('cord/canals/%s_properties.json' % key)).items():
-        setattr(self, k, v)
-    else:
+    if ((scenario_file == 'baseline') == False):
       for k, v in json.load(open(scenario_file)).items():
         setattr(self, k, v)
 

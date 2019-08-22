@@ -228,18 +228,21 @@ class Model():
 	#reservoir initialization for the northern delta system
     #########################################################################################
     #4 Sacramento River Reservoirs (CVP & SWP)
-    self.shasta = Reservoir(self.df, self.df_short, 'SHA', self.model_mode)
-    self.folsom = Reservoir(self.df, self.df_short, 'FOL', self.model_mode)
-    self.oroville = Reservoir(self.df, self.df_short, 'ORO', self.model_mode)
-    self.yuba = Reservoir(self.df, self.df_short,'YRS', self.model_mode)
-	
+    self.shasta = Reservoir(self.df, self.df_short, 'shasta', 'SHA', self.model_mode)
+    self.folsom = Reservoir(self.df, self.df_short, 'folsom', 'FOL', self.model_mode)
+    self.oroville = Reservoir(self.df, self.df_short, 'oroville', 'ORO', self.model_mode)
+    self.yuba = Reservoir(self.df, self.df_short, 'yuba', 'YRS', self.model_mode)
+
     #3 San Joaquin River Reservoirs (to meet Vernalis flow targets)
-    self.newmelones = Reservoir(self.df, self.df_short,'NML', self.model_mode)
-    self.donpedro = Reservoir(self.df, self.df_short,'DNP', self.model_mode)
-    self.exchequer = Reservoir(self.df, self.df_short,'EXC', self.model_mode)
-	
+    self.newmelones = Reservoir(self.df, self.df_short, 'newmelones', 'NML', self.model_mode)
+    self.donpedro = Reservoir(self.df, self.df_short, 'donpedro', 'DNP', self.model_mode)
+    self.exchequer = Reservoir(self.df, self.df_short, 'exchequer', 'EXC', self.model_mode)
+
+    self.reservoir_list = [self.shasta, self.oroville, self.yuba, self.folsom, self.newmelones, self.donpedro,
+                           self.exchequer]
+
     #Millerton Reservoir (flows used to calculate San Joaquin River index, not in northern simulation)
-    self.millerton = Reservoir(self.df, self.df_short,'MIL', self.model_mode)
+    self.millerton = Reservoir(self.df, self.df_short, 'millerton', 'MIL', self.model_mode)
     reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro, self.exchequer, self.millerton]
     ##Regression flow & standard deviations read from file
     #### Find regression information for all 8 reservoirs
@@ -375,16 +378,16 @@ class Model():
     ############################################################################
     ###Reservoir Initialization
 	############################################################################
-    self.millerton = Reservoir(self.df, self.df_short,'MIL', self.model_mode)
-    self.pineflat = Reservoir(self.df, self.df_short,'PFT', self.model_mode)
-    self.kaweah = Reservoir(self.df, self.df_short,'KWH', self.model_mode)
-    self.success = Reservoir(self.df, self.df_short,'SUC', self.model_mode)
-    self.isabella = Reservoir(self.df, self.df_short,'ISB', self.model_mode)
+    self.millerton = Reservoir(self.df, self.df_short, 'millerton', 'MIL', self.model_mode)
+    self.pineflat = Reservoir(self.df, self.df_short, 'pineflat', 'PFT', self.model_mode)
+    self.kaweah = Reservoir(self.df, self.df_short, 'kaweah', 'KWH', self.model_mode)
+    self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', self.model_mode)
+    self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', self.model_mode)
     ###San Luis is initialized as a Reservoir, but
     ###has none of the watershed data that goes along with the other reservoirs
-    self.sanluis = Reservoir(self.df, self.df_short,'SNL', self.model_mode)
-    self.sanluisstate = Reservoir(self.df, self.df_short, 'SLS', self.model_mode)
-    self.sanluisfederal = Reservoir(self.df, self.df_short, 'SLF', self.model_mode)
+    self.sanluis = Reservoir(self.df, self.df_short, 'sanluis', 'SNL', self.model_mode)
+    self.sanluisstate = Reservoir(self.df, self.df_short, 'sanluisstate', 'SLS', self.model_mode)
+    self.sanluisfederal = Reservoir(self.df, self.df_short, 'sanluisfederal', 'SLF', self.model_mode)
     self.reservoir_list = [self.sanluisstate, self.sanluisfederal, self.millerton, self.isabella, self.success, self.kaweah, self.pineflat]
     if self.model_mode == 'forecast':
       ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
@@ -1955,19 +1958,19 @@ class Model():
         if x.key == 'XXX':
           sri = np.zeros(numYears_urban)
           percent = np.zeros(numYears_urban)
-          ax1 = fig.add_subplot(4,5,counter1)
+          # ax1 = fig.add_subplot(4,5,counter1)
           
           for yy in range(0,numYears_urban):
             sri[yy] = sri_forecast_dowy[wateryear_day][yy]
             percent[yy] = x.regression_percent[yy]	
-          ax1.scatter(sri, percent, s=50, c='red', edgecolor='none', alpha=0.7)
-          ax1.plot([np.max(sri), 0.0], [(np.max(sri)*coef[0] + coef[1]), coef[1]],c='red')
-          ax1.set_xlim([np.min(sri), np.max(sri)])
+          # ax1.scatter(sri, percent, s=50, c='red', edgecolor='none', alpha=0.7)
+          # ax1.plot([np.max(sri), 0.0], [(np.max(sri)*coef[0] + coef[1]), coef[1]],c='red')
+          # ax1.set_xlim([np.min(sri), np.max(sri)])
           counter1 += 1
           if counter1 == 21:
-            plt.show()
-            plt.close()
-            fig = plt.figure() 
+            # plt.show()
+            # plt.close()
+            # fig = plt.figure()
             counter1 = 1
 
 
@@ -2108,8 +2111,7 @@ class Model():
 	  
 	####NON-PROJECT USES
     ##Find out if reservoir releases need to be made for in-stream uses
-    self.reservoir_list = [self.shasta, self.oroville, self.yuba, self.folsom, self.newmelones, self.donpedro, self.exchequer]
-    for x in self.reservoir_list:	
+    for x in self.reservoir_list:
       x.rights_call(x.downstream[t])
     ##any additional losses before the delta inflow (.downstream member only accounts to downstream trib gauge)
 	##must be made up by releases from Shasta and New Melones, respectively
@@ -5122,11 +5124,7 @@ class Model():
       for waterbanks in self.waterbank_list:
         for x in range(0, len(waterbanks.recharge_decline)):
           waterbanks.recharge_decline[x] = 1.0 - self.sensitivity_factors['recharge_decline']['realization']*(1.0 - waterbanks.recharge_decline[x])		
-      
-    if (scenario == 'baseline'):
-      do_nothing = 0
-    elif (scenario['FKC'] == 'baseline'):
-      self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
+
 
 	
   def set_regulations_historical_north(self):
