@@ -154,7 +154,6 @@ class Delta():
               differences += 1
     return (differences == 0)
 
-
   def calc_expected_delta_outflow(self,shastaD,orovilleD,yubaD,folsomD,shastaMIN,orovilleMIN,yubaMIN,folsomMIN, gains_sac_short, gains_sj_short, depletions_short, eastside_short):
   #this function calculates an expectation for the volume of environmental releases expected to be made from each reservoir,
   #given the water year type
@@ -757,6 +756,7 @@ class Delta():
       if self.year[t] == self.omr_rule_start and m == 12:
         pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year][monthcounter])
         pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year][monthcounter])
+
 
 
       #total water available for pumping that isn't stored in reservoir (river gains)

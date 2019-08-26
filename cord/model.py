@@ -61,7 +61,6 @@ class Model():
       self.set_sensitivity_factors(sensitivity_index)
 
 
-
   def object_equals(self, other, return_full=False):
     ##This function compares two instances of a model object, returns True if all attributes are identical.
     equality = {}
@@ -94,6 +93,7 @@ class Model():
       return (equality)
     else:
       return (differences == 0)
+
 
 
 
@@ -342,6 +342,7 @@ class Model():
     ##initialization of the delta rules
     #########################################################################################
     self.delta = Delta(self.df, self.df_short, 'delta', 'DEL', self.model_mode)
+    
     if self.use_sensitivity:
       self.delta.set_sensitivity_factors(self.sensitivity_factors['delta_outflow_multiplier']['realization'], self.sensitivity_factors['omr_flow']['realization'], self.sensitivity_factors['omr_probability']['realization'])
 
@@ -1959,6 +1960,7 @@ class Model():
           sri = np.zeros(numYears_urban)
           percent = np.zeros(numYears_urban)
           # ax1 = fig.add_subplot(4,5,counter1)
+
           
           for yy in range(0,numYears_urban):
             sri[yy] = sri_forecast_dowy[wateryear_day][yy]
@@ -5124,7 +5126,6 @@ class Model():
       for waterbanks in self.waterbank_list:
         for x in range(0, len(waterbanks.recharge_decline)):
           waterbanks.recharge_decline[x] = 1.0 - self.sensitivity_factors['recharge_decline']['realization']*(1.0 - waterbanks.recharge_decline[x])		
-
 
 	
   def set_regulations_historical_north(self):

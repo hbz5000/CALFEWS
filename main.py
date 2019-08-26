@@ -72,6 +72,7 @@ elif model_mode == 'sensitivity':
   demand_type = 'baseline'
   base_data_file = 'cord/data/input/cord-data.csv'
 
+
 ######################################################################################
 if model_mode == 'sensitivity':
   #####FLOW GENERATOR#####
@@ -150,6 +151,7 @@ if model_mode == 'sensitivity':
 ###validation/simulation modes
 ######################################################################################
 elif model_mode == 'simulation' or model_mode == 'validation':
+
   ######################################################################################
   #   # Model Class Initialization
   ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
@@ -187,7 +189,6 @@ elif model_mode == 'simulation' or model_mode == 'validation':
     swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
 
     swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
-
 
   ### record results
   # district_output_list = [modelso.berrenda, modelso.belridge, modelso.buenavista, modelso.cawelo, modelso.henrymiller, modelso.ID4, modelso.kerndelta, modelso.losthills, modelso.rosedale, modelso.semitropic, modelso.tehachapi, modelso.tejon, modelso.westkern, modelso.wheeler, modelso.kcwa,

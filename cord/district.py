@@ -165,7 +165,6 @@ class District():
         self.contract_exchange[x] = np.zeros(self.T)
 
 
-		
   def object_equals(self, other):
     ##This function compares two instances of an object, returns True if all attributes are identical.
     equality = {}
@@ -210,6 +209,7 @@ class District():
     for recharge_count in range(0, len(self.recharge_decline)):
       self.recharge_decline[recharge_count] = 1.0 - recharge_decline_factor*(1.0 - self.recharge_decline[recharge_count])
 
+      
 #####################################################################################################################
 ##################################DEMAND CALCULATION#################################################################
 #####################################################################################################################

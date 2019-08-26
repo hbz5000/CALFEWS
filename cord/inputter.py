@@ -66,7 +66,6 @@ class Inputter():
         for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
             setattr(self,k,v)
 
-
         #self.reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro,
                                #self.exchequer, self.millerton, self.pineflat, self.kaweah, self.success, self.isabella,
                                #self.newhogan, self.pardee, self.consumnes]
@@ -755,6 +754,7 @@ class Inputter():
                 self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
             # print(sensitivity_factor, end = " ")
             # print(self.sensitivity_factors[sensitivity_factor]['realization'])
+
 				
     def perturb_flows(self, numYears):
         for reservoir in self.reservoir_list:
