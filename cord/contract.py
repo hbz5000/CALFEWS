@@ -6,10 +6,11 @@ from .util import *
 
 class Contract():
 
-  def __init__(self, df, key):
+  def __init__(self, df, name, key):
     self.T = len(df)
     self.number_years = df.index.year[-1]-df.index.year[0]
     self.key = key
+    self.name = name
 
     for k,v in json.load(open('cord/contracts/%s_properties.json' % key)).items():
         setattr(self,k,v)

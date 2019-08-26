@@ -341,7 +341,7 @@ class Model():
 	#########################################################################################
     ##initialization of the delta rules
     #########################################################################################
-    self.delta = Delta(self.df, self.df_short, 'DEL', self.model_mode)
+    self.delta = Delta(self.df, self.df_short, 'delta', 'DEL', self.model_mode)
     if self.use_sensitivity:
       self.delta.set_sensitivity_factors(self.sensitivity_factors['delta_outflow_multiplier']['realization'], self.sensitivity_factors['omr_flow']['realization'], self.sensitivity_factors['omr_probability']['realization'])
 
@@ -530,86 +530,86 @@ class Model():
     ###District Initialization
 	############################################################################
 	##Kern County Water Agency Member Units
-    self.berrenda = District(self.df, 'BDM')
-    self.belridge = District(self.df, 'BLR')
-    self.buenavista = District(self.df, 'BVA')
-    self.cawelo = District(self.df, 'CWO')
-    self.henrymiller = District(self.df, 'HML')
-    self.ID4 = District(self.df, 'ID4')
-    self.kerndelta = District(self.df, 'KND')
-    self.losthills = District(self.df, 'LHL')
-    self.rosedale = District(self.df, 'RRB')
-    self.semitropic = District(self.df, 'SMI')
-    self.tehachapi = District(self.df, 'THC')
-    self.tejon = District(self.df, 'TJC')
-    self.westkern = District(self.df, 'WKN')
-    self.wheeler = District(self.df, 'WRM')
-    self.kcwa = District(self.df, 'KCWA')
+    self.berrenda = District(self.df, 'berrenda', 'BDM')
+    self.belridge = District(self.df, 'belridge', 'BLR')
+    self.buenavista = District(self.df, 'buenavista', 'BVA')
+    self.cawelo = District(self.df, 'cawelo', 'CWO')
+    self.henrymiller = District(self.df, 'henrymiller', 'HML')
+    self.ID4 = District(self.df, 'ID4', 'ID4')
+    self.kerndelta = District(self.df, 'kerndelta', 'KND')
+    self.losthills = District(self.df, 'losthills', 'LHL')
+    self.rosedale = District(self.df, 'rosedale', 'RRB')
+    self.semitropic = District(self.df, 'semitropic', 'SMI')
+    self.tehachapi = District(self.df, 'tehachapi', 'THC')
+    self.tejon = District(self.df, 'tejon', 'TJC')
+    self.westkern = District(self.df, 'westkern', 'WKN')
+    self.wheeler = District(self.df, 'wheeler', 'WRM')
+    self.kcwa = District(self.df, 'kcwa', 'KCWA')
 	##Other Kern County
-    self.bakersfield = District(self.df, 'COB')
-    self.northkern = District(self.df, 'NKN')
+    self.bakersfield = District(self.df, 'bakersfield', 'COB')
+    self.northkern = District(self.df, 'northkern', 'NKN')
     ##Friant Kern Contractors
-    self.arvin = District(self.df, 'ARV')
-    self.pixley = District(self.df, 'PIX')
-    self.delano = District(self.df, 'DLE')
-    self.exeter = District(self.df, 'EXE')
-    self.kerntulare = District(self.df, 'KRT')
-    self.lindmore = District(self.df, 'LND')
-    self.lindsay = District(self.df, 'LDS')
+    self.arvin = District(self.df, 'arvin', 'ARV')
+    self.pixley = District(self.df, 'pixley', 'PIX')
+    self.delano = District(self.df, 'delano', 'DLE')
+    self.exeter = District(self.df, 'exeter', 'EXE')
+    self.kerntulare = District(self.df, 'kerntulare', 'KRT')
+    self.lindmore = District(self.df, 'lindmore', 'LND')
+    self.lindsay = District(self.df, 'lindsay', 'LDS')
     if (scenario == 'baseline'):
-      self.lowertule = District(self.df, 'LWT')
+      self.lowertule = District(self.df, 'lowertule', 'LWT')
     elif (scenario['LWT'] == 'baseline'):
-      self.lowertule = District(self.df, 'LWT')
+      self.lowertule = District(self.df, 'lowertule', 'LWT')
     else:
-      self.lowertule = District(self.df, 'LWT', scenario['LWT'])
-    self.porterville = District(self.df, 'PRT')
-    self.saucelito = District(self.df, 'SAU')
-    self.shaffer = District(self.df, 'SFW')
-    self.sosanjoaquin = District(self.df, 'SSJ')
-    self.teapot = District(self.df, 'TPD')
-    self.terra = District(self.df, 'TBA')
-    self.tulare = District(self.df, 'TUL')
-    self.fresno = District(self.df, 'COF')
-    self.fresnoid = District(self.df, 'FRS')
+      self.lowertule = District(self.df, 'lowertule', 'LWT', scenario['LWT'])
+    self.porterville = District(self.df, 'porterville', 'PRT')
+    self.saucelito = District(self.df, 'saucelito', 'SAU')
+    self.shaffer = District(self.df, 'shaffer', 'SFW')
+    self.sosanjoaquin = District(self.df, 'sosanjoaquin', 'SSJ')
+    self.teapot = District(self.df, 'teapot', 'TPD')
+    self.terra = District(self.df, 'terra', 'TBA')
+    self.tulare = District(self.df, 'tulare', 'TUL')
+    self.fresno = District(self.df, 'fresno', 'COF')
+    self.fresnoid = District(self.df, 'fresnoid', 'FRS')
     ##Canal Boundaries
-    self.socal = District(self.df, 'SOC')
-    self.southbay = District(self.df, 'SOB')
-    self.centralcoast = District(self.df, 'CCA')
+    self.socal = District(self.df, 'socal', 'SOC')
+    self.southbay = District(self.df, 'southbay', 'SOB')
+    self.centralcoast = District(self.df, 'centralcoast', 'CCA')
     ##demands at canal boundaries are taken from observed pumping into canal brannch
 
     ##Other Agencies
-    self.dudleyridge = District(self.df, 'DLR')
-    self.tularelake = District(self.df, 'TLB')
-    self.kaweahdelta = District(self.df, 'KWD')
-    self.westlands = District(self.df, 'WSL')
-    self.sanluiswater = District(self.df, 'SNL')
-    self.panoche = District(self.df, 'PNC')
-    self.delpuerto = District(self.df, 'DLP')
-    self.chowchilla = District(self.df, 'CWC')
-    self.maderairr = District(self.df, 'MAD')
-    self.othertule = District(self.df, 'OTL')
-    self.otherkaweah = District(self.df, 'OKW')
-    self.otherfriant = District(self.df, 'OFK')
-    self.othercvp = District(self.df, 'OCD')
-    self.otherexchange = District(self.df, 'OEX')
-    self.othercrossvalley = District(self.df, 'OXV')
-    self.otherswp = District(self.df, 'OSW')
-    self.consolidated = District(self.df, 'CNS')
-    self.alta = District(self.df, 'ALT')
-    self.krwa = District(self.df, 'KRWA')
+    self.dudleyridge = District(self.df, 'dudleyridge', 'DLR')
+    self.tularelake = District(self.df, 'tularelake', 'TLB')
+    self.kaweahdelta = District(self.df, 'kaweahdelta', 'KWD')
+    self.westlands = District(self.df, 'westlands', 'WSL')
+    self.sanluiswater = District(self.df, 'sanluiswater', 'SNL')
+    self.panoche = District(self.df, 'panoche', 'PNC')
+    self.delpuerto = District(self.df, 'delpuerto', 'DLP')
+    self.chowchilla = District(self.df, 'chowchilla', 'CWC')
+    self.maderairr = District(self.df, 'maderairr', 'MAD')
+    self.othertule = District(self.df, 'othertule', 'OTL')
+    self.otherkaweah = District(self.df, 'otherkaweah', 'OKW')
+    self.otherfriant = District(self.df, 'otherfriant', 'OFK')
+    self.othercvp = District(self.df, 'othercvp', 'OCD')
+    self.otherexchange = District(self.df, 'otherexchange', 'OEX')
+    self.othercrossvalley = District(self.df, 'othercrossvalley', 'OXV')
+    self.otherswp = District(self.df, 'otherswp', 'OSW')
+    self.consolidated = District(self.df, 'consolidated', 'CNS')
+    self.alta = District(self.df, 'alta', 'ALT')
+    self.krwa = District(self.df, 'krwa', 'KRWA')
     self.krwa.turnback_use = False
 	
     ##Private water users
-    self.wonderful = Private(self.df, 'WON', 1.0)
-    self.metropolitan = Private(self.df, 'MET', 1.0)
-    self.castaic = Private(self.df, 'CTL', 1.0)
-    self.coachella = Private(self.df, 'CCH', 1.0)
+    self.wonderful = Private(self.df, 'wonderful', 'WON', 1.0)
+    self.metropolitan = Private(self.df, 'metropolitan', 'MET', 1.0)
+    self.castaic = Private(self.df, 'castaic', 'CTL', 1.0)
+    self.coachella = Private(self.df, 'coachella', 'CCH', 1.0)
 	
 	##List of all intialized districts for looping
     self.district_list = [self.berrenda, self.belridge, self.buenavista, self.cawelo, self.henrymiller, self.ID4, self.kerndelta, self.losthills, self.rosedale, self.semitropic, self.tehachapi, self.tejon, self.westkern, self.wheeler, self.kcwa, self.bakersfield, self.northkern, self.arvin, self.delano, self.pixley, self.exeter, self.kerntulare, self.lindmore, self.lindsay, self.lowertule, self.porterville, self.saucelito, self.shaffer, self.sosanjoaquin, self.teapot, self.terra, self.tulare, self.fresno, self.fresnoid, self.socal, self.southbay, self.centralcoast, self.dudleyridge, self.tularelake, self.westlands, self.chowchilla, self.maderairr, self.othertule, self.otherkaweah, self.otherfriant, self.othercvp, self.otherexchange, self.othercrossvalley, self.otherswp, self.consolidated, self.alta, self.krwa, self.kaweahdelta, self.sanluiswater, self.panoche, self.delpuerto]
     #list of all california aqueduct branch urban users (their demands are generated from pumping data - different than other district objects)
     self.urban_list = [self.socal, self.centralcoast, self.southbay]
-    self.private_list = [self.wonderful, ]
+    self.private_list = [self.wonderful]
     self.city_list = [self.metropolitan, self.castaic, self.coachella]
 	
     ##District Keys - dictionary to be able to call the member from its key
@@ -650,16 +650,16 @@ class Model():
     ###Contract Initialization
 	############################################################################
    	#Project Contracts/Water Rights
-    self.friant1 = Contract(self.df, 'FR1')
-    self.friant2 = Contract(self.df, 'FR2')
-    self.swpdelta = Contract(self.df, 'SLS')
-    self.cvpdelta = Contract(self.df, 'SLF')
-    self.cvpexchange = Contract(self.df, 'ECH')
-    self.crossvalley = Contract(self.df, 'CVC')
-    self.kernriver = Contract(self.df, 'KRR')
-    self.tuleriver = Contract(self.df, 'TRR')
-    self.kaweahriver = Contract(self.df, 'WRR')
-    self.kingsriver = Contract(self.df, 'KGR')
+    self.friant1 = Contract(self.df, 'friant1', 'FR1')
+    self.friant2 = Contract(self.df, 'friant2', 'FR2')
+    self.swpdelta = Contract(self.df, 'swpdelta', 'SLS')
+    self.cvpdelta = Contract(self.df, 'cvpdelta', 'SLF')
+    self.cvpexchange = Contract(self.df, 'cvpexchange', 'ECH')
+    self.crossvalley = Contract(self.df, 'crossvalley', 'CVC')
+    self.kernriver = Contract(self.df, 'kernriver', 'KRR')
+    self.tuleriver = Contract(self.df, 'tuleriver', 'TRR')
+    self.kaweahriver = Contract(self.df, 'kaweahriver', 'WRR')
+    self.kingsriver = Contract(self.df, 'kingsriver', 'KGR')
 	
 	##List of all intialized contracts for looping
     self.contract_list = [self.friant1, self.friant2, self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley, self.kernriver, self.tuleriver, self.kaweahriver, self.kingsriver]
@@ -731,17 +731,17 @@ class Model():
 	############################################################################
 		  
 	##Water Banks
-    self.stockdale = Waterbank(self.df, 'STOCK')
-    self.kernriverbed = Waterbank(self.df, 'KRC')
-    self.poso = Waterbank(self.df, 'POSO')
-    self.pioneer = Waterbank(self.df, 'PIO')
-    self.kwb = Waterbank(self.df, 'KWB')
-    self.berrendawb = Waterbank(self.df, 'BRM')
-    self.b2800 = Waterbank(self.df, 'B2800')
-    self.aewb = Waterbank(self.df, 'AEMWD')
-    self.wkwb = Waterbank(self.df, 'WKB')
-    self.irvineranch = Waterbank(self.df, 'IVR')
-    self.northkernwb = Waterbank(self.df, 'NKB')
+    self.stockdale = Waterbank(self.df, 'stockdale', 'STOCK')
+    self.kernriverbed = Waterbank(self.df, 'kernriverbed', 'KRC')
+    self.poso = Waterbank(self.df, 'poso', 'POSO')
+    self.pioneer = Waterbank(self.df, 'pioneer', 'PIO')
+    self.kwb = Waterbank(self.df, 'kwb', 'KWB')
+    self.berrendawb = Waterbank(self.df, 'berrendawb', 'BRM')
+    self.b2800 = Waterbank(self.df, 'b2800', 'B2800')
+    self.aewb = Waterbank(self.df, 'aewb', 'AEMWD')
+    self.wkwb = Waterbank(self.df, 'wkwb', 'WKB')
+    self.irvineranch = Waterbank(self.df, 'irvineranch', 'IVR')
+    self.northkernwb = Waterbank(self.df, 'northkernwb', 'NKB')
 	
     self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb]
     self.leiu_list = []
@@ -759,25 +759,25 @@ class Model():
 	############################################################################
     #Waterways
     if (scenario == 'baseline'):
-      self.fkc = Canal('FKC')
+      self.fkc = Canal('fkc', 'FKC')
     elif (scenario['FKC'] == 'baseline'):
-      self.fkc = Canal('FKC')
+      self.fkc = Canal('fkc', 'FKC')
     else:
-      self.fkc = Canal('FKC', scenario['FKC'])
+      self.fkc = Canal('fkc', 'FKC', scenario['FKC'])
 
-    self.xvc = Canal('XVC')
-    self.madera = Canal('MDC')
-    self.calaqueduct = Canal('CAA')
-    self.kwbcanal = Canal('KBC')
-    self.aecanal = Canal('AEC')
-    self.kerncanal = Canal('KNC')
-    self.calloway = Canal('CWY')
-    self.lerdo = Canal('LRD')
-    self.beardsley = Canal('BLY')
-    self.kernriverchannel = Canal('KNR')
-    self.kaweahriverchannel = Canal('KWR')
-    self.tuleriverchannel = Canal('TLR')
-    self.kingsriverchannel = Canal('KGR')
+    self.xvc = Canal('xvc', 'XVC')
+    self.madera = Canal('madera', 'MDC')
+    self.calaqueduct = Canal('calaqueduct', 'CAA')
+    self.kwbcanal = Canal('kwbcanal', 'KBC')
+    self.aecanal = Canal('aecanal', 'AEC')
+    self.kerncanal = Canal('kerncanal', 'KNC')
+    self.calloway = Canal('calloway', 'CWY')
+    self.lerdo = Canal('lerdo', 'LRD')
+    self.beardsley = Canal('beardsley', 'BLY')
+    self.kernriverchannel = Canal('kernriverchannel', 'KNR')
+    self.kaweahriverchannel = Canal('kaweahriverchannel', 'KWR')
+    self.tuleriverchannel = Canal('tuleriverchannel', 'TLR')
+    self.kingsriverchannel = Canal('kingsriverchannel', 'KGR')
 	
     self.canal_list = [self.fkc, self.madera, self.xvc, self.calaqueduct, self.kwbcanal, self.aecanal, self.kerncanal, self.calloway, self.lerdo, self.beardsley, self.kernriverchannel, self.kaweahriverchannel, self.tuleriverchannel, self.kingsriverchannel]
 
@@ -1045,8 +1045,8 @@ class Model():
         self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
       else:
         self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
-      print(sensitivity_factor, end = " ")
-      print(self.sensitivity_factors[sensitivity_factor]['realization'])
+      # print(sensitivity_factor, end = " ")
+      # print(self.sensitivity_factors[sensitivity_factor]['realization'])
 
 
   def find_running_WYI(self):

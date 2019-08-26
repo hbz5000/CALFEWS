@@ -753,8 +753,8 @@ class Inputter():
                 self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
             else:
                 self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
-            print(sensitivity_factor, end = " ")
-            print(self.sensitivity_factors[sensitivity_factor]['realization'])
+            # print(sensitivity_factor, end = " ")
+            # print(self.sensitivity_factors[sensitivity_factor]['realization'])
 				
     def perturb_flows(self, numYears):
         for reservoir in self.reservoir_list:

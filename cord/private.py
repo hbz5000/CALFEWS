@@ -10,11 +10,12 @@ from .util import *
 
 class Private():
 
-  def __init__(self, df, key, land_fraction):
+  def __init__(self, df, name, key, land_fraction):
     self.T = len(df)
     self.starting_year = df.index.year[0]
     self.number_years = df.index.year[-1]-df.index.year[0]
     self.key = key
+    self.name = name
     self.leap = leap(np.arange(min(df.index.year), max(df.index.year) + 2))
     year_list = np.arange(min(df.index.year), max(df.index.year) + 2)
     self.days_in_month = days_in_month(year_list, self.leap)

@@ -8,7 +8,7 @@ from .util import *
 
 class Delta():
 
-  def __init__(self, df, df_short, key, model_mode):
+  def __init__(self, df, df_short, name, key, model_mode):
     self.model_mode = model_mode
     self.T = len(df)
     self.day_year = df.index.dayofyear

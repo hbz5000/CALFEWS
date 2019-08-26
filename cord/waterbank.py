@@ -9,11 +9,12 @@ from .util import *
 
 class Waterbank():
 
-  def __init__(self, df, key):
+  def __init__(self, df, name, key):
     self.T = len(df)
     self.index = df.index
     self.number_years = self.index.year[self.T - 1] - self.index.year[0]
     self.key = key
+    self.name = name
     for k,v in json.load(open('cord/banks/%s_properties.json' % key)).items():
         setattr(self,k,v)
 		

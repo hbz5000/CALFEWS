@@ -6,8 +6,9 @@ from .util import *
 
 class Canal():
 
-  def __init__(self, key, scenario_file = 'baseline'):
+  def __init__(self, name, key, scenario_file = 'baseline'):
     self.key = key
+    self.name = name
     self.locked = 0#toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
     for k,v in json.load(open('cord/canals/%s_properties.json' % key)).items():
         setattr(self,k,v)
