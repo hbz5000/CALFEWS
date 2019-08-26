@@ -10,11 +10,12 @@ from .util import *
 
 class Private():
 
-  def __init__(self, df, key, land_fraction):
+  def __init__(self, df, name, key, land_fraction):
     self.T = len(df)
     self.starting_year = df.index.year[0]
     self.number_years = df.index.year[-1]-df.index.year[0]
     self.key = key
+    self.name = name
     self.leap = leap(np.arange(min(df.index.year), max(df.index.year) + 2))
     year_list = np.arange(min(df.index.year), max(df.index.year) + 2)
     self.days_in_month = days_in_month(year_list, self.leap)
@@ -156,7 +157,36 @@ class Private():
     self.monthemptycounter = 0
     self.current_recharge_storage = 0.0
 
-	
+
+  def object_equals(self, other):
+    ##This function compares two instances of an object, returns True if all attributes are identical.
+    equality = {}
+    if (self.__dict__.keys() != other.__dict__.keys()):
+      return ('Different Attributes')
+    else:
+      differences = 0
+      for i in self.__dict__.keys():
+        if type(self.__getattribute__(i)) is dict:
+          equality[i] = True
+          for j in self.__getattribute__(i).keys():
+            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
+                equality[i] = False
+                differences += 1
+            else:
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
+                equality[i] = False
+                differences += 1
+        else:
+          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
+            if equality[i] == False:
+              differences += 1
+          else:
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
+            if equality[i] == False:
+              differences += 1
+    return (differences == 0)
 
 
 #####################################################################################################################

@@ -8,7 +8,7 @@ from .util import *
 
 class Delta():
 
-  def __init__(self, df, df_short, key, model_mode):
+  def __init__(self, df, df_short, name, key, model_mode):
     self.model_mode = model_mode
     self.T = len(df)
     self.day_year = df.index.dayofyear
@@ -123,6 +123,36 @@ class Delta():
     for omr_threshold in range(0, 4):
       self.omr_reqr['probability'][omr_threshold] = omr_prob_factor*(omr_threshold+1.0)
       self.omr_reqr['shortage_flow'][omr_threshold] = omr_flow_factor - (5000.0 + omr_flow_factor)*omr_threshold/4.0
+
+  def object_equals(self, other):
+    ##This function compares two instances of an object, returns True if all attributes are identical.
+    equality = {}
+    if (self.__dict__.keys() != other.__dict__.keys()):
+      return ('Different Attributes')
+    else:
+      differences = 0
+      for i in self.__dict__.keys():
+        if type(self.__getattribute__(i)) is dict:
+          equality[i] = True
+          for j in self.__getattribute__(i).keys():
+            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
+                equality[i] = False
+                differences += 1
+            else:
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
+                equality[i] = False
+                differences += 1
+        else:
+          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
+            if equality[i] == False:
+              differences += 1
+          else:
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
+            if equality[i] == False:
+              differences += 1
+    return (differences == 0)
 
   def calc_expected_delta_outflow(self,shastaD,orovilleD,yubaD,folsomD,shastaMIN,orovilleMIN,yubaMIN,folsomMIN, gains_sac_short, gains_sj_short, depletions_short, eastside_short):
   #this function calculates an expectation for the volume of environmental releases expected to be made from each reservoir,
@@ -726,6 +756,7 @@ class Delta():
       if self.year[t] == self.omr_rule_start and m == 12:
         pumping['swp'] = min(pumping['swp'], max_pumping['swp'][monthcounter]/self.days_in_month[year][monthcounter])
         pumping['cvp'] = min(pumping['cvp'], max_pumping['cvp'][monthcounter]/self.days_in_month[year][monthcounter])
+
 
 
       #total water available for pumping that isn't stored in reservoir (river gains)

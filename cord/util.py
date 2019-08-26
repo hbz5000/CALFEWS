@@ -1,11 +1,14 @@
 import calendar
 import numpy as np
+import h5py
+import json
+from itertools import compress
 
 cfs_tafd = 2.29568411*10**-5 * 86400 / 1000
 tafd_cfs = 1000 / 86400 * 43560
 cfsd_mafd = 2.29568411*10**-5 * 86400 / 10 ** 6
 z_table_transform = [-1.645, -1.28, -1.035, -0.84, -0.675, -0.525, -0.385, -0.253, -0.125, 0, 0.125, 0.253, 0.385, 0.525, 0.675, 0.84, 1.035, 1.28, 1.645]
-
+eps = 1e-10
 
 # check whether each year is leap year.
 def leap(y):
@@ -76,4 +79,76 @@ def first_d_of_month(dowyeom, daysinmonth):
     first_d[i][:] = dowyeom[i] - daysinmonth[i] - 90
     first_d[i][first_d[i][:] < 0] = first_d[i][first_d[i][:] < 0] + 365
   return first_d
+
+# function to take northern & southern model, process & output data
+def data_output(output_list_loc, results_folder, clean_output, sensitivity_number, sensitivity_factors, modelno, modelso):
+  nt = modelno.shasta.baseline_inf.shape[0]
+  with open(output_list_loc, 'r') as f:
+    output_list = json.load(f)
+  dat = np.zeros([nt, 10000])
+  names = []
+  col = 0
+  # get all data columns listed as True in output_list file
+  for r in output_list['north']['reservoirs'].keys():
+    for o in output_list['north']['reservoirs'][r].keys():
+      if output_list['north']['reservoirs'][r][o]:
+        dat[:, col] = modelno.__getattribute__(r).__getattribute__(o)
+        names.append(np.string_(r + '__' + o))
+        col += 1
+  for r in output_list['south']['reservoirs'].keys():
+    for o in output_list['south']['reservoirs'][r].keys():
+      if output_list['south']['reservoirs'][r][o]:
+        dat[:, col] = modelso.__getattribute__(r).__getattribute__(o)
+        names.append(np.string_(r + '__' + o))
+        col += 1
+  for o in output_list['north']['delta'].keys():
+    if output_list['north']['delta'][o]:
+      dat[:, col] = modelno.delta.__getattribute__(o)
+      names.append(np.string_('delta__' + o))
+      col += 1
+  for c in output_list['south']['contracts'].keys():
+    for o in output_list['south']['contracts'][c].keys():
+      if output_list['south']['contracts'][c][o]:
+        dat[:, col] = modelso.__getattribute__(c).__getattribute__(o)
+        names.append(np.string_(c + '__' + o))
+        col += 1
+  for d in output_list['south']['districts'].keys():
+    for o in output_list['south']['districts'][d]['deliveries'].keys():
+      if output_list['south']['districts'][d]['deliveries'][o]:
+        dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
+        names.append(np.string_(d + '__deliveries__' + o))
+        col += 1
+    if 'bank_timeseries' in output_list['south']['districts'][d].keys():
+      for o in output_list['south']['districts'][d]['bank_timeseries'].keys():
+        dat[:, col] = modelso.__getattribute__(d).bank_timeseries[o]
+        names.append(np.string_(d + '__bank_timeseries__' + o))
+        col += 1
+  for b in output_list['south']['waterbanks'].keys():
+    for o in output_list['south']['waterbanks'][b]['bank_timeseries'].keys():
+      dat[:, col] = modelso.__getattribute__(b).bank_timeseries[o]
+      names.append(np.string_(b + '__bank_timeseries__' + o))
+      col += 1
+  # now only keep columns that are non-zero over course of simulation
+  dat = dat[:, :col]
+  if (clean_output):
+    datsum = dat.sum(axis=0)
+    index = np.abs(datsum) > eps
+    dat = dat[:, index]
+    names = list(compress(names, index))
+    col = len(names)
+  # get sensitivity factors
+  sensitivity_value = []
+  sensitivity_name = []
+  for k in sensitivity_factors.keys():
+    if isinstance(sensitivity_factors[k], dict):
+      sensitivity_value.append(sensitivity_factors[k]['realization'])
+      sensitivity_name.append(np.string_(k))
+  # output to hdf5 file
+  with h5py.File(results_folder + '/results.hdf5', 'a') as f:
+    d = f.create_dataset('sample_' + str(sensitivity_number), (nt, col), dtype='float')
+    d.attrs['columns'] = names
+    d.attrs['sensitivity_factors'] = sensitivity_name
+    d.attrs['sensitivity_factor_values'] = sensitivity_value
+    d[:] = dat
+
 

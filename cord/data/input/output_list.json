@@ -1,0 +1,1201 @@
+{
+  "north": {
+    "reservoirs": {
+      "shasta": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "oroville": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "yuba": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "folsom": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "newmelones": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "donpedro": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "exchequer": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      }
+    },
+    "delta": {
+      "HRO_pump": true,
+      "TRP_pump": true
+    }
+  },
+  "south": {
+    "reservoirs": {
+      "sanluisstate": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "sanluisfederal": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "millerton": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "isabella": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "success": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "kaweah": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      },
+      "pineflat": {
+        "baseline_inf": true,
+        "snowflood_inf": true
+      }
+    },
+    "contracts": {
+      "friant1": {
+        "allocation": true,
+        "available_water": true
+      },
+      "friant2": {
+        "allocation": true,
+        "available_water": true
+      },
+      "swpdelta": {
+        "allocation": true,
+        "available_water": true
+      },
+      "cvpdelta": {
+        "allocation": true,
+        "available_water": true
+      },
+      "cvpexchange": {
+        "allocation": true,
+        "available_water": true
+      },
+      "crossvalley": {
+        "allocation": true,
+        "available_water": true
+      },
+      "kernriver": {
+        "allocation": true,
+        "available_water": true
+      },
+      "tuleriver": {
+        "allocation": true,
+        "available_water": true
+      },
+      "kaweahriver": {
+        "allocation": true,
+        "available_water": true
+      },
+      "kingsriver": {
+        "allocation": true,
+        "available_water": true
+      }
+    },
+    "districts": {
+      "berrenda": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "belridge": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "buenavista": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "kern_delivery": true,
+          "kern_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "cawelo": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "henrymiller": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "ID4": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "kerndelta": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "kern_delivery": true,
+          "kern_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "losthills": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "rosedale": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        },
+        "bank_timeseries": {
+          "RRB": true,
+          "ARV": true,
+          "DLE": true,
+          "CTL": true,
+          "CCH": true,
+          "BVA": true,
+          "SOC": true,
+          "KRT": true
+        }
+      },
+      "semitropic": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "kings_delivery": true,
+          "kings_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        },
+        "bank_timeseries": {
+          "MET": true,
+          "SOB": true
+        }
+      },
+      "tehachapi": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "tejon": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "westkern": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "wheeler": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "kcwa": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "bakersfield": {
+        "deliveries": {
+          "kern_delivery": true,
+          "kern_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "northkern": {
+        "deliveries": {
+          "kern_delivery": true,
+          "kern_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "arvin": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        },
+        "bank_timeseries": {
+          "ARV": true,
+          "MET": true,
+          "OXV": true,
+          "LWT": true,
+          "KRT": true
+        }
+      },
+      "delano": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "pixley": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "cvc_delivery": true,
+          "cvc_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "exeter": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "kerntulare": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "cvc_delivery": true,
+          "cvc_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "lindmore": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "lindsay": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "lowertule": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "cvc_delivery": true,
+          "cvc_carryover": true,
+          "tule_delivery": true,
+          "tule_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "porterville": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tule_delivery": true,
+          "tule_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "saucelito": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "shaffer": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "sosanjoaquin": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "teapot": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "terra": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "tulare": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "kaweah_delivery": true,
+          "kaweah_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "fresno": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "fresnoid": {
+        "deliveries": {
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "kings_delivery": true,
+          "kings_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "socal": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "southbay": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "exchange_delivery": true,
+          "exchange_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "centralcoast": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "dudleyridge": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "tularelake": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "kaweah_delivery": true,
+          "kaweah_carryover": true,
+          "kings_delivery": true,
+          "kings_carryover": true,
+          "tule_delivery": true,
+          "tule_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "westlands": {
+        "deliveries": {
+          "cvpdelta_delivery": true,
+          "cvpdelta_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "chowchilla": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "maderairr": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "othertule": {
+        "deliveries": {
+          "tule_delivery": true,
+          "tule_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "otherkaweah": {
+        "deliveries": {
+          "kaweah_delivery": true,
+          "kaweah_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "otherfriant": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "othercvp": {
+        "deliveries": {
+          "cvpdelta_delivery": true,
+          "cvpdelta_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "otherexchange": {
+        "deliveries": {
+          "exchange_delivery": true,
+          "exchange_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "othercrossvalley": {
+        "deliveries": {
+          "friant1_delivery": true,
+          "friant1_carryover": true,
+          "friant2_delivery": true,
+          "friant2_carryover": true,
+          "cvc_delivery": true,
+          "cvc_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "otherswp": {
+        "deliveries": {
+          "tableA_delivery": true,
+          "tableA_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "consolidated": {
+        "deliveries": {
+          "kings_delivery": true,
+          "kings_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "alta": {
+        "deliveries": {
+          "kings_delivery": true,
+          "kings_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "krwa": {
+        "deliveries": {
+          "kings_delivery": true,
+          "kings_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "kaweahdelta": {
+        "deliveries": {
+          "kaweah_delivery": true,
+          "kaweah_carryover": true,
+          "kings_delivery": true,
+          "kings_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "sanluiswater": {
+        "deliveries": {
+          "cvpdelta_delivery": true,
+          "cvpdelta_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "panoche": {
+        "deliveries": {
+          "cvpdelta_delivery": true,
+          "cvpdelta_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      },
+      "delpuerto": {
+        "deliveries": {
+          "cvpdelta_delivery": true,
+          "cvpdelta_carryover": true,
+          "tableA_flood": true,
+          "cvpdelta_flood": true,
+          "exchange_flood": true,
+          "cvc_flood": true,
+          "friant1_flood": true,
+          "friant2_flood": true,
+          "kaweah_flood": true,
+          "tule_flood": true,
+          "kern_flood": true,
+          "kings_flood": true
+        }
+      }
+    },
+    "waterbanks": {
+      "stockdale": {
+        "bank_timeseries": {
+          "RRB": true,
+          "CTL": true,
+          "CCH": true
+        }
+      },
+      "kernriverbed": {
+        "bank_timeseries": {
+          "COB": true,
+          "BLR": true,
+          "BDM": true,
+          "BVA": true,
+          "CWO": true,
+          "HML": true,
+          "ID4": true,
+          "KCWA": true,
+          "KND": true,
+          "LHL": true,
+          "RRB": true,
+          "SMI": true,
+          "TJC": true,
+          "WRM": true
+        }
+      },
+      "poso": {
+        "bank_timeseries": {
+          "NKN": true,
+          "SFW": true,
+          "CWO": true,
+          "SMI": true
+        }
+      },
+      "pioneer": {
+        "bank_timeseries": {
+          "BLR": true,
+          "BDM": true,
+          "BVA": true,
+          "HML": true,
+          "ID4": true,
+          "KCWA": true,
+          "KND": true,
+          "LHL": true,
+          "RRB": true,
+          "SMI": true,
+          "TJC": true,
+          "WRM": true
+        }
+      },
+      "kwb": {
+        "bank_timeseries": {
+          "DLR": true,
+          "KCWA": true,
+          "ID4": true,
+          "SMI": true,
+          "TJC": true,
+          "WON": true,
+          "WRM": true
+        }
+      },
+      "berrendawb": {
+        "bank_timeseries": {
+          "BLR": true,
+          "BDM": true,
+          "LHL": true,
+          "WRM": true
+        }
+      },
+      "b2800": {
+        "bank_timeseries": {
+          "COB": true,
+          "BLR": true,
+          "BDM": true,
+          "BVA": true,
+          "CWO": true,
+          "HML": true,
+          "ID4": true,
+          "KCWA": true,
+          "KND": true,
+          "LHL": true,
+          "RRB": true,
+          "SMI": true,
+          "TJC": true,
+          "WRM": true
+        }
+      },
+      "wkwb": {
+        "bank_timeseries": {
+          "WKN": true
+        }
+      },
+      "irvineranch": {
+        "bank_timeseries": {
+          "SOC": true,
+          "RRB": true
+        }
+      },
+      "northkernwb": {
+        "bank_timeseries": {
+          "NKN": true,
+          "CWO": true,
+          "DLE": true
+        }
+      }
+    }
+  }
+}

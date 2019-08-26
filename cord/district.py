@@ -11,11 +11,12 @@ from .util import *
 
 class District():
 
-  def __init__(self, df, key, scenario_file = 'baseline'):
+  def __init__(self, df, name, key, scenario_file = 'baseline'):
     self.T = len(df)
     self.starting_year = df.index.year[0]
     self.number_years = df.index.year[-1]-df.index.year[0]
     self.key = key
+    self.name = name
     self.leap = leap(np.arange(min(df.index.year), max(df.index.year) + 2))
     year_list = np.arange(min(df.index.year), max(df.index.year) + 2)
     self.days_in_month = days_in_month(year_list, self.leap)
@@ -23,10 +24,9 @@ class District():
     self.non_leap_year = first_non_leap_year(self.dowy_eom)
     self.turnback_use = True
 
-    if (scenario_file == 'baseline'):
-      for k,v in json.load(open('cord/districts/%s_properties.json' % key)).items():
-          setattr(self,k,v)
-    else:
+    for k, v in json.load(open('cord/districts/%s_properties.json' % key)).items():
+      setattr(self, k, v)
+    if ((scenario_file == 'baseline') == False):
       for k,v in json.load(open(scenario_file)).items():
           setattr(self,k,v)
 
@@ -165,6 +165,38 @@ class District():
         self.contract_exchange[x] = np.zeros(self.T)
 
 
+  def object_equals(self, other):
+    ##This function compares two instances of an object, returns True if all attributes are identical.
+    equality = {}
+    if (self.__dict__.keys() != other.__dict__.keys()):
+      return ('Different Attributes')
+    else:
+      differences = 0
+      for i in self.__dict__.keys():
+        if type(self.__getattribute__(i)) is dict:
+          equality[i] = True
+          for j in self.__getattribute__(i).keys():
+            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
+                equality[i] = False
+                differences += 1
+            else:
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
+                equality[i] = False
+                differences += 1
+        else:
+          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
+            if equality[i] == False:
+              differences += 1
+          else:
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
+            if equality[i] == False:
+              differences += 1
+    return (differences == 0)
+
+
+
 ##################################SENSITIVITY ANALYSIS#################################################################
   def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):
     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
@@ -176,6 +208,8 @@ class District():
     self.seepage = 1.0 + irr_eff_factor
     for recharge_count in range(0, len(self.recharge_decline)):
       self.recharge_decline[recharge_count] = 1.0 - recharge_decline_factor*(1.0 - self.recharge_decline[recharge_count])
+
+      
 #####################################################################################################################
 ##################################DEMAND CALCULATION#################################################################
 #####################################################################################################################

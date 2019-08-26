@@ -6,10 +6,11 @@ from .util import *
 
 class Contract():
 
-  def __init__(self, df, key):
+  def __init__(self, df, name, key):
     self.T = len(df)
     self.number_years = df.index.year[-1]-df.index.year[0]
     self.key = key
+    self.name = name
 
     for k,v in json.load(open('cord/contracts/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -38,6 +39,37 @@ class Contract():
     for x in supply_types:
       self.daily_supplies[x] = np.zeros(self.T)
       self.annual_supplies[x] = np.zeros(self.number_years)
+
+
+  def object_equals(self, other):
+    ##This function compares two instances of an object, returns True if all attributes are identical.
+    equality = {}
+    if (self.__dict__.keys() != other.__dict__.keys()):
+      return ('Different Attributes')
+    else:
+      differences = 0
+      for i in self.__dict__.keys():
+        if type(self.__getattribute__(i)) is dict:
+          equality[i] = True
+          for j in self.__getattribute__(i).keys():
+            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
+                equality[i] = False
+                differences += 1
+            else:
+              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
+                equality[i] = False
+                differences += 1
+        else:
+          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
+            if equality[i] == False:
+              differences += 1
+          else:
+            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
+            if equality[i] == False:
+              differences += 1
+    return (differences == 0)
 
 
   def calc_allocation(self, t, dowy, forecast_available, priority_contract, secondary_contract, wyt):
