@@ -19,7 +19,8 @@ import json
 
 class Inputter():
 
-    def __init__(self, input_data_file, expected_release_datafile, model_mode, use_sensitivity = False):
+    def __init__(self, input_data_file, expected_release_datafile, model_mode, i_N, parallel_mode, use_sensitivity = False): # keyvan added i_N
+        self.i_N=i_N
         self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
@@ -63,8 +64,14 @@ class Inputter():
         self.kaweah = Reservoir(self.df, self.df_short, 'kaweah', 'KWH', model_mode)
         self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', model_mode)
         self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', model_mode)
-        for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
-            setattr(self,k,v)
+        
+        if parallel_mode == True:
+            for k,v in json.load(open('cord/data/input/input_files/scr_' + str(i_N) + '.json')).items():
+                setattr(self,k,v)
+        else:
+            for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
+                setattr(self,k,v) 
+
 
         #self.reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro,
                                #self.exchequer, self.millerton, self.pineflat, self.kaweah, self.success, self.isabella,
@@ -1350,8 +1357,8 @@ class Inputter():
             else:
                 df_for_output['%s_pump' % deltaname] = pd.Series(self.daily_df_data[deltaname] * multiplier,
                                                                  index=df_for_output.index)
-        df_for_output.to_csv(self.export_series[scenario_name][model_name], index=True, index_label='datetime')
-		  
+        df_for_output.to_csv("cord/data/input/temp_output/cord-data-CDEC_19962016_" + str(self.i_N) + ".csv") #keyvan modify output directory 
+                
         for data_type in self.data_type_list:
             if plot_key == 'Y' and (data_type == 'fnf' or data_type == 'inf'):
               fig = plt.figure()

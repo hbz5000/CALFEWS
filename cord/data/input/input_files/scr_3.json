@@ -1,0 +1,227 @@
+{
+  "scenario_use_types": ["observations", "downscaled_historical", "downscaled_midcentury", "downscaled_endcentury"],
+  
+  "inflow_series":{
+    "observations":{
+      "CDEC": "cord/data/input/cord-data.csv", 
+      "WRF":  "cord/data/CA_FNF_WRF/WRF_20062016.csv"
+      },
+    "downscaled_historical":{
+      "VIC": "cord/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
+      "WRF": "cord/data/CA_FNF_WRF/WRF_19952005.csv"
+      },
+    "downscaled_midcentury":{
+      "VIC": "cord/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv", 
+      "WRF": "cord/data/CA_FNF_WRF/WRF_20402050.csv"
+      },
+    "downscaled_endcentury":{
+      "VIC": "cord/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv", 
+      "WRF": "cord/data/CA_FNF_WRF/WRF_20902100.csv"
+      }
+  },
+
+  "export_series":{
+    "observations":{
+      "CDEC": "cord/data/input/cord-data-CDEC_19962016",
+      "WRF": "cord/data/input/cord-data-WRF_20062016"
+      },
+    "downscaled_historical":{
+      "VIC": "cord/data/input/cord-data-VIC_19952005", 
+      "WRF": "cord/data/input/cord-data-WRF_19952005"
+      },
+    "downscaled_midcentury":{
+      "VIC": "cord/data/input/cord-data-VIC_20402050", 
+      "WRF": "cord/data/input/cord-data-WRF_20402050"
+      },
+    "downscaled_endcentury":{
+      "VIC": "cord/data/input/cord-data-VIC_20902100", 
+      "WRF": "cord/data/input/cord-data-WRF_20902100"
+      }
+  },
+  
+  "simulation_period_start":{
+    "observations":{
+      "CDEC": 1996, 
+      "WRF": 2006
+      },
+    "downscaled_historical":{
+      "VIC": 1996,
+      "WRF": 1996
+      },
+    "downscaled_midcentury":{
+      "VIC": 2039,
+      "WRF": 2039
+      },
+    "downscaled_endcentury":{
+      "VIC": 2089,
+      "WRF": 2089
+      }
+  },
+  
+  "simulation_period_end":{
+    "observations":{
+      "CDEC": 2016,
+      "WRF": 2016
+      },
+    "downscaled_historical":{
+      "VIC": 2005,
+      "WRF": 2005
+      },
+    "downscaled_midcentury":{
+      "VIC": 2050,
+      "WRF": 2050
+      },
+    "downscaled_endcentury":{
+      "VIC": 2099,
+      "WRF": 2100
+      }
+  },
+  
+  "file_start":{
+    "observations":{
+      "CDEC": "10/1/1996",
+      "WRF": "10/1/2016"
+      },
+    "downscaled_historical":{
+      "VIC": "1/1/1950",
+      "WRF": "10/1/1994"
+      },
+    "downscaled_midcentury":{
+      "VIC": "1/1/1950",
+      "WRF": "10/1/2039"
+      },
+    "downscaled_endcentury":{
+      "VIC": "1/1/1950",
+      "WRF": "10/1/2089"
+      }
+  },
+  
+  "file_end":{
+    "observations":{
+      "CDEC": "9/30/2016",
+      "WRF": "9/30/2016"
+      },
+    "downscaled_historical":{
+      "VIC": "12/31/2099", 
+      "WRF": "9/30/2005"
+      },
+    "downscaled_midcentury":{
+      "VIC": "12/31/2099",
+      "WRF": "9/30/2050"
+      },
+    "downscaled_endcentury":{
+      "VIC": "12/31/2099",
+      "WRF": "9/30/2100"
+      }
+  },
+  
+  "has_leap":{
+    "observations":{
+      "CDEC": true,
+      "WRF": true
+      },
+    "downscaled_historical":{
+      "VIC": true,
+      "WRF": false
+      },
+    "downscaled_midcentury":{
+      "VIC": true,
+      "WRF": false
+      },
+    "downscaled_endcentury":{
+      "VIC": true,
+      "WRF": false
+      }
+  },
+
+  "inflow_unit":{
+    "observations":{
+      "CDEC": "af",
+       "WRF": "cms"
+      },
+    "downscaled_historical":{
+      "VIC": "cfs",
+	  "WRF": "af"
+      },
+    "downscaled_midcentury":{
+      "VIC": "cfs",
+      "WRF": "af"
+      },
+    "downscaled_endcentury":{
+      "VIC": "cms",
+      "WRF": "af"
+      }
+  },
+
+	  
+  "sensitivity_factors":{
+    "total_factors": 1,
+    "factor_list": ["annual_mean_scale", "annual_vol_scale", "shift_oct_mar", "shift_apr_may", "et_multiplier", "acreage_multiplier", "irrigation_efficiency", "recharge_decline", "urban_wet_year_demand_reduction", "omr_flow", "omr_probability", "delta_outflow_multiplier"],
+    "inflow_factor_list": ["annual_mean_scale", "annual_vol_scale", "shift_oct_mar", "shift_apr_may"],
+    "district_factor_list": ["et_multiplier", "acreage_multiplier", "irrigation_efficiency", "recharge_decline", "urban_wet_year_demand_reduction", "omr_flow", "omr_probability", "delta_outflow_multiplier"], 
+    "annual_mean_scale":{
+      "low": 0.5,
+      "high": 1.25,
+      "status_quo": 0.719726563
+      },
+    "annual_vol_scale":{
+      "low": 0.5,
+      "high": 2.0,
+      "status_quo": 0.768652344
+      },
+    "shift_oct_mar":{
+      "low": 0.0,
+      "high": 0.5,
+      "status_quo": 0.259277344
+      },
+    "shift_apr_may":{
+      "low": 0.0,
+      "high": 0.5,
+      "status_quo": 0.338378906
+      },
+    "et_multiplier":{
+      "low": 1.0,
+      "high": 1.25,
+      "status_quo": 0.780273438
+      },
+    "acreage_multiplier":{
+      "low": 0.5,
+      "high": 2.0,
+      "status_quo": 1.407226563
+      },
+    "irrigation_efficiency":{
+      "low": 0.1,
+      "high": 0.4,
+      "status_quo": 0.118359375
+      },
+    "recharge_decline":{
+      "low": 0.0,
+      "high": 0.5,
+      "status_quo": 0.449707031
+      },
+    "urban_wet_year_demand_reduction":{
+      "low": 0.25,
+      "high": 1.0,
+      "status_quo": 0.625732422
+      },
+    "omr_probability":{
+      "low": 0.0,
+      "high": 0.25,
+      "status_quo": -4150.390625
+      },
+    "omr_flow":{
+      "low": -5000.0,
+      "high": 0.0,
+      "status_quo": 0.017333984
+      },
+    "delta_outflow_multiplier":{
+      "low": 0.5,
+      "high": 1.5,
+      "status_quo": 0.754882813
+      },
+	"output_name":{
+      "name": "o_scr_3"
+      }
+
+  }
+}

@@ -100,7 +100,7 @@ class Reservoir():
       self.R[0] = 0
       use_capacity = False
       storage_start_date = df.index[0]
-      if df_short.index.contains(storage_start_date):
+      if storage_start_date in df_short.index: #keyvan
         storage_start_index = df_short.index.get_loc(storage_start_date)
       else:
         use_capacity = True
@@ -564,24 +564,24 @@ class Reservoir():
 		  		  
 
       if (self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx'):
-        print(self.key, end = " ")
-        print(t, end = " ")
-        print(dowy, end = " ")
-        print(m, end = " ")
-        print(month_evaluate, end = " ")
-        print(running_storage, end = " ")
-        print(eom_storage, end = " ")
-        print(month_flow_int, end = " ")
-        print(total_mandatory_releases, end = " ")
-        print(storage_cap_start, end = " ")
-        print(storage_cap_end, end = " ")
-        print(self.min_daily_uncontrolled, end = " ")
-        print(self.uncontrolled_available, end = " ")
-        print(additional_drawdown_cap, end = " ")
-        print(self.min_daily_overflow, end = " ")
-        print(self.numdays_fillup[release], end = " ")
-        print(self.numdays_fillup['lookahead'], end = " ")
-        print(block_end, end = " ")
+        #print(self.key, end = " ")
+        #print(t, end = " ")
+        #print(dowy, end = " ")
+        #print(m, end = " ")
+        #print(month_evaluate, end = " ")
+        #print(running_storage, end = " ")
+        #print(eom_storage, end = " ")
+        #print(month_flow_int, end = " ")
+        #print(total_mandatory_releases, end = " ")
+        #print(storage_cap_start, end = " ")
+        #print(storage_cap_end, end = " ")
+        #print(self.min_daily_uncontrolled, end = " ")
+        #print(self.uncontrolled_available, end = " ")
+        #print(additional_drawdown_cap, end = " ")
+        #print(self.min_daily_overflow, end = " ")
+        #print(self.numdays_fillup[release], end = " ")
+        #print(self.numdays_fillup['lookahead'], end = " ")
+        #print(block_end, end = " ")
         print(block_start)
       #         self.min_daily_uncontrolled,self.uncontrolled_available,eom_storage,storage_cap_end)
       running_storage = eom_storage
@@ -853,9 +853,9 @@ class Reservoir():
           coef_save[mm][0] = coef[0]
           coef_save[mm][1] = coef[1]
           r = np.corrcoef(one_year_runfnf,monthly_flow_predict)[0,1]
-          print(x, end = " ")
-          print(mm, end = " ")
-          print(r, end = " ")
+          #print(x, end = " ")
+          #print(mm, end = " ")
+          #print(r, end = " ")
           print(self.key)
           print(one_year_runfnf)
       if self.key == "XXX":
