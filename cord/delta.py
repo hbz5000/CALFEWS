@@ -1067,9 +1067,9 @@ class Delta():
           coef_save[mm][0] = coef[0]
           coef_save[mm][1] = coef[1]
           r = np.corrcoef(one_year_runfnf,monthly_flow_predict)[0,1]
-          print(x, end = " ")
-          print(mm, end = " ")
-          print(r, end = " ")
+          #print(x, end = " ")
+          #print(mm, end = " ")
+          #print(r, end = " ")
           print(self.key)
       if self.key == "XXX":
         for mm in range(0,12):

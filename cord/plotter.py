@@ -386,11 +386,11 @@ def financial(data,var_ind,num_ind):
         data_prev = data[i+1][ordered_index]
         value_prev = y[i+1-num_ind][spot]
       y[i-num_ind][spot] += (data[i][ordered_index] - data_prev)*costs[i-num_ind] + value_prev
-      print(i, end = " ")
-      print(ordered_index, end = " ")
-      print(value_prev, end = " ")
-      print(data_prev, end = " ")
-      print(data[i][ordered_index], end = " ")
+      #print(i, end = " ")
+      #print(ordered_index, end = " ")
+      #print(value_prev, end = " ")
+      #print(data_prev, end = " ")
+      #print(data[i][ordered_index], end = " ")
       print(x[ordered_index])
       y[num_ind + 1][spot] = x[ordered_index]
       	  
@@ -649,7 +649,7 @@ def show_pumping_pdf(annual_pumping, project, max_pumping, thresholds, threshold
   percentages = {}
   for x,y in zip(thresholds, threshold_list):
     percentages[y] = sorted_pumping[int(np.floor(x*len(annual_pumping))-1)]
-    print(x, end = " ")
+    #print(x, end = " ")
     print(percentages[y])
   
   fig1 = plt.figure()
@@ -733,7 +733,7 @@ def show_insurance_payouts(annual_pumping, revenue_dict, color_dict, alpha_dict,
     mean_risk = np.mean(current_revenues[strike_years])
 
     if counter == len(revenue_dict) -1 :
-      print(mean_non_risk, end = " ")
+      #print(mean_non_risk, end = " ")
       print(mean_risk)
       ax2 = plt.plot(insurance_range, min_revenue*np.ones(len(insurance_range)), color = 'red', linewidth = 3)
       ax3 = plt.plot(insurance_range, expected_revenue*np.ones(len(insurance_range)), color = 'red', linewidth = 3)
@@ -803,7 +803,7 @@ def show_insurance_payouts_dual(annual_pumping, annual_pumping2, revenue_dict, c
     mean_non_risk = np.mean(current_revenues[non_risk])
     mean_risk = np.mean(current_revenues[strike_years])
 
-    print(mean_non_risk, end = " ")
+    #print(mean_non_risk, end = " ")
     print(mean_risk)
     #ax2 = plt.plot(insurance_range, min_revenue*np.ones(len(insurance_range)), color = 'red', linewidth = 3)
     #ax3 = plt.plot(insurance_range, expected_revenue*np.ones(len(insurance_range)), color = 'red', linewidth = 3)
@@ -1122,8 +1122,8 @@ def compare_mitigation_performance(revenue_series, annual_pumping, premium_rate,
 
   insurance_revenues = make_insurance_series_variable(annual_pumping, insurance_strike, revenue_series, insurance_payment[0])
   for x in range(0, len(insurance_revenues)):
-    print(insurance_revenues[x], end = " ")
-    print(revenue_series[x], end = " ")
+    #print(insurance_revenues[x], end = " ")
+    #print(revenue_series[x], end = " ")
     print(annual_pumping[x])
 
   value_at_int2, fund_size['insurance'], average_revenue['insurance'] = make_revenue_cumulative(revenue_series, insurance_revenues, control_level[0])
@@ -1639,7 +1639,7 @@ def make_reservoir_plots(simulated_results, simulated_results2, observed_results
     ax0.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 	
     counter += 1
-    print(counter, end = " ")
+    #print(counter, end = " ")
     print(counter2)
     if counter == dim_1:
       counter = 0
@@ -1783,8 +1783,8 @@ def make_deficit_plots(results, irrigator_key, groundwater_bank_storage, use_sto
     recharge[x] = max(deliveries[x], average_demand[x])
     recovery[x] = min(deliveries[x], average_demand[x])
   for x in range(start_search, len(delivery_risk)):
-    print(x, end = " ")
-    print(delivery_risk[x], end = " ")
+    #print(x, end = " ")
+    #print(delivery_risk[x], end = " ")
     print(groundwater_bank_storage)
     if delivery_risk[x] < groundwater_bank_storage:
       break
@@ -1908,13 +1908,13 @@ def make_deficit_plots_true(results, irrigator_key, alt_storage, show_demand, sh
       average_demand[x+1] = min(average_demand[x] + (target_demand+alt_storage)/25.0, target_demand + alt_storage)
 
 	  
-    print(x, end = " ")
-    print(fallow_land, end = " ")
-    print(average_demand[x], end = " ")
-    print(deliveries[x], end = " ")
-    print(recovery[x], end = " ")
-    print(recharge[x], end = " ")
-    print(banked[x], end = " ")
+    #print(x, end = " ")
+    #print(fallow_land, end = " ")
+    #print(average_demand[x], end = " ")
+    #print(deliveries[x], end = " ")
+    #print(recovery[x], end = " ")
+    #print(recharge[x], end = " ")
+    #print(banked[x], end = " ")
     print(banked_storage[x])
 
 

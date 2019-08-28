@@ -2001,7 +2001,7 @@ class Model():
     for x in self.city_list:
       for xx in x.district_list:
         counter1 = 1
-        fig = plt.figure() 
+        #fig = plt.figure() 
         for wateryear_day in range(0,365):
           coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent[xx],1)
           if x.key == "XXX":
