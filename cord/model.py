@@ -20,7 +20,7 @@ from .util import *
 
 class Model():
 
-  def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, sensitivity_index = -1, sensitivity_factors = None):
+  def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
     ##Set model dataset & index length
     self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
     self.model_mode = model_mode
@@ -53,12 +53,16 @@ class Model():
     self.days_in_month = days_in_month(year_list, self.leap)
     self.dowy_eom = dowy_eom(year_list, self.leap)
     self.non_leap_year = first_non_leap_year(self.dowy_eom)
-    if sensitivity_index == -1:
+
+    if sensitivity_sample_number == -1:
       self.use_sensitivity = False
     else:
       self.use_sensitivity = True
+      self.sensitivity_sample_number = sensitivity_sample_number
+      self.sensitivity_sample_names = sensitivity_sample_names
+      self.sensitivity_sample = sensitivity_sample
       self.sensitivity_factors = sensitivity_factors
-      self.set_sensitivity_factors(sensitivity_index)
+      self.set_sensitivity_factors()
 
 
   def object_equals(self, other, return_full=False):
@@ -114,12 +118,12 @@ class Model():
     # self.res.raininf_stds; self.res.snowinf_stds; self.res.baseinf_stds
     # self.res.flow_shape - monthly fractions of total period flow
     self.initialize_northern_res()
-    print('Initialize Northern Reservoirs, time ', datetime.now() - startTime)
+    # print('Initialize Northern Reservoirs, time ', datetime.now() - startTime)
     # initialize delta rules, calcluate expected environmental releases at each reservoir
     # generates - cumulative environmental/delta releases remaining (at each reservoir)
     # self.res.cum_min_release; self.res.aug_sept_min_release; self.res.oct_nov_min_release
     self.initialize_delta_ops()
-    print('Initialize Delta Ops, time ', datetime.now() - startTime)
+    # print('Initialize Delta Ops, time ', datetime.now() - startTime)
 
     ######
     # calculate projection-based flow year indicies using flow & snow inputs
@@ -129,7 +133,7 @@ class Model():
     # self.delta.forecastSJI (self.T x 1) - forecasts for san joaquin river index
     # self.delta.forecastSRI (self.T x 1) - forecasts for sacramento river index
     self.find_running_WYI()
-    print('Find Water Year Indicies, time ', datetime.now() - startTime)
+    # print('Find Water Year Indicies, time ', datetime.now() - startTime)
 
     ######
     # calculate expected 'unstored' pumping at the delta (for predictions into San Luis)
@@ -138,7 +142,7 @@ class Model():
     # self.delta_gains_regression2 (365x2) - linear coeffecicients for predicting total unstored pumping, apr-jul, based on ytd full natural flow
     # self.month_averages (12x1) - expected fraction of unstored pumping to come in each month (fraction is for total period flow, so 0.25 in feb is 25% of total oct-mar unstored flow)
     self.predict_delta_gains()
-    print('Find Delta Gains, time ', datetime.now() - startTime)
+    # print('Find Delta Gains, time ', datetime.now() - startTime)
     if self.model_mode == 'validation':
       self.set_regulations_historical_north()
     else:
@@ -154,31 +158,31 @@ class Model():
     # initialize the southern reservoirs -
     # generates - same values as initialize_northern_res(), but for southern reservoirs
     self.initialize_southern_res()
-    print('Initialize Southern Reservoirs, time ', datetime.now() - startTime)
+    # print('Initialize Southern Reservoirs, time ', datetime.now() - startTime)
     # initialize water districts for southern model
     # generates - water district parameters (see cord-combined/cord/districts/readme.txt)
     # self.district_list - list of district objects
     # self.district_keys - dictionary pairing district keys w/district class objects
     self.initialize_water_districts(scenario)
-    print('Initialize Water Districts, time ', datetime.now() - startTime)
+    # print('Initialize Water Districts, time ', datetime.now() - startTime)
     # initialize water contracts for southern model
     # generates - water contract parameters (see cord-combined/cord/contracts/readme.txt)
     # self.contract_list - list of contract objects
     # self.contract_keys - dictionary pairing contract keys w/contract class objects
     # self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
     self.initialize_sw_contracts()
-    print('Initialize Contracts, time ', datetime.now() - startTime)
+    # print('Initialize Contracts, time ', datetime.now() - startTime)
     # initialize water banks for southern model
     # generates - water bank parameters (see cord-combined/cord/banks/readme.txt)
     # self.waterbank_list - list of waterbank objects
     # self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
     self.initialize_water_banks()
-    print('Initialize Water Banks, time ', datetime.now() - startTime)
+    # print('Initialize Water Banks, time ', datetime.now() - startTime)
     # initialize canals/waterways for southern model
     # generates - canal parameters (see cord-combined/cord/canals/readme.txt)
     # self.canal_list - list of canal objects
     self.initialize_canals(scenario)
-    print('Initialize Canals, time ', datetime.now() - startTime)
+    # print('Initialize Canals, time ', datetime.now() - startTime)
     if self.model_mode == 'validation':
       self.set_regulations_historical_south(scenario)
     else:
@@ -198,17 +202,17 @@ class Model():
     # self.canal.flow - vector recording flow to a node on a canal (note - these values are updated within model steps)
     # self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
     self.create_object_associations()
-    print('Create Object Associations, time ', datetime.now() - startTime)
+    # print('Create Object Associations, time ', datetime.now() - startTime)
 	
     ###Applies initial carryover balances to districts
     ##based on initial reservoir storage conditions
     ##PLEASE NOTE CARRYOVER STORAGE IN SAN LUIS IS HARD-CODED
     self.find_initial_carryover()
-    print('Initialize Carryover Storage, time ', datetime.now() - startTime)
+    # print('Initialize Carryover Storage, time ', datetime.now() - startTime)
     ##initial recovery capacities for districts, based on
     ##ownership stakes in waterbanks (direct + inleui)
     self.init_tot_recovery()
-    print('Initialize Recovery Capacity, time ', datetime.now() - startTime)
+    # print('Initialize Recovery Capacity, time ', datetime.now() - startTime)
     ##initial recharge capacities (projected out 12 months) for districts,
     ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
     urban_datafile = 'cord/data/input/cord-data-urban.csv'
@@ -218,7 +222,7 @@ class Model():
     # that is owned by surface water contracts held at that reservoir - used to determine
     # how much flood water can be released and 'taken' by a contractor
     self.find_all_triggers()
-    print('Find Triggers, time ', datetime.now() - startTime)
+    # print('Find Triggers, time ', datetime.now() - startTime)
 
 
 
@@ -248,8 +252,8 @@ class Model():
     #### Find regression information for all 8 reservoirs
     if self.model_mode == 'forecast':
       ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
-      df_res_process = pd.DataFrame()
-      df_res_annual = pd.DataFrame()
+      # df_res_process = pd.DataFrame()
+      # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
         x.find_release_func(self.df_short)
       ###Flow shapes are regressions that determine % of remaining flow in a period (Oct-Mar; Apr-Jul; Aug-Sept)
@@ -259,26 +263,26 @@ class Model():
         x.create_flow_shapes(self.df_short)
     elif self.model_mode == 'validation':
 	  ## 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
-      df_res_process = pd.DataFrame()
-      df_res_annual = pd.DataFrame()
+      # df_res_process = pd.DataFrame()
+      # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
         x.find_release_func(self.df_short)
-        df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
-        df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
-        df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
-        df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
-        df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
+        # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
+        # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
+        # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
+        # df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
+        # df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
+        #
+        # df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
+        # df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
+        # df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
+        # df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
+        # df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
+      # df_res_process.to_csv('cord/data/input/temp_output/no_res_preprocess_daily.csv')
+      # df_res_annual.to_csv('cord/data/input/temp_output/no_res_preprocess_annual.csv')
 
-        df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
-        df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
-        df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
-        df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
-        df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-
-      df_res_process.to_csv('cord/data/input/no_res_preprocess_daily.csv')
-      df_res_annual.to_csv('cord/data/input/no_res_preprocess_annual.csv')
-      #flow_estimates = pd.read_csv('cord/data/input/no_res_preprocess_daily.csv', index_col=0, parse_dates=True)
-      #std_estimates = pd.read_csv('cord/data/input/no_res_preprocess_annual.csv')
+      #flow_estimates = pd.read_csv('cord/data/temp_output/input/no_res_preprocess_daily.csv', index_col=0, parse_dates=True)
+      #std_estimates = pd.read_csv('cord/data/temp_output/input/no_res_preprocess_annual.csv')
       #for x in reservoir_list:
         #x.rainflood_fnf = flow_estimates['%s_rainfnf' % x.key]##FNF, OCT-MAR, LINEAR COEF
         #x.snowflood_fnf = flow_estimates['%s_snowfnf' % x.key]##FNF, APR-JUL, LINEAR COEF
@@ -298,25 +302,26 @@ class Model():
         x.create_flow_shapes(self.df_short)
     else:
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
-      df_res_process = pd.DataFrame()
-      df_res_annual = pd.DataFrame()
+      # df_res_process = pd.DataFrame()
+      # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
         x.find_release_func(self.df_short)
-        df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
-        df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
-        df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
-        df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
-        df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
+        # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
+        # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
+        # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
+        # df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
+        # df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
+        #
+        # df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
+        # df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
+        # df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
+        # df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
+        # df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
+      # df_res_process.to_csv('cord/data/input/temp_output/no_res_preprocess_simulation_daily.csv')
+      # df_res_annual.to_csv('cord/data/input/temp_output/no_res_preprocess_simulation_annual.csv')
 
-        df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
-        df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
-        df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
-        df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
-        df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-      df_res_process.to_csv('cord/data/input/no_res_preprocess_simulation_daily.csv')
-      df_res_annual.to_csv('cord/data/input/no_res_preprocess_simulation_annual.csv')
-      #flow_estimates = pd.read_csv('cord/data/input/no_res_preprocess_simulation_daily.csv')
-      #std_estimates = pd.read_csv('cord/data/input/no_res_preprocess_simulation_annual.csv')
+      #flow_estimates = pd.read_csv('cord/data/input/temp_output/no_res_preprocess_simulation_daily.csv')
+      #std_estimates = pd.read_csv('cord/data/input/temp_output/no_res_preprocess_simulation_annual.csv')
       #for x in reservoir_list:
         #x.rainflood_fnf = flow_estimates['%s_rainfnf' % x.key]##FNF, OCT-MAR, LINEAR COEF
         #x.snowflood_fnf = flow_estimates['%s_snowfnf' % x.key]##FNF, APR-JUL, LINEAR COEF
@@ -397,27 +402,27 @@ class Model():
       for x in [self.pineflat, self.millerton, self.isabella, self.success, self.kaweah]:
         x.create_flow_shapes(self.df_short)
     elif self.model_mode == 'validation':	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
-      df_res_process = pd.DataFrame()
-      df_res_annual = pd.DataFrame()
+      # df_res_process = pd.DataFrame()
+      # df_res_annual = pd.DataFrame()
       for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
         x.find_release_func(self.df_short)
-        df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
-        df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
-        df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
-        df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
-        df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
-
-        df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
-        df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
-        df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
-        df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
-        df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-      df_res_process.to_csv('cord/data/input/res_preprocess_daily.csv')
-      df_res_annual.to_csv('cord/data/input/res_presprocess_annual.csv')
+        # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
+        # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
+        # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
+        # df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
+        # df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
+        #
+        # df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
+        # df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
+        # df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
+        # df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
+        # df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
+      # df_res_process.to_csv('cord/data/input/temp_output/res_preprocess_daily.csv')
+      # df_res_annual.to_csv('cord/data/input/temp_output/res_presprocess_annual.csv')
 	  
       ##Regression flow & standard deviations read from file (see end of function for code to generate files)	  
-      #flow_estimates = pd.read_csv('cord/data/input/res_preprocess_daily.csv', index_col=0, parse_dates=True)
-      #std_estimates = pd.read_csv('cord/data/input/res_presprocess_annual.csv')
+      #flow_estimates = pd.read_csv('cord/data/input/temp_output/res_preprocess_daily.csv', index_col=0, parse_dates=True)
+      #std_estimates = pd.read_csv('cord/data/input/temp_output/res_presprocess_annual.csv')
 	  #### Find regression information for all 8 reservoirs 
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       #for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
@@ -440,25 +445,26 @@ class Model():
     else:
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       reservoir_list = [self.millerton, self.isabella, self.pineflat, self.kaweah, self.success]
-      df_res_process = pd.DataFrame()
-      df_res_annual = pd.DataFrame()
+      # df_res_process = pd.DataFrame()
+      # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
         x.find_release_func(self.df_short)
-        df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
-        df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
-        df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
-        df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
-        df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
+        # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
+        # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
+        # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
+        # df_res_process['%s_snowinf' %x.key] = pd.Series(x.snowflood_inf, index = self.index)
+        # df_res_process['%s_baseinf' %x.key] = pd.Series(x.baseline_inf, index = self.index)
+        #
+        # df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
+        # df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
+        # df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
+        # df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
+        # df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
+      # df_res_process.to_csv('cord/data/input/temp_output/so_res_preprocess_simulation_daily.csv')
+      # df_res_annual.to_csv('cord/data/input/temp_output/so_res_preprocess_simulation_annual.csv')
 
-        df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
-        df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
-        df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
-        df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
-        df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-      df_res_process.to_csv('cord/data/input/so_res_preprocess_simulation_daily.csv')
-      df_res_annual.to_csv('cord/data/input/so_res_preprocess_simulation_annual.csv')
-      #flow_estimates = pd.read_csv('cord/data/input/so_res_preprocess_simulation_daily.csv')
-      #std_estimates = pd.read_csv('cord/data/input/so_res_preprocess_simulation_annual.csv')
+      #flow_estimates = pd.read_csv('cord/data/input/temp_output/so_res_preprocess_simulation_daily.csv')
+      #std_estimates = pd.read_csv('cord/data/input/temp_output/so_res_preprocess_simulation_annual.csv')
       #for x in reservoir_list:
         #x.rainflood_fnf = flow_estimates['%s_rainfnf' % x.key]##FNF, OCT-MAR, LINEAR COEF
         #x.snowflood_fnf = flow_estimates['%s_snowfnf' % x.key]##FNF, APR-JUL, LINEAR COEF
@@ -509,22 +515,21 @@ class Model():
     self.success.find_release_func(self.df_short)
     self.isabella.find_release_func(self.df_short)
     self.millerton.find_release_func(self.df_short)	
-    df_res_process = pd.DataFrame()
-    df_res_annual = pd.DataFrame()
-    for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
-      df_res_process['%s_rainfnf' % x.key] = pd.Series(x.rainflood_fnf, index = self.index)
-      df_res_process['%s_snowfnf' % x.key] = pd.Series(x.snowflood_fnf, index = self.index)
-      df_res_process['%s_raininf' % x.key] = pd.Series(x.rainflood_inf, index = self.index)
-      df_res_process['%s_snowinf' % x.key] = pd.Series(x.snowflood_inf, index = self.index)
-      df_res_process['%s_baseinf' % x.key] = pd.Series(x.baseline_inf, index = self.index)
-      df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
-      df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
-      df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
-      df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
-      df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
-
-    df_res_process.to_csv('cord/data/input/res_preprocess_daily.csv')
-    df_res_annual.to_csv('cord/data/input/res_presprocess_annual.csv')
+    # df_res_process = pd.DataFrame()
+    # df_res_annual = pd.DataFrame()
+    # for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
+    #   df_res_process['%s_rainfnf' % x.key] = pd.Series(x.rainflood_fnf, index = self.index)
+    #   df_res_process['%s_snowfnf' % x.key] = pd.Series(x.snowflood_fnf, index = self.index)
+    #   df_res_process['%s_raininf' % x.key] = pd.Series(x.rainflood_inf, index = self.index)
+    #   df_res_process['%s_snowinf' % x.key] = pd.Series(x.snowflood_inf, index = self.index)
+    #   df_res_process['%s_baseinf' % x.key] = pd.Series(x.baseline_inf, index = self.index)
+    #   df_res_annual['%s_rainfnfstd' % x.key] = pd.Series(x.rainfnf_stds)
+    #   df_res_annual['%s_snowfnfstd' % x.key] = pd.Series(x.snowfnf_stds)
+    #   df_res_annual['%s_raininfstd' % x.key] = pd.Series(x.raininf_stds)
+    #   df_res_annual['%s_snowinfstd' % x.key] = pd.Series(x.snowinf_stds)
+    #   df_res_annual['%s_baseinfstd' % x.key] = pd.Series(x.baseinf_stds)
+    # df_res_process.to_csv('cord/data/input/temp_output/res_preprocess_daily.csv')
+    # df_res_annual.to_csv('cord/data/input/temp_output/res_presprocess_annual.csv')
 	
   def initialize_water_districts(self, scenario = 'baseline'):
     ############################################################################
@@ -1040,12 +1045,16 @@ class Model():
 #############################     Pre processing functions    #######################################################
 #####################################################################################################################
 
-  def set_sensitivity_factors(self, sensitivity_index):
+  def set_sensitivity_factors(self):
     for sensitivity_factor in self.sensitivity_factors['district_factor_list']:
-      if sensitivity_index == 0:
-        self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
-      else:
-        self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
+      # set model sensitivity factors equal to sample values from input file
+      index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
+      index = np.where(index)[0][0]
+      self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_sample[index]
+      # if sensitivity_index == 0:
+      #   self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
+      # else:
+      #   self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
       # print(sensitivity_factor, end = " ")
       # print(self.sensitivity_factors[sensitivity_factor]['realization'])
 

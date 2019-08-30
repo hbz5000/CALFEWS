@@ -19,8 +19,7 @@ import json
 
 class Inputter():
 
-    def __init__(self, input_data_file, expected_release_datafile, model_mode, i_N, parallel_mode, use_sensitivity = False): # keyvan added i_N
-        self.i_N=i_N
+    def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False): # keyvan added i_N
         self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
@@ -34,6 +33,11 @@ class Inputter():
         self.number_years = self.ending_year - self.starting_year
         self.dowy = water_day(self.day_year, self.year)
         self.water_year = water_year(self.month, self.year, self.starting_year)
+
+        self.results_folder = results_folder
+        self.sensitivity_sample_number = sensitivity_sample_number
+        self.sensitivity_sample_names = sensitivity_sample_names
+        self.sensitivity_samples = sensitivity_samples
         self.use_sensitivity = use_sensitivity
 
         self.leap = leap(np.arange(min(self.year), max(self.year) + 2))
@@ -65,12 +69,8 @@ class Inputter():
         self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', model_mode)
         self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', model_mode)
         
-        if parallel_mode == True:
-            for k,v in json.load(open('cord/data/input/input_files/scr_' + str(i_N) + '.json')).items():
-                setattr(self,k,v)
-        else:
-            for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
-                setattr(self,k,v) 
+        for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
+            setattr(self,k,v)
 
 
         #self.reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro,
@@ -96,7 +96,7 @@ class Inputter():
         self.generate_relationships_delta(plot_key)
         self.autocorrelate_residuals_delta(plot_key)
    
-    def run_routine(self, scenario_name, model_name, sensitivity_index):
+    def run_routine(self, flow_input_type, flow_input_source):
         #print('Load New Full-Natural Flows from ' + file_name)
         #self.read_new_fnf_data(file_folder + file_name, timestep_length, start_month, first_leap, start_timestep, end_timestep, number_years, file_has_leap, use_cfs, start_file, end_file)
         #self.whiten_by_historical_moments(number_years, 'XXX')
@@ -112,13 +112,13 @@ class Inputter():
 
         start_month = 10
         end_month = 9
-        start_year = self.simulation_period_start[scenario_name][model_name]
-        number_years = self.simulation_period_end[scenario_name][model_name] - self.simulation_period_start[scenario_name][model_name] + 1
+        start_year = self.simulation_period_start[flow_input_type][flow_input_source]
+        number_years = self.simulation_period_end[flow_input_type][flow_input_source] - self.simulation_period_start[flow_input_type][flow_input_source] + 1
         for first_leap in range(0,4):
           if (start_year + first_leap + 1) % 4 == 0:
             break
-        self.set_sensitivity_factors(sensitivity_index)
-        self.read_new_fnf_data(scenario_name, model_name, start_month, first_leap, number_years)
+        self.set_sensitivity_factors()
+        self.read_new_fnf_data(flow_input_type, flow_input_source, start_month, first_leap, number_years)
         self.whiten_by_historical_moments(number_years, 'XXX')
         self.whiten_by_historical_moments_delta(number_years, 'XXX')
         self.make_fnf_prediction(number_years, 'XXX')
@@ -127,7 +127,7 @@ class Inputter():
         self.find_residuals_delta(start_month, number_years, 'XXX')
         self.add_error(number_years, 'XXX')
         self.add_error_delta(number_years, 'XXX')
-        self.make_daily_timeseries(scenario_name, model_name, number_years, start_year, start_month, end_month, first_leap, 'N')
+        self.make_daily_timeseries(flow_input_type, flow_input_source, number_years, start_year, start_month, end_month, first_leap, 'N')
 
 
     def initialize_reservoirs(self):
@@ -753,12 +753,17 @@ class Inputter():
                 plt.tight_layout()
                 plt.show()
                 plt.close()
-    def set_sensitivity_factors(self, sensitivity_index):
+
+    def set_sensitivity_factors(self):
         for sensitivity_factor in self.sensitivity_factors['inflow_factor_list']:
-            if sensitivity_index == 0:
-                self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
-            else:
-                self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
+            # set inflow sensitivity factors equal to sample values from input file
+            index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
+            index = np.where(index)[0][0]
+            self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_samples[index]
+            # if sensitivity_index == 0:
+            #     self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
+            # else:
+            #     self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
             # print(sensitivity_factor, end = " ")
             # print(self.sensitivity_factors[sensitivity_factor]['realization'])
 
@@ -804,7 +809,7 @@ class Inputter():
 					
                 reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
 				
-    def read_new_fnf_data(self, scenario_name, model_name, start_month, first_leap_year, numYears):    
+    def read_new_fnf_data(self, flow_input_type, flow_input_source, start_month, first_leap_year, numYears):
         monthcount = start_month - 1
         daycount = 0
         yearcount = 0
@@ -812,15 +817,15 @@ class Inputter():
                                 self.days_in_month[self.non_leap_year][monthcount])
         leapcount = 0
 		
-        filename = self.inflow_series[scenario_name][model_name]
+        filename = self.inflow_series[flow_input_type][flow_input_source]
         self.fnf_df = pd.read_csv(filename)
 
 
         if 'datetime' in self.fnf_df:
           dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])
         else:
-          start_file = self.file_start[scenario_name][model_name]
-          end_file = self.file_end[scenario_name][model_name]
+          start_file = self.file_start[flow_input_type][flow_input_source]
+          end_file = self.file_end[flow_input_type][flow_input_source]
           file_start_date = datetime.strptime(start_file, '%m/%d/%Y')
           file_end_date = datetime.strptime(end_file, '%m/%d/%Y')
           dates_as_datetime = pd.date_range(start=file_start_date, end=file_end_date, freq='D')
@@ -829,13 +834,13 @@ class Inputter():
           end_month = 12
         else:
           end_month = start_month - 1
-        start_date = datetime(self.simulation_period_start[scenario_name][model_name],start_month,1)
-        end_date = datetime(self.simulation_period_end[scenario_name][model_name],end_month,30)
+        start_date = datetime(self.simulation_period_start[flow_input_type][flow_input_source],start_month,1)
+        end_date = datetime(self.simulation_period_end[flow_input_type][flow_input_source],end_month,30)
 
         date_mask = (dates_as_datetime >= start_date) & (dates_as_datetime <= end_date)
         fnf_values = self.fnf_df[date_mask]
 		
-        fnf_unit = self.inflow_unit[scenario_name][model_name]
+        fnf_unit = self.inflow_unit[flow_input_type][flow_input_source]
         for reservoir in self.reservoir_list:
             if fnf_unit == 'cfs':
               reservoir.fnf_new = fnf_values['%s_fnf' % reservoir.key].values * cfs_tafd
@@ -868,7 +873,7 @@ class Inputter():
                     leapcount += 1
                     if leapcount == 4:
                         leapcount = 0
-                if leapcount == first_leap_year and self.has_leap[scenario_name][model_name]:
+                if leapcount == first_leap_year and self.has_leap[flow_input_type][flow_input_source]:
                     thismonthday = self.days_in_month[self.leap_year][monthcount]
                 else:
                     thismonthday = self.days_in_month[self.non_leap_year][monthcount]
@@ -1214,9 +1219,9 @@ class Inputter():
                 plt.show()
                 plt.close()
 
-    def make_daily_timeseries(self, scenario_name, model_name, numYears, start_year, start_month, end_month, first_leap, plot_key):        
-        start_date = datetime(self.simulation_period_start[scenario_name][model_name],start_month,1)
-        end_date = datetime(self.simulation_period_end[scenario_name][model_name],end_month,30)
+    def make_daily_timeseries(self, flow_input_type, flow_input_source, numYears, start_year, start_month, end_month, first_leap, plot_key):
+        start_date = datetime(self.simulation_period_start[flow_input_type][flow_input_source],start_month,1)
+        end_date = datetime(self.simulation_period_end[flow_input_type][flow_input_source],end_month,30)
         dates_for_output = pd.date_range(start=start_date, end=end_date, freq='D')
         output_day_year = dates_for_output.dayofyear
         output_year = dates_for_output.year
@@ -1357,8 +1362,8 @@ class Inputter():
             else:
                 df_for_output['%s_pump' % deltaname] = pd.Series(self.daily_df_data[deltaname] * multiplier,
                                                                  index=df_for_output.index)
-        df_for_output.to_csv("cord/data/input/temp_output/cord-data-CDEC_19962016_" + str(self.i_N) + ".csv") #keyvan modify output directory 
-                
+        df_for_output.to_csv(self.results_folder + '/' + self.export_series[flow_input_type][flow_input_source] + "_"  + str(self.sensitivity_sample_number) + ".csv", index=True, index_label='datetime')
+
         for data_type in self.data_type_list:
             if plot_key == 'Y' and (data_type == 'fnf' or data_type == 'inf'):
               fig = plt.figure()
