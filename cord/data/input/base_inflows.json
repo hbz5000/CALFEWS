@@ -22,20 +22,20 @@
 
   "export_series":{
     "observations":{
-      "CDEC": "cord/data/input/cord-data-CDEC_19962016",
-      "WRF": "cord/data/input/cord-data-WRF_20062016"
+      "CDEC": "cord-data-CDEC_19962016",
+      "WRF": "cord-data-WRF_20062016"
       },
     "downscaled_historical":{
-      "VIC": "cord/data/input/cord-data-VIC_19952005", 
-      "WRF": "cord/data/input/cord-data-WRF_19952005"
+      "VIC": "cord-data-VIC_19952005", 
+      "WRF": "cord-data-WRF_19952005"
       },
     "downscaled_midcentury":{
-      "VIC": "cord/data/input/cord-data-VIC_20402050", 
-      "WRF": "cord/data/input/cord-data-WRF_20402050"
+      "VIC": "cord-data-VIC_20402050", 
+      "WRF": "cord-data-WRF_20402050"
       },
     "downscaled_endcentury":{
-      "VIC": "cord/data/input/cord-data-VIC_20902100", 
-      "WRF": "cord/data/input/cord-data-WRF_20902100"
+      "VIC": "cord-data-VIC_20902100", 
+      "WRF": "cord-data-WRF_20902100"
       }
   },
   
