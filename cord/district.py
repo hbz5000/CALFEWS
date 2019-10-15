@@ -110,9 +110,9 @@ class District():
       self.daily_supplies_full[x + '_turnback'] = np.zeros(self.T)
     for x in self.non_contract_delivery_list:
       self.daily_supplies_full[x] = np.zeros(self.T)
-    self.daily_supplies_full['pumping'] = np.zeros(self.T)
-    self.daily_supplies_full['irr_demand'] = np.zeros(self.T)
-
+    for x in ['recover_banked', 'inleiu_irrigation', 'inleiu_recharge', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'pumping', 'irr_demand']:
+      self.daily_supplies_full[x] = np.zeros(self.T)  
+	
     # ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'undelivered_trades']
     #Initialize demands
     self.annualdemand = 0.0
@@ -1180,10 +1180,18 @@ class District():
       self.daily_supplies_full[x + '_paper'][t] = self.paper_balance[x]
       self.daily_supplies_full[x + '_carryover'][t] = self.carryover[x]
       self.daily_supplies_full[x + '_turnback'][t] = self.turnback_pool[x]
+
     for x in self.non_contract_delivery_list:
       self.daily_supplies_full[x][t] = self.deliveries[x][wateryear]
     self.daily_supplies_full['pumping'][t] = self.annual_private_pumping
     self.daily_supplies_full['irr_demand'][t] = self.dailydemand_start
+    self.daily_supplies_full['recover_banked'][t] = self.deliveries['recover_banked'][wateryear]
+    self.daily_supplies_full['inleiu_irrigation'][t] = self.deliveries['inleiu_irrigation'][wateryear]
+    self.daily_supplies_full['inleiu_recharge'][t] = self.deliveries['inleiu_recharge'][wateryear]
+    self.daily_supplies_full['leiupumping'][t] = self.deliveries['leiupumping'][wateryear]
+    self.daily_supplies_full['recharged'][t] = self.deliveries['recharged'][wateryear]
+    self.daily_supplies_full['exchanged_GW'][t] = self.deliveries['exchanged_GW'][wateryear]
+    self.daily_supplies_full['exchanged_SW'][t] = self.deliveries['exchanged_SW'][wateryear]
 
   def accounting(self,t, da, m, wateryear,key):
     #takes delivery/allocation values and builds timeseries that show what water was used for (recharge, banking, irrigation etc...)

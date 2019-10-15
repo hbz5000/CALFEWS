@@ -193,11 +193,9 @@ for k in range(start, stop):
     # sensitivity_df['SMI_give_%s' %k] = pd.Series(modelso.semitropic.annual_supplies['leiu_delivered'])
     # sensitivity_df['WON_land_%s' %k] = pd.Series(modelso.wonderful.annual_supplies['acreage'])
 
-    try:
-      data_output(output_list, results_folder, clean_output, rank, k, new_inputs.sensitivity_factors, modelno, modelso)
-    except:
-      print('ERROR: Sensitivity sample ' + str(k) + ' failed to write to hdf5')
-
+    #try:
+    data_output(output_list, results_folder, clean_output, rank, k, new_inputs.sensitivity_factors, modelno, modelso)
+    #except Exception as e: print(e)
     if (save_full):
       pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
       pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
