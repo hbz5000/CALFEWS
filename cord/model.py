@@ -6,7 +6,6 @@ import calendar
 import json
 import matplotlib.pyplot as plt
 from datetime import datetime
-from random import randint
 from .reservoir import Reservoir
 from .delta import Delta
 from .district import District
@@ -1884,7 +1883,7 @@ class Model():
       metropolitan_adjust = self.starting_year - 1996
     else:
       metropolitan_adjust = 0
-    self.year_demand_error = randint(0,18)
+    self.year_demand_error = np.random.randint(0,19)
     for x in urban_list:
       x.pumping = df_urban[x.key + '_pump'].values
       x.annual_pumping = x.regression_annual
@@ -3418,7 +3417,7 @@ class Model():
     projected_allocation['swp'] = total_delta_pumping
     projected_allocation['cvp'] = projected_allocation_cvp
     if dowy == 1:
-      self.year_demand_error = randint(0,18)
+      self.year_demand_error = np.random.randint(0,19)
     for x in urban_list:
       if x.has_private:
         if x.has_pesticide:

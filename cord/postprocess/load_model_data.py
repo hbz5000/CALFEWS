@@ -160,6 +160,7 @@ def load_leiu_data(datafile):
   df_modeled['Month__'] = df_modeled.index.month
   df_modeled['Wateryear__'] = df_modeled.Year__
   df_modeled.Wateryear__.loc[df_modeled.Month__ > 9] = df_modeled.Wateryear__.loc[df_modeled.Month__ > 9] + 1
+  del df_modeled['Year__']
 
   ### get banker & bankee
   banker_modeled = df_modeled.columns.map(lambda x: x.split('_')[0])
@@ -204,7 +205,7 @@ def load_leiu_data(datafile):
   df_modeled['Date'] = df_modeled['Date__']
   df_modeled['Month'] = df_modeled['Month__']
   df_modeled['Wateryear'] = df_modeled['Wateryear__']
-  del df_modeled['Date__'], df_modeled['Year__'], df_modeled['Month__'], df_modeled['Wateryear__']
+  del df_modeled['Date__'], df_modeled['Month__'], df_modeled['Wateryear__']
 
 
 
@@ -238,7 +239,7 @@ def load_bank_data(datafile):
   df_modeled['Month__'] = df_modeled.index.month
   df_modeled['Wateryear__'] = df_modeled.Year__
   df_modeled.Wateryear__.loc[df_modeled.Month__ > 9] = df_modeled.Wateryear__.loc[df_modeled.Month__ > 9] + 1
-
+  del df_modeled['Year__']
 
   ### get banker & bankee
   banker_modeled = df_modeled.columns.map(lambda x: x.split('_')[0])
@@ -283,7 +284,7 @@ def load_bank_data(datafile):
   df_modeled['Date'] = df_modeled['Date__']
   df_modeled['Month'] = df_modeled['Month__']
   df_modeled['Wateryear'] = df_modeled['Wateryear__']
-  del df_modeled['Year__'], df_modeled['Month__'], df_modeled['Wateryear__']
+  del df_modeled['Date__'], df_modeled['Month__'], df_modeled['Wateryear__']
 
   # get aggregated deliveries - annual
   df_modeled_aggregate_Wateryear = df_modeled.groupby(by = 'Wateryear').sum()

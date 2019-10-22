@@ -26,8 +26,8 @@ from configobj import ConfigObj
 import json
 from distutils.util import strtobool
 
-# path_model = './'
-path_model = sys.argv[1]
+path_model = './'
+# path_model = sys.argv[1]
 print (sys.argv)
 os.chdir(path_model)
 
@@ -156,6 +156,8 @@ for k in range(start, stop):
 
     modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
     modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
+    os.remove(input_data_file)
+
     modelso.max_tax_free = {}
     modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
     modelso.forecastSRI = modelno.delta.forecastSRI
