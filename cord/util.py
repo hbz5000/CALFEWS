@@ -93,41 +93,51 @@ def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity
     for o in output_list['north']['reservoirs'][r].keys():
       if output_list['north']['reservoirs'][r][o]:
         dat[:, col] = modelno.__getattribute__(r).__getattribute__(o)
-        names.append(np.string_(r + '__' + o))
+        names.append(np.string_(r + '_' + o))
         col += 1
   for r in output_list['south']['reservoirs'].keys():
     for o in output_list['south']['reservoirs'][r].keys():
       if output_list['south']['reservoirs'][r][o]:
         dat[:, col] = modelso.__getattribute__(r).__getattribute__(o)
-        names.append(np.string_(r + '__' + o))
+        names.append(np.string_(r + '_' + o))
         col += 1
   for o in output_list['north']['delta'].keys():
     if output_list['north']['delta'][o]:
       dat[:, col] = modelno.delta.__getattribute__(o)
-      names.append(np.string_('delta__' + o))
+      names.append(np.string_('delta_' + o))
       col += 1
   for c in output_list['south']['contracts'].keys():
     for o in output_list['south']['contracts'][c].keys():
-      if output_list['south']['contracts'][c][o]:
+      if o == 'daily_supplies':
+        for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
+          if output_list['south']['contracts'][c]['daily_supplies'][t]:
+            dat[:,col] = modelso.__getattribute__(c).daily_supplies[t]
+            names.append(np.string_(c + '_' + t))
+            col += 1
+      elif output_list['south']['contracts'][c][o]:
         dat[:, col] = modelso.__getattribute__(c).__getattribute__(o)
-        names.append(np.string_(c + '__' + o))
+        names.append(np.string_(c + '_' + o))
         col += 1
   for d in output_list['south']['districts'].keys():
-    for o in output_list['south']['districts'][d]['deliveries'].keys():
-      if output_list['south']['districts'][d]['deliveries'][o]:
-        dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
-        names.append(np.string_(d + '__deliveries__' + o))
-        col += 1
-    if 'bank_timeseries' in output_list['south']['districts'][d].keys():
-      for o in output_list['south']['districts'][d]['bank_timeseries'].keys():
-        dat[:, col] = modelso.__getattribute__(d).bank_timeseries[o]
-        names.append(np.string_(d + '__bank_timeseries__' + o))
-        col += 1
-  for b in output_list['south']['waterbanks'].keys():
-    for o in output_list['south']['waterbanks'][b]['bank_timeseries'].keys():
-      dat[:, col] = modelso.__getattribute__(b).bank_timeseries[o]
-      names.append(np.string_(b + '__bank_timeseries__' + o))
+    for o in output_list['south']['districts'][d].keys():
+      dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
+      names.append(np.string_(d + '_' + o))
       col += 1
+      #if o == 'deliveries':
+        #for o in output_list['south']['districts'][d]['deliveries'].keys():
+          #if output_list['south']['districts'][d]['deliveries'][o]:
+            #dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
+            #names.append(np.string_(d + '__deliveries__' + o))
+            #col += 1
+      #else:
+        #if output_list['south']['districts'][d][o]:
+          #dat[:, col] = modelso._getattribute_(d).daily_supplies_full
+  for b in output_list['south']['waterbanks'].keys():
+    for o in output_list['south']['waterbanks'][b].keys():
+      for p in output_list['south']['waterbanks'][b][o].keys():
+        dat[:, col] = modelso.__getattribute__(b).__getattribute__(o)[p]
+        names.append(np.string_(b + '_' + o + '_' + p))
+        col += 1
   # now only keep columns that are non-zero over course of simulation
   dat = dat[:, :col]
   if (clean_output):

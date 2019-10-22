@@ -12,8 +12,8 @@ import json
 import h5py
 
 # get example data to help get output classes. Note that if new infrastructure, banking arrangements, etc, may need to update output classes.
-modelno = pd.read_pickle('cord/data/results/baseline_wy2017/modelno0.pkl')
-modelso = pd.read_pickle('cord/data/results/baseline_wy2017/modelso0.pkl')
+modelno = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelno0.pkl')
+modelso = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelso0.pkl')
 
 # create nested dict to hold all possible output types
 d = {'north':{'reservoirs': {}, 'delta':{}}, 'south':{'reservoirs':{}, 'contracts':{}, 'districts':{}, 'waterbanks':{}}}
@@ -22,14 +22,21 @@ for name in [x.name for x in modelno.reservoir_list]:
   d['north']['reservoirs'][name] = {}
   for output in ['S', 'R', 'R_to_delta', 'available_storage']:    # list reservoir outputs of interest here
     d['north']['reservoirs'][name][output] = True
+  for input in ['Q', 'SNPK', 'downstream', 'fnf']:    # list reservoir outputs of interest here
+    d['north']['reservoirs'][name][input] = True
 # southern reservoirs
 for name in [x.name for x in modelso.reservoir_list]:
   d['south']['reservoirs'][name] = {}
   for output in ['S', 'available_storage']:    # list reservoir outputs of interest here
     d['south']['reservoirs'][name][output] = True
+  if name != 'sanluisstate' and name != 'sanluisfederal':
+    for input in ['Q', 'SNPK', 'downstream', 'fnf']:    # list reservoir outputs of interest here
+      d['south']['reservoirs'][name][input] = True
 # delta
-for output in ['HRO_pump', 'TRP_pump', 'x2', 'outflow', 'OMR', 'forecastSRI', 'forecastSJI']:               # list delta outputs here
+for output in ['HRO_pump', 'TRP_pump', 'x2', 'outflow', 'inflow']:               # list delta outputs here
   d['north']['delta'][output] = True
+for input in ['gains', 'gains_sac', 'gains_sj', 'depletions', 'vernalis_flow', 'eastside_streams', 'OMR', 'forecastSRI', 'forecastSJI']:               # list delta outputs here
+  d['north']['delta'][input] = True
 # contracts, need to account for discrepancy in object names between contract classes vs names in district class deliveries
 contract_dict = {'friant1': 'friant1', 'friant2': 'friant2', 'tableA': 'swpdelta', 'cvpdelta': 'cvpdelta',
                  'exchange': 'cvpexchange', 'cvc': 'crossvalley', 'kern': 'kernriver', 'tule': 'tuleriver',
@@ -44,26 +51,31 @@ for name in [contract_dict[x.name] for x in modelso.contract_list]:
     
 # districts
 for name in [x.name for x in modelso.district_list]:
-  d['south']['districts'][name] = {'deliveries':{}}
+  d['south']['districts'][name] = {}
   for contract in modelso.__getattribute__(name).contract_list:
     for output in ['delivery', 'carryover']:          # list district outputs, for contract/right allocations
-      d['south']['districts'][name]['deliveries'][contract + '_' + output] = True
+      d['south']['districts'][name][contract + '_' + output] = True
   for contract in modelso.__getattribute__(name).contract_list_all:
     for output in ['flood']:                          # list district outputs, for contracts/rights with no allocation
       # if (np.max(modelso.__getattribute__(name).daily_supplies_full[contract + '_' + output]) > 0):
-      d['south']['districts'][name]['deliveries'][contract + '_' + output] = True
+      d['south']['districts'][name][contract + '_' + output] = True
 	
   for output in ['recover_banked', 'inleiu_irrigation', 'inleiu_recharge', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW']:
-    d['south']['districts'][name][output] = {}
+    d['south']['districts'][name][output] = True
     
 for name in [x.name for x in modelso.waterbank_list]:
   d['south']['waterbanks'][name] = {}
-  d['south']['waterbanks'][name]['bank_timeseries'] = {}
+  d['south']['waterbanks'][name]['storage'] = {}
+  d['south']['waterbanks'][name]['recovery_use'] = {}
+  d['south']['waterbanks'][name]['banked'] = {}
   for partner in modelso.__getattribute__(name).bank_timeseries.keys():
-    d['south']['waterbanks'][name]['bank_timeseries'][partner] = True
+    d['south']['waterbanks'][name]['storage'][partner] = True
+    d['south']['waterbanks'][name]['recovery_use'][partner] = True
+    d['south']['waterbanks'][name]['banked'][partner] = True
 
 with open('cord/data/input/output_list.json', 'w') as f:
   json.dump(d, f, indent=2)
 
 # with open('cord/data/input/output_list.json', 'r') as f:
 #   dat=json.load(f)
+
