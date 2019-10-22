@@ -48,7 +48,6 @@ sensitivity_sample_file = config['sensitivity_sample_file']
 output_list = config['output_list']
 output_directory = config['output_directory']
 clean_output = bool(strtobool(config['clean_output']))
-save_full = bool(strtobool(config['save_full']))
 
 if parallel_mode == True:
   from mpi4py import MPI
@@ -198,7 +197,9 @@ for k in range(start, stop):
     #try:
     data_output(output_list, results_folder, clean_output, rank, k, new_inputs.sensitivity_factors, modelno, modelso)
     #except Exception as e: print(e)
-    if (save_full):
+
+    # save full model objects for single sensitivity run, useful to know object structure in postprocessing
+    if (k == 0):
       pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
       pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
 
