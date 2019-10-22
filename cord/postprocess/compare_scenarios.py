@@ -16,11 +16,11 @@ tafd_cfs = 1000 / 86400 * 43560
 ### load canal data for 2 scenarios
 importlib.reload(load_model_data)
 canal1, canal_aggregate_Wateryear1, canal_aggregate_Wateryear_Month1, ind_canal_waterway1, ind_canal_recipient1, ind_canal_flowtype1 = \
-            load_model_data.load_canal_data('cord/data/results/FKC_capacity_wy2017/canal_results_simulation.csv')
+            load_model_data.load_canal_data('cord/data/results/old_ewri2019/FKC_capacity_wy2017/canal_results_simulation.csv')
 
 canal2, canal_aggregate_Wateryear2, canal_aggregate_Wateryear_Month2, ind_canal_waterway2, ind_canal_recipient2, ind_canal_flowtype2 = \
-            load_model_data.load_canal_data('cord/data/results/FKC_capacity_rehab_full__LWT_inleiubank/canal_results_simulation.csv')
-folder_name = 'FKC_capacity_rehab_full__LWT_inleiubank'
+            load_model_data.load_canal_data('cord/data/results/old_ewri2019/FKC_capacity_rehab_full/canal_results_simulation.csv')
+folder_name = 'FKC_capacity_rehab_full'
 os.makedirs('cord/figs/compareScenarios/' + folder_name, exist_ok=True)
 
 
