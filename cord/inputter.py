@@ -819,8 +819,9 @@ class Inputter():
 		
         filename = self.inflow_series[flow_input_type][flow_input_source]
         self.fnf_df = pd.read_csv(filename)
-
-
+        print(filename)
+        print(self.df)
+        print(self.export_series[flow_input_type][flow_input_source])
         if 'datetime' in self.fnf_df:
           dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])
         else:

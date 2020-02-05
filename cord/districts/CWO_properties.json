@@ -1,5 +1,5 @@
 {
-  "contract_list": ["tableA"],
+  "contract_list": ["tableA", "kern"],
   "turnout_list": ["fkc", "knr"],
   "in_leiu_banking": false,
   "leiu_recovery": 0.0,

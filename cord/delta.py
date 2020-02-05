@@ -105,6 +105,8 @@ class Delta():
 	
     self.swp_allocation = np.zeros(self.T)
     self.cvp_allocation = np.zeros(self.T)
+    self.uncontrolled_swp = np.zeros(self.T)
+    self.uncontrolled_cvp = np.zeros(self.T)
     self.annual_HRO_pump = np.zeros(self.number_years)
     self.annual_TRP_pump = np.zeros(self.number_years)
     self.remaining_tax_free_storage = {}
@@ -588,6 +590,7 @@ class Delta():
     unstored_flows = self.total_inflow
     available_unstored = unstored_flows + self.depletions[t] - min_rule
 	
+    
     #total volume that can be exported w/o additional inflows, based on delta required outflows & the E/I ratio (i.e., if enough inflow is coming into the delta to meet the minimum outflow requirements, how much (additional) inflows can we export before we hit the I/E ratio)
     tax_free_exports = ((1/(1-self.export_ratio[wyt][m-1])) - 1)*(min_rule - self.depletions[t])
     tax_free_exports = min(tax_free_exports, (np.interp(d, self.pump_max['swp']['d'], self.pump_max['swp']['intake_limit']) + np.interp(d, self.pump_max['cvp']['d'], self.pump_max['cvp']['intake_limit']))*cfs_tafd)
@@ -654,7 +657,8 @@ class Delta():
 
 	##need to release the larger of the three requirements
     self.sodd_cvp[t] = max(cvp_releases, cvp_tax)
-    self.sodd_swp[t] = max(swp_releases, swp_tax)    
+    self.sodd_swp[t] = max(swp_releases, swp_tax)
+
 		  
   def find_max_pumping(self, d, dowy, t, wyt):
     ##Find max pumping uses the delta pumping rules (from delta_properties) to find the maximum the pumps can
@@ -768,6 +772,12 @@ class Delta():
         untaxed = min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
       else:
         untaxed = min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
+
+      if project == 'swp':
+        self.uncontrolled_swp[t] += total_uncontrolled
+      elif project == 'cvp':
+        self.uncontrolled_cvp[t] += total_uncontrolled  
+
 	  ##space for pumping that exceeds the I/E tax
       ############################
 	  #if monthcounter > 5 or monthcounter == 0:
@@ -827,8 +837,10 @@ class Delta():
         if monthcounter == 12:
           monthcounter -= 12
 
-
-		  
+        if project == 'swp':
+          self.uncontrolled_swp[t] += total_uncontrolled
+        elif project == 'cvp':
+          self.uncontrolled_cvp[t] += total_uncontrolled  
       if running_storage > 0.0:
         if project == 'swp':
           #self.forecastSWPPUMP = untaxed + max(min(taxable_space, running_storage*self.export_ratio[wyt][0]), 0.0) + max(min(taxable_space2, (running_storage - taxable_space/self.export_ratio[wyt][0])*self.export_ratio[wyt][1]), 0.0)
@@ -1092,8 +1104,8 @@ class Delta():
 	  
   def accounting_as_df(self, index):
     df = pd.DataFrame()
-    names = ['TRP_pump','HRO_pump', 'total_outflow','SWP_allocation', 'CVP_allocation', 'X2', 'SCINDEX', 'SJINDEX', 'tax_swp', 'tax_cvp']
-    things = [self.TRP_pump, self.HRO_pump, self.outflow, self.swp_allocation, self.cvp_allocation, self.x2, self.forecastSRI, self.forecastSJI, self.remaining_tax_free_storage['swp'], self.remaining_tax_free_storage['cvp']]
+    names = ['TRP_pump','HRO_pump', 'total_outflow','SWP_allocation', 'CVP_allocation', 'X2', 'SCINDEX', 'SJINDEX', 'tax_swp', 'tax_cvp', 'uncontrolled_swp', 'uncontrolled_cvp']
+    things = [self.TRP_pump, self.HRO_pump, self.outflow, self.swp_allocation, self.cvp_allocation, self.x2, self.forecastSRI, self.forecastSJI, self.remaining_tax_free_storage['swp'], self.remaining_tax_free_storage['cvp'], self.uncontrolled_swp, self.uncontrolled_cvp]
     for n,t in zip(names,things):
       df['%s_%s' % (self.key,n)] = pd.Series(t, index=index)
     return df
