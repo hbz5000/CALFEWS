@@ -797,7 +797,7 @@ for share_scenario in range(n_share_scenario):
 # plt.plot(x, y1, alpha=0.7)
 
 
-### plot changing pdf of total water deliveries
+### plot pdf of total water deliveries vs revenue water
 gs1 = gridspec.GridSpec(1,2)
 ax = plt.subplot2grid((1,2), (0,0))
 share_scenario = 5
@@ -883,8 +883,8 @@ i = 1
 y = 0
 for d in friant_districts[1:]:
   y += ID_volume_purchases[folders[i]][d]
-# sns.kdeplot(y, color='indianred', ls=ls[i],shade=shade[i], kernel='epa',lw=0)
-# plt.axvline(y.mean(),color='indianred',ls=ls[i],lw=2)
+sns.kdeplot(y, color='indianred', ls=ls[i],shade=shade[i], kernel='epa',lw=0)
+plt.axvline(y.mean(),color='indianred',ls=ls[i],lw=2)
 # plt.axvline(y.loc[y<y.quantile(0.05)].mean(),color='indianred',lw=2,ls='--')
 plt.xlim([0,800])
 plt.ylim([0,0.0115])
@@ -950,7 +950,7 @@ plt.tick_params(axis='y', which='both', labelleft=False, labelright=False)
 gs1 = gridspec.GridSpec(1,2)
 ax = plt.subplot2grid((1,2), (0,0))
 share_scenario = 5
-cost_scenario = 0
+cost_scenario = 3
 ls = ['-','-']
 shade = [True,True]
 j = 0
@@ -962,9 +962,9 @@ plt.axvline(y.mean(),color='0.3',lw=2)
 plt.axvline(y.loc[y<y.quantile(0.05)].mean(),color='0.3',lw=2,ls='--')
 i = 1
 y = ID_net_revenues[share_scenario][cost_scenario][folders[i]][d]
-# sns.kdeplot(y, color='indianred', ls=ls[i],shade=shade[i], kernel='epa',lw=0)
-# plt.axvline(y.mean(),color='indianred',ls=ls[i],lw=2)
-# plt.axvline(y.loc[y<y.quantile(0.05)].mean(),color='indianred',lw=2,ls='--')
+sns.kdeplot(y, color='indianred', ls=ls[i],shade=shade[i], kernel='epa',lw=0)
+plt.axvline(y.mean(),color='indianred',ls=ls[i],lw=2)
+plt.axvline(y.loc[y<y.quantile(0.05)].mean(),color='indianred',lw=2,ls='--')
 plt.xlim([0,25])
 plt.ylim([0,0.19])
 plt.xlabel('Net Revenues ($M/yr)')
@@ -983,14 +983,16 @@ i = 1
 y = 0
 for d in friant_districts[1:]:
   y += ID_net_revenues[share_scenario][cost_scenario][folders[i]][d]
-# sns.kdeplot(y, color='indianred', ls=ls[i],shade=shade[i], kernel='epa',lw=0)
-# plt.axvline(y.mean(),color='indianred',ls=ls[i],lw=2)
-# plt.axvline(y.loc[y<y.quantile(0.05)].mean(),color='indianred',lw=2,ls='--')
+sns.kdeplot(y, color='indianred', ls=ls[i],shade=shade[i], kernel='epa',lw=0)
+plt.axvline(y.mean(),color='indianred',ls=ls[i],lw=2)
+plt.axvline(y.loc[y<y.quantile(0.05)].mean(),color='indianred',lw=2,ls='--')
 plt.xlim([0,25])
 plt.ylim([0,0.19])
 plt.xlabel('Net Revenues ($M/yr)')
 plt.ylabel('Density')
 plt.tick_params(axis='y', which='both', labelleft=False, labelright=False)
+
+
 
 
 ### plot revenue time series

@@ -4,8 +4,8 @@
 ## Enter location of working directory and runtime_params.ini, both relative to C:/
 ############################
 
-working_directory_relative_C="Users/Andrew/PycharmProjects/ORCA_COMBINED"
-project_directory_relative_C="Users/Andrew/PycharmProjects/ORCA_COMBINED"
+working_directory_relative_C='Users/harrison/ORCA_COMBINED'
+project_directory_relative_C='Users/harrison/ORCA_COMBINED'
 
 ############################
 working_directory_C='C:/'$working_directory_relative_C
@@ -14,7 +14,9 @@ working_directory_cygwin='/cygdrive/c/'$working_directory_relative_C
 project_directory_cygwin='/cygdrive/c/'$project_directory_relative_C
 project_directory_C='C:/'$project_directory_relative_C
 
-param_file_cygwin=$project_directory_cygwin'/cord/data/input/runtime_params.ini'
+param_file_cygwin=$project_directory_C'/cord/data/input/runtime_params.ini'
+echo $param_file_cygwin
+echo $working_directory_cygwin
 main_file_C=$project_directory_C'/main.py'
 consolidate_hdf5_file_C=$project_directory_C'/cord/postprocess/consolidate_hdf5.py'
 
@@ -46,4 +48,5 @@ else
 		python $consolidate_hdf5_file_C $output_directory_C 1
 	fi
 fi
+
 
