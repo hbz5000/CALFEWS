@@ -1816,6 +1816,7 @@ class Model():
     index_urban_y = index_urban.year
     index_urban_dowy = water_day(index_urban_d, index_urban_y)
     urban_startYear = index_urban_y[0]
+    urban_start_regression = int(2008 - urban_startYear)
     index_urban_water_year = water_year(index_urban_m, index_urban_y, urban_startYear)
     numYears_urban = index_urban_y[urban_historical_T - 1] - index_urban_y[0]
     urban_list = [self.socal, self.centralcoast, self.southbay]
@@ -1891,7 +1892,6 @@ class Model():
       metropolitan_adjust = self.starting_year - 1996
     else:
       metropolitan_adjust = 0
-    self.year_demand_error = randint(0,18)
     for x in urban_list:
       x.pumping = df_urban[x.key + '_pump'].values
       x.annual_pumping = x.regression_annual
@@ -1947,12 +1947,14 @@ class Model():
 		  
     for x in urban_list:
       for y in range(0, numYears_urban):
-        x.regression_percent[y] = x.annual_pumping[y]/regression_annual_hro[y]
+        #x.regression_percent[y] = x.annual_pumping[y]/regression_annual_hro[y]
+        x.regression_percent[y] = x.annual_pumping[y]
 		  
     for x in self.city_list:
       for xx in x.district_list:
         for y in range(0, numYears_urban):
-          x.regression_percent[xx][y] = x.annual_pumping[xx][y]/regression_annual_hro[y]		
+          #x.regression_percent[xx][y] = x.annual_pumping[xx][y]/regression_annual_hro[y]		
+          x.regression_percent[xx][y] = x.annual_pumping[xx][y]		
 		
 
     sri_forecast_dowy = np.zeros((365,numYears_urban))
@@ -1963,70 +1965,69 @@ class Model():
 
     for x in urban_list:
       counter1 = 1
-      #fig = plt.figure() 
-      x.regression_errors = np.zeros((365,numYears_urban))
+      fig = plt.figure() 
+      x.regression_errors = np.zeros((365,numYears_urban - urban_start_regression))
       for wateryear_day in range(0,365):
-        coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent,1)
+        coef = np.polyfit(sri_forecast_dowy[wateryear_day][urban_start_regression:-1], x.regression_percent[urban_start_regression:-1],1)
         if self.use_sensitivity:
           x.delivery_percent_coefficient[wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
         else:
           x.delivery_percent_coefficient[wateryear_day][0] = coef[0]
         x.delivery_percent_coefficient[wateryear_day][1] = coef[1]
-        if x.key == 'XXX':
+        if x.key == 'xxx':
           sri = np.zeros(numYears_urban)
           percent = np.zeros(numYears_urban)
-          # ax1 = fig.add_subplot(4,5,counter1)
+          ax1 = fig.add_subplot(4,5,counter1)
 
           
           for yy in range(0,numYears_urban):
             sri[yy] = sri_forecast_dowy[wateryear_day][yy]
             percent[yy] = x.regression_percent[yy]	
-          # ax1.scatter(sri, percent, s=50, c='red', edgecolor='none', alpha=0.7)
-          # ax1.plot([np.max(sri), 0.0], [(np.max(sri)*coef[0] + coef[1]), coef[1]],c='red')
-          # ax1.set_xlim([np.min(sri), np.max(sri)])
+          ax1.scatter(sri[urban_start_regression:-1], percent[urban_start_regression:-1], s=50, c='red', edgecolor='none', alpha=0.7)
+          ax1.plot([np.max(sri), 0.0], [(np.max(sri)*coef[0] + coef[1]), coef[1]],c='red')
+          ax1.set_xlim([np.min(sri), np.max(sri)])
           counter1 += 1
           if counter1 == 21:
-            # plt.show()
-            # plt.close()
-            # fig = plt.figure()
+            plt.show()
+            plt.close()
+            fig = plt.figure()
             counter1 = 1
 
 
-        for wateryear_count in range(0,len(x.regression_percent)):
-          x.regression_errors[wateryear_day][wateryear_count] = sri_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[wateryear_day][0] + x.delivery_percent_coefficient[wateryear_day][1] - x.regression_percent[wateryear_count]
+        for wateryear_count in range(urban_start_regression,len(x.regression_percent)):
+          x.regression_errors[wateryear_day][wateryear_count - urban_start_regression] = sri_forecast_dowy[wateryear_day][wateryear_count-urban_start_regression]*x.delivery_percent_coefficient[wateryear_day][0] + x.delivery_percent_coefficient[wateryear_day][1] - x.regression_percent[wateryear_count-urban_start_regression]
 		  
     for x in self.city_list:
       x.regression_errors = {}
       for xx in x.district_list:
-        x.regression_errors[xx] = np.zeros((365,numYears_urban))
+        x.regression_errors[xx] = np.zeros((365,numYears_urban-urban_start_regression))
         counter1 = 1
         #fig = plt.figure() 
         for wateryear_day in range(0,365):
-          coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent[xx],1)
-          r = np.corrcoef(sri_forecast_dowy[wateryear_day],x.regression_percent[xx])[0,1]
+          coef = np.polyfit(sri_forecast_dowy[wateryear_day][urban_start_regression:-1], x.regression_percent[xx][urban_start_regression:-1],1)
           if self.use_sensitivity:
             x.delivery_percent_coefficient[xx][wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
           else:
             x.delivery_percent_coefficient[xx][wateryear_day][0] = coef[0]
 		  
           x.delivery_percent_coefficient[xx][wateryear_day][1] = coef[1]
-          for wateryear_count in range(0,len(x.regression_percent[xx])):
-            x.regression_errors[xx][wateryear_day][wateryear_count] = sri_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[xx][wateryear_day][0] + x.delivery_percent_coefficient[xx][wateryear_day][1] - x.regression_percent[xx][wateryear_count]
+          for wateryear_count in range(urban_start_regression,len(x.regression_percent[xx])):
+            x.regression_errors[xx][wateryear_day][wateryear_count-urban_start_regression] = sri_forecast_dowy[wateryear_day][wateryear_count-urban_start_regression]*x.delivery_percent_coefficient[xx][wateryear_day][0] + x.delivery_percent_coefficient[xx][wateryear_day][1] - x.regression_percent[xx][wateryear_count-urban_start_regression]
 
 		
     for x in self.city_list:
       for xx in x.district_list:
         counter1 = 1
-        #fig = plt.figure() 
+        fig = plt.figure() 
         for wateryear_day in range(0,365):
-          coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent[xx],1)
+          coef = np.polyfit(sri_forecast_dowy[wateryear_day][urban_start_regression:-1], x.regression_percent[xx][urban_start_regression:-1],1)
           if x.key == "XXX":
-            r = np.corrcoef(sri_forecast_dowy[wateryear_day],x.regression_percent[xx])[0,1]
+            r = np.corrcoef(sri_forecast_dowy[wateryear_day][urban_start_regression:-1],x.regression_percent[xx][urban_start_regression:-1])[0,1]
             sri = np.zeros(numYears_urban)
             percent = np.zeros(numYears_urban)
             ax1 = fig.add_subplot(4,5,counter1)
           
-            for yy in range(0,numYears_urban):
+            for yy in range(urban_start_regression,numYears_urban):
               sri[yy] = sri_forecast_dowy[wateryear_day][yy]
               percent[yy] = x.regression_percent[xx][yy]	
             ax1.scatter(sri, percent, s=50, c='red', edgecolor='none', alpha=0.7)
@@ -2081,6 +2082,8 @@ class Model():
 
     for x in urban_list:
       x.ytd_pumping = np.zeros(self.number_years)
+      print(self.number_years)
+      print(x.ytd_pumping)
     for x in self.city_list:
       x.ytd_pumping = {}
       for xx in x.district_list:
@@ -3491,8 +3494,7 @@ class Model():
     projected_allocation = {}
     projected_allocation['swp'] = total_delta_pumping
     projected_allocation['cvp'] = projected_allocation_cvp
-    if dowy == 1:
-      self.year_demand_error = randint(0,18)
+    counter = 0
     for x in urban_list:
       if x.has_private:
         if x.has_pesticide:
@@ -3501,12 +3503,14 @@ class Model():
           frac_to_district = 1.0 - x.private_fraction
       else:
         frac_to_district = 1.0
-
-      sri_estimate = (sri*x.delivery_percent_coefficient[dowy][0] + x.delivery_percent_coefficient[dowy][1] - x.regression_errors[dowy][self.year_demand_error])*total_delta_pumping*frac_to_district
+      if dowy == 0 and counter == 0:
+        self.year_demand_error = randint(0,len(x.regression_errors[dowy])-1)
+        counter += 1
+      sri_estimate = (sri*x.delivery_percent_coefficient[dowy][0] + x.delivery_percent_coefficient[dowy][1] - x.regression_errors[dowy][self.year_demand_error])
       x.annualdemand = max(sri_estimate - x.ytd_pumping[wateryear], 0.0)
     for x in self.city_list:
       for district in x.district_list:
-        sri_estimate = (sri*x.delivery_percent_coefficient[district][dowy][0] + x.delivery_percent_coefficient[district][dowy][1] - x.regression_errors[district][dowy][self.year_demand_error])*total_delta_pumping
+        sri_estimate = (sri*x.delivery_percent_coefficient[district][dowy][0] + x.delivery_percent_coefficient[district][dowy][1] - x.regression_errors[district][dowy][self.year_demand_error])
         x.annualdemand[district] = max(sri_estimate - x.ytd_pumping[district][wateryear], 1.0)
 
     if da == 1:
@@ -3548,12 +3552,12 @@ class Model():
                   frac_to_district = 1.0 - y.private_fraction
               else:
                 frac_to_district = 1.0
-              sri_estimate = (sri*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.year_demand_error])*total_delta_pumping*frac_to_district
+              sri_estimate = (sri*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.year_demand_error])
               y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][start_of_month:start_next_month])*max(sri_estimate, 0.0)
             for y in self.city_list:
               for districts in y.district_list:
                   district_object = self.district_keys[districts]
-                  sri_estimate = (sri*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.year_demand_error])*total_delta_pumping
+                  sri_estimate = (sri*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.year_demand_error])
                   y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][start_of_month:start_next_month])*max(sri_estimate, 0.0)
           start_of_month = start_next_month
 
@@ -3569,15 +3573,9 @@ class Model():
         frac_to_district = 1.0
 
       for key in ['swp', 'cvp']:
-        sri_estimate = (sri*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.year_demand_error])*total_delta_pumping*frac_to_district
-        y.dailydemand += max(sri_estimate, 0.0)*y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]*frac_to_district
-        y.dailydemand_start += max(sri_estimate, 0.0)*total_delta_pumping*frac_to_district*y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]*frac_to_district
-        #print(sri_estimate, end = " ")
-        #print(y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy], end = " ")
-        #print(frac_to_district, end = " ")
-        #print(sri, end = " ")
-        #print(y.dailydemand, end = " ")
-        #print(total_delta_pumping, end = " ")
+        sri_estimate = (sri*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.year_demand_error])
+        y.dailydemand += max(sri_estimate, 0.0)*y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]
+        y.dailydemand_start += max(sri_estimate, 0.0)*total_delta_pumping*frac_to_district*y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]
       y.ytd_pumping[wateryear] += y.dailydemand
       #print(y.ytd_pumping[wateryear])
 
@@ -3585,10 +3583,12 @@ class Model():
       for districts in y.district_list:
         y.dailydemand[districts] = 0.0
         district_object = self.district_keys[districts]
-        sri_estimate = (sri*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.year_demand_error])*total_delta_pumping
+        sri_estimate = (sri*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.year_demand_error])
         for key in ['swp', 'cvp']:
           y.dailydemand[districts] += max(sri_estimate, 0.0)*district_object.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]
           y.dailydemand_start[districts] += max(sri_estimate, 0.0)*district_object.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]
+
+
         y.ytd_pumping[districts][wateryear] += y.dailydemand[districts]
 
   def agg_contract_demands(self, year, m, wyt_real):

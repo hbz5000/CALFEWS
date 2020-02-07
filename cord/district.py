@@ -283,7 +283,7 @@ class District():
     self.dailydemand_start = self.dailydemand
     ##Keep track of ytd pumping to Cal Aqueduct Branches
     self.ytd_pumping[wateryear] += self.dailydemand
-    sri_estimate = (sri*self.delivery_percent_coefficient[dowy][0] + self.delivery_percent_coefficient[dowy][1])*total_delta_pumping*frac_to_district
+    sri_estimate = (sri*self.delivery_percent_coefficient[dowy][0] + self.delivery_percent_coefficient[dowy][1])
     self.annualdemand = max(0.0, (self.annual_pumping[wateryear]*dowy + sri_estimate*(364.0 - dowy))/364.0 - self.ytd_pumping[wateryear])
     if m == 10 and da == 1:
       start_of_month = 0

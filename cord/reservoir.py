@@ -585,7 +585,7 @@ class Reservoir():
             #self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap)
 		  		  
 
-      if (self.key == 'MIL' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx'):
+      if (self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx'):
         print(self.key, end = " ")
         print(t, end = " ")
         print(dowy, end = " ")
