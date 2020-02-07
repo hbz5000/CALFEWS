@@ -6,7 +6,7 @@
   "in_district_direct_recharge": 0.0,
   "in_district_storage": 0.0,
   "loss_rate": 0.1,
-  "recovery_fraction": 0.25,
+  "recovery_fraction": 0.75,
   "surface_water_sa" : 1.0,
   "must_fill" : 0,
   "seasonal_connection" : 1.0,

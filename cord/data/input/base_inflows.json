@@ -4,7 +4,8 @@
   "inflow_series":{
     "observations":{
       "CDEC": "cord/data/input/cord-data.csv", 
-      "WRF":  "cord/data/CA_FNF_WRF/WRF_20062016.csv"
+      "WRF":  "cord/data/CA_FNF_WRF/WRF_20062016.csv",
+	  "WRF_GW_corr":  "cord/data/CA_FNF_WRF/WRF_GWCorrect_20062016.csv"
       },
     "downscaled_historical":{
       "VIC": "cord/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
@@ -23,7 +24,8 @@
   "export_series":{
     "observations":{
       "CDEC": "cord-data-CDEC_19962016",
-      "WRF": "cord-data-WRF_20062016"
+      "WRF": "cord-data-WRF_20062016",
+	  "WRF_GW_corr": "cord-data-WRF_GWC_20062016" 
       },
     "downscaled_historical":{
       "VIC": "cord-data-VIC_19952005", 
@@ -42,7 +44,8 @@
   "simulation_period_start":{
     "observations":{
       "CDEC": 1996, 
-      "WRF": 2006
+      "WRF": 2006,
+	  "WRF_GW_corr":2006
       },
     "downscaled_historical":{
       "VIC": 1996,
@@ -61,7 +64,8 @@
   "simulation_period_end":{
     "observations":{
       "CDEC": 2016,
-      "WRF": 2016
+      "WRF": 2016,
+	  "WRF_GW_corr": 2016
       },
     "downscaled_historical":{
       "VIC": 2005,
@@ -80,7 +84,8 @@
   "file_start":{
     "observations":{
       "CDEC": "10/1/1996",
-      "WRF": "10/1/2016"
+      "WRF": "10/1/2016",
+	  "WRF_GW_corr": "10/1/2016"
       },
     "downscaled_historical":{
       "VIC": "1/1/1950",
@@ -99,7 +104,8 @@
   "file_end":{
     "observations":{
       "CDEC": "9/30/2016",
-      "WRF": "9/30/2016"
+      "WRF": "9/30/2016",
+	  "WRF_GW_corr": "9/30/2016"
       },
     "downscaled_historical":{
       "VIC": "12/31/2099", 
@@ -118,7 +124,8 @@
   "has_leap":{
     "observations":{
       "CDEC": true,
-      "WRF": true
+      "WRF": true,
+	  "WRF_GW_corr": true
       },
     "downscaled_historical":{
       "VIC": true,
@@ -137,7 +144,8 @@
   "inflow_unit":{
     "observations":{
       "CDEC": "af",
-       "WRF": "cms"
+       "WRF": "cms",
+	   "WRF_GW_corr": "cms"
       },
     "downscaled_historical":{
       "VIC": "cfs",

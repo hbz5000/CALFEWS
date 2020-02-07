@@ -1,5 +1,5 @@
 {
-  "contract_list": ["tableA"],
+  "contract_list": ["tableA", "kern"],
   "turnout_list": ["xvc", "knr"],
   "in_leiu_banking": true,
   "participant_list": ["RRB","ARV","DLE","CTL","CCH", "BVA", "SOC", "KRT"],

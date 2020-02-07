@@ -101,7 +101,10 @@ class Contract():
         forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
     
     if dowy == 360:
-      forecast_used = forecast_available
+      if self.allocation_priority == 1:
+        forecast_used = forecast_available*self.total/priority_contract
+      else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
+        forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
       self.lastYearForecast = forecast_available
       #if self.lastYearForecast > self.maxForecastValue:
         #self.lastYearForecast = self.maxForecastValue

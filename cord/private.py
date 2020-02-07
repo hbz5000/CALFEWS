@@ -302,7 +302,7 @@ class Private():
       self.dailydemand[district] = self.pumping[district][t]/1000.0
       self.dailydemand_start[district] = self.pumping[district][t]/1000.0
       self.ytd_pumping[district][wateryear] += self.dailydemand[district]
-      sri_estimate = (sri*self.delivery_percent_coefficient[district][dowy][0] + self.delivery_percent_coefficient[district][dowy][1])*total_delta_pumping
+      sri_estimate = (sri*self.delivery_percent_coefficient[district][dowy][0] + self.delivery_percent_coefficient[district][dowy][1])
       self.annualdemand[district] = max(0.0, (self.annual_pumping[district][wateryear]*dowy + sri_estimate*(364.0 - dowy))/364.0 - self.ytd_pumping[district][wateryear])
 
     ##Keep track of ytd pumping to Cal Aqueduct Branches
@@ -378,18 +378,18 @@ class Private():
     else:
       contract_amount = rights[key]['capacity']
 	  
-    if key == 'tableA' and self.key == "XXX":
-      #print(wateryear, end = " ")
-      #print(t, end = " ")
-      #print(self.key, end = " ")
-      #print("%.2f" % projected_allocation, end = " ")
-      #print("%.2f" % self.deliveries[district_name][key][wateryear], end = " ")
-      #print("%.2f" % self.deliveries[district_name]['recharged'][wateryear], end = " ")
-      #print("%.2f" % self.deliveries[district_name]['recover_banked'][wateryear], end = " ")
-      #print("%.2f" % self.deliveries['exchanged_GW'][wateryear], end = " ")
-      #print("%.2f" % self.projected_supply[district_name][key], end = " ")
-      #print("%.2f" % self.annualdemand[district_name], end = " ")
-      #print("%.2f" % self.recharge_carryover[district_name][key], end = " ")
+    if key == 'tableA' and self.key == "xxx":
+      print(wateryear, end = " ")
+      print(t, end = " ")
+      print(self.key, end = " ")
+      print("%.2f" % projected_allocation, end = " ")
+      print("%.2f" % self.deliveries[district_name][key][wateryear], end = " ")
+      print("%.2f" % self.deliveries[district_name]['recharged'][wateryear], end = " ")
+      print("%.2f" % self.deliveries[district_name]['recover_banked'][wateryear], end = " ")
+      print("%.2f" % self.deliveries['exchanged_GW'][wateryear], end = " ")
+      print("%.2f" % self.projected_supply[district_name][key], end = " ")
+      print("%.2f" % self.annualdemand[district_name], end = " ")
+      print("%.2f" % self.recharge_carryover[district_name][key], end = " ")
       print("%.2f" % self.use_recovery)
 
 	  

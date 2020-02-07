@@ -28,6 +28,7 @@ from distutils.util import strtobool
 
 path_model = './'
 # path_model = sys.argv[1]
+
 print (sys.argv)
 os.chdir(path_model)
 
@@ -125,6 +126,9 @@ if parallel_mode:
 # =============================================================================
 # Loop though all samples, run sensitivity analysis. If parallel, k runs only through subset of samples for each processor.
 # =============================================================================
+print(start)
+print(stop)
+print(model_mode)
 for k in range(start, stop):
 
   print('#######################################################')
@@ -139,7 +143,7 @@ for k in range(start, stop):
     #seed
     if (seed > 0):
       np.random.seed(seed)
-
+    print(k)
     # read in k'th sample from sensitivity sample file
     sensitivity_sample = np.genfromtxt(sensitivity_sample_file, delimiter='\t', skip_header=k+1, max_rows=1)[1:]
     with open(sensitivity_sample_file, 'r') as f:
@@ -152,7 +156,6 @@ for k in range(start, stop):
     new_inputs.run_initialization('XXX')
     new_inputs.run_routine(flow_input_type, flow_input_source)
     input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_"  + str(k) + ".csv"
-
     modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
     modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
     os.remove(input_data_file)
@@ -182,7 +185,7 @@ for k in range(start, stop):
       # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
 
-      swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
+      swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.forecastSCWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
 
     # for n in new_inputs.sensitivity_factors['factor_list']:
     #   param_df[n][k] = new_inputs.sensitivity_factors[n]['realization']
@@ -251,7 +254,7 @@ for k in range(start, stop):
       # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
 
-      swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
+      swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.forecastSCWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
 
     ### record results
     # district_output_list = [modelso.berrenda, modelso.belridge, modelso.buenavista, modelso.cawelo, modelso.henrymiller, modelso.ID4, modelso.kerndelta, modelso.losthills, modelso.rosedale, modelso.semitropic, modelso.tehachapi, modelso.tejon, modelso.westkern, modelso.wheeler, modelso.kcwa,

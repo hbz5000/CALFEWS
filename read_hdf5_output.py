@@ -44,3 +44,9 @@ def get_results_column_name(results_file, column_name):
     df_sensitivity_factors = pd.DataFrame(sensitivity_factor_values, columns=sensitivity_factors)
   return df_data, df_sensitivity_factors
 
+df_data, df_sensitivity_factors = get_results_sensitivity_number(output_file, 0)
+for x in df_data:
+  fix, ax = plt.subplots()
+  ax.plot(df_data[x])
+  ax.set_ylabel(x)
+  plt.show()
