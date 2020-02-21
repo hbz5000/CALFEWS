@@ -162,3 +162,75 @@ def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity
     d[:] = dat
 
 
+
+
+def data_output_climate_ensemble(output_list_loc, results_folder, clean_output, rank, flow_input_source, modelno, modelso):
+  nt = modelno.shasta.baseline_inf.shape[0]
+  with open(output_list_loc, 'r') as f:
+    output_list = json.load(f)
+  dat = np.zeros([nt, 10000])
+  names = []
+  col = 0
+  # get all data columns listed as True in output_list file
+  for r in output_list['north']['reservoirs'].keys():
+    for o in output_list['north']['reservoirs'][r].keys():
+      if output_list['north']['reservoirs'][r][o]:
+        dat[:, col] = modelno.__getattribute__(r).__getattribute__(o)
+        names.append(np.string_(r + '_' + o))
+        col += 1
+  for r in output_list['south']['reservoirs'].keys():
+    for o in output_list['south']['reservoirs'][r].keys():
+      if output_list['south']['reservoirs'][r][o]:
+        dat[:, col] = modelso.__getattribute__(r).__getattribute__(o)
+        names.append(np.string_(r + '_' + o))
+        col += 1
+  for o in output_list['north']['delta'].keys():
+    if output_list['north']['delta'][o]:
+      dat[:, col] = modelno.delta.__getattribute__(o)
+      names.append(np.string_('delta_' + o))
+      col += 1
+  for c in output_list['south']['contracts'].keys():
+    for o in output_list['south']['contracts'][c].keys():
+      if o == 'daily_supplies':
+        for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
+          if output_list['south']['contracts'][c]['daily_supplies'][t]:
+            dat[:,col] = modelso.__getattribute__(c).daily_supplies[t]
+            names.append(np.string_(c + '_' + t))
+            col += 1
+      elif output_list['south']['contracts'][c][o]:
+        dat[:, col] = modelso.__getattribute__(c).__getattribute__(o)
+        names.append(np.string_(c + '_' + o))
+        col += 1
+  for d in output_list['south']['districts'].keys():
+    for o in output_list['south']['districts'][d].keys():
+      dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
+      names.append(np.string_(d + '_' + o))
+      col += 1
+      #if o == 'deliveries':
+        #for o in output_list['south']['districts'][d]['deliveries'].keys():
+          #if output_list['south']['districts'][d]['deliveries'][o]:
+            #dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
+            #names.append(np.string_(d + '__deliveries__' + o))
+            #col += 1
+      #else:
+        #if output_list['south']['districts'][d][o]:
+          #dat[:, col] = modelso._getattribute_(d).daily_supplies_full
+  for b in output_list['south']['waterbanks'].keys():
+    for o in output_list['south']['waterbanks'][b].keys():
+      for p in output_list['south']['waterbanks'][b][o].keys():
+        dat[:, col] = modelso.__getattribute__(b).__getattribute__(o)[p]
+        names.append(np.string_(b + '_' + o + '_' + p))
+        col += 1
+  # now only keep columns that are non-zero over course of simulation
+  dat = dat[:, :col]
+  if (clean_output):
+    datsum = dat.sum(axis=0)
+    index = np.abs(datsum) > eps
+    dat = dat[:, index]
+    names = list(compress(names, index))
+    col = len(names)
+  # output to hdf5 file
+  with h5py.File(results_folder + '/results_p' + str(rank) + '.hdf5', 'a') as f:
+    d = f.create_dataset(flow_input_source, (nt, col), dtype='float', compression='gzip')
+    d.attrs['columns'] = names
+    d[:] = dat

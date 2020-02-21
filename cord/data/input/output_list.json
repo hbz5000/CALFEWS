@@ -101,6 +101,7 @@
       },
       "millerton": {
         "S": true,
+        "R": true,
         "available_storage": true,
         "Q": true,
         "SNPK": true,
@@ -109,6 +110,7 @@
       },
       "isabella": {
         "S": true,
+        "R": true,
         "available_storage": true,
         "Q": true,
         "SNPK": true,
@@ -117,6 +119,7 @@
       },
       "success": {
         "S": true,
+        "R": true,
         "available_storage": true,
         "Q": true,
         "SNPK": true,
@@ -125,6 +128,7 @@
       },
       "kaweah": {
         "S": true,
+        "R": true,
         "available_storage": true,
         "Q": true,
         "SNPK": true,
@@ -133,6 +137,7 @@
       },
       "pineflat": {
         "S": true,
+        "R": true,
         "available_storage": true,
         "Q": true,
         "SNPK": true,

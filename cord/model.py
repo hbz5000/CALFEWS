@@ -249,7 +249,7 @@ class Model():
     reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro, self.exchequer, self.millerton]
     ##Regression flow & standard deviations read from file
     #### Find regression information for all 8 reservoirs
-    if self.model_mode == 'forecast':
+    if self.model_mode == 'climate_ensemble':
       ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       # df_res_process = pd.DataFrame()
       # df_res_annual = pd.DataFrame()
@@ -347,7 +347,7 @@ class Model():
     #########################################################################################
     self.delta = Delta(self.df, self.df_short, 'delta', 'DEL', self.model_mode)
     
-    if self.use_sensitivity:
+    if (self.use_sensitivity == True):
       self.delta.set_sensitivity_factors(self.sensitivity_factors['delta_outflow_multiplier']['realization'], self.sensitivity_factors['omr_flow']['realization'], self.sensitivity_factors['omr_probability']['realization'])
 
 	###Find expected reservoir releases to meet delta requirements - used in flow forecasting
@@ -394,7 +394,7 @@ class Model():
     self.sanluisstate = Reservoir(self.df, self.df_short, 'sanluisstate', 'SLS', self.model_mode)
     self.sanluisfederal = Reservoir(self.df, self.df_short, 'sanluisfederal', 'SLF', self.model_mode)
     self.reservoir_list = [self.sanluisstate, self.sanluisfederal, self.millerton, self.isabella, self.success, self.kaweah, self.pineflat]
-    if self.model_mode == 'forecast':
+    if self.model_mode == 'climate_ensemble':
       ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
         x.find_release_func(self.df_short)
@@ -2034,7 +2034,7 @@ class Model():
         #plt.close()
 
           
-    if self.model_mode == 'simulation' or self.model_mode == 'forecast' or self.model_mode == 'sensitivity':
+    if self.model_mode == 'simulation' or self.model_mode == 'climate_ensemble' or self.model_mode == 'sensitivity':
       for x in urban_list:
         x.hist_demand_dict = {}
         x.hist_demand_dict['swp'] = {}

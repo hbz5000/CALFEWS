@@ -12,8 +12,8 @@ import json
 import h5py
 
 # get example data to help get output classes. Note that if new infrastructure, banking arrangements, etc, may need to update output classes.
-modelno = pd.read_pickle('cord/data/results/baseline_wy2017/modelno0.pkl')
-modelso = pd.read_pickle('cord/data/results/baseline_wy2017/modelso0.pkl')
+modelno = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelno0.pkl')
+modelso = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelso0.pkl')
 
 # create nested dict to hold all possible output types
 d = {'north':{'reservoirs': {}, 'delta':{}}, 'south':{'reservoirs':{}, 'contracts':{}, 'districts':{}, 'waterbanks':{}}}
@@ -25,7 +25,7 @@ for name in [x.name for x in modelno.reservoir_list]:
 # southern reservoirs
 for name in [x.name for x in modelso.reservoir_list]:
   d['south']['reservoirs'][name] = {}
-  for output in ['S', 'available_storage']:    # list reservoir outputs of interest here
+  for output in ['S', 'R', 'available_storage']:    # list reservoir outputs of interest here
     d['south']['reservoirs'][name][output] = True
 # delta
 for output in ['HRO_pump', 'TRP_pump', 'x2', 'outflow', 'OMR', 'forecastSRI', 'forecastSJI']:               # list delta outputs here
