@@ -291,17 +291,6 @@ class Reservoir():
     #available storage is storage in reservoir in exceedence of end-of-september target plus forecast for oct-mar (adjusted for already observed flow)
 	#plus forecast for apr-jul (adjusted for already observed flow) minus the flow expected to be released for environmental requirements (at the reservoir, not delta)
     self.available_storage[t] = self.S[t] - self.EOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]
-    #if self.key == 'ORO':
-      #print(t, end = " ")
-      #print(self.available_storage[t], end = " ")
-      #print(self.S[t], end = " ")
-      #print(self.rainflood_forecast[t], end = " ")
-      #print(self.snowflood_forecast[t], end = " ")
-      #print(self.baseline_forecast[t], end = " ")
-      #print(self.cum_min_release[wyt][dowy], end = " ")
-      #print(self.aug_sept_min_release[wyt][dowy], end = " ")
-      #print(self.evap_forecast, end = " ")
-      #print(self.EOS_target)
      
     self.flood_storage[t] = self.S[t] - self.max_fcr + self.rainflood_forecast[t] - max(self.cum_min_release[wyt][dowy] - self.cum_min_release[wyt][181], 0.0)
     if dowy < 123:
@@ -502,9 +491,12 @@ class Reservoir():
         numdays_fillup_cap = 999.9
 
       #flood control pool at start and end of the month
-      storage_cap_start, max_cap_start = self.current_tocs(np.where(block_start > 0, block_start - 1, 0) ,self.fci[t])
-      storage_cap_end, max_cap_end = self.current_tocs(block_end, self.fci[t])
-	  
+      if self.key == 'MIL' or self.key == "KWH":
+        storage_cap_start, max_cap_start = self.current_tocs(np.where(block_start > 0, block_start - 1, 0) ,self.fci[t])
+        storage_cap_end, max_cap_end = self.current_tocs(block_end, self.fci[t])
+      else:
+        storage_cap_start = self.capacity * 1.0
+        storage_cap_end = self.capacity * 1.0
       eom_storage = running_storage
 
       crossover_date = 0.0
@@ -512,16 +504,16 @@ class Reservoir():
       eom_storage = running_storage + reservoir_change_rate*(block_end - block_start + 1)
       if eom_storage < self.dead_pool:
         break
-      self.max_daily_uncontrolled = min(max((eom_storage - self.EOS_target)/(block_end + 1 + cross_counter_wy*365 - dowy), self.min_daily_uncontrolled), self.max_daily_uncontrolled)
+      self.max_daily_uncontrolled = min(max((eom_storage - self.EOS_target)/ min(block_end + 1 + cross_counter_wy*365 - dowy, self.numdays_fillup[release]), self.min_daily_uncontrolled), self.max_daily_uncontrolled)
       if eom_storage > storage_cap_end:
         #rate of release to avoid flood pool
         if storage_cap_start > running_storage:
           #this_month_min_release = (eom_storage - storage_cap_end ) / (block_end + 1 + cross_counter_wy*365 - dowy)
           if self.key == 'MIL' or self.key == 'KWH':
-            this_month_min_release = max((eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+            this_month_min_release = max((eom_storage - storage_cap_end) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
             total_min_release = eom_storage - storage_cap_end
           else:
-            this_month_min_release = max((eom_storage - self.capacity) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+            this_month_min_release = max((eom_storage - self.capacity) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
             total_min_release = eom_storage - self.capacity
 
           #volume of water over the flood pool, no release
@@ -531,23 +523,23 @@ class Reservoir():
           crossover_date = 0.0
           if (block_start + cross_counter_wy*365 - dowy) > 0.0:
             if self.key == 'MIL' or self.key == 'KWH':
-              this_month_min_release = max((running_storage - storage_cap_start)/(block_start + cross_counter_wy*365 - dowy), (eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              this_month_min_release = max((running_storage - storage_cap_start)/min((block_start + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), (eom_storage - storage_cap_end) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
               total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
             else:
-              this_month_min_release = max((running_storage - self.capacity)/(block_start + cross_counter_wy*365 - dowy), (eom_storage - self.capacity) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              this_month_min_release = max((running_storage - self.capacity)/min((block_start + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), (eom_storage - self.capacity) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
               total_min_release = max(running_storage - self.capacity, eom_storage - self.capacity)
 
           else:
             if self.key == 'MIL' or self.key == 'KWH':
-              this_month_min_release = max(running_storage - storage_cap_start, (eom_storage - storage_cap_end) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              this_month_min_release = max(running_storage - storage_cap_start, (eom_storage - storage_cap_end) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
               total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
 
             else:
-              this_month_min_release = max(running_storage - self.capacity, (eom_storage - self.capacity) / (block_end + 1 + cross_counter_wy*365 - dowy), 0.0)
+              this_month_min_release = max(running_storage - self.capacity, (eom_storage - self.capacity) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
               total_min_release = max(running_storage - self.capacity, eom_storage - self.capacity)
 
         
-        numdays_fillup = block_start + crossover_date + cross_counter_wy*365 - dowy
+        numdays_fillup = max(block_start + crossover_date + cross_counter_wy*365 - dowy, 1.0)
         if cross_counter_wy == 1:
           numdays_fillup_next_year = block_start + crossover_date + cross_counter_wy*365 - dowy
 		  
@@ -560,52 +552,23 @@ class Reservoir():
               fillup_fraction = 31.0/(block_start - dowy + 1 + cross_counter_wy*365)
             self.min_daily_uncontrolled += max(min(reservoir_change_rate, self.min_daily_uncontrolled) + (self.monthly_demand[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) - self.total_capacity*cfs_tafd,0.0)*fillup_fraction
 			
-        self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
-        self.numdays_fillup['lookahead'] = min(numdays_fillup_next_year, self.numdays_fillup['lookahead'])
-        self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
-        if release == 'demand':
+        if release == 'env':
+          self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
+          self.numdays_fillup['lookahead'] = min(numdays_fillup_next_year, self.numdays_fillup['lookahead'])
+          self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
+        elif release == 'demand':
+          self.uncontrolled_available = max(total_min_release, self.uncontrolled_available)
+
           if self.uncontrolled_available > additional_drawdown_cap:
-            self.min_daily_overflow = max((self.uncontrolled_available - additional_drawdown_cap)/(block_end + 1 + cross_counter_wy*365 - dowy), self.min_daily_overflow)
+            self.numdays_fillup[release] = min(numdays_fillup, self.numdays_fillup[release])
+            self.numdays_fillup['lookahead'] = min(numdays_fillup_next_year, self.numdays_fillup['lookahead'])
+            self.min_daily_overflow = max(self.uncontrolled_available/min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), self.min_daily_overflow)
           if (min(reservoir_change_rate, self.min_daily_overflow) + (self.monthly_demand_full[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1)) > (self.total_capacity*cfs_tafd+.1) and self.uncontrolled_available > additional_drawdown_cap:
             if excess_toggle2 == 0:
               excess_toggle2 = 1
-              fillup_fraction2 = 31.0/(block_start - dowy + 1 + cross_counter_wy*365)
-            self.min_daily_overflow += max(min(reservoir_change_rate, self.min_daily_overflow) + (self.monthly_demand_full[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) - self.total_capacity*cfs_tafd, 0.0)*fillup_fraction2
-         
+              fillup_fraction2 = 31.0/(block_end - dowy + 1 + cross_counter_wy*365)
+            self.min_daily_overflow += max(min(reservoir_change_rate, self.min_daily_overflow) + (self.monthly_demand_full[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) - self.total_capacity*cfs_tafd, 0.0)*fillup_fraction2         
 
-      #if release == 'demand' and self.key == 'MIL':
-        	  
-        #if eom_storage > self.capacity:
-          #crossover_date = max((self.capacity - running_storage)/reservoir_change_rate, 0.0)
-          #numdays_fillup_cap = min(block_start + crossover_date + cross_counter_wy*365 - dowy, numdays_fillup_cap)
-          #uncontrolled_cap = max(uncontrolled_cap, eom_storage - self.capacity)
-          #if numdays_fillup_cap > 0.0:
-            #self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap/numdays_fillup_cap)
-          #else:
-            #self.min_daily_uncontrolled = max(self.min_daily_uncontrolled, uncontrolled_cap)
-		  		  
-
-      if (self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx' or self.key == 'xxx'):
-        print(self.key, end = " ")
-        print(t, end = " ")
-        print(dowy, end = " ")
-        print(m, end = " ")
-        print(month_evaluate, end = " ")
-        print("%.2f" % running_storage, end = " ")
-        print("%.2f" % eom_storage, end = " ")
-        print("%.2f" % month_flow_int, end = " ")
-        print("%.2f" % total_mandatory_releases, end = " ")
-        print("%.2f" % storage_cap_start, end = " ")
-        print("%.2f" % storage_cap_end, end = " ")
-        print("%.2f" % self.min_daily_uncontrolled, end = " ")
-        print("%.2f" % self.uncontrolled_available, end = " ")
-        print("%.2f" % additional_drawdown_cap, end = " ")
-        print("%.2f" % self.min_daily_overflow, end = " ")
-        print("%.2f" % self.numdays_fillup[release], end = " ")
-        print("%.2f" % self.numdays_fillup['lookahead'], end = " ")
-        print("%.2f" % block_end, end = " ")
-        print("%.2f" % block_start)
-        #self.min_daily_uncontrolled,self.uncontrolled_available,eom_storage,storage_cap_end)
       running_storage = eom_storage
 
 
@@ -1066,7 +1029,6 @@ class Reservoir():
         snowinf[current_year-1] += Q_predict[t-1] ##total apr-jul inflow (one value per year - Y vector in lin regression)
       elif section_inf == 3:
         baseinf[current_year-1] += Q_predict[t-1]
-    # print(self.key)
     scatterplot_values = pd.DataFrame(columns = ['December Snowpack', 'February Snowpack', 'April Snowpack', 'Snowmelt Flow', 'D Pred Flow High', 'D Pred Flow Low', 'F Pred Flow High', 'F Pred Flow Low', 'A Pred Flow High', 'A Pred Flow Low'])
     for x in range(1,365):
       
@@ -1183,7 +1145,7 @@ class Reservoir():
           
       	 
     scatterplot_values['Snowmelt Flow'] = snowinf[0:(complete_year-1)]
-    scatterplot_values.to_csv(self.key + '_snow_forecast_scatter.csv')
+    #scatterplot_values.to_csv(self.key + '_snow_forecast_scatter.csv')
 	  ############################################################################################################################################################
     for t in range(1,self.T):
       m = self.month[t - 1]
@@ -1198,19 +1160,6 @@ class Reservoir():
       self.rainflood_inf[t-1] = inf_regression[dowy][0]*running_rain_inf + inf_regression[dowy][1]
       self.snowflood_inf[t-1] = inf_regression[dowy][2]*self.SNPK[t-1] + inf_regression[dowy][3]
       self.baseline_inf[t-1] = inf_regression[dowy][4]*self.SNPK[t-1] + inf_regression[dowy][5]
-      if self.key == 'MIL':
-        print(t, end = " ")
-        print(self.rainflood_inf[t-1], end = " ")
-        print(self.snowflood_inf[t-1], end = " ")
-        print(self.baseline_inf[t-1], end = " ")
-        print(inf_regression[dowy-1][0], end = " ")
-        print(inf_regression[dowy-1][1], end = " ")
-        print(inf_regression[dowy-1][2], end = " ")
-        print(inf_regression[dowy-1][3], end = " ")
-        print(inf_regression[dowy-1][4], end = " ")
-        print(inf_regression[dowy-1][5], end = " ")
-        print(running_rain_inf, end = " ")
-        print(self.SNPK[t-1])
     current_year = 0
     for t in range(1, self.T_short):
       dowy = self.short_dowy[t - 1]

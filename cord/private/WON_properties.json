@@ -3,6 +3,7 @@
   "crop_list": ["almond", "pistachio"],
   "in_district_direct_recharge": 0.0,
   "banking_risk_level": 0.5,
+  "recovery_fraction": 1.0,
   "pump_out_fraction": {
     "BLR": 1.0,
     "LHL": 1.0,

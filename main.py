@@ -126,6 +126,8 @@ if parallel_mode:
 # =============================================================================
 # Loop though all samples, run sensitivity analysis. If parallel, k runs only through subset of samples for each processor.
 # =============================================================================
+if model_mode == 'simulation' or model_mode == 'validation':
+  stop = 1
 print(start)
 print(stop)
 print(model_mode)
@@ -274,9 +276,16 @@ for k in range(start, stop):
 
     private_results_annual = modelso.results_as_df('annual', modelso.private_list)
     private_results_annual.to_csv(results_folder + '/annual_private_results_' + model_mode + '.csv')
-    private_results = modelso.results_as_df('daily', modelso.private_list)
-    private_results.to_csv(results_folder + '/annual_private_results_' + model_mode + '.csv')
+    private_results = modelso.results_as_df_full('daily', modelso.private_list)
+    private_results.to_csv(results_folder + '/private_results_' + model_mode + '.csv')
     del private_results,private_results_annual
+
+    city_results_annual = modelso.results_as_df('annual', modelso.city_list)
+    city_results_annual.to_csv(results_folder + '/annual_city_results_' + model_mode + '.csv')
+    city_results = modelso.results_as_df_full('daily', modelso.city_list)
+    city_results.to_csv(results_folder + '/city_results_' + model_mode + '.csv')
+    del city_results,city_results_annual
+
 
     contract_results = modelso.results_as_df('daily', modelso.contract_list)
     contract_results.to_csv(results_folder + '/contract_results_' + model_mode + '.csv')
