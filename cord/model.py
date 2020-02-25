@@ -6,7 +6,6 @@ import calendar
 import json
 import matplotlib.pyplot as plt
 from datetime import datetime
-from random import randint
 from .reservoir import Reservoir
 from .delta import Delta
 from .district import District
