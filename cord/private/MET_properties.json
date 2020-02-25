@@ -3,6 +3,7 @@
   "crop_list": ["none"],
   "in_district_direct_recharge": 0.0,
   "banking_risk_level": 0.01,
+  "recovery_fraction": 1.0,
   "pump_out_fraction": {
     "SOC": 0.729
   },

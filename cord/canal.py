@@ -101,7 +101,7 @@ class Canal():
     #at this node, record the total delivery as 'turnout' and the total flow as 'flow' for this canal object
     self.turnout_use[canal_loc] += location_delivery
     self.flow[canal_loc] += available_flow
-	  
+    evap_flows = 0.0
 	#remaning available flow after delivery is made at this node
     available_flow -= location_delivery
     #direction of flow determines which node is next
@@ -125,6 +125,8 @@ class Canal():
           self.flow[removal_flow] -= turnback_flows
     else:
       available_flow -= turnback_flows
+      evap_flows += turnback_flows
+
       if flow_dir == "normal":
         for removal_flow in range(starting_point, canal_loc + 1):
           self.flow[removal_flow] -= turnback_flows
@@ -140,7 +142,7 @@ class Canal():
     elif flow_dir == "reverse":
       turnback_end = canal_size - canal_loc - 1
 
-    return available_flow, turnback_flows, turnback_end
+    return available_flow, turnback_flows, turnback_end, evap_flows
 	
   def find_bi_directional(self, closed, direction_true, direction_false, flow_type, new_canal, adjust_flow_types, locked):
     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)
