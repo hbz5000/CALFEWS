@@ -149,9 +149,9 @@ class Contract():
 	
 	#we want to 'stack' the different kinds of deliveries for plotting in an area chart
     self.daily_supplies['contract'][t] += contract_deliveries
-    self.daily_supplies['carryover'][t] += carryover_deliveries + contract_deliveries
-    self.daily_supplies['turnback'][t] += turnback_deliveries + carryover_deliveries + contract_deliveries
-    self.daily_supplies['flood'][t] += flood_deliveries + turnback_deliveries + carryover_deliveries + contract_deliveries
+    self.daily_supplies['carryover'][t] += carryover_deliveries
+    self.daily_supplies['turnback'][t] += turnback_deliveries 
+    self.daily_supplies['flood'][t] += flood_deliveries
     if m == 9 and da == 30:
       self.annual_supplies['contract'][wateryear] += max(deliveries - max(carryover, 0.0) - max(turnback, 0.0), 0.0)
       self.annual_supplies['carryover'][wateryear] += max(min(carryover, deliveries), 0.0)

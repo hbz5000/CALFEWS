@@ -16,7 +16,7 @@ modelno = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelno0.pkl')
 modelso = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelso0.pkl')
 
 # create nested dict to hold all possible output types
-d = {'north':{'reservoirs': {}, 'delta':{}}, 'south':{'reservoirs':{}, 'contracts':{}, 'districts':{}, 'waterbanks':{}}}
+d = {'north':{'reservoirs': {}, 'delta':{}}, 'south':{'reservoirs':{}, 'contracts':{}, 'districts':{}, 'private':{}, 'waterbanks':{}}}
 # northern reservoirs
 for name in [x.name for x in modelno.reservoir_list]:
   d['north']['reservoirs'][name] = {}
@@ -53,25 +53,48 @@ for name in [contract_dict[x.name] for x in modelso.contract_list]:
 for name in [x.name for x in modelso.district_list]:
   d['south']['districts'][name] = {}
   for contract in modelso.__getattribute__(name).contract_list:
-    for output in ['delivery', 'carryover']:          # list district outputs, for contract/right allocations
+    for output in ['projected', 'delivery', 'carryover', 'recharged']:          # list district outputs, for contract/right allocations
       d['south']['districts'][name][contract + '_' + output] = True
   for contract in modelso.__getattribute__(name).contract_list_all:
     for output in ['flood']:                          # list district outputs, for contracts/rights with no allocation
       # if (np.max(modelso.__getattribute__(name).daily_supplies_full[contract + '_' + output]) > 0):
       d['south']['districts'][name][contract + '_' + output] = True
 	
-  for output in ['recover_banked', 'inleiu_irrigation', 'inleiu_recharge', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW']:
+  for output in ['recover_banked', 'inleiu_irrigation', 'inleiu_recharge', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'pumping']:
     d['south']['districts'][name][output] = True
     
+# private
+for name in [x.name for x in modelso.private_list]:
+  d['south']['private'][name] = {}
+  for contract in modelso.__getattribute__(name).contract_list:
+    for output in ['projected', 'delivery', 'carryover', 'recharged']:          # list district outputs, for contract/right allocations
+      d['south']['private'][name][contract + '_' + output] = True
+  for contract in modelso.__getattribute__(name).contract_list_all:
+    for output in ['flood']:                          # list district outputs, for contracts/rights with no allocation
+      # if (np.max(modelso.__getattribute__(name).daily_supplies_full[contract + '_' + output]) > 0):
+      d['south']['private'][name][contract + '_' + output] = True
+	
+  for output in ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'pumping']:
+    d['south']['private'][name][output] = True
+# private
+for name in [x.name for x in modelso.city_list]:
+  d['south']['private'][name] = {}
+  for contract in modelso.__getattribute__(name).contract_list:
+    for output in ['projected', 'delivery', 'carryover', 'recharged']:          # list district outputs, for contract/right allocations
+      d['south']['private'][name][contract + '_' + output] = True
+  for contract in modelso.__getattribute__(name).contract_list_all:
+    for output in ['flood']:                          # list district outputs, for contracts/rights with no allocation
+      # if (np.max(modelso.__getattribute__(name).daily_supplies_full[contract + '_' + output]) > 0):
+      d['south']['private'][name][contract + '_' + output] = True
+	
+  for output in ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'pumping']:
+    d['south']['private'][name][output] = True
+
+
 for name in [x.name for x in modelso.waterbank_list]:
   d['south']['waterbanks'][name] = {}
-  d['south']['waterbanks'][name]['storage'] = {}
-  d['south']['waterbanks'][name]['recovery_use'] = {}
-  d['south']['waterbanks'][name]['banked'] = {}
   for partner in modelso.__getattribute__(name).bank_timeseries.keys():
-    d['south']['waterbanks'][name]['storage'][partner] = True
-    d['south']['waterbanks'][name]['recovery_use'][partner] = True
-    d['south']['waterbanks'][name]['banked'][partner] = True
+    d['south']['waterbanks'][name][partner] = True
 
 with open('cord/data/input/output_list.json', 'w') as f:
   json.dump(d, f, indent=2)

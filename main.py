@@ -27,9 +27,8 @@ import json
 from distutils.util import strtobool
 
 path_model = './'
-# path_model = sys.argv[1]
-
-print (sys.argv)
+path_model = sys.argv[1]
+#print (sys.argv)
 os.chdir(path_model)
 
 startTime = datetime.now()
@@ -49,6 +48,7 @@ sensitivity_sample_file = config['sensitivity_sample_file']
 output_list = config['output_list']
 output_directory = config['output_directory']
 clean_output = bool(strtobool(config['clean_output']))
+save_full = bool(strtobool(config['save_full']))
 
 if parallel_mode == True:
   from mpi4py import MPI
@@ -154,14 +154,12 @@ for k in range(start, stop):
     sensitivity_sample_names = sensitivity_sample_names.split('\t')[1:]
 
     #Initialize flow input scenario based on sensitivity sample
-    new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder, k, sensitivity_sample_names, sensitivity_sample, use_sensitivity = True)
+    new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder, k, sensitivity_sample_names, sensitivity_sample, use_sensitivity = False)
     new_inputs.run_initialization('XXX')
     new_inputs.run_routine(flow_input_type, flow_input_source)
     input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_"  + str(k) + ".csv"
     modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
     modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
-    os.remove(input_data_file)
-
     modelso.max_tax_free = {}
     modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
     modelso.forecastSRI = modelno.delta.forecastSRI
@@ -200,13 +198,12 @@ for k in range(start, stop):
     # sensitivity_df['WON_land_%s' %k] = pd.Series(modelso.wonderful.annual_supplies['acreage'])
 
     #try:
-    data_output(output_list, results_folder, clean_output, rank, k, new_inputs.sensitivity_factors, modelno, modelso)
-    #except Exception as e: print(e)
-
-    # save full model objects for single sensitivity run, useful to know object structure in postprocessing
-    if (k == 0):
+    if (save_full):
       pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
       pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
+
+    data_output(output_list, results_folder, clean_output, rank, k, new_inputs.sensitivity_factors, modelno, modelso)
+    #except Exception as e: print(e)
 
     del modelno
     del modelso

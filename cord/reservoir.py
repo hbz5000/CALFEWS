@@ -924,7 +924,7 @@ class Reservoir():
           ax1.set_xlim([np.min(one_year_runfnf), np.max(one_year_runfnf)])
         plt.show()
         plt.close()
-    scatterplot_values.to_csv('manuscript_figures/Figure3/' + self.key + '_flow_forecast_scatter.csv')
+    #scatterplot_values.to_csv('manuscript_figures/Figure3/' + self.key + '_flow_forecast_scatter.csv')
 
 			
   def find_release_func(self, df_short):
