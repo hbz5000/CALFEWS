@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import collections as cl
 import pandas as pd
-from random import randint
+#from random import randint
 from .crop import Crop
 import json
 from .util import *
@@ -39,7 +39,7 @@ class Private():
 	#initialize dictionary to hold different delivery types
     self.deliveries = {}
     self.contract_list_all = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern', 'kings']
-    self.non_contract_delivery_list = ['inleiu','leiupumping','exchanged_SW', 'recover_banked']
+    self.non_contract_delivery_list = ['inleiu','leiupumping','recharged','exchanged_GW','exchanged_SW', 'recover_banked', 'pumping']
 
     for district in self.district_list:
       self.deliveries[district] = {}
@@ -353,9 +353,9 @@ class Private():
         if m == 10 and da == 1:
           self.last_days_demand_regression_error[district] = 0.0
           todays_demand_regression_error[district] = 0.0
-          random_component = randint(0, len(self.demand_auto_errors[district][dowy]) - 1 )
+          random_component = np.random.randint(0, len(self.demand_auto_errors[district][dowy]))
         else:
-          random_component = randint(0, len(self.demand_auto_errors[district][dowy]) - 1 )
+          random_component = np.random.randint(0, len(self.demand_auto_errors[district][dowy]))
           todays_demand_regression_error[district] = allocation_change * self.delivery_percent_coefficient[district][dowy][2] + self.delivery_percent_coefficient[district][dowy][3] + self.last_days_demand_regression_error[district] - self.demand_auto_errors[district][dowy][random_component]
           self.last_days_demand_regression_error[district] = todays_demand_regression_error[district] * 1.0
         sri_estimate = total_delta_pumping * (sri_estimate_int - todays_demand_regression_error[district])

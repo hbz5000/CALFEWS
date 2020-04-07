@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import collections as cl
 import pandas as pd
-from random import randint
+#from random import randint
 from .crop import Crop
 from .scenario import Scenario
 import json
@@ -303,7 +303,7 @@ class District():
         self.last_days_demand_regression_error = 0.0
         todays_demand_regression_error = 0.0
       else:
-        random_component = randint(0, len(self.demand_auto_errors[dowy]) - 1 )
+        random_component = np.random.randint(0, len(self.demand_auto_errors[dowy]) )
         todays_demand_regression_error = allocation_change * self.delivery_percent_coefficient[dowy][2] + self.delivery_percent_coefficient[dowy][3] + self.last_days_demand_regression_error - self.demand_auto_errors[dowy][random_component]
         self.last_days_demand_regression_error = todays_demand_regression_error * 1.0
         sri_estimate = total_delta_pumping * (sri_estimate_int - todays_demand_regression_error)

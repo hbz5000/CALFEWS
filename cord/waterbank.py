@@ -230,7 +230,7 @@ class Waterbank():
     stacked_amount = 0.0
     self.recharge_rate_series[t] = self.recharge_rate
     for x in self.participant_list:
-      self.bank_timeseries[x][t] = self.banked[x] + stacked_amount
+      self.bank_timeseries[x][t] = self.banked[x]
       stacked_amount += self.banked[x]
     if m == 9 and da == 29:
       #annual dictionary stores the annual change in gw bank balances

@@ -216,7 +216,7 @@ class Model():
     ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
     urban_datafile = 'cord/data/input/cord-data-urban.csv'
     urban_datafile_cvp = 'cord/data/input/pump-data-cvp.csv'
-    project_pumping_datafile = 'cord/data/results/baseline_wy2017/p0/reservoir_results_no_validation.csv'
+    project_pumping_datafile = 'cord/data/input/reservoir_results_no_validation.csv'
     self.project_urban(urban_datafile, urban_datafile_cvp, project_pumping_datafile)
     # calculate how much recharge capacity is reachable from each reservoir
     # that is owned by surface water contracts held at that reservoir - used to determine
@@ -2144,7 +2144,7 @@ class Model():
     if self.model_mode == 'simulation' or self.model_mode == 'forecast' or self.model_mode == 'sensitivity':
       for x in urban_list:
         x.hist_demand_dict = {}
-        x.ytd_pumping_int = np.zeros(self.number_years)
+        x.ytd_pumping_int = np.zeros(numYears_urban)
         x.hist_demand_dict['annual_sorted'] = {}
         x.hist_demand_dict['sorted_index'] = {}
         for wateryear_day in range(0, 365):
@@ -2156,7 +2156,7 @@ class Model():
         x.ytd_pumping_int = {}
         for xx in x.district_list:
           x.hist_demand_dict[xx] = {}	
-          x.ytd_pumping_int[xx] = np.zeros(self.number_years)
+          x.ytd_pumping_int[xx] = np.zeros(numYears_urban)
           x.hist_demand_dict[xx]['annual_sorted'] = {}
           x.hist_demand_dict[xx]['sorted_index'] = {}
           for wateryear_day in range(0, 365):
@@ -3659,7 +3659,7 @@ class Model():
       for x in range(0, len(self.socal.hist_demand_dict['annual_sorted'][dowy])):
         if total_delta_pumping < self.socal.hist_demand_dict['annual_sorted'][dowy][x]:
           break
-      self.k_close_wateryear = randint(0, len(self.socal.hist_demand_dict['sorted_index'][dowy]) - 1 )
+      self.k_close_wateryear = np.random.randint(0, len(self.socal.hist_demand_dict['sorted_index'][dowy]))
 
     for x in urban_list:
       #sri_estimate = (total_delta_pumping*x.delivery_percent_coefficient[dowy][0] + x.delivery_percent_coefficient[dowy][1] - x.regression_errors[dowy][self.k_close_wateryear])*total_delta_pumping
