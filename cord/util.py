@@ -123,21 +123,17 @@ def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity
       dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
       names.append(np.string_(d + '_' + o))
       col += 1
-      #if o == 'deliveries':
-        #for o in output_list['south']['districts'][d]['deliveries'].keys():
-          #if output_list['south']['districts'][d]['deliveries'][o]:
-            #dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
-            #names.append(np.string_(d + '__deliveries__' + o))
-            #col += 1
-      #else:
-        #if output_list['south']['districts'][d][o]:
-          #dat[:, col] = modelso._getattribute_(d).daily_supplies_full
+  for p in output_list['south']['private'].keys():
+    for o in output_list['south']['private'][p].keys():
+      dat[:, col] = modelso.__getattribute__(p).daily_supplies_full[o]
+      names.append(np.string_(p + '_' + o))
+      col += 1
+
   for b in output_list['south']['waterbanks'].keys():
     for o in output_list['south']['waterbanks'][b].keys():
-      for p in output_list['south']['waterbanks'][b][o].keys():
-        dat[:, col] = modelso.__getattribute__(b).__getattribute__(o)[p]
-        names.append(np.string_(b + '_' + o + '_' + p))
-        col += 1
+      dat[:, col] = modelso.__getattribute__(b).bank_timeseries[o]
+      names.append(np.string_(b + '_' + o ))
+      col += 1
   # now only keep columns that are non-zero over course of simulation
   dat = dat[:, :col]
   if (clean_output):

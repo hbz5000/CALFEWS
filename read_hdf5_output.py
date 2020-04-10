@@ -7,7 +7,9 @@ from itertools import compress
 import cord
 
 # results hdf5 file location
-output_file = 'cord/data/results/baseline_wy2017/results.hdf5'
+output_file = 'cord/data/results/baseline_wy2017/p0/results_p0.hdf5'
+#output_file = "C:/Users/km663/Documents/Papers/ErrorPropagation/CALFEWS__Feb2020/ORCA_COMBINED-master/ORCA_COMBINED-master/cord/data/results/baseline_wy2017/p0/results.hdf5"
+
 
 # given a particular sensitivity factor sample number, get entire model output and output as dataframe
 def get_results_sensitivity_number(results_file, sensitivity_number):
@@ -44,3 +46,9 @@ def get_results_column_name(results_file, column_name):
     df_sensitivity_factors = pd.DataFrame(sensitivity_factor_values, columns=sensitivity_factors)
   return df_data, df_sensitivity_factors
 
+df_data, df_sensitivity_factors = get_results_sensitivity_number(output_file, 0)
+for x in df_data:
+  fix, ax = plt.subplots()
+  ax.plot(df_data[x])
+  ax.set_ylabel(x)
+  plt.show()

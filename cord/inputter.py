@@ -820,8 +820,6 @@ class Inputter():
 		
         filename = self.flow_input_source[flow_input_type][flow_input_source]
         self.fnf_df = pd.read_csv(filename)
-
-
         if 'datetime' in self.fnf_df:
           dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])
         else:
@@ -853,11 +851,11 @@ class Inputter():
               reservoir.fnf_new = fnf_values['%s_fnf' % reservoir.key].values * 70.045 / 1000.0
               
             reservoir.monthly_new = {}
-            reservoir.snowpack['new_melt_fnf'] = np.zeros(numYears)
+            reservoir.snowpack['new_melt_fnf'] = np.zeros(numYears - 1)
             for data_type in self.data_type_list:
                 reservoir.monthly_new[data_type] = {}
-                reservoir.monthly_new[data_type]['flows'] = np.zeros((12, numYears))
-                reservoir.monthly_new[data_type]['whitened'] = np.zeros((12, numYears))
+                reservoir.monthly_new[data_type]['flows'] = np.zeros((12, numYears - 1))
+                reservoir.monthly_new[data_type]['whitened'] = np.zeros((12, numYears - 1))
         for t in range(0, len(reservoir.fnf_new)):
             for reservoir in self.reservoir_list:
                 if not np.isnan(reservoir.fnf_new[t]):
@@ -868,9 +866,10 @@ class Inputter():
             if daycount == thismonthday:
                 daycount = 0
                 monthcount += 1
-                if monthcount == 12:
-                    monthcount = 0
+                if monthcount == 9:
                     yearcount += 1
+                elif monthcount == 12:
+                    monthcount = 0
                     leapcount += 1
                     if leapcount == 4:
                         leapcount = 0
@@ -885,13 +884,13 @@ class Inputter():
         self.monthly_new = {}
         for deltaname in self.delta_list:
             self.monthly_new[deltaname] = {}
-            self.monthly_new[deltaname]['fnf'] = np.zeros((12, numYears))
-            self.monthly_new[deltaname]['whitened_fnf'] = np.zeros((12, numYears))
-            self.monthly_new[deltaname]['whitened'] = np.zeros((12, numYears))
-            self.monthly_new[deltaname]['gains'] = np.zeros((12, numYears))
+            self.monthly_new[deltaname]['fnf'] = np.zeros((12, numYears - 1))
+            self.monthly_new[deltaname]['whitened_fnf'] = np.zeros((12, numYears - 1))
+            self.monthly_new[deltaname]['whitened'] = np.zeros((12, numYears - 1))
+            self.monthly_new[deltaname]['gains'] = np.zeros((12, numYears - 1))
 
         for monthcounter in range(0, 12):
-            for yearcounter in range(0, numYears):
+            for yearcounter in range(0, numYears - 1):
                 for reservoir in [self.shasta, self.oroville, self.yuba, self.folsom]:
                     self.monthly_new['SAC']['fnf'][monthcounter][yearcounter] += \
                     reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
@@ -917,7 +916,7 @@ class Inputter():
                 fig = plt.figure()
                 gs = gridspec.GridSpec(12, 2)
             for monthcounter in range(0, 12):
-                for yearcounter in range(0, numYears):
+                for yearcounter in range(0, numYears - 1):
                     if reservoir.monthly['fnf']['use_log'][monthcounter] == 'yes':
                         if reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter] > 0.0:
                             log_data = np.log(reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter])
@@ -962,7 +961,7 @@ class Inputter():
                 gs = gridspec.GridSpec(12, 2)
             ###########
             for monthcounter in range(0, 12):
-                for yearcounter in range(0, numYears):
+                for yearcounter in range(0, numYears - 1):
                     if self.monthly_new[deltaname]['fnf'][monthcounter][yearcounter] > 0.0:
                         log_data = np.log(self.monthly_new[deltaname]['fnf'][monthcounter][yearcounter])
                     else:
@@ -993,8 +992,8 @@ class Inputter():
 
     def make_fnf_prediction(self, numYears, plot_key):
         for reservoir in self.reservoir_list:
-            reservoir.snowpack['pred_max'] = np.zeros(numYears)
-            for wateryearnum in range(0, numYears):
+            reservoir.snowpack['pred_max'] = np.zeros(numYears - 1)
+            for wateryearnum in range(0, numYears - 1):
                 reservoir.snowpack['pred_max'][wateryearnum] = reservoir.snowpack['coef'][1] + reservoir.snowpack['coef'][
                     0] * reservoir.snowpack['new_melt_fnf'][wateryearnum]
             if plot_key == reservoir.key:
@@ -1015,7 +1014,7 @@ class Inputter():
                     a = 1
                 else:
                     for monthcounter in range(0, 12):
-                        for yearcounter in range(0, numYears):
+                        for yearcounter in range(0, numYears - 1):
                             predictor = reservoir.monthly_new['fnf']['whitened'][monthcounter][yearcounter]
                             reservoir.monthly_new[data_type]['whitened'][monthcounter][yearcounter] = \
                             reservoir.monthly[data_type]['coefficients'][monthcounter][1] + \
@@ -1045,7 +1044,7 @@ class Inputter():
                 gs = gridspec.GridSpec(12, 2)
             #########
             for monthcounter in range(0, 12):
-                for yearcounter in range(0, numYears):
+                for yearcounter in range(0, numYears - 1):
                     predictor = self.monthly_new[deltaname]['whitened_fnf'][monthcounter][yearcounter]
                     self.monthly_new[deltaname]['whitened'][monthcounter][yearcounter] = \
                     self.monthly[deltaname]['coef'][monthcounter][1] + self.monthly[deltaname]['coef'][monthcounter][
@@ -1077,7 +1076,7 @@ class Inputter():
                     len(reservoir.monthly[data_type]['whitened_residuals'][start_month - 1]))
                 prev_residual = reservoir.monthly[data_type]['whitened_residuals'][start_month - 1][
                     random_start_integer]
-                for yearcount in range(0, numYears):
+                for yearcount in range(0, numYears - 1):
                     for monthcount in range(0, 12):
                         current_month = monthcount + start_month - 1
                         if current_month >= 12:
@@ -1104,11 +1103,11 @@ class Inputter():
             if plot_key == deltaname:
                 fig = plt.figure()
             ##########
-            self.monthly_new[deltaname]['whitened_residuals'] = np.zeros((12, numYears))
+            self.monthly_new[deltaname]['whitened_residuals'] = np.zeros((12, numYears - 1))
             random_start_integer = np.random.randint(
                 len(self.monthly[deltaname]['whitened_residuals'][start_month - 1]))
             prev_residual = self.monthly[deltaname]['whitened_residuals'][start_month - 1][random_start_integer]
-            for yearcount in range(0, numYears):
+            for yearcount in range(0, numYears - 1):
                 for monthcount in range(0, 12):
                     current_month = monthcount + start_month - 1
                     if current_month >= 12:
@@ -1134,7 +1133,7 @@ class Inputter():
         for reservoir in self.reservoir_list:
             for data_type in self.data_type_list:
                 for monthcounter in range(0, 12):
-                    for yearcounter in range(0, numYears):
+                    for yearcounter in range(0, numYears - 1):
                         reservoir.monthly_new[data_type]['whitened'][monthcounter][yearcounter] += \
                         reservoir.monthly_new[data_type]['whitened_residuals'][monthcounter][yearcounter] * \
                         reservoir.monthly[data_type]['res_std'][monthcounter] + \
@@ -1181,7 +1180,7 @@ class Inputter():
     def add_error_delta(self, numYears, plot_key):
         for deltaname in self.delta_list:
             for monthcounter in range(0, 12):
-                for yearcounter in range(0, numYears):
+                for yearcounter in range(0, numYears - 1):
                     self.monthly_new[deltaname]['whitened'][monthcounter][yearcounter] += \
                     self.monthly_new[deltaname]['whitened_residuals'][monthcounter][yearcounter] * \
                     self.monthly[deltaname]['res_std'][monthcounter] + self.monthly[deltaname]['res_mean'][monthcounter]
@@ -1245,10 +1244,12 @@ class Inputter():
 
         for t in range(0, numdays_output):
             monthcounter = output_month[t] - 1
-            yearcounter = output_year[t] - start_year
+            if monthcounter > 8:
+              yearcounter = output_year[t] - start_year
+            else:
+              yearcounter = output_year[t] - start_year - 1
             daycounter = output_day_month[t] - 1
             dowy = output_dowy[t]
-
             is_leap = (yearcounter % 4 == first_leap)
             year_leap_non_leap = np.where(is_leap, self.leap_year, self.non_leap_year)
 
@@ -1282,11 +1283,7 @@ class Inputter():
                 if last_step_month != monthcounter:
                     this_year_fnf_melt = 0.0
                     for melt_month in range(3, 7):
-                        if monthcounter < 9:
-                            this_year_fnf_melt += reservoir.monthly_new['fnf']['flows'][melt_month][yearcounter]
-                        else:
-                            if yearcounter < (numYears - 1):
-                                this_year_fnf_melt += reservoir.monthly_new['fnf']['flows'][melt_month][yearcounter + 1]
+                        this_year_fnf_melt += reservoir.monthly_new['fnf']['flows'][melt_month][yearcounter]
                     for sorted_search in range(0, len(reservoir.monthly['snowmelt_sorted'])):
                         if this_year_fnf_melt < reservoir.monthly['snowmelt_sorted'][sorted_search]:
                             break

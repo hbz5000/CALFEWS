@@ -101,7 +101,10 @@ class Contract():
         forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
     
     if dowy == 360:
-      forecast_used = forecast_available
+      if self.allocation_priority == 1:
+        forecast_used = forecast_available*self.total/priority_contract
+      else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations
+        forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract
       self.lastYearForecast = forecast_available
       #if self.lastYearForecast > self.maxForecastValue:
         #self.lastYearForecast = self.maxForecastValue
@@ -146,9 +149,9 @@ class Contract():
 	
 	#we want to 'stack' the different kinds of deliveries for plotting in an area chart
     self.daily_supplies['contract'][t] += contract_deliveries
-    self.daily_supplies['carryover'][t] += carryover_deliveries + contract_deliveries
-    self.daily_supplies['turnback'][t] += turnback_deliveries + carryover_deliveries + contract_deliveries
-    self.daily_supplies['flood'][t] += flood_deliveries + turnback_deliveries + carryover_deliveries + contract_deliveries
+    self.daily_supplies['carryover'][t] += carryover_deliveries
+    self.daily_supplies['turnback'][t] += turnback_deliveries 
+    self.daily_supplies['flood'][t] += flood_deliveries
     if m == 9 and da == 30:
       self.annual_supplies['contract'][wateryear] += max(deliveries - max(carryover, 0.0) - max(turnback, 0.0), 0.0)
       self.annual_supplies['carryover'][wateryear] += max(min(carryover, deliveries), 0.0)

@@ -216,7 +216,8 @@ class Model():
     ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
     urban_datafile = 'cord/data/input/cord-data-urban.csv'
     urban_datafile_cvp = 'cord/data/input/pump-data-cvp.csv'
-    self.project_urban(urban_datafile, urban_datafile_cvp)
+    project_pumping_datafile = 'cord/data/input/reservoir_results_no_validation.csv'
+    self.project_urban(urban_datafile, urban_datafile_cvp, project_pumping_datafile)
     # calculate how much recharge capacity is reachable from each reservoir
     # that is owned by surface water contracts held at that reservoir - used to determine
     # how much flood water can be released and 'taken' by a contractor
@@ -705,10 +706,10 @@ class Model():
         for yy in district_object.contract_list:
           contract_object = self.contract_keys[yy]
           if contract_object.type == "contract":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.project_contract[y]*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.project_contract[yy]*x.private_fraction[xx][0]
 
           elif contract_object.type == "right":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.rights[yy]['carryover']*x.private_fraction[xx][0]
     for x in self.city_list:
       x.contract_list = []
       for xx in x.district_list:
@@ -721,9 +722,9 @@ class Model():
         for yy in district_object.contract_list:
           contract_object = self.contract_keys[yy]
           if contract_object.type == "contract":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.project_contract[y]*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.project_contract[yy]*x.private_fraction[xx][0]
           elif contract_object.type == "right":
-            x.contract_carryover_list[xx][y] = contract_object.carryover*district_object.rights[y]['carryover']*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.rights[yy]['carryover']*x.private_fraction[xx][0]
 
 			
     ###Find Risk in Contract Delivery
@@ -753,11 +754,25 @@ class Model():
     for x in self.district_list:
       if (x.in_leiu_banking == True):
         self.leiu_list.append(x)
-        # print (x.key)
-    # self.leiu_list = [self.semitropic, self.arvin]##these are districts that operate water banks (some mix of in-leiu deliveries and direct recharge)
     if self.model_mode == 'validation':
-      self.semitropic.inleiubanked['MET'] = 130.0
-    
+      self.semitropic.inleiubanked['MET'] = 175.8
+      self.semitropic.inleiubanked['SOB'] = 46.0
+      self.kwb.banked['ID4'] = 91.7
+      self.kwb.banked['DLR'] = 260.0 * 0.0962/ 0.9038 
+      self.kwb.banked['SMI'] = 260.0 * 0.0667/ 0.9038 
+      self.kwb.banked['TJC'] = 260.0 * 0.02/ 0.9038 
+      self.kwb.banked['WON'] = 260.0 * 0.4806/ 0.9038 
+      self.kwb.banked['WRM'] = 260.0 * 0.2403/ 0.9038 
+    elif self.model_mode == 'simulation':
+      self.semitropic.inleiubanked['MET'] = 750.0
+      self.semitropic.inleiubanked['SOB'] = 750.0
+      self.kwb.banked['ID4'] = 500.0
+      self.kwb.banked['DLR'] = 500.0
+      self.kwb.banked['SMI'] = 500.0
+      self.kwb.banked['TJC'] = 500.0
+      self.kwb.banked['WON'] = 500.0
+      self.kwb.banked['WRM'] = 500.0
+
   def initialize_canals(self, scenario = 'baseline'):
     ############################################################################
     ###Canal Initialization
@@ -807,11 +822,11 @@ class Model():
     self.canal_district['fkc'] = [self.millerton, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherfriant, self.tulare, self.kaweahdelta, self.otherkaweah, self.kaweahriverchannel, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.teapot, self.saucelito, self.terra, self.othercrossvalley, self.pixley, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
     self.canal_district['mdc'] = [self.millerton, self.maderairr, self.chowchilla]
     self.canal_district['caa'] = [self.sanluis, self.southbay, self.sanluiswater, self.panoche, self.delpuerto, self.otherswp, self.othercvp, self.otherexchange, self.westlands, self.centralcoast, self.tularelake, self.dudleyridge, self.losthills, self.berrenda, self.belridge, self.semitropic, self.buenavista, self.wkwb, self.xvc, self.kwbcanal, self.kernriverchannel, self.henrymiller, self.wheeler, self.aecanal, self.tejon, self.tehachapi, self.socal]
-    self.canal_district['xvc'] = [self.calaqueduct, self.buenavista, self.kwb, self.irvineranch, self.pioneer, self.b2800, self.berrendawb, self.rosedale, self.kernriverchannel, self.fkc, self.aecanal, self.beardsley]
+    self.canal_district['xvc'] = [self.calaqueduct, self.buenavista, self.kwb, self.irvineranch, self.pioneer, self.b2800, self.berrendawb, self.rosedale, self.ID4, self.kernriverchannel, self.fkc, self.aecanal, self.beardsley]
     self.canal_district['kbc'] = [self.calaqueduct, self.kwb, self.kerncanal]
     self.canal_district['aec'] = [self.fkc, self.xvc, self.kernriverchannel, self.arvin, self.calaqueduct]
     self.canal_district['knr'] = [self.isabella, self.calloway, self.kerndelta, self.lerdo, self.xvc, self.aecanal, self.fkc, self.kerncanal, self.rosedale, self.bakersfield, self.berrendawb, self.b2800, self.pioneer, self.kwb, self.buenavista, self.calaqueduct]
-    self.canal_district['knc'] = [self.kernriverchannel, self.kerndelta, self.pioneer, self.buenavista, self.kwbcanal]
+    self.canal_district['knc'] = [self.kernriverchannel, self.kerndelta, self.ID4, self.pioneer, self.buenavista, self.kwb]
     #self.canal_district['gsl'] = [self.kernriverchannel, self.xvc, self.rosedale21]
     self.canal_district['cwy'] = [self.kernriverchannel, self.beardsley, self.cawelo, self.northkern, self.poso, self.northkernwb]
     self.canal_district['lrd'] = [self.kernriverchannel, self.cawelo, self.northkern, self.poso, self.northkernwb]
@@ -855,7 +870,7 @@ class Model():
         y.daily_flow[canal_member.key] = np.zeros(self.T)
         y.daily_turnout[canal_member.key] = np.zeros(self.T)
 
-      for z in ['contractor', 'turnout', 'excess', 'priority', 'secondary']:
+      for z in ['contractor', 'turnout', 'excess', 'priority', 'secondary', 'initial', 'supplemental']:
         y.demand[z] = np.zeros(y.num_sites)
         y.turnout_frac[z] = np.zeros(y.num_sites)
         y.recovery_flow_frac[z] = np.ones(y.num_sites)
@@ -1050,13 +1065,6 @@ class Model():
       index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
       index = np.where(index)[0][0]
       self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_sample[index]
-      # if sensitivity_index == 0:
-      #   self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
-      # else:
-      #   self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
-      # print(sensitivity_factor, end = " ")
-      # print(self.sensitivity_factors[sensitivity_factor]['realization'])
-
 
   def find_running_WYI(self):
     ###Pre-processing function
@@ -1248,11 +1256,6 @@ class Model():
         self.delta_gains_regression['intercept'][x][mm] = coef[1]
         #r = np.corrcoef(one_year_runfnf,monthly_gains_predict)[0,1]
         #coef_save[mm] = coef
-        #print(x, end = " ")
-        #print(mm, end = " ")
-        #print(r, end = " ")
-        #print(coef[0], end = " ")
-        #print(coef[1])
       #for mm in range(0,12):
         #ax1 = fig.add_subplot(4,3,mm+1)
         #if x <= self.dowy_eom[mm]:
@@ -1438,17 +1441,24 @@ class Model():
       x.private_fraction = {}
       x.contract_list = []
       x.initial_planting = {}
+      x.has_pesticide = {}
+      x.has_pmp = {}
       for land_keys in x.district_list:
         district_land = self.district_keys[land_keys]
         if district_land.has_pesticide:
-          x.has_pesticide = True
-        elif district_land.has_pmp:
-          x.has_pmp = True
+          x.has_pesticide[land_keys] = True
+          x.has_pmp[land_keys] = False
+        else:
+          x.has_pesticide[land_keys] = False
+          if district_land.has_pmp:
+            x.has_pmp[land_keys] = True
+          else:
+            x.has_pmp[land_keys] = False
       for land_keys in x.district_list:
         x.acreage[land_keys] = {}
         x.initial_planting[land_keys] = {}
         for crops in x.crop_list:
-          if x.has_pesticide:
+          if x.has_pesticide[land_keys]:
             x.initial_planting[land_keys][crops] = np.zeros(self.number_years)
           else:
             x.initial_planting[land_keys][crops] = 0.0
@@ -1478,10 +1488,12 @@ class Model():
                   if future_year == 0:
                     x.initial_planting[land_keys][private_crops][future_year] = x.contract_fractions[land_keys]*district_land.acreage_by_year[crops][future_year]/float(crop_life)
                   else:
-                    x.initial_planting[land_keys][private_crops][future_year] = x.initial_planting[land_keys][private_crops][future_year-1] + max(x.contract_fractions[land_keys]*(district_land.acreage_by_year[crops][future_year] - district_land.acreage_by_year[crops][future_year-1]),0.0)
+                    #x.initial_planting[land_keys][private_crops][future_year] = x.initial_planting[land_keys][private_crops][future_year-1] + max(x.contract_fractions[land_keys]*(district_land.acreage_by_year[crops][future_year] - district_land.acreage_by_year[crops][future_year-1]),0.0)
+                    x.initial_planting[land_keys][private_crops][future_year] = x.contract_fractions[land_keys]*district_land.acreage_by_year[crops][future_year]/float(crop_life)
+
 					
                 for crop_year in range(0,crop_life):
-                  if x.has_pesticide:
+                  if x.has_pesticide[land_keys]:
                     x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops][0]
                   else:
                     x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops]
@@ -1496,14 +1508,14 @@ class Model():
               if private_crops == crops:
                 private_acres += x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]
                 district_land.private_acreage[private_crops] += x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]
-                if x.has_pesticide:
+                if x.has_pesticide[land_keys]:
                   for future_year in range(0, self.number_years):
                     x.initial_planting[land_keys][private_crops][future_year] = x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]/float(crop_life)
                 else:
                   x.initial_planting[land_keys][private_crops] = x.contract_fractions[land_keys]*district_land.pmp_acreage[crops]/float(crop_life)
 
                 for crop_year in range(0,crop_life):
-                  if x.has_pesticide:
+                  if x.has_pesticide[land_keys]:
                     x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops][0]
                   else:
                     x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops]
@@ -1518,14 +1530,14 @@ class Model():
               if private_crops == crops:
                 private_acres += x.contract_fractions[land_keys]*district_land.acreage['BN'][i]
                 district_land.private_acreage[private_crops] += x.contract_fractions[land_keys]*district_land.acreage['BN'][i]
-                if x.has_pesticide:
+                if x.has_pesticide[land_keys]:
                   for future_year in range(0, self.number_years):
                     x.initial_planting[land_keys][private_crops][future_year] = x.contract_fractions[land_keys]*district_land.acreage['BN'][i]/float(crop_life)
                 else:
                   x.initial_planting[land_keys][private_crops] = x.contract_fractions[land_keys]*district_land.acreage['BN'][i]/float(crop_life)
 
                 for crop_year in range(0,crop_life):
-                  if x.has_pesticide:
+                  if x.has_pesticide[land_keys]:
                     x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops][0]
                   else:
                     x.acreage[land_keys][private_crops][crop_year] += x.initial_planting[land_keys][private_crops]
@@ -1538,14 +1550,15 @@ class Model():
           for future_year in range(0, self.number_years):
             x.private_fraction[land_keys][future_year] += private_acres[future_year]/total_acres[future_year]
             district_land.private_fraction[future_year] += private_acres[future_year]/total_acres[future_year]
-            if district_land.private_fraction[future_year] > 1.0:
-              print("You have overallocated private lands in " + district_land.key)
+            #if district_land.private_fraction[future_year] > 1.0:
+              #print("You have overallocated private lands in " + district_land.key)
         else:
           for future_year in range(0, self.number_years):
             x.private_fraction[land_keys][future_year] += private_acres/total_acres
+
           district_land.private_fraction += private_acres/total_acres
-          if district_land.private_fraction > 1.0:
-            print("You have overallocated private lands in " + district_land.key)
+          #if district_land.private_fraction > 1.0:
+            #print("You have overallocated private lands in " + district_land.key)
 
 
     for x in self.city_list:
@@ -1762,12 +1775,6 @@ class Model():
           calculated[i] = district_object.pmp_acreage[crop]
           observed[i] = observed_acreage[crop]
           total_land += calculated[i]
-          #print(district_id, end = " ")
-          #print(crop, end = " ")
-          #print(calculated[i], end = " ")
-          #print(observed[i], end = " ")
-          #print(land_constraint, end = " ")
-          #print(total_land)
           i += 1
 		  
         #legend_dict[district] = plt.plot(calculated, observed, 'o', color = color_list[xx])
@@ -1782,7 +1789,7 @@ class Model():
 
 		  
 
-  def project_urban(self, datafile, datafile_cvp):
+  def project_urban(self, datafile, datafile_cvp, datafile_pumping):
     #########################################################################################
     ###initializes variables needed for district objects that are pumping plants on branches
 	###of the california aqueduct (southern california, central coast, and the south bay)
@@ -1801,6 +1808,7 @@ class Model():
       df_urban = df_urban[date_mask]
 
     df_urban_monthly_cvp = pd.read_csv(datafile_cvp, index_col=0, parse_dates=True)
+    df_pumping_prediction_control = pd.read_csv(datafile_pumping, index_col=0, parse_dates=True)
     index_urban = df_urban.index
     urban_historical_T = len(df_urban)
     index_urban_d = index_urban.dayofyear
@@ -1808,24 +1816,37 @@ class Model():
     index_urban_y = index_urban.year
     index_urban_dowy = water_day(index_urban_d, index_urban_y)
     urban_startYear = index_urban_y[0]
+    urban_start_regression_year = 2003
+    urban_start_regression = int(urban_start_regression_year - urban_startYear - 1)
     index_urban_water_year = water_year(index_urban_m, index_urban_y, urban_startYear)
     numYears_urban = index_urban_y[urban_historical_T - 1] - index_urban_y[0]
     urban_list = [self.socal, self.centralcoast, self.southbay]
     self.observed_hro = df_urban['HRO_pump'].values*cfs_tafd
     self.observed_trp = df_urban['TRP_pump'].values*cfs_tafd
+    self.observed_hro_pred = df_pumping_prediction_control['DEL_SWP_allocation']
     SRI_forecast = df_urban['DEL_SCINDEX'].values
     regression_annual_hro = np.zeros(numYears_urban)
     regression_annual_trp = np.zeros(numYears_urban)
     for x in urban_list:
-      x.regression_percent = np.zeros(numYears_urban)
-      x.delivery_percent_coefficient = np.zeros((365,2))
+      x.regression_percent = np.zeros((365,numYears_urban))
+      x.delivery_percent_coefficient = np.zeros((365,4))
     for x in self.city_list:
       x.delivery_percent_coefficient = {}
       x.regression_percent = {}
       for xx in x.district_list:
-        x.delivery_percent_coefficient[xx] = np.zeros((365,2))
-        x.regression_percent[xx] = np.zeros(numYears_urban)
-
+        x.delivery_percent_coefficient[xx] = np.zeros((365,4))
+        x.regression_percent[xx] = np.zeros((365,numYears_urban))
+    
+    sim_y = self.index.year
+    sim_m = self.index.month
+    sim_d = self.index.day
+    start_counter = 0
+    sri_regression = np.zeros(numYears_urban - urban_start_regression)
+    for simt in range(0, self.T):
+      if sim_y[simt] == urban_start_regression_year:
+        start_counter = 1
+      if start_counter == 1 and sim_m[simt] == 9 and sim_d[simt] == 1:
+        sri_regression[sim_y[simt] - urban_start_regression_year] = self.forecastSRI[simt]
     urban_leap = leap(np.arange(min(index_urban_y), max(index_urban_y) + 2))
     urban_year_list = np.arange(min(index_urban_y), max(index_urban_y) + 2)
     urban_days_in_month = days_in_month(urban_year_list, urban_leap)
@@ -1833,64 +1854,38 @@ class Model():
     for x in urban_list:
       x.hist_pumping = df_urban[x.key+ '_pump'].values
       x.regression_annual = np.zeros(numYears_urban)
-    self.southbay.regression_pacheco = np.zeros(numYears_urban)
-    self.southbay.hist_pumping_pacheco = np.zeros(urban_historical_T)
-    for t in range(1,(urban_historical_T)):
-      m = index_urban_m[t-1]
-      wateryear = index_urban_water_year[t-1]
-      year = index_urban_y[t-1]-urban_startYear
+
+    for xx in range(0, len(self.southbay.hist_pumping)):
+      m = index_urban_m[xx]
+      wateryear = index_urban_water_year[xx]
+      year = index_urban_y[xx]-urban_startYear
+      self.southbay.hist_pumping[xx] += df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]*1000.0/urban_days_in_month[year][m-1]
+
+    for t in range(0,urban_historical_T):
+      wateryear = index_urban_water_year[t]
 	  
 	  ##Find annual pumping at each branch (and @ delta)
-      regression_annual_hro[wateryear] += self.observed_hro[t-1]
-      regression_annual_trp[wateryear] += self.observed_trp[t-1]
+      regression_annual_hro[wateryear] += self.observed_hro[t]
+      regression_annual_trp[wateryear] += self.observed_trp[t]
       for x in urban_list:
-        x.regression_annual[wateryear] += x.hist_pumping[t-1]/1000.0
+        x.regression_annual[wateryear] += x.hist_pumping[t]/1000.0
 		
-      self.southbay.regression_pacheco[wateryear] += df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]/urban_days_in_month[year][m-1]
-      self.southbay.hist_pumping_pacheco[t-1] = df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]/urban_days_in_month[year][m-1]
 		
-    for x in urban_list:
-      x.urb_coef = {}
-    ##regression between pumping at delta and pumping on branches
-	##note - only use water years 2000 - 2016 (1997-1999 saw low pumping that is unlikely to be recreated in the future)
-      x.urb_coef['swp'] = np.polyfit(regression_annual_hro[3:(numYears_urban-1)],x.regression_annual[3:(numYears_urban-1)],1)
-      x.regression = np.zeros(len(x.regression_annual))
-		
-      for reg_year in range(0,len(x.regression)):
-        x.regression[reg_year] = x.urb_coef['swp'][0]*regression_annual_hro[reg_year] + x.urb_coef['swp'][1]
-
-    self.southbay.urb_coef['cvp'] = np.polyfit(regression_annual_trp, self.southbay.regression_pacheco,1)
-    self.southbay.regression_cvp = np.zeros(len(self.southbay.regression_pacheco))
-    for reg_year in range(0,len(self.southbay.regression_cvp)):
-      self.southbay.regression_cvp[reg_year] = self.southbay.urb_coef['cvp'][0]*regression_annual_trp[reg_year] + self.southbay.urb_coef['cvp'][1]
-    self.socal.urb_coef['cvp'] = np.zeros(2)
-    self.centralcoast.urb_coef['cvp'] = np.zeros(2)
 
 	  
-    # fig = plt.figure()
-    # ax1 = fig.add_subplot(1,1,1, axisbg = "1.0")
-    # #ax2 = fig.add_subplot(2,2,2, axisbg = "1.0")
-    # #ax3 = fig.add_subplot(2,2,3, axisbg = "1.0")
-    # ax1.scatter(regression_annual_trp,self.southbay.regression_pacheco, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
-    # ax1.scatter(regression_annual_trp,self.southbay.regression_cvp, alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
-    #ax2.scatter(regression_annual_hro,self.centralcoast.regression_annual, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
-    #ax2.scatter(regression_annual_hro,self.centralcoast.regression, alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
-    #ax3.scatter(regression_annual_hro,self.southbay.regression_annual, alpha = 0.8, c = 'red', edgecolors = 'black', s = 30)
-    #ax3.scatter(regression_annual_hro,self.southbay.regression, alpha = 0.8, c = 'blue', edgecolors = 'black', s = 30)
-    #plt.show()
-    metropolitan_demand = [730.0, 500.0, 750.0, 1480.0, 1100.0, 1400.0, 1550.0, 1800.0, 1500.0, 1650.0, 1600.0, 1000.0, 900.0, 1100.0, 1400.0, 1250.0, 1000.0, 550.0, 525.0, 1000.0]
+    for x in urban_list:
+      x.annual_pumping = np.zeros(len(x.regression_annual))
+      x.pumping = np.zeros(len(x.hist_pumping))
+      for xx in range(0, len(x.hist_pumping)):
+        x.pumping[xx] = x.hist_pumping[xx] * 1.0
+      for xx in range(0, len(x.regression_annual)):
+        x.annual_pumping[xx] = x.regression_annual[xx] * 1.0
+
+    metropolitan_demand = [584.0, 352.0, 681.0, 1252.0, 1075.5, 1408.8, 1592.0, 1865.7, 1431.1, 1501.6, 1646.8, 1077.5, 1020.2, 1123.1, 1335.7, 1065.6, 989.1, 476.8, 704.8, 1106.4]
     if self.model_mode == 'validation':      
       metropolitan_adjust = self.starting_year - 1996
     else:
       metropolitan_adjust = 0
-    self.year_demand_error = np.random.randint(0,19)
-    for x in urban_list:
-      x.pumping = df_urban[x.key + '_pump'].values
-      x.annual_pumping = x.regression_annual
-    for xx in range(0, len(self.southbay.pumping)):
-      self.southbay.pumping[xx] += self.southbay.hist_pumping_pacheco[xx]*1000.0
-    for xx in range(0, len(self.southbay.annual_pumping)):
-      self.southbay.annual_pumping[xx] += self.southbay.regression_pacheco[xx]
 		
     for x in self.city_list:
       x.pumping = {}
@@ -1899,6 +1894,7 @@ class Model():
         if x.key == "MET":
           x.pumping[districts] = np.zeros(urban_historical_T)
           x.annual_pumping[districts] = np.zeros(numYears_urban)
+          recalc_pumping = np.zeros(numYears_urban)
           district_object = self.district_keys[districts]
           for year_counter in range(0, len(x.annual_pumping[districts])):
             if districts == "SOC":
@@ -1910,6 +1906,7 @@ class Model():
               wateryear = index_urban_water_year[pumping_counter]
               real_ratio = x.annual_pumping[districts][wateryear]/(district_object.annual_pumping[wateryear]*x.pump_out_fraction[districts])
               x.pumping[districts][pumping_counter] = district_object.pumping[pumping_counter]*x.pump_out_fraction[districts]*real_ratio
+              recalc_pumping[wateryear] += x.pumping[districts][pumping_counter]
           else:
             for pumping_counter in range(0, len(x.pumping[districts])):
               x.pumping[districts][pumping_counter] = district_object.pumping[pumping_counter]*x.pump_out_fraction[districts]
@@ -1925,12 +1922,16 @@ class Model():
 			  
     for x in self.city_list:
       for districts in x.district_list:
+        recalc_pumping = np.zeros(numYears_urban)
         district_object = self.district_keys[districts]
         for pump_counter in range(0, len(x.pumping[districts])):
+          wateryear = index_urban_water_year[pump_counter]
           district_object.pumping[pump_counter] -= x.pumping[districts][pump_counter]
           if district_object.pumping[pump_counter] < 0.0:
             x.pumping[districts][pump_counter] += district_object.pumping[pump_counter]
             district_object.pumping[pump_counter] = 0.0
+          recalc_pumping[wateryear] += x.pumping[districts][pump_counter]
+
         for year_counter in range(0, len(x.annual_pumping[districts])):
           district_object.annual_pumping[year_counter] -= x.annual_pumping[districts][year_counter]
           if district_object.annual_pumping[year_counter] < 0.0:
@@ -1938,89 +1939,194 @@ class Model():
             district_object.annual_pumping[year_counter] = 0.0
 		  
     for x in urban_list:
-      for y in range(0, numYears_urban):
-        x.regression_percent[y] = x.annual_pumping[y]/regression_annual_hro[y]
+      for t in range(0, urban_historical_T):
+        wateryear = index_urban_water_year[t]
+        dowy = index_urban_dowy[t]
+        x.regression_percent[dowy][wateryear] = x.annual_pumping[wateryear]/self.observed_hro_pred[t]
+        #x.regression_percent[y] = x.annual_pumping[y]
 		  
     for x in self.city_list:
       for xx in x.district_list:
-        for y in range(0, numYears_urban):
-          x.regression_percent[xx][y] = x.annual_pumping[xx][y]/regression_annual_hro[y]		
+        for t in range(0, urban_historical_T):
+          wateryear = index_urban_water_year[t]
+          dowy = index_urban_dowy[t]
+          x.regression_percent[xx][dowy][wateryear] = x.annual_pumping[xx][wateryear]/self.observed_hro_pred[t]
+          #x.regression_percent[xx][y] = x.annual_pumping[xx][y]	
 		
 
     sri_forecast_dowy = np.zeros((365,numYears_urban))
+    pumping_forecast_dowy = np.zeros((365, numYears_urban))
+    pumping_forecast_timeseries = np.zeros(365 * numYears_urban)
     for t in range(0, urban_historical_T):
       wateryear = index_urban_water_year[t]
       dowy = index_urban_dowy[t]
       sri_forecast_dowy[dowy][wateryear] = SRI_forecast[t]
+      pumping_forecast_dowy[dowy][wateryear] = self.observed_hro_pred[t]
+      if wateryear >= urban_start_regression:
+        pumping_forecast_timeseries[(wateryear - urban_start_regression)*365 + dowy] = pumping_forecast_dowy[dowy][wateryear] * 1.0
 
     for x in urban_list:
       counter1 = 1
-      #fig = plt.figure() 
-      x.regression_errors = np.zeros((365,numYears_urban))
+      fig = plt.figure() 
+      x.regression_errors = np.zeros((365,numYears_urban - urban_start_regression))
+      x.regression_errors_timeseries = np.zeros(365*(numYears_urban-urban_start_regression))
+      error_changes = np.zeros((365, numYears_urban-urban_start_regression))
+      pumping_changes = np.zeros((365, numYears_urban-urban_start_regression))      
+
       for wateryear_day in range(0,365):
-        coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent,1)
+        #coef = np.polyfit(sri_forecast_dowy[wateryear_day][urban_start_regression:-1], x.regression_percent[urban_start_regression:-1],1)
+        coef = np.polyfit(pumping_forecast_dowy[wateryear_day][urban_start_regression:], x.regression_percent[wateryear_day][urban_start_regression:],1)
         if self.use_sensitivity:
           x.delivery_percent_coefficient[wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
         else:
           x.delivery_percent_coefficient[wateryear_day][0] = coef[0]
         x.delivery_percent_coefficient[wateryear_day][1] = coef[1]
-        if x.key == 'XXX':
+
+
+        if x.key == 'xxx':
           sri = np.zeros(numYears_urban)
           percent = np.zeros(numYears_urban)
-          # ax1 = fig.add_subplot(4,5,counter1)
+          ax1 = fig.add_subplot(4,5,counter1)
 
           
-          for yy in range(0,numYears_urban):
-            sri[yy] = sri_forecast_dowy[wateryear_day][yy]
-            percent[yy] = x.regression_percent[yy]	
-          # ax1.scatter(sri, percent, s=50, c='red', edgecolor='none', alpha=0.7)
-          # ax1.plot([np.max(sri), 0.0], [(np.max(sri)*coef[0] + coef[1]), coef[1]],c='red')
-          # ax1.set_xlim([np.min(sri), np.max(sri)])
+          for yy in range(urban_start_regression,numYears_urban):
+            sri[yy] = pumping_forecast_dowy[wateryear_day][yy]
+            percent[yy] = x.regression_percent[wateryear_day][yy]	
+          ax1.scatter(sri[urban_start_regression:], percent[urban_start_regression:], s=50, c='red', edgecolor='none', alpha=0.7)
+          ax1.plot([np.max(sri), 0.0], [(np.max(sri)*coef[0] + coef[1]), coef[1]],c='red')
+          ax1.set_xlim([np.min(sri), np.max(sri)])
           counter1 += 1
           if counter1 == 21:
-            # plt.show()
-            # plt.close()
-            # fig = plt.figure()
+            plt.show()
+            plt.close()
+            fig = plt.figure()
             counter1 = 1
 
 
-        for wateryear_count in range(0,len(x.regression_percent)):
-          x.regression_errors[wateryear_day][wateryear_count] = sri_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[wateryear_day][0] + x.delivery_percent_coefficient[wateryear_day][1] - x.regression_percent[wateryear_count]
+        for wateryear_count in range(urban_start_regression,numYears_urban):
+          x.regression_errors[wateryear_day][wateryear_count - urban_start_regression] = pumping_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[wateryear_day][0] + x.delivery_percent_coefficient[wateryear_day][1] - x.regression_percent[wateryear_day][wateryear_count]
+
+          x.regression_errors_timeseries[(wateryear_count - urban_start_regression)*365 + wateryear_day] = pumping_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[wateryear_day][0] + x.delivery_percent_coefficient[wateryear_day][1] - x.regression_percent[wateryear_day][wateryear_count]
+
+      for wateryear_count in range(urban_start_regression,numYears_urban):
+        for wateryear_day in range(0, 365):
+          if (wateryear_count - urban_start_regression)*365 + wateryear_day > 0:
+            error_changes[wateryear_day][wateryear_count - urban_start_regression] = x.regression_errors_timeseries[(wateryear_count - urban_start_regression)*365 + wateryear_day]*min(wateryear_day/240.0, 1.0) - x.regression_errors_timeseries[(wateryear_count - urban_start_regression)*365 + wateryear_day - 1]*min((wateryear_day-1.0)/240.0, 1.0)
+            pumping_changes[wateryear_day][wateryear_count - urban_start_regression] = pumping_forecast_timeseries[(wateryear_count - urban_start_regression)*365 + wateryear_day] - pumping_forecast_timeseries[(wateryear_count - urban_start_regression)*365 + wateryear_day - 1]
+
+
+      pumping_forecast_min = -500.0
+      pumping_forecast_max = 500.0
+      fig = plt.figure()
+      counter1 = 1
+      x.demand_auto_errors = np.zeros((365, numYears_urban - urban_start_regression))
+      for wateryear_day in range(0, 365):
+        day_error_changes = error_changes[wateryear_day]
+        day_pumping_changes = pumping_changes[wateryear_day]
+        np_list_1_logi = np.logical_and(day_pumping_changes > pumping_forecast_min, day_pumping_changes < pumping_forecast_max)
+        day_error_cleaned = day_error_changes[np_list_1_logi]
+        day_pumping_cleaned = day_pumping_changes[np_list_1_logi]
+        coef = np.polyfit(day_pumping_cleaned, day_error_cleaned, 1)
+        x.delivery_percent_coefficient[wateryear_day][2] = coef[0]
+        x.delivery_percent_coefficient[wateryear_day][3] = coef[1]
+        for y in range(urban_start_regression, numYears_urban):
+          x.demand_auto_errors[wateryear_day][y-urban_start_regression] = pumping_changes[wateryear_day][y - urban_start_regression] * x.delivery_percent_coefficient[wateryear_day][2] + x.delivery_percent_coefficient[wateryear_day][3] - error_changes[wateryear_day][y - urban_start_regression]
+        
+        if x.key == 'XXX':
+          ax1 = fig.add_subplot(4,5,counter1)
+          ax1.scatter(day_pumping_changes, day_error_changes, s=50, c='red', edgecolor='none', alpha=0.7)
+          ax1.plot([np.max(day_pumping_changes), np.min(day_pumping_changes)], [(np.max(day_pumping_changes)*coef[0] + coef[1]), np.min(day_pumping_changes)*coef[0] + coef[1]],c='red')
+          ax1.set_xlim([np.min(day_pumping_changes), np.max(day_pumping_changes)])
+          ax1.set_title(wateryear_day)
+          counter1 += 1
+          if counter1 == 21:
+            plt.show()
+            plt.close()
+            fig = plt.figure() 
+            counter1 = 1
+
+
 		  
     for x in self.city_list:
       x.regression_errors = {}
+      x.regression_errors_timeseries = {}
+      x.demand_auto_errors = {}
       for xx in x.district_list:
-        x.regression_errors[xx] = np.zeros((365,numYears_urban))
+        x.regression_errors[xx] = np.zeros((365,numYears_urban-urban_start_regression))
+        x.regression_errors_timeseries[xx] = np.zeros(365*(numYears_urban-urban_start_regression))
+        
+        error_changes = np.zeros((365, numYears_urban-urban_start_regression))
+        pumping_changes = np.zeros((365, numYears_urban-urban_start_regression))      
+
         counter1 = 1
         #fig = plt.figure() 
         for wateryear_day in range(0,365):
-          coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent[xx],1)
-          r = np.corrcoef(sri_forecast_dowy[wateryear_day],x.regression_percent[xx])[0,1]
+
+          #coef = np.polyfit(sri_forecast_dowy[wateryear_day][urban_start_regression:-1], x.regression_percent[xx][urban_start_regression:-1],1)
+          coef = np.polyfit(pumping_forecast_dowy[wateryear_day][urban_start_regression:], x.regression_percent[xx][wateryear_day][urban_start_regression:],1)
           if self.use_sensitivity:
             x.delivery_percent_coefficient[xx][wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
           else:
             x.delivery_percent_coefficient[xx][wateryear_day][0] = coef[0]
 		  
           x.delivery_percent_coefficient[xx][wateryear_day][1] = coef[1]
-          for wateryear_count in range(0,len(x.regression_percent[xx])):
-            x.regression_errors[xx][wateryear_day][wateryear_count] = sri_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[xx][wateryear_day][0] + x.delivery_percent_coefficient[xx][wateryear_day][1] - x.regression_percent[xx][wateryear_count]
+          for wateryear_count in range(urban_start_regression,numYears_urban):
+            x.regression_errors[xx][wateryear_day][wateryear_count-urban_start_regression] = pumping_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[xx][wateryear_day][0] + x.delivery_percent_coefficient[xx][wateryear_day][1] - x.regression_percent[xx][wateryear_day][wateryear_count]
+            x.regression_errors_timeseries[xx][(wateryear_count - urban_start_regression)*365 + wateryear_day] = pumping_forecast_dowy[wateryear_day][wateryear_count]*x.delivery_percent_coefficient[xx][wateryear_day][0] + x.delivery_percent_coefficient[xx][wateryear_day][1] - x.regression_percent[xx][wateryear_day][wateryear_count]
+
+        for wateryear_count in range(urban_start_regression,numYears_urban):
+          for wateryear_day in range(0, 365):
+            if (wateryear_count - urban_start_regression)*365 + wateryear_day > 0:
+              error_changes[wateryear_day][wateryear_count - urban_start_regression] = x.regression_errors_timeseries[xx][(wateryear_count - urban_start_regression)*365 + wateryear_day]*min(wateryear_day/240.0, 1.0) - x.regression_errors_timeseries[xx][(wateryear_count - urban_start_regression)*365 + wateryear_day - 1]*min((wateryear_day-1.0)/240.0, 1.0)
+              pumping_changes[wateryear_day][wateryear_count - urban_start_regression] = pumping_forecast_timeseries[(wateryear_count - urban_start_regression)*365 + wateryear_day] - pumping_forecast_timeseries[(wateryear_count - urban_start_regression)*365 + wateryear_day - 1]
+
+        x.demand_auto_errors[xx] = np.zeros((365,numYears_urban-urban_start_regression))
+        pumping_forecast_min = -500.0
+        pumping_forecast_max = 500.0
+        fig = plt.figure()
+        counter1 = 1
+        for wateryear_day in range(0, 365):
+          day_error_changes = error_changes[wateryear_day]
+          day_pumping_changes = pumping_changes[wateryear_day]
+          np_list_1_logi = np.logical_and(day_pumping_changes > pumping_forecast_min, day_pumping_changes < pumping_forecast_max)
+          day_error_cleaned = day_error_changes[np_list_1_logi]
+          day_pumping_cleaned = day_pumping_changes[np_list_1_logi]
+          coef = np.polyfit(day_pumping_cleaned, day_error_cleaned, 1)
+          x.delivery_percent_coefficient[xx][wateryear_day][2] = coef[0]
+          x.delivery_percent_coefficient[xx][wateryear_day][3] = coef[1]
+          for y in range(urban_start_regression, numYears_urban):
+            x.demand_auto_errors[xx][wateryear_day][y-urban_start_regression] = pumping_changes[wateryear_day][y - urban_start_regression] * x.delivery_percent_coefficient[xx][wateryear_day][2] + x.delivery_percent_coefficient[xx][wateryear_day][3] - error_changes[wateryear_day][y - urban_start_regression]
+
+          if x.key == 'XXX':
+            ax1 = fig.add_subplot(4,5,counter1)
+            ax1.scatter(day_pumping_changes, day_error_changes, s=50, c='red', edgecolor='none', alpha=0.7)
+            ax1.plot([np.max(day_pumping_changes), np.min(day_pumping_changes)], [(np.max(day_pumping_changes)*coef[0] + coef[1]), np.min(day_pumping_changes)*coef[0] + coef[1]],c='red')
+            ax1.set_xlim([np.min(day_pumping_changes), np.max(day_pumping_changes)])
+            ax1.set_title(wateryear_day)
+            counter1 += 1
+            if counter1 == 21:
+              plt.show()
+              plt.close()
+              fig = plt.figure() 
+              counter1 = 1
+
 
 		
     for x in self.city_list:
       for xx in x.district_list:
         counter1 = 1
-        #fig = plt.figure() 
+        fig = plt.figure() 
         for wateryear_day in range(0,365):
-          coef = np.polyfit(sri_forecast_dowy[wateryear_day], x.regression_percent[xx],1)
+          coef = np.polyfit(pumping_forecast_dowy[wateryear_day][urban_start_regression:], x.regression_percent[xx][wateryear_day][urban_start_regression:],1)
           if x.key == "XXX":
-            r = np.corrcoef(sri_forecast_dowy[wateryear_day],x.regression_percent[xx])[0,1]
+            r = np.corrcoef(pumping_forecast_dowy[wateryear_day][urban_start_regression:], x.regression_percent[xx][wateryear_day][urban_start_regression:])[0,1]
             sri = np.zeros(numYears_urban)
             percent = np.zeros(numYears_urban)
             ax1 = fig.add_subplot(4,5,counter1)
           
-            for yy in range(0,numYears_urban):
-              sri[yy] = sri_forecast_dowy[wateryear_day][yy]
-              percent[yy] = x.regression_percent[xx][yy]	
+            for yy in range(urban_start_regression,numYears_urban):
+              sri[yy] = pumping_forecast_dowy[wateryear_day][yy]
+              percent[yy] = x.regression_percent[xx][wateryear_day][yy]	
             ax1.scatter(sri, percent, s=50, c='red', edgecolor='none', alpha=0.7)
             ax1.plot([np.max(sri), 0.0], [(np.max(sri)*coef[0] + coef[1]), coef[1]],c='red')
             ax1.set_xlim([np.min(sri), np.max(sri)])
@@ -2032,37 +2138,52 @@ class Model():
               counter1 = 1
         #plt.show()
         #plt.close()
+        
 
           
     if self.model_mode == 'simulation' or self.model_mode == 'climate_ensemble' or self.model_mode == 'sensitivity':
       for x in urban_list:
         x.hist_demand_dict = {}
-        x.hist_demand_dict['swp'] = {}
-        x.hist_demand_dict['cvp'] = {}
-		
-	  ##Finds regressions to predict urban CA AQ branch pumping based on SWP allocations
-        x.annual_pumping = np.zeros(self.number_years)
-        x.pumping = np.zeros(self.T)
-        x.hist_demand_dict['swp']['annual_sorted'] = np.sort(regression_annual_hro)
-        x.hist_demand_dict['swp']['sorted_index'] = np.argsort(regression_annual_hro)
-        x.hist_demand_dict['swp']['daily_fractions'] = np.zeros((len(x.regression_annual),366))
-        x.hist_demand_dict['cvp']['annual_sorted'] = np.sort(regression_annual_trp)
-        x.hist_demand_dict['cvp']['sorted_index'] = np.argsort(regression_annual_trp)
-        x.hist_demand_dict['cvp']['daily_fractions'] = np.zeros((len(self.southbay.regression_pacheco),366))        
-
-      for t in range(1,(urban_historical_T)):
-        dowy = index_urban_dowy[t-1]
-        wateryear = index_urban_water_year[t-1]
-        for x in urban_list:
-          if x.regression_annual[wateryear] >0.0:
-            x.hist_demand_dict['swp']['daily_fractions'][wateryear][dowy] = x.hist_pumping[t-1]/(x.regression_annual[wateryear]*1000.0)
-          else:
-            x.hist_demand_dict['swp']['daily_fractions'][wateryear][dowy] = 1.0/365.0
-          if x.key == "SOB":
-            if x.regression_pacheco[wateryear] > 0.0:
-              x.hist_demand_dict['cvp']['daily_fractions'][wateryear][dowy] = x.hist_pumping_pacheco[t-1]/(x.regression_pacheco[wateryear])
+        x.ytd_pumping_int = np.zeros(numYears_urban)
+        x.hist_demand_dict['annual_sorted'] = {}
+        x.hist_demand_dict['sorted_index'] = {}
+        for wateryear_day in range(0, 365):
+          x.hist_demand_dict['annual_sorted'][wateryear_day] = np.sort(regression_annual_hro[urban_start_regression:-1])
+          x.hist_demand_dict['sorted_index'][wateryear_day] = np.argsort(regression_annual_hro[urban_start_regression:-1])
+        x.hist_demand_dict['daily_fractions'] = np.zeros((len(x.regression_annual) - urban_start_regression,366))
+      for x in self.city_list:
+        x.hist_demand_dict = {}
+        x.ytd_pumping_int = {}
+        for xx in x.district_list:
+          x.hist_demand_dict[xx] = {}	
+          x.ytd_pumping_int[xx] = np.zeros(numYears_urban)
+          x.hist_demand_dict[xx]['annual_sorted'] = {}
+          x.hist_demand_dict[xx]['sorted_index'] = {}
+          for wateryear_day in range(0, 365):
+            x.hist_demand_dict[xx]['annual_sorted'][wateryear_day] = np.sort(regression_annual_hro[urban_start_regression:-1])
+            x.hist_demand_dict[xx]['sorted_index'][wateryear_day] = np.argsort(regression_annual_hro[urban_start_regression:-1])
+          x.hist_demand_dict[xx]['daily_fractions'] = np.zeros((numYears_urban - urban_start_regression,366))
+        
+      for t in range(0,urban_historical_T):
+        dowy = index_urban_dowy[t]
+        wateryear = index_urban_water_year[t]
+        if wateryear >= urban_start_regression:
+          for x in urban_list:
+            predicted_annual_demand = 1000.0 * self.observed_hro_pred[t] * ((self.observed_hro_pred[t] * x.delivery_percent_coefficient[dowy][0] + x.delivery_percent_coefficient[dowy][1])*max(240.0 - dowy, 0.0)/240.0 + x.regression_percent[dowy][wateryear]*min(dowy, 240.0)/240.0)
+            if predicted_annual_demand - x.ytd_pumping_int[wateryear] > 0.0:
+              x.hist_demand_dict['daily_fractions'][wateryear - urban_start_regression][dowy] = (x.pumping[t])/(predicted_annual_demand - x.ytd_pumping_int[wateryear])
             else:
-              x.hist_demand_dict['swp']['daily_fractions'][wateryear][dowy] = 1.0/365.0
+              x.hist_demand_dict['daily_fractions'][wateryear - urban_start_regression][dowy] = 0.0/365.0
+            x.ytd_pumping_int[wateryear] += x.pumping[t]
+
+          for x in self.city_list:
+            for xx in x.district_list:
+              predicted_annual_demand = 1000.0 * self.observed_hro_pred[t] * ((self.observed_hro_pred[t] * x.delivery_percent_coefficient[xx][dowy][0] + x.delivery_percent_coefficient[xx][dowy][1])*max(240.0 - dowy, 0.0)/240.0 + x.regression_percent[xx][dowy][wateryear]*min(dowy, 240.0)/240.0)
+              if predicted_annual_demand - x.ytd_pumping_int[xx][wateryear] > 0.0:
+                x.hist_demand_dict[xx]['daily_fractions'][wateryear - urban_start_regression][dowy] = (x.pumping[xx][t])/(predicted_annual_demand - x.ytd_pumping_int[xx][wateryear])
+              else:
+                x.hist_demand_dict[xx]['daily_fractions'][wateryear - urban_start_regression][dowy] = 0.0/365.0
+              x.ytd_pumping_int[xx][wateryear] += x.pumping[xx][t]
 
       for x in self.city_list:
         x.annual_pumping = {}
@@ -2070,6 +2191,9 @@ class Model():
         for xx in x.district_list:
           x.annual_pumping[xx] = np.zeros(self.number_years)
           x.pumping[xx] = np.zeros(self.T)
+      for x in urban_list:
+        x.annual_pumping = np.zeros(self.number_years)
+        x.pumping = np.zeros(self.T)
 
     for x in urban_list:
       x.ytd_pumping = np.zeros(self.number_years)
@@ -2178,6 +2302,7 @@ class Model():
 	#monthly flow projections from self.reservoir.create_flow_shapes (i.e. flood available water)
     for x in [self.shasta, self.folsom, self.oroville, self.yuba]:
       x.find_flow_pumping(t, m, dowy, self.delta.forecastSCWYT, 'env')
+      x.days_til_full[t] = min(x.numdays_fillup['env'], x.numdays_fillup['lookahead'])
 	  	  	
 	###DETERMINE RELEASES REQUIRED FOR DESIRED PUMPING
     ###Uses gains and environmental releases to determine additional releases required for
@@ -2191,10 +2316,10 @@ class Model():
     flood_release = {}
     flood_volume = {}
 	##Releases in anticipation of flood pool encroachment (not required by flood rules)
-    flood_release['swp'] = self.oroville.min_daily_uncontrolled + self.yuba.min_daily_uncontrolled
-    flood_release['cvp'] = self.shasta.min_daily_uncontrolled + self.folsom.min_daily_uncontrolled
-    flood_volume['swp'] = self.oroville.uncontrolled_available + self.yuba.min_daily_uncontrolled
-    flood_volume['cvp'] = self.shasta.uncontrolled_available + self.shasta.min_daily_uncontrolled
+    flood_release['swp'] = self.oroville.min_daily_uncontrolled
+    flood_release['cvp'] = self.shasta.min_daily_uncontrolled
+    flood_volume['swp'] = self.oroville.uncontrolled_available
+    flood_volume['cvp'] = self.shasta.uncontrolled_available
     swp_over_dead_pool = self.oroville.find_emergency_supply(t, m, dowy)
     cvp_over_dead_pool = 0.0
 	##Distribute 'available storage' seasonally to maximize pumping under E/I ratio requirements (i.e., pump when E/I ratio is highest)
@@ -2210,7 +2335,9 @@ class Model():
     cvp_max_final = min(cvp_max_final, cvp_pump)
     swp_max_final = min(swp_max_final, swp_pump)
     #calculates releases to pump at desired levels (either cvp/swp_max or non-taxed levels, based on min outflow & i/e rules)
-    self.delta.calc_flow_bounds(t, cvp_max_final, swp_max_final, cvp_max, swp_max, cvp_release2, swp_release2, cvp_available_storage, swp_available_storage, flood_release['cvp'], flood_release['swp'], swp_over_dead_pool, cvp_over_dead_pool, flood_volume['swp'], flood_volume['cvp'])
+    swp_reduced, cvp_reduced = self.delta.calc_flow_bounds(t, cvp_max_final, swp_max_final, cvp_max, swp_max, cvp_release2, swp_release2, cvp_available_storage, swp_available_storage, flood_release['cvp'], flood_release['swp'], swp_over_dead_pool, cvp_over_dead_pool, flood_volume['swp'], flood_volume['cvp'], min(self.oroville.numdays_fillup['env'],self.oroville.numdays_fillup['lookahead']), min(self.shasta.numdays_fillup['env'],self.shasta.numdays_fillup['lookahead']) )
+    cvp_forgone = max(cvp_forgone, cvp_reduced)
+    swp_forgone = max(cvp_forgone, cvp_reduced)
 
     #distribute releases for export between Sacramento River Reservoirs
     self.shasta.sodd, self.folsom.sodd = self.delta.distribute_export_releases(t, cvp_max, self.delta.sodd_cvp[t], self.shasta.flood_storage[t], self.folsom.flood_storage[t], self.shasta.available_storage[t], self.folsom.available_storage[t])
@@ -2268,10 +2395,11 @@ class Model():
 
     ##route all water through delta rules to determine pumping
     self.delta.step(t, cvp_stored_flow, swp_stored_flow, swp_pump, cvp_pump, swp_available_storage, cvp_available_storage)
+
 		    
     return self.delta.HRO_pump[t], self.delta.TRP_pump[t], self.delta.swp_allocation[t], self.delta.cvp_allocation[t], proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_flood_storage, cvp_flood_storage, swp_available_storage, cvp_available_storage, flood_release, flood_volume
 			
-  def simulate_south(self, t, hro_pump, trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, max_tax_free, flood_release, flood_volume):
+  def simulate_south(self, t, hro_pump, trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, wytSC, max_tax_free, flood_release, flood_volume):
     ####Maintain the same date/time accounting as the northern part of the model
     year = self.year[t] - self.starting_year
     m = self.month[t]
@@ -2338,6 +2466,8 @@ class Model():
 	###(i.e. Southern California) and dividing it among all contractors
     self.appropriate_carryover(swp_forgone, "SLS", wateryear)
     self.appropriate_carryover(cvp_forgone, "SLF", wateryear)
+    self.sanluisstate.flood_spill[t] += swp_forgone
+    self.sanluisfederal.flood_spill[t] += cvp_forgone
 	
 	##Find ID demands
 	###Daily demands are calculated from monthly demands based on 
@@ -2388,13 +2518,16 @@ class Model():
 	###model in projection mode, we need statistical series of pumping at each of the Cal Aqueduct
 	###branches.  Note:  for Bakersfield and Fresno in the local water systems, demands are deterministic
 	###seasonal estimates.  Adding in pop. growth, etc. would be trivial, but is not included
-    if self.model_mode == 'validation':
-      for x in self.urban_list:
-        x.get_urban_demand(t, m, da, wateryear, year, self.forecastSRI[t], dowy, self.swp_allocation[t])
-      for x in self.city_list:
-        x.get_urban_demand(t, m, da, wateryear, year, self.forecastSRI[t], dowy, self.swp_allocation[t])
+    if t > 0:
+      allocation_change = self.swp_allocation[t] - self.swp_allocation[t-1]
     else:
-      self.project_urban_pumping(da, dowy, m, wateryear, year, self.swp_allocation[t], self.cvp_allocation[t], self.forecastSRI[t])
+      allocation_change = 0.0
+    for x in self.urban_list:
+      x.get_urban_demand(t, m, da, wateryear, year, self.forecastSRI[t], dowy, self.swp_allocation[t], allocation_change, self.model_mode)
+    for x in self.city_list:
+      x.get_urban_demand(t, m, da, wateryear, year, self.forecastSRI[t], dowy, self.swp_allocation[t], allocation_change, self.model_mode)
+    #else:
+      #self.project_urban_pumping(da, dowy, m, wateryear, year, self.swp_allocation[t], self.cvp_allocation[t], self.forecastSRI[t])
 
     if m == 10 and da == 1:      
 	  ###Pre flood demands - used to approximate the limit 
@@ -2406,7 +2539,7 @@ class Model():
       for x in self.private_list:
         x.find_baseline_demands()
 	  
-      for x in self.district_list:
+      for x in self.urban_list:
         x.find_pre_flood_demand(wyt, year)
       self.socal.pre_flood_demand = 500.0
       self.centralcoast.pre_flood_demand = 25.0
@@ -2438,18 +2571,21 @@ class Model():
       self.find_recharge_leiu(m,wyt)
       ##searches through all districts to find native recharge capacity
       self.find_recharge_indistrict(m,wyt)
-      self.find_leiu_exchange(wateryear)
+      self.find_leiu_exchange(wateryear, dowy)
 	  
 
 	#Find the number of days before each reservoir is expected to fill-up	  
     ##Get Article 21 water from San Luis
 	#for san luis - need to know if we can use the xvc from california aquduct - check for turnout to xvc from kern river and fkc
     ###find flood releases for the SWP at san luis (self.sanluisstate.min_daily_uncontrolled) - also find release toggles (for northern reservoir pumping coordination w/ san luis) and numdays_fillup for SWP district recharge decisions
-    expected_pumping = self.estimate_project_pumping(t, proj_surplus, max_pumping, swp_AS, cvp_AS, self.max_tax_free, flood_release, wyt)
-    swp_release, swp_release2, self.sanluisstate.min_daily_uncontrolled, self.sanluisstate.numdays_fillup['demand'], fill_up_cross_swp = self.find_pumping_release(self.sanluisstate.S[t], 6680.0*cfs_tafd, self.sanluisstate.monthly_demand, self.sanluisstate.monthly_demand_must_fill, self.swpdelta.allocation[t-1]/self.swpdelta.total, expected_pumping['swp'], swp_AF, max(swp_AS, flood_volume['swp']), self.swpdelta.projected_carryover, self.swpdelta.running_carryover, self.max_tax_free, wyt, t, 'swp')
+    expected_pumping = self.estimate_project_pumping(t, proj_surplus, max_pumping, swp_AS, cvp_AS, self.max_tax_free, flood_release, wytSC)
+    swp_release, swp_release2, self.sanluisstate.min_daily_uncontrolled, self.sanluisstate.numdays_fillup['demand'], fill_up_cross_swp = self.find_pumping_release(self.sanluisstate.S[t], 6680.0*cfs_tafd, self.sanluisstate.monthly_demand, self.sanluisstate.monthly_demand_must_fill, self.swpdelta.allocation[t-1]/self.swpdelta.total, expected_pumping['swp'], swp_AF, swp_AS, flood_volume['swp'], self.swpdelta.projected_carryover, self.swpdelta.running_carryover, self.max_tax_free, wyt, t, 'swp')
 	  
     ###find flood releases for the CVP at san luis (self.sanluisfederal.min_daily_uncontrolled) - also find release toggles (for northern reservoir pumping coordination w/ san luis) and numdays_fillup for SWP district recharge decisions
-    cvp_release, cvp_release2, self.sanluisfederal.min_daily_uncontrolled, self.sanluisfederal.numdays_fillup['demand'], fill_up_cross_cvp = self.find_pumping_release(self.sanluisfederal.S[t], 4430.0*cfs_tafd, self.sanluisfederal.monthly_demand, self.sanluisfederal.monthly_demand_must_fill, (self.cvpdelta.allocation[t-1] + self.cvpexchange.allocation[t-1])/(self.cvpexchange.total+self.cvpdelta.total), expected_pumping['cvp'], cvp_AF, max(cvp_AS, flood_volume['cvp']), self.cvpdelta.projected_carryover, self.cvpdelta.running_carryover + self.cvpexchange.running_carryover + self.crossvalley.running_carryover, self.max_tax_free, wyt, t, 'cvp')
+    cvp_release, cvp_release2, self.sanluisfederal.min_daily_uncontrolled, self.sanluisfederal.numdays_fillup['demand'], fill_up_cross_cvp = self.find_pumping_release(self.sanluisfederal.S[t], 4430.0*cfs_tafd, self.sanluisfederal.monthly_demand, self.sanluisfederal.monthly_demand_must_fill, (self.cvpdelta.allocation[t-1] + self.cvpexchange.allocation[t-1])/(self.cvpexchange.total+self.cvpdelta.total), expected_pumping['cvp'], cvp_AF, cvp_AS, flood_volume['cvp'], self.cvpdelta.projected_carryover, self.cvpdelta.running_carryover + self.cvpexchange.running_carryover + self.crossvalley.running_carryover, self.max_tax_free, wyt, t, 'cvp')
+    
+    self.sanluisfederal.days_til_full[t] = min(self.sanluisfederal.numdays_fillup['demand'],fill_up_cross_cvp)
+    self.sanluisstate.days_til_full[t] = min(self.sanluisstate.numdays_fillup['demand'],fill_up_cross_swp)
 
     ###June 1st, determine who is buying/selling into 'turnback pools' for the SWP.
     ###Note: look into other contract types to determine if this happens in CVP, Friant, local source contracts too
@@ -2484,6 +2620,7 @@ class Model():
 	####carryover water
     for reservoir in [self.success, self.kaweah, self.isabella, self.pineflat, self.millerton]:
       reservoir.find_flow_pumping(t, m, dowy, wyt, 'demand')
+      reservoir.days_til_full[t] = min(reservoir.numdays_fillup['demand'], reservoir.numdays_fillup['lookahead'])
 	  
 	#Update Contract Allocations
     for y in self.contract_list:
@@ -2513,15 +2650,6 @@ class Model():
 	  #for state & federal portions
       if reservoir.key == "SLS":
         total_allocation = self.swp_allocation[t] - self.pumping_turnback['SLS'] + extra_allocation
-        #print(t, end = " ")
-        #print(dowy, end = " ")
-        #print(wateryear, end = " ")
-        #print(total_allocation, end = " ")
-        #print(self.swp_allocation[t], end = " ")
-        #print(self.pumping_turnback['SLS'], end = " ")
-        #print(extra_allocation, end = " ")
-        #print(self.sanluisstate.S[t], end = " ")
-        #print(yy.annual_deliveries[wateryear], end = " ")
         tot_ind_deliveries = 0.0
         tot_ind_carryover = 0.0
         tot_ind_turnback = 0.0
@@ -2544,14 +2672,11 @@ class Model():
             tot_ind_deliveries +=  x.deliveries[xx][y.name][wateryear]
             tot_ind_turnback +=  x.turnback_pool[xx][y.name]
           tot_ind_paper +=  x.paper_balance[y.name]
-        #print(tot_ind_deliveries, end = " ")
-        #print(tot_ind_carryover, end = " ")
-        #print(tot_ind_paper, end = " ")
-        #print(tot_ind_turnback)
 
 
       elif reservoir.key == "SLF":
-        total_allocation = self.cvp_allocation[t] - self.pumping_turnback['SLF'] + extra_allocation 
+        total_allocation = self.cvp_allocation[t] - self.pumping_turnback['SLF'] + extra_allocation
+        
       elif reservoir.key == 'MIL':
         if m > 9 or m < 3:
           total_allocation = 0.0
@@ -2639,9 +2764,13 @@ class Model():
 	
     for x in self.district_list:
       #district can request recovery of their banked water
-      x.open_recovery(t, dowy, wateryear)
+      if x.key == 'SOB':
+        target_eoy = 50.0
+      else:
+        target_eoy = 0.0
+      x.open_recovery(t, dowy, wateryear, target_eoy)
 	  ##Recover Banked Water
-    use_tolerance = True
+    use_tolerance = False
     for x in self.private_list:
       x.open_recovery(t, dowy, wyt, wateryear, use_tolerance, 0.0)
     use_tolerance = False
@@ -2669,6 +2798,22 @@ class Model():
     
 	  #recover banked groundwater
       #only looking at GW exchanges for a few contracts
+    if self.metropolitan.use_recovery > 0.0:
+      exchanger_list = [self.kerntulare, self.pixley, self.lowertule]
+      exchange_max = min(self.arvin.inleiubanked['MET'], self.metropolitan.dailydemand_start['SOC']*self.metropolitan.use_recovery)
+      exchange_request = 0.0
+      for exc_cvc in exchanger_list:
+        exchange_request += max(exc_cvc.projected_supply['cvc'], 0.0)
+      if exchange_request > 0.0:
+        delivered_exchange = min(exchange_max, exchange_request)
+        self.arvin.inleiubanked['MET'] -= delivered_exchange
+        self.metropolitan.paper_balance['cvc'] += delivered_exchange
+      
+        for exc_cvc in exchanger_list:
+          ind_exchange = delivered_exchange * max(exc_cvc.projected_supply['cvc'], 0.0)/exchange_request
+          self.arvin.inleiubanked[exc_cvc.key] += ind_exchange
+          exc_cvc.paper_balance['cvc'] -= ind_exchange
+        
     self.canal_contract['caa'] = [self.swpdelta]#only want to 'paper' exchange swp contracts
     for z in [self.calaqueduct, self.fkc, self.kernriverchannel]:
       for reservoir_recovery in self.get_iterable(self.canal_reservoir[z.name]):
@@ -2682,7 +2827,31 @@ class Model():
         self.set_canal_direction(flow_type)
     self.canal_contract['caa'] = [self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley]#reset california aqueduct contracts to be all san luis contracts
 
-	
+    #if self.xvc.locked == 1 and self.calaqueduct.flow_directions['recharge']['xvc'] == 'reverse':
+    total_current_balance = max(self.buenavista.current_balance['kern'], 0.0)
+    total_projected_supply = max(self.buenavista.projected_supply['kern'], 0.0)
+      #conservative_estimate = max(min((dowy- 211.0)/(273.0 - 211.0), 1.0), 0.0)
+    conservative_estimate = 1.0
+    available_exchange_kern = max(min(conservative_estimate*total_projected_supply,total_current_balance), 0.0)
+    requester_list = [self.cawelo, self.ID4, self.rosedale]
+    total_request = 0.0
+    for requester in requester_list:
+      total_request += max(min(requester.dailydemand_start + requester.recharge_carryover[y.name], requester.dailydemand + requester.recharge_carryover[y.name], requester.current_balance['tableA'], requester.projected_supply['tableA']),0.0)
+    if available_exchange_kern > 0.0:
+      request_fraction = min(available_exchange_kern/total_request, 1.0)
+    else:
+      request_fraction = 0.0
+    for requester in requester_list:
+      exchanged_value = request_fraction * max(min(requester.dailydemand_start + requester.recharge_carryover[y.name], requester.dailydemand + requester.recharge_carryover[y.name], requester.current_balance['tableA'], requester.projected_supply['tableA']),0.0)
+      requester.paper_balance['kern'] += exchanged_value
+      requester.paper_balance['tableA'] -= exchanged_value
+      self.buenavista.paper_balance['kern'] -= exchanged_value
+      self.buenavista.paper_balance['tableA'] += exchanged_value
+      for y in [self.kernriver, self.swpdelta]:
+        next_year_carryover, this_year_carryover = requester.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type)
+        next_year_carryover, this_year_carryover = self.buenavista.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type)
+
+         
     flow_type = "recharge"
     for z in self.reservoir_canal[self.millerton.key]:
       self.set_canal_direction(flow_type)
@@ -2715,6 +2884,20 @@ class Model():
       self.set_canal_direction(flow_type)
       #release flood flows to canals
       self.flood_operations(t, m, dowy, wateryear, a, flow_type, overflow_deliveries, wyt)
+      #for canal in self.reservoir_canal[a.key]: 
+        #for cnt in self.canal_contract[canal.name]:
+          #for socal_cont in [self.metropolitan, self.castaic, self.coachella]:
+            #if cnt.name + '_flood' in socal_cont.deliveries['SOC']:
+              #if socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear] > 0.0:
+                #socal_cont.deliveries['SOC']['tableA'][wateryear] += socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear]
+                #self.pumping_turnback['SLS'] -= socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear]
+                #socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear] = 0.0
+          #for socal_cont in [self.socal,]:
+            #if cnt.name + '_flood' in socal_cont.deliveries:
+              #if socal_cont.deliveries[cnt.name + '_flood'][wateryear] > 0.0:
+                #socal_cont.deliveries['tableA'][wateryear] += socal_cont.deliveries[cnt.name + '_flood'][wateryear]
+                #self.pumping_turnback['SLS'] -= socal_cont.deliveries[cnt.name + '_flood'][wateryear]
+                #socal_cont.deliveries[cnt.name + '_flood'][wateryear] = 0.0
 	  
     self.set_canal_direction(flow_type)	
 		
@@ -2822,12 +3005,13 @@ class Model():
         elif y == 'cvpdelta' or y == 'exchange' or y == 'cvc':
           lookahead_days = fill_up_cross_cvp
           carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
-        elif y == 'friant1' or y == 'friant2' or y == 'kings':
+        elif y == 'kings':
           lookahead_days = min(reservoir.numdays_fillup['lookahead'], max(365.0 - dowy, 0.0))
-          carryover_days = min(reservoir.numdays_fillup['demand'], 0.0)
+          carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
         else:
           lookahead_days = reservoir.numdays_fillup['lookahead']
           carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
+        additional_carryover = 0.0
 
         x.open_recharge(t, m-1, da, wateryear, year, carryover_days, lookahead_days, contract_object.tot_carryover - contract_object.annual_deliveries[wateryear], y, wyt, self.contract_turnouts[y], 0.0,contract_object.allocation_priority)
 		
@@ -2843,9 +3027,9 @@ class Model():
           lookahead_days = reservoir.numdays_fillup['demand']
 
         additional_carryover = 0.0
-        for xx in x.district_list:
-          additional_carryover += x.contract_carryover_list[xx][y]
-        x.open_recharge(t, m-1, da, wateryear, year, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], 0.0, contract_object.allocation_priority)
+            
+          #additional_carryover += x.contract_carryover_list[xx][y]
+        x.open_recharge(t, m-1, da, wateryear, year, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], additional_carryover, contract_object.allocation_priority)
     for x in self.city_list:
       for y in x.contract_list:
         contract_object = self.contract_keys[y]
@@ -2858,8 +3042,16 @@ class Model():
           lookahead_days = reservoir.numdays_fillup['demand']
 		  
         additional_carryover = 0.0
-        x.open_recharge(t, m-1, da, wateryear, year, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], additional_carryover, contract_object.allocation_priority)
-		
+        for xx in x.district_list:
+          if t + lookahead_days < self.T:
+            additional_carryover += np.sum(x.pumping[xx][(t+365-dowy): int(t+lookahead_days) ])/1000.0
+          else:
+            if lookahead_days > 365:
+              additional_carryover= 999.9
+            else:
+              additional_carryover += np.sum(x.pumping[xx][(t-dowy): int(t + lookahead_days - 365) ])/1000.0
+
+        x.open_recharge(t, m-1, da, wateryear, year, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], 0.0, contract_object.allocation_priority)
 		
 	##Deliveries for banking
     flow_type = "recharge"
@@ -2888,7 +3080,23 @@ class Model():
     self.set_canal_direction(flow_type)
     #release flood flows to canals
     self.flood_operations(t, m, dowy, wateryear, self.millerton, flow_type, overflow_deliveries, wyt)  
-    self.set_canal_direction(flow_type)	
+    self.set_canal_direction(flow_type)
+    #for canal in self.reservoir_canal[self.millerton.key]:
+      #for cnt in self.canal_contract[canal.name]:
+        #for socal_cont in [self.metropolitan, self.castaic, self.coachella]:
+          #if cnt.name + '_flood' in socal_cont.deliveries['SOC']:
+            #if socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear] > 0.0:
+              #socal_cont.deliveries['SOC']['tableA'][wateryear] += socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear]
+              #self.pumping_turnback['SLS'] -= socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear]
+              #socal_cont.deliveries['SOC'][cnt.name + '_flood'][wateryear] = 0.0
+        #for socal_cont in [self.socal,]:
+          #if cnt.name + '_flood' in socal_cont.deliveries:
+            #if socal_cont.deliveries[cnt.name + '_flood'][wateryear] > 0.0:
+              #socal_cont.deliveries['tableA'][wateryear] += socal_cont.deliveries[cnt.name + '_flood'][wateryear]
+              #self.pumping_turnback['SLS'] -= socal_cont.deliveries[cnt.name + '_flood'][wateryear]
+              #socal_cont.deliveries[cnt.name + '_flood'][wateryear] = 0.0
+        
+      
 
 	
     flow_type = "recharge"
@@ -2921,6 +3129,11 @@ class Model():
     self.set_canal_direction(flow_type)
     self.canal_contract['caa'] = [self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley]#reset california aqueduct contracts to be all san luis contracts	
 
+    #if self.sanluisstate.min_daily_uncontrolled > 0.0:
+      #if self.metropolitan.annualdemand['SOC'] > self.metropolitan.projected_supply['SOC']['tableA']:
+        #this_day_contract_deliveries = max(min(self.metropolitan.dailydemand_start['SOC'] - self.metropolitan.dailydemand['SOC'], self.metropolitan.deliveries['SOC']['tableA'][wateryear], self.metropolitan.annualdemand['SOC'] - self.metropolitan.projected_supply['SOC']['tableA']), 0.0)
+        #self.metropolitan.deliveries['SOC']['tableA_flood'][wateryear] += this_day_contract_deliveries	
+        #self.metropolitan.deliveries['SOC']['tableA'][wateryear] -= this_day_contract_deliveries
 		
 	##Deliveries for banking
     flow_type = "recharge"
@@ -2949,9 +3162,28 @@ class Model():
       if x.current_recharge_storage > 0.0:
         x.absorb_storage()
 		
-    for x in self.private_list:
-      for xx in x.district_list:
-        x.find_unmet_et(xx, wateryear, dowy)
+    kill_permanent = False
+    if kill_permanent:
+      for x in self.private_list:
+        for xx in x.district_list:
+          x.find_unmet_et(xx, wateryear, dowy)
+
+
+
+    requester_list = [self.cawelo, self.ID4, self.rosedale]
+    for requester in requester_list:
+      for y in [self.kernriver, self.swpdelta]:
+        next_year_carryover, this_year_carryover = requester.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type)
+      self.buenavista.paper_balance['tableA'] -= requester.projected_supply['kern']
+      self.buenavista.paper_balance['kern'] += requester.projected_supply['kern']
+      requester.paper_balance['tableA'] += requester.projected_supply['kern']
+      requester.paper_balance['kern']  -= requester.projected_supply['kern']
+      for y in [self.kernriver, self.swpdelta]:
+        next_year_carryover, this_year_carryover = requester.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type)
+
+    for y in [self.kernriver, self.swpdelta]:
+      next_year_carryover, this_year_carryover = self.buenavista.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type)
+      
 		
     #reservoir class water balance do not include releases for irrigation/recharge deliveries
 	#update storage based on total contract deliveries each day
@@ -2980,7 +3212,7 @@ class Model():
       for y in self.contract_list:
         #from individual contracts - paper balance, carryover storage, allocations, and deliveries (irrigation) - records daily values
         x.accounting(t, da, m, wateryear,y.name)
-        y.accounting(t, da, m, wateryear, x.deliveries[y.name][wateryear], x.carryover[y.name], x.turnback_pool[y.name], x.deliveries[y.name + '_flood'][wateryear])
+        y.accounting(t, da, m, wateryear, x.deliveries[y.name][wateryear], x.carryover[y.name], x.turnback_pool[y.name], x.deliveries[y.name + '_flood'][wateryear] + x.deliveries[y.name + '_flood_irrigation'][wateryear])
       x.accounting_banking_activity(t, da, m, wateryear)
     for x in self.district_list:
       x.accounting_full(t, wateryear)
@@ -2988,14 +3220,19 @@ class Model():
       for y in self.contract_list:
         x.accounting(t, da, m, wateryear,y.name)
         for xx in x.district_list:
-          y.accounting(t, da, m, wateryear, x.deliveries[xx][y.name][wateryear], x.carryover[xx][y.name], x.turnback_pool[xx][y.name], x.deliveries[xx][y.name + '_flood'][wateryear])
+          y.accounting(t, da, m, wateryear, x.deliveries[xx][y.name][wateryear], x.carryover[xx][y.name], x.turnback_pool[xx][y.name], x.deliveries[xx][y.name + '_flood'][wateryear] + x.deliveries[xx][y.name + '_flood_irrigation'][wateryear])
       x.accounting_banking_activity(t, da, m, wateryear)
+    for x in self.private_list:
+      x.accounting_full(t, wateryear)
+
     for x in self.city_list:
       for y in self.contract_list:
         x.accounting(t, da, m, wateryear, y.name)
         for xx in x.district_list:
-          y.accounting(t, da, m, wateryear, x.deliveries[xx][y.name][wateryear], x.carryover[xx][y.name], x.turnback_pool[xx][y.name], x.deliveries[xx][y.name + '_flood'][wateryear])
+          y.accounting(t, da, m, wateryear, x.deliveries[xx][y.name][wateryear], x.carryover[xx][y.name], x.turnback_pool[xx][y.name], x.deliveries[xx][y.name + '_flood'][wateryear] + x.deliveries[xx][y.name + '_flood_irrigation'][wateryear])
       x.accounting_banking_activity(t, da, m, wateryear)
+    for x in self.city_list:
+      x.accounting_full(t, wateryear)
 	  
     #update individual accounts in groundwater banks
     for w in self.waterbank_list:
@@ -3020,6 +3257,7 @@ class Model():
             new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name)
             y.tot_new_alloc += new_alloc
             y.tot_carryover += carryover
+              
 
         for x in self.private_list:
           total_carryover = 0.0
@@ -3067,7 +3305,10 @@ class Model():
                 y.tot_carryover += x.carryover[xx][y.name]
               y.tot_new_alloc += (total_carryover + x.paper_balance[y.name] - total_carryover_limit)
             else:
-              carryover_frac = (total_carryover + x.paper_balance[y.name])/total_carryover_limit
+              if total_carryover_limit > 0.0:
+                carryover_frac = (total_carryover + x.paper_balance[y.name])/total_carryover_limit
+              else:
+                carryover_frac = 0.0
               for xx in x.district_list:
                 x.carryover[xx][y.name] = carryover_frac*x.contract_carryover_list[xx][y.name]
 
@@ -3078,11 +3319,6 @@ class Model():
           current_carryover_storage = self.sanluisstate.S[t] - y.tot_new_alloc - 40.0
           fudge_factor = current_carryover_storage/y.tot_carryover
           y.tot_carryover = self.sanluisstate.S[t] - y.tot_new_alloc - 40.0
-          #print(current_carryover_storage, end = " ")
-          #print(fudge_factor, end = " ")
-          #print(self.sanluisstate.S[t], end = " ")
-          #print(y.tot_new_alloc, end = " ")
-          #print(y.tot_carryover)
           sum_carryover = 0.0
           for x in self.district_list:
             x.carryover[y.name] = x.carryover[y.name]*fudge_factor
@@ -3248,14 +3484,14 @@ class Model():
 
 
         expected_pumping[key]['taxed'][monthloop] = max_pump[key]*daysmonth
-        expected_pumping[key]['untaxed'][monthloop] = min(max(proj_surplus[key][monthloop],total_tax_free), max_pump[key]*daysmonth)
-        expected_pumping[key]['gains'][monthloop] = min(proj_surplus[key][monthloop], max_pump[key]*daysmonth)
+        expected_pumping[key]['untaxed'][monthloop] = min(max(proj_surplus[key][monthloop] + flood_release[key]*daysmonth,total_tax_free), max_pump[key]*daysmonth)
+        expected_pumping[key]['gains'][monthloop] = min(proj_surplus[key][monthloop] + flood_release[key]*daysmonth, max_pump[key]*daysmonth)
 
     return expected_pumping
 
 
 	
-  def find_pumping_release(self, start_storage, pump_max, month_demand, month_demand_must_fill, allocation, expected_pumping, flood_supply, available_storage, projected_carryover, current_carryover, max_tax_free, wyt, t, key):
+  def find_pumping_release(self, start_storage, pump_max, month_demand, month_demand_must_fill, allocation, expected_pumping, flood_supply, available_storage, flood_storage, projected_carryover, current_carryover, max_tax_free, wyt, t, key):
     ##this function is used by the swpdelta & cvpdelta contracts to manage san luis reservoir storage
 	##and coordinate pumping at the delta
     ##state and federal storage portions managed seperately
@@ -3272,8 +3508,8 @@ class Model():
     #expected_demands = (month_demand[wyt][month_evaluate]*allocation + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year][month_evaluate]
     expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year][month_evaluate]
     expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[year][month_evaluate]
-    expected_untaxed = (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
-    expected_taxed = (expected_pumping['taxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
+    expected_untaxed = (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])*(1.0 - da/self.days_in_month[year][month_evaluate])
+    expected_taxed = (expected_pumping['taxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])*(1.0 - da/self.days_in_month[year][month_evaluate])
 
 	#how much 'unstored' pumping can we expect into San Luis?
     #self.month_averages comes from self.predict_delta_gains
@@ -3337,6 +3573,9 @@ class Model():
         article21 = max(0.0, article21)
         #if expected storage is less than 0 in any month, pump at max, no article 21
         if (next_month_storage + expected_untaxed) > 1020.0:
+          if net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate]) > 0.0:
+            partial_month_remaining = max(1 - max(next_month_storage + expected_untaxed - 1020.0, 0.0)/(net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])), 0.0)*self.days_in_month[year+cross_counter_y][month_evaluate]
+
           numdays_fillup = min(numdays_fillup,total_days_remaining + partial_month_remaining)
           if cross_counter_wy == 1:
             numdays_fillup_next_year = min(numdays_fillup_next_year, total_days_remaining + partial_month_remaining)
@@ -3347,7 +3586,7 @@ class Model():
           tax_free_toggle = min(0, tax_free_toggle)
         elif next_month_storage + expected_taxed > 1020.0:
           pumping_toggle = min(0, pumping_toggle)
-          tax_free_toggle = min(1, tax_free_toggle)
+          tax_free_toggle = min(0, tax_free_toggle)
         else:
           pumping_toggle = min(1, pumping_toggle)
           tax_free_toggle = min(1, tax_free_toggle)
@@ -3360,8 +3599,6 @@ class Model():
         if cross_counter_wy == 1:
           numdays_fillup_next_year = min(numdays_fillup_next_year, total_days_remaining + partial_month_remaining)
 		
-
-
 	  ##note - beginning month = m; looped month = month_evaluate
 		   		   
       ##After we calculate what the pumping for SL based off projections from this month, we step the month
@@ -3381,13 +3618,15 @@ class Model():
       if m == 7 or m == 8 or m == 9:
         tax_free_toggle_override = 1
       if month_evaluate == 9:
+        expected_untaxed = max(expected_untaxed + min(next_month_storage, 0.0), 0.0)
+        available_storage += min(next_month_storage, 0.0)
         if m < 4 or m > 9 or key == 'cvp':
           next_month_storage = max(next_month_storage, 0.0)
         else:
-          next_month_storage = max(next_month_storage, projected_carryover)
-        expected_untaxed = 0.0
+          next_month_storage = max(next_month_storage, 0.0)
         carryover_adjust = projected_carryover
         cross_counter_wy = 1
+
       expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year+cross_counter_y][month_evaluate]
       expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[year+cross_counter_y][month_evaluate]
       expected_untaxed += (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
@@ -3416,26 +3655,23 @@ class Model():
     projected_allocation = {}
     projected_allocation['swp'] = total_delta_pumping
     projected_allocation['cvp'] = projected_allocation_cvp
-    if dowy == 1:
-      self.year_demand_error = np.random.randint(0,19)
-    for x in urban_list:
-      if x.has_private:
-        if x.has_pesticide:
-          frac_to_district = 1.0 - x.private_fraction[wateryear]
-        else:
-          frac_to_district = 1.0 - x.private_fraction
-      else:
-        frac_to_district = 1.0
+    if dowy == 0:
+      for x in range(0, len(self.socal.hist_demand_dict['annual_sorted'][dowy])):
+        if total_delta_pumping < self.socal.hist_demand_dict['annual_sorted'][dowy][x]:
+          break
+      self.k_close_wateryear = np.random.randint(0, len(self.socal.hist_demand_dict['sorted_index'][dowy]))
 
-      sri_estimate = (sri*x.delivery_percent_coefficient[dowy][0] + x.delivery_percent_coefficient[dowy][1] - x.regression_errors[dowy][self.year_demand_error])*total_delta_pumping*frac_to_district
+    for x in urban_list:
+      #sri_estimate = (total_delta_pumping*x.delivery_percent_coefficient[dowy][0] + x.delivery_percent_coefficient[dowy][1] - x.regression_errors[dowy][self.k_close_wateryear])*total_delta_pumping
+      sri_estimate = (total_delta_pumping*x.delivery_percent_coefficient[dowy][0] + x.delivery_percent_coefficient[dowy][1])*total_delta_pumping
       x.annualdemand = max(sri_estimate - x.ytd_pumping[wateryear], 0.0)
     for x in self.city_list:
       for district in x.district_list:
-        sri_estimate = (sri*x.delivery_percent_coefficient[district][dowy][0] + x.delivery_percent_coefficient[district][dowy][1] - x.regression_errors[district][dowy][self.year_demand_error])*total_delta_pumping
+        #sri_estimate = (total_delta_pumping*x.delivery_percent_coefficient[district][dowy][0] + x.delivery_percent_coefficient[district][dowy][1] - x.regression_errors[district][dowy][self.k_close_wateryear])*total_delta_pumping
+        sri_estimate = (total_delta_pumping*x.delivery_percent_coefficient[district][dowy][0] + x.delivery_percent_coefficient[district][dowy][1])*total_delta_pumping
         x.annualdemand[district] = max(sri_estimate - x.ytd_pumping[district][wateryear], 1.0)
 
     if da == 1:
-      self.k_close_wateryear = {}
     
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         for y in urban_list:
@@ -3448,73 +3684,72 @@ class Model():
             y.monthlydemand[yy][wyt] = np.zeros(12)
 
 
-      for key in ['swp', 'cvp']:
-        for x in range(0, len(self.socal.hist_demand_dict[key]['annual_sorted'])):
-          if projected_allocation[key] < self.socal.hist_demand_dict[key]['annual_sorted'][x]:
-            break
-        self.k_close_wateryear[key] = self.socal.hist_demand_dict[key]['sorted_index'][x]
-        start_of_month = 0
-	    ###Divide aqueduct branch pumping into 'monthly demands'
-        for monthloop in range(0,12):
-          monthcounter = monthloop + 9
-          if monthcounter > 11:
-            monthcounter -= 12
-          if monthcounter < m-1:
-            cross_counter_y = 1
-          else:
-            cross_counter_y = 0
-          start_next_month = self.dowy_eom[year+cross_counter_y][monthcounter] + 1
-          for wyt in ['W', 'AN', 'BN', 'D', 'C']:
-            for y in urban_list:
-              if y.has_private:
-                if y.has_pesticide:
-                  frac_to_district = 1.0 - y.private_fraction[wateryear]
-                else:
-                  frac_to_district = 1.0 - y.private_fraction
-              else:
-                frac_to_district = 1.0
-              sri_estimate = (sri*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.year_demand_error])*total_delta_pumping*frac_to_district
-              y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][start_of_month:start_next_month])*max(sri_estimate, 0.0)
-            for y in self.city_list:
-              for districts in y.district_list:
-                  district_object = self.district_keys[districts]
-                  sri_estimate = (sri*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.year_demand_error])*total_delta_pumping
-                  y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][start_of_month:start_next_month])*max(sri_estimate, 0.0)
-          start_of_month = start_next_month
+      start_of_month = 0
+      ###Divide aqueduct branch pumping into 'monthly demands'
+      for monthloop in range(0,12):
+        monthcounter = monthloop + 9
+        if monthcounter > 11:
+          monthcounter -= 12
+        if monthcounter < m-1:
+          cross_counter_y = 1
+        else:
+          cross_counter_y = 0
+        start_next_month = self.dowy_eom[year+cross_counter_y][monthcounter] + 1
+        for wyt in ['W', 'AN', 'BN', 'D', 'C']:
+          for y in urban_list:
+            #sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.k_close_wateryear])*total_delta_pumping
+            sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1])*total_delta_pumping
+            #if monthcounter >= 9:
+              #if wateryear > 0:
+                #y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(y.ytd_pumping[wateryear-1], 0.0)
+              #else:
+                #y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(y.initial_pumping, 0.0)
+            #else:
+            y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(sri_estimate - y.ytd_pumping[wateryear], 0.0)
+          for y in self.city_list:
+            for districts in y.district_list:
+                district_object = self.district_keys[districts]
+                #sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.k_close_wateryear])*total_delta_pumping
+                sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1])*total_delta_pumping
+              #if monthcounter >= 9:
+                #if wateryear > 0:
+                  #y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(y.ytd_pumping[districts][wateryear-1], 0.0)
+                #else:
+                  #y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])max(y.initial_pumping[districts], 0.0)
+              #else:
+                y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(sri_estimate - y.ytd_pumping[districts][wateryear], 0.0)
 
+        start_of_month = start_next_month
 
     for y in urban_list:
       y.dailydemand = 0.0
-      if y.has_private:
-        if y.has_pesticide:
-          frac_to_district = 1.0 - y.private_fraction[wateryear]
-        else:
-          frac_to_district = 1.0 - y.private_fraction
-      else:
-        frac_to_district = 1.0
 
-      for key in ['swp', 'cvp']:
-        sri_estimate = (sri*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.year_demand_error])*total_delta_pumping*frac_to_district
-        y.dailydemand += max(sri_estimate, 0.0)*y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]*frac_to_district
-        y.dailydemand_start += max(sri_estimate, 0.0)*total_delta_pumping*frac_to_district*y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]*frac_to_district
-        #print(sri_estimate, end = " ")
-        #print(y.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy], end = " ")
-        #print(frac_to_district, end = " ")
-        #print(sri, end = " ")
-        #print(y.dailydemand, end = " ")
-        #print(total_delta_pumping, end = " ")
+      #sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.k_close_wateryear])*total_delta_pumping
+      sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1])*total_delta_pumping
+      #if monthcounter >= 9:
+        #if wateryear > 0:
+          #y.dailydemand += max(y.ytd_pumping[wateryear-1], 0.0)*y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+          #y.dailydemand_start += max(y.ytd_pumping[wateryear-1], 0.0)*y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+        #else:
+          #y.dailydemand += max(y.initial_pumping, 0.0)*y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+          #y.dailydemand_start += max(y.initial_pumping, 0.0)*y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+      #else:
+      y.dailydemand += max(sri_estimate - y.ytd_pumping[wateryear], 0.0)*y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+      y.dailydemand_start += max(sri_estimate - y.ytd_pumping[wateryear], 0.0)*y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+
       y.ytd_pumping[wateryear] += y.dailydemand
-      #print(y.ytd_pumping[wateryear])
 
     for y in self.city_list:
       for districts in y.district_list:
         y.dailydemand[districts] = 0.0
         district_object = self.district_keys[districts]
-        sri_estimate = (sri*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.year_demand_error])*total_delta_pumping
-        for key in ['swp', 'cvp']:
-          y.dailydemand[districts] += max(sri_estimate, 0.0)*district_object.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]
-          y.dailydemand_start[districts] += max(sri_estimate, 0.0)*district_object.hist_demand_dict[key]['daily_fractions'][self.k_close_wateryear[key]][dowy]
+        #sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.k_close_wateryear])*total_delta_pumping
+        sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1])*total_delta_pumping
+        y.dailydemand[districts] += max(sri_estimate- y.ytd_pumping[districts][wateryear], 0.0)*district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+        y.dailydemand_start[districts] += max(sri_estimate -y.ytd_pumping[districts][wateryear], 0.0)*district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
         y.ytd_pumping[districts][wateryear] += y.dailydemand[districts]
+    
+
 
   def agg_contract_demands(self, year, m, wyt_real):
   #this function sums district demands by reservoir (i.e. - for each reservoir, the sum of the demand of all districts
@@ -3736,8 +3971,8 @@ class Model():
           w.monthusecounter = 0
           w.recharge_rate = w.initial_recharge*cfs_tafd
       w.thismonthuse = 0
-      if m == 10:
-        w.recharge_rate = w.initial_recharge*cfs_tafd
+      #if m == 10:
+        #w.recharge_rate = w.initial_recharge*cfs_tafd
 	  ###distribute this recharge capacity among districts (based on ownership share)
       for member in w.participant_list:
         num_districts = len(self.get_iterable(self.district_keys[member]))
@@ -3761,14 +3996,21 @@ class Model():
               if irr_district.reservoir_contract[res.key] == 1:
                 res.max_direct_recharge[m_counter] += w.ownership[member]*w.recharge_rate*decline_coef/num_districts
 			
-  def find_leiu_exchange(self, wateryear):
+  def find_leiu_exchange(self, wateryear, dowy):
     for w in self.leiu_list:
       for xx in w.participant_list:
         participant_object = self.district_keys[xx]
         for y in w.contract_list:
           for yy in participant_object.contract_list:
             if yy == y:
-              participant_object.max_leiu_exchange += max(min(w.leiu_ownership[xx]*min(w.projected_supply[y], w.current_balance[y]), w.leiu_ownership[xx]*(w.projected_supply[y] + w.paper_balance[y]) - w.contract_exchange[xx][wateryear]), 0.0)
+              if dowy < 180:
+                contract_trade = self.contract_keys[y]
+                if contract_trade.type == 'right':
+                  participant_object.max_leiu_exchange += max(w.rights[y]['capacity'] * contract_trade.total * w.leiu_ownership[xx], 0.0)
+                else:
+                  participant_object.max_leiu_exchange += max(w.project_contract[y] * contract_trade.total * w.leiu_ownership[xx], 0.0)
+              else:
+                participant_object.max_leiu_exchange += max(w.projected_supply[y] * w.leiu_ownership[xx], 0.0)
 			  
   def find_recharge_leiu(self,m,wyt):
   
@@ -3808,7 +4050,8 @@ class Model():
             irr_district.max_direct_recharge[0] += w.leiu_ownership[member]*w.recharge_rate/num_districts
           #current in leiu recharge (based on irrigation demands of the in-leiu bank)
             if w.inleiubanked[member] < w.inleiucap[member]:
-              irr_district.max_leiu_recharge[0] += w.leiu_ownership[member]*w.monthlydemand[wyt][m-1]/num_districts
+              irr_district.max_leiu_recharge[0] += w.leiu_ownership[member]*w.monthlydemand[wyt][m-1]*(1.0 - min(bank_total_supply/w.annualdemand, 1.0))/num_districts
+
             for res in self.reservoir_list:
               if irr_district.reservoir_contract[res.key] == 1:
                 if w.inleiubanked[member] < w.inleiucap[member]:
@@ -3830,7 +4073,7 @@ class Model():
               irr_district.max_direct_recharge[m_counter] += w.leiu_ownership[member]*w.recharge_rate*decline_coef/num_districts
               #future (12 months) in leiu recharge
               if w.inleiubanked[member] < w.inleiucap[member]:
-                irr_district.max_leiu_recharge[m_counter] += w.leiu_ownership[member]*w.monthlydemand[wyt][future_month]/num_districts
+                irr_district.max_leiu_recharge[m_counter] += w.leiu_ownership[member]*w.monthlydemand[wyt][future_month]*(1.0 - min(bank_total_supply/w.annualdemand, 1.0))/num_districts
               for res in self.reservoir_list:
                 if irr_district.reservoir_contract[res.key] == 1:
                   if w.inleiubanked[member] < w.inleiucap[member]:
@@ -3929,14 +4172,7 @@ class Model():
         flood_available_overflow = reservoir.min_daily_overflow + max((reservoir.monthly_demand_full[wyt][m-1] + reservoir.monthly_demand_must_fill[wyt][m-1])/31.0 - existing_flow, 0.0)    #if reservoir.fcr < reservoir.flood_flow_min:
       else:
         flood_available_overflow = 0.0
-      #overflow_toggle = 0	
-    #print(reservoir.key, end = " ")
-    #print(flood_available, end = " ")
-    #print(reservoir.fcr, end = " ")
-    #print(reservoir.flood_flow_min, end = " ")
-    #print(reservoir.min_daily_uncontrolled, end = " ")
-    #print(reservoir.monthly_demand[wyt][m-1], end = " ")
-    #print(reservoir.monthly_demand_must_fill[wyt][m-1], end = " ")
+
 
     if flood_available > 0.0:
       delivery_key = reservoir.key + "_flood"		
@@ -3971,7 +4207,8 @@ class Model():
         non_overflow_demand += min(flood_demand['contractor'][canal_counter] + flood_demand['alternate'][canal_counter], canal_cap[canal_counter])
         canal_counter += 1
       if overflow_toggle == 1:
-        flood_available = max(min(flood_available, non_overflow_demand), flood_available_overflow)
+        flood_available = max(min(flood_available, non_overflow_demand), min(flood_available_overflow, flood_available))
+
 
       canal_counter = 0
       for z in self.reservoir_canal[reservoir.key]:
@@ -4019,16 +4256,18 @@ class Model():
         canal_size = len(self.canal_district[z.name])
         if flood_deliveries > 0.0:
           excess_flows, unmet_demands = self.distribute_canal_deliveries(dowy, z, begin_key, z.name, flood_deliveries, canal_size, wateryear, 'normal', flow_type, 'flood')
+          
         else:
           excess_flows = 0.0
         canal_counter += 1
         total_flood_deliveries += flood_deliveries
         total_excess_flow += excess_flows
-      #print()
       #if all deliveries cannot be taken, then only need to 'spill' from the 
       #reservoir what was actually delivered (unless over the flood pool - then spill into channel (not tracked)
       total_spill = max(total_flood_deliveries - total_excess_flow, reservoir.fcr)
-		
+      reservoir.flood_spill[t] += total_spill - total_flood_deliveries + total_excess_flow
+      reservoir.flood_deliveries[t] = total_flood_deliveries - total_excess_flow
+
       #if water is spilled, it has to be taken from existing carryover or from estimates
       #of that year's contract (b/c flood releases do not count as contract deliveries, but that
       #water is still used to estimate water availability for contract allocations)
@@ -4070,10 +4309,10 @@ class Model():
       if self.calaqueduct.turnout_use[19] > 0.0:
         self.kwbcanal.locked = 1
 
-      self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "normal", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      self.kerncanal.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      if self.kerncanal.turnout_use[4] > 0.0:
-        self.kwbcanal.locked = 1
+      #self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[5], "reverse", "normal", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      #self.kerncanal.find_bi_directional(self.kerncanal.turnout_use[5], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      #if self.kerncanal.turnout_use[5] > 0.0:
+        #self.kwbcanal.locked = 1
 
     elif flow_type == "recovery":
       self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[18], "reverse", "reverse", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
@@ -4100,10 +4339,10 @@ class Model():
       if self.calaqueduct.turnout_use[19] > 0.0:
         self.kwbcanal.locked = 1
 
-      self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      self.kerncanal.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      if self.kerncanal.turnout_use[4] > 0.0:
-        self.kwbcanal.locked = 1
+      #self.calaqueduct.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      #self.kerncanal.find_bi_directional(self.kerncanal.turnout_use[4], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
+      #if self.kerncanal.turnout_use[5] > 0.0:
+        #self.kwbcanal.locked = 1
 
 	  
   def set_canal_range(self, flow_dir, flow_type, canal, prev_canal, canal_size):
@@ -4247,7 +4486,6 @@ class Model():
         type_fractions[zz] = 0.0
       available_capacity_int -= type_demands[zz]*type_fractions[zz]
 
-
     #canal priority
     priority_list = self.get_iterable(self.canal_priority[canal.name])
     #contracts on this canal
@@ -4309,7 +4547,7 @@ class Model():
 
         canal_fractions = canal.find_priority_fractions(demand_constraint, type_fractions, type_list, canal_loc, flow_dir)
         #if a district is an in-leiu bank, partners can send water to this district for banking recharge
-        if (x.in_leiu_banking and search_type == "banking") or (x.in_leiu_banking and search_type == "recovery") or (x.in_leiu_banking and search_type == "flood"):
+        if (x.in_leiu_banking and search_type == "banking") or (x.in_leiu_banking and search_type == "recovery"):
           for xx in x.participant_list:
             for wb_member in self.get_iterable(self.district_keys[xx]):
               num_members = len(self.get_iterable(self.district_keys[xx]))
@@ -4331,30 +4569,6 @@ class Model():
               #adjust accounts for overall contracts and invididual districts
               delivery_by_contract = wb_member.adjust_accounts(direct_deliveries, recharge_deliveries,contract_list, search_type, wateryear)
               x.adjust_bank_accounts(xx, direct_deliveries, recharge_deliveries, wateryear)
-              #if x.key == "ARV" or x.key == "SMI":
-                #if search_type == 'banking' or search_type == 'flood' or search_type == 'recovery':
-                  #print(wateryear, end = " ")
-                  #print(x.key, end = " ")
-                  #print(xx, end = " ")
-                  #print(search_type, end = " ")
-                  #print("%.2f" % x.dailydemand, end = " ")
-                  #print("%.2f" % x.dailydemand_start, end = " ")
-                  #print("%.2f" % demand_constraint, end = " ")
-                  #print("%.2f" % priority_bank_space, end = " ")
-                  #print("%.2f" % deliveries, end = " ")
-                  #print("%.2f" % x.inleiubanked[xx], end = " ")
-                  #print("%.2f" % x.inleiucap[xx], end = " ")
-                  #for zz in type_list:
-                    #print("%.2f" % priorities[zz], end = " ")
-                    #print("%.2f" % canal.turnout_frac[zz][canal_loc], end = " ")
-                    #print("%.2f" % priority_turnout_adjusted[zz], end = " ")
-                    #print("%.2f" % type_fractions[zz], end = " ")
-                  #print("%.2f" % actual_deliveries, end =  " ")
-                  #print("%.2f" % location_delivery, end = " ")
-                  #print("%.2f" % available_flow, end = " ")
-                  #for y in delivery_by_contract:
-                    #print(delivery_by_contract[y], end = " ")
-                  #print()
               for y in delivery_by_contract:
                 contract_object = self.contract_keys[y]
                 contract_object.adjust_accounts(delivery_by_contract[y], search_type, wateryear)
@@ -4493,11 +4707,11 @@ class Model():
 
         canal.find_turnout_adjustment(turnout_available, flow_dir, canal_loc, type_list)
       #record flow and turnout on each canal, check for capacity turnback at the next node
-      available_flow, turnback_flow, turnback_end = canal.update_canal_use(available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list)
-      
+      available_flow, turnback_flow, turnback_end, remaining_excess_flow = canal.update_canal_use(available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list)
+      excess_flow += remaining_excess_flow
       #if there is more demand/available water than canal capacity at the next canal node, the 'extra' water (that was expected to be delivered down-canal in earlier calculations) can be distributed among upstream nodes if there is remaining demand
       type_demands[zz] -= canal.demand[zz][canal_loc]
-		
+
       if turnback_flow > 0.001:
         remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type)
         excess_flow += remaining_excess_flow
@@ -4605,13 +4819,6 @@ class Model():
           demand_constraint = x.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge)
         self.find_node_demand_district(x, canal, canal_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge)
         canal.find_turnout_adjustment(demand_constraint, flow_dir, canal_loc, type_list)
-#        if search_type == 'recovery':
-          #print(canal.name, end = " ")
-          #print(x.key, end = " ")
-          #print(canal_loc, end = " ")
-          #for zz in type_list:
-            #print(canal.demand[zz][canal_loc], end = " ")
-          #print()
 
       elif isinstance(x, Waterbank):
         self.find_node_demand_bank(x, canal, canal_loc, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list)
@@ -4626,15 +4833,8 @@ class Model():
           for xx in x.participant_list:
             current_storage += x.storage[xx]
           demand_constraint = x.tot_storage - current_storage
-        canal.find_turnout_adjustment(demand_constraint, flow_dir, canal_loc, type_list)
-        #if search_type == 'recovery':
-          #print(canal.name, end = " ")
-          #print(x.key, end = " ")
-          #print(canal_loc, end = " ")
-          #for zz in type_list:
-            #print(canal.demand[zz][canal_loc], end = " ")
-          #print()
-		
+          self.find_node_demand_bank(x, canal, canal_loc, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list)
+        canal.find_turnout_adjustment(demand_constraint, flow_dir, canal_loc, type_list)		
       elif isinstance(x, Canal):
         #find if the new canal can be accessed from the current canal
         if canal.turnout[flow_dir][canal_loc] > 0.0:
@@ -4662,14 +4862,6 @@ class Model():
         else:
           for zz in type_list:
             canal.demand[zz][canal_loc] = 0.0	
-
-        #if search_type == 'recovery':
-          #print(canal.name, end = " ")
-          #print(x.key, end = " ")
-          #print(canal_loc, end = " ")
-          #for zz in type_list:
-            #print(canal.demand[zz][canal_loc], end = " ")
-          #print()
       #sum demand at all canal nodes
       for zz in type_list:
         type_deliveries[zz] += canal.demand[zz][canal_loc]
@@ -4741,13 +4933,6 @@ class Model():
               paper_fractions[zz] = 0.0
               committed += min(paper_recovery - committed, type_deliveries[zz])
           location_delivery = 0.0
-            #if x.key == "SOC":
-              #print(total_district_demand, end = " ")
-              #print(total_available, end = " ")
-              #print(paper_recovery, end = " ")
-              #print(direct_recovery, end = " ")
-              #print(max_flow, end = " ")
-              #print(committed)
           if committed > 0.0:
             if flow_dir == "normal":
               lookback_range = range(starting_point, canal_loc + 1)
@@ -4755,8 +4940,6 @@ class Model():
                 lookback_range = range(starting_point, canal_loc - 1, -1)
               #search for waterbanks
             location_delivery, total_paper = self.delivery_recovery(contract_list, canal, lookback_range, starting_point, paper_fractions, direct_recovery, flow_dir, type_list, priority_list, contract_canal, x.key, dowy, wateryear)
-            #if x.key == "SOC":
-              #print(location_delivery, end = " ")
             paper_delivery = x.give_paper_trade(total_paper, contract_list, wateryear, x.key)
             location_delivery -= paper_delivery
             total_paper -= paper_delivery
@@ -4770,30 +4953,12 @@ class Model():
 					  
             location_delivery -= x.record_direct_delivery(location_delivery, wateryear)
 
-            #if x.key == "SOC":
-              #print(location_delivery, end = " ")
             if x.has_private:
               for city_pump in self.city_list:
                 for yy in city_pump.district_list:
                   if yy == x.key:
                     location_delivery -= city_pump.record_direct_delivery(location_delivery, wateryear, x.key)
-                      #if x.key == "SOC":
-                        #print(location_delivery, end = " ")
-
-              #if x.key == "SOC":
-                #print(location_delivery, end = " ")
-
-              #if x.has_private:
-                #for city_pump in self.city_list:
-                  #for yy in city_pump.district_list:
-                    #if yy == x.key:
-                      #location_delivery -= city_pump.give_paper_trade(location_delivery, contract_list, wateryear, x.key)		
-                      #if x.key == "SOC":
-                        #print(location_delivery, end = " ")
-            #if x.key == "SOC":
-              #print(location_delivery)
 		  
-
 	#once all canal nodes have been searched, we can check to make sure the demands aren't bigger than the canal capacity, then adjust our demands	
     #type_deliveries = canal.capacity_adjust_demand(starting_point, canal_range, flow_dir, type_list)
     if search_type == 'recovery':
@@ -4889,25 +5054,6 @@ class Model():
                     wb_member.get_paper_trade(paper_amount, contract_list, wateryear)
                     total_paper += paper_amount
 
-              #if recovery_source.key == "ARV":
-                #print(wateryear, end = " ")
-                #print(xx, end = " ")
-                #print(search_type, end = " ")
-                #print("%.2f" % demand_constraint, end = " ")
-                #print("%.2f" % priority_bank_space, end = " ")
-                #print("%.2f" % deliveries, end = " ")
-                #print("%.2f" % recovery_source.inleiubanked[xx], end = " ")
-                #print("%.2f" % recovery_source.inleiucap[xx], end = " ")
-                #for zz in type_list:
-                  #print("%.2f" % priorities[zz], end = " ")
-                  #print("%.2f" % canal.turnout_frac[zz][lookback_loc], end = " ")
-                  #print("%.2f" % priority_turnout_adjusted[zz], end = " ")
-                #print("%.2f" % actual_delivery, end =  " ")
-                #print("%.2f" % location_pumpout, end = " ")
-                #print("%.2f" % available_flow, end = " ")
-                #print("%.2f" % actual_delivery, end = " ")
-                #print("%.2f" % direct_recovery)
-
 
           #recalculate the 'recovery demand' at each waterbank		  
           demand_constraint = recovery_source.find_node_output()
@@ -4994,7 +5140,7 @@ class Model():
     for zz in type_list:
       canal.demand[zz][canal_loc] = 0.0
     #if a district is an in-leiu bank, partners can send water to this district for banking recharge
-    if (district_node.in_leiu_banking and search_type == "banking") or (district_node.in_leiu_banking and search_type == "recovery") or (district_node.in_leiu_banking and search_type == "flood"):
+    if (district_node.in_leiu_banking and search_type == "banking") or (district_node.in_leiu_banking and search_type == "recovery"):
       for xx in district_node.participant_list:
         for wb_member in self.get_iterable(self.district_keys[xx]):
           num_members = len(self.get_iterable(self.district_keys[xx]))
@@ -5010,7 +5156,6 @@ class Model():
           #can't purchase more than the turnout capacity
 
     else:
-      #find if district wants to purchase this type of flow
       deliveries =  district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)
       #find what priority district has for flow purchases
       priorities = district_node.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, demand_constraint, search_type, contract_canal)
@@ -5113,6 +5258,11 @@ class Model():
     self.westkern.project_contract['tableA'] = 0.00776587
     self.berrenda.project_contract['tableA'] =  0.02282922
     self.socal.project_contract['tableA'] = 0.648310
+    for xnum in range(0, self.number_years):
+      self.metropolitan.private_fraction['SOC'][xnum] = 1911.0/(4056.0 * 0.648310)
+      self.metropolitan.pump_out_fraction['SOC'] = 1911.0/(4056.0 * 0.648310)
+    self.socal.private_fraction =  (1911.0 + (0.03629 + 0.05274) * 4056.0) / (4056.0 * 0.648310)
+
     self.kwbcanal.capacity["normal"] = [800.0, 800.0, 0.0, 0.0]
     self.kwbcanal.capacity["reverse"] = [0.0, 440.0, 800.0, 800.0]
     self.kwbcanal.capacity["closed"] = [0.0, 0.0, 0.0, 0.0]
@@ -5223,9 +5373,12 @@ class Model():
       self.irvineranch.initial_recharge = 300.0
       self.irvineranch.recovery = 0.0479
       self.irvineranch.tot_storage = 0.594
-    if self.starting_year >= 998:
+    if self.starting_year >= 1998:
       self.berrenda.project_contract['tableA'] =  0.032076
       self.socal.project_contract['tableA'] = 0.63338264299
+      for xnum in range(0, self.number_years):
+        self.metropolitan.private_fraction['SOC'][xnum] = 1911.0/(4056.0 * 0.63338264299)
+      self.socal.private_fraction =  (1911.0 + (0.03629 + 0.05274) * 4056.0) / (4056.0 * 0.63338264299)
     if self.starting_year >= 1999:
       self.belridge.project_contract['tableA'] = 0.03636
     if self.starting_year >= 2000:
@@ -5235,6 +5388,10 @@ class Model():
       self.losthills.project_contract['tableA'] = 0.0293663708
       self.wheeler.project_contract['tableA'] =  0.04858926015
       self.socal.project_contract['tableA'] = 0.64423076923
+      for xnum in range(0, self.number_years):
+        self.metropolitan.private_fraction['SOC'][xnum] = 1911.0/(4056.0 * 0.64423076923)
+      self.socal.private_fraction =  (1911.0 + (0.03629 + 0.05274) * 4056.0) / (4056.0 * 0.64423076923)
+
     if self.starting_year >= 2001:
       self.southbay.project_contract['tableA'] = 0.05424063116
       self.belridge.project_contract['tableA'] = 0.0305
@@ -5247,6 +5404,10 @@ class Model():
     if self.starting_year >= 2010:
       self.berrenda.project_contract['tableA'] =  0.02282922
       self.socal.project_contract['tableA'] = 0.648310
+      for xnum in range(0, self.number_years):
+        self.metropolitan.private_fraction['SOC'][xnum] = 1911.0/(4056.0 * 0.648310)
+      self.socal.private_fraction =  (1911.0 + (0.03629 + 0.05274) * 4056.0) / (4056.0 * 0.648310)
+
     if self.starting_year >= 2002:
       self.kwbcanal.capacity["normal"] = [800.0, 800.0, 0.0, 0.0]
       self.kwbcanal.capacity["reverse"] = [0.0, 440.0, 800.0, 800.0]
@@ -5426,6 +5587,7 @@ class Model():
       self.kwb.initial_recharge = 1212.12
       self.kwb.recovery = 0.7863
       self.kwb.tot_storage = 2.4
+      self.init_tot_recovery()
       self.kerndelta.in_district_direct_recharge = 165.0
       self.kerndelta.in_district_storage = 0.326
       self.buenavista.in_district_direct_recharge = 333.3
@@ -5577,7 +5739,6 @@ class Model():
         daysmonth = self.days_in_month[year + 1][x]
       proj_surplus[x] = max(self.delta_gains_regression['slope'][dowy][x]*min(tot_sac_fnf,4.0) + self.delta_gains_regression['intercept'][dowy][x], 0.0)
       proj_omr[x] = (self.delta.omr_regression['slope'][dowy][x]*tot_sj_fnf + self.delta.omr_regression['intercept'][dowy][x] + 5000.0*cfs_tafd*daysmonth)/0.94
-	  
     expected_pumping = {}
     expected_pumping['cvp'] = np.zeros(12)
     expected_pumping['swp'] = np.zeros(12)
@@ -5598,7 +5759,7 @@ class Model():
         expected_pumping['cvp'][monthloop] = proj_surplus[monthloop]*0.55
         expected_pumping['swp'][monthloop] = proj_surplus[monthloop]*0.45
 		
-      if monthloop < 6:
+      if monthloop < 6 and year + self.starting_year > self.delta.omr_rule_start:
         if proj_omr[monthloop]*0.5 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth:
           max_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth
           max_pumping['swp'][monthloop] = min(self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*daysmonth, proj_omr[monthloop] - self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth)

@@ -88,7 +88,7 @@ class Delta():
       else:
         self.omr_record_start = self.T + 1
 
-      self.omr_rule_start = 2007
+      self.omr_rule_start = 2006
       self.vamp_rule_start = 2009
     else:
       self.omr_record_start = self.T + 1
@@ -105,6 +105,12 @@ class Delta():
 	
     self.swp_allocation = np.zeros(self.T)
     self.cvp_allocation = np.zeros(self.T)
+    self.target_allocation = {}
+    self.target_allocation['swp'] = 9999999.9
+    self.target_allocation['cvp'] = 9999999.9
+
+    self.uncontrolled_swp = np.zeros(self.T)
+    self.uncontrolled_cvp = np.zeros(self.T)
     self.annual_HRO_pump = np.zeros(self.number_years)
     self.annual_TRP_pump = np.zeros(self.number_years)
     self.remaining_tax_free_storage = {}
@@ -559,7 +565,7 @@ class Delta():
 	  
     return main_sodd, secondary_sodd
 	
-  def calc_flow_bounds(self, t, cvp_max, swp_max, cvp_max_alt, swp_max_alt, cvp_release, swp_release, cvp_AS, swp_AS, cvp_flood, swp_flood, swp_over_dead_pool, cvp_over_dead_pool, swp_flood_volume, cvp_flood_volume):
+  def calc_flow_bounds(self, t, cvp_max, swp_max, cvp_max_alt, swp_max_alt, cvp_release, swp_release, cvp_AS, swp_AS, cvp_flood, swp_flood, swp_over_dead_pool, cvp_over_dead_pool, swp_flood_volume, cvp_flood_volume, swp_fillup, cvp_fillup):
     ### stored and unstored flow agreement between SWP & CVP
 	### project releases for pumping must consider the I/E 'tax'
 	### releases already made (environmental flows, delta outflows) and downstream gains can be credited against this tax, but
@@ -588,6 +594,7 @@ class Delta():
     unstored_flows = self.total_inflow
     available_unstored = unstored_flows + self.depletions[t] - min_rule
 	
+    
     #total volume that can be exported w/o additional inflows, based on delta required outflows & the E/I ratio (i.e., if enough inflow is coming into the delta to meet the minimum outflow requirements, how much (additional) inflows can we export before we hit the I/E ratio)
     tax_free_exports = ((1/(1-self.export_ratio[wyt][m-1])) - 1)*(min_rule - self.depletions[t])
     tax_free_exports = min(tax_free_exports, (np.interp(d, self.pump_max['swp']['d'], self.pump_max['swp']['intake_limit']) + np.interp(d, self.pump_max['cvp']['d'], self.pump_max['cvp']['intake_limit']))*cfs_tafd)
@@ -600,16 +607,29 @@ class Delta():
 	  
       #is there room in the state portion of San Luis Reservoir?
       #state water project releases are the same as central valley project, but there is an additional 'saved water' supplement from lake oroville.  The end-of-the-year target at oroville tries to save 50% of the beginning of the year storage over 1MAF - so if there were 1.5 MAF at the beginning of the year, we'd aim for 1.25MAF at teh end of the eyar.  that extra 'saved' water of 0.25MAF can be used in dry and critical years to pump water - as long as its only up to the 'tax
-    if cvp_release > 0:
-      cvp_tax_free_fraction = min(max(cvp_flood_volume/tax_free_available, cvp_AS/tax_free_available, 0.0), 1.0)
+    if t > 0:
+      current_allocation_cvp = self.cvp_allocation[t-1] * 1.0
+      current_allocation_swp = self.swp_allocation[t-1] * 1.0
     else:
-      cvp_tax_free_fraction = min(max(cvp_flood_volume/tax_free_available, 0.0), 1.0)
+      current_allocation_cvp = 0.0
+      current_allocation_swp = 0.0
+
+    if cvp_release > 0:
+      cvp_tax_free_fraction = min(max(cvp_flood_volume/max(cvp_fillup, 1.0), cvp_AS/max(tax_free_available - self.delta_uncontrolled_remaining, 1.0), 0.0), 1.0)
+      cvp_forgone = 0.0
+    else:
+      cvp_tax_free_fraction = min(max(cvp_flood_volume/max(cvp_fillup, 1.0), 0.0), 1.0)
+      #cvp_forgone = max(tax_free_exports * (cvp_AS/max(tax_free_available - self.delta_uncontrolled_remaining, 1.0) - cvp_flood_volume/max(tax_free_available - self.delta_uncontrolled_remaining, 1.0)), 0.0)
+      cvp_forgone = 0.0
 
     if swp_release > 0:
-      swp_tax_free_fraction = min(max(swp_flood_volume/tax_free_available, swp_AS/tax_free_available, swp_over_dead_pool/tax_free_available, 0.0), 1.0)
-    else:
-      swp_tax_free_fraction = min(max(swp_flood_volume/tax_free_available, 0.0), 1.0)
+      swp_tax_free_fraction = min(max(swp_flood_volume/max(swp_fillup, 1.0), swp_AS/max(tax_free_available - self.delta_uncontrolled_remaining, 1.0), swp_over_dead_pool/max(tax_free_available - self.delta_uncontrolled_remaining, 1.0), 0.0), 1.0)
+      swp_forgone = 0.0
 
+    else:
+      swp_tax_free_fraction = min(max(swp_flood_volume/max(swp_fillup, 1.0), 0.0), 1.0)
+      #swp_forgone = max(tax_free_exports * (swp_AS/max(tax_free_available - self.delta_uncontrolled_remaining, 1.0) - swp_flood_volume/max(swp_fillup, 1.0)), 0.0)
+      swp_forgone = 0.0
 
 	#how much of the 'tax-free' pumping space can be used by the CVP?  
     cvp_portion = min(max(cvp_frac*tax_free_exports, tax_free_exports - min(max(swp_tax_free_fraction*tax_free_exports, swp_frac*available_unstored), swp_max_alt)), cvp_tax_free_fraction*tax_free_exports)
@@ -654,7 +674,10 @@ class Delta():
 
 	##need to release the larger of the three requirements
     self.sodd_cvp[t] = max(cvp_releases, cvp_tax)
-    self.sodd_swp[t] = max(swp_releases, swp_tax)    
+    self.sodd_swp[t] = max(swp_releases, swp_tax)
+
+    return swp_forgone, cvp_forgone
+
 		  
   def find_max_pumping(self, d, dowy, t, wyt):
     ##Find max pumping uses the delta pumping rules (from delta_properties) to find the maximum the pumps can
@@ -730,6 +753,7 @@ class Delta():
 	###available storage determined from reservoir class
     storage['swp'] = swpAS
     storage['cvp'] = cvpAS
+    self.delta_uncontrolled_remaining = 0.0
     for project in ['cvp', 'swp']:
       self.remaining_tax_free_storage[project][t] = self.max_tax_free[wyt][project][dowy]
 
@@ -761,6 +785,7 @@ class Delta():
 
       #total water available for pumping that isn't stored in reservoir (river gains)
       total_uncontrolled = proj_surplus[project][monthcounter]*running_days/self.days_in_month[year][monthcounter]
+      self.delta_uncontrolled_remaining += total_uncontrolled
       #water available to pump w/o exceeding the I/E tax
       untaxed_releases = max(self.max_tax_free[wyt][project][dowy] - self.max_tax_free[wyt][project][self.dowy_eom[year][monthcounter]+1] - total_uncontrolled, 0.0)
       #total pumping from uncontrolled or untaxed flows
@@ -768,6 +793,12 @@ class Delta():
         untaxed = min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
       else:
         untaxed = min(total_uncontrolled + min(running_storage, untaxed_releases), pumping[project]*running_days)
+
+      if project == 'swp':
+        self.uncontrolled_swp[t] += total_uncontrolled
+      elif project == 'cvp':
+        self.uncontrolled_cvp[t] += total_uncontrolled  
+
 	  ##space for pumping that exceeds the I/E tax
       ############################
 	  #if monthcounter > 5 or monthcounter == 0:
@@ -804,6 +835,7 @@ class Delta():
 
         #total water available for pumping that isn't stored in reservoir (river gains)
         total_uncontrolled = proj_surplus[project][monthcounter]
+        self.delta_uncontrolled_remaining += total_uncontrolled
         #water available to pump w/o exceeding the I/E tax
         dowy_begin = self.dowy_eom[year+cross_counter_y][monthcounter] - self.days_in_month[year+cross_counter_y][monthcounter]
         dowy_end = self.dowy_eom[year+cross_counter_y][monthcounter]
@@ -827,8 +859,10 @@ class Delta():
         if monthcounter == 12:
           monthcounter -= 12
 
-
-		  
+        if project == 'swp':
+          self.uncontrolled_swp[t] += total_uncontrolled
+        elif project == 'cvp':
+          self.uncontrolled_cvp[t] += total_uncontrolled  
       if running_storage > 0.0:
         if project == 'swp':
           #self.forecastSWPPUMP = untaxed + max(min(taxable_space, running_storage*self.export_ratio[wyt][0]), 0.0) + max(min(taxable_space2, (running_storage - taxable_space/self.export_ratio[wyt][0])*self.export_ratio[wyt][1]), 0.0)
@@ -988,32 +1022,15 @@ class Delta():
     m = self.month[t]
     da = self.day_month[t]
     wateryear = self.water_year[t]
-    if m == 10 and da == 1:
-      self.swp_allocation[t] = self.forecastSWPPUMP + self.annual_HRO_pump[wateryear-1]
-      self.cvp_allocation[t] = self.forecastCVPPUMP + self.annual_TRP_pump[wateryear-1]
-      self.first_empty_day_SWP = 0
-      self.first_empty_day_CVP = 0
-    else:
-      if SWP_AS < 0.0 and self.first_empty_day_SWP == 0:
-        self.final_allocation_swp = self.annual_HRO_pump[wateryear-1]
-        self.swp_allocation[t] = self.final_allocation_swp
-        self.first_empty_day_SWP = 1
-      elif SWP_AS < 0.0:
-        self.swp_allocation[t] = self.final_allocation_swp
-      else:
-        self.swp_allocation[t] = self.forecastSWPPUMP + self.annual_HRO_pump[wateryear-1]
-	
-      if CVP_AS < 0.0 and self.first_empty_day_CVP == 0:
-        self.final_allocation_cvp = self.annual_TRP_pump[wateryear-1]
-        self.cvp_allocation[t] = self.final_allocation_cvp
-        self.first_empty_day_CVP = 1
-      elif CVP_AS < 0.0:
-        self.cvp_allocation[t] = self.final_allocation_cvp
-      else:
-        self.cvp_allocation[t] = self.forecastCVPPUMP + self.annual_TRP_pump[wateryear-1]
-
     self.annual_HRO_pump[wateryear-1] += self.HRO_pump[t]
     self.annual_TRP_pump[wateryear-1] += self.TRP_pump[t]
+
+    #if m == 10 and da == 1:
+    self.swp_allocation[t] = self.forecastSWPPUMP + self.annual_HRO_pump[wateryear-1]
+    self.cvp_allocation[t] = self.forecastCVPPUMP + self.annual_TRP_pump[wateryear-1]
+    self.first_empty_day_SWP = 0
+    self.first_empty_day_CVP = 0
+
 	
 	
   def create_flow_shapes_omr(self, df_short):
@@ -1092,8 +1109,8 @@ class Delta():
 	  
   def accounting_as_df(self, index):
     df = pd.DataFrame()
-    names = ['TRP_pump','HRO_pump', 'total_outflow','SWP_allocation', 'CVP_allocation', 'X2', 'SCINDEX', 'SJINDEX', 'tax_swp', 'tax_cvp']
-    things = [self.TRP_pump, self.HRO_pump, self.outflow, self.swp_allocation, self.cvp_allocation, self.x2, self.forecastSRI, self.forecastSJI, self.remaining_tax_free_storage['swp'], self.remaining_tax_free_storage['cvp']]
+    names = ['TRP_pump','HRO_pump', 'total_outflow','SWP_allocation', 'CVP_allocation', 'X2', 'SCINDEX', 'SJINDEX', 'tax_swp', 'tax_cvp', 'uncontrolled_swp', 'uncontrolled_cvp']
+    things = [self.TRP_pump, self.HRO_pump, self.outflow, self.swp_allocation, self.cvp_allocation, self.x2, self.forecastSRI, self.forecastSJI, self.remaining_tax_free_storage['swp'], self.remaining_tax_free_storage['cvp'], self.uncontrolled_swp, self.uncontrolled_cvp]
     for n,t in zip(names,things):
       df['%s_%s' % (self.key,n)] = pd.Series(t, index=index)
     return df
