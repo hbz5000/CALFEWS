@@ -8,7 +8,6 @@ import cord
 
 # results hdf5 file location
 output_file = 'cord/data/results/baseline_wy2017/p0/results.hdf5'
-
 #output_file = "C:/Users/km663/Documents/Papers/ErrorPropagation/CALFEWS__Feb2020/ORCA_COMBINED-master/ORCA_COMBINED-master/cord/data/results/baseline_wy2017/p0"
 
 # given a particular sensitivity factor sample number, get entire model output and output as dataframe
@@ -28,18 +27,19 @@ def get_results_sensitivity_number(results_file, sensitivity_number):
 # given a particular column name (e.g. shasta__baseline_inf, lowertule__deliveries__friant1_delivery), get results from each sensitivity factor sample and combine into one dataframe
 def get_results_column_name(results_file, column_name):
   with h5py.File(results_file, 'r') as f:
-    f = h5py.File(results_file, 'r')
+    # f = h5py.File(results_file, 'r')
     data = f['s0']
     names = data.attrs['columns']
     names = list(map(lambda x: str(x).split("'")[1], names))
     df_data = pd.DataFrame(data[:, list(compress(np.arange(len(names)), list(map(lambda x: x == column_name, names))))], columns=['s0'])
     sensitivity_factor_values = data.attrs['sensitivity_factor_values']
-    for s in range(1,len(list(f.keys()))):
-      data = f['s' + str(s)]
-      names = data.attrs['columns']
-      names = list(map(lambda x: str(x).split("'")[1], names))
-      df_data['s' + str(s)] = pd.DataFrame(data[:, list(compress(np.arange(len(names)), list(map(lambda x: x == column_name, names))))])
-      sensitivity_factor_values = np.append(sensitivity_factor_values, data.attrs['sensitivity_factor_values'])
+    for s in f.keys():
+      if (s != 's0'):
+        data = f[s]
+        names = data.attrs['columns']
+        names = list(map(lambda x: str(x).split("'")[1], names))
+        df_data[s] = pd.DataFrame(data[:, list(compress(np.arange(len(names)), list(map(lambda x: x == column_name, names))))])
+        sensitivity_factor_values = np.append(sensitivity_factor_values, data.attrs['sensitivity_factor_values'])
     sensitivity_factor_values = np.reshape(sensitivity_factor_values, [len(list(f.keys())), len(data.attrs['sensitivity_factor_values'])])
     sensitivity_factors = data.attrs['sensitivity_factors']
     sensitivity_factors = list(map(lambda x: str(x).split("'")[1], sensitivity_factors))
@@ -143,8 +143,9 @@ def make_district_revenue(numYears):
     	
 make_district_revenue(20)    	
 df_data_by_sensitivity_number, df_factors_by_sensitivity_number = get_results_sensitivity_number(output_file, 0)
-df_data_by_column, df_factors_by_column = get_results_column_name(output_file, 'lowertule__deliveries__friant1_delivery')
-
+df_data_by_column, df_factors_by_column = get_results_column_name(output_file, 'shasta_Q')
+# df_data_by_column.to_csv('C:/Users/Andrew/Documents/DataFilesNonGit/keyvan_sensitivity/baseline_wy2017_10272019/shasta_Q.csv')
+# df_factors_by_column.to_csv('C:/Users/Andrew/Documents/DataFilesNonGit/keyvan_sensitivity/baseline_wy2017_10272019/sensitivity_factors.csv')
 
 fig1 = plt.figure()
 for s in range(4):
@@ -166,5 +167,32 @@ for c in ['lowertule__deliveries__friant1_delivery', 'lowertule__deliveries__fri
     print(df_data_by_sensitivity_number[x])
   plt.plot(df_data_by_sensitivity_number[c])
 plt.show()
+
+
+#################################################
+### output from climate ensemble to go into CAPOW
+#################################################
+data_folder = 'C:/Users/Andrew/Documents/DataFilesNonGit/CALFEWS_climate_ensemble/'
+
+# given a particular column name (e.g. shasta__baseline_inf, lowertule__deliveries__friant1_delivery), get results from each sensitivity factor sample and combine into one dataframe
+reservoirs = ['shasta','oroville','yuba','folsom','newmelones','donpedro','exchequer']#,'millerton','isabella','success','kaweah','pineflat']
+timeseries = ['R','Q','SNPK','fnf']
+results_file = data_folder + 'results.hdf5'
+with h5py.File(results_file, 'r') as f:
+  f = h5py.File(results_file, 'r')
+  for key in list(f.keys()):
+    data = f[key]
+    names = data.attrs['columns']
+    names = list(map(lambda x: str(x).split("'")[1], names))
+    names_wanted = []
+    cols_wanted = []
+    for r in reservoirs:
+      for t in timeseries:
+        names_wanted.append(r + '_' + t)
+        cols_wanted.append(np.where(list(map(lambda x: x == (r + '_' + t), names)))[0][0])
+    index = pd.to_datetime(['1950-10-01','2099-09-30'])
+    df_data = pd.DataFrame(data[:, cols_wanted], columns=names_wanted, index=pd.DatetimeIndex(start='1950-10-01', end='2099-09-30', freq='D'))
+    df_data.to_csv(data_folder + key + '.csv')
+
 
 

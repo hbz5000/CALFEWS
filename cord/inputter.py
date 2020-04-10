@@ -19,7 +19,7 @@ import json
 
 class Inputter():
 
-    def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False): # keyvan added i_N
+    def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number=0, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False): # keyvan added i_N
         self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
@@ -117,7 +117,8 @@ class Inputter():
         for first_leap in range(0,4):
           if (start_year + first_leap + 1) % 4 == 0:
             break
-        self.set_sensitivity_factors()
+        if (self.use_sensitivity == True):
+            self.set_sensitivity_factors()
         self.read_new_fnf_data(flow_input_type, flow_input_source, start_month, first_leap, number_years)
         self.whiten_by_historical_moments(number_years, 'XXX')
         self.whiten_by_historical_moments_delta(number_years, 'XXX')
@@ -817,7 +818,7 @@ class Inputter():
                                 self.days_in_month[self.non_leap_year][monthcount])
         leapcount = 0
 		
-        filename = self.inflow_series[flow_input_type][flow_input_source]
+        filename = self.flow_input_source[flow_input_type][flow_input_source]
         self.fnf_df = pd.read_csv(filename)
         if 'datetime' in self.fnf_df:
           dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])
