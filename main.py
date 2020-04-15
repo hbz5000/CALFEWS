@@ -26,10 +26,10 @@ from configobj import ConfigObj
 import json
 from distutils.util import strtobool
 
-path_model = './'
-path_model = sys.argv[1]
+#path_model = './'
+#path_model = sys.argv[1]
 #print (sys.argv)
-os.chdir(path_model)
+#os.chdir(path_model)
 
 startTime = datetime.now()
 

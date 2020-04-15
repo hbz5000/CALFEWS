@@ -69,7 +69,7 @@ class Inputter():
         self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', model_mode)
         self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', model_mode)
         
-        for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
+        for k,v in json.load(open('cord/data/input/base_inflows_Error_Paper.json')).items():
             setattr(self,k,v)
 
 
