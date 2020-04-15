@@ -113,6 +113,9 @@ elif model_mode == 'validation':
 elif model_mode == 'sensitivity':
   demand_type = 'baseline'
   base_data_file = 'cord/data/input/cord-data.csv'
+elif model_mode == 'climate_ensemble':
+  demand_type = 'baseline'
+  base_data_file = 'cord/data/input/cord-data.csv'
 
 # output all print statements to log file. separate for each processor.
 if print_log:
@@ -212,6 +215,109 @@ for k in range(start, stop):
     sys.stdout.flush()
   # param_df.to_csv(results_folder + '/sens_out/sens_param_scr_' + str(k) + '.csv') #keyvan
   # sensitivity_df.to_csv(results_folder + '/sens_out/sens_results_scr_'+ str(k) + '.csv') #keyvan
+  
+  
+  
+  ######################################################################################
+  ### climate ensemble mode ############################################################
+  ######################################################################################
+  elif (model_mode == 'climate_ensemble'):
+    file_folder = 'cord/data/CA_FNF_climate_change/'
+    model_name_list = ['gfdl-esm2m', 'canesm2', 'ccsm4', 'cnrm-cm5', 'csiro-mk3-6-0', 'gfdl-cm3', 'hadgem2-cc', 'hadgem2-es', 'inmcm4', 'ipsl-cm5a-mr', 'miroc5']
+    proj_list = ['rcp45', 'rcp85']
+    total_model_proj = len(model_name_list) * len(proj_list)
+
+
+    # Use the processor rank to determine the chunk of work each processor will do
+    if parallel_mode==True:
+      # Determine the chunk which each processor will neeed to do
+      count = int(math.floor(total_model_proj / nprocs))
+      remainder = total_model_proj % nprocs
+      if rank < remainder:
+        start = rank * (count + 1)
+        stop = start + count + 1
+      else:
+        start = remainder * (count + 1) + (rank - remainder) * count
+        stop = start + count
+    else:
+      start = 0
+      stop = total_model_proj
+
+    #####FLOW GENERATOR#####
+    new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder)
+
+    # new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode)
+    new_inputs.run_initialization('XXX')
+
+    model_proj_count = 0
+    for model_name in model_name_list:
+      for projection in proj_list:
+        # put everything in "try", so error on one sample run won't crash whole job. But this makes it hard to debug, so may want to comment this out when debugging.
+        try:
+          flow_input_source = model_name + '_' + projection
+          if ((model_proj_count >= start) & (model_proj_count < stop)):
+            print('Starting ' + flow_input_source)
+            new_inputs.run_routine(flow_input_type, flow_input_source)
+
+            input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source] + "_0" + ".csv"
+
+            modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
+            modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
+
+            modelso.max_tax_free = {}
+            modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
+            modelso.forecastSRI = modelno.delta.forecastSRI
+            modelso.southern_initialization_routine(startTime)
+            ######################################################################################
+            ###Model Simulation
+            ######################################################################################
+            if (short_test < 0):
+              timeseries_length = min(modelno.T, modelso.T)
+            else:
+              timeseries_length = short_test
+            ###initial parameters for northern model input
+            ###generated from southern model at each timestep
+            swp_release = 1
+            cvp_release = 1
+            swp_release2 = 1
+            cvp_release2 = 1
+            swp_pump = 999.0
+            cvp_pump = 999.0
+            proj_surplus = 0.0
+            swp_available = 0.0
+            cvp_available = 0.0
+            ############################################
+            for t in range(0, timeseries_length):
+              if (t % 365 == 364):
+                print('Year ', (t + 1) / 365, ', ', datetime.now() - startTime)
+                sys.stdout.flush()
+
+              # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
+              swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
+
+              swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t,swp_pumping,cvp_pumping,swp_alloc,cvp_alloc,proj_surplus,max_pumping,swp_forgo,cvp_forgo,swp_AF,cvp_AF,swp_AS,cvp_AS,modelno.delta.forecastSJWYT, modelno.delta.max_tax_free,flood_release,flood_volume)
+
+            # try:
+            data_output_climate_ensemble(output_list, results_folder, clean_output, rank, flow_input_source, modelno, modelso)
+            # except Exception as e: print(e)
+
+            # save full model objects for single sensitivity run, useful to know object structure in postprocessing
+            if (model_proj_count == 0):
+              pd.to_pickle(modelno, results_folder + '/modelno' + str(model_proj_count) + '.pkl')
+              pd.to_pickle(modelso, results_folder + '/modelso' + str(model_proj_count) + '.pkl')
+
+            del modelno
+            del modelso
+            print('rank ' + str(rank) + ', ' + flow_input_source + ' completed in ', datetime.now() - startTime)
+
+        except Exception as e: print(e)
+        model_proj_count += 1
+        sys.stdout.flush()
+
+
+  
+  
+  
   ######################################################################################
   ###validation/simulation modes
   ######################################################################################
