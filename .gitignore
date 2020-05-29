@@ -6,3 +6,7 @@
 *.bak
 cord/__pycache__/*
 save_address
+.ipynb*
+.vscode
+.venv*
+profiling
