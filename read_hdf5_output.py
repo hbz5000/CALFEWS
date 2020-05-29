@@ -4,70 +4,80 @@ import h5py
 import json
 import matplotlib.pyplot as plt
 from itertools import compress
-import cord
+from cord import *
+from cord.visualizer import Visualizer
 
-# results hdf5 file location
-output_file = 'cord/data/results/results_obs.hdf5'
-output_file2 = 'cord/data/results/results_AR_1_5.hdf5'
-output_file3 = 'cord/data/results/results_AR_0_5.hdf5'
-#output_file = "C:/Users/km663/Documents/Papers/ErrorPropagation/CALFEWS__Feb2020/ORCA_COMBINED-master/ORCA_COMBINED-master/cord/data/results/baseline_wy2017/p0/results.hdf5"
+#results hdf5 file location from CALFEWS simulations
+output_folder = 'cord/data/results/'
+output_file = output_folder + 'baseline_wy2017/p0/results_p19962016.hdf5'
+output_file_sim = output_folder + 'baseline_wy2017/p0/results_p19062016.hdf5'
+##get model variable names
+modelno = pd.read_pickle(output_folder + 'modelno0.pkl')
+modelso = pd.read_pickle(output_folder + 'modelso0.pkl')
+
+##Folder for result visualizations
+results_folder = 'cord/data/results/figures/'
+show_plot = False
+validation = Visualizer(modelso.district_list, modelso.private_list, modelso.city_list, modelso.contract_list, modelso.waterbank_list, modelso.leiu_list)
+validation.get_results_sensitivity_number(output_file, 19962016, 10, 1996, 1)
+validation.set_figure_params()
+simulation = Visualizer(modelso.district_list, modelso.private_list, modelso.city_list, modelso.contract_list, modelso.waterbank_list, modelso.leiu_list)
+simulation.get_results_sensitivity_number(output_file_sim, 19062016, 10, 1905, 1)
+simulation.set_figure_params()
+
+print('Scenario Comp')
+plot_type = 'delta_pumping'
+plot_name = 'Extended Simulation'
+simulation.scenario_compare(results_folder, plot_type, plot_name, validation.values, show_plot)
+
+plot_type = 'district_water_use'
+water_use_plots = ['physical', 'account']
+for plot_name in water_use_plots:
+  print('Deliveries ' + plot_name)
+  simulation.make_deliveries_by_district(results_folder, plot_type, plot_name, show_plot)
+
+plot_type = 'state_estimation'
+forecast_plots = ['publication', 'sacramento', 'sanjoaquin', 'tulare']
+n_days_colorbar = 180
+scatter_plot_interval = 30
+range_sensitivity = 5.0 # higher number limits range of regression function plotting closer to the range of the data
+for plot_name in forecast_plots:
+  print('Forcasts ' + plot_name)
+  validation.plot_forecasts(results_folder, plot_type, plot_name, n_days_colorbar, scatter_plot_interval, range_sensitivity, show_plot)
+
+reservoir_name = 'sanluisstate'
+district_label = 'wheeler'
+district_key = 'WRM'
+plot_type = 'state_response'
+district_private_labels = []
+district_private_keys = []
+print('State Response, ' + district_key)
+validation.show_state_response(results_folder, plot_type, reservoir_name, district_label, district_key, district_private_labels, district_private_keys, show_plot)
+
+print('Model Validation')
+plot_type = 'model_validation'
+plot_name = 'delta'
+use_scatter = True
+validation.make_validation_timeseries(results_folder, plot_type, plot_name, show_plot, use_scatter)
+
+plot_name = 'sierra'
+use_scatter = False
+num_cols = 3
+validation.make_validation_timeseries(results_folder, plot_type, plot_name, show_plot, use_scatter, num_cols)
+
+plot_name = 'sanluis'
+use_scatter = True
+validation.make_validation_timeseries(results_folder, plot_type, plot_name, show_plot, use_scatter)
+
+plot_name = 'bank'
+use_scatter = True
+validation.make_validation_timeseries(results_folder, plot_type, plot_name, show_plot, use_scatter)
+
+plot_type = 'flow_diagram'
+plot_name = 'tulare'
+timesteps = 20000 #timesteps need to be greater than the snapshot range
+snapshot_range = (14600, 14975)
+simulation.plot_account_flows(results_folder + 'sankeys/', plot_type, plot_name, timesteps, snapshot_range)	
+simulation.make_gif(results_folder + 'sankeys/cali_sankey', '1946', 14601, 14975)
 
 
-# given a particular sensitivity factor sample number, get entire model output and output as dataframe
-def get_results_sensitivity_number(results_file, sensitivity_number):
-  with h5py.File(results_file, 'r') as f:
-    data = f['s' + str(sensitivity_number)]
-    names = data.attrs['columns']
-    names = list(map(lambda x: str(x).split("'")[1], names))
-    df_data = pd.DataFrame(data[:], columns=names)
-    sensitivity_factors = data.attrs['sensitivity_factors']
-    sensitivity_factors = list(map(lambda x: str(x).split("'")[1], sensitivity_factors))
-    sensitivity_factor_values = data.attrs['sensitivity_factor_values']
-    df_sensitivity_factors = pd.DataFrame(sensitivity_factor_values).transpose()
-    df_sensitivity_factors.columns = sensitivity_factors
-    return df_data, df_sensitivity_factors
-
-# given a particular column name (e.g. shasta__baseline_inf, lowertule__deliveries__friant1_delivery), get results from each sensitivity factor sample and combine into one dataframe
-def get_results_column_name(results_file, column_name):
-  with h5py.File(results_file, 'r') as f:
-    f = h5py.File(results_file, 'r')
-    data = f['s0']
-    names = data.attrs['columns']
-    names = list(map(lambda x: str(x).split("'")[1], names))
-    df_data = pd.DataFrame(data[:, list(compress(np.arange(len(names)), list(map(lambda x: x == column_name, names))))], columns=['s0'])
-    sensitivity_factor_values = data.attrs['sensitivity_factor_values']
-    for s in range(1,len(list(f.keys()))):
-      data = f['s' + str(s)]
-      names = data.attrs['columns']
-      names = list(map(lambda x: str(x).split("'")[1], names))
-      df_data['s' + str(s)] = pd.DataFrame(data[:, list(compress(np.arange(len(names)), list(map(lambda x: x == column_name, names))))])
-      sensitivity_factor_values = np.append(sensitivity_factor_values, data.attrs['sensitivity_factor_values'])
-    sensitivity_factor_values = np.reshape(sensitivity_factor_values, [len(list(f.keys())), len(data.attrs['sensitivity_factor_values'])])
-    sensitivity_factors = data.attrs['sensitivity_factors']
-    sensitivity_factors = list(map(lambda x: str(x).split("'")[1], sensitivity_factors))
-    df_sensitivity_factors = pd.DataFrame(sensitivity_factor_values, columns=sensitivity_factors)
-  return df_data, df_sensitivity_factors
-
-df_data, df_sensitivity_factors = get_results_sensitivity_number(output_file, 0)
-df_data2, df_sensitivity_factors = get_results_sensitivity_number(output_file2, 0)
-df_data3, df_sensitivity_factors = get_results_sensitivity_number(output_file3, 0)
-item_list = ['oroville_Q', 'delta_HRO_pump', 'sanluisstate_S', 'swpdelta_allocation', 'swpdelta_contract', 'metropolitan_tableA_projected', 'metropolitan_tableA_delivery', 'metropolitan_tableA_carryover', 'metropolitan_exchanged_GW', 'metropolitan_recover_banked', 'metropolitan_exchanged_SW']
-columns = 2
-fig, ax = plt.subplots(int(np.ceil(len(item_list)/2.0)), columns)
-row_cnt = 0
-col_cnt = 0
-
-for x in item_list:
-  ax[row_cnt][col_cnt].plot(df_data[x], color = 'r')
-  ax[row_cnt][col_cnt].plot(df_data2[x], color = 'b')
-  ax[row_cnt][col_cnt].plot(df_data3[x], color = 'g')
-  ax[row_cnt][col_cnt].set_title(x)
-  ax[row_cnt][col_cnt].set_xticklabels('')
-  ax[row_cnt][col_cnt].set_ylim([0, max(df_data[x][1000:])])
-  row_cnt += 1
-  if row_cnt > len(item_list)/columns:
-    row_cnt = 0
-    col_cnt += 1 
-plt.tight_layout()
-plt.show()
-plt.close()

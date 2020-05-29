@@ -683,13 +683,13 @@ class Model():
         contract_object = self.contract_keys[y]
         if contract_object.type == "contract":
           if x.has_pesticide:
-            x.contract_carryover_list[y] = contract_object.carryover*x.project_contract[y]*(1.0-x.private_fraction[0])
+            x.contract_carryover_list[y] = contract_object.carryover*x.project_contract[y]*(1.0-min(x.private_fraction))
           else:
             x.contract_carryover_list[y] = contract_object.carryover*x.project_contract[y]*(1.0-x.private_fraction)
 
         elif contract_object.type == "right":
           if x.has_pesticide:
-            x.contract_carryover_list[y] = contract_object.carryover*x.rights[y]['carryover']*(1.0-x.private_fraction[0])
+            x.contract_carryover_list[y] = contract_object.carryover*x.rights[y]['carryover']*(1.0-min(x.private_fraction))
           else:
             x.contract_carryover_list[y] = contract_object.carryover*x.rights[y]['carryover']*(1.0-x.private_fraction)
         if y == "tableA":
@@ -706,10 +706,10 @@ class Model():
         for yy in district_object.contract_list:
           contract_object = self.contract_keys[yy]
           if contract_object.type == "contract":
-            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.project_contract[yy]*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.project_contract[yy]*max(x.private_fraction[xx])
 
           elif contract_object.type == "right":
-            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.rights[yy]['carryover']*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.rights[yy]['carryover']*max(x.private_fraction[xx])
     for x in self.city_list:
       x.contract_list = []
       for xx in x.district_list:
@@ -722,9 +722,9 @@ class Model():
         for yy in district_object.contract_list:
           contract_object = self.contract_keys[yy]
           if contract_object.type == "contract":
-            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.project_contract[yy]*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.project_contract[yy]*max(x.private_fraction[xx])
           elif contract_object.type == "right":
-            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.rights[yy]['carryover']*x.private_fraction[xx][0]
+            x.contract_carryover_list[xx][yy] = contract_object.carryover*district_object.rights[yy]['carryover']*max(x.private_fraction[xx])
 
 			
     ###Find Risk in Contract Delivery
@@ -754,6 +754,55 @@ class Model():
     for x in self.district_list:
       if (x.in_leiu_banking == True):
         self.leiu_list.append(x)
+
+    for x in self.district_list:
+      x.delivery_location_list = []
+      x.delivery_location_list.append(x.key)
+      x.daily_supplies_full[x.key + '_recharged'] = np.zeros(x.T)
+      x.deliveries[x.key + '_recharged'] = np.zeros(x.number_years)
+      for wb in self.waterbank_list:
+        x.daily_supplies_full[wb.key + '_recharged'] = np.zeros(x.T)
+        x.deliveries[wb.key + '_recharged'] = np.zeros(x.number_years)
+        x.delivery_location_list.append(wb.key)
+      for lb in self.leiu_list:
+        x.daily_supplies_full[lb.key + '_recharged'] = np.zeros(x.T)
+        x.deliveries[lb.key + '_recharged'] = np.zeros(x.number_years)
+        x.delivery_location_list.append(lb.key)
+    for x in self.private_list:
+      x.delivery_location_list = {}
+      for xx in x.district_list:
+        x.delivery_location_list[xx] = []
+        x.delivery_location_list[xx].append(xx)
+        x.daily_supplies_full[xx + '_' +  xx + '_recharged'] = np.zeros(x.T)
+        x.deliveries[xx][xx + '_recharged'] = np.zeros(x.number_years)
+      for wb in self.waterbank_list:
+        for xx in x.district_list:
+          x.delivery_location_list[xx].append(wb.key)
+          x.daily_supplies_full[xx + '_' + wb.key + '_recharged'] = np.zeros(x.T)
+          x.deliveries[xx][wb.key + '_recharged'] = np.zeros(x.number_years)
+      for lb in self.leiu_list:
+        for xx in x.district_list:
+          x.delivery_location_list[xx].append(lb.key)
+          x.daily_supplies_full[xx + '_' + lb.key + '_recharged'] = np.zeros(x.T)
+          x.deliveries[xx][lb.key + '_recharged'] = np.zeros(x.number_years)
+    for x in self.city_list:
+      x.delivery_location_list = {}
+      for xx in x.district_list:
+        x.delivery_location_list[xx] = []
+        x.delivery_location_list[xx].append(xx)
+        x.daily_supplies_full[xx + '_' +  xx + '_recharged'] = np.zeros(x.T)
+        x.deliveries[xx][xx + '_recharged'] = np.zeros(x.number_years)
+      for wb in self.waterbank_list:
+        for xx in x.district_list:
+          x.delivery_location_list[xx].append(wb.key)
+          x.daily_supplies_full[xx + '_' + wb.key + '_recharged'] = np.zeros(x.T)
+          x.deliveries[xx][wb.key + '_recharged'] = np.zeros(x.number_years)
+      for lb in self.leiu_list:
+        for xx in x.district_list:
+          x.delivery_location_list[xx].append(lb.key)
+          x.daily_supplies_full[xx + '_' + lb.key + '_recharged'] = np.zeros(x.T)
+          x.deliveries[xx][lb.key + '_recharged'] = np.zeros(x.number_years)
+        
     if self.model_mode == 'validation':
       self.semitropic.inleiubanked['MET'] = 175.8
       self.semitropic.inleiubanked['SOB'] = 46.0
@@ -1049,8 +1098,10 @@ class Model():
         reservoir.total_capacity += canal_to_reservoir.capacity['normal'][0]
 	
     self.pumping_turnback = {}
+    self.allocation_losses = {}
     for z in ['SLS', 'SLF', 'MIL', 'ISB', 'SUC', 'KWH', 'PFT']:
       self.pumping_turnback[z] = 0.0
+      self.allocation_losses[z] = 0.0
 ####################################################################################################################
 #####################################################################################################################
 	  
@@ -2649,7 +2700,9 @@ class Model():
       #san luis doesn't have available_storage forecasts, so input from northern model is used
 	  #for state & federal portions
       if reservoir.key == "SLS":
-        total_allocation = self.swp_allocation[t] - self.pumping_turnback['SLS'] + extra_allocation
+        total_allocation = self.swp_allocation[t] - self.pumping_turnback['SLS'] + extra_allocation - self.allocation_losses['SLS']
+        reservoir.reclaimed_carryover[t] = extra_allocation - self.pumping_turnback['SLS']
+        reservoir.contract_flooded[t] = self.allocation_losses['SLS'] * 1.0
         tot_ind_deliveries = 0.0
         tot_ind_carryover = 0.0
         tot_ind_turnback = 0.0
@@ -2665,17 +2718,19 @@ class Model():
             tot_ind_carryover +=  x.carryover[xx][y.name]
             tot_ind_deliveries +=  x.deliveries[xx][y.name][wateryear]
             tot_ind_turnback +=  x.turnback_pool[xx][y.name]
-          tot_ind_paper +=  x.paper_balance[y.name]
+          tot_ind_paper +=  x.paper_balance[xx][y.name]
         for x in self.city_list:
           for xx in x.district_list:
             tot_ind_carryover +=  x.carryover[xx][y.name]
             tot_ind_deliveries +=  x.deliveries[xx][y.name][wateryear]
             tot_ind_turnback +=  x.turnback_pool[xx][y.name]
-          tot_ind_paper +=  x.paper_balance[y.name]
+          tot_ind_paper +=  x.paper_balance[xx][y.name]
 
 
       elif reservoir.key == "SLF":
-        total_allocation = self.cvp_allocation[t] - self.pumping_turnback['SLF'] + extra_allocation
+        total_allocation = self.cvp_allocation[t] - self.pumping_turnback['SLF'] + extra_allocation - self.allocation_losses['SLF']
+        reservoir.reclaimed_carryover[t] = extra_allocation - self.pumping_turnback['SLF']
+        reservoir.contract_flooded[t] = self.allocation_losses['SLF'] * 1.0
         
       elif reservoir.key == 'MIL':
         if m > 9 or m < 3:
@@ -2692,7 +2747,7 @@ class Model():
           total_allocation = reservoir.available_storage[t] + y.annual_deliveries[wateryear] - max(total_res_carryover, 0.0)
         else:
           total_allocation = reservoir.available_storage[t] + priority_deliveries + y.annual_deliveries[wateryear] - max(total_res_carryover, 0.0)
-		
+      		
       y.calc_allocation(t, dowy, total_allocation, priority_contract, secondary_contract, wyt)
     ##Find contract 'storage pools' - how much water is available right now	
 	##san luis federal storage is divided between 3 water contracts - cvpdelta, exchange, and crossvalley
@@ -2719,8 +2774,9 @@ class Model():
       ##the contract water that has already come into the reservoir, even water
       ##that has already been delivered	  
       total_water = reservoir.S[t] - reservoir.dead_pool + tot_res_deliveries - tot_res_carryover
-      #find the storage pool for each contract
+#find the storage pool for each contract
       y.find_storage_pool(t, wateryear, total_water, reservoir.S[t], priority_storage)
+
 
 	##Update District Contracts
     #self.assign_uncontrolled(t, wateryear)
@@ -2738,20 +2794,20 @@ class Model():
       for y in self.contract_list:
         for z in x.district_list:
           district_object = self.district_keys[z]
-          this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, district_object.project_contract, district_object.rights)
+          next_year_carryover, this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, district_object.project_contract, district_object.rights)
           y.running_carryover += this_year_carryover
-        next_year_carryover = x.apply_paper_balance(y.name, wyt, wateryear)
-        y.projected_carryover += next_year_carryover
+        #next_year_carryover = x.apply_paper_balance(y.name, wyt, wateryear)
+        #y.projected_carryover += next_year_carryover
 
 
     for x in self.city_list:
       for y in self.contract_list:
         for z in x.district_list:
           district_object = self.district_keys[z]
-          this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, district_object.project_contract, district_object.rights)
+          next_year_carryover, this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, district_object.project_contract, district_object.rights)
           y.running_carryover += this_year_carryover
-        next_year_carryover = x.apply_paper_balance_urban(y.name, wyt, wateryear)
-        y.projected_carryover += next_year_carryover
+        #next_year_carryover = x.apply_paper_balance_urban(y.name, wyt, wateryear)
+        #y.projected_carryover += next_year_carryover
 
 		
 		
@@ -2807,7 +2863,7 @@ class Model():
       if exchange_request > 0.0:
         delivered_exchange = min(exchange_max, exchange_request)
         self.arvin.inleiubanked['MET'] -= delivered_exchange
-        self.metropolitan.paper_balance['cvc'] += delivered_exchange
+        self.metropolitan.paper_balance['SOC']['cvc'] += delivered_exchange
       
         for exc_cvc in exchanger_list:
           ind_exchange = delivered_exchange * max(exc_cvc.projected_supply['cvc'], 0.0)/exchange_request
@@ -3202,38 +3258,37 @@ class Model():
 	  ####ASSUMPTION THAT ANY DEMAND NOT MET BY SURFACE WATER IS MET THROUGH PUMPING
 	  ####doesn't do anything in the model (no GW connection), but can change this assumption/link to other models
     for x in self.district_list:
-      if m == 10 and da == 1:
-        x.annual_private_pumping = x.dailydemand
-      else:
-        x.annual_private_pumping += x.dailydemand
-
+      x.annual_private_pumping = x.dailydemand
+    for x in self.private_list:
+      for xx in x.district_list:
+        x.annual_private_pumping[xx] = x.dailydemand[xx] 
+    for x in self.city_list:
+      for xx in x.district_list:
+        x.annual_private_pumping[xx] = x.dailydemand[xx] 
 	####FOR RESULTS-OUTPUT (not output to northern model, but output for plots)
     for x in self.district_list:
+      x.accounting_full(t, wateryear)
       for y in self.contract_list:
         #from individual contracts - paper balance, carryover storage, allocations, and deliveries (irrigation) - records daily values
-        x.accounting(t, da, m, wateryear,y.name)
+        #x.accounting(t, da, m, wateryear,y.name)
         y.accounting(t, da, m, wateryear, x.deliveries[y.name][wateryear], x.carryover[y.name], x.turnback_pool[y.name], x.deliveries[y.name + '_flood'][wateryear] + x.deliveries[y.name + '_flood_irrigation'][wateryear])
-      x.accounting_banking_activity(t, da, m, wateryear)
-    for x in self.district_list:
-      x.accounting_full(t, wateryear)
-    for x in self.private_list:
-      for y in self.contract_list:
-        x.accounting(t, da, m, wateryear,y.name)
-        for xx in x.district_list:
-          y.accounting(t, da, m, wateryear, x.deliveries[xx][y.name][wateryear], x.carryover[xx][y.name], x.turnback_pool[xx][y.name], x.deliveries[xx][y.name + '_flood'][wateryear] + x.deliveries[xx][y.name + '_flood_irrigation'][wateryear])
-      x.accounting_banking_activity(t, da, m, wateryear)
+      #x.accounting_banking_activity(t, da, m, wateryear)
     for x in self.private_list:
       x.accounting_full(t, wateryear)
-
-    for x in self.city_list:
       for y in self.contract_list:
-        x.accounting(t, da, m, wateryear, y.name)
+        #x.accounting(t, da, m, wateryear,y.name)
         for xx in x.district_list:
           y.accounting(t, da, m, wateryear, x.deliveries[xx][y.name][wateryear], x.carryover[xx][y.name], x.turnback_pool[xx][y.name], x.deliveries[xx][y.name + '_flood'][wateryear] + x.deliveries[xx][y.name + '_flood_irrigation'][wateryear])
-      x.accounting_banking_activity(t, da, m, wateryear)
+      #x.accounting_banking_activity(t, da, m, wateryear)
+    
     for x in self.city_list:
       x.accounting_full(t, wateryear)
-	  
+      for y in self.contract_list:
+        #x.accounting(t, da, m, wateryear, y.name)
+        for xx in x.district_list:
+          y.accounting(t, da, m, wateryear, x.deliveries[xx][y.name][wateryear], x.carryover[xx][y.name], x.turnback_pool[xx][y.name], x.deliveries[xx][y.name + '_flood'][wateryear] + x.deliveries[xx][y.name + '_flood_irrigation'][wateryear])
+      #x.accounting_banking_activity(t, da, m, wateryear)
+      
     #update individual accounts in groundwater banks
     for w in self.waterbank_list:
       w.accounting(t, m, da, wateryear)
@@ -3241,8 +3296,9 @@ class Model():
       w.accounting_leiubank(t, m, da, wateryear)
 
     ##Reset contracts for the next water year, distribute unused contract water into carryover flows/ next year's contract allocation
+    tot_paper = 0.0
+    tot_turnback = 0.0
     if m == 9 and da == 30:
-
       for y in self.contract_list:
         lastYearCarryover = y.tot_carryover
         y.tot_carryover = 0.0
@@ -3252,68 +3308,76 @@ class Model():
           for yy in x.contract_list:
             if yy == y.name:
               use_contract = 1
-          if use_contract == 1:		
-		  
+          if use_contract == 1:
             new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name)
             y.tot_new_alloc += new_alloc
             y.tot_carryover += carryover
               
 
         for x in self.private_list:
-          total_carryover = 0.0
-          total_carryover_limit = 0.0
+          #total_carryover = 0.0
+          #total_paper_balance = 0.0
+          #total_carryover_limit = 0.0
           use_contract = 0
           for yy in x.contract_list:
             if yy == y.name:
               use_contract = 1
           if use_contract == 1:	
-		  
             for xx in x.district_list:
               district_object = self.district_keys[xx]
-              x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, district_object.project_contract, district_object.rights)
-              total_carryover += x.carryover[xx][y.name]
-              total_carryover_limit += x.contract_carryover_list[xx][y.name]
-            if total_carryover + x.paper_balance[y.name] > total_carryover_limit:
-              for xx in x.district_list:
-                x.carryover[xx][y.name] = x.contract_carryover_list[xx][y.name]
-                y.tot_carryover += x.carryover[xx][y.name]
-              y.tot_new_alloc += (total_carryover + x.paper_balance[y.name] - total_carryover_limit)
-            else:
-              carryover_frac = (total_carryover + x.paper_balance[y.name])/total_carryover_limit
-              for xx in x.district_list:
-                x.carryover[xx][y.name] = carryover_frac*x.contract_carryover_list[xx][y.name]
-                y.tot_carryover += x.carryover[xx][y.name]
-				
-          x.paper_balance[y.name] = 0.0
+              new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, district_object.project_contract, district_object.rights)
+
+              y.tot_carryover += carryover
+              y.tot_new_alloc += new_alloc
+              #total_carryover += x.carryover[xx][y.name]
+              #total_paper_balance += x.paper_balance[xx][y.name]
+              #total_carryover_limit += x.contract_carryover_list[xx][y.name]
+            #if total_carryover + total_paper_balance > total_carryover_limit:
+              #for xx in x.district_list:
+                #x.carryover[xx][y.name] = x.contract_carryover_list[xx][y.name]
+                #y.tot_carryover += x.carryover[xx][y.name]
+              #y.tot_new_alloc += (total_carryover + total_paper_balance - total_carryover_limit)
+            #else:
+              #carryover_frac = (total_carryover + total_paper_balance)/total_carryover_limit
+              #for xx in x.district_list:
+                #x.carryover[xx][y.name] = carryover_frac*x.contract_carryover_list[xx][y.name]
+                #y.tot_carryover += x.carryover[xx][y.name]
+          #for xx in x.district_list:	
+            #x.paper_balance[xx][y.name] = 0.0
         for x in self.city_list:
-          total_carryover = 0.0
-          total_carryover_limit = 0.0
+          #total_carryover = 0.0
+          #total_paper_balance = 0.0
+          #total_carryover_limit = 0.0
           use_contract = 0
           for yy in x.contract_list:
             if yy == y.name:
               use_contract = 1
-          if use_contract == 1:		
-		  
+          if use_contract == 1:	  
             for xx in x.district_list:
               district_object = self.district_keys[xx]
-              x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, district_object.project_contract, district_object.rights)
-              total_carryover += x.carryover[xx][y.name]
-              total_carryover_limit += x.contract_carryover_list[xx][y.name]
-            if total_carryover + x.paper_balance[y.name] > total_carryover_limit:
-              for xx in x.district_list:
-                x.carryover[xx][y.name] = x.contract_carryover_list[xx][y.name]
-                y.tot_carryover += x.carryover[xx][y.name]
-              y.tot_new_alloc += (total_carryover + x.paper_balance[y.name] - total_carryover_limit)
-            else:
-              if total_carryover_limit > 0.0:
-                carryover_frac = (total_carryover + x.paper_balance[y.name])/total_carryover_limit
-              else:
-                carryover_frac = 0.0
-              for xx in x.district_list:
-                x.carryover[xx][y.name] = carryover_frac*x.contract_carryover_list[xx][y.name]
+              new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, district_object.project_contract, district_object.rights)
+              y.tot_carryover += carryover
+              y.tot_new_alloc += new_alloc
+              #total_carryover += x.carryover[xx][y.name]
+              #total_paper_balance += x.paper_balance[xx][y.name]
+              #total_carryover_limit += x.contract_carryover_list[xx][y.name]
+            #if total_carryover + total_paper_balance > total_carryover_limit:
+              #for xx in x.district_list:
+                #x.carryover[xx][y.name] = x.contract_carryover_list[xx][y.name]
+                #y.tot_carryover += x.carryover[xx][y.name]
+              #y.tot_new_alloc += (total_carryover + total_paper_balance - total_carryover_limit)
+            #else:
+              #if total_carryover_limit > 0.0:
+                #carryover_frac = (total_carryover + total_paper_balance)/total_carryover_limit
+              #else:
+                #carryover_frac = 0.0
+              #for xx in x.district_list:
+                #x.carryover[xx][y.name] = carryover_frac*x.contract_carryover_list[xx][y.name]
 
-                y.tot_carryover += x.carryover[xx][y.name]
-          x.paper_balance[y.name] = 0.0
+                #y.tot_carryover += x.carryover[xx][y.name]
+          #for xx in x.district_list:	
+            #x.paper_balance[xx][y.name] = 0.0
+
 
         if y.name == 'tableA' and use_contract == 1:
           current_carryover_storage = self.sanluisstate.S[t] - y.tot_new_alloc - 40.0
@@ -3340,6 +3404,8 @@ class Model():
       #reset counter for delta contract adjustment for foregone pumping and uncontrolled releases
       for z in self.pumping_turnback:
         self.pumping_turnback[z] = 0.0
+      for z in self.allocation_losses:
+        self.allocation_losses[z] = 0.0
 		
     ##Clear Canal Flows
     ##every day, we zero out the flows on each canal (i.e. no canal storage, no 'routing' of water on the canals)
@@ -3925,7 +3991,8 @@ class Model():
       carryover_fraction = min(spill/total_remaining, 1.0)
 	  
       #if there is more spill than remaining carryover, need to add to the contract adjustment (this amount is subtracted from total contract allocation)
-      self.pumping_turnback[key] += max(spill - total_remaining*carryover_fraction, 0.0)
+      self.allocation_losses[key] += max(spill - total_remaining*carryover_fraction, 0.0)
+      self.allocation_losses[key] += max(spill - total_remaining*carryover_fraction, 0.0)
 	  
       for y in remaining_carryover:#loop over all contracts w/carryover balances
         #reduce overall contract carryover balance
@@ -3943,7 +4010,7 @@ class Model():
 			
     else:
       #if no carryover, just add the spill to the contract adjustment (this amount is subtracted from total contract allocation)
-      self.pumping_turnback[key] += max(spill, 0.0)    		
+      self.allocation_losses[key] += max(spill, 0.0)    		
 
   def find_recharge_bank(self,m,wyt):
   
@@ -4567,7 +4634,7 @@ class Model():
               actual_deliveries = direct_deliveries + recharge_deliveries
               location_delivery += actual_deliveries
               #adjust accounts for overall contracts and invididual districts
-              delivery_by_contract = wb_member.adjust_accounts(direct_deliveries, recharge_deliveries,contract_list, search_type, wateryear)
+              delivery_by_contract = wb_member.adjust_accounts(direct_deliveries, recharge_deliveries,contract_list, search_type, wateryear, x.key)
               x.adjust_bank_accounts(xx, direct_deliveries, recharge_deliveries, wateryear)
               for y in delivery_by_contract:
                 contract_object = self.contract_keys[y]
@@ -4593,7 +4660,7 @@ class Model():
                   private_delivery_constraint = private_land.set_request_to_district(private_demand_constraint,search_type,contract_list,0.0,dowy,district_lands)
                   delivery_to_private = min(private_demand_constraint, private_delivery_constraint,undelivered)
                   undelivered -= delivery_to_private
-                  private_deliveries = private_land.adjust_account_district(delivery_to_private,contract_list,search_type,wateryear, district_lands)
+                  private_deliveries = private_land.adjust_account_district(delivery_to_private,contract_list,search_type,wateryear, district_lands, x.key)
 
                   for y in private_deliveries:
                     contract_object = self.contract_keys[y]
@@ -4608,14 +4675,14 @@ class Model():
                   delivery_to_private = min(city_demand_constraint, city_delivery_constraint,undelivered)
 
                   undelivered -= delivery_to_private
-                  city_deliveries = city_pump.adjust_account_district(delivery_to_private,contract_list,search_type,wateryear, district_pump)
+                  city_deliveries = city_pump.adjust_account_district(delivery_to_private,contract_list,search_type,wateryear, district_pump, x.key)
 
                   for y in city_deliveries:
                     contract_object = self.contract_keys[y]
                     contract_object.adjust_accounts(city_deliveries[y], search_type, wateryear)
                     location_delivery += city_deliveries[y]
 					
-          delivery_by_contract = x.adjust_accounts(direct_deliveries, recharge_deliveries,contract_list, search_type, wateryear)
+          delivery_by_contract = x.adjust_accounts(direct_deliveries, recharge_deliveries,contract_list, search_type, wateryear, x.key)
           for y in delivery_by_contract:
             contract_object = self.contract_keys[y]
             contract_object.adjust_accounts(delivery_by_contract[y], search_type, wateryear)
@@ -4655,7 +4722,7 @@ class Model():
             #keep track of total demands at this node
             location_delivery += actual_deliveries
             #adjust accounts for overall contracts and invididual districts
-            delivery_by_contract = wb_member.adjust_accounts(0.0, actual_deliveries,contract_list, search_type, wateryear)
+            delivery_by_contract = wb_member.adjust_accounts(0.0, actual_deliveries,contract_list, search_type, wateryear, x.key)
 
             for y in delivery_by_contract:
               #update the accounting for deliveries made by each contract (overall contract accounting - not ind. district)
@@ -5261,7 +5328,7 @@ class Model():
     for xnum in range(0, self.number_years):
       self.metropolitan.private_fraction['SOC'][xnum] = 1911.0/(4056.0 * 0.648310)
       self.metropolitan.pump_out_fraction['SOC'] = 1911.0/(4056.0 * 0.648310)
-    self.socal.private_fraction =  (1911.0 + (0.03629 + 0.05274) * 4056.0) / (4056.0 * 0.648310)
+    self.socal.private_fraction =  (1911.0 + (0.03629 + 0.05274) * 4056.0 * 0.648310) / (4056.0 * 0.648310)
 
     self.kwbcanal.capacity["normal"] = [800.0, 800.0, 0.0, 0.0]
     self.kwbcanal.capacity["reverse"] = [0.0, 440.0, 800.0, 800.0]
@@ -5277,6 +5344,7 @@ class Model():
     self.kwb.initial_recharge = 1212.12
     self.kwb.recovery = 0.7863
     self.kwb.tot_storage = 2.4
+    tot_contract = 0.0
 
     if self.use_sensitivity:
       for district in self.district_list:
@@ -5503,6 +5571,18 @@ class Model():
       self.isabella.capacity = 361.25
       self.isabella.tocs_rule['storage'] = [[302.6,170,170,245,245,361.25,361.25,302.6],  [302.6,170,170,245,245,361.25,361.25,302.6]]
       self.kernriver.carryover = 170.0
+    if t == 2985:
+      self.success.tocs_rule['storage'] = [[36.8,6.5,6.5,41.0,41.0,36.8] , [36.8,6.5,6.5,41.0,41.0,36.8]]
+    if t == 3350:
+      self.success.tocs_rule['storage'] = [[36.8,6.5,6.5,65.0,65.0,36.8] , [36.8,6.5,6.5,65.0,65.0,36.8]]
+    if t == 3715:
+      self.success.tocs_rule['storage'] = [[29.2,6.5,6.5,29.2,29.2,29.2] , [29.2,6.5,6.5,29.2,29.2,29.2]]
+    if t == 4445:
+      self.success.tocs_rule['storage'] = [[36.8,6.5,6.5,41.0,41.0,36.8] , [36.8,6.5,6.5,41.0,41.0,36.8]]
+    if t == 5540:
+      self.success.tocs_rule['storage'] = [[36.8,6.5,6.5,65.0,65.0,36.8] , [36.8,6.5,6.5,65.0,65.0,36.8]]
+    if t == 6270:
+      self.success.tocs_rule['storage'] = [[36.8,6.5,6.5,65.0,65.0,36.8] , [36.8,6.5,6.5,82.3,82.3,36.8]]
 
       for x in self.district_list:
         x.carryover_rights = {}
@@ -5758,7 +5838,7 @@ class Model():
       else:
         expected_pumping['cvp'][monthloop] = proj_surplus[monthloop]*0.55
         expected_pumping['swp'][monthloop] = proj_surplus[monthloop]*0.45
-		
+ 		
       if monthloop < 6 and year + self.starting_year > self.delta.omr_rule_start:
         if proj_omr[monthloop]*0.5 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth:
           max_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth

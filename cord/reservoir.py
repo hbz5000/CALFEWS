@@ -57,6 +57,9 @@ class Reservoir():
     self.R = np.zeros(self.T)
     self.tocs = np.zeros(self.T)
     self.available_storage = np.zeros(self.T)
+    self.total_available_storage = np.zeros(self.T)
+    self.outflow_release = np.zeros(self.T)
+
     self.flood_storage = np.zeros(self.T)
     self.Rtarget = np.zeros(self.T)
     self.R_to_delta = np.zeros(self.T)
@@ -168,6 +171,8 @@ class Reservoir():
     self.lastYearRainflood = 9999.9
     self.variable_min_flow = 0.0
     self.min_daily_overflow = 0.0
+    self.reclaimed_carryover = np.zeros(self.T)
+    self.contract_flooded = np.zeros(self.T)
 
 
   def object_equals(self, other):
@@ -290,9 +295,12 @@ class Reservoir():
 	
     #available storage is storage in reservoir in exceedence of end-of-september target plus forecast for oct-mar (adjusted for already observed flow)
 	#plus forecast for apr-jul (adjusted for already observed flow) minus the flow expected to be released for environmental requirements (at the reservoir, not delta)
-    self.available_storage[t] = self.S[t] - self.EOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]
-     
+    self.available_storage[t] = self.S[t] - self.EOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]     
+
+    self.total_available_storage[t] = self.S[t] + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]
     self.flood_storage[t] = self.S[t] - self.max_fcr + self.rainflood_forecast[t] - max(self.cum_min_release[wyt][dowy] - self.cum_min_release[wyt][181], 0.0)
+    self.outflow_release[t] =  self.cum_min_release[wyt][dowy] + self.aug_sept_min_release[wyt][dowy]
+
     if dowy < 123:
       self.available_storage[t] = max(self.available_storage[t], (self.S[t] - self.lastYearEOS_target)*(123-dowy)/123 + self.available_storage[t]*dowy/123)
     if self.S[t] < self.EOS_target and dowy > 274:

@@ -69,7 +69,7 @@ class Inputter():
         self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', model_mode)
         self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', model_mode)
         
-        for k,v in json.load(open('cord/data/input/base_inflows_Error_Paper.json')).items():
+        for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
             setattr(self,k,v)
 
 
@@ -1288,7 +1288,6 @@ class Inputter():
                         if this_year_fnf_melt < reservoir.monthly['snowmelt_sorted'][sorted_search]:
                             break
                     reservoir.k_close_wateryear['snow'] = int(reservoir.monthly['snowmelt_sort_index'][sorted_search])
-
                 reservoir.daily_output_data['snow'][t] = reservoir.snowpack['pred_max'][yearcounter] * \
                                                          reservoir.snowpack['daily'][
                                                              reservoir.k_close_wateryear['snow']][dowy]

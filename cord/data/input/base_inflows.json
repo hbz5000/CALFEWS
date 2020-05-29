@@ -3,7 +3,7 @@
     
   "flow_input_source":{
     "observations":{
-      "CDEC": "cord/data/input/cord-data.csv", 
+      "CDEC": "cord/data/input/cord-data-sim.csv", 
       "WRF":  "cord/data/CA_FNF_WRF/WRF_20062016.csv",
 	  "WRF_GW_corr":  "cord/data/CA_FNF_WRF/WRF_GWCorrect_20062016.csv"
       },
@@ -47,7 +47,7 @@
 
   "export_series":{
     "observations":{
-      "CDEC": "cord-data-CDEC_19962016",
+      "CDEC": "cord-data-CDEC_19052016",
       "WRF": "cord-data-WRF_20062016",
 	  "WRF_GW_corr": "cord-data-WRF_GWC_20062016" 
       },
@@ -91,7 +91,7 @@
   
   "simulation_period_start":{
     "observations":{
-      "CDEC": 1996, 
+      "CDEC": 1905, 
       "WRF": 2006,
 	  "WRF_GW_corr":2006
       },
@@ -179,7 +179,7 @@
   
   "file_start":{
     "observations":{
-      "CDEC": "10/1/1996",
+      "CDEC": "10/1/1905",
       "WRF": "10/1/2016",
 	  "WRF_GW_corr": "10/1/2016"
       },

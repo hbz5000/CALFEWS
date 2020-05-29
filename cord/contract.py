@@ -35,7 +35,7 @@ class Contract():
 	#dictionaries to keep track of data for output
     self.daily_supplies = {}
     self.annual_supplies = {}
-    supply_types = ['contract', 'carryover', 'turnback', 'flood']
+    supply_types = ['contract', 'carryover', 'turnback', 'flood', 'total_carryover']
     for x in supply_types:
       self.daily_supplies[x] = np.zeros(self.T)
       self.annual_supplies[x] = np.zeros(self.number_years)
@@ -152,6 +152,7 @@ class Contract():
     self.daily_supplies['carryover'][t] += carryover_deliveries
     self.daily_supplies['turnback'][t] += turnback_deliveries 
     self.daily_supplies['flood'][t] += flood_deliveries
+    self.daily_supplies['total_carryover'][t] += carryover
     if m == 9 and da == 30:
       self.annual_supplies['contract'][wateryear] += max(deliveries - max(carryover, 0.0) - max(turnback, 0.0), 0.0)
       self.annual_supplies['carryover'][wateryear] += max(min(carryover, deliveries), 0.0)

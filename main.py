@@ -106,7 +106,12 @@ expected_release_datafile = 'cord/data/input/cord-data.csv'
 if model_mode == 'simulation':
   demand_type = 'baseline'
   #demand_type = 'pmp'
-  input_data_file = 'cord/data/input/cord-data-sim.csv'
+  base_data_file = 'cord/data/input/cord-data.csv'
+  new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder)
+  new_inputs.run_initialization('XXX')
+  new_inputs.run_routine(flow_input_type, flow_input_source)
+  input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_"  + str(k) + ".csv"
+
 elif model_mode == 'validation':
   demand_type = 'pesticide'
   input_data_file = 'cord/data/input/cord-data.csv'
@@ -190,31 +195,17 @@ for k in range(start, stop):
 
       swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.forecastSCWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
 
-    # for n in new_inputs.sensitivity_factors['factor_list']:
-    #   param_df[n][k] = new_inputs.sensitivity_factors[n]['realization']
-    #
-    # sensitivity_df['SWP_%s' % k] = pd.Series(modelso.annual_SWP)
-    # sensitivity_df['CVP_%s' % k] = pd.Series(modelso.annual_CVP)
-    # sensitivity_df['SMI_deliver_%s' %k] = pd.Series(modelso.semitropic.annual_supplies['delivery'])
-    # sensitivity_df['SMI_take_%s' %k] = pd.Series(modelso.semitropic.annual_supplies['leiu_applied'])
-    # sensitivity_df['SMI_give_%s' %k] = pd.Series(modelso.semitropic.annual_supplies['leiu_delivered'])
-    # sensitivity_df['WON_land_%s' %k] = pd.Series(modelso.wonderful.annual_supplies['acreage'])
-
-    #try:
     if (save_full):
       pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
       pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
 
     data_output(output_list, results_folder, clean_output, rank, k, new_inputs.sensitivity_factors, modelno, modelso)
-    #except Exception as e: print(e)
 
     del modelno
     del modelso
     print('Sample ' + str(k) + ' completed in ', datetime.now() - startTime)
 
     sys.stdout.flush()
-  # param_df.to_csv(results_folder + '/sens_out/sens_param_scr_' + str(k) + '.csv') #keyvan
-  # sensitivity_df.to_csv(results_folder + '/sens_out/sens_results_scr_'+ str(k) + '.csv') #keyvan
   
   
   
@@ -320,6 +311,8 @@ for k in range(start, stop):
   
   ######################################################################################
   ###validation/simulation modes
+
+
   ######################################################################################
   elif model_mode == 'simulation' or model_mode == 'validation':
 
@@ -327,6 +320,9 @@ for k in range(start, stop):
     #   # Model Class Initialization
     ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
     ##
+
+    # new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode)
+
     modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
     modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
     modelso.max_tax_free = {}
@@ -361,69 +357,26 @@ for k in range(start, stop):
 
       swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.forecastSCWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
 
-    ### record results
-    # district_output_list = [modelso.berrenda, modelso.belridge, modelso.buenavista, modelso.cawelo, modelso.henrymiller, modelso.ID4, modelso.kerndelta, modelso.losthills, modelso.rosedale, modelso.semitropic, modelso.tehachapi, modelso.tejon, modelso.westkern, modelso.wheeler, modelso.kcwa,
-    #                         modelso.chowchilla, modelso.maderairr, modelso.arvin, modelso.delano, modelso.exeter, modelso.kerntulare, modelso.lindmore, modelso.lindsay, modelso.lowertule, modelso.porterville,
-    #                         modelso.saucelito, modelso.shaffer, modelso.sosanjoaquin, modelso.teapot, modelso.terra, modelso.tulare, modelso.fresno, modelso.fresnoid,
-    #                         modelso.socal, modelso.southbay, modelso.centralcoast, modelso.dudleyridge, modelso.tularelake, modelso.westlands, modelso.othercvp, modelso.othercrossvalley, modelso.otherswp, modelso.otherfriant]
-    district_output_list = modelso.district_list
-    district_results = modelso.results_as_df('daily', district_output_list)
-    district_results.to_csv(results_folder + '/district_results_' + model_mode + '.csv')
-    del district_results
-    district_results = modelso.results_as_df_full('daily', district_output_list)
-    district_results.to_csv(results_folder + '/district_results_full_' + model_mode + '.csv')
-    del district_results
-    district_results_annual = modelso.results_as_df('annual', district_output_list)
-    district_results_annual.to_csv(results_folder + '/annual_district_results_' + model_mode + '.csv')
-    del district_results_annual
+    if (save_full):
+      try:
+        pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
+        pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
+      except Exception as e:
+        print(e)
+    if model_mode == 'validation':
+      rank = 19962016
+      k = 19962016
+    elif model_mode == 'simulation':
+      rank = 19062016
+      k = 19062016
+    sensitivity_factors = {}
+    data_output(output_list, results_folder, clean_output, rank, k, sensitivity_factors, modelno, modelso)
 
-    private_results_annual = modelso.results_as_df('annual', modelso.private_list)
-    private_results_annual.to_csv(results_folder + '/annual_private_results_' + model_mode + '.csv')
-    private_results = modelso.results_as_df_full('daily', modelso.private_list)
-    private_results.to_csv(results_folder + '/private_results_' + model_mode + '.csv')
-    del private_results,private_results_annual
+    del modelno
+    del modelso
+    print('Sample ' + str(k) + ' completed in ', datetime.now() - startTime)
 
-    city_results_annual = modelso.results_as_df('annual', modelso.city_list)
-    city_results_annual.to_csv(results_folder + '/annual_city_results_' + model_mode + '.csv')
-    city_results = modelso.results_as_df_full('daily', modelso.city_list)
-    city_results.to_csv(results_folder + '/city_results_' + model_mode + '.csv')
-    del city_results,city_results_annual
-
-
-    contract_results = modelso.results_as_df('daily', modelso.contract_list)
-    contract_results.to_csv(results_folder + '/contract_results_' + model_mode + '.csv')
-    contract_results_annual = modelso.results_as_df('annual', modelso.contract_list)
-    contract_results_annual.to_csv(results_folder + '/contract_results_annual_' + model_mode + '.csv')
-    del contract_results, contract_results_annual
-
-    northern_res_list = [modelno.shasta, modelno.folsom, modelno.oroville, modelno.yuba, modelno.newmelones,
-                         modelno.donpedro, modelno.exchequer, modelno.delta]
-    southern_res_list = [modelso.sanluisstate, modelso.sanluisfederal, modelso.millerton, modelso.isabella,
-                         modelso.kaweah, modelso.success, modelso.pineflat]
-    reservoir_results_no = modelno.results_as_df('daily', northern_res_list)
-    reservoir_results_no.to_csv(results_folder + '/reservoir_results_no_' + model_mode + '.csv')
-    del reservoir_results_no
-    reservoir_results_so = modelso.results_as_df('daily', southern_res_list)
-    reservoir_results_so.to_csv(results_folder + '/reservoir_results_so_' + model_mode + '.csv')
-    del reservoir_results_so
-
-    canal_results = modelso.results_as_df('daily', modelso.canal_list)
-    canal_results.to_csv(results_folder + '/canal_results_' + model_mode + '.csv')
-    del canal_results
-
-    bank_results = modelso.bank_as_df('daily', modelso.waterbank_list)
-    bank_results.to_csv(results_folder + '/bank_results_' + model_mode + '.csv')
-    bank_results_annual = modelso.bank_as_df('annual', modelso.waterbank_list)
-    bank_results_annual.to_csv(results_folder + '/bank_results_annual_' + model_mode + '.csv')
-    del bank_results, bank_results_annual
-
-    leiu_results = modelso.bank_as_df('daily', modelso.leiu_list)
-    leiu_results.to_csv(results_folder + '/leiu_results_' + model_mode + '.csv')
-    leiu_results_annual = modelso.bank_as_df('annual', modelso.leiu_list)
-    leiu_results_annual.to_csv(results_folder + '/leiu_results_annual_' + model_mode + '.csv')
-    del leiu_results, leiu_results_annual
-  # except:
-  #   print('ERROR: SAMPLE ' + str(k) + ' FAILED')
+    sys.stdout.flush()
 
 
 print ('Total run completed in ', datetime.now() - startTime)

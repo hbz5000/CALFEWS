@@ -116,6 +116,7 @@ class Delta():
     self.remaining_tax_free_storage = {}
     self.remaining_tax_free_storage['swp'] = np.zeros(self.T)
     self.remaining_tax_free_storage['cvp'] = np.zeros(self.T)
+    self.remaining_outflow = np.zeros(self.T)
 	
     self.first_empty_day_SWP = 0
     self.first_empty_day_CVP = 0
@@ -167,11 +168,13 @@ class Delta():
 	
     expected_outflow_releases = {}
     self.max_tax_free = {}
+    self.expected_outflow = {}
     for wyt in ['W', 'AN', 'BN', 'D', 'C']:
       expected_outflow_releases[wyt] = np.zeros(366)
       self.max_tax_free[wyt] = {}
       self.max_tax_free[wyt]['swp'] = np.zeros(366)
       self.max_tax_free[wyt]['cvp'] = np.zeros(366)
+      self.expected_outflow[wyt] = np.zeros(366)
 
     num_obs = np.zeros(366)
     num_obs_m = np.zeros(12)
@@ -756,6 +759,7 @@ class Delta():
     self.delta_uncontrolled_remaining = 0.0
     for project in ['cvp', 'swp']:
       self.remaining_tax_free_storage[project][t] = self.max_tax_free[wyt][project][dowy]
+      self.remaining_outflow[t] = self.expected_outflow[wyt][dowy]
 
       ######The floor for pumping projections are the amount of available storage (including flow projections) in project
 	  ######reservoirs, or the available 'tax free' pumping remaining that is caused by the delta E/I ratio not being binding due to 
