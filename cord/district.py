@@ -421,11 +421,7 @@ class District():
       max_carryover = self.contract_carryover_list[key]
 
     reallocated_water = max(annual_allocation - max_carryover, 0.0)
-    if key == 'kings':
-      print(self.key, end = " ")
-      print(existing_balance, end = " ")
-      print(annual_allocation, end = " ")
-      print(max_carryover)
+
     self.carryover[key] = min(max_carryover, annual_allocation)
     self.paper_balance[key] = 0.0
     self.turnback_pool[key] = 0.0
