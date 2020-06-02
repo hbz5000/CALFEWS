@@ -9,4 +9,3 @@ save_address
 .ipynb*
 .vscode
 .venv*
-profiling
