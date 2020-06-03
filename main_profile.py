@@ -124,7 +124,7 @@ else:
     data_output(output_list, results_folder, clean_output, rank, k, sensitivity_factors, modelno, modelso)
     pd.to_pickle(modelno, results_folder + '/modelno.pkl')
     pd.to_pickle(modelso, results_folder + '/modelso.pkl')
-  except e:
+  except (e):
     print(e)
 print ('Total run completed in ', datetime.now() - startTime)
 
