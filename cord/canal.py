@@ -5,7 +5,24 @@ import json
 from .util import *
 
 class Canal():
+  __slots__ = ["key", "name", "locked", "capacity", "turnout", "recovery_feeder", "flow_directions", "name", 
+               'daily_turnout', 'turnout_frac', 'recovery_flow_frac', 'flow', 'num_sites', 'daily_flow', 
+               'turnout_use', 'demand', 'iter_count']
+               
+  def __iter__(self):
+    self.iter_count = 0
+    return self
+  
+  def __next__(self):
+    if self.iter_count == 0:
+      self.iter_count += 1
+      return self
+    else:
+      raise StopIteration
 
+  def __len__(self):
+    return 1
+                   
   def __init__(self, name, key, scenario_file = 'baseline'):
     self.key = key
     self.name = name

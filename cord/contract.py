@@ -5,10 +5,27 @@ import json
 from .util import *
 
 class Contract():
+  __slots__ = ["key", "name", "total", "maxForecastValue", "carryover", "type", "name",
+               "allocation_priority", "storage_priority", "reduction", "allocation", "storage_pool", "available_water",
+               "annual_deliveries", "flood_deliveries", "daily_deliveries", "tot_carryover", "running_carryover",
+               "lastYearForecast", "projected_carryover", "max_allocation", "tot_new_alloc", "daily_supplies",
+               "annual_supplies", "contractors", 'iter_count']
 
-  def __init__(self, df, name, key):
-    self.T = len(df)
-    self.number_years = df.index.year[-1]-df.index.year[0]
+  def __iter__(self):
+    self.iter_count = 0
+    return self
+  
+  def __next__(self):
+    if self.iter_count == 0:
+      self.iter_count += 1
+      return self
+    else:
+      raise StopIteration
+
+  def __len__(self):
+    return 1
+        
+  def __init__(self, model, name, key):
     self.key = key
     self.name = name
 
@@ -16,13 +33,13 @@ class Contract():
         setattr(self,k,v)
 	
 	#daily state variables for contract allocation & availability
-    self.allocation = np.zeros(self.T)
-    self.storage_pool = np.zeros(self.T)
-    self.available_water = np.zeros(self.T)
+    self.allocation = np.zeros(model.T)
+    self.storage_pool = np.zeros(model.T)
+    self.available_water = np.zeros(model.T)
 	
     #keep track of deliveries made daily/annually from the contract
-    self.annual_deliveries = np.zeros(self.number_years)
-    self.flood_deliveries = np.zeros(self.number_years)
+    self.annual_deliveries = np.zeros(model.number_years)
+    self.flood_deliveries = np.zeros(model.number_years)
     self.daily_deliveries = 0.0
 	
     self.tot_carryover = 0.0#contract carryover
@@ -37,8 +54,8 @@ class Contract():
     self.annual_supplies = {}
     supply_types = ['contract', 'carryover', 'turnback', 'flood', 'total_carryover']
     for x in supply_types:
-      self.daily_supplies[x] = np.zeros(self.T)
-      self.annual_supplies[x] = np.zeros(self.number_years)
+      self.daily_supplies[x] = np.zeros(model.T)
+      self.annual_supplies[x] = np.zeros(model.number_years)
 
 
   def object_equals(self, other):

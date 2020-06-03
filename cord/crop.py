@@ -8,7 +8,23 @@ from .util import *
 
 
 class Crop():
+  __slots__ = ["key", "tau", "beta", "delta", "gamma", "leontief", "eta", "baseline_inputs", "baseline_revenue", 
+               "econ_factors", "pmp_keys", "crop_keys", "sub", "__dict__"]
 
+  def __iter__(self):
+    self.iter_count = 0
+    return self
+  
+  def __next__(self):
+    if self.iter_count == 0:
+      self.iter_count += 1
+      return self
+    else:
+      raise StopIteration
+
+  def __len__(self):
+    return 1
+      
   def __init__(self, key):
     self.key = key
     self.tau = {}

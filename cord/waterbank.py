@@ -8,11 +8,27 @@ from .util import *
 
 
 class Waterbank():
+  __slots__ = ["T", "index", "number_years", "key", "name", "participant_list", "participant_type", "canal_rights",
+               "initial_recharge", "recovery", "tot_storage", "recharge_decline", "ownership", "bank_cap",
+               "recharge_rate", "tot_current_storage", "loss_rate", "storage", "recovery_use", "banked",
+               "bank_timeseries", "annual_timeseries", "recharge_rate_series", "thismonthuse", "monthusecounter",
+               "monthemptycounter", 'current_requested', 'iter_count', 'number_years']
 
-  def __init__(self, df, name, key):
-    self.T = len(df)
-    self.index = df.index
-    self.number_years = self.index.year[self.T - 1] - self.index.year[0]
+  def __iter__(self):
+    self.iter_count = 0
+    return self
+  
+  def __next__(self):
+    if self.iter_count == 0:
+      self.iter_count += 1
+      return self
+    else:
+      raise StopIteration
+
+  def __len__(self):
+    return 1
+                     
+  def __init__(self, model, name, key):
     self.key = key
     self.name = name
     for k,v in json.load(open('cord/banks/%s_properties.json' % key)).items():
@@ -29,11 +45,11 @@ class Waterbank():
 	#timeseries for export to csv
     self.bank_timeseries = {}#daily
     self.annual_timeseries = {}#annual
-    self.recharge_rate_series = np.zeros(self.T)#daily recharge rate
+    self.recharge_rate_series = np.zeros(model.T)#daily recharge rate
     for x in self.participant_list:
       self.storage[x] = 0.0
-      self.bank_timeseries[x] = np.zeros(self.T)
-      self.annual_timeseries[x] = np.zeros(self.number_years)
+      self.bank_timeseries[x] = np.zeros(model.T)
+      self.annual_timeseries[x] = np.zeros(model.number_years)
       self.recovery_use[x] = 0.0
       self.banked[x] = 0.0
 	  
@@ -132,7 +148,7 @@ class Waterbank():
           for yx in member_contracts:
             if y.name == yx:
               contractor_toggle = 1
-        for yy in self.get_iterable(self.canal_rights):
+        for yy in self.canal_rights:
           if yy == current_canal:
             canal_toggle = 1
         if contractor_toggle == 1 and canal_toggle == 1:
@@ -162,7 +178,7 @@ class Waterbank():
 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
     elif search_type == 'banking':
       canal_toggle = 0
-      for yy in self.get_iterable(self.canal_rights):
+      for yy in self.canal_rights:
         if yy == current_canal:
           canal_toggle = 1
       if canal_toggle == 1:
@@ -255,9 +271,4 @@ class Waterbank():
       df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
     return df
 
-  def get_iterable(self, x):
-    if isinstance(x, cl.Iterable):
-      return x
-    else:
-      return (x,)
 

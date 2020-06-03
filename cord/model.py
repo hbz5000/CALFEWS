@@ -18,7 +18,34 @@ from .util import *
 
 
 class Model():
-
+  __slots__ = ["df", "model_mode", "demand_type", "index", "T", "day_year", "day_month", "month", "year", "starting_year",
+               "ending_year", "number_years", "dowy", "water_year", "df_short", "T_short", "short_day_year",
+               "short_day_month", "short_month", "short_year", "short_starting_year", "short_ending_year",
+               "short_number_years", "short_dowy", "short_water_year", "leap", "year_list", "days_in_month",
+               "dowy_eom", "non_leap_year", "use_sensitivity", "sensitivity_sample_number", "sensitivity_sample_names",
+               "sensitivity_sample", "sensitivity_factors", "shasta", "oroville", "folsom", "yuba", "newmelones",
+               "donpedro", "exchequer", "millerton", "sanluisstate", "sanluisfederal", "isabella", "success", 
+               "kaweah", "pineflat", "berrenda", "belridge", "buenavista", "cawelo", "henrymiller",
+               "ID4", "kerndelta", "losthills", "rosedale", "semitropic", "tehachapi", "tejon", "westkern", "wheeler", 
+               "kcwa", "bakersfield", "northkern", "arvin", "delano", "pixley", "exeter", "kerntulare", "lindmore", 
+               "lindsay", "lowertule", "porterville", "saucelito", "shaffer", "sosanjoaquin", "teapot", "terra", "tulare", 
+               "fresno", "fresnoid", "socal", "southbay", "centralcoast", "dudleyridge", "tularelake", "westlands",
+               "chowchilla", "maderairr", "othertule", "otherkaweah", "otherfriant", "othercvp", "otherexchange", 
+               "othercrossvalley", "otherswp", "consolidated", "alta", "krwa", "kaweahdelta", "sanluiswater", "panoche", 
+               "delpuerto", "wonderful", "metropolitan", "castaic", "coachella", "friant1", "friant2", "swpdelta", 
+               "cvpdelta", "cvpexchange", "crossvalley", "kernriver", "tuleriver", "kaweahriver", "kingsriver",
+               "fkc", "madera", "xvc", "calaqueduct", "kwbcanal", "aecanal", "kerncanal", "calloway", "lerdo", 
+               "beardsley", "kernriverchannel", "kaweahriverchannel", "tuleriverchannel", "kingsriverchannel", "delta", 
+               "stockdale", "kernriverbed", "poso", "pioneer", "kwb", "berrendawb", "b2800", "wkwb", "irvineranch", 
+               "northkernwb", 'short_index', 'first_d_of_month', 'short_days_in_month', 'delta_gains_regression', 
+               'running_fnf', 'reservoir_list', 'city_list', 'swp_allocation', 'canal_reservoir', 'canal_contract', 
+               'annual_SWP', 'hro_pumping', 'district_list', 'forecastSRI', 'contract_list', 'waterbank_list', 
+               'canal_priority', 'canal_list', 'observed_trp', 'sanluis', 'reservoir_contract', 'cvp_allocation', 
+               'contract_turnouts', 'contract_reservoir', 'trp_pumping', 'reservoir_canal', 'canal_district',
+               'aewb', 'pumping_turnback', 'max_tax_free', 'observed_hro', 'district_keys', 'private_list',
+               'annual_CVP', 'ytd_pump_hro', 'observed_hro_pred', 'ytd_pump_trp', 'contract_keys', 'urban_list', 
+               'omr_rule_start', 'leiu_list', 'allocation_losses']
+               
   def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
     ##Set model dataset & index length
     self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
@@ -46,12 +73,16 @@ class Model():
     self.short_number_years = self.short_ending_year - self.short_starting_year
     self.short_dowy = water_day(self.short_day_year, self.short_year)
     self.short_water_year = water_year(self.short_month, self.short_year, self.short_starting_year)
+    short_year_list = np.arange(min(self.short_year), max(self.short_year)+2)
+    short_leap = leap(short_year_list)
+    self.short_days_in_month = days_in_month(short_year_list, short_leap)
 
     self.leap = leap(np.arange(min(self.year), max(self.year) + 2))
     year_list = np.arange(min(self.year), max(self.year) + 2)
     self.days_in_month = days_in_month(year_list, self.leap)
     self.dowy_eom = dowy_eom(year_list, self.leap)
     self.non_leap_year = first_non_leap_year(self.dowy_eom)
+    self.first_d_of_month = first_d_of_month(self.dowy_eom, self.days_in_month)
 
     if sensitivity_sample_number == -1:
       self.use_sensitivity = False
@@ -232,21 +263,21 @@ class Model():
 	#reservoir initialization for the northern delta system
     #########################################################################################
     #4 Sacramento River Reservoirs (CVP & SWP)
-    self.shasta = Reservoir(self.df, self.df_short, 'shasta', 'SHA', self.model_mode)
-    self.folsom = Reservoir(self.df, self.df_short, 'folsom', 'FOL', self.model_mode)
-    self.oroville = Reservoir(self.df, self.df_short, 'oroville', 'ORO', self.model_mode)
-    self.yuba = Reservoir(self.df, self.df_short, 'yuba', 'YRS', self.model_mode)
+    self.shasta = Reservoir(self, 'shasta', 'SHA', self.model_mode)
+    self.folsom = Reservoir(self, 'folsom', 'FOL', self.model_mode)
+    self.oroville = Reservoir(self, 'oroville', 'ORO', self.model_mode)
+    self.yuba = Reservoir(self, 'yuba', 'YRS', self.model_mode)
 
     #3 San Joaquin River Reservoirs (to meet Vernalis flow targets)
-    self.newmelones = Reservoir(self.df, self.df_short, 'newmelones', 'NML', self.model_mode)
-    self.donpedro = Reservoir(self.df, self.df_short, 'donpedro', 'DNP', self.model_mode)
-    self.exchequer = Reservoir(self.df, self.df_short, 'exchequer', 'EXC', self.model_mode)
+    self.newmelones = Reservoir(self, 'newmelones', 'NML', self.model_mode)
+    self.donpedro = Reservoir(self, 'donpedro', 'DNP', self.model_mode)
+    self.exchequer = Reservoir(self, 'exchequer', 'EXC', self.model_mode)
 
     self.reservoir_list = [self.shasta, self.oroville, self.yuba, self.folsom, self.newmelones, self.donpedro,
                            self.exchequer]
 
     #Millerton Reservoir (flows used to calculate San Joaquin River index, not in northern simulation)
-    self.millerton = Reservoir(self.df, self.df_short, 'millerton', 'MIL', self.model_mode)
+    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode)
     reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro, self.exchequer, self.millerton]
     ##Regression flow & standard deviations read from file
     #### Find regression information for all 8 reservoirs
@@ -255,18 +286,18 @@ class Model():
       # df_res_process = pd.DataFrame()
       # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
-        x.find_release_func(self.df_short)
+        x.find_release_func(self)
       ###Flow shapes are regressions that determine % of remaining flow in a period (Oct-Mar; Apr-Jul; Aug-Sept)
       ###that is expected to come, regressed against the total flow already observed in that period
       ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       for x in reservoir_list:
-        x.create_flow_shapes(self.df_short)
+        x.create_flow_shapes(self)
     elif self.model_mode == 'validation':
 	  ## 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       # df_res_process = pd.DataFrame()
       # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
-        x.find_release_func(self.df_short)
+        x.find_release_func(self)
         # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
         # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
         # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
@@ -299,13 +330,13 @@ class Model():
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       #df_flow_shape_no = pd.DataFrame()
       for x in reservoir_list:
-        x.create_flow_shapes(self.df_short)
+        x.create_flow_shapes(self)
     else:
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       # df_res_process = pd.DataFrame()
       # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
-        x.find_release_func(self.df_short)
+        x.find_release_func(self)
         # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
         # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
         # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
@@ -339,14 +370,14 @@ class Model():
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       #df_flow_shape_no = pd.DataFrame()
       for x in reservoir_list:
-        x.create_flow_shapes(self.df_short)
+        x.create_flow_shapes(self)
     #########################################################################################
 
   def initialize_delta_ops(self):
 	#########################################################################################
     ##initialization of the delta rules
     #########################################################################################
-    self.delta = Delta(self.df, self.df_short, 'delta', 'DEL', self.model_mode)
+    self.delta = Delta(self, 'delta', 'DEL', self.model_mode)
     
     if (self.use_sensitivity == True):
       self.delta.set_sensitivity_factors(self.sensitivity_factors['delta_outflow_multiplier']['realization'], self.sensitivity_factors['omr_flow']['realization'], self.sensitivity_factors['omr_probability']['realization'])
@@ -363,7 +394,7 @@ class Model():
  
     ##in addition to output variables, this generates:
 	#self.max_tax_free (5x2x365) - using delta outflow min, calculate how much pumping can occur without paying any additional I/E 'tax' (b/c some inflow is already used for delta outflow requirements)
-    expected_outflow_req, expected_depletion = self.delta.calc_expected_delta_outflow(self.shasta.downstream_short,self.oroville.downstream_short,self.yuba.downstream_short,self.folsom.downstream_short, self.shasta.temp_releases, self.oroville.temp_releases, self.yuba.temp_releases, self.folsom.temp_releases, gains_sac_short, gains_sj_short, depletions_short, eastside_streams_short)
+    expected_outflow_req, expected_depletion = self.delta.calc_expected_delta_outflow(self, self.shasta.downstream_short,self.oroville.downstream_short,self.yuba.downstream_short,self.folsom.downstream_short, self.shasta.temp_releases, self.oroville.temp_releases, self.yuba.temp_releases, self.folsom.temp_releases, gains_sac_short, gains_sj_short, depletions_short, eastside_streams_short)
 	#these requirements are then passed back to the reservoirs so that they know how much water to hold on to
     #Calculated the expected releases for environmental flows & delta outflow requirements
     #pre-processed to help with forecasts of available storage for export
@@ -376,36 +407,36 @@ class Model():
     #x.aug_sept_min_release (5 x 365) - daily values of remaining enviromental releases during the aug-sept period, in each wyt
     #x.oct_nov_min_release (5 x 365) - daily values of remaining enviromental releases during the oct-nov period, in each wyt
     for x in inflow_list:
-      x.calc_expected_min_release(expected_outflow_req, expected_depletion, 0)
+      x.calc_expected_min_release(self, expected_outflow_req, expected_depletion, 0)
 	  
-    self.delta.create_flow_shapes_omr(self.df_short)
+    self.delta.create_flow_shapes_omr(self)
 
   def initialize_southern_res(self):
     ############################################################################
     ###Reservoir Initialization
 	############################################################################
-    self.millerton = Reservoir(self.df, self.df_short, 'millerton', 'MIL', self.model_mode)
-    self.pineflat = Reservoir(self.df, self.df_short, 'pineflat', 'PFT', self.model_mode)
-    self.kaweah = Reservoir(self.df, self.df_short, 'kaweah', 'KWH', self.model_mode)
-    self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', self.model_mode)
-    self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', self.model_mode)
+    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode)
+    self.pineflat = Reservoir(self, 'pineflat', 'PFT', self.model_mode)
+    self.kaweah = Reservoir(self, 'kaweah', 'KWH', self.model_mode)
+    self.success = Reservoir(self, 'success', 'SUC', self.model_mode)
+    self.isabella = Reservoir(self, 'isabella', 'ISB', self.model_mode)
     ###San Luis is initialized as a Reservoir, but
     ###has none of the watershed data that goes along with the other reservoirs
-    self.sanluis = Reservoir(self.df, self.df_short, 'sanluis', 'SNL', self.model_mode)
-    self.sanluisstate = Reservoir(self.df, self.df_short, 'sanluisstate', 'SLS', self.model_mode)
-    self.sanluisfederal = Reservoir(self.df, self.df_short, 'sanluisfederal', 'SLF', self.model_mode)
+    self.sanluis = Reservoir(self, 'sanluis', 'SNL', self.model_mode)
+    self.sanluisstate = Reservoir(self, 'sanluisstate', 'SLS', self.model_mode)
+    self.sanluisfederal = Reservoir(self, 'sanluisfederal', 'SLF', self.model_mode)
     self.reservoir_list = [self.sanluisstate, self.sanluisfederal, self.millerton, self.isabella, self.success, self.kaweah, self.pineflat]
     if self.model_mode == 'climate_ensemble':
       ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
-        x.find_release_func(self.df_short)
+        x.find_release_func(self)
       for x in [self.pineflat, self.millerton, self.isabella, self.success, self.kaweah]:
-        x.create_flow_shapes(self.df_short)
+        x.create_flow_shapes(self)
     elif self.model_mode == 'validation':	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       # df_res_process = pd.DataFrame()
       # df_res_annual = pd.DataFrame()
       for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
-        x.find_release_func(self.df_short)
+        x.find_release_func(self)
         # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
         # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
         # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
@@ -441,14 +472,14 @@ class Model():
 	  ###that is expected to come, regressed against the total flow already observed in that period
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       for x in [self.pineflat, self.millerton, self.isabella, self.success, self.kaweah]:
-        x.create_flow_shapes(self.df_short)
+        x.create_flow_shapes(self)
     else:
 	  ### 5 sets of daily linear coefficients & standard devations at each reservoir - (2x2) FNF/INFLOWS x OCT-MAR/APR-JUL + (1) INFLOWS AUG-SEPT
       reservoir_list = [self.millerton, self.isabella, self.pineflat, self.kaweah, self.success]
       # df_res_process = pd.DataFrame()
       # df_res_annual = pd.DataFrame()
       for x in reservoir_list:
-        x.find_release_func(self.df_short)
+        x.find_release_func(self)
         # df_res_process['%s_rainfnf' %x.key] = pd.Series(x.rainflood_fnf, index = self.index)
         # df_res_process['%s_snowfnf' %x.key] = pd.Series(x.snowflood_fnf, index = self.index)
         # df_res_process['%s_raininf' %x.key] = pd.Series(x.rainflood_inf, index = self.index)
@@ -481,7 +512,7 @@ class Model():
 	  ###that is expected to come, regressed against the total flow already observed in that period
 	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       for x in reservoir_list:
-        x.create_flow_shapes(self.df_short)
+        x.create_flow_shapes(self)
     #########################################################################################	  
 
     #Tulare Basin Reservoirs do not need to release to the delta, so they only use their own
@@ -504,17 +535,17 @@ class Model():
           sjrr_toggle_value = 0
         else:
           sjrr_toggle_value = 1
-        x.calc_expected_min_release(expected_outflow_releases, np.zeros(12), sjrr_toggle_value)
+        x.calc_expected_min_release(self, expected_outflow_releases, np.zeros(12), sjrr_toggle_value)
       else:
-        x.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 0)
+        x.calc_expected_min_release(self, expected_outflow_releases, np.zeros(12), 0)
 	  
     ##Code to calculate snow/flow regressions and save to file
 	############################################################################
-    self.pineflat.find_release_func(self.df_short)
-    self.kaweah.find_release_func(self.df_short)
-    self.success.find_release_func(self.df_short)
-    self.isabella.find_release_func(self.df_short)
-    self.millerton.find_release_func(self.df_short)	
+    self.pineflat.find_release_func(self)
+    self.kaweah.find_release_func(self)
+    self.success.find_release_func(self)
+    self.isabella.find_release_func(self)
+    self.millerton.find_release_func(self)	
     # df_res_process = pd.DataFrame()
     # df_res_annual = pd.DataFrame()
     # for x in [self.pineflat, self.kaweah, self.success, self.isabella, self.millerton]:
@@ -536,80 +567,80 @@ class Model():
     ###District Initialization
 	############################################################################
 	##Kern County Water Agency Member Units
-    self.berrenda = District(self.df, 'berrenda', 'BDM')
-    self.belridge = District(self.df, 'belridge', 'BLR')
-    self.buenavista = District(self.df, 'buenavista', 'BVA')
-    self.cawelo = District(self.df, 'cawelo', 'CWO')
-    self.henrymiller = District(self.df, 'henrymiller', 'HML')
-    self.ID4 = District(self.df, 'ID4', 'ID4')
-    self.kerndelta = District(self.df, 'kerndelta', 'KND')
-    self.losthills = District(self.df, 'losthills', 'LHL')
-    self.rosedale = District(self.df, 'rosedale', 'RRB')
-    self.semitropic = District(self.df, 'semitropic', 'SMI')
-    self.tehachapi = District(self.df, 'tehachapi', 'THC')
-    self.tejon = District(self.df, 'tejon', 'TJC')
-    self.westkern = District(self.df, 'westkern', 'WKN')
-    self.wheeler = District(self.df, 'wheeler', 'WRM')
-    self.kcwa = District(self.df, 'kcwa', 'KCWA')
+    self.berrenda = District(self, 'berrenda', 'BDM')
+    self.belridge = District(self, 'belridge', 'BLR')
+    self.buenavista = District(self, 'buenavista', 'BVA')
+    self.cawelo = District(self, 'cawelo', 'CWO')
+    self.henrymiller = District(self, 'henrymiller', 'HML')
+    self.ID4 = District(self, 'ID4', 'ID4')
+    self.kerndelta = District(self, 'kerndelta', 'KND')
+    self.losthills = District(self, 'losthills', 'LHL')
+    self.rosedale = District(self, 'rosedale', 'RRB')
+    self.semitropic = District(self, 'semitropic', 'SMI')
+    self.tehachapi = District(self, 'tehachapi', 'THC')
+    self.tejon = District(self, 'tejon', 'TJC')
+    self.westkern = District(self, 'westkern', 'WKN')
+    self.wheeler = District(self, 'wheeler', 'WRM')
+    self.kcwa = District(self, 'kcwa', 'KCWA')
 	##Other Kern County
-    self.bakersfield = District(self.df, 'bakersfield', 'COB')
-    self.northkern = District(self.df, 'northkern', 'NKN')
+    self.bakersfield = District(self, 'bakersfield', 'COB')
+    self.northkern = District(self, 'northkern', 'NKN')
     ##Friant Kern Contractors
-    self.arvin = District(self.df, 'arvin', 'ARV')
-    self.pixley = District(self.df, 'pixley', 'PIX')
-    self.delano = District(self.df, 'delano', 'DLE')
-    self.exeter = District(self.df, 'exeter', 'EXE')
-    self.kerntulare = District(self.df, 'kerntulare', 'KRT')
-    self.lindmore = District(self.df, 'lindmore', 'LND')
-    self.lindsay = District(self.df, 'lindsay', 'LDS')
+    self.arvin = District(self, 'arvin', 'ARV')
+    self.pixley = District(self, 'pixley', 'PIX')
+    self.delano = District(self, 'delano', 'DLE')
+    self.exeter = District(self, 'exeter', 'EXE')
+    self.kerntulare = District(self, 'kerntulare', 'KRT')
+    self.lindmore = District(self, 'lindmore', 'LND')
+    self.lindsay = District(self, 'lindsay', 'LDS')
     if (scenario == 'baseline'):
-      self.lowertule = District(self.df, 'lowertule', 'LWT')
+      self.lowertule = District(self, 'lowertule', 'LWT')
     elif (scenario['LWT'] == 'baseline'):
-      self.lowertule = District(self.df, 'lowertule', 'LWT')
+      self.lowertule = District(self, 'lowertule', 'LWT')
     else:
-      self.lowertule = District(self.df, 'lowertule', 'LWT', scenario['LWT'])
-    self.porterville = District(self.df, 'porterville', 'PRT')
-    self.saucelito = District(self.df, 'saucelito', 'SAU')
-    self.shaffer = District(self.df, 'shaffer', 'SFW')
-    self.sosanjoaquin = District(self.df, 'sosanjoaquin', 'SSJ')
-    self.teapot = District(self.df, 'teapot', 'TPD')
-    self.terra = District(self.df, 'terra', 'TBA')
-    self.tulare = District(self.df, 'tulare', 'TUL')
-    self.fresno = District(self.df, 'fresno', 'COF')
-    self.fresnoid = District(self.df, 'fresnoid', 'FRS')
+      self.lowertule = District(self, 'lowertule', 'LWT', scenario['LWT'])
+    self.porterville = District(self, 'porterville', 'PRT')
+    self.saucelito = District(self, 'saucelito', 'SAU')
+    self.shaffer = District(self, 'shaffer', 'SFW')
+    self.sosanjoaquin = District(self, 'sosanjoaquin', 'SSJ')
+    self.teapot = District(self, 'teapot', 'TPD')
+    self.terra = District(self, 'terra', 'TBA')
+    self.tulare = District(self, 'tulare', 'TUL')
+    self.fresno = District(self, 'fresno', 'COF')
+    self.fresnoid = District(self, 'fresnoid', 'FRS')
     ##Canal Boundaries
-    self.socal = District(self.df, 'socal', 'SOC')
-    self.southbay = District(self.df, 'southbay', 'SOB')
-    self.centralcoast = District(self.df, 'centralcoast', 'CCA')
+    self.socal = District(self, 'socal', 'SOC')
+    self.southbay = District(self, 'southbay', 'SOB')
+    self.centralcoast = District(self, 'centralcoast', 'CCA')
     ##demands at canal boundaries are taken from observed pumping into canal brannch
 
     ##Other Agencies
-    self.dudleyridge = District(self.df, 'dudleyridge', 'DLR')
-    self.tularelake = District(self.df, 'tularelake', 'TLB')
-    self.kaweahdelta = District(self.df, 'kaweahdelta', 'KWD')
-    self.westlands = District(self.df, 'westlands', 'WSL')
-    self.sanluiswater = District(self.df, 'sanluiswater', 'SNL')
-    self.panoche = District(self.df, 'panoche', 'PNC')
-    self.delpuerto = District(self.df, 'delpuerto', 'DLP')
-    self.chowchilla = District(self.df, 'chowchilla', 'CWC')
-    self.maderairr = District(self.df, 'maderairr', 'MAD')
-    self.othertule = District(self.df, 'othertule', 'OTL')
-    self.otherkaweah = District(self.df, 'otherkaweah', 'OKW')
-    self.otherfriant = District(self.df, 'otherfriant', 'OFK')
-    self.othercvp = District(self.df, 'othercvp', 'OCD')
-    self.otherexchange = District(self.df, 'otherexchange', 'OEX')
-    self.othercrossvalley = District(self.df, 'othercrossvalley', 'OXV')
-    self.otherswp = District(self.df, 'otherswp', 'OSW')
-    self.consolidated = District(self.df, 'consolidated', 'CNS')
-    self.alta = District(self.df, 'alta', 'ALT')
-    self.krwa = District(self.df, 'krwa', 'KRWA')
+    self.dudleyridge = District(self, 'dudleyridge', 'DLR')
+    self.tularelake = District(self, 'tularelake', 'TLB')
+    self.kaweahdelta = District(self, 'kaweahdelta', 'KWD')
+    self.westlands = District(self, 'westlands', 'WSL')
+    self.sanluiswater = District(self, 'sanluiswater', 'SNL')
+    self.panoche = District(self, 'panoche', 'PNC')
+    self.delpuerto = District(self, 'delpuerto', 'DLP')
+    self.chowchilla = District(self, 'chowchilla', 'CWC')
+    self.maderairr = District(self, 'maderairr', 'MAD')
+    self.othertule = District(self, 'othertule', 'OTL')
+    self.otherkaweah = District(self, 'otherkaweah', 'OKW')
+    self.otherfriant = District(self, 'otherfriant', 'OFK')
+    self.othercvp = District(self, 'othercvp', 'OCD')
+    self.otherexchange = District(self, 'otherexchange', 'OEX')
+    self.othercrossvalley = District(self, 'othercrossvalley', 'OXV')
+    self.otherswp = District(self, 'otherswp', 'OSW')
+    self.consolidated = District(self, 'consolidated', 'CNS')
+    self.alta = District(self, 'alta', 'ALT')
+    self.krwa = District(self, 'krwa', 'KRWA')
     self.krwa.turnback_use = False
 	
     ##Private water users
-    self.wonderful = Private(self.df, 'wonderful', 'WON', 1.0)
-    self.metropolitan = Private(self.df, 'metropolitan', 'MET', 1.0)
-    self.castaic = Private(self.df, 'castaic', 'CTL', 1.0)
-    self.coachella = Private(self.df, 'coachella', 'CCH', 1.0)
+    self.wonderful = Private(self, 'wonderful', 'WON', 1.0)
+    self.metropolitan = Private(self, 'metropolitan', 'MET', 1.0)
+    self.castaic = Private(self, 'castaic', 'CTL', 1.0)
+    self.coachella = Private(self, 'coachella', 'CCH', 1.0)
 	
 	##List of all intialized districts for looping
     self.district_list = [self.berrenda, self.belridge, self.buenavista, self.cawelo, self.henrymiller, self.ID4, self.kerndelta, self.losthills, self.rosedale, self.semitropic, self.tehachapi, self.tejon, self.westkern, self.wheeler, self.kcwa, self.bakersfield, self.northkern, self.arvin, self.delano, self.pixley, self.exeter, self.kerntulare, self.lindmore, self.lindsay, self.lowertule, self.porterville, self.saucelito, self.shaffer, self.sosanjoaquin, self.teapot, self.terra, self.tulare, self.fresno, self.fresnoid, self.socal, self.southbay, self.centralcoast, self.dudleyridge, self.tularelake, self.westlands, self.chowchilla, self.maderairr, self.othertule, self.otherkaweah, self.otherfriant, self.othercvp, self.otherexchange, self.othercrossvalley, self.otherswp, self.consolidated, self.alta, self.krwa, self.kaweahdelta, self.sanluiswater, self.panoche, self.delpuerto]
@@ -635,9 +666,9 @@ class Model():
     self.allocate_private_contracts()
 	
     for x in self.district_list:
-      x.find_baseline_demands(0)
+      x.find_baseline_demands(0, self.non_leap_year, self.days_in_month)
     for x in self.private_list:
-      x.find_baseline_demands()
+      x.find_baseline_demands(self.non_leap_year, self.days_in_month)
       x.turnout_list = {}
       for xx in x.district_list:
         district_object = self.district_keys[xx] 
@@ -656,16 +687,16 @@ class Model():
     ###Contract Initialization
 	############################################################################
    	#Project Contracts/Water Rights
-    self.friant1 = Contract(self.df, 'friant1', 'FR1')
-    self.friant2 = Contract(self.df, 'friant2', 'FR2')
-    self.swpdelta = Contract(self.df, 'swpdelta', 'SLS')
-    self.cvpdelta = Contract(self.df, 'cvpdelta', 'SLF')
-    self.cvpexchange = Contract(self.df, 'cvpexchange', 'ECH')
-    self.crossvalley = Contract(self.df, 'crossvalley', 'CVC')
-    self.kernriver = Contract(self.df, 'kernriver', 'KRR')
-    self.tuleriver = Contract(self.df, 'tuleriver', 'TRR')
-    self.kaweahriver = Contract(self.df, 'kaweahriver', 'WRR')
-    self.kingsriver = Contract(self.df, 'kingsriver', 'KGR')
+    self.friant1 = Contract(self, 'friant1', 'FR1')
+    self.friant2 = Contract(self, 'friant2', 'FR2')
+    self.swpdelta = Contract(self, 'swpdelta', 'SLS')
+    self.cvpdelta = Contract(self, 'cvpdelta', 'SLF')
+    self.cvpexchange = Contract(self, 'cvpexchange', 'ECH')
+    self.crossvalley = Contract(self, 'crossvalley', 'CVC')
+    self.kernriver = Contract(self, 'kernriver', 'KRR')
+    self.tuleriver = Contract(self, 'tuleriver', 'TRR')
+    self.kaweahriver = Contract(self, 'kaweahriver', 'WRR')
+    self.kingsriver = Contract(self, 'kingsriver', 'KGR')
 	
 	##List of all intialized contracts for looping
     self.contract_list = [self.friant1, self.friant2, self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley, self.kernriver, self.tuleriver, self.kaweahriver, self.kingsriver]
@@ -737,17 +768,17 @@ class Model():
 	############################################################################
 		  
 	##Water Banks
-    self.stockdale = Waterbank(self.df, 'stockdale', 'STOCK')
-    self.kernriverbed = Waterbank(self.df, 'kernriverbed', 'KRC')
-    self.poso = Waterbank(self.df, 'poso', 'POSO')
-    self.pioneer = Waterbank(self.df, 'pioneer', 'PIO')
-    self.kwb = Waterbank(self.df, 'kwb', 'KWB')
-    self.berrendawb = Waterbank(self.df, 'berrendawb', 'BRM')
-    self.b2800 = Waterbank(self.df, 'b2800', 'B2800')
-    self.aewb = Waterbank(self.df, 'aewb', 'AEMWD')
-    self.wkwb = Waterbank(self.df, 'wkwb', 'WKB')
-    self.irvineranch = Waterbank(self.df, 'irvineranch', 'IVR')
-    self.northkernwb = Waterbank(self.df, 'northkernwb', 'NKB')
+    self.stockdale = Waterbank(self, 'stockdale', 'STOCK')
+    self.kernriverbed = Waterbank(self, 'kernriverbed', 'KRC')
+    self.poso = Waterbank(self, 'poso', 'POSO')
+    self.pioneer = Waterbank(self, 'pioneer', 'PIO')
+    self.kwb = Waterbank(self, 'kwb', 'KWB')
+    self.berrendawb = Waterbank(self, 'berrendawb', 'BRM')
+    self.b2800 = Waterbank(self, 'b2800', 'B2800')
+    self.aewb = Waterbank(self, 'aewb', 'AEMWD')
+    self.wkwb = Waterbank(self, 'wkwb', 'WKB')
+    self.irvineranch = Waterbank(self, 'irvineranch', 'IVR')
+    self.northkernwb = Waterbank(self, 'northkernwb', 'NKB')
 	
     self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb]
     self.leiu_list = []
@@ -758,50 +789,50 @@ class Model():
     for x in self.district_list:
       x.delivery_location_list = []
       x.delivery_location_list.append(x.key)
-      x.daily_supplies_full[x.key + '_recharged'] = np.zeros(x.T)
-      x.deliveries[x.key + '_recharged'] = np.zeros(x.number_years)
+      x.daily_supplies_full[x.key + '_recharged'] = np.zeros(self.T)
+      x.deliveries[x.key + '_recharged'] = np.zeros(self.number_years)
       for wb in self.waterbank_list:
-        x.daily_supplies_full[wb.key + '_recharged'] = np.zeros(x.T)
-        x.deliveries[wb.key + '_recharged'] = np.zeros(x.number_years)
+        x.daily_supplies_full[wb.key + '_recharged'] = np.zeros(self.T)
+        x.deliveries[wb.key + '_recharged'] = np.zeros(self.number_years)
         x.delivery_location_list.append(wb.key)
       for lb in self.leiu_list:
-        x.daily_supplies_full[lb.key + '_recharged'] = np.zeros(x.T)
-        x.deliveries[lb.key + '_recharged'] = np.zeros(x.number_years)
+        x.daily_supplies_full[lb.key + '_recharged'] = np.zeros(self.T)
+        x.deliveries[lb.key + '_recharged'] = np.zeros(self.number_years)
         x.delivery_location_list.append(lb.key)
     for x in self.private_list:
       x.delivery_location_list = {}
       for xx in x.district_list:
         x.delivery_location_list[xx] = []
         x.delivery_location_list[xx].append(xx)
-        x.daily_supplies_full[xx + '_' +  xx + '_recharged'] = np.zeros(x.T)
-        x.deliveries[xx][xx + '_recharged'] = np.zeros(x.number_years)
+        x.daily_supplies_full[xx + '_' +  xx + '_recharged'] = np.zeros(self.T)
+        x.deliveries[xx][xx + '_recharged'] = np.zeros(self.number_years)
       for wb in self.waterbank_list:
         for xx in x.district_list:
           x.delivery_location_list[xx].append(wb.key)
-          x.daily_supplies_full[xx + '_' + wb.key + '_recharged'] = np.zeros(x.T)
-          x.deliveries[xx][wb.key + '_recharged'] = np.zeros(x.number_years)
+          x.daily_supplies_full[xx + '_' + wb.key + '_recharged'] = np.zeros(self.T)
+          x.deliveries[xx][wb.key + '_recharged'] = np.zeros(self.number_years)
       for lb in self.leiu_list:
         for xx in x.district_list:
           x.delivery_location_list[xx].append(lb.key)
-          x.daily_supplies_full[xx + '_' + lb.key + '_recharged'] = np.zeros(x.T)
-          x.deliveries[xx][lb.key + '_recharged'] = np.zeros(x.number_years)
+          x.daily_supplies_full[xx + '_' + lb.key + '_recharged'] = np.zeros(self.T)
+          x.deliveries[xx][lb.key + '_recharged'] = np.zeros(self.number_years)
     for x in self.city_list:
       x.delivery_location_list = {}
       for xx in x.district_list:
         x.delivery_location_list[xx] = []
         x.delivery_location_list[xx].append(xx)
-        x.daily_supplies_full[xx + '_' +  xx + '_recharged'] = np.zeros(x.T)
-        x.deliveries[xx][xx + '_recharged'] = np.zeros(x.number_years)
+        x.daily_supplies_full[xx + '_' +  xx + '_recharged'] = np.zeros(self.T)
+        x.deliveries[xx][xx + '_recharged'] = np.zeros(self.number_years)
       for wb in self.waterbank_list:
         for xx in x.district_list:
           x.delivery_location_list[xx].append(wb.key)
-          x.daily_supplies_full[xx + '_' + wb.key + '_recharged'] = np.zeros(x.T)
-          x.deliveries[xx][wb.key + '_recharged'] = np.zeros(x.number_years)
+          x.daily_supplies_full[xx + '_' + wb.key + '_recharged'] = np.zeros(self.T)
+          x.deliveries[xx][wb.key + '_recharged'] = np.zeros(self.number_years)
       for lb in self.leiu_list:
         for xx in x.district_list:
           x.delivery_location_list[xx].append(lb.key)
-          x.daily_supplies_full[xx + '_' + lb.key + '_recharged'] = np.zeros(x.T)
-          x.deliveries[xx][lb.key + '_recharged'] = np.zeros(x.number_years)
+          x.daily_supplies_full[xx + '_' + lb.key + '_recharged'] = np.zeros(self.T)
+          x.deliveries[xx][lb.key + '_recharged'] = np.zeros(self.number_years)
         
     if self.model_mode == 'validation':
       self.semitropic.inleiubanked['MET'] = 175.8
@@ -1133,7 +1164,7 @@ class Model():
     sac_list = [self.shasta, self.folsom, self.oroville, self.yuba]
     sj_list = [self.newmelones, self.donpedro, self.exchequer, self.millerton]
     for t in range(0,self.T):
-      year = self.year[t] - startYear
+      year_index = self.year[t] - startYear
       m = self.month[t]
       da = self.day_month[t]
       dowy = self.dowy[t]
@@ -1141,7 +1172,7 @@ class Model():
       index_exceedence_sj = 5
 	  ##8 River Index
       for x in reservoir_list:
-        self.delta.eri[m-startMonth + year*12] + x.fnf[t]*1000
+        self.delta.eri[m-startMonth + year_index*12] + x.fnf[t]*1000
 	  ####################Sacramento Index#############################################################################################
 	  ##Individual Rainflood Forecast - either the 90% exceedence level prediction, or the observed WYTD fnf value
       if m >=10:
@@ -1404,7 +1435,7 @@ class Model():
         #at a waterbank, find if the bank member has a contract
         for xx in x.participant_list:
           contractor_toggle = 0
-          for wb_member in self.get_iterable(self.district_keys[xx]):
+          for wb_member in self.district_keys[xx]:
             for y in self.canal_contract[contract_canal]:
               for yx in wb_member.contract_list:
                 if y.name == yx:
@@ -1450,7 +1481,7 @@ class Model():
 	  #at that reservoir
       priority_allocation = 0.0
       secondary_allocation = 0.0
-      for yy in self.get_iterable(this_reservoir_all_contract):
+      for yy in this_reservoir_all_contract:
         if yy.allocation_priority == 1:
           priority_allocation += yy.total
         else:
@@ -1688,15 +1719,15 @@ class Model():
 	#they get credit for their ownership share of the total recovery capacity
     for w in self.waterbank_list:
       for member in w.participant_list:
-        num_districts = len(self.get_iterable(self.district_keys[member]))
-        for irr_district in self.get_iterable(self.district_keys[member]):
+        num_districts = len(self.district_keys[member])
+        for irr_district in self.district_keys[member]:
           irr_district.max_recovery += w.ownership[member]*w.recovery/num_districts
     #same for 'in leiu' banks (districts)
     for w in self.leiu_list:
       for member in w.participant_list:
-        num_districts = len(self.get_iterable(self.district_keys[member]))
+        num_districts = len(self.district_keys[member])
         if member != w.key:
-          for irr_district in self.get_iterable(self.district_keys[member]):
+          for irr_district in self.district_keys[member]:
             irr_district.max_recovery += w.leiu_ownership[member]*w.leiu_recovery/num_districts
       
   def load_pesticide_acreage(self):
@@ -1909,8 +1940,8 @@ class Model():
     for xx in range(0, len(self.southbay.hist_pumping)):
       m = index_urban_m[xx]
       wateryear = index_urban_water_year[xx]
-      year = index_urban_y[xx]-urban_startYear
-      self.southbay.hist_pumping[xx] += df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]*1000.0/urban_days_in_month[year][m-1]
+      year_index = index_urban_y[xx]-urban_startYear
+      self.southbay.hist_pumping[xx] += df_urban_monthly_cvp['PCH_pump'][m-1 + wateryear*12]*1000.0/urban_days_in_month[year_index][m-1]
 
     for t in range(0,urban_historical_T):
       wateryear = index_urban_water_year[t]
@@ -2281,9 +2312,12 @@ class Model():
     cvp_release = 0
 
     d = self.day_year[t]
+    da = self.day_month[t]
     m = self.month[t]
+    y = self.year[t]
+    wateryear = self.water_year[t]
     dowy = self.dowy[t]
-    year = self.year[t] - self.starting_year
+    year_index = self.year[t] - self.starting_year
 
     ##WATER YEAR TYPE CLASSIFICATION (for operating rules)
     ##WYT uses flow forecasts - gets set every day, may want to decrease frequency (i.e. every month, season)
@@ -2292,7 +2326,7 @@ class Model():
 	##REAL-WORLD RULE ADJUSTMENTS
 	##Updates to reflect SJRR & Yuba Accords occuring during historical time period (1996-2016)
     if self.model_mode == 'validation':
-      self.update_regulations_north(t,dowy, year + self.starting_year)
+      self.update_regulations_north(t,dowy, year_index + self.starting_year)
 	  
 	####NON-PROJECT USES
     ##Find out if reservoir releases need to be made for in-stream uses
@@ -2305,11 +2339,11 @@ class Model():
     ##FIND MINIMUM ENVIRONMENTAL RELEASES
     #San Joaquin Tributaries
     for x in [self.newmelones, self.donpedro, self.exchequer]:
-      x.release_environmental(t,self.delta.forecastSJWYT)
+      x.release_environmental(t, d, m, dowy, self.first_d_of_month[year_index], self.delta.forecastSJWYT)
 	#Sacramento Tributaries
     self.oroville.set_oct_nov_rule(t, m)
     for x in [self.shasta, self.oroville, self.yuba, self.folsom]:
-      x.release_environmental(t,self.delta.forecastSCWYT)
+      x.release_environmental(t, d, m, dowy, self.first_d_of_month[year_index], self.delta.forecastSCWYT)
     ##MINIMUM FLOW AT VERNALIS GAUGE(SAN JOAQUIN DELTA INFLOW)
     #from self.reservoir.release_environmental() function:
 	#self.reservoir.gains_to_delta
@@ -2317,12 +2351,12 @@ class Model():
     self.delta.vernalis_gains = self.newmelones.gains_to_delta + self.donpedro.gains_to_delta + self.exchequer.gains_to_delta + self.delta.gains_sj[t]
     self.delta.vernalis_gains += self.newmelones.envmin + self.donpedro.envmin + self.exchequer.envmin
     #find additional releases for vernalis control using self.delta.vernalis_gains
-    self.exchequer.din, self.donpedro.din, self.newmelones.din  = self.delta.calc_vernalis_rule(t, NMI)
+    self.exchequer.din, self.donpedro.din, self.newmelones.din  = self.delta.calc_vernalis_rule(t,d,y,m,dowy, NMI)
     self.delta.vernalis_gains += self.exchequer.din + self.donpedro.din + self.newmelones.din
 	
 	##MINIMUM FLOW AT RIO VIST GAUGE (SACRAMENTO DELTA INFLOW)
     for x in [self.shasta, self.oroville, self.yuba, self.folsom]:
-      x.find_available_storage(t)  
+      x.find_available_storage(t, m, da, dowy)  
     #additional releases to meet rio vista minimums shared by Sacramento Reservoirs
     cvp_stored_release = self.shasta.envmin + self.folsom.envmin
     swp_stored_release = self.oroville.envmin + self.yuba.envmin
@@ -2331,7 +2365,7 @@ class Model():
     for x in [self.shasta, self.oroville, self.yuba, self.folsom]:
       self.delta.rio_gains += x.gains_to_delta + x.envmin
     #share rio vista requirements among Sacramento Reservoirs based on self.resevoir.availale_storage
-    self.shasta.din, self.oroville.din = self.delta.calc_rio_vista_rule(t, cvp_stored_release, swp_stored_release)
+    self.shasta.din, self.oroville.din = self.delta.calc_rio_vista_rule(t, m, cvp_stored_release, swp_stored_release)
 
     ##MINIMUM DELTA OUTFLOW REQUIREMENTS
     #flows to delta come from vernalis, rio vista, and the 'eastside streams' (delta gains)
@@ -2339,7 +2373,7 @@ class Model():
     cvp_stored_release += self.shasta.din
     swp_stored_release += self.oroville.din
 	##additional releases for delta outflow split between cvp/swp reservoirs
-    self.shasta.dout, self.oroville.dout = self.delta.calc_outflow_release(t, cvp_stored_release, swp_stored_release)
+    self.shasta.dout, self.oroville.dout = self.delta.calc_outflow_release(t, m, dowy, cvp_stored_release, swp_stored_release)
   
 	#TOTAL AVAILABLE PROJECT STORAGE
 	#based on snowpack based forecast (pre-processed) + current storage
@@ -2352,7 +2386,7 @@ class Model():
     #project if flood pool will be exceeded in the future & find min release rate to avoid reaching the flood pool
 	#monthly flow projections from self.reservoir.create_flow_shapes (i.e. flood available water)
     for x in [self.shasta, self.folsom, self.oroville, self.yuba]:
-      x.find_flow_pumping(t, m, dowy, self.delta.forecastSCWYT, 'env')
+      x.find_flow_pumping(t, m, dowy, year_index, self.days_in_month, self.dowy_eom, self.delta.forecastSCWYT, 'env')
       x.days_til_full[t] = min(x.numdays_fillup['env'], x.numdays_fillup['lookahead'])
 	  	  	
 	###DETERMINE RELEASES REQUIRED FOR DESIRED PUMPING
@@ -2361,9 +2395,9 @@ class Model():
 	#at-the-pump limits (from BiOps)
     cvp_max, swp_max = self.delta.find_max_pumping(d, dowy, t, self.delta.forecastSCWYT)
     #OMR rule limits
-    cvp_max, swp_max = self.delta.meet_OMR_requirement(cvp_max, swp_max, t)
+    cvp_max, swp_max = self.delta.meet_OMR_requirement(t, m, y, dowy, cvp_max, swp_max)
 	
-    proj_surplus, max_pumping = self.proj_gains(t, dowy, m, year)
+    proj_surplus, max_pumping = self.proj_gains(t, dowy, m, year_index)
     flood_release = {}
     flood_volume = {}
 	##Releases in anticipation of flood pool encroachment (not required by flood rules)
@@ -2374,19 +2408,19 @@ class Model():
     swp_over_dead_pool = self.oroville.find_emergency_supply(t, m, dowy)
     cvp_over_dead_pool = 0.0
 	##Distribute 'available storage' seasonally to maximize pumping under E/I ratio requirements (i.e., pump when E/I ratio is highest)
-    cvp_max_final, swp_max_final = self.delta.find_release(t, m, dowy, cvp_max, swp_max, cvp_available_storage, swp_available_storage, cvp_release, swp_release, proj_surplus, max_pumping)
+    cvp_max_final, swp_max_final = self.delta.find_release(t, m, y, year_index, dowy, self.days_in_month, self.dowy_eom, cvp_max, swp_max, cvp_available_storage, swp_available_storage, cvp_release, swp_release, proj_surplus, max_pumping)
     
     #if pumping is turned 'off' (b/c SL conditions), calculate how much forgone pumping to take away from SL carryover storage (southern model input)
     cvp_forgone = max(cvp_max - cvp_pump, 0.0)
     swp_forgone = max(swp_max - swp_pump, 0.0)
-    #swp_forgone, swp_max_final = self.delta.hypothetical_pumping(swp_max, swp_max_final, swp_release2, 0.45, t)
+    #swp_forgone, swp_max_final = self.delta.hypothetical_pumping(t, m, swp_max, swp_max_final, swp_release2, 0.45)
     #find additional releases to pump at the desired levels
     cvp_max = min(cvp_max, cvp_pump)#don't release 'tax free' pumping in excess of storage capacity at SL
     swp_max = min(swp_max, swp_pump)#don't release 'tax free' pumping in excess of storage capacity at SL
     cvp_max_final = min(cvp_max_final, cvp_pump)
     swp_max_final = min(swp_max_final, swp_pump)
     #calculates releases to pump at desired levels (either cvp/swp_max or non-taxed levels, based on min outflow & i/e rules)
-    swp_reduced, cvp_reduced = self.delta.calc_flow_bounds(t, cvp_max_final, swp_max_final, cvp_max, swp_max, cvp_release2, swp_release2, cvp_available_storage, swp_available_storage, flood_release['cvp'], flood_release['swp'], swp_over_dead_pool, cvp_over_dead_pool, flood_volume['swp'], flood_volume['cvp'], min(self.oroville.numdays_fillup['env'],self.oroville.numdays_fillup['lookahead']), min(self.shasta.numdays_fillup['env'],self.shasta.numdays_fillup['lookahead']) )
+    swp_reduced, cvp_reduced = self.delta.calc_flow_bounds(t, m, y, year_index, d, dowy, self.dowy_eom, cvp_max_final, swp_max_final, cvp_max, swp_max, cvp_release2, swp_release2, cvp_available_storage, swp_available_storage, flood_release['cvp'], flood_release['swp'], swp_over_dead_pool, cvp_over_dead_pool, flood_volume['swp'], flood_volume['cvp'], min(self.oroville.numdays_fillup['env'],self.oroville.numdays_fillup['lookahead']), min(self.shasta.numdays_fillup['env'],self.shasta.numdays_fillup['lookahead']) )
     cvp_forgone = max(cvp_forgone, cvp_reduced)
     swp_forgone = max(cvp_forgone, cvp_reduced)
 
@@ -2445,18 +2479,23 @@ class Model():
     swp_stored_flow = self.oroville.sodd + self.yuba.sodd
 
     ##route all water through delta rules to determine pumping
-    self.delta.step(t, cvp_stored_flow, swp_stored_flow, swp_pump, cvp_pump, swp_available_storage, cvp_available_storage)
+    self.delta.step(t, d, da, m, y, wateryear, dowy, cvp_stored_flow, swp_stored_flow, swp_pump, cvp_pump, swp_available_storage, cvp_available_storage)
 
 		    
     return self.delta.HRO_pump[t], self.delta.TRP_pump[t], self.delta.swp_allocation[t], self.delta.cvp_allocation[t], proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_flood_storage, cvp_flood_storage, swp_available_storage, cvp_available_storage, flood_release, flood_volume
 			
   def simulate_south(self, t, hro_pump, trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, wytSC, max_tax_free, flood_release, flood_volume):
     ####Maintain the same date/time accounting as the northern part of the model
-    year = self.year[t] - self.starting_year
+    year_index = self.year[t] - self.starting_year
     m = self.month[t]
     da = self.day_month[t]
+    d = self.day_year[t]
     dowy = self.dowy[t]
     wateryear = self.water_year[t]
+    non_leap_year = self.non_leap_year
+    days_in_month = self.days_in_month
+    dowy_eom = self.dowy_eom
+    number_years = self.number_years
     if m == 12:
       m1 = 1
     else:
@@ -2474,7 +2513,7 @@ class Model():
 	####Various infrastructure & regulatory changes that 
 	####occurred during the duration of the 1996-2016 calibration period
     if self.model_mode == 'validation':
-      self.update_regulations_south(t,dowy,m,year + self.starting_year, wateryear)
+      self.update_regulations_south(t,dowy,m,year_index + self.starting_year, wateryear)
     else:
       self.millerton.sjrr_release = self.millerton.sj_riv_res_flows(t, dowy)
 
@@ -2485,7 +2524,7 @@ class Model():
     watershed_reservoir_list = [self.millerton, self.success, self.kaweah, self.isabella, self.pineflat]
     for x in watershed_reservoir_list:
       x.rights_call(x.downstream[t])
-      x.release_environmental(t,wyt)
+      x.release_environmental(t, d, m, dowy, self.first_d_of_month[year_index], wyt)
 
 	###Flow projections for the local reservoirs
 	###Note: no flow projection for the San Luis Reservoir,
@@ -2493,7 +2532,7 @@ class Model():
 	###are calculated in the northern function, and passed here as 
 	###'projected allocations'
     for x in watershed_reservoir_list:
-      x.find_available_storage(t)
+      x.find_available_storage(t, m, da, dowy)
 	  
     ##Water Balance step at each reservoir
     for x in watershed_reservoir_list:
@@ -2553,14 +2592,14 @@ class Model():
     if dowy == 0:
       for x in self.private_list:
         if wateryear > 0:
-          x.permanent_crop_growth(wateryear)
+          x.permanent_crop_growth(wateryear, days_in_month, non_leap_year)
     for x in self.district_list:
-      x.calc_demand(wateryear, year, da, m, m1, wyt)
+      x.calc_demand(wateryear, year_index, da, m, days_in_month, m1, wyt)
       if x.has_private:
         x.private_demand = {}
         x.private_delivery = {}
     for x in self.private_list:
-      x.calc_demand(wateryear, year, da, m, m1, wyt)
+      x.calc_demand(wateryear, year_index, da, m, days_in_month, non_leap_year, m1, wyt)
         
     ###For demands that occur on a branch of the California Aqueduct
 	###(i.e. pumped into some kind of regional urban storage/distribution 
@@ -2574,11 +2613,11 @@ class Model():
     else:
       allocation_change = 0.0
     for x in self.urban_list:
-      x.get_urban_demand(t, m, da, wateryear, year, self.forecastSRI[t], dowy, self.swp_allocation[t], allocation_change, self.model_mode)
+      x.get_urban_demand(t, m, da, wateryear, year_index, days_in_month, self.forecastSRI[t], dowy, self.swp_allocation[t], allocation_change, self.model_mode)
     for x in self.city_list:
-      x.get_urban_demand(t, m, da, wateryear, year, self.forecastSRI[t], dowy, self.swp_allocation[t], allocation_change, self.model_mode)
+      x.get_urban_demand(t, m, da, wateryear, year_index, days_in_month, self.forecastSRI[t], dowy, self.swp_allocation[t], allocation_change, self.model_mode)
     #else:
-      #self.project_urban_pumping(da, dowy, m, wateryear, year, self.swp_allocation[t], self.cvp_allocation[t], self.forecastSRI[t])
+      #self.project_urban_pumping(da, dowy, m, wateryear, year_index, self.swp_allocation[t], self.cvp_allocation[t], self.forecastSRI[t])
 
     if m == 10 and da == 1:      
 	  ###Pre flood demands - used to approximate the limit 
@@ -2586,12 +2625,12 @@ class Model():
       ###use from Oct-Jan).  Values for aqueduct branches are estimated to 
       ###avoid 'perfect foresight'
       for x in self.district_list:
-        x.find_baseline_demands(wateryear)
+        x.find_baseline_demands(wateryear, non_leap_year, days_in_month)
       for x in self.private_list:
-        x.find_baseline_demands()
+        x.find_baseline_demands(non_leap_year, days_in_month)
 	  
       for x in self.urban_list:
-        x.find_pre_flood_demand(wyt, year)
+        x.find_pre_flood_demand(wyt, year_index, days_in_month)
       self.socal.pre_flood_demand = 500.0
       self.centralcoast.pre_flood_demand = 25.0
       self.southbay.pre_flood_demand = 15.0
@@ -2601,7 +2640,7 @@ class Model():
       ###fillup times so that districts know when to request recharge water
       #generates res.monthlydemand from aggregated district.monthlydemand
     if da == 1:
-      self.agg_contract_demands(year, m, wyt)
+      self.agg_contract_demands(year_index, m, wyt)
 	  
     ##Once a month, find the recharge capacity for each irrigation district
     ###This capacity is projected forward for a year to project how capacity would decline
@@ -2645,7 +2684,7 @@ class Model():
         seller_total = 0.0
         buyer_total = 0.0
         for x in self.district_list:
-          seller_turnback, buyer_turnback = x.set_turnback_pool(y.name, year)
+          seller_turnback, buyer_turnback = x.set_turnback_pool(y.name, year_index, days_in_month)
           seller_total += seller_turnback
           buyer_total += buyer_turnback
         for x in self.city_list:
@@ -2654,7 +2693,7 @@ class Model():
             district_object = self.district_keys[xx]
             total_contract[xx] = district_object.project_contract['tableA']
           additional_carryover = 0.0
-          seller_turnback, buyer_turnback = x.set_turnback_pool(y.name, year, additional_carryover)
+          seller_turnback, buyer_turnback = x.set_turnback_pool(y.name, year_index, days_in_month, additional_carryover)
           for xx in x.district_list:
             seller_total += seller_turnback[xx]
             buyer_total += buyer_turnback[xx]
@@ -2670,7 +2709,7 @@ class Model():
 	####districts use this numdays_fillup attribute to determine when to recharge
 	####carryover water
     for reservoir in [self.success, self.kaweah, self.isabella, self.pineflat, self.millerton]:
-      reservoir.find_flow_pumping(t, m, dowy, wyt, 'demand')
+      reservoir.find_flow_pumping(t, m, dowy, year_index, self.days_in_month, self.dowy_eom, wyt, 'demand')
       reservoir.days_til_full[t] = min(reservoir.numdays_fillup['demand'], reservoir.numdays_fillup['lookahead'])
 	  
 	#Update Contract Allocations
@@ -2688,7 +2727,7 @@ class Model():
       priority_contract = 0.0
       secondary_contract = 0.0
       extra_allocation = 0.0
-      for yy in self.get_iterable(this_reservoir_all_contract):
+      for yy in this_reservoir_all_contract:
         total_res_carryover += yy.tot_carryover
         extra_allocation += yy.tot_new_alloc
         if yy.allocation_priority == 1:
@@ -2760,7 +2799,7 @@ class Model():
       tot_res_deliveries = 0.0
       priority_storage = 0.0
       tot_res_carryover = 0.0
-      for yy in self.get_iterable(this_reservoir_all_contract):
+      for yy in this_reservoir_all_contract:
         #if some contracts at a reservoir have 'priority' over storage space
 		#(i.e., cvpdelta and exchange contracts have priority over the federal
 		#san luis storage), calculate the total allocation volume that has priority
@@ -2828,25 +2867,25 @@ class Model():
 	  ##Recover Banked Water
     use_tolerance = False
     for x in self.private_list:
-      x.open_recovery(t, dowy, wyt, wateryear, use_tolerance, 0.0)
+      x.open_recovery(t, dowy, wyt, wateryear, number_years, use_tolerance, 0.0)
     use_tolerance = False
     for x in self.city_list:
       for xx in x.district_list:
         district_object = self.district_keys[xx]
         total_contract = district_object.project_contract['tableA']
       if dowy > 273:
-        #additional_carryover = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, year, wyt, 90, t, xx)
+        #additional_carryover = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, wyt, 90, t, xx)
         additional_carryover = 0.0
       else:
         additional_carryover = 0.0
-      x.open_recovery(t, dowy, wyt, wateryear, use_tolerance, additional_carryover)
+      x.open_recovery(t, dowy, wyt, wateryear, number_years, use_tolerance, additional_carryover)
     flow_type = "recovery"
     #initialize the recover variables at the bank
     for w in self.waterbank_list:
       for xx in w.participant_list:
         w.recovery_use[xx] = 0.0#how much of the recovery capacity was used by the account holder
     #same but for 'in leiu' banks
-    for w in self.get_iterable(self.leiu_list):
+    for w in self.leiu_list:
       w.tot_leiu_recovery_use = 0.0
       for xx in w.participant_list:
         w.recovery_use[xx] = 0.0
@@ -2872,7 +2911,7 @@ class Model():
         
     self.canal_contract['caa'] = [self.swpdelta]#only want to 'paper' exchange swp contracts
     for z in [self.calaqueduct, self.fkc, self.kernriverchannel]:
-      for reservoir_recovery in self.get_iterable(self.canal_reservoir[z.name]):
+      for reservoir_recovery in self.canal_reservoir[z.name]:
         if reservoir_recovery.min_daily_uncontrolled < reservoir_recovery.flood_flow_min or reservoir_recovery.fcr > 0.0:
           for y in self.canal_contract[z.name]:
             exchange_contract = y.name
@@ -3008,10 +3047,10 @@ class Model():
             total_contract = x.project_contract[y.name]
           else:
             total_contract = 0.0
-          x.demand_days['lookahead'][y.name] = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, year, wyt, demand_days, t, 0)
+          x.demand_days['lookahead'][y.name] = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, wyt, demand_days, t, 0)
 
           #x.demand_days['lookahead'][y.name] = np.sum(x.pumping[(t-dowy):(t+demand_days-dowy)])/1000.0
-          x.demand_days['current'][y.name] = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, year, wyt, demand_days, t, m-1)
+          x.demand_days['current'][y.name] = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, wyt, demand_days, t, m-1)
 
         for x in self.city_list:
           for xx in x.district_list:
@@ -3020,8 +3059,8 @@ class Model():
               total_contract = district_object.project_contract[y.name]
             else:
               total_contract = 0.0
-            x.demand_days['lookahead'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, year, wyt, demand_days, t, xx, 0)
-            x.demand_days['current'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, year, wyt, demand_days, t, xx, m-1)
+            x.demand_days['lookahead'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, wyt, demand_days, t, xx, 0)
+            x.demand_days['current'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, wyt, demand_days, t, xx, m-1)
 
       else:
         demand_days = int(numdays_fillup)
@@ -3037,8 +3076,8 @@ class Model():
           else:
             total_contract = 0.0
 
-          x.demand_days['current'][y.name] = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, year, wyt, demand_days, t, m-1)
-          x.demand_days['lookahead'][y.name]= x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, year, wyt, lookahead_days, t, 0)
+          x.demand_days['current'][y.name] = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, wyt, demand_days, t, m-1)
+          x.demand_days['lookahead'][y.name]= x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, wyt, lookahead_days, t, 0)
         for x in self.city_list:
           for xx in x.district_list:
             district_object = self.district_keys[xx]
@@ -3046,8 +3085,8 @@ class Model():
               total_contract = district_object.project_contract[y.name]
             else:
               total_contract = 0.0
-            x.demand_days['current'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, year, wyt, demand_days, t,xx, m-1)
-            x.demand_days['lookahead'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, year, wyt, lookahead_days, t, xx, 0)
+            x.demand_days['current'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, 0, wyt, demand_days, t,xx, m-1)
+            x.demand_days['lookahead'][y.name] += x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, wyt, lookahead_days, t, xx, 0)
 
    
     #Find district banking needs
@@ -3069,7 +3108,7 @@ class Model():
           carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
         additional_carryover = 0.0
 
-        x.open_recharge(t, m-1, da, wateryear, year, carryover_days, lookahead_days, contract_object.tot_carryover - contract_object.annual_deliveries[wateryear], y, wyt, self.contract_turnouts[y], 0.0,contract_object.allocation_priority)
+        x.open_recharge(t, m-1, da, wateryear, year_index, days_in_month, carryover_days, lookahead_days, contract_object.tot_carryover - contract_object.annual_deliveries[wateryear], y, wyt, self.contract_turnouts[y], 0.0,contract_object.allocation_priority)
 		
     for x in self.private_list:
       for y in x.contract_list:
@@ -3085,7 +3124,7 @@ class Model():
         additional_carryover = 0.0
             
           #additional_carryover += x.contract_carryover_list[xx][y]
-        x.open_recharge(t, m-1, da, wateryear, year, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], additional_carryover, contract_object.allocation_priority)
+        x.open_recharge(t, m-1, da, wateryear, year_index, days_in_month, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], additional_carryover, contract_object.allocation_priority)
     for x in self.city_list:
       for y in x.contract_list:
         contract_object = self.contract_keys[y]
@@ -3107,7 +3146,7 @@ class Model():
             else:
               additional_carryover += np.sum(x.pumping[xx][(t-dowy): int(t + lookahead_days - 365) ])/1000.0
 
-        x.open_recharge(t, m-1, da, wateryear, year, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], 0.0, contract_object.allocation_priority)
+        x.open_recharge(t, m-1, da, wateryear, year_index, days_in_month, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], 0.0, contract_object.allocation_priority)
 		
 	##Deliveries for banking
     flow_type = "recharge"
@@ -3486,7 +3525,7 @@ class Model():
 	
   def estimate_project_pumping(self, t, proj_surplus, max_pumping, swp_AS, cvp_AS, max_tax_free, flood_release, wyt):
     dowy = self.dowy[t]
-    year = self.year[t] - self.starting_year
+    year_index = self.year[t] - self.starting_year
 
     # month_evaluate = m - 1
     tax_free_frac = {}
@@ -3520,14 +3559,14 @@ class Model():
       #if month_evaluate > 8:
       for monthloop in range(0, 12):
         # if month already happened this year, we are looping to next year
-        if self.dowy_eom[year][monthloop] < dowy:
-          daysmonth = self.days_in_month[year + 1][monthloop]
-          dowyeom = self.dowy_eom[year + 1][monthloop]
+        if self.dowy_eom[year_index][monthloop] < dowy:
+          daysmonth = self.days_in_month[year_index + 1][monthloop]
+          dowyeom = self.dowy_eom[year_index + 1][monthloop]
           running_days = 365 - dowy + dowyeom
 
         else:
-          daysmonth = self.days_in_month[year][monthloop]
-          dowyeom = self.dowy_eom[year][monthloop]
+          daysmonth = self.days_in_month[year_index][monthloop]
+          dowyeom = self.dowy_eom[year_index][monthloop]
           running_days = dowyeom - dowy
 
         # max_tax_free starts with total max_tax_free for water year at index 0, then amount left after day 0 in index 1, etc. So total_tax_free for October is index 0 minus index[31], November is [31]-[61],...
@@ -3563,19 +3602,19 @@ class Model():
     ##state and federal storage portions managed seperately
     m = self.month[t]
     da = self.day_month[t]
-    year = self.year[t] - self.starting_year
+    year_index = self.year[t] - self.starting_year
 
     month_evaluate = m - 1
-    # first_month_frac = max(self.days_in_month[year][month_evaluate] - da, 0.0)/self.days_in_month[year][month_evaluate]
+    # first_month_frac = max(self.days_in_month[year_index][month_evaluate] - da, 0.0)/self.days_in_month[year_index][month_evaluate]
 	
 	
 	###Initial storage projections - current month
 	##calculate expected deliveries during this month from san luis
-    #expected_demands = (month_demand[wyt][month_evaluate]*allocation + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year][month_evaluate]
-    expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year][month_evaluate]
-    expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[year][month_evaluate]
-    expected_untaxed = (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])*(1.0 - da/self.days_in_month[year][month_evaluate])
-    expected_taxed = (expected_pumping['taxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])*(1.0 - da/self.days_in_month[year][month_evaluate])
+    #expected_demands = (month_demand[wyt][month_evaluate]*allocation + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year_index][month_evaluate]
+    expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year_index][month_evaluate]
+    expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[year_index][month_evaluate]
+    expected_untaxed = (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])*(1.0 - da/self.days_in_month[year_index][month_evaluate])
+    expected_taxed = (expected_pumping['taxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])*(1.0 - da/self.days_in_month[year_index][month_evaluate])
 
 	#how much 'unstored' pumping can we expect into San Luis?
     #self.month_averages comes from self.predict_delta_gains
@@ -3583,11 +3622,11 @@ class Model():
     if month_evaluate == 3 or month_evaluate == 4:
       expected_inflow = 0.75
     #expected monthly change in san luis storage
-    net_monthly = (expected_inflow - expected_demands)*max(self.days_in_month[year][month_evaluate] - da, 0.0)
+    net_monthly = (expected_inflow - expected_demands)*max(self.days_in_month[year_index][month_evaluate] - da, 0.0)
     ##Enter into a loop for projecting storage & pumping forward one month at a time
 	##start with current estimates
     next_month_storage = start_storage#running storage levels
-    this_month_days = max(self.days_in_month[year][month_evaluate] - da, 0.0)#running days in a month
+    this_month_days = max(self.days_in_month[year_index][month_evaluate] - da, 0.0)#running days in a month
     article21 = 0.0#initialize article 21 release estimates
     numdays_fillup = 999.9#initialize numdays_fillup variable
     numdays_fillup_next_year = 999.9
@@ -3612,7 +3651,7 @@ class Model():
       next_month_storage += net_monthly
 
       if net_monthly > 0.0:
-        partial_month_remaining = max(1 - max(next_month_storage - 1020.0, 0.0)/net_monthly, 0.0)*self.days_in_month[year+cross_counter_y][month_evaluate]
+        partial_month_remaining = max(1 - max(next_month_storage - 1020.0, 0.0)/net_monthly, 0.0)*self.days_in_month[year_index+cross_counter_y][month_evaluate]
       else:
         next_month_storage = min(1020.0 + net_monthly, next_month_storage)
         partial_month_remaining = 0.0
@@ -3640,7 +3679,7 @@ class Model():
         #if expected storage is less than 0 in any month, pump at max, no article 21
         if (next_month_storage + expected_untaxed) > 1020.0:
           if net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate]) > 0.0:
-            partial_month_remaining = max(1 - max(next_month_storage + expected_untaxed - 1020.0, 0.0)/(net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])), 0.0)*self.days_in_month[year+cross_counter_y][month_evaluate]
+            partial_month_remaining = max(1 - max(next_month_storage + expected_untaxed - 1020.0, 0.0)/(net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])), 0.0)*self.days_in_month[year_index+cross_counter_y][month_evaluate]
 
           numdays_fillup = min(numdays_fillup,total_days_remaining + partial_month_remaining)
           if cross_counter_wy == 1:
@@ -3693,8 +3732,8 @@ class Model():
         carryover_adjust = projected_carryover
         cross_counter_wy = 1
 
-      expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year+cross_counter_y][month_evaluate]
-      expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[year+cross_counter_y][month_evaluate]
+      expected_demands = (month_demand[wyt][month_evaluate] + month_demand_must_fill[wyt][month_evaluate])/self.days_in_month[year_index+cross_counter_y][month_evaluate]
+      expected_inflow = expected_pumping['gains'][month_evaluate]/self.days_in_month[year_index+cross_counter_y][month_evaluate]
       expected_untaxed += (expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
       expected_taxed += (expected_pumping['taxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])
 	  #how much 'unstored' pumping can we expect into San Luis?
@@ -3703,9 +3742,9 @@ class Model():
       if month_evaluate == 3 or month_evaluate == 4:
         expected_inflow = 0.75
       #expected monthly change in san luis storage
-      net_monthly = (expected_inflow - expected_demands)*self.days_in_month[year+cross_counter_y][month_evaluate]
+      net_monthly = (expected_inflow - expected_demands)*self.days_in_month[year_index+cross_counter_y][month_evaluate]
       total_days_remaining += this_month_days
-      this_month_days = self.days_in_month[year+cross_counter_y][month_evaluate]
+      this_month_days = self.days_in_month[year_index+cross_counter_y][month_evaluate]
 
     return max(pumping_toggle, pumping_toggle_override), max(tax_free_toggle, tax_free_toggle_override), article21, numdays_fillup, numdays_fillup_next_year
       
@@ -3716,7 +3755,7 @@ class Model():
 #####################################################################################################################
 #############################  State Variables that use data from more than one obejct class#########################
 #####################################################################################################################	  
-  def project_urban_pumping(self, da, dowy, m, wateryear, year, total_delta_pumping, projected_allocation_cvp, sri):
+  def project_urban_pumping(self, da, dowy, m, wateryear, year_index, total_delta_pumping, projected_allocation_cvp, sri):
     urban_list = [self.socal, self.centralcoast, self.southbay]
     projected_allocation = {}
     projected_allocation['swp'] = total_delta_pumping
@@ -3760,7 +3799,7 @@ class Model():
           cross_counter_y = 1
         else:
           cross_counter_y = 0
-        start_next_month = self.dowy_eom[year+cross_counter_y][monthcounter] + 1
+        start_next_month = self.dowy_eom[year_index+cross_counter_y][monthcounter] + 1
         for wyt in ['W', 'AN', 'BN', 'D', 'C']:
           for y in urban_list:
             #sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[dowy][0] + y.delivery_percent_coefficient[dowy][1] - y.regression_errors[dowy][self.k_close_wateryear])*total_delta_pumping
@@ -3817,7 +3856,7 @@ class Model():
     
 
 
-  def agg_contract_demands(self, year, m, wyt_real):
+  def agg_contract_demands(self, year_index, m, wyt_real):
   #this function sums district demands by reservoir (i.e. - for each reservoir, the sum of the demand of all districts
   #with a contract that is held at that reservoir
     for wyt in ['W', 'AN', 'BN', 'D', 'C']:
@@ -3850,9 +3889,9 @@ class Model():
 
             for monthcounter in range(0,12):
               if monthcounter >= m-1:
-                daysmonth = self.days_in_month[year][monthcounter]
+                daysmonth = self.days_in_month[year_index][monthcounter]
               else:
-                daysmonth = self.days_in_month[year+1][monthcounter]
+                daysmonth = self.days_in_month[year_index+1][monthcounter]
               if x.must_fill == 1:
                 res.monthly_demand_must_fill[wyt][monthcounter] += x.monthlydemand[wyt][monthcounter]*daysmonth
               else:
@@ -3871,9 +3910,9 @@ class Model():
           if x.reservoir_contract[res.key] == 1:
             for monthcounter in range(0,12):
               if monthcounter >= m-1:
-                daysmonth = self.days_in_month[year][monthcounter]
+                daysmonth = self.days_in_month[year_index][monthcounter]
               else:
-                daysmonth = self.days_in_month[year+1][monthcounter]
+                daysmonth = self.days_in_month[year_index+1][monthcounter]
               for district in x.district_list:
                 res.monthly_demand[wyt][monthcounter] += x.monthlydemand[district][wyt][monthcounter]*daysmonth
                 res.monthly_demand_full[wyt][monthcounter] += x.monthlydemand[district][wyt][monthcounter]*daysmonth
@@ -3893,9 +3932,9 @@ class Model():
           if x.reservoir_contract[res.key] == 1:
             for monthcounter in range(0,12):
               if monthcounter >=m-1:
-                daysmonth = self.days_in_month[year][monthcounter]
+                daysmonth = self.days_in_month[year_index][monthcounter]
               else:
-                daysmonth = self.days_in_month[year+1][monthcounter]
+                daysmonth = self.days_in_month[year_index+1][monthcounter]
               for district in x.district_list:
                 res.monthly_demand[wyt][monthcounter] += x.monthlydemand[district][wyt][monthcounter]*daysmonth
                 res.monthly_demand_full[wyt][monthcounter] += x.monthlydemand[district][wyt][monthcounter]*daysmonth
@@ -3903,9 +3942,9 @@ class Model():
 				
         for monthcounter in range(0,12):
           if monthcounter >= m-1:
-            daysmonth = self.days_in_month[year][monthcounter]
+            daysmonth = self.days_in_month[year_index][monthcounter]
           else:
-            daysmonth = self.days_in_month[year + 1][monthcounter]
+            daysmonth = self.days_in_month[year_index + 1][monthcounter]
           if res.monthly_demand[wyt][monthcounter] > res.total_capacity*cfs_tafd*daysmonth:
             res.monthly_demand[wyt][monthcounter] = res.total_capacity*cfs_tafd*daysmonth
           if res.monthly_demand_full[wyt][monthcounter] > res.total_capacity*cfs_tafd*daysmonth:
@@ -3917,7 +3956,7 @@ class Model():
 	#district that owned it and redistributed to all districts as this year's allocation
     remaining_carryover = {}
     remaining_balance = {}
-    for y in self.get_iterable(self.reservoir_contract[key]):
+    for y in self.reservoir_contract[key]:
       remaining_carryover[y.name] = 0.0
       remaining_balance[y.name] = 0.0
     for x in self.district_list:
@@ -3961,9 +4000,9 @@ class Model():
     remaining_carryover = {}
     carryover_fraction = 0.0
     #loop through the canals associated with the reservoir, 'key'
-    for z in self.get_iterable(self.reservoir_canal[key]):
+    for z in self.reservoir_canal[key]:
       #what contracts are deliveried on that canal
-      for y in self.get_iterable(self.canal_contract[z.name]):
+      for y in self.canal_contract[z.name]:
         #initialize remaining carryover variable
 		#this also makes a list of all contracts w/carryover (for looping later)
         remaining_carryover[y.name] = 0.0
@@ -4042,8 +4081,8 @@ class Model():
         #w.recharge_rate = w.initial_recharge*cfs_tafd
 	  ###distribute this recharge capacity among districts (based on ownership share)
       for member in w.participant_list:
-        num_districts = len(self.get_iterable(self.district_keys[member]))
-        for irr_district in self.get_iterable(self.district_keys[member]):
+        num_districts = len(self.district_keys[member])
+        for irr_district in self.district_keys[member]:
           irr_district.total_banked_storage += w.banked[member]
           irr_district.max_direct_recharge[0] += w.ownership[member]*w.recharge_rate/num_districts
           for res in self.reservoir_list:
@@ -4111,8 +4150,8 @@ class Model():
         bank_total_supply += w.projected_supply[y]
       if w.key == "SMI":
         for member in w.participant_list:
-          num_districts = len(self.get_iterable(self.district_keys[member]))
-          for irr_district in self.get_iterable(self.district_keys[member]):
+          num_districts = len(self.district_keys[member])
+          for irr_district in self.district_keys[member]:
           #current direct recharge
             irr_district.max_direct_recharge[0] += w.leiu_ownership[member]*w.recharge_rate/num_districts
           #current in leiu recharge (based on irrigation demands of the in-leiu bank)
@@ -4192,14 +4231,14 @@ class Model():
     for w in self.leiu_list:
       for member in w.participant_list:
         if member != w.key:
-          for irr_district in self.get_iterable(self.district_keys[member]):
+          for irr_district in self.district_keys[member]:
             irr_district.extra_leiu_recovery = 0.0
     #find individual banking partner's (district') recovery capacity based on their total 
 	#supply in reservoirs accessable by their partners
     for w in self.leiu_list:
       for member in w.participant_list:
-        num_districts = len(self.get_iterable(self.district_keys[member]))
-        for irr_district in self.get_iterable(self.district_keys[member]):
+        num_districts = len(self.district_keys[member])
+        for irr_district in self.district_keys[member]:
           for y in irr_district.contract_list:#if the banking partner has a contract at that reservoir, they can trade water there
             for yy in w.contract_list:
               if y == yy:
@@ -4554,7 +4593,7 @@ class Model():
       available_capacity_int -= type_demands[zz]*type_fractions[zz]
 
     #canal priority
-    priority_list = self.get_iterable(self.canal_priority[canal.name])
+    priority_list = self.canal_priority[canal.name]
     #contracts on this canal
     contract_list = self.canal_contract[contract_canal]
     for x in self.district_list:
@@ -4616,8 +4655,8 @@ class Model():
         #if a district is an in-leiu bank, partners can send water to this district for banking recharge
         if (x.in_leiu_banking and search_type == "banking") or (x.in_leiu_banking and search_type == "recovery"):
           for xx in x.participant_list:
-            for wb_member in self.get_iterable(self.district_keys[xx]):
-              num_members = len(self.get_iterable(self.district_keys[xx]))
+            for wb_member in self.district_keys[xx]:
+              num_members = len(self.district_keys[xx])
               #find if the banking partner wants to bank
 
               deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, x.inleiubanked[xx], x.inleiucap[xx], dowy, wateryear)
@@ -4696,8 +4735,8 @@ class Model():
       elif isinstance(x, Waterbank):
         #for waterbanks, we calculate the demands of each waterbank partner individually
         for xx in x.participant_list:
-          for wb_member in self.get_iterable(self.district_keys[xx]):
-            num_members = len(self.get_iterable(self.district_keys[xx]))
+          for wb_member in self.district_keys[xx]:
+            num_members = len(self.district_keys[xx])
             #find waterbank partner demand (i.e., recharge capacity of their ownership share)
             demand_constraint = x.find_node_demand(contract_list, xx, num_members, search_type)
             #find how much water is allocated to each priority demand based on the total space and turnout at this node
@@ -4849,7 +4888,7 @@ class Model():
       canal.recovery_flow_frac[list_member] = np.ones(canal_size)
 	
     #canal priority
-    priority_list = self.get_iterable(self.canal_priority[canal.name])
+    priority_list = self.canal_priority[canal.name]
     #contracts on this canal
     contract_list = self.canal_contract[contract_canal]
 
@@ -4937,8 +4976,8 @@ class Model():
           if x.in_leiu_banking:
             for xx in x.participant_list:
               if xx != x.key:
-                num_members = len(self.get_iterable(self.district_keys[xx]))
-                for wb_member in self.get_iterable(self.district_keys[xx]):
+                num_members = len(self.district_keys[xx])
+                for wb_member in self.district_keys[xx]:
                   #find waterbank partner demand (i.e., recovery capacity of their ownership share)                 
                   demand_constraint, demand_constraint_by_contracts = x.find_leiu_output(contract_list, x.leiu_ownership[xx], xx, wateryear)
                   #does this partner want recovery water?
@@ -5074,9 +5113,9 @@ class Model():
       if isinstance(recovery_source, District):
         if recovery_source.in_leiu_banking:
           for xx in recovery_source.participant_list:
-            num_members = len(self.get_iterable(self.district_keys[xx]))
+            num_members = len(self.district_keys[xx])
             if xx != recovery_source.key:
-              for wb_member in self.get_iterable(self.district_keys[xx]):
+              for wb_member in self.district_keys[xx]:
                 #find waterbank partner demand (i.e., recovery capacity of their ownership share)
                 demand_constraint = recovery_source.find_node_output()
                 #does this partner want recovery water?
@@ -5129,8 +5168,8 @@ class Model():
 		
       elif isinstance(recovery_source, Waterbank):
         for xx in recovery_source.participant_list:
-          for wb_member in self.get_iterable(self.district_keys[xx]):
-            num_members = len(self.get_iterable(self.district_keys[xx]))
+          for wb_member in self.district_keys[xx]:
+            num_members = len(self.district_keys[xx])
             #find waterbank partner demand (i.e., recovery capacity of their ownership share)
             demand_constraint = recovery_source.find_node_demand(contract_list, xx, num_members, search_type) 
             #does this partner want recovery water?
@@ -5209,8 +5248,8 @@ class Model():
     #if a district is an in-leiu bank, partners can send water to this district for banking recharge
     if (district_node.in_leiu_banking and search_type == "banking") or (district_node.in_leiu_banking and search_type == "recovery"):
       for xx in district_node.participant_list:
-        for wb_member in self.get_iterable(self.district_keys[xx]):
-          num_members = len(self.get_iterable(self.district_keys[xx]))
+        for wb_member in self.district_keys[xx]:
+          num_members = len(self.district_keys[xx])
           #find if the banking partner wants to bank
           deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, district_node.inleiubanked[xx], district_node.inleiucap[xx], dowy, wateryear)
           #determine the priorities of the banking
@@ -5237,8 +5276,8 @@ class Model():
       canal.demand[zz][canal_loc] = 0.0
 
     for xx in bank_node.participant_list:
-      for wb_member in self.get_iterable(self.district_keys[xx]):
-        num_members = len(self.get_iterable(self.district_keys[xx]))
+      for wb_member in self.district_keys[xx]:
+        num_members = len(self.district_keys[xx])
         #find waterbank partner demand (i.e., recharge capacity of their ownership share)
         demand_constraint = bank_node.find_node_demand(contract_list, xx, num_members, search_type) 
         #does this partner want to bank water?
@@ -5391,7 +5430,7 @@ class Model():
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         expected_outflow_releases[wyt] = np.zeros(366)
         self.millerton.carryover_target[wyt] = 250.0
-      self.millerton.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 1)
+      self.millerton.calc_expected_min_release(self, expected_outflow_releases, np.zeros(12), 1)
       self.millerton.max_carryover_target = 250.0
 
     if self.starting_year >= 2004:
@@ -5551,7 +5590,7 @@ class Model():
       expected_outflow_releases = {}
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
         expected_outflow_releases[wyt] = np.zeros(366)
-      self.millerton.calc_expected_min_release(expected_outflow_releases, np.zeros(12), 1)
+      self.millerton.calc_expected_min_release(self, expected_outflow_releases, np.zeros(12), 1)
 
     if y == 2009 and m >= 10:
       self.millerton.sjrr_release = self.millerton.sj_riv_res_flows(t, dowy)
@@ -5767,7 +5806,7 @@ class Model():
       #expected_outflow_req['EC'] = expected_outflow_req['C']
       #inflow_list = [self.shasta, self.folsom, self.yuba, self.oroville]
       #for x in inflow_list:
-        #x.calc_expected_min_release(expected_outflow_req, expected_depletion, 0)
+        #x.calc_expected_min_release(self, expected_outflow_req, expected_depletion, 0)
 
     if y == 2015 and dowy == 1:
       self.delta.min_outflow['C'][1] = 7100
@@ -5787,16 +5826,10 @@ class Model():
       #expected_outflow_req['EC'] = expected_outflow_req['C']
       #inflow_list = [self.shasta, self.folsom, self.yuba, self.oroville]
       #for x in inflow_list:
-        #x.calc_expected_min_release(expected_outflow_req, expected_depletion, 0)
+        #x.calc_expected_min_release(self, expected_outflow_req, expected_depletion, 0)
 
-	  
-  def get_iterable(self, x):
-    if isinstance(x, cl.Iterable):
-      return x
-    else:
-      return (x,)
 	  	  
-  def proj_gains(self,t, dowy, m, year):
+  def proj_gains(self,t, dowy, m, year_index):
     tot_sac_fnf = 0.0
     tot_sj_fnf = 0.0
     proj_surplus = np.zeros(12)
@@ -5814,9 +5847,9 @@ class Model():
 
     for x in range(0, 12):
       if x >= m:
-        daysmonth = self.days_in_month[year][x]
+        daysmonth = self.days_in_month[year_index][x]
       else:
-        daysmonth = self.days_in_month[year + 1][x]
+        daysmonth = self.days_in_month[year_index + 1][x]
       proj_surplus[x] = max(self.delta_gains_regression['slope'][dowy][x]*min(tot_sac_fnf,4.0) + self.delta_gains_regression['intercept'][dowy][x], 0.0)
       proj_omr[x] = (self.delta.omr_regression['slope'][dowy][x]*tot_sj_fnf + self.delta.omr_regression['intercept'][dowy][x] + 5000.0*cfs_tafd*daysmonth)/0.94
     expected_pumping = {}
@@ -5829,9 +5862,9 @@ class Model():
 
     for monthloop in range(0,12):
       if monthloop >= m:
-        daysmonth = self.days_in_month[year][monthloop]
+        daysmonth = self.days_in_month[year_index][monthloop]
       else:
-        daysmonth = self.days_in_month[year + 1][monthloop]
+        daysmonth = self.days_in_month[year_index + 1][monthloop]
       if proj_surplus[monthloop]*0.55 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth:
         expected_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth
         expected_pumping['swp'][monthloop] = min(self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*daysmonth, proj_surplus[monthloop] - self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth)
@@ -5839,7 +5872,7 @@ class Model():
         expected_pumping['cvp'][monthloop] = proj_surplus[monthloop]*0.55
         expected_pumping['swp'][monthloop] = proj_surplus[monthloop]*0.45
  		
-      if monthloop < 6 and year + self.starting_year > self.delta.omr_rule_start:
+      if monthloop < 6 and year_index + self.starting_year > self.delta.omr_rule_start:
         if proj_omr[monthloop]*0.5 > self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth:
           max_pumping['cvp'][monthloop] = self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth
           max_pumping['swp'][monthloop] = min(self.delta.pump_max['swp']['intake_limit'][0]*cfs_tafd*daysmonth, proj_omr[monthloop] - self.delta.pump_max['cvp']['intake_limit'][0]*cfs_tafd*daysmonth)
