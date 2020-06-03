@@ -24,7 +24,7 @@ class Contract():
 
   def __len__(self):
     return 1
-        
+
   def __init__(self, model, name, key):
     self.key = key
     self.name = name

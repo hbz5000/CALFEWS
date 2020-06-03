@@ -296,11 +296,11 @@ class District():
         self.annualdemand += max(self.monthlydemand[wyt][monthloop]*days_in_month[year_index][monthloop], 0.0)
 		
 		
-  def find_pre_flood_demand(self,wyt, year_index, days_in_month):
+  def find_pre_flood_demand(self, year_index, days_in_month, wyt):
     #calculates an estimate for water use in the Oct-Dec period (for use in recharge_carryover calculations), happens Oct 1
     self.pre_flood_demand = self.monthlydemand[wyt][9]*days_in_month[year_index][9] + self.monthlydemand[wyt][10]*days_in_month[year_index][10] + self.monthlydemand[wyt][11]*days_in_month[year_index][11]
 		  
-  def get_urban_demand(self, t, m, da, wateryear, year_index, dowy_eom, sri, dowy, total_delta_pumping, allocation_change, model_mode):
+  def get_urban_demand(self, t, m, da, dowy, wateryear, year_index, dowy_eom, sri, total_delta_pumping, allocation_change, model_mode):
     #this function finds demands for the 'branch pumping' urban nodes - Socal, South Bay, & Central Coast
 	#demand is equal to pumping of the main california aqueduct and into the branches that services these areas
     #cal aqueduct urban demand comes from pumping data, calc seperately
@@ -618,7 +618,7 @@ class District():
       self.delivery_carryover[key] = 0.0
       self.recharge_carryover[key] = 0.0
 	  
-  def get_urban_recovery_target(self, pumping, project_contract, wateryear, dowy, wyt, demand_days, t, start_month):
+  def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, start_month):
     max_pumping_shortfall = 0.0
     pumping_shortfall = 0.0
     if self.has_private:

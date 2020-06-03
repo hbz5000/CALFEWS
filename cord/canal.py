@@ -22,7 +22,7 @@ class Canal():
 
   def __len__(self):
     return 1
-                   
+
   def __init__(self, name, key, scenario_file = 'baseline'):
     self.key = key
     self.name = name

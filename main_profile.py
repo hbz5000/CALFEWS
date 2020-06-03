@@ -124,8 +124,8 @@ else:
     data_output(output_list, results_folder, clean_output, rank, k, sensitivity_factors, modelno, modelso)
     pd.to_pickle(modelno, results_folder + '/modelno.pkl')
     pd.to_pickle(modelso, results_folder + '/modelso.pkl')
-  except (e):
-    print(e)
+  except:
+    print('data save failure')
 print ('Total run completed in ', datetime.now() - startTime)
 
 

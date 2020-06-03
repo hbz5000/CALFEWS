@@ -1104,3 +1104,5 @@ class Delta():
     for n,t in zip(names,things):
       df['%s_%s' % (self.key,n)] = pd.Series(t, index=index)
     return df
+
+    

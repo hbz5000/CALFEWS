@@ -27,8 +27,11 @@ class Waterbank():
 
   def __len__(self):
     return 1
-                     
-  def __init__(self, model, name, key):
+
+  def __init__(self, df, name, key):
+    self.T = len(df)
+    self.index = df.index
+    self.number_years = self.index.year[self.T - 1] - self.index.year[0]
     self.key = key
     self.name = name
     for k,v in json.load(open('cord/banks/%s_properties.json' % key)).items():
@@ -45,11 +48,11 @@ class Waterbank():
 	#timeseries for export to csv
     self.bank_timeseries = {}#daily
     self.annual_timeseries = {}#annual
-    self.recharge_rate_series = np.zeros(model.T)#daily recharge rate
+    self.recharge_rate_series = np.zeros(self.T)#daily recharge rate
     for x in self.participant_list:
       self.storage[x] = 0.0
-      self.bank_timeseries[x] = np.zeros(model.T)
-      self.annual_timeseries[x] = np.zeros(model.number_years)
+      self.bank_timeseries[x] = np.zeros(self.T)
+      self.annual_timeseries[x] = np.zeros(self.number_years)
       self.recovery_use[x] = 0.0
       self.banked[x] = 0.0
 	  
@@ -270,5 +273,3 @@ class Waterbank():
     for n in self.participant_list:
       df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
     return df
-
-

@@ -20,11 +20,10 @@ import json
 class Inputter():
 
     def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number=0, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False): # keyvan added i_N
+        self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
-        self.T_short = len(self.df_short)
         self.index = self.df.index
-        self.short_index = self.df_short.index
         self.day_year = self.index.dayofyear
         self.day_month = self.index.day
         self.month = self.index.month

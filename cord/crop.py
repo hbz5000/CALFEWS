@@ -24,7 +24,7 @@ class Crop():
 
   def __len__(self):
     return 1
-      
+    
   def __init__(self, key):
     self.key = key
     self.tau = {}

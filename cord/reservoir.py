@@ -305,7 +305,7 @@ class Reservoir():
       self.flood_storage[t] = min(self.flood_storage[t], 0.0)
 	  
 	  
-  def use_saved_storage(self, t, m, wyt, dowy):
+  def use_saved_storage(self, t, m, dowy, wyt):
     swp_extra = 0.0
     if wyt == 'D' or wyt == 'C':
       if m >= 10 or m == 1:
@@ -611,12 +611,12 @@ class Reservoir():
       else:
         self.gains_to_delta += downstream_flow
 	  
-  def sj_riv_res_flows(self,t,d,toggle_short_series = 0):
+  def sj_riv_res_flows(self,t,dowy,toggle_short_series = 0):
     ##Interpolates rules from sj_restoration_proj in *_properties.json file (note: only for Lake Millerton)
 	##to get the total daily releases needed to be made under the SJ River Restoration Program (note: rules go into effect
 	##in 2009 - they are triggered by the model.update_regulations function
     for i,v in enumerate(self.sj_restoration_proj['dowy']):
-      if v > d:
+      if v > dowy:
         break
     
     if toggle_short_series == 1:
@@ -1179,3 +1179,5 @@ class Reservoir():
     for n,t in zip(names,things):
       df['%s_%s' % (self.key,n)] = pd.Series(t, index=index)
     return df
+
+
