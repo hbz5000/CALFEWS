@@ -110,7 +110,7 @@ if model_mode == 'simulation':
   new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder)
   new_inputs.run_initialization('XXX')
   new_inputs.run_routine(flow_input_type, flow_input_source)
-  input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_"  + str(k) + ".csv"
+  input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_0.csv"
 
 elif model_mode == 'validation':
   demand_type = 'pesticide'
@@ -166,8 +166,8 @@ for k in range(start, stop):
     new_inputs.run_initialization('XXX')
     new_inputs.run_routine(flow_input_type, flow_input_source)
     input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_"  + str(k) + ".csv"
-    modelno = Model(input_data_file, expected_release_datafile, results_folder, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
-    modelso = Model(input_data_file, expected_release_datafile, results_folder, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
+    modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
+    modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type, k, sensitivity_sample_names, sensitivity_sample, new_inputs.sensitivity_factors)
     modelso.max_tax_free = {}
     modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
     modelso.forecastSRI = modelno.delta.forecastSRI
@@ -253,8 +253,8 @@ for k in range(start, stop):
 
             input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source] + "_0" + ".csv"
 
-            modelno = Model(input_data_file, expected_release_datafile, results_folder, model_mode, demand_type)
-            modelso = Model(input_data_file, expected_release_datafile, results_folder, model_mode, demand_type)
+            modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
+            modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
 
             modelso.max_tax_free = {}
             modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
@@ -325,8 +325,8 @@ for k in range(start, stop):
 
     # new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode)
 
-    modelno = Model(input_data_file, expected_release_datafile, results_folder, model_mode, demand_type)
-    modelso = Model(input_data_file, expected_release_datafile, results_folder, model_mode, demand_type)
+    modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
+    modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
     modelso.max_tax_free = {}
     modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
     modelso.forecastSRI = modelno.delta.forecastSRI

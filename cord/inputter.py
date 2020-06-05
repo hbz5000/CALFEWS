@@ -23,6 +23,7 @@ class Inputter():
         self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
+        self.T_short = len(self.df_short)
         self.index = self.df.index
         self.day_year = self.index.dayofyear
         self.day_month = self.index.day

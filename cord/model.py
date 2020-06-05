@@ -18,7 +18,7 @@ from .util import *
 
 
 class Model():
-  __slots__ = ["results_folder","df", "model_mode", "demand_type", "index", "T", "day_year", "day_month", "month", "year", "starting_year",
+  __slots__ = ["df", "model_mode", "demand_type", "index", "T", "day_year", "day_month", "month", "year", "starting_year",
                "ending_year", "number_years", "dowy", "water_year", "df_short", "T_short", "short_day_year",
                "short_day_month", "short_month", "short_year", "short_starting_year", "short_ending_year",
                "short_number_years", "short_dowy", "short_water_year", "leap", "year_list", "days_in_month",
@@ -46,8 +46,7 @@ class Model():
                'annual_CVP', 'ytd_pump_hro', 'observed_hro_pred', 'ytd_pump_trp', 'contract_keys', 'urban_list', 
                'omr_rule_start', 'leiu_list', 'allocation_losses']
 
-  def __init__(self, input_data_file, expected_release_datafile, results_folder, model_mode, demand_type, sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
-    self.results_folder = results_folder
+  def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
     ##Set model dataset & index length
     self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
     self.model_mode = model_mode
