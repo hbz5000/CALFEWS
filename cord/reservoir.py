@@ -42,7 +42,14 @@ class Reservoir():
 
   def __len__(self):
     return 1
-                     
+
+  is_Canal = False
+  is_Delta = False
+  is_District = False
+  is_Private = False
+  is_Reservoir = True
+  is_Waterbank = False
+
   def __init__(self, model, name, key, model_mode):
     self.T = model.T
     self.days_through_month = [60, 91, 122, 150, 181]

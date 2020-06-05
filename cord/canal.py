@@ -23,6 +23,13 @@ class Canal():
   def __len__(self):
     return 1
 
+  is_Canal = True
+  is_Delta = False
+  is_District = False
+  is_Private = False
+  is_Reservoir = False
+  is_Waterbank = False
+  
   def __init__(self, name, key, scenario_file = 'baseline'):
     self.key = key
     self.name = name

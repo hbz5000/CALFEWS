@@ -9,7 +9,7 @@ class Contract():
                "allocation_priority", "storage_priority", "reduction", "allocation", "storage_pool", "available_water",
                "annual_deliveries", "flood_deliveries", "daily_deliveries", "tot_carryover", "running_carryover",
                "lastYearForecast", "projected_carryover", "max_allocation", "tot_new_alloc", "daily_supplies",
-               "annual_supplies", "contractors", 'iter_count']
+               "contractors", 'iter_count']
 
   def __iter__(self):
     self.iter_count = 0
@@ -51,12 +51,9 @@ class Contract():
 	
 	#dictionaries to keep track of data for output
     self.daily_supplies = {}
-    self.annual_supplies = {}
     supply_types = ['contract', 'carryover', 'turnback', 'flood', 'total_carryover']
     for x in supply_types:
       self.daily_supplies[x] = np.zeros(model.T)
-      self.annual_supplies[x] = np.zeros(model.number_years)
-
 
   def object_equals(self, other):
     ##This function compares two instances of an object, returns True if all attributes are identical.
@@ -170,23 +167,7 @@ class Contract():
     self.daily_supplies['turnback'][t] += turnback_deliveries 
     self.daily_supplies['flood'][t] += flood_deliveries
     self.daily_supplies['total_carryover'][t] += carryover
-    if m == 9 and da == 30:
-      self.annual_supplies['contract'][wateryear] += max(deliveries - max(carryover, 0.0) - max(turnback, 0.0), 0.0)
-      self.annual_supplies['carryover'][wateryear] += max(min(carryover, deliveries), 0.0)
-      self.annual_supplies['turnback'][wateryear] += max(min(turnback, deliveries - carryover), 0.0)
-      self.annual_supplies['flood'][wateryear] += flood
-	  
-  def accounting_as_df(self, index):
-    df = pd.DataFrame()
-    for n in self.daily_supplies:    
-      df['%s_%s' % (self.key,n)] = pd.Series(self.daily_supplies[n], index = index)
-    return df
-	
-  def annual_results_as_df(self):
-    df = pd.DataFrame()
-    for n in self.annual_supplies:
-      df['%s_%s' % (self.key,n)] = pd.Series(self.annual_supplies[n])
-    return df
+
 
 
 

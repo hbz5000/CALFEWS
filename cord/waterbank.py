@@ -8,10 +8,10 @@ from .util import *
 
 
 class Waterbank():
-  __slots__ = ["T", "index", "number_years", "key", "name", "participant_list", "participant_type", "canal_rights",
+  __slots__ = ["key", "name", "participant_list", "participant_type", "canal_rights",
                "initial_recharge", "recovery", "tot_storage", "recharge_decline", "ownership", "bank_cap",
                "recharge_rate", "tot_current_storage", "loss_rate", "storage", "recovery_use", "banked",
-               "bank_timeseries", "annual_timeseries", "recharge_rate_series", "thismonthuse", "monthusecounter",
+               "bank_timeseries", "recharge_rate_series", "thismonthuse", "monthusecounter",
                "monthemptycounter", 'current_requested', 'iter_count', 'number_years']
 
   def __iter__(self):
@@ -28,10 +28,14 @@ class Waterbank():
   def __len__(self):
     return 1
 
-  def __init__(self, df, name, key):
-    self.T = len(df)
-    self.index = df.index
-    self.number_years = self.index.year[self.T - 1] - self.index.year[0]
+  is_Canal = False
+  is_Delta = False
+  is_District = False
+  is_Private = False
+  is_Reservoir = False
+  is_Waterbank = True
+
+  def __init__(self, model, name, key):
     self.key = key
     self.name = name
     for k,v in json.load(open('cord/banks/%s_properties.json' % key)).items():
@@ -47,12 +51,10 @@ class Waterbank():
     self.banked = {} #how much water is stored in the groundwater banking account of the member
 	#timeseries for export to csv
     self.bank_timeseries = {}#daily
-    self.annual_timeseries = {}#annual
-    self.recharge_rate_series = np.zeros(self.T)#daily recharge rate
+    self.recharge_rate_series = np.zeros(model.T)#daily recharge rate
     for x in self.participant_list:
       self.storage[x] = 0.0
-      self.bank_timeseries[x] = np.zeros(self.T)
-      self.annual_timeseries[x] = np.zeros(self.number_years)
+      self.bank_timeseries[x] = np.zeros(model.T)
       self.recovery_use[x] = 0.0
       self.banked[x] = 0.0
 	  
@@ -246,30 +248,10 @@ class Waterbank():
 
   def accounting(self, t, m, da, wateryear):
     #this stores bank account balances in a daily dictionary (for export to 
-    stacked_amount = 0.0
+    # stacked_amount = 0.0
     self.recharge_rate_series[t] = self.recharge_rate
     for x in self.participant_list:
       self.bank_timeseries[x][t] = self.banked[x]
-      stacked_amount += self.banked[x]
-    if m == 9 and da == 29:
-      #annual dictionary stores the annual change in gw bank balances
-      for x in self.participant_list:
-        sum_total = 0.0
-        for year_counter in range(0, wateryear):
-          sum_total += self.annual_timeseries[x][year_counter]
-        self.annual_timeseries[x][wateryear] = self.banked[x] - sum_total
+      # stacked_amount += self.banked[x]
+
 	  	
-  def bank_as_df(self, index):
-    #take daily bank account balances (w/running recharge capacities) and save them as a data frame (for export to csv)
-    df = pd.DataFrame()
-    for n in self.participant_list:
-      df['%s_%s' % (self.key,n)] = pd.Series(self.bank_timeseries[n], index = index)
-    df['%s_rate' % self.key] = pd.Series(self.recharge_rate_series, index = index)
-    return df
-	
-  def annual_bank_as_df(self):
-    #save annual bank changes as data frame (for export to csv)
-    df = pd.DataFrame()
-    for n in self.participant_list:
-      df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
-    return df

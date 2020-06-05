@@ -35,7 +35,14 @@ class Delta():
 
   def __len__(self):
     return 1
-                     
+
+  is_Canal = False
+  is_Delta = True
+  is_District = False
+  is_Private = False
+  is_Reservoir = False
+  is_Waterbank = False
+                       
   def __init__(self, model, name, key, model_mode):
     self.model_mode = model_mode
     self.T = model.T
@@ -84,7 +91,7 @@ class Delta():
     self.sac_fnf = np.zeros(model.number_years)
 	##Old/Middle River Calculations
     if self.model_mode == 'validation':
-      if 'OMR' in df:
+      if 'OMR' in model.df:
         self.hist_OMR = model.df.OMR * cfs_tafd
         self.hist_TRP_pump = model.df.TRP_pump * cfs_tafd
         self.hist_HRO_pump = model.df.HRO_pump * cfs_tafd

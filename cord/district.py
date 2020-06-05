@@ -17,13 +17,13 @@ class District():
                "rights", "service", "crop_list", "zone", "acreage", "MDD", "urban_profile", "participant_list",
                "inleiucap", "irrdemand", "deliveries", "contract_list_all", "non_contract_delivery_list",
                "current_balance", "paper_balance", "turnback_pool", "projected_supply", "carryover", "recharge_carryover",
-               "delivery_carryover", "contract_carryover_list", "dynamic_recharge_cap", "daily_supplies",
+               "delivery_carryover", "contract_carryover_list", "dynamic_recharge_cap",
                "annual_supplies", "daily_supplies_full", "annualdemand", "dailydemand", "annual_pumping", "use_recharge",
                "use_recovery", "extra_leiu_recovery", "max_recovery", "max_leiu_exchange", "direct_recovery_delivery",
                "pre_flood_demand", "recharge_rate", "thismonthuse", "monthusecounter", "monthemptycounter",
                "current_recharge_storage", "private_fraction", "has_private", "has_pesticide", "has_pmp", "recovery_use",
                "inleiubanked", "contract_exchange", "leiu_additional_supplies", "bank_deliveries", "tot_leiu_recovery_use",
-               "direct_storage", "bank_timeseries", "annual_timeseries", "recharge_rate_series", "use_recovery",
+               "direct_storage", "bank_timeseries", "recharge_rate_series", "use_recovery",
                "leiu_trade_cap", "loss_rate", "leiu_ownership", "private_acreage", "monthly_demand", 'reservoir_contract',
                'current_requested', 'monthlydemand', 'carryover_rights', 'initial_table_a', 'demand_days', 
                'total_banked_storage', 'min_direct_recovery', 'max_leiu_recharge', 'dailydemand_start', 'turnback_sales', 
@@ -48,6 +48,13 @@ class District():
   def __len__(self):
     return 1
                      
+  is_Canal = False
+  is_Delta = False
+  is_District = True
+  is_Private = False
+  is_Reservoir = False
+  is_Waterbank = False
+
   def __init__(self, model, name, key, scenario_file = 'baseline'):
     self.T = model.T
     self.key = key
@@ -116,18 +123,6 @@ class District():
       self.dynamic_recharge_cap[y] = 999.0
       self.days_to_fill[y] = 999.0
 	  
-    #initialize dictionaries to 'store' daily state variables (for export to csv)
-    self.daily_supplies = {}
-    supply_list = ['paper', 'carryover', 'allocation', 'delivery', 'flood_irrigation', 'leiu_applied', 'leiu_recharged', 'banked', 'pumping', 'leiu_delivered', 'recharge_delivery', 'recharge_uncontrolled']
-    for x in supply_list:
-      self.daily_supplies[x] = np.zeros(self.T)
-
-    #initialize dictionaries to 'store' annual change in state variables (for export to csv)
-    self.annual_supplies = {}
-    supply_list = ['delivery', 'flood_irrigation', 'leiu_applied','leiu_recharged', 'leiu_delivered', 'banked_accepted']
-    for x in supply_list:
-      self.annual_supplies[x] = np.zeros(model.number_years)
-
     # hold all output
     self.daily_supplies_full = {}
     # delivery_list = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern']
@@ -185,7 +180,6 @@ class District():
       self.tot_leiu_recovery_use = 0.0
       self.direct_storage = {}
       self.bank_timeseries = {}
-      self.annual_timeseries = {}
       self.recharge_rate_series = np.zeros(self.T)
       self.use_recovery = 0.0
       self.leiu_trade_cap = 0.5
@@ -196,7 +190,6 @@ class District():
         self.bank_deliveries[x] = 0.0
         self.direct_storage[x] = 0.0
         self.bank_timeseries[x] = np.zeros(self.T)
-        self.annual_timeseries[x] = np.zeros(self.T)
         self.contract_exchange[x] = np.zeros(self.T)
 
 
@@ -784,52 +777,54 @@ class District():
 	#under the different usage types (flood, delievery, banking, or recovery) under a given contract
 	#(contract_list)
     self.projected_supply['tot'] = 0.0
-    total_recharge = 0.0
+    # total_recharge = 0.0
     for y in self.contract_list:
       self.projected_supply['tot'] += self.projected_supply[y]
-      total_recharge += self.recharge_carryover[y]
-    #for flood deliveries, a district requests water if they don't have
-	#excess contract water that they don't think they can recharge (i.e. they don't purchase
-	#flood water if they can't use all their contract water
-    if search_type == "flood":
-      if self.projected_supply['tot'] > self.annualdemand:
-        return demand
-      else:
-        return demand
-      #for y in contract_list:
-        #tot_recharge += self.delivery_carryover[y.name]
-      #if tot_recharge <= 0.0:
-      #return demand
-      #else:
-        #return 0.0
+      # total_recharge += self.recharge_carryover[y]
+
+    #for banking, a district requests water if they have enough contract water currently in surface water storage and they have 'excess' water for banking (calculated in self.open_recharge)
+    if search_type == "banking":
+      total_carryover_recharge = 0.0
+      total_current_balance = 0.0
+      for y in contract_list:
+        total_carryover_recharge += max(self.recharge_carryover[y.name], 0.0)
+        total_current_balance += max(self.current_balance[y.name], 0.0)
+      return min(total_carryover_recharge, total_current_balance, max(bank_capacity - bank_space, 0.0))
 
     #for normal irrigation deliveries, a district requests water if they have enough water currently
-	#in surface water storage under the given contract
-    if search_type == "delivery":
+	  #in surface water storage under the given contract
+    elif search_type == "delivery":
       private_add = 0.0
       if self.has_private:
         for xx in self.private_demand:
           private_add += min(self.private_demand[xx], self.private_delivery[xx])
       total_current_balance = 0.0
       total_projected_supply = 0.0
-      total_carryover = 0.0
-      friant_toggle = 0
-      delta_toggle = 0
+      carryover_toggle = False
+      # friant_toggle = 0
+      # delta_toggle = False
       if self.project_contract['exchange'] > 0.0:
-        delta_toggle = 1
-      if self.project_contract['cvpdelta'] > 0.0:
+        delta_toggle = True
+      elif self.project_contract['cvpdelta'] > 0.0:
         if dowy < 150 or dowy + self.days_to_fill['cvpdelta'] < 365:
-          delta_toggle = 1
+          delta_toggle = True
+        else:
+          delta_toggle = False
+      else:
+        delta_toggle = False
+
       for y in contract_list:
         total_current_balance += max(self.current_balance[y.name], 0.0)
         total_projected_supply += max(self.projected_supply[y.name], 0.0)
-        total_carryover += max(self.carryover[y.name] - self.deliveries[y.name][wateryear], 0.0)
+        if self.carryover[y.name] > self.deliveries[y.name][wateryear]:
+          carryover_toggle = True
+
       if self.seasonal_connection == 1:
         if self.must_fill == 1:
           return max(min(demand, total_current_balance), 0.0) + private_add
-        elif total_carryover > 0.0 or total_projected_supply > self.annualdemand:
+        elif carryover_toggle or (total_projected_supply > self.annualdemand):
           return max(min(demand, total_current_balance), 0.0) + private_add
-        elif delta_toggle == 1:
+        elif delta_toggle:
           return max(min(demand, total_current_balance, total_projected_supply), 0.0) + private_add
         else:
           conservative_estimate = max(min((dowy- 211.0)/(273.0 - 211.0), 1.0), 0.0)
@@ -840,33 +835,42 @@ class District():
 
       else:
         return private_add
-		
-    #for banking, a district requests water if they have enough contract water currently in surface water storage and they have 'excess' water for banking (calculated in self.open_recharge)
-    if search_type == "banking":
-      total_carryover_recharge = 0.0
-      total_current_balance = 0.0
-      for y in contract_list:
-        total_carryover_recharge += max(self.recharge_carryover[y.name], 0.0)
-        total_current_balance += max(self.current_balance[y.name], 0.0)
-      return min(total_carryover_recharge, total_current_balance, max(bank_capacity - bank_space, 0.0))
-	  
+
+    #for flood deliveries, a district requests water if they don't have
+	  #excess contract water that they don't think they can recharge (i.e. they don't purchase
+	  #flood water if they can't use all their contract water
+    elif search_type == "flood":
+      return demand
+      # if self.projected_supply['tot'] > self.annualdemand:
+      #   return demand
+      # else:
+      #   return demand
+      #for y in contract_list:
+        #tot_recharge += self.delivery_carryover[y.name]
+      #if tot_recharge <= 0.0:
+      #return demand
+      #else:
+        #return 0.0
+
     #for recovery, a district requests recovery water from a bank if they have contracts under the current contract being searched (i.e., so they aren't requesting water that will be sent to another district that can't make 'paper' trades with them) and if they have their 'recovery threshold' triggered (self.use_recovery, calculated in self.open_recovery)
-    if search_type == "recovery":
+    elif search_type == "recovery":
       member_trades = 0
       for member_contracts in self.contract_list:
         for exchange_contracts in contract_list:
           if member_contracts == exchange_contracts.name:
             member_trades = 1
+            break
+        if member_trades == 1:
+          break
       if member_trades == 1:
         if self.use_recovery > 0.0:
-          total_request = min(max(self.dailydemand*self.surface_water_sa*self.seepage*self.use_recovery, 0.0), max(bank_space, 0.0))
+          return min(max(self.dailydemand*self.surface_water_sa*self.seepage*self.use_recovery, 0.0), max(bank_space, 0.0))
         else:
-          total_request = 0.0
+          return 0.0
       else:
-        total_request = 0.0
+        return 0.0
 		
-      return total_request
-	  
+    	  
   def set_demand_priority(self, priority_list, contract_list, demand, delivery, demand_constraint, search_type, contract_canal):
     #this function takes a the calculated demand at each district node and classifies those demands by 'priority' - the priority classes and rules change for each delivery type
     demand_dict = {}
@@ -1193,60 +1197,7 @@ class District():
     self.daily_supplies_full['exchanged_SW'][t] = self.deliveries['exchanged_SW'][wateryear]
     self.daily_supplies_full['dynamic_recovery_cap'][t] = self.recovery_capacity_remain
 
-  def accounting(self,t, da, m, wateryear,key):
-    #takes delivery/allocation values and builds timeseries that show what water was used for (recharge, banking, irrigation etc...)
-	#delivery/allocation data are set cumulatively - so that values will 'stack' in a area plot.
-	#Allocations are positive (stack above the x-axis in a plot)
-    self.daily_supplies['paper'][t] += self.projected_supply[key]
-    self.daily_supplies['carryover'][t] += max(self.projected_supply[key] - self.paper_balance[key], 0.0)
-    self.daily_supplies['allocation'][t] += max(self.projected_supply[key] - self.paper_balance[key] - self.carryover[key], 0.0)
-    #while deliveries are negative (stack below the x-axis in a plot) - the stacking adjustments come in self.accounting_banking_activity()
-    self.daily_supplies['delivery'][t] -= self.deliveries[key][wateryear]
-    self.daily_supplies['flood_irrigation'][t] -= (self.deliveries[key][wateryear] + self.deliveries[key + '_flood_irrigation'][wateryear])
-    self.daily_supplies['recharge_uncontrolled'][t] -= self.deliveries[key + '_flood'][wateryear] 
-	
-    if m == 9 and da == 30:
-      self.annual_supplies['delivery'][wateryear] += self.deliveries[key][wateryear]
-      self.annual_supplies['flood_irrigation'][wateryear] += self.deliveries[key + '_flood_irrigation'][wateryear]
-      self.deliveries['undelivered_trades'][wateryear] += max(self.paper_balance[key] - self.deliveries[key][wateryear], 0.0)
-	
-  def accounting_banking_activity(self, t, da, m, wateryear):
-    #this is an adjustment for 'delivery' (the delivery values are negative, so adding 'recharged' and 'exchanged_GW' is removing them from the count for 'deliveries' - we only want deliveries for irrigation, not for recharge
-    #exchanged_GW is GW that has been pumped out of a bank and 'delivered' to another district. the district gets credit in the reservoir, and deliveries of SW from that reservoir are recorded as 'deliveries' - but we don't want to count that here
-	#exchanged_SW is GW that has been pumped out of a bank, not owned by the district, and delivered to that district (i.e., the other side of the exchanged_GW in a GW exchange).  This should technically count as an irrigation delivery from a contract
-	#(we want to record that as delivery here) but it doesn't get recorded that way upon delivery.  so we add it back here when were are recording accounts (i.e. exchanged_GW and exchanged_SW are counters to help us square the records from GW exchanges)
-    self.daily_supplies['delivery'][t] += self.deliveries['recharged'][wateryear] + self.deliveries['exchanged_GW'][wateryear] - self.deliveries['exchanged_SW'][wateryear]
-    self.daily_supplies['flood_irrigation'][t] += self.deliveries['recharged'][wateryear] + self.deliveries['exchanged_GW'][wateryear] - self.deliveries['exchanged_SW'][wateryear]
-
-    #leiu accepted are irrigation deliveries that come from the in-leiu banking district's banking partners (i.e., they use it, and record a 'balance' for whoever delivered it)
-    self.daily_supplies['leiu_applied'][t] += self.daily_supplies['flood_irrigation'][t] - self.deliveries['inleiu_irrigation'][wateryear]
-    self.daily_supplies['leiu_recharged'][t] += self.daily_supplies['leiu_applied'][t] - self.deliveries['inleiu_recharge'][wateryear]
-
-      #banked is uncontrolled (or flood) water that has been banked by a district (in-district)
-    self.daily_supplies['banked'][t] += self.daily_supplies['leiu_recharged'][t] + self.deliveries['exchanged_SW'][wateryear] - self.deliveries['exchanged_GW'][wateryear] - self.deliveries['recover_banked'][wateryear]
-    ##pumping is private pumping for irrigation
-    self.daily_supplies['pumping'][t] += self.daily_supplies['banked'][t] - self.annual_private_pumping
-    ##leiu_delivered is water from an in-leiu banking district that gets delivered to (recovered by) their banking partners
-    self.daily_supplies['leiu_delivered'][t] += self.daily_supplies['pumping'][t] - self.deliveries['leiupumping'][wateryear]
-    #recharge delivery is water recharged at a bank that comes from the district's contract amount (instead of flood/uncontrolled water)
-    self.daily_supplies['recharge_delivery'][t] += self.daily_supplies['leiu_delivered'][t] - self.deliveries['recharged'][wateryear]
-	
-	#recharge uncontrolled is recharge water from flood flows (flood flows added in self.accounting() - this is only adjustment for stacked plot)
-    self.daily_supplies['recharge_uncontrolled'][t] += self.daily_supplies['recharge_delivery'][t] 
-
-    if m == 9 and da == 30:
-      self.annual_supplies['delivery'][wateryear] += self.deliveries['exchanged_SW'][wateryear] - self.deliveries['recharged'][wateryear] - (self.deliveries['exchanged_GW'][wateryear] - self.deliveries['undelivered_trades'][wateryear])
-      recharged_recovery = 0.0
-      if self.annual_supplies['delivery'][wateryear] < 0.0:
-        recharged_recovery = self.annual_supplies['delivery'][wateryear]
-        self.annual_supplies['delivery'][wateryear] = 0.0
-      self.annual_supplies['banked_accepted'][wateryear] = self.deliveries['recover_banked'][wateryear] + (self.deliveries['exchanged_GW'][wateryear] - self.deliveries['undelivered_trades'][wateryear]) - self.deliveries['exchanged_SW'][wateryear] + recharged_recovery
-      self.annual_supplies['leiu_applied'][wateryear] = self.deliveries['inleiu_irrigation'][wateryear]
-      self.annual_supplies['leiu_recharged'][wateryear] = self.deliveries['inleiu_recharge'][wateryear]
-      self.annual_supplies['leiu_delivered'][wateryear] = self.deliveries['leiupumping'][wateryear]
-
-
-
+  
   def accounting_leiubank(self,t, m, da, wateryear):
     #takes banked storage (in in-leiu banks) and builds timeseries of member accounts
     stacked_amount = 0.0
@@ -1254,48 +1205,7 @@ class District():
     for x in self.participant_list:
       self.bank_timeseries[x][t] = self.inleiubanked[x]
       stacked_amount += self.inleiubanked[x]
-    if m == 9 and da == 30:
-      for x in self.participant_list:
-        sum_total = 0.0
-        for year_counter in range(0, wateryear):
-          sum_total += self.annual_timeseries[x][year_counter]
-        self.annual_timeseries[x][wateryear] = self.inleiubanked[x] - sum_total
 	  
-  def accounting_as_df(self, index):
-    #wirte district accounts and deliveries into a data fram
-    df = pd.DataFrame()
-    for n in self.daily_supplies:    
-      df['%s_%s' % (self.key,n)] = pd.Series(self.daily_supplies[n], index = index)
-    return df
-
-  def accounting_as_df_full(self, index):
-    #wirte district accounts and deliveries into a data fram
-    df = pd.DataFrame()
-    for n in self.daily_supplies_full:
-      df['%s_%s' % (self.key,n)] = pd.Series(self.daily_supplies_full[n], index = index)
-    return df
-
-  def annual_results_as_df(self):
-    #wite annual district deliveries into a data frame
-    df = pd.DataFrame()
-    for n in self.annual_supplies:
-      df['%s_%s' % (self.key,n)] = pd.Series(self.annual_supplies[n])
-    return df
-
-  def bank_as_df(self, index):
-    #write leiubanking accounts (plus bank recharge rates) into a dataframe
-    df = pd.DataFrame()
-    for n in self.participant_list:
-      df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.bank_timeseries[n], index = index)
-    df['%s_rate' % self.key] = pd.Series(self.recharge_rate_series, index = index)
-    return df
-	
-  def annual_bank_as_df(self):
-    #write anmual banking changes into a data frame
-    df = pd.DataFrame()
-    for n in self.participant_list:
-      df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
-    return df
-	
+  
 
 	  
