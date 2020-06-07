@@ -44,7 +44,7 @@ class Model():
                'contract_turnouts', 'contract_reservoir', 'trp_pumping', 'reservoir_canal', 'canal_district',
                'aewb', 'pumping_turnback', 'max_tax_free', 'observed_hro', 'district_keys', 'private_list',
                'annual_CVP', 'ytd_pump_hro', 'observed_hro_pred', 'ytd_pump_trp', 'contract_keys', 'urban_list', 
-               'omr_rule_start', 'leiu_list', 'allocation_losses']
+               'omr_rule_start', 'leiu_list', 'allocation_losses', 'district_keys_len', 'canal_district_len']
 
   def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
     ##Set model dataset & index length
@@ -651,12 +651,16 @@ class Model():
 	
     ##District Keys - dictionary to be able to call the member from its key
     self.district_keys = {}
+    self.district_keys_len = {}
     for districts_included in self.district_list:
       self.district_keys[districts_included.key] = districts_included
+      self.district_keys_len[districts_included.key] = len(districts_included)
     for private_included in self.private_list:
       self.district_keys[private_included.key] = private_included###Private interests in the Kern Water Bank (Westside Mutual)  
+      self.district_keys_len[private_included.key] = len(private_included)###Private interests in the Kern Water Bank (Westside Mutual)  
     for city_included in self.city_list:
       self.district_keys[city_included.key] = city_included
+      self.district_keys_len[city_included.key] = len(city_included)
     
     if self.demand_type == 'pesticide':
       self.load_pesticide_acreage()
@@ -915,6 +919,10 @@ class Model():
     self.canal_district['tlr'] = [self.success, self.othertule, self.lowertule, self.porterville, self.fkc, self.tularelake]
     self.canal_district['kgr'] = [self.pineflat, self.consolidated, self.alta, self.krwa, self.fresnoid, self.fkc, self.kaweahdelta, self.tularelake]
 
+    self.canal_district_len = {}
+    for key in ['fkc','mdc','caa','xvc','kbc','aec','knr','knc','cwy','lrd','bly','kwr','tlr','kgr']:
+      self.canal_district_len[key] = len(self.canal_district[key])
+
     for x in self.private_list:
       x.seepage = {}
       x.must_fill = {}
@@ -938,7 +946,7 @@ class Model():
     ###has a demand initialized.  There are many different types of demands
     ###depending on the surface water availabilities
     for y in self.canal_list:
-      y.num_sites = len(self.canal_district[y.name])
+      y.num_sites = self.canal_district_len[y.name]
       y.turnout_use = np.zeros(y.num_sites)##how much water diverted at a node
       y.flow = np.zeros(y.num_sites+1)##how much water passing through a node (inc. diversions)
       y.demand = {}
@@ -1406,7 +1414,7 @@ class Model():
       if new_canal.key == prev_canal:#find canal intersections
         break
     if flow_dir == "normal":
-      canal_size = len(self.canal_district[canal.name])
+      canal_size = self.canal_district_len[canal.name]
       canal_range = range((starting_point+1),canal_size)
     elif flow_dir == "reverse":
       canal_range = range((starting_point-1),0,-1)
@@ -1719,13 +1727,13 @@ class Model():
 	#they get credit for their ownership share of the total recovery capacity
     for w in self.waterbank_list:
       for member in w.participant_list:
-        num_districts = len(self.district_keys[member])
+        num_districts = self.district_keys_len[member]
         for irr_district in self.district_keys[member]:
           irr_district.max_recovery += w.ownership[member]*w.recovery/num_districts
     #same for 'in leiu' banks (districts)
     for w in self.leiu_list:
       for member in w.participant_list:
-        num_districts = len(self.district_keys[member])
+        num_districts = self.district_keys_len[member]
         if member != w.key:
           for irr_district in self.district_keys[member]:
             irr_district.max_recovery += w.leiu_ownership[member]*w.leiu_recovery/num_districts
@@ -2915,7 +2923,7 @@ class Model():
             exchange_contract = y.name
             delivery_key = exchange_contract + "_banked"
             self.set_canal_direction(flow_type)		
-            canal_size = len(self.canal_district[z.name])
+            canal_size = self.canal_district_len[z.name]
             total_canal_demand = self.search_canal_demand(dowy,z, "none", z.name, 'normal', flow_type, wateryear, 'recovery', 'start')
         self.set_canal_direction(flow_type)
     self.canal_contract['caa'] = [self.swpdelta, self.cvpdelta, self.cvpexchange, self.crossvalley]#reset california aqueduct contracts to be all san luis contracts
@@ -2949,7 +2957,7 @@ class Model():
     for z in self.reservoir_canal[self.millerton.key]:
       self.set_canal_direction(flow_type)
 
-      canal_size = len(self.canal_district[z.name])
+      canal_size = self.canal_district_len[z.name]
       total_canal_demand = self.search_canal_demand(dowy, z, self.millerton.key, z.name, 'normal', flow_type, wateryear,'delivery', 'start')
       available_flow = 0.0
       for zz in total_canal_demand:
@@ -3000,7 +3008,7 @@ class Model():
       for z in self.reservoir_canal[a.key]:
         self.set_canal_direction(flow_type)
 
-        canal_size = len(self.canal_district[z.name])
+        canal_size = self.canal_district_len[z.name]
         total_canal_demand = self.search_canal_demand(dowy, z, a.key, z.name, 'normal', flow_type, wateryear,'delivery', 'start')
         available_flow = 0.0
         for zz in total_canal_demand:
@@ -3078,7 +3086,7 @@ class Model():
           x.demand_days['lookahead'][y.name]= x.get_urban_recovery_target(t, dowy, wateryear, wyt, expected_pumping, total_contract, lookahead_days, 0)
         for x in self.city_list:
           for xx in x.district_list:
-            district_object = self.district_keys[xx]
+            district_objct = self.district_keys[xx]
             if y.type == 'contract':
               total_contract = district_object.project_contract[y.name]
             else:
@@ -3152,7 +3160,7 @@ class Model():
       for z in self.reservoir_canal[a.key]:
         self.set_canal_direction(flow_type)
 
-        canal_size = len(self.canal_district[z.name])
+        canal_size = self.canal_district_len[z.name]
         total_canal_demand = self.search_canal_demand(dowy, z, a.key, z.name, 'normal',flow_type,wateryear,'banking', 'start')
         available_flow = 0.0
         for zz in total_canal_demand:
@@ -3196,7 +3204,7 @@ class Model():
     for z in self.reservoir_canal[self.sanluis.key]:
       self.set_canal_direction(flow_type)
 
-      canal_size = len(self.canal_district[z.name])
+      canal_size = self.canal_district_len[z.name]
       total_canal_demand = self.search_canal_demand(dowy, z, self.sanluis.key, z.name, 'normal', flow_type, wateryear,'delivery', 'start')
       available_flow = 0.0
       for zz in total_canal_demand:
@@ -3234,7 +3242,7 @@ class Model():
       for z in self.reservoir_canal[a.key]:
         self.set_canal_direction(flow_type)
 
-        canal_size = len(self.canal_district[z.name])
+        canal_size = self.canal_district_len[z.name]
         total_canal_demand = self.search_canal_demand(dowy, z, a.key, z.name, 'normal',flow_type,wateryear,'banking', 'start')
         available_flow = 0.0
         for zz in total_canal_demand:
@@ -3442,11 +3450,11 @@ class Model():
     #Reset canals and record turnouts & flows at each node
     for z in self.canal_list:
       counter = 0
-      for canal_loc in range(0, len(self.canal_district[z.name])):
+      for canal_loc in range(0, self.canal_district_len[z.name]):
         loc_id = self.canal_district[z.name][canal_loc]
         z.accounting(t, loc_id.key, counter)
         counter += 1
-      z.num_sites = len(self.canal_district[z.name])
+      z.num_sites = self.canal_district_len[z.name]
       z.turnout_use = np.zeros(z.num_sites)
       z.flow = np.zeros(z.num_sites+1)
       z.locked = 0
@@ -4068,7 +4076,7 @@ class Model():
         #w.recharge_rate = w.initial_recharge*cfs_tafd
 	  ###distribute this recharge capacity among districts (based on ownership share)
       for member in w.participant_list:
-        num_districts = len(self.district_keys[member])
+        num_districts = self.district_keys_len[member]
         for irr_district in self.district_keys[member]:
           irr_district.total_banked_storage += w.banked[member]
           irr_district.max_direct_recharge[0] += w.ownership[member]*w.recharge_rate/num_districts
@@ -4137,7 +4145,7 @@ class Model():
         bank_total_supply += w.projected_supply[y]
       if w.key == "SMI":
         for member in w.participant_list:
-          num_districts = len(self.district_keys[member])
+          num_districts = self.district_keys_len[member]
           for irr_district in self.district_keys[member]:
           #current direct recharge
             irr_district.max_direct_recharge[0] += w.leiu_ownership[member]*w.recharge_rate/num_districts
@@ -4224,7 +4232,7 @@ class Model():
 	#supply in reservoirs accessable by their partners
     for w in self.leiu_list:
       for member in w.participant_list:
-        num_districts = len(self.district_keys[member])
+        # num_districts = self.district_keys_len[member])
         for irr_district in self.district_keys[member]:
           for y in irr_district.contract_list:#if the banking partner has a contract at that reservoir, they can trade water there
             for yy in w.contract_list:
@@ -4346,7 +4354,7 @@ class Model():
               priority_flows_tot += min(flood_demand[demand_type][canal_counter2], canal_cap[canal_counter2])
               canal_counter2 += 1
     
-        canal_size = len(self.canal_district[z.name])
+        canal_size = self.canal_district_len[z.name]
         if flood_deliveries > 0.0:
           excess_flows, unmet_demands = self.distribute_canal_deliveries(dowy, z, begin_key, z.name, flood_deliveries, canal_size, wateryear, 'normal', flow_type, 'flood')
           
@@ -4449,7 +4457,7 @@ class Model():
 	#onto the cross valley canal, this function will identify the 'starting point' on the XVC
 	#as node #9 (index starts at zero) and the 'range' of flow as nodes #8-#0 (at which point the 
     #search will continue onto the california aqueduct
-    total_canal = len(self.canal_district[canal.name])
+    total_canal = self.canal_district_len[canal.name]
     #recharge flows move down the canals starting from the reservoirs
     if flow_type == "recharge":
       for starting_point, new_canal in enumerate(self.canal_district[canal.name]):
@@ -4480,19 +4488,19 @@ class Model():
             if canal.recovery_feeder:
               canal_range = (0, 0)
             else:
-              canal_range = range(starting_point,len(self.canal_district[canal.name]))
+              canal_range = range(starting_point, self.canal_district_len[canal.name])
           else:
             #ending_point -= 1			  
             canal_range = range(starting_point, ending_point)
       elif flow_dir == "reverse":
-        starting_point = len(self.canal_district[canal.name]) - 1
+        starting_point = self.canal_district_len[canal.name] - 1
         if prev_canal == "none":
           canal_range = range(starting_point, -1, -1)
         else:
           for ending_point, new_canal in enumerate(self.canal_district[canal.name]):
             if new_canal.key == prev_canal:
               break
-          if ending_point == (len(self.canal_district[canal.name])- 1):
+          if ending_point == (self.canal_district_len[canal.name] - 1):
             if canal.recovery_feeder:
               canal_range = (0,0)
             else:
@@ -4630,8 +4638,8 @@ class Model():
       if x.is_Waterbank:
         #for waterbanks, we calculate the demands of each waterbank partner individually
         for xx in x.participant_list:
+          num_members = self.district_keys_len[xx]
           for wb_member in self.district_keys[xx]:
-            num_members = len(self.district_keys[xx])
             #find waterbank partner demand (i.e., recharge capacity of their ownership share)
             demand_constraint = x.find_node_demand(contract_list, xx, num_members, search_type)
             #find how much water is allocated to each priority demand based on the total space and turnout at this node
@@ -4682,8 +4690,8 @@ class Model():
         #if a district is an in-leiu bank, partners can send water to this district for banking recharge
         if (x.in_leiu_banking and search_type == "banking") or (x.in_leiu_banking and search_type == "recovery"):
           for xx in x.participant_list:
+            num_members = self.district_keys_len[xx]
             for wb_member in self.district_keys[xx]:
-              num_members = len(self.district_keys[xx])
               #find if the banking partner wants to bank
 
               deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, x.inleiubanked[xx], x.inleiucap[xx], dowy, wateryear)
@@ -4758,8 +4766,8 @@ class Model():
       elif x.is_Waterbank:
         #for waterbanks, we calculate the demands of each waterbank partner individually
         for xx in x.participant_list:
+          num_members = self.district_keys_len[xx]
           for wb_member in self.district_keys[xx]:
-            num_members = len(self.district_keys[xx])
             #find waterbank partner demand (i.e., recharge capacity of their ownership share)
             demand_constraint = x.find_node_demand(contract_list, xx, num_members, search_type)
             #find how much water is allocated to each priority demand based on the total space and turnout at this node
@@ -4800,7 +4808,7 @@ class Model():
       elif x.is_Canal:
         #if object is a canal, determine if water can flow from current canal into this canal (and orient the direction of flow)
         new_flow_dir = canal.flow_directions[flow_type][x.name]
-        new_canal_size = len(self.canal_district[x.name])
+        new_canal_size = self.canal_district_len[x.name]
         #how much flow can go into this new canal
         turnout_available = canal.turnout[flow_dir][canal_loc]*cfs_tafd - canal.turnout_use[canal_loc]
         #initial demand for flow on the canal
@@ -4892,7 +4900,7 @@ class Model():
       toggle_district_recharge = 0
 	  
     #find the range of nodes to 'search' on this canal
-    canal_size = len(self.canal_district[canal.name])
+    canal_size = self.canal_district_len[canal.name]
     if flow_dir == "closed":
       empty_demands = {}
       for list_member in type_list:
@@ -5003,7 +5011,7 @@ class Model():
           if x.in_leiu_banking:
             for xx in x.participant_list:
               if xx != x.key:
-                num_members = len(self.district_keys[xx])
+                num_members = self.district_keys_len[xx]
                 for wb_member in self.district_keys[xx]:
                   #find waterbank partner demand (i.e., recovery capacity of their ownership share)                 
                   demand_constraint, demand_constraint_by_contracts = x.find_leiu_output(contract_list, x.leiu_ownership[xx], xx, wateryear)
@@ -5140,7 +5148,7 @@ class Model():
       if recovery_source.is_District:
         if recovery_source.in_leiu_banking:
           for xx in recovery_source.participant_list:
-            num_members = len(self.district_keys[xx])
+            num_members = self.district_keys_len[xx]
             if xx != recovery_source.key:
               for wb_member in self.district_keys[xx]:
                 #find waterbank partner demand (i.e., recovery capacity of their ownership share)
@@ -5195,8 +5203,8 @@ class Model():
 		
       elif recovery_source.is_Waterbank:
         for xx in recovery_source.participant_list:
+          num_members = self.district_keys_len[xx]
           for wb_member in self.district_keys[xx]:
-            num_members = len(self.district_keys[xx])
             #find waterbank partner demand (i.e., recovery capacity of their ownership share)
             demand_constraint = recovery_source.find_node_demand(contract_list, xx, num_members, search_type) 
             #does this partner want recovery water?
@@ -5255,7 +5263,7 @@ class Model():
 				
       elif recovery_source.is_Canal:
         new_flow_dir = canal.flow_directions['recovery'][recovery_source.name]
-        new_canal_size = len(self.canal_district[recovery_source.name])
+        new_canal_size = self.canal_district_len[recovery_source.name]
         new_prev_canal = canal.key
         new_lookback_range, new_starting_point = self.set_canal_range(new_flow_dir, 'recovery', recovery_source, new_prev_canal, new_canal_size)
         location_pumpout, paper_amount = self.delivery_recovery(contract_list, recovery_source, new_lookback_range, new_starting_point, paper_fractions, direct_recovery, new_flow_dir, type_list, priority_list, contract_canal, delivery_loc_name, dowy, wateryear)
@@ -5275,8 +5283,8 @@ class Model():
     #if a district is an in-leiu bank, partners can send water to this district for banking recharge
     if (district_node.in_leiu_banking and search_type == "banking") or (district_node.in_leiu_banking and search_type == "recovery"):
       for xx in district_node.participant_list:
+        num_members = self.district_keys_len[xx]
         for wb_member in self.district_keys[xx]:
-          num_members = len(self.district_keys[xx])
           #find if the banking partner wants to bank
           deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, district_node.inleiubanked[xx], district_node.inleiucap[xx], dowy, wateryear)
           #determine the priorities of the banking
@@ -5302,17 +5310,20 @@ class Model():
     for zz in type_list:
       canal.demand[zz][canal_loc] = 0.0
 
+    find_node_demand = bank_node.find_node_demand
+    find_priority_space = bank_node.find_priority_space
+    set_demand_priority = bank_node.set_demand_priority
     for xx in bank_node.participant_list:
+      num_members = self.district_keys_len[xx]
       for wb_member in self.district_keys[xx]:
-        num_members = len(self.district_keys[xx])
         #find waterbank partner demand (i.e., recharge capacity of their ownership share)
-        demand_constraint = bank_node.find_node_demand(contract_list, xx, num_members, search_type) 
+        demand_constraint = find_node_demand(contract_list, xx, num_members, search_type) 
         #does this partner want to bank water?
         deliveries =  wb_member.set_request_constraints(demand_constraint, search_type, contract_list, bank_node.banked[xx], bank_node.bank_cap[xx], dowy, wateryear)
           #deliveries = bank_node.set_request_constraints(demand_constraint, search_type, contract_list)
         #what is their priority over the water/canal space?
-        priority_bank_space = bank_node.find_priority_space(num_members, xx, search_type)
-        priorities = bank_node.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal, canal.name, wb_member.contract_list)
+        priority_bank_space = find_priority_space(num_members, xx, search_type)
+        priorities = set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal, canal.name, wb_member.contract_list)
         #take the individual priorities of waterbank members and add them to the total canal node demands
 
         for zz in type_list:

@@ -14,7 +14,7 @@ old_data = sys.argv[2]
 # given a particular sensitivity factor sample number, get entire model output and output as dataframe
 def get_results_sensitivity_number(results_file, sensitivity_number):
   with h5py.File(results_file, 'r') as f:
-    data = f['s' + str(sensitivity_number)]
+    data = f['s19961998']# + str(sensitivity_number)]
     names = data.attrs['columns']
     names = list(map(lambda x: str(x).split("'")[1], names))
     df_data = pd.DataFrame(data[:], columns=names)
