@@ -41,7 +41,9 @@ water_use_plots = ['physical', 'account']
 for plot_name in water_use_plots:
   print('Deliveries ' + plot_name)
   ##Uses the 'scenario' files
-  simulation.make_deliveries_by_district(results_folder, plot_type, plot_name, show_plot)
+  #simulation.make_deliveries_by_district(results_folder, plot_type, plot_name, show_plot)
+  validation.make_deliveries_by_district(results_folder, plot_type, plot_name, '19972016', show_plot)
+  simulation.make_deliveries_by_district(results_folder, plot_type, plot_name, '19062016', show_plot)
 
 ##Plot snowpack/flow relationships for different watersheds
 plot_type = 'state_estimation'
@@ -95,6 +97,6 @@ timesteps = 20000 #timesteps need to be greater than the snapshot range
 snapshot_range = (14600, 14975)
 results_folder = 'cord/data/results/sankeys/'
 simulation.plot_account_flows(results_folder, plot_type, plot_name, timesteps, snapshot_range)	
-simulation.make_gif(results_folder + 'sankeys/cali_sankey', '1946', 14601, 14975)
+simulation.make_gif(results_folder + 'cali_sankey', '1946', 14601, 14975)
 
 

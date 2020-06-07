@@ -272,10 +272,10 @@ class Visualizer():
     self.figure_params['district_water_use']['physical'] = {}
     self.figure_params['district_water_use']['physical']['district_groups'] = ['Municipal Districts', 'Kern County Water Agency', 'CVP - Friant Contractors', 'CVP - San Luis Contractors', 'Groundwater Banks']
     self.figure_params['district_water_use']['physical']['Municipal Districts'] = ['bakersfield', 'ID4', 'fresno', 'southbay', 'socal', 'centralcoast']
-    self.figure_params['district_water_use']['physical']['Kern County Water Agency'] = ['berrenda', 'belridge', 'buenavista', 'cawelo', 'henrymiller', 'losthills', 'rosedale', 'semitropic', 'tehachapi', 'tejon', 'westkern', 'wheeler']
+    self.figure_params['district_water_use']['physical']['Kern County Water Agency'] = ['berrenda', 'belridge', 'buenavista', 'cawelo', 'henrymiller', 'losthills', 'rosedale', 'semitropic', 'tehachapi', 'tejon', 'westkern', 'wheeler', 'northkern', 'kerntulare']
     self.figure_params['district_water_use']['physical']['CVP - Friant Contractors'] = ['arvin', 'delano', 'pixley', 'exeter', 'kerntulare', 'lindmore', 'lindsay', 'lowertule', 'porterville', 'saucelito', 'shaffer', 'sosanjoaquin', 'teapot', 'terra', 'chowchilla', 'maderairr', 'tulare', 'fresnoid']
     self.figure_params['district_water_use']['physical']['CVP - San Luis Contractors'] = ['westlands', 'panoche', 'sanluiswater', 'delpuerto'] 
-    self.figure_params['district_water_use']['physical']['Groundwater Banks'] = ['stockdale', 'kernriverbed', 'poso', 'pioneer', 'kwb', 'b2800', 'irvineranch']
+    self.figure_params['district_water_use']['physical']['Groundwater Banks'] = ['stockdale', 'kernriverbed', 'poso', 'pioneer', 'kwb', 'b2800', 'irvineranch', 'northkernwb']
     self.figure_params['district_water_use']['physical']['subplot columns'] = 2
     self.figure_params['district_water_use']['physical']['color map'] = 'YlGbBu_r'
     self.figure_params['district_water_use']['physical']['write file'] = True
@@ -445,53 +445,66 @@ class Visualizer():
     if show_plot:
       plt.show()
     plt.close()
-  def make_deliveries_by_district(self, folder_name, figure_name, plot_name, show_plot):
+
+  def make_deliveries_by_district(self, folder_name, figure_name, plot_name, scenario_name, show_plot):
 
     district_group_list = self.figure_params[figure_name][plot_name]['district_groups']
     district_groups = {}
     for x in district_group_list:
       district_groups[x] = self.figure_params[figure_name][plot_name][x]
     name_bridge = {}
-    name_bridge['bakersfield'] = 'none'     
-    name_bridge['ID4'] = 'none'
-    name_bridge['fresno'] = 'none' 
-    name_bridge['southbay'] = 'none'
-    name_bridge['socal'] = 'none'
-    name_bridge['centralcoast'] = 'none'    
-    name_bridge['berrenda'] = 'KER11'
-    name_bridge['belridge'] = 'KER06'
-    name_bridge['buenavista'] = 'KER12'
-    name_bridge['cawelo'] = 'KER13'
-    name_bridge['henrymiller'] = 'KER16'  
-    name_bridge['losthills'] = 'KER07'
-    name_bridge['rosedale'] = 'KER14'
     name_bridge['semitropic'] = 'KER01'
-    name_bridge['tehachapi'] = 'none'
-    name_bridge['tejon'] = 'none'
     name_bridge['westkern'] = 'KER02' 
     name_bridge['wheeler'] = 'KER03'
+    name_bridge['kerndelta'] = 'KER04'
     name_bridge['arvin'] = 'KER05'
-    name_bridge['delano'] = 'KeT01'
-    name_bridge['pixley'] = 'none'
-    name_bridge['exeter'] = 'TUL07'
-    name_bridge['kerntulare'] = 'KeT02' 
-    name_bridge['lindmore'] = 'TUL03'
-    name_bridge['lindsay'] = 'TUL06'
-    name_bridge['lowertule'] = 'TUL01'
-    name_bridge['porterville'] = 'TUL05'
-    name_bridge['saucelito'] = 'TUL04'
-    name_bridge['shaffer'] = 'KER15'
+    name_bridge['belridge'] = 'KER06'
+    name_bridge['losthills'] = 'KER07'
+    name_bridge['northkern'] = 'KER08'
+    name_bridge['northkernwb'] = 'KER08'
+    name_bridge['ID4'] = 'KER09'
     name_bridge['sosanjoaquin'] = 'KER10'  
-    name_bridge['teapot'] = 'TUL09'
-    name_bridge['terra'] = 'TUL08'
-    name_bridge['chowchilla'] = 'none'  
-    name_bridge['maderairr'] = 'none'
+    name_bridge['berrenda'] = 'KER11'
+    name_bridge['buenavista'] = 'KER12'
+    name_bridge['cawelo'] = 'KER13'
+    name_bridge['rosedale'] = 'KER14'
+    name_bridge['shaffer'] = 'KER15'
+    name_bridge['henrymiller'] = 'KER16'  
+    name_bridge['kwb'] = 'KER17'
+    name_bridge['b2800'] = 'KER17'
+    name_bridge['pioneer'] = 'KER17'
+    name_bridge['irvineranch'] = 'KER17'
+    name_bridge['kernriverbed'] = 'KER17'
+    name_bridge['poso'] = 'KER17'
+    name_bridge['stockdale'] = 'KER17'
+
+    name_bridge['delano'] = 'KeT01'
+    name_bridge['kerntulare'] = 'KeT02' 
+    name_bridge['lowertule'] = 'TUL01'
     name_bridge['tulare'] = 'TUL02'
-    name_bridge['fresnoid'] = 'none'
-    name_bridge['westlands'] = 'none'
-    name_bridge['panoche'] = 'none'
-    name_bridge['sanluiswater'] = 'none'   
-    name_bridge['delpuerto'] = 'none'
+    name_bridge['lindmore'] = 'TUL03'
+    name_bridge['saucelito'] = 'TUL04'
+    name_bridge['porterville'] = 'TUL05'
+    name_bridge['lindsay'] = 'TUL06'
+    name_bridge['exeter'] = 'TUL07'
+    name_bridge['terra'] = 'TUL08'
+    name_bridge['teapot'] = 'TUL09'
+
+    name_bridge['bakersfield'] = 'BAK'     
+    name_bridge['fresno'] = 'FRE' 
+    name_bridge['southbay'] = 'SOB'
+    name_bridge['socal'] = 'SOC'
+    name_bridge['tehachapi'] = 'TEH'
+    name_bridge['tejon'] = 'TEJ'
+    name_bridge['centralcoast'] = 'SLO'    
+    name_bridge['pixley'] = 'PIX'
+    name_bridge['chowchilla'] = 'CHW'  
+    name_bridge['maderairr'] = 'MAD'
+    name_bridge['fresnoid'] = 'FSI'
+    name_bridge['westlands'] = 'WTL'
+    name_bridge['panoche'] = 'PAN'
+    name_bridge['sanluiswater'] = 'SLW'   
+    name_bridge['delpuerto'] = 'DEL'
 
     n_cols = self.figure_params[figure_name][plot_name]['subplot columns']
     write_file = self.figure_params[figure_name][plot_name]['write file']
@@ -522,6 +535,7 @@ class Visualizer():
     for district in self.district_list:
 
       inleiu_name = district.name + '_inleiu_irrigation'
+      inleiu_recharge_name = district.name + '_inleiu_recharge'
       direct_recover_name = district.name + '_recover_banked'
       indirect_surface_name = district.name + '_exchanged_SW'
       indirect_ground_name = district.name + '_exchanged_GW'
@@ -552,6 +566,10 @@ class Visualizer():
           total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_name]
           #attibute inleiu deliveries for irrigation to district operating the bank
           self.total_irrigation_by_district[district.name][year_num] += total_delivery
+        if inleiu_recharge_name in self.values:
+          total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_recharge_name]
+          #attibute inleiu deliveries for irrigation to district operating the bank
+          self.total_recharge_by_district[district.name][year_num] += total_recharge
 
         #GW recovery 
         if direct_recover_name in self.values:
@@ -586,9 +604,7 @@ class Visualizer():
           bank_recharge_name = district.name + '_' + bank_name.key + '_recharged'
           if bank_recharge_name in self.values:
             total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), bank_recharge_name]
-            if location_type == 'physical':
-              self.total_recharge_by_district[bank_name.name][year_num] += total_recharge#      for bank_name in self.leiu_list:
-            elif location_type == 'account':
+            if location_type == 'account':
               self.total_recharge_out_of_district[bank_name.name][year_num] += total_recharge#      for bank_name in self.leiu_list:
 
       #Contract deliveries (minus deliveries made for recharge (accouted for above) 
@@ -627,6 +643,7 @@ class Visualizer():
         private = private_name.name
         if district.key in self.private_districts[private]:
           inleiu_name = private + '_' + district.key + '_inleiu_irrigation'
+          inleiu_recharge_name = private + '_' + district.key + '_inleiu_irrigation'
           direct_recover_name = private + '_' + district.key + '_recover_banked'
           indirect_surface_name = private + '_' + district.key + '_exchanged_SW'
           indirect_ground_name = private + '_' + district.key + '_exchanged_GW'
@@ -658,6 +675,10 @@ class Visualizer():
               total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_name]
               #attibute inleiu deliveries for irrigation to district operating the bank
               self.total_irrigation_by_district[district.name][year_num] += total_delivery
+            if inleiu_recharge_name in self.values:
+              total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_recharge_name]
+              #attibute inleiu deliveries for irrigation to district operating the bank
+              self.total_recharge_by_district[district.name][year_num] += total_recharge
 
             #GW recovery 
             if direct_recover_name in self.values:
@@ -693,9 +714,7 @@ class Visualizer():
               bank_recharge_name = private + '_' + district.key + '_' + bank_name.key + '_recharged'
               if bank_recharge_name in self.values:
                 total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), bank_recharge_name]
-                if location_type == 'physical':
-                  self.total_recharge_by_district[bank_name.name][year_num] += total_recharge
-                elif location_type == 'account':
+                if location_type == 'account':
                   self.total_recharge_out_of_district[district.name][year_num] += total_recharge
 
           #Contract deliveries (minus deliveries made for recharge (accouted for above) 
@@ -755,9 +774,6 @@ class Visualizer():
       colors = sns.color_palette('BrBG_r', n_colors = 7)
       fig, ax = plt.subplots(n_rows, n_cols, figsize = (16,12))
     sns.set()    
-    final_district_irrigation = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
-    final_district_recharge = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
-    final_district_pumping = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
     if location_type == 'physical':
       total_deliveries = np.zeros(self.number_years)
       for x_cnt, x in enumerate(district_groups):
@@ -769,23 +785,13 @@ class Visualizer():
       prev_list2 = np.zeros(self.number_years)
       prev_list3 = np.zeros(self.number_years)
       for x_cnt, x in enumerate(district_groups):
-        for y in district_groups[x]:
-          if write_file:
-            if y in name_bridge:
-              if name_bridge[y] is not 'none':
-                file_col_name = name_bridge[y]
-                final_district_irrigation[file_col_name] = self.total_irrigation_by_district[y]
-                final_district_recharge[file_col_name] = self.total_recharge_by_district[y]
-                final_district_pumping[file_col_name] = self.total_pumping_by_district[y]
-          
+        for y in district_groups[x]:          
           this_list = prev_list + self.total_irrigation_by_district[y]
           ax[0].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[x_cnt], edgecolor = 'black')
           prev_list = this_list * 1.0
-
           this_list2 = prev_list2 + self.total_recharge_by_district[y]
           ax[1].fill_between(np.arange(self.number_years), prev_list2[plotting_order], this_list2[plotting_order], color = colors[x_cnt], edgecolor = 'black')
           prev_list2 = this_list2 * 1.0
-
           this_list3 = prev_list3 + self.total_pumping_by_district[y]
           ax[2].fill_between(np.arange(self.number_years), prev_list3[plotting_order], this_list3[plotting_order], color = colors[x_cnt], edgecolor = 'black')
           prev_list3 = this_list3 * 1.0
@@ -803,7 +809,7 @@ class Visualizer():
       ax[2].set_ylim([0, np.ceil(max(prev_list3)/500.0) * 500.0])
 
       for x in range(0, 3):
-        ax[x].set_xlim([0, self.number_years])
+        ax[x].set_xlim([0, self.number_years - 1])
         ax[x].set_xticks([0, int(np.ceil(self.number_years/2)), self.number_years])
         ax[x].set_xticklabels(['0%', '50%', '100%'])
         ax[x].grid(False)
@@ -819,9 +825,22 @@ class Visualizer():
 
       plt.savefig(folder_name + figure_name + '_' + plot_name + '.png', dpi = 150, bbox_inches = 'tight', pad_inches = 0.0)
       if write_file:
-        final_district_irrigation.to_csv(folder_name + 'irrigation_by_year.csv')
-        final_district_recharge.to_csv(folder_name + 'recharge_by_year.csv')
-        final_district_pumping.to_csv(folder_name + 'pumping_by_year.csv')
+        final_district_irrigation = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
+        final_district_recharge = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
+        final_district_pumping = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
+        for y in name_bridge:
+          file_col_name = name_bridge[y]
+          if file_col_name in final_district_irrigation:
+            final_district_irrigation[file_col_name] += self.total_irrigation_by_district[y]
+            final_district_recharge[file_col_name] += self.total_recharge_by_district[y]
+            final_district_pumping[file_col_name] += self.total_pumping_by_district[y]
+          else:
+            final_district_irrigation[file_col_name] = self.total_irrigation_by_district[y]
+            final_district_recharge[file_col_name] = self.total_recharge_by_district[y]
+            final_district_pumping[file_col_name] = self.total_pumping_by_district[y]
+        final_district_irrigation.to_csv(folder_name + 'irrigation_by_year_' + scenario_name + '.csv')
+        final_district_recharge.to_csv(folder_name + 'recharge_by_year_' + scenario_name + '.csv')
+        final_district_pumping.to_csv(folder_name + 'pumping_by_year_' + scenario_name + '.csv')
     
     elif location_type == 'account':
       counter_x = 0
@@ -894,7 +913,7 @@ class Visualizer():
             tick.set_fontname('Gill Sans MT')
           for tick in ax[x][y].get_yticklabels():
             tick.set_fontname('Gill Sans MT')
-      plt.savefig(folder_name + figure_name + '_' + plot_name + '.png', dpi = 150, bbox_inches = 'tight', pad_inches = 0.0)
+      plt.savefig(folder_name + figure_name + '_' + plot_name + '_' + scenario_name + '.png', dpi = 150, bbox_inches = 'tight', pad_inches = 0.0)
 
     if show_plot:
       plt.show()
