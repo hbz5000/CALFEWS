@@ -48,18 +48,18 @@ class District():
   def __len__(self):
     return 1
                      
-  is_Canal = False
-  is_Delta = False
-  is_District = True
-  is_Private = False
-  is_Reservoir = False
-  is_Waterbank = False
+  is_Canal = 0
+  is_District = 1
+  is_Private = 0
+  is_Waterbank = 0
+  is_Reservoir = 0
+
 
   def __init__(self, model, name, key, scenario_file = 'baseline'):
     self.T = model.T
     self.key = key
     self.name = name
-    self.turnback_use = True
+    # self.turnback_use = 1
 
     for k, v in json.load(open('cord/districts/%s_properties.json' % key)).items():
       setattr(self, k, v)
@@ -166,9 +166,9 @@ class District():
     self.monthemptycounter = 0
     self.current_recharge_storage = 0.0
     self.private_fraction = 0.0
-    self.has_private = False
-    self.has_pesticide = False
-    self.has_pmp = False
+    self.has_private = 0
+    self.has_pesticide = 0
+    self.has_pmp = 0
 	
     #banking dictionaries to keep track of individual member use & accounts
     if self.in_leiu_banking:
@@ -251,11 +251,11 @@ class District():
       self.monthlydemand[wyt] = np.zeros(12)
       for monthloop in range(0,12):
         self.monthlydemand[wyt][monthloop] += self.urban_profile[monthloop]*self.MDD/days_in_month[non_leap_year][monthloop]
-        if self.has_pesticide:
+        if self.has_pesticide == 1:
           for i,v in enumerate(self.acreage_by_year):
             self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][cwyt][monthloop],0.0)*(self.acreage_by_year[v][wateryear]-self.private_acreage[v][wateryear])/(12.0*days_in_month[non_leap_year][monthloop])
             #self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[v][cwyt][monthloop] - self.irrdemand.etM['precip'][cwyt][monthloop],0.0)*(self.acreage_by_year[v][wateryear]-self.private_acreage[v][wateryear])/(12.0*days_in_month[non_leap_year][monthloop])
-        elif self.has_pmp:
+        elif self.has_pmp == 1:
           for crop in self.pmp_acreage:
             self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[crop][cwyt][monthloop],0.0)*max(self.pmp_acreage[crop]-self.private_acreage[crop], 0.0)/(12.0*days_in_month[non_leap_year][monthloop])
             #self.monthlydemand[wyt][monthloop] += max(self.irrdemand.etM[crop][cwyt][monthloop] - self.irrdemand.etM['precip'][cwyt][monthloop],0.0)*max(self.pmp_acreage[crop]-self.private_acreage[crop], 0.0)/(12.0*days_in_month[non_leap_year][monthloop])
@@ -390,8 +390,8 @@ class District():
 	##carryover storage - which is added to their individual current balance (self.carryover[key])
 	##projected_allocation is the water that is forecasted to be available on each contract through the end of the water year *plus* water that has already been delivered on that contract
 	##individual deliveries are then subtracted from this total to determine the individual district's projected contract allocation remaining in that year
-    if self.has_private:
-      if self.has_pesticide:
+    if self.has_private == 1:
+      if self.has_pesticide == 1:
         frac_to_district = 1.0 - self.private_fraction[wateryear]
       else:
         frac_to_district = 1.0 - self.private_fraction
@@ -427,8 +427,8 @@ class District():
 
   def calc_carryover(self, existing_balance, wateryear, balance_type, key):
     #at the end of each wateryear, we tally up the full allocation to the contract, how much was used (and moved around in other balances - carryover, 'paper balance' and turnback_pools) to figure out how much each district can 'carryover' to the next year
-    if self.has_private:
-      if self.has_pesticide:
+    if self.has_private == 1:
+      if self.has_pesticide == 1:
         frac_to_district = 1.0 - self.private_fraction[wateryear]
       else:
         frac_to_district = 1.0 - self.private_fraction
@@ -614,8 +614,8 @@ class District():
   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, start_month):
     max_pumping_shortfall = 0.0
     pumping_shortfall = 0.0
-    if self.has_private:
-      if self.has_pesticide:
+    if self.has_private == 1:
+      if self.has_pesticide == 1:
         frac_to_district = 1.0 - self.private_fraction[wateryear]
       else:
         frac_to_district = 1.0 - self.private_fraction
@@ -704,7 +704,7 @@ class District():
 	
     total_projected_allocation = 0.0
     private_add = 0.0
-    if self.has_private:
+    if self.has_private == 1:
       for xx in self.private_demand:
         private_add += min(self.private_demand[xx], self.private_delivery[xx])
 
@@ -795,36 +795,36 @@ class District():
 	  #in surface water storage under the given contract
     elif search_type == "delivery":
       private_add = 0.0
-      if self.has_private:
+      if self.has_private == 1:
         for xx in self.private_demand:
           private_add += min(self.private_demand[xx], self.private_delivery[xx])
       total_current_balance = 0.0
       total_projected_supply = 0.0
-      carryover_toggle = False
+      carryover_toggle = 0
       # friant_toggle = 0
-      # delta_toggle = False
+      # delta_toggle = 0
       if self.project_contract['exchange'] > 0.0:
-        delta_toggle = True
+        delta_toggle = 1
       elif self.project_contract['cvpdelta'] > 0.0:
         if dowy < 150 or dowy + self.days_to_fill['cvpdelta'] < 365:
-          delta_toggle = True
+          delta_toggle = 1
         else:
-          delta_toggle = False
+          delta_toggle = 0
       else:
-        delta_toggle = False
+        delta_toggle = 0
 
       for y in contract_list:
         total_current_balance += max(self.current_balance[y.name], 0.0)
         total_projected_supply += max(self.projected_supply[y.name], 0.0)
         if self.carryover[y.name] > self.deliveries[y.name][wateryear]:
-          carryover_toggle = True
+          carryover_toggle = 1
 
       if self.seasonal_connection == 1:
         if self.must_fill == 1:
           return max(min(demand, total_current_balance), 0.0) + private_add
-        elif carryover_toggle or (total_projected_supply > self.annualdemand):
+        elif (carryover_toggle == 1) or (total_projected_supply > self.annualdemand):
           return max(min(demand, total_current_balance), 0.0) + private_add
-        elif delta_toggle:
+        elif delta_toggle == 1:
           return max(min(demand, total_current_balance, total_projected_supply), 0.0) + private_add
         else:
           conservative_estimate = max(min((dowy- 211.0)/(273.0 - 211.0), 1.0), 0.0)
@@ -949,7 +949,7 @@ class District():
       total_deliveries = priorities[zz]*type_fractions[zz]
       final_deliveries += total_deliveries
 	  
-    if self.has_private:
+    if self.has_private == 1:
       private = 0.0
       for xx in self.private_demand:
         private += min(self.private_demand[xx], self.private_delivery[xx])

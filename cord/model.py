@@ -85,9 +85,9 @@ class Model():
     self.first_d_of_month = first_d_of_month(self.dowy_eom, self.days_in_month)
 
     if sensitivity_sample_number == -1:
-      self.use_sensitivity = False
+      self.use_sensitivity = 0
     else:
-      self.use_sensitivity = True
+      self.use_sensitivity = 1
       self.sensitivity_sample_number = sensitivity_sample_number
       self.sensitivity_sample_names = sensitivity_sample_names
       self.sensitivity_sample = sensitivity_sample
@@ -379,7 +379,7 @@ class Model():
     #########################################################################################
     self.delta = Delta(self, 'delta', 'DEL', self.model_mode)
     
-    if (self.use_sensitivity == True):
+    if (self.use_sensitivity == 1):
       self.delta.set_sensitivity_factors(self.sensitivity_factors['delta_outflow_multiplier']['realization'], self.sensitivity_factors['omr_flow']['realization'], self.sensitivity_factors['omr_probability']['realization'])
 
 	###Find expected reservoir releases to meet delta requirements - used in flow forecasting
@@ -634,7 +634,7 @@ class Model():
     self.consolidated = District(self, 'consolidated', 'CNS')
     self.alta = District(self, 'alta', 'ALT')
     self.krwa = District(self, 'krwa', 'KRWA')
-    self.krwa.turnback_use = False
+    # self.krwa.turnback_use = 0
 	
     ##Private water users
     self.wonderful = Private(self, 'wonderful', 'WON', 1.0)
@@ -676,13 +676,13 @@ class Model():
       x.turnout_list = {}
       for xx in x.district_list:
         district_object = self.district_keys[xx] 
-        district_object.has_private = True
+        district_object.has_private = 1
         x.turnout_list[xx] = district_object.turnout_list
     for x in self.city_list:
       x.turnout_list = {}
       for xx in x.district_list:
         district_object = self.district_keys[xx] 
-        district_object.has_private = True
+        district_object.has_private = 1
         x.turnout_list[xx] = district_object.turnout_list
 
 	
@@ -787,7 +787,7 @@ class Model():
     self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb]
     self.leiu_list = []
     for x in self.district_list:
-      if (x.in_leiu_banking == True):
+      if (x.in_leiu_banking == 1):
         self.leiu_list.append(x)
 
     for x in self.district_list:
@@ -1424,7 +1424,7 @@ class Model():
     tot_contractor_demand = 0.0#initialize total demand on the canal
     for canal_loc in canal_range:#loop through the flow range on the canal (determined above)
       x = self.canal_district[canal.name][canal_loc]
-      if x.is_District:
+      if x.is_District == 1:
         new_loc_demand = 0.0
         contractor_toggle = 0
 		#find if the node has a particular contract
@@ -1438,7 +1438,7 @@ class Model():
           tot_contractor_demand += new_loc_demand
           x.current_requested += new_loc_demand
 		
-      elif x.is_Waterbank:
+      elif x.is_Waterbank == 1:
         new_loc_demand = 0.0
         #at a waterbank, find if the bank member has a contract
         for xx in x.participant_list:
@@ -1448,6 +1448,11 @@ class Model():
               for yx in wb_member.contract_list:
                 if y.name == yx:
                   contractor_toggle = 1
+                  break
+              if contractor_toggle == 1:
+                break
+            if contractor_toggle == 1:
+              break
           if contractor_toggle == 1:
             new_loc_demand += max(x.tot_storage*x.ownership[xx],0.0)#only account for member-owned storage
         new_loc_demand -= x.current_requested
@@ -1458,7 +1463,7 @@ class Model():
         tot_contractor_demand += new_loc_demand
 
       #if a node is a canal node, jump to that canal (function calls itself, but for another canal) 
-      elif x.is_Canal:
+      elif x.is_Canal == 1:
         new_loc_demand = 0.0
         if canal.turnout[flow_dir][canal_loc] > 0.0:
           new_flow_dir = canal.flow_directions[flow_type][x.name]
@@ -1536,14 +1541,14 @@ class Model():
       for land_keys in x.district_list:
         district_land = self.district_keys[land_keys]
         if district_land.has_pesticide:
-          x.has_pesticide[land_keys] = True
-          x.has_pmp[land_keys] = False
+          x.has_pesticide[land_keys] = 1
+          x.has_pmp[land_keys] = 0
         else:
-          x.has_pesticide[land_keys] = False
+          x.has_pesticide[land_keys] = 0
           if district_land.has_pmp:
-            x.has_pmp[land_keys] = True
+            x.has_pmp[land_keys] = 1
           else:
-            x.has_pmp[land_keys] = False
+            x.has_pmp[land_keys] = 0
       for land_keys in x.district_list:
         x.acreage[land_keys] = {}
         x.initial_planting[land_keys] = {}
@@ -1771,7 +1776,7 @@ class Model():
     id_dict['WRM'] = 'Wheeler Ridge - Maricopa Water Storage District'
     for x in self.district_list:
       if x.key in id_dict:
-        x.has_pesticide = True
+        x.has_pesticide = 1
         x.acreage_by_year = {}
         district_filename = id_dict[x.key]
         pesticide_data = pd.read_csv('cord/data/input/pesticide_acreage/' + district_filename + '.csv', index_col = 0)
@@ -1835,7 +1840,7 @@ class Model():
       district_id = self.district_codes[district]
       if district_id in self.district_keys:
         district_object = self.district_keys[district_id]
-        district_object.has_pmp = True
+        district_object.has_pmp = 1
         district_object.irrdemand.set_pmp_parameters(pmp_coef, district)
         district_object.irrdemand.make_crop_list()
         district_object.irrdemand.set_econ_parameters(econ_data, district)
@@ -2696,8 +2701,8 @@ class Model():
         for x in self.city_list:
           total_contract = {}
           for xx in x.district_list:
-            district_object = self.district_keys[xx]
-            total_contract[xx] = district_object.project_contract['tableA']
+            # district_object = self.district_keys[xx]
+            total_contract[xx] = self.district_keys[xx].project_contract['tableA']
           additional_carryover = 0.0
           seller_turnback, buyer_turnback = x.set_turnback_pool(y.name, year_index, self.days_in_month, additional_carryover)
           for xx in x.district_list:
@@ -2838,8 +2843,8 @@ class Model():
     for x in self.private_list:
       for y in self.contract_list:
         for z in x.district_list:
-          district_object = self.district_keys[z]
-          next_year_carryover, this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, district_object.project_contract, district_object.rights)
+          # district_object = self.district_keys[z]
+          next_year_carryover, this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, self.district_keys[z].project_contract, self.district_keys[z].rights)
           y.running_carryover += this_year_carryover
         #next_year_carryover = x.apply_paper_balance(y.name, wyt, wateryear)
         #y.projected_carryover += next_year_carryover
@@ -2848,8 +2853,8 @@ class Model():
     for x in self.city_list:
       for y in self.contract_list:
         for z in x.district_list:
-          district_object = self.district_keys[z]
-          next_year_carryover, this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, district_object.project_contract, district_object.rights)
+          # district_object = self.district_keys[z]
+          next_year_carryover, this_year_carryover = x.update_balance(t, wateryear, y.storage_pool[t], y.allocation[t], y.available_water[t], y.name, y.tot_carryover, y.type, z, self.district_keys[z].project_contract, self.district_keys[z].rights)
           y.running_carryover += this_year_carryover
         #next_year_carryover = x.apply_paper_balance_urban(y.name, wyt, wateryear)
         #y.projected_carryover += next_year_carryover
@@ -2871,14 +2876,14 @@ class Model():
         target_eoy = 0.0
       x.open_recovery(t, dowy, wateryear, target_eoy)
 	  ##Recover Banked Water
-    use_tolerance = False
+    use_tolerance = 0
     for x in self.private_list:
       x.open_recovery(t, dowy, wateryear, self.number_years, wyt, use_tolerance, 0.0)
-    use_tolerance = False
+    use_tolerance = 0
     for x in self.city_list:
       for xx in x.district_list:
-        district_object = self.district_keys[xx]
-        total_contract = district_object.project_contract['tableA']
+        # district_object = self.district_keys[xx]
+        total_contract = self.district_keys[xx].project_contract['tableA']
       if dowy > 273:
         #additional_carryover = x.get_urban_recovery_target(expected_pumping, total_contract, wateryear, dowy, year_index, wyt, 90, t, xx)
         additional_carryover = 0.0
@@ -3060,9 +3065,9 @@ class Model():
 
         for x in self.city_list:
           for xx in x.district_list:
-            district_object = self.district_keys[xx]
+            # district_object = self.district_keys[xx]
             if y.type == 'contract':
-              total_contract = district_object.project_contract[y.name]
+              total_contract = self.district_keys[xx].project_contract[y.name]
             else:
               total_contract = 0.0
             x.demand_days['lookahead'][y.name] += x.get_urban_recovery_target(t, dowy, wateryear, wyt, expected_pumping, total_contract, demand_days, xx, 0)
@@ -3086,9 +3091,9 @@ class Model():
           x.demand_days['lookahead'][y.name]= x.get_urban_recovery_target(t, dowy, wateryear, wyt, expected_pumping, total_contract, lookahead_days, 0)
         for x in self.city_list:
           for xx in x.district_list:
-            district_objct = self.district_keys[xx]
+            # district_objct = self.district_keys[xx]
             if y.type == 'contract':
-              total_contract = district_object.project_contract[y.name]
+              total_contract = self.district_keys[xx].project_contract[y.name]
             else:
               total_contract = 0.0
             x.demand_days['current'][y.name] += x.get_urban_recovery_target(t, 0, wateryear, wyt, expected_pumping, total_contract, demand_days, xx, m-1)
@@ -3098,8 +3103,8 @@ class Model():
     #Find district banking needs
     for x in self.district_list:
       for y in x.contract_list:
-        contract_object = self.contract_keys[y]
-        reservoir = self.contract_reservoir[contract_object.key]
+        # contract_object = self.contract_keys[y]
+        reservoir = self.contract_reservoir[self.contract_keys[y].key]
         if y == 'tableA':
           lookahead_days = fill_up_cross_swp
           carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
@@ -3114,12 +3119,12 @@ class Model():
           carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
         additional_carryover = 0.0
 
-        x.open_recharge(t,m-1,da,wateryear,year_index,self.days_in_month, carryover_days, lookahead_days, contract_object.tot_carryover - contract_object.annual_deliveries[wateryear], y, wyt, self.contract_turnouts[y], 0.0,contract_object.allocation_priority)
+        x.open_recharge(t,m-1,da,wateryear,year_index,self.days_in_month, carryover_days, lookahead_days, self.contract_keys[y].tot_carryover - self.contract_keys[y].annual_deliveries[wateryear], y, wyt, self.contract_turnouts[y], 0.0, self.contract_keys[y].allocation_priority)
 		
     for x in self.private_list:
       for y in x.contract_list:
-        contract_object = self.contract_keys[y]
-        reservoir = self.contract_reservoir[contract_object.key]
+        # contract_object = self.contract_keys[y]
+        reservoir = self.contract_reservoir[self.contract_keys[y].key]
         if y == 'tableA':
           lookahead_days = fill_up_cross_swp
         elif y == 'cvpdelta' or y == 'exchange' or y == 'cvc':
@@ -3130,11 +3135,11 @@ class Model():
         additional_carryover = 0.0
             
           #additional_carryover += x.contract_carryover_list[xx][y]
-        x.open_recharge(t,m-1,da,wateryear,year_index,self.days_in_month, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], additional_carryover, contract_object.allocation_priority)
+        x.open_recharge(t,m-1,da,wateryear,year_index,self.days_in_month, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], additional_carryover, self.contract_keys[y].allocation_priority)
     for x in self.city_list:
       for y in x.contract_list:
-        contract_object = self.contract_keys[y]
-        reservoir = self.contract_reservoir[contract_object.key]
+        # contract_object = self.contract_keys[y]
+        reservoir = self.contract_reservoir[self.contract_keys[y].key]
         if y == 'tableA':
           lookahead_days = fill_up_cross_swp
         elif y == 'cvpdelta' or y == 'exchange' or y == 'cvc':
@@ -3152,7 +3157,7 @@ class Model():
             else:
               additional_carryover += np.sum(x.pumping[xx][(t-dowy): int(t + lookahead_days - 365) ])/1000.0
 
-        x.open_recharge(t, m-1, da, wateryear, year_index, self.days_in_month, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], 0.0, contract_object.allocation_priority)
+        x.open_recharge(t, m-1, da, wateryear, year_index, self.days_in_month, reservoir.numdays_fillup['demand'], lookahead_days, y, wyt, self.contract_turnouts[y], 0.0, self.contract_keys[y].allocation_priority)
 		
 	##Deliveries for banking
     flow_type = "recharge"
@@ -3263,11 +3268,11 @@ class Model():
       if x.current_recharge_storage > 0.0:
         x.absorb_storage()
 		
-    kill_permanent = False
-    if kill_permanent:
-      for x in self.private_list:
-        for xx in x.district_list:
-          x.find_unmet_et(xx, wateryear, dowy)
+    # kill_permanent = 0
+    # if kill_permanent == 1:
+    #   for x in self.private_list:
+    #     for xx in x.district_list:
+    #       x.find_unmet_et(xx, wateryear, dowy)
 
 
 
@@ -3361,8 +3366,8 @@ class Model():
               use_contract = 1
           if use_contract == 1:	
             for xx in x.district_list:
-              district_object = self.district_keys[xx]
-              new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, district_object.project_contract, district_object.rights)
+              # district_object = self.district_keys[xx]
+              new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, self.district_keys[xx].project_contract, self.district_keys[xx].rights)
 
               y.tot_carryover += carryover
               y.tot_new_alloc += new_alloc
@@ -3391,8 +3396,8 @@ class Model():
               use_contract = 1
           if use_contract == 1:	  
             for xx in x.district_list:
-              district_object = self.district_keys[xx]
-              new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, district_object.project_contract, district_object.rights)
+              # district_object = self.district_keys[xx]
+              new_alloc, carryover = x.calc_carryover(y.storage_pool[t], wateryear, y.type, y.name, xx, self.district_keys[xx].project_contract, self.district_keys[xx].rights)
               y.tot_carryover += carryover
               y.tot_new_alloc += new_alloc
               #total_carryover += x.carryover[xx][y.name]
@@ -3808,16 +3813,16 @@ class Model():
             y.monthlydemand[wyt][monthcounter] += np.mean(y.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(sri_estimate - y.ytd_pumping[wateryear], 0.0)
           for y in self.city_list:
             for districts in y.district_list:
-                district_object = self.district_keys[districts]
+                # district_object = self.district_keys[districts]
                 #sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.k_close_wateryear])*total_delta_pumping
                 sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1])*total_delta_pumping
               #if monthcounter >= 9:
                 #if wateryear > 0:
-                  #y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(y.ytd_pumping[districts][wateryear-1], 0.0)
+                  #y.monthlydemand[districts][wyt][monthcounter] += np.mean(self.district_keys[districts].hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(y.ytd_pumping[districts][wateryear-1], 0.0)
                 #else:
-                  #y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])max(y.initial_pumping[districts], 0.0)
+                  #y.monthlydemand[districts][wyt][monthcounter] += np.mean(self.district_keys[districts].hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])max(y.initial_pumping[districts], 0.0)
               #else:
-                y.monthlydemand[districts][wyt][monthcounter] += np.mean(district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(sri_estimate - y.ytd_pumping[districts][wateryear], 0.0)
+                y.monthlydemand[districts][wyt][monthcounter] += np.mean(self.district_keys[districts].hist_demand_dict['daily_fractions'][self.k_close_wateryear][start_of_month:start_next_month])*max(sri_estimate - y.ytd_pumping[districts][wateryear], 0.0)
 
         start_of_month = start_next_month
 
@@ -3842,11 +3847,11 @@ class Model():
     for y in self.city_list:
       for districts in y.district_list:
         y.dailydemand[districts] = 0.0
-        district_object = self.district_keys[districts]
+        # district_object = self.district_keys[districts]
         #sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1] - y.regression_errors[districts][dowy][self.k_close_wateryear])*total_delta_pumping
         sri_estimate = (total_delta_pumping*y.delivery_percent_coefficient[districts][dowy][0] + y.delivery_percent_coefficient[districts][dowy][1])*total_delta_pumping
-        y.dailydemand[districts] += max(sri_estimate- y.ytd_pumping[districts][wateryear], 0.0)*district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
-        y.dailydemand_start[districts] += max(sri_estimate -y.ytd_pumping[districts][wateryear], 0.0)*district_object.hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+        y.dailydemand[districts] += max(sri_estimate- y.ytd_pumping[districts][wateryear], 0.0)*self.district_keys[districts].hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
+        y.dailydemand_start[districts] += max(sri_estimate -y.ytd_pumping[districts][wateryear], 0.0)*self.district_keys[districts].hist_demand_dict['daily_fractions'][self.k_close_wateryear][dowy]
         y.ytd_pumping[districts][wateryear] += y.dailydemand[districts]
     
 
@@ -4635,7 +4640,7 @@ class Model():
       location_delivery = 0.0
       # turnout_available = 0.0
       # new_excess_flow = 0.0
-      if x.is_Waterbank:
+      if x.is_Waterbank == 1:
         #for waterbanks, we calculate the demands of each waterbank partner individually
         for xx in x.participant_list:
           num_members = self.district_keys_len[xx]
@@ -4676,7 +4681,7 @@ class Model():
 
         canal.find_turnout_adjustment(x.tot_storage - current_storage, flow_dir, canal_loc, type_list)
 
-      elif x.is_District:
+      elif x.is_District == 1:
         #find demand at the node
         #partial delivery is used if the district recieves less than full daily demand due to projected contract allocations being lower than expected remaining annual demand
         #find district demand at the node
@@ -4763,49 +4768,7 @@ class Model():
         self.find_node_demand_district(x, canal, canal_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge)
         canal.find_turnout_adjustment(demand_constraint, flow_dir, canal_loc, type_list)
 
-      elif x.is_Waterbank:
-        #for waterbanks, we calculate the demands of each waterbank partner individually
-        for xx in x.participant_list:
-          num_members = self.district_keys_len[xx]
-          for wb_member in self.district_keys[xx]:
-            #find waterbank partner demand (i.e., recharge capacity of their ownership share)
-            demand_constraint = x.find_node_demand(contract_list, xx, num_members, search_type)
-            #find how much water is allocated to each priority demand based on the total space and turnout at this node
-            current_storage = 0.0
-            for yy in x.participant_list:
-              current_storage += x.storage[yy]
-            canal_fractions = canal.find_priority_fractions(x.tot_storage - current_storage, type_fractions, type_list, canal_loc, flow_dir)
-            #does this partner want to bank water?
-            #find if banking partner wants to bank water
-            deliveries =  wb_member.set_request_constraints(demand_constraint, search_type, contract_list, x.banked[xx], x.bank_cap[xx], dowy, wateryear)
-              #flood deliveries to bank
-              #deliveries = x.set_request_constraints(demand_constraint, search_type, contract_list)
-            #what priority does their banked water have (can be both)
-            priority_bank_space = x.find_priority_space(num_members, xx, search_type)
-            priorities = x.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal, canal.name, wb_member.contract_list)
-			#need to adjust the water request to account for the banking partner share of the turnout
-            priority_turnout_adjusted = {}
-            for zz in type_list:
-              priority_turnout_adjusted[zz] = priorities[zz]*canal.turnout_frac[zz][canal_loc]
-	        #deliver water to the waterbank
-            actual_deliveries = x.set_deliveries(priority_turnout_adjusted,canal_fractions,type_list,xx)
-            #keep track of total demands at this node
-            location_delivery += actual_deliveries
-            #adjust accounts for overall contracts and invididual districts
-            delivery_by_contract = wb_member.adjust_accounts(0.0, actual_deliveries,contract_list, search_type, wateryear, x.key)
-
-            for y in delivery_by_contract:
-              #update the accounting for deliveries made by each contract (overall contract accounting - not ind. district)
-              self.contract_keys[y].adjust_accounts(delivery_by_contract[y], search_type, wateryear)
-			
-        #find new banking demands
-        self.find_node_demand_bank(x, canal, canal_loc, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list)
-        current_storage = 0.0
-        for xx in x.participant_list:
-          current_storage += x.storage[xx]
-        canal.find_turnout_adjustment(x.tot_storage - current_storage, flow_dir, canal_loc, type_list)
-
-      elif x.is_Canal:
+      elif x.is_Canal == 1:
         #if object is a canal, determine if water can flow from current canal into this canal (and orient the direction of flow)
         new_flow_dir = canal.flow_directions[flow_type][x.name]
         new_canal_size = self.canal_district_len[x.name]
@@ -4950,7 +4913,7 @@ class Model():
     for canal_loc in canal_range:
       x = self.canal_district[canal.name][canal_loc]
       demand_constraint = 0.0
-      if x.is_District:
+      if x.is_District == 1:
         #find demand at the node
         #partial delivery is used if the district recieves less than full daily demand due to projected contract allocations being lower than expected remaining annual demand
         #find district demand at the node
@@ -4961,7 +4924,7 @@ class Model():
         self.find_node_demand_district(x, canal, canal_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge)
         canal.find_turnout_adjustment(demand_constraint, flow_dir, canal_loc, type_list)
 
-      elif x.is_Waterbank:
+      elif x.is_Waterbank == 1:
         self.find_node_demand_bank(x, canal, canal_loc, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list)
         #once all member demands/requests/priorities have been established, we can determine how much of each type of demand can be sent to the bank (b/c of turnout space)
         if search_type == 'recovery':
@@ -4976,7 +4939,7 @@ class Model():
           demand_constraint = x.tot_storage - current_storage
           self.find_node_demand_bank(x, canal, canal_loc, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list)
         canal.find_turnout_adjustment(demand_constraint, flow_dir, canal_loc, type_list)		
-      elif x.is_Canal:
+      elif x.is_Canal == 1:
         #find if the new canal can be accessed from the current canal
         if canal.turnout[flow_dir][canal_loc] > 0.0:
           #if it can, which way does the water flow onto the new canal
@@ -5007,7 +4970,7 @@ class Model():
       for zz in type_list:
         type_deliveries[zz] += canal.demand[zz][canal_loc]
       if search_type == "recovery":
-        if x.is_District:
+        if x.is_District == 1:
           if x.in_leiu_banking:
             for xx in x.participant_list:
               if xx != x.key:
@@ -5145,7 +5108,7 @@ class Model():
       max_current_release = 0.0
       for zz in type_list:
         max_current_release = canal.demand[zz][lookback_loc]*canal.recovery_flow_frac[zz][lookback_loc]
-      if recovery_source.is_District:
+      if recovery_source.is_District == 1:
         if recovery_source.in_leiu_banking:
           for xx in recovery_source.participant_list:
             num_members = self.district_keys_len[xx]
@@ -5177,7 +5140,7 @@ class Model():
                     direct_recovery -= actual_delivery
                     recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
                     location_pumpout += actual_delivery
-                  elif wb_member.is_Private:
+                  elif wb_member.is_Private == 1:
                     counter_toggle = 0
                     for district_pump in wb_member.district_list:
                       if delivery_loc_name == district_pump:
@@ -5201,7 +5164,7 @@ class Model():
           self.find_node_demand_district(recovery_source, canal, lookback_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge)
           canal.find_turnout_adjustment(demand_constraint, flow_dir, lookback_loc, type_list)
 		
-      elif recovery_source.is_Waterbank:
+      elif recovery_source.is_Waterbank == 1:
         for xx in recovery_source.participant_list:
           num_members = self.district_keys_len[xx]
           for wb_member in self.district_keys[xx]:
@@ -5235,7 +5198,7 @@ class Model():
                 direct_recovery -= actual_delivery
                 recovery_source.adjust_recovery(actual_delivery, xx, wateryear)
                 location_pumpout += actual_delivery
-              elif wb_member.is_Private:
+              elif wb_member.is_Private == 1:
                 counter_toggle = 0
                 for district_pump in wb_member.district_list:
                   if delivery_loc_name == district_pump:
@@ -5261,7 +5224,7 @@ class Model():
         demand_constraint = recovery_source.recovery - current_recovery
         canal.find_turnout_adjustment(demand_constraint, flow_dir, lookback_loc, type_list)
 				
-      elif recovery_source.is_Canal:
+      elif recovery_source.is_Canal == 1:
         new_flow_dir = canal.flow_directions['recovery'][recovery_source.name]
         new_canal_size = self.canal_district_len[recovery_source.name]
         new_prev_canal = canal.key
@@ -5281,6 +5244,7 @@ class Model():
     for zz in type_list:
       canal.demand[zz][canal_loc] = 0.0
     #if a district is an in-leiu bank, partners can send water to this district for banking recharge
+    find_leiu_priority_space = district_node.find_leiu_priority_space
     if (district_node.in_leiu_banking and search_type == "banking") or (district_node.in_leiu_banking and search_type == "recovery"):
       for xx in district_node.participant_list:
         num_members = self.district_keys_len[xx]
@@ -5288,9 +5252,8 @@ class Model():
           #find if the banking partner wants to bank
           deliveries = wb_member.set_request_constraints(demand_constraint, search_type, contract_list, district_node.inleiubanked[xx], district_node.inleiucap[xx], dowy, wateryear)
           #determine the priorities of the banking
-          priority_bank_space = district_node.find_leiu_priority_space(demand_constraint, num_members, xx, toggle_district_recharge, search_type)
+          priority_bank_space = find_leiu_priority_space(demand_constraint, num_members, xx, toggle_district_recharge, search_type)
           priorities = wb_member.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal)
-
 
           for zz in type_list:
             canal.demand[zz][canal_loc] += priorities[zz]
@@ -5557,6 +5520,7 @@ class Model():
       for contract in x.contract_list:
         if contract == 'tableA':
           contractor_toggle = 1
+          break
       if contractor_toggle == 1:	  
         if x.key == "SOC":
           x.table_a_request = x.initial_table_a*self.swpdelta.total - request_empty
@@ -5572,6 +5536,7 @@ class Model():
       for contract in x.contract_list:
         if contract == 'tableA':
           contractor_toggle = 1
+          break
       if contractor_toggle == 1:	  
         x.project_contract['tableA'] = x.table_a_request/self.swpdelta.total
 

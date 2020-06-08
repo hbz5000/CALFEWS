@@ -23,17 +23,16 @@ class Canal():
   def __len__(self):
     return 1
 
-  is_Canal = True
-  is_Delta = False
-  is_District = False
-  is_Private = False
-  is_Reservoir = False
-  is_Waterbank = False
+  is_Canal = 1
+  is_District = 0
+  is_Private = 0
+  is_Waterbank = 0
+  is_Reservoir = 0
   
   def __init__(self, name, key, scenario_file = 'baseline'):
     self.key = key
     self.name = name
-    self.locked = 0#toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
+    self.locked = 0 #toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
     for k,v in json.load(open('cord/canals/%s_properties.json' % key)).items():
         setattr(self,k,v)
     if ((scenario_file == 'baseline') == False):

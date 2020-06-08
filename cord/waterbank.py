@@ -28,12 +28,12 @@ class Waterbank():
   def __len__(self):
     return 1
 
-  is_Canal = False
-  is_Delta = False
-  is_District = False
-  is_Private = False
-  is_Reservoir = False
-  is_Waterbank = True
+  is_Canal = 0
+  is_District = 0
+  is_Private = 0
+  is_Waterbank = 1
+  is_Reservoir = 0
+
 
   def __init__(self, model, name, key):
     self.key = key

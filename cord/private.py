@@ -42,18 +42,18 @@ class Private():
   def __len__(self):
     return 1
 
-  is_Canal = False
-  is_Delta = False
-  is_District = False
-  is_Private = True
-  is_Reservoir = False
-  is_Waterbank = False
+  is_Canal = 0
+  is_District = 0
+  is_Private = 1
+  is_Waterbank = 0
+  is_Reservoir = 0
+
                        
   def __init__(self, model, name, key, land_fraction):
     self.key = key
     self.name = name
 
-    self.turnback_use = True
+    # self.turnback_use = 1
 
     for k,v in json.load(open('cord/private/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -602,7 +602,7 @@ class Private():
   def open_recovery(self, t, dowy, wateryear, number_years, wyt, use_delivery_tolerance, additional_carryover):
     #this function determines if a district wants to recover banked water
 	#based on their demands and existing supplies
-    if use_delivery_tolerance:
+    if use_delivery_tolerance == 1:
       risk_index = int(np.floor(self.banking_risk_level*len(self.delivery_risk)))
       at_risk_years = self.delivery_risk < self.total_banked_storage*-1.0
       new_values = self.delivery_risk[at_risk_years]

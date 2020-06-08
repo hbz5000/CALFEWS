@@ -36,12 +36,12 @@ class Delta():
   def __len__(self):
     return 1
 
-  is_Canal = False
-  is_Delta = True
-  is_District = False
-  is_Private = False
-  is_Reservoir = False
-  is_Waterbank = False
+  is_Canal = 0
+  is_Delta = 1
+  is_District = 0
+  is_Private = 0
+  is_Reservoir = 0
+  is_Waterbank = 0
                        
   def __init__(self, model, name, key, model_mode):
     self.model_mode = model_mode
