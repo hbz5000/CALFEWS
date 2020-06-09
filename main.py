@@ -34,7 +34,7 @@ from distutils.util import strtobool
 startTime = datetime.now()
 
 # get runtime params from config file
-config = ConfigObj('cord/data/input/runtime_params.ini')
+config = ConfigObj('runtime_params.ini')
 parallel_mode = bool(strtobool(config['parallel_mode']))
 model_mode = config['model_mode']
 short_test = int(config['short_test'])
@@ -92,9 +92,9 @@ else: # non-parallel mode
 with open('cord/scenarios/scenarios_main.json') as f:
   scenarios = json.load(f)
 scenario = scenarios[scenario_name]
-results_folder = output_directory + '/' + scenario_name
+results_folder = output_directory + '/' + scenario_name + '/' + model_mode + '/'
 os.makedirs(results_folder, exist_ok=True)
-shutil.copy('cord/data/input/runtime_params.ini', results_folder + '/runtime_params.ini')
+shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
 
 # make separate output folder for each processor
 results_folder = results_folder + '/p' + str(rank)

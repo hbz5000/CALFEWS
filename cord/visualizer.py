@@ -124,23 +124,23 @@ class Visualizer():
 
 
     self.figure_params['delta_pumping'] = {}
-    self.figure_params['delta_pumping']['Extended Simulation'] = {}
-    self.figure_params['delta_pumping']['Extended Simulation']['outflow_list'] =  ['delta_outflow', 'delta_outflow']
-    self.figure_params['delta_pumping']['Extended Simulation']['pump1_list'] =  ['delta_HRO_pump', 'HRO_pump']
-    self.figure_params['delta_pumping']['Extended Simulation']['pump2_list'] =  ['delta_TRP_pump', 'TRP_pump']
-    self.figure_params['delta_pumping']['Extended Simulation']['scenario_labels'] =  ['Model Validation', 'Extended Simulation']
-    self.figure_params['delta_pumping']['Extended Simulation']['simulation_labels'] =  ['delta_HRO_pump', 'delta_TRP_pump', 'delta_outflow']
-    self.figure_params['delta_pumping']['Extended Simulation']['observation_labels'] =  ['HRO_pump', 'TRP_pump', 'delta_outflow']
-    self.figure_params['delta_pumping']['Extended Simulation']['agg_list'] =  ['AS-OCT', 'AS-OCT', 'D']
-    self.figure_params['delta_pumping']['Extended Simulation']['unit_mult'] =  [1.0, 1.0, cfs_tafd]
-    self.figure_params['delta_pumping']['Extended Simulation']['max_value_list'] =  [5000, 5000, 15]       
-    self.figure_params['delta_pumping']['Extended Simulation']['use_log_list'] =  [False, False, True]
-    self.figure_params['delta_pumping']['Extended Simulation']['use_cdf_list'] =  [False, False, True]
-    self.figure_params['delta_pumping']['Extended Simulation']['scenario_type_list'] =  ['observation', 'validation', 'scenario']
-    self.figure_params['delta_pumping']['Extended Simulation']['x_label_list'] = ['Total Pumping, SWP Delta Pumps (tAF/year)', 'Total Pumping, CVP Delta Pumps (tAF/year)', 'Daily Exceedence Probability', '']
-    self.figure_params['delta_pumping']['Extended Simulation']['y_label_list'] = ['Probability Density', 'Probability Density', 'Daily Delta Outflow (tAF)', 'Relative Frequency of Water-year Types within Simulation']
-    self.figure_params['delta_pumping']['Extended Simulation']['legend_label_names1'] = ['Historical (1996-2016) Observations', 'Historical (1996-2016) Model Validation', 'Extended Simulation']
-    self.figure_params['delta_pumping']['Extended Simulation']['legend_label_names2'] = ['Critical', 'Dry', 'Below Normal', 'Above Normal', 'Wet']
+    self.figure_params['delta_pumping']['extended_simulation'] = {}
+    self.figure_params['delta_pumping']['extended_simulation']['outflow_list'] =  ['delta_outflow', 'delta_outflow']
+    self.figure_params['delta_pumping']['extended_simulation']['pump1_list'] =  ['delta_HRO_pump', 'HRO_pump']
+    self.figure_params['delta_pumping']['extended_simulation']['pump2_list'] =  ['delta_TRP_pump', 'TRP_pump']
+    self.figure_params['delta_pumping']['extended_simulation']['scenario_labels'] =  ['Model Validation', 'Extended Simulation']
+    self.figure_params['delta_pumping']['extended_simulation']['simulation_labels'] =  ['delta_HRO_pump', 'delta_TRP_pump', 'delta_outflow']
+    self.figure_params['delta_pumping']['extended_simulation']['observation_labels'] =  ['HRO_pump', 'TRP_pump', 'delta_outflow']
+    self.figure_params['delta_pumping']['extended_simulation']['agg_list'] =  ['AS-OCT', 'AS-OCT', 'D']
+    self.figure_params['delta_pumping']['extended_simulation']['unit_mult'] =  [1.0, 1.0, cfs_tafd]
+    self.figure_params['delta_pumping']['extended_simulation']['max_value_list'] =  [5000, 5000, 15]       
+    self.figure_params['delta_pumping']['extended_simulation']['use_log_list'] =  [False, False, True]
+    self.figure_params['delta_pumping']['extended_simulation']['use_cdf_list'] =  [False, False, True]
+    self.figure_params['delta_pumping']['extended_simulation']['scenario_type_list'] =  ['observation', 'validation', 'scenario']
+    self.figure_params['delta_pumping']['extended_simulation']['x_label_list'] = ['Total Pumping, SWP Delta Pumps (tAF/year)', 'Total Pumping, CVP Delta Pumps (tAF/year)', 'Daily Exceedence Probability', '']
+    self.figure_params['delta_pumping']['extended_simulation']['y_label_list'] = ['Probability Density', 'Probability Density', 'Daily Delta Outflow (tAF)', 'Relative Frequency of Water-year Types within Simulation']
+    self.figure_params['delta_pumping']['extended_simulation']['legend_label_names1'] = ['Historical (1996-2016) Observations', 'Historical (1996-2016) Model Validation', 'Extended Simulation']
+    self.figure_params['delta_pumping']['extended_simulation']['legend_label_names2'] = ['Critical', 'Dry', 'Below Normal', 'Above Normal', 'Wet']
 
     self.figure_params['state_estimation'] = {}
     for x in ['publication', 'sacramento', 'sanjoaquin', 'tulare']:
@@ -1722,7 +1722,7 @@ class Visualizer():
       plt.show()
     plt.close()
 
-  def plot_account_flows(self, results_folder, fig_name, plot_name, timesteps, snapshot_range):
+  def plot_account_flows(self, folder_name, fig_name, plot_name, timesteps, snapshot_range):
     open_area = 0.2
     min_label_height = 0.06
     source_types = ['delivered', 'projected']
@@ -2412,7 +2412,7 @@ class Visualizer():
       print(snapshot_t, end = " ")
       print(month_name[self.month[snapshot_t] - 1])
       data_figure.add_sankey_title(2, month_name[self.month[snapshot_t] - 1] + ' ' + str(self.day_month[snapshot_t]) + ', '+ str(self.year[snapshot_t]), 1.18)
-      data_figure.format_sankey(xlim, ylim, results_folder + 'cali_sankey_' + str(snapshot_t))
+      data_figure.format_sankey(xlim, ylim, folder_name + 'cali_sankey_' + str(snapshot_t))
       del data_figure
 #      plt.show()
       plt.close()
