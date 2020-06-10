@@ -10,20 +10,50 @@ from .util import *
 
 
 class Private():
+  __slots__ = ["key", "name", "turnback_use", "district_list", "crop_list", "in_district_direct_recharge",
+               "banking_risk_level", "recovery_fraction", "pump_out_fraction", "seepage", "crop_maturity", "MDD", "zone",
+               "urban_profile", "contract_fractions", "irrdemand", "deliveries", "contract_list_all",
+               "non_contract_delivery_list", "current_balance", "paper_balance", "turnback_pool", "projected_supply",
+               "carryover", "recharge_carryover", "delivery_carryover", "contract_carryover_list",
+               "supply_list", "daily_supplies_full", "demand_days", "annualdemand", "dailydemand",
+               "dailydemand_start", "per_acre", "total_acreage", "unmet_et", "last_days_demand_regression_error",
+               "annual_pumping", "use_recharge", "use_recovery", "extra_leiu_recovery", "max_recovery",
+               "max_leiu_exchange", "total_banked_storage", "direct_recovery_delivery", "recharge_rate", "thismonthuse",
+               "monthusecounter", "monthemptycounter", "current_recharge_storage", "acreage", "contract_fraction",
+               "private_fraction", "contract_list", "initial_planting", "has_pesticide", "has_pmp", 'reservoir_contract', 
+               'monthlydemand', 'turnout_list', 'seasonal_connection', 'carryover_rights', 'delivery_risk_rate', 'must_fill', 
+               'delivery_risk', 'target_annual_demand', 'agedemand', 'age_death', 'max_direct_recharge', 'max_leiu_recharge', 
+               'pumping', 'demand_auto_errors', 'ytd_pumping', 'regression_errors_timeseries', 'hist_demand_dict', 
+               'ytd_pumping_int', 'regression_errors', 'delivery_percent_coefficient', 'regression_percent', 
+               'k_close_wateryear', 'turnback_purchases', 'turnback_sales', 'iter_count', 'district_list_length',
+               'dynamic_recharge_cap', 'annual_private_pumping', 'recovery_capacity_remain', 'delivery_location_list']
 
-  def __init__(self, df, name, key, land_fraction):
-    self.T = len(df)
-    self.starting_year = df.index.year[0]
-    self.number_years = df.index.year[-1]-df.index.year[0]
+  def __iter__(self):
+    self.iter_count = 0
+    return self
+  
+  def __next__(self):
+    if self.iter_count == 0:
+      self.iter_count += 1
+      return self
+    else:
+      raise StopIteration
+
+  def __len__(self):
+    return 1
+
+  is_Canal = 0
+  is_District = 0
+  is_Private = 1
+  is_Waterbank = 0
+  is_Reservoir = 0
+
+                       
+  def __init__(self, model, name, key, land_fraction):
     self.key = key
     self.name = name
-    self.leap = leap(np.arange(min(df.index.year), max(df.index.year) + 2))
-    year_list = np.arange(min(df.index.year), max(df.index.year) + 2)
-    self.days_in_month = days_in_month(year_list, self.leap)
-    self.dowy_eom = dowy_eom(year_list, self.leap)
-    self.non_leap_year = first_non_leap_year(self.dowy_eom)
-    self.turnback_use = True
 
+    # self.turnback_use = 1
 
     for k,v in json.load(open('cord/private/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -45,15 +75,15 @@ class Private():
       self.deliveries[district] = {}
       for x in self.contract_list_all:
         #normal contract deliveries
-        self.deliveries[district][x] = np.zeros(self.number_years)
+        self.deliveries[district][x] = np.zeros(model.number_years)
 	    #uncontrolled deliveries from contract
-        self.deliveries[district][x + '_flood'] = np.zeros(self.number_years)
-        self.deliveries[district][x + '_flood_irrigation'] = np.zeros(self.number_years)
-        self.deliveries[district][x + '_recharged'] = np.zeros(self.number_years)
+        self.deliveries[district][x + '_flood'] = np.zeros(model.number_years)
+        self.deliveries[district][x + '_flood_irrigation'] = np.zeros(model.number_years)
+        self.deliveries[district][x + '_recharged'] = np.zeros(model.number_years)
       for x in self.non_contract_delivery_list:
 	    #deliveries from a groundwater bank (reocrded by banking partner recieving recovery water)
-        self.deliveries[district][x] = np.zeros(self.number_years)
-    self.deliveries['undelivered_trades'] = np.zeros(self.number_years)
+        self.deliveries[district][x] = np.zeros(model.number_years)
+    self.deliveries['undelivered_trades'] = np.zeros(model.number_years)
 
     #set dictionaries to keep track of different 'color' water for each contract
     self.current_balance = {}#contract water currently available in surface water storage
@@ -87,18 +117,6 @@ class Private():
         self.contract_carryover_list[z][y] = 0.0
         self.dynamic_recharge_cap[z][y] = 0.0
 	  
-    #initialize dictionaries to 'store' daily state variables (for export to csv)
-    self.daily_supplies = {}
-    supply_list = ['paper', 'carryover', 'allocation', 'delivery', 'leiu_accepted', 'banked', 'pumping', 'leiu_delivered', 'recharge_delivery', 'recharge_uncontrolled', 'banked_storage', 'annual_demand', 'contract_available', 'carryover_available', 'use_recharge', 'use_recovery', 'numdays', 'recharge_cap', 'recovery_cap']
-
-    for x in supply_list:
-      self.daily_supplies[x] = np.zeros(self.T)
-
-    #initialize dictionaries to 'store' annual change in state variables (for export to csv)
-    self.annual_supplies = {}
-    supply_list = ['delivery', 'leiu_accepted', 'leiu_delivered', 'banked_accepted', 'recharge_uncontrolled', 'recharge_delivery', 'banked_storage', 'acreage']
-    for x in supply_list:
-      self.annual_supplies[x] = np.zeros(self.number_years)
 
     # hold all output
     self.daily_supplies_full = {}
@@ -109,24 +127,24 @@ class Private():
     # delivery_list = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern']
     for z in self.district_list:
       for x in self.contract_list_all:
-        self.daily_supplies_full[z + '_' + x + '_delivery'] = np.zeros(self.T)
-        self.daily_supplies_full[z + '_' + x + '_flood'] = np.zeros(self.T)
-        self.daily_supplies_full[z + '_' + x + '_projected'] = np.zeros(self.T)
-        self.daily_supplies_full[z + '_' + x + '_paper'] = np.zeros(self.T)
-        self.daily_supplies_full[z + '_' + x + '_carryover'] = np.zeros(self.T)
-        self.daily_supplies_full[z + '_' + x + '_turnback'] = np.zeros(self.T)
-        self.daily_supplies_full[z + '_' + x + '_recharged'] = np.zeros(self.T)
-        self.daily_supplies_full[z + '_' + x + '_dynamic_recharge_cap'] = np.zeros(self.T)
+        self.daily_supplies_full[z + '_' + x + '_delivery'] = np.zeros(model.T)
+        self.daily_supplies_full[z + '_' + x + '_flood'] = np.zeros(model.T)
+        self.daily_supplies_full[z + '_' + x + '_projected'] = np.zeros(model.T)
+        self.daily_supplies_full[z + '_' + x + '_paper'] = np.zeros(model.T)
+        self.daily_supplies_full[z + '_' + x + '_carryover'] = np.zeros(model.T)
+        self.daily_supplies_full[z + '_' + x + '_turnback'] = np.zeros(model.T)
+        self.daily_supplies_full[z + '_' + x + '_recharged'] = np.zeros(model.T)
+        self.daily_supplies_full[z + '_' + x + '_dynamic_recharge_cap'] = np.zeros(model.T)
 
         self.demand_days['current'][x] = 0.0
         self.demand_days['lookahead'][x] = 0.0
 
       for x in self.non_contract_delivery_list:
-        self.daily_supplies_full[z + '_' + x] = np.zeros(self.T)
-      self.daily_supplies_full[z + '_irr_demand'] = np.zeros(self.T)
-      self.daily_supplies_full[z + '_tot_demand'] = np.zeros(self.T)
-      self.daily_supplies_full[z + '_pumping'] = np.zeros(self.T)
-      self.daily_supplies_full[z + '_dynamic_recovery_cap'] = np.zeros(self.T)
+        self.daily_supplies_full[z + '_' + x] = np.zeros(model.T)
+      self.daily_supplies_full[z + '_irr_demand'] = np.zeros(model.T)
+      self.daily_supplies_full[z + '_tot_demand'] = np.zeros(model.T)
+      self.daily_supplies_full[z + '_pumping'] = np.zeros(model.T)
+      self.daily_supplies_full[z + '_dynamic_recovery_cap'] = np.zeros(model.T)
     # ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'undelivered_trades']
     #Initialize demands
     self.annualdemand = {}
@@ -140,8 +158,8 @@ class Private():
     for x in self.district_list:
       self.per_acre[x] = {}
       self.annual_private_pumping[x] = 0.0
-      self.unmet_et[x] = np.zeros(self.number_years)
-      self.unmet_et[x + "_total"] = np.zeros(self.number_years)
+      self.unmet_et[x] = np.zeros(model.number_years)
+      self.unmet_et[x + "_total"] = np.zeros(model.number_years)
       self.dailydemand_start[x] = 0.0
       self.dailydemand[x] = 0.0
       self.last_days_demand_regression_error[x] = 0.0
@@ -206,7 +224,7 @@ class Private():
 #####################################################################################################################
 ##################################DEMAND CALCULATION#################################################################
 #####################################################################################################################
-  def permanent_crop_growth(self, wateryear):
+  def permanent_crop_growth(self, wateryear, days_in_month, non_leap_year):
     self.total_acreage = 0.0
     for x in self.district_list:
       irrigation = 0.0
@@ -249,9 +267,9 @@ class Private():
         self.per_acre[x][v]['immature'] = 0.0
 
 		
-    self.find_baseline_demands()
+    self.find_baseline_demands(non_leap_year, days_in_month)
 		
-  def find_baseline_demands(self):
+  def find_baseline_demands(self, non_leap_year, days_in_month):
     self.monthlydemand = {}
     self.agedemand = {}
     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
@@ -276,20 +294,20 @@ class Private():
             else:
               self.agedemand[district][wyt][ageloop] += self.acreage[district][v][ageloop]*annualETimm
         for monthloop in range(0,12):
-          self.monthlydemand[district][wyt][monthloop] += self.urban_profile[district][monthloop]*self.MDD[district]/self.days_in_month[self.non_leap_year][monthloop]
+          self.monthlydemand[district][wyt][monthloop] += self.urban_profile[district][monthloop]*self.MDD[district]/days_in_month[non_leap_year][monthloop]
           for i,v in enumerate(self.crop_list):
             age_length = len(self.acreage[district][v])
             acres_mature = np.sum(self.acreage[district][v][self.crop_maturity[v]:age_length])
             acres_immature = np.sum(self.acreage[district][v][0:self.crop_maturity[v]])
             district_et = self.irrdemand[district]
-            self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v][wyt][monthloop],0.0)*acres_mature/(12.0*self.days_in_month[self.non_leap_year][monthloop])
-            self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v + '_immature'][wyt][monthloop],0.0)*acres_immature/(12.0*self.days_in_month[self.non_leap_year][monthloop])
-            #self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v][wyt][monthloop] - district_et.etM['precip'][wyt][monthloop],0.0)*acres_mature/(12.0*self.days_in_month[self.non_leap_year][monthloop])
-            #self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v + '_immature'][wyt][monthloop] - district_et.etM['precip'][wyt][monthloop],0.0)*acres_immature/(12.0*self.days_in_month[self.non_leap_year][monthloop])
+            self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v][wyt][monthloop],0.0)*acres_mature/(12.0*days_in_month[non_leap_year][monthloop])
+            self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v + '_immature'][wyt][monthloop],0.0)*acres_immature/(12.0*days_in_month[non_leap_year][monthloop])
+            #self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v][wyt][monthloop] - district_et.etM['precip'][wyt][monthloop],0.0)*acres_mature/(12.0*days_in_month[non_leap_year][monthloop])
+            #self.monthlydemand[district][wyt][monthloop] += max(district_et.etM[v + '_immature'][wyt][monthloop] - district_et.etM['precip'][wyt][monthloop],0.0)*acres_immature/(12.0*days_in_month[non_leap_year][monthloop])
     
-  def calc_demand(self, wateryear, year, da, m, m1, wyt):
+  def calc_demand(self, wateryear, year_index, da, m, days_in_month, non_leap_year, m1, wyt):
     #from the monthlydemand dictionary (calculated at the beginning of each wateryear based on ag acreage and urban demands), calculate the daily demand and the remaining annual demand
-    monthday = self.days_in_month[year][m-1]
+    monthday = days_in_month[year_index][m-1]
     for x in self.district_list:
       self.dailydemand[x] = self.monthlydemand[x][wyt][m-1]*(monthday-da)/monthday + self.monthlydemand[x][wyt][m1-1]*da/monthday
       if self.dailydemand[x] < 0.0:
@@ -297,10 +315,10 @@ class Private():
     for x in self.district_list:
       district_et = self.irrdemand[x]
       for v in self.crop_list:
-        self.per_acre[x][v]['mature'] += (max(district_et.etM[v][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1],0.0)*(da/monthday))/(12.0*self.days_in_month[self.non_leap_year][m-1]) 
-        self.per_acre[x][v]['immature'] += (max(district_et.etM[v + '_immature'][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1],0.0)*(da/monthday))/(12.0*self.days_in_month[self.non_leap_year][m-1]) 
-        #self.per_acre[x][v]['mature'] += (max(district_et.etM[v][wyt][m-1] - district_et.etM['precip'][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1] - district_et.etM['precip'][wyt][m1-1],0.0)*(da/monthday))/(12.0*self.days_in_month[self.non_leap_year][m-1]) 
-        #self.per_acre[x][v]['immature'] += (max(district_et.etM[v + '_immature'][wyt][m-1] - district_et.etM['precip'][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1] - district_et.etM['precip'][wyt][m1-1],0.0)*(da/monthday))/(12.0*self.days_in_month[self.non_leap_year][m-1]) 
+        self.per_acre[x][v]['mature'] += (max(district_et.etM[v][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1],0.0)*(da/monthday))/(12.0*days_in_month[non_leap_year][m-1]) 
+        self.per_acre[x][v]['immature'] += (max(district_et.etM[v + '_immature'][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1],0.0)*(da/monthday))/(12.0*days_in_month[non_leap_year][m-1]) 
+        #self.per_acre[x][v]['mature'] += (max(district_et.etM[v][wyt][m-1] - district_et.etM['precip'][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1] - district_et.etM['precip'][wyt][m1-1],0.0)*(da/monthday))/(12.0*days_in_month[non_leap_year][m-1]) 
+        #self.per_acre[x][v]['immature'] += (max(district_et.etM[v + '_immature'][wyt][m-1] - district_et.etM['precip'][wyt][m-1],0.0)*((monthday-da)/monthday) + max(district_et.etM[v][wyt][m1-1] - district_et.etM['precip'][wyt][m1-1],0.0)*(da/monthday))/(12.0*days_in_month[non_leap_year][m-1]) 
     #calculate that days 'starting' demand (b/c demand is filled @multiple times, and if we only want to fill a certain fraction of that demand (based on projections of supply & demand for the rest of the year), we want to base that fraction on that day's total demand, not the demand left after other deliveries are made
       self.dailydemand_start[x] = self.monthlydemand[x][wyt][m-1]*(monthday-da)/monthday + self.monthlydemand[x][wyt][m1-1]*da/monthday
       if self.dailydemand_start[x] < 0.0:
@@ -311,16 +329,16 @@ class Private():
 
       if m > 9:
         for monthloop in range(m, 12):
-          self.annualdemand[x] += max(self.monthlydemand[x][wyt][monthloop]*self.days_in_month[year][monthloop],0.0)
+          self.annualdemand[x] += max(self.monthlydemand[x][wyt][monthloop]*days_in_month[year_index][monthloop],0.0)
 
         for monthloop in range(0,9):
-          self.annualdemand[x] += max(self.monthlydemand[x][wyt][monthloop]*self.days_in_month[year+1][monthloop], 0.0)
+          self.annualdemand[x] += max(self.monthlydemand[x][wyt][monthloop]*days_in_month[year_index+1][monthloop], 0.0)
 
       else:
         for monthloop in range(m, 9):
-          self.annualdemand[x] += max(self.monthlydemand[x][wyt][monthloop]*self.days_in_month[year][monthloop], 0.0)
+          self.annualdemand[x] += max(self.monthlydemand[x][wyt][monthloop]*days_in_month[year_index][monthloop], 0.0)
 
-  def get_urban_demand(self, t, m, da, wateryear, year, sri, dowy, total_delta_pumping, allocation_change, model_mode):
+  def get_urban_demand(self, t, m, da, wateryear, year_index, dowy_eom, sri, dowy, total_delta_pumping, allocation_change, model_mode):
     #this function finds demands for the 'branch pumping' urban nodes - Socal, South Bay, & Central Coast
 	#demand is equal to pumping of the main california aqueduct and into the branches that services these areas
     #cal aqueduct urban demand comes from pumping data, calc seperately
@@ -346,7 +364,7 @@ class Private():
           if monthcounter > 11:
             monthcounter -= 12
             cross_counter_y = 1
-          start_next_month = self.dowy_eom[year+cross_counter_y][monthcounter] + 1
+          start_next_month = dowy_eom[year_index+cross_counter_y][monthcounter] + 1
           for wyt in ['W', 'AN', 'BN', 'D', 'C']:
             for district in self.district_list:
               self.monthlydemand[district][wyt][monthcounter] = np.mean(self.pumping[district][(t + start_of_month):(t + start_next_month)])/1000.0
@@ -394,7 +412,7 @@ class Private():
             cross_counter_y = 1
           else:
             cross_counter_y = 0
-          start_next_month = self.dowy_eom[year+cross_counter_y][monthcounter] + 1
+          start_next_month = dowy_eom[year_index+cross_counter_y][monthcounter] + 1
           for wyt in ['W', 'AN', 'BN', 'D', 'C']:
             for district in self.district_list:
               self.monthlydemand[district][wyt][monthcounter] += self.annualdemand[district]*np.mean(self.hist_demand_dict[district]['daily_fractions'][self.k_close_wateryear[district]][start_of_month:start_next_month])
@@ -408,9 +426,9 @@ class Private():
     self.unmet_et[district_name][wateryear] += self.dailydemand[district_name]
     self.unmet_et[district_name + "_total"][wateryear] += self.dailydemand_start[district_name]
 
-  def find_pre_flood_demand(self, wyt, year):
+  def find_pre_flood_demand(self, year_index, days_in_month, wyt):
     #calculates an estimate for water use in the Oct-Dec period (for use in recharge_carryover calculations), happens Oct 1
-    self.pre_flood_demand = self.monthlydemand[wyt][9]*self.days_in_month[year][9] + self.monthlydemand[wyt][10]*self.days_in_month[year][10] + self.monthlydemand[wyt][11]*self.days_in_month[year][11]
+    self.pre_flood_demand = self.monthlydemand[wyt][9]*days_in_month[year_index][9] + self.monthlydemand[wyt][10]*days_in_month[year_index][10] + self.monthlydemand[wyt][11]*days_in_month[year_index][11]
 		  
 		
 #####################################################################################################################
@@ -581,10 +599,10 @@ class Private():
 ##################################RECHARGE/RECOVERY TRIGGERS#########################################################
 #####################################################################################################################
 	
-  def open_recovery(self, t, dowy, wyt, wateryear, use_delivery_tolerance, additional_carryover):
+  def open_recovery(self, t, dowy, wateryear, number_years, wyt, use_delivery_tolerance, additional_carryover):
     #this function determines if a district wants to recover banked water
 	#based on their demands and existing supplies
-    if use_delivery_tolerance:
+    if use_delivery_tolerance == 1:
       risk_index = int(np.floor(self.banking_risk_level*len(self.delivery_risk)))
       at_risk_years = self.delivery_risk < self.total_banked_storage*-1.0
       new_values = self.delivery_risk[at_risk_years]
@@ -599,7 +617,7 @@ class Private():
         delivery_tolerance = sorted_rates[risk_index]*-1.0
     else:
       delivery_tolerance = 0.0
-      self.target_annual_demand = 999999.9*np.ones(self.number_years)
+      self.target_annual_demand = 999999.9*np.ones(number_years)
       #for district in self.district_list:
         #self.target_annual_demand += self.annual_pumping[district][wateryear]
     total_balance = 0.0
@@ -618,7 +636,6 @@ class Private():
     total_recovery = (366-dowy)*self.max_recovery + self.max_leiu_exchange
     self.recovery_capacity_remain = total_recovery
     total_needs += additional_carryover
-    self.daily_supplies['recovery_cap'][t] = total_recovery
 
 
 
@@ -632,7 +649,7 @@ class Private():
       self.use_recovery = 0.0
 	
       	  
-  def open_recharge(self,t,m,da,wateryear,year,numdays_fillup, numdays_fillup2, key, wyt, reachable_turnouts, additional_carryover, contract_allocation):
+  def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, key, wyt, reachable_turnouts, additional_carryover, contract_allocation):
     #for a given contract owned by the district (key), how much recharge can they expect to be able to use
 	#before the reservoir associated w/ that contract fills to the point where it needs to begin spilling water
 	#(numdays_fillup) - i.e., how much surface water storage can we keep before start losing it
@@ -667,16 +684,16 @@ class Private():
 
     ###Find projected recharge available to district
     #if spill_release_carryover > 0.0:
-      #total_recharge_capacity = (self.max_direct_recharge[0] + self.max_leiu_recharge[m])*(self.days_in_month[year][m]-da)
+      #total_recharge_capacity = (self.max_direct_recharge[0] + self.max_leiu_recharge[m])*(days_in_month[year_index][m]-da)
         ##calculate both direct & in leiu recharge available to the district through the end of this water year
       #if m < 8:
         #for future_month in range(m+1,9):
-          #total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year][future_month] + self.max_leiu_recharge[future_month]*self.days_in_month[year+1][future_month]
+          #total_recharge_capacity += self.max_direct_recharge[future_month - m]*days_in_month[year_index][future_month] + self.max_leiu_recharge[future_month]*days_in_month[year_index+1][future_month]
       #elif m > 8:
         #for future_month in range(m+1,12):
-          #total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year][future_month] + self.max_leiu_recharge[future_month]*self.days_in_month[year+1][future_month]
+          #total_recharge_capacity += self.max_direct_recharge[future_month - m]*days_in_month[year_index][future_month] + self.max_leiu_recharge[future_month]*days_in_month[year_index+1][future_month]
         #for future_month in range(0,9):
-          #total_recharge_capacity += self.max_direct_recharge[future_month - m]*self.days_in_month[year+1][future_month] + self.max_leiu_recharge[future_month]*self.days_in_month[year+1][future_month]
+          #total_recharge_capacity += self.max_direct_recharge[future_month - m]*days_in_month[year_index+1][future_month] + self.max_leiu_recharge[future_month]*days_in_month[year_index+1][future_month]
       #else:
         #total_recharge_capacity = 0.0
       #spill_release_carryover -= total_recharge_capacity
@@ -690,13 +707,13 @@ class Private():
       days_left = numdays_fillup
       days_left2 = numdays_fillup2
 	  #tabulate how much water can be recharged between now & reservoir fillup (current month)
-      this_month_recharge = (self.max_direct_recharge[0] + self.max_leiu_recharge[0])*min(self.days_in_month[year][m] - da,days_left)
-      this_month_recharge2 = (self.max_direct_recharge[0] + self.max_leiu_recharge[0])*min(self.days_in_month[year][m] - da,days_left2)
+      this_month_recharge = (self.max_direct_recharge[0] + self.max_leiu_recharge[0])*min(days_in_month[year_index][m] - da,days_left)
+      this_month_recharge2 = (self.max_direct_recharge[0] + self.max_leiu_recharge[0])*min(days_in_month[year_index][m] - da,days_left2)
       total_recharge += this_month_recharge
       total_recharge2 += this_month_recharge2
 	  #days before fillup remaining after current month
-      days_left -= (self.days_in_month[year][m] - da)
-      days_left2 -= (self.days_in_month[year][m] - da)
+      days_left -= (days_in_month[year_index][m] - da)
+      days_left2 -= (days_in_month[year_index][m] - da)
 
 	
 	###if days_left remains positive (i.e., reservoir fills after the end of the current month)
@@ -712,10 +729,10 @@ class Private():
           next_year_counter = 1
 		
  	    # continue to tabulate how much water can be recharged between now & reservoir fillup (future months)
-        this_month_recharge = (self.max_direct_recharge[monthcounter+monthcounter_loop] + self.max_leiu_recharge[monthcounter+monthcounter_loop])*min(self.days_in_month[year+next_year_counter][m+monthcounter],days_left)
+        this_month_recharge = (self.max_direct_recharge[monthcounter+monthcounter_loop] + self.max_leiu_recharge[monthcounter+monthcounter_loop])*min(days_in_month[year_index+next_year_counter][m+monthcounter],days_left)
         total_recharge += this_month_recharge
      
-        days_left -= self.days_in_month[year+next_year_counter][m+monthcounter]
+        days_left -= days_in_month[year_index+next_year_counter][m+monthcounter]
       
       monthcounter = 0
       monthcounter_loop = 0
@@ -728,10 +745,10 @@ class Private():
           next_year_counter = 1
 		
  	    # continue to tabulate how much water can be recharged between now & reservoir fillup (future months)
-        this_month_recharge2 = (self.max_direct_recharge[monthcounter+monthcounter_loop] + self.max_leiu_recharge[monthcounter+monthcounter_loop])*min(self.days_in_month[year+next_year_counter][m+monthcounter],days_left2)
+        this_month_recharge2 = (self.max_direct_recharge[monthcounter+monthcounter_loop] + self.max_leiu_recharge[monthcounter+monthcounter_loop])*min(days_in_month[year_index+next_year_counter][m+monthcounter],days_left2)
         total_recharge2 += this_month_recharge2
      
-        days_left2 -= self.days_in_month[year+next_year_counter][m+monthcounter]
+        days_left2 -= days_in_month[year_index+next_year_counter][m+monthcounter]
 
       ###Uses the projected supply calculation to determine when to recharge water.  There are a number of conditions under which a 
 	  ###district will recharge water.  Projected allocations are compared to total demand, recharge capacity, and the probability of 
@@ -822,11 +839,8 @@ class Private():
       for x in self.district_list:
         self.recharge_carryover[x][key] = 0.0
     
-    self.daily_supplies['numdays'][t] = numdays_fillup
-    self.daily_supplies['recharge_cap'][t] = total_recharge
-    
       
-  def get_urban_recovery_target(self, pumping, project_contract, wateryear, dowy, year, wyt, demand_days, t, district, start_month):
+  def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, district, start_month):
     max_pumping_shortfall = 0.0
     pumping_shortfall = 0.0
     monthcounter = start_month
@@ -847,7 +861,7 @@ class Private():
   	  
     return max(max_pumping_shortfall, 0.0)
 	
-  def set_turnback_pool(self, key, year, additional_carryover):
+  def set_turnback_pool(self, key, year_index, days_in_month, additional_carryover):
     ##This function creates the 'turnback pool' (note: only for SWP contracts now, can be used for others)
     ##finding contractors with 'extra' contract water that they would like to sell, and contractors who would
     ##like to purchase that water.  
@@ -860,7 +874,7 @@ class Private():
         total_projected_supply += self.projected_supply[xx][y]
     for month_count in range(0, 6):
       # total recharge Jun,Jul,Aug,Sep
-      total_recharge_ability += self.max_direct_recharge[month_count]*self.days_in_month[year][month_count +3] + self.max_leiu_recharge[month_count]*self.days_in_month[year][month_count +3]
+      total_recharge_ability += self.max_direct_recharge[month_count]*days_in_month[year_index][month_count +3] + self.max_leiu_recharge[month_count]*days_in_month[year_index][month_count +3]
     
     contract_fraction = 0.0
     if total_projected_supply > 0.0:
@@ -979,6 +993,9 @@ class Private():
         for exchange_contracts in contract_list:
           if member_contracts == exchange_contracts.name:
             member_trades = 1
+            break
+        if member_trades == 1:
+          break
       if member_trades == 1:
         if self.use_recovery > 0.0:
           for x in self.district_list:
@@ -1404,134 +1421,4 @@ class Private():
       self.daily_supplies_full[district + '_pumping'][t] += self.annual_private_pumping[district]
       self.daily_supplies_full[district + '_dynamic_recovery_cap'][t] += self.recovery_capacity_remain/len(self.district_list)
 
-  def accounting(self,t, da, m, wateryear,key):
-    #takes delivery/allocation values and builds timeseries that show what water was used for (recharge, banking, irrigation etc...)
-	#delivery/allocation data are set cumulatively - so that values will 'stack' in a area plot.
-	#Allocations are positive (stack above the x-axis in a plot)
-    total_projected_supply = 0.0
-    total_carryover = 0.0
-    total_recharge = 0.0
-    self.daily_supplies['annual_demand'][t] = 0.0
-    for district_name in self.district_list:
-      total_projected_supply += self.projected_supply[district_name][key]
-      total_carryover += max(self.carryover[district_name][key] - self.deliveries[district_name][key][wateryear], 0.0)
-      total_recharge += max(self.recharge_carryover[district_name][key], 0.0)
-      self.daily_supplies['annual_demand'][t] += self.annualdemand[district_name]
-      self.daily_supplies['delivery'][t] -= self.deliveries[district_name][key + '_recharged'][wateryear]
-      self.daily_supplies['recharge_delivery'][t] += self.deliveries[district_name][key + '_recharged'][wateryear]
-
-    self.daily_supplies['contract_available'][t] += total_projected_supply
-    self.daily_supplies['carryover_available'][t] += total_carryover
-    if total_recharge > 0.0:
-      self.daily_supplies['use_recharge'][t] = 1.0
-    self.daily_supplies['use_recovery'][t] = self.use_recovery
-    self.daily_supplies['paper'][t] += total_projected_supply
-    self.daily_supplies['carryover'][t] += max(total_projected_supply - self.paper_balance[key], 0.0)
-    self.daily_supplies['allocation'][t] += max(total_projected_supply - total_carryover - self.paper_balance[key], 0.0)
-
-      #while deliveries are negative (stack below the x-axis in a plot) - the stacking adjustments come in self.accounting_banking_activity()
-	
-    if m == 9 and da == 30:
-      total_deliveries = 0.0
-      for district_name in self.district_list:
-        self.annual_supplies['delivery'][wateryear] += self.deliveries[district_name][key][wateryear]
-        self.annual_supplies['recharge_uncontrolled'][wateryear] += self.deliveries[district_name][key + '_flood'][wateryear]
-        self.annual_supplies['delivery'][wateryear] -= self.deliveries[district_name][key + '_recharged'][wateryear]
-        self.annual_supplies['recharge_delivery'][wateryear] += self.deliveries[district_name][key + '_recharged'][wateryear]
-		
-        total_deliveries += self.deliveries[district_name][key][wateryear]
-      self.deliveries['undelivered_trades'][wateryear] += max(self.paper_balance[key] - total_deliveries, 0.0)
-	
-  def accounting_banking_activity(self, t, da, m, wateryear):
-    #this is an adjustment for 'delivery' (the delivery values are negative, so adding 'recharged' and 'exchanged_GW' is removing them from the count for 'deliveries' - we only want deliveries for irrigation, not for recharge
-    #exchanged_GW is GW that has been pumped out of a bank and 'delivered' to another district. the district gets credit in the reservoir, and deliveries of SW from that reservoir are recorded as 'deliveries' - but we don't want to count that here
-	#exchanged_SW is GW that has been pumped out of a bank, not owned by the district, and delivered to that district (i.e., the other side of the exchanged_GW in a GW exchange).  This should technically count as an irrigation delivery from a contract
-	#(we want to record that as delivery here) but it doesn't get recorded that way upon delivery.  so we add it back here when were are recording accounts (i.e. exchanged_GW and exchanged_SW are counters to help us square the records from GW exchanges)
-    for x in self.district_list:
-      self.daily_supplies['banked'][t] += self.deliveries[x]['recover_banked'][wateryear]
-
-      self.daily_supplies['delivery'][t] += self.deliveries[x]['exchanged_SW'][wateryear]	  
-      self.daily_supplies['leiu_delivered'][t] += self.deliveries[x]['leiupumping'][wateryear]
-      self.daily_supplies['leiu_accepted'][t] += self.deliveries[x]['inleiu'][wateryear]
-
-    self.daily_supplies['delivery'][t] -= self.deliveries['exchanged_GW'][wateryear]
-    self.daily_supplies['banked'][t] += self.deliveries['exchanged_GW'][wateryear]
-	
-    self.daily_supplies['banked_storage'][t] += self.total_banked_storage
-	
-    if m == 9 and da == 30:
-      for x in self.district_list:
-        self.annual_supplies['delivery'][wateryear] += self.deliveries[x]['exchanged_SW'][wateryear]
-        self.annual_supplies['banked_accepted'][wateryear] += self.deliveries[x]['recover_banked'][wateryear]
-		
-        self.annual_supplies['leiu_accepted'][wateryear] += self.deliveries[x]['inleiu'][wateryear]
-        self.annual_supplies['leiu_delivered'][wateryear] += self.deliveries[x]['leiupumping'][wateryear]
-
-      self.annual_supplies['delivery'][wateryear] -= self.deliveries['exchanged_GW'][wateryear]
-
-      recharged_recovery = 0.0
-      if self.annual_supplies['delivery'][wateryear] < 0.0:
-        recharged_recovery = self.annual_supplies['delivery'][wateryear]
-        self.annual_supplies['delivery'][wateryear] = 0.0
-      self.annual_supplies['banked_accepted'][wateryear] += self.deliveries['exchanged_GW'][wateryear] - self.deliveries['undelivered_trades'][wateryear]
-      self.annual_supplies['banked_storage'][wateryear] = self.total_banked_storage
-      self.annual_supplies['acreage'][wateryear] = self.total_acreage
-
-	
-  def accounting_leiubank(self,t, m, da, wateryear):
-    #takes banked storage (in in-leiu banks) and builds timeseries of member accounts
-    stacked_amount = 0.0
-    self.recharge_rate_series[t] = self.recharge_rate
-    for x in self.participant_list:
-      self.bank_timeseries[x][t] = self.inleiubanked[x] + stacked_amount
-      stacked_amount += self.inleiubanked[x]
-    if m == 9 and da == 30:
-      for x in self.participant_list:
-        sum_total = 0.0
-        for year_counter in range(0, wateryear):
-          sum_total += self.annual_timeseries[x][year_counter]
-        self.annual_timeseries[x][wateryear] = self.inleiubanked[x] - sum_total
-
-	  
-  def accounting_as_df(self, index):
-    #wirte district accounts and deliveries into a data fram
-    df = pd.DataFrame()
-    for n in self.daily_supplies:    
-      df['%s_%s' % (self.key,n)] = pd.Series(self.daily_supplies[n], index = index)
-    return df
-
-  def accounting_as_df_full(self, index):
-    #wirte district accounts and deliveries into a data fram
-    df = pd.DataFrame()
-    for n in self.daily_supplies_full:
-      df['%s_%s' % (self.key,n)] = pd.Series(self.daily_supplies_full[n], index = index)
-    return df
-
-  def annual_results_as_df(self):
-    #wite annual district deliveries into a data frame
-    df = pd.DataFrame()
-    for n in self.annual_supplies:
-      df['%s_%s' % (self.key,n)] = pd.Series(self.annual_supplies[n])
-    return df
-
-  def bank_as_df(self, index):
-    #write leiubanking accounts (plus bank recharge rates) into a dataframe
-    df = pd.DataFrame()
-    for n in self.participant_list:
-      df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.bank_timeseries[n], index = index)
-    df['%s_rate' % self.key] = pd.Series(self.recharge_rate_series, index = index)
-    return df
-	
-  def annual_bank_as_df(self):
-    #write anmual banking changes into a data frame
-    df = pd.DataFrame()
-    for n in self.participant_list:
-      df['%s_%s_leiu' % (self.key,n)] = pd.Series(self.annual_timeseries[n])
-    return df
-	
-  def get_iterable(self, x):
-    if isinstance(x, cl.Iterable):
-      return x
-    else:
-      return (x,)
 

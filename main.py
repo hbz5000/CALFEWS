@@ -34,7 +34,7 @@ from distutils.util import strtobool
 startTime = datetime.now()
 
 # get runtime params from config file
-config = ConfigObj('cord/data/input/runtime_params.ini')
+config = ConfigObj('runtime_params.ini')
 parallel_mode = bool(strtobool(config['parallel_mode']))
 model_mode = config['model_mode']
 short_test = int(config['short_test'])
@@ -92,13 +92,17 @@ else: # non-parallel mode
 with open('cord/scenarios/scenarios_main.json') as f:
   scenarios = json.load(f)
 scenario = scenarios[scenario_name]
-results_folder = output_directory + '/' + scenario_name
+results_folder = output_directory + '/' + scenario_name + '/' + model_mode + '/'
 os.makedirs(results_folder, exist_ok=True)
-shutil.copy('cord/data/input/runtime_params.ini', results_folder + '/runtime_params.ini')
+shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
 
 # make separate output folder for each processor
 results_folder = results_folder + '/p' + str(rank)
 os.makedirs(results_folder, exist_ok=True)
+
+# set random seed
+if (seed > 0):
+  np.random.seed(seed)
 
 # always use shorter historical dataframe for expected delta releases
 expected_release_datafile = 'cord/data/input/cord-data.csv'
@@ -110,7 +114,7 @@ if model_mode == 'simulation':
   new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder)
   new_inputs.run_initialization('XXX')
   new_inputs.run_routine(flow_input_type, flow_input_source)
-  input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_"  + str(k) + ".csv"
+  input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_0.csv"
 
 elif model_mode == 'validation':
   demand_type = 'pesticide'
@@ -145,14 +149,16 @@ for k in range(start, stop):
   print('Sample ' + str(k) + ' start')
   sys.stdout.flush()
 
+  # reset seed the same each sample k
+  if (seed > 0):
+    np.random.seed(seed)
+
   # put everything in "try", so error on one sample run won't crash whole job. But this makes it hard to debug, so may want to comment this out when debugging.
   # try:
     ######################################################################################
   if model_mode == 'sensitivity':
     #####FLOW GENERATOR#####
-    #seed
-    if (seed > 0):
-      np.random.seed(seed)
+
     print(k)
     # read in k'th sample from sensitivity sample file
     sensitivity_sample = np.genfromtxt(sensitivity_sample_file, delimiter='\t', skip_header=k+1, max_rows=1)[1:]
@@ -186,6 +192,7 @@ for k in range(start, stop):
     proj_surplus = 0.0
     swp_available = 0.0
     cvp_available = 0.0
+    print('Initialization complete, ', datetime.now() - startTime)
     for t in range(0, timeseries_length):
       if (t % 365 == 364):
         print('Year ', (t+1)/365, ', ', datetime.now() - startTime)
@@ -277,6 +284,7 @@ for k in range(start, stop):
             proj_surplus = 0.0
             swp_available = 0.0
             cvp_available = 0.0
+            print('Initialization complete, ', datetime.now() - startTime)
             ############################################
             for t in range(0, timeseries_length):
               if (t % 365 == 364):
@@ -348,6 +356,7 @@ for k in range(start, stop):
     proj_surplus = 0.0
     swp_available = 0.0
     cvp_available = 0.0
+    print('Initialization complete, ', datetime.now() - startTime)
     ############################################
     for t in range(0, timeseries_length):
       if (t % 365 == 364):

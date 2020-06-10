@@ -5,11 +5,34 @@ import json
 from .util import *
 
 class Canal():
+  __slots__ = ["key", "name", "locked", "capacity", "turnout", "recovery_feeder", "flow_directions", "name", 
+               'daily_turnout', 'turnout_frac', 'recovery_flow_frac', 'flow', 'num_sites', 'daily_flow', 
+               'turnout_use', 'demand', 'iter_count']
+               
+  def __iter__(self):
+    self.iter_count = 0
+    return self
+  
+  def __next__(self):
+    if self.iter_count == 0:
+      self.iter_count += 1
+      return self
+    else:
+      raise StopIteration
 
+  def __len__(self):
+    return 1
+
+  is_Canal = 1
+  is_District = 0
+  is_Private = 0
+  is_Waterbank = 0
+  is_Reservoir = 0
+  
   def __init__(self, name, key, scenario_file = 'baseline'):
     self.key = key
     self.name = name
-    self.locked = 0#toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
+    self.locked = 0 #toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
     for k,v in json.load(open('cord/canals/%s_properties.json' % key)).items():
         setattr(self,k,v)
     if ((scenario_file == 'baseline') == False):

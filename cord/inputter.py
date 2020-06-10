@@ -23,6 +23,7 @@ class Inputter():
         self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
         self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
         self.T = len(self.df)
+        self.T_short = len(self.df_short)
         self.index = self.df.index
         self.day_year = self.index.dayofyear
         self.day_month = self.index.day
@@ -47,27 +48,27 @@ class Inputter():
         self.non_leap_year = first_non_leap_year(self.dowy_eom)
         self.leap_year = first_leap_year(self.dowy_eom)
 
-        self.shasta = Reservoir(self.df, self.df_short, 'shasta', 'SHA', model_mode)
-        self.folsom = Reservoir(self.df, self.df_short, 'folsom', 'FOL', model_mode)
-        self.oroville = Reservoir(self.df, self.df_short, 'oroville', 'ORO', model_mode)
-        self.yuba = Reservoir(self.df, self.df_short, 'yuba', 'YRS', model_mode)
+        self.shasta = Reservoir(self, 'shasta', 'SHA', model_mode)
+        self.folsom = Reservoir(self, 'folsom', 'FOL', model_mode)
+        self.oroville = Reservoir(self, 'oroville', 'ORO', model_mode)
+        self.yuba = Reservoir(self, 'yuba', 'YRS', model_mode)
 
-        self.newhogan = Reservoir(self.df, self.df_short, 'newhogan', 'NHG', model_mode)
-        self.pardee = Reservoir(self.df, self.df_short, 'pardee', 'PAR', model_mode)
-        self.consumnes = Reservoir(self.df, self.df_short, 'consumnes', 'MHB', model_mode)
+        self.newhogan = Reservoir(self, 'newhogan', 'NHG', model_mode)
+        self.pardee = Reservoir(self, 'pardee', 'PAR', model_mode)
+        self.consumnes = Reservoir(self, 'consumnes', 'MHB', model_mode)
 
         # 3 San Joaquin River Reservoirs (to meet Vernalis flow targets)
-        self.newmelones = Reservoir(self.df, self.df_short, 'newmelones', 'NML', model_mode)
-        self.donpedro = Reservoir(self.df, self.df_short, 'donpedro', 'DNP', model_mode)
-        self.exchequer = Reservoir(self.df, self.df_short, 'exchequer', 'EXC', model_mode)
+        self.newmelones = Reservoir(self, 'newmelones', 'NML', model_mode)
+        self.donpedro = Reservoir(self, 'donpedro', 'DNP', model_mode)
+        self.exchequer = Reservoir(self, 'exchequer', 'EXC', model_mode)
 
         # Millerton Reservoir (flows used to calculate San Joaquin River index, not in northern simulation)
-        self.millerton = Reservoir(self.df, self.df_short, 'millerton', 'MIL', model_mode)
+        self.millerton = Reservoir(self, 'millerton', 'MIL', model_mode)
 
-        self.pineflat = Reservoir(self.df, self.df_short, 'pineflat', 'PFT', model_mode)
-        self.kaweah = Reservoir(self.df, self.df_short, 'kaweah', 'KWH', model_mode)
-        self.success = Reservoir(self.df, self.df_short, 'success', 'SUC', model_mode)
-        self.isabella = Reservoir(self.df, self.df_short, 'isabella', 'ISB', model_mode)
+        self.pineflat = Reservoir(self, 'pineflat', 'PFT', model_mode)
+        self.kaweah = Reservoir(self, 'kaweah', 'KWH', model_mode)
+        self.success = Reservoir(self, 'success', 'SUC', model_mode)
+        self.isabella = Reservoir(self, 'isabella', 'ISB', model_mode)
         
         for k,v in json.load(open('cord/data/input/base_inflows.json')).items():
             setattr(self,k,v)
@@ -117,7 +118,7 @@ class Inputter():
         for first_leap in range(0,4):
           if (start_year + first_leap + 1) % 4 == 0:
             break
-        if (self.use_sensitivity == True):
+        if self.use_sensitivity:
             self.set_sensitivity_factors()
         self.read_new_fnf_data(flow_input_type, flow_input_source, start_month, first_leap, number_years)
         self.whiten_by_historical_moments(number_years, 'XXX')
@@ -761,6 +762,7 @@ class Inputter():
             index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
             index = np.where(index)[0][0]
             self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_samples[index]
+            print('shouldnt be here')
             # if sensitivity_index == 0:
             #     self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
             # else:
@@ -770,6 +772,8 @@ class Inputter():
 
 				
     def perturb_flows(self, numYears):
+        print('shouldnt be here')
+
         for reservoir in self.reservoir_list:
             sensitivity = {}
             sensitivity['annual'] = np.zeros(numYears-1)
@@ -1019,7 +1023,6 @@ class Inputter():
                             reservoir.monthly_new[data_type]['whitened'][monthcounter][yearcounter] = \
                             reservoir.monthly[data_type]['coefficients'][monthcounter][1] + \
                             reservoir.monthly[data_type]['coefficients'][monthcounter][0] * predictor
-
                 if plot_key == reservoir.key:
                     for monthcounter in range(0, 12):
                         ax1 = plt.subplot(gs[monthcounter, 0])
