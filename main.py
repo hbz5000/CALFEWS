@@ -100,6 +100,10 @@ shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
 results_folder = results_folder + '/p' + str(rank)
 os.makedirs(results_folder, exist_ok=True)
 
+# set random seed
+if (seed > 0):
+  np.random.seed(seed)
+
 # always use shorter historical dataframe for expected delta releases
 expected_release_datafile = 'cord/data/input/cord-data.csv'
 # data for actual simulation
@@ -145,14 +149,16 @@ for k in range(start, stop):
   print('Sample ' + str(k) + ' start')
   sys.stdout.flush()
 
+  # reset seed the same each sample k
+  if (seed > 0):
+    np.random.seed(seed)
+
   # put everything in "try", so error on one sample run won't crash whole job. But this makes it hard to debug, so may want to comment this out when debugging.
   # try:
     ######################################################################################
   if model_mode == 'sensitivity':
     #####FLOW GENERATOR#####
-    #seed
-    if (seed > 0):
-      np.random.seed(seed)
+
     print(k)
     # read in k'th sample from sensitivity sample file
     sensitivity_sample = np.genfromtxt(sensitivity_sample_file, delimiter='\t', skip_header=k+1, max_rows=1)[1:]

@@ -118,7 +118,7 @@ class Inputter():
         for first_leap in range(0,4):
           if (start_year + first_leap + 1) % 4 == 0:
             break
-        if (self.use_sensitivity == True):
+        if self.use_sensitivity:
             self.set_sensitivity_factors()
         self.read_new_fnf_data(flow_input_type, flow_input_source, start_month, first_leap, number_years)
         self.whiten_by_historical_moments(number_years, 'XXX')
@@ -762,6 +762,7 @@ class Inputter():
             index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
             index = np.where(index)[0][0]
             self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_samples[index]
+            print('shouldnt be here')
             # if sensitivity_index == 0:
             #     self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
             # else:
@@ -771,6 +772,8 @@ class Inputter():
 
 				
     def perturb_flows(self, numYears):
+        print('shouldnt be here')
+
         for reservoir in self.reservoir_list:
             sensitivity = {}
             sensitivity['annual'] = np.zeros(numYears-1)
@@ -1020,7 +1023,6 @@ class Inputter():
                             reservoir.monthly_new[data_type]['whitened'][monthcounter][yearcounter] = \
                             reservoir.monthly[data_type]['coefficients'][monthcounter][1] + \
                             reservoir.monthly[data_type]['coefficients'][monthcounter][0] * predictor
-
                 if plot_key == reservoir.key:
                     for monthcounter in range(0, 12):
                         ax1 = plt.subplot(gs[monthcounter, 0])
