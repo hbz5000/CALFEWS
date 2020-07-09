@@ -12,3 +12,6 @@ Installation instructions
 
 ## Tutorials
 2 tutorials
+
+## Contents
+Directory structure
