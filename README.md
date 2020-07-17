@@ -3,15 +3,13 @@ This repository contains all code and data for the California Food-Energy-Water 
 
 More information on the CALFEWS model, and comparison of model output to historical data, can be found in the following manuscript:
 
-Zeff, H.B., Herman, J.D., Hamilton, A.L., Malek, K., Cohen, J.S., Medellin-Azuara, J., Reed, P.M., and G.W. Characklis. (2020). "Paper title." *Journal Name*. (In preparation).
+Zeff, H.B., Herman, J.D., Hamilton, A.L., Malek, K., Cohen, J.S., Medellin-Azuara, J., Reed, P.M., and G.W. Characklis. (2020). "Paper title." *Journal Name*. (In preparation). **TODO-update paper details**
 
 Licensed under the MIT License, 2017.
 
-## Installation
-Installation instructions
-
-## Tutorials
-2 tutorials
-
-## Contents
-Directory structure
+## Installation and setup
+1. Clone this repository to your local machine.
+1. **TODO-add conda environment instructions**
+1. Run model with ``python3 -W ignore main.py``, or run ``main.py`` from your favorite IDE.
+1. For more details on model parameters, input files, and output files, run the Jupyter Notebook ``CALFEWS_intro_tutorial.ipynb``.
+1. To run all simulations and reproduce all figures from Zeff et al. 2020 (in preparation), run the Jupyter Notebook ``modeling_paper_notebook.ipynb``.
