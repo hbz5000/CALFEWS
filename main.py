@@ -98,7 +98,7 @@ shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
 
 # make separate output folder for each processor
 results_folder = results_folder + '/p' + str(rank)
-os.makedirs(results_folder, exist_ok=True)
+os.makedirs(results_folder, exist_ok=False)
 
 # set random seed
 if (seed > 0):
