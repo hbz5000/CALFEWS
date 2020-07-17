@@ -1,0 +1,99 @@
+{
+  "contract_list": ["tableA", "kern"],
+  "turnout_list": ["caa", "knr"],
+  "in_leiu_banking": false,
+  "leiu_recovery": 0.0,
+  "in_district_direct_recharge": 0.0,
+  "in_district_storage": 0.0,
+  "loss_rate": 0.1,
+  "recovery_fraction": 0.5,
+  "surface_water_sa" : 1.0,
+  "must_fill" : 0,
+  "seasonal_connection" : 1.0,
+  "seepage" : 1.25,
+  "inleiuhaircut" : 0.9,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "project_contract": {
+    "tableA": 0.0052512,
+    "cvpdelta": 0.0,
+    "friant1": 0.0,
+    "friant2": 0.0,
+    "cvc": 0.0,
+    "exchange": 0.0,
+    "hidden": 0.0,
+    "buchannon": 0.0,
+    "eastside": 0.0
+  },
+  "rights": {
+    "tuolumne": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "merced": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kings": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kaweah": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "tule": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    },
+    "kern": {
+      "capacity": 0.32,
+      "carryover": 0.26,
+      "rights": 1,
+      "d": [0, 366],
+      "start": [0, 0],
+      "volume": [99999999, 999999999],
+      "fraction": [0.32, 0.32]
+    }
+  },
+  "service": {
+    "storage": 1.8,
+    "unlined": 144.0,
+    "recharge": 1.16
+  },
+  "crop_list": ["alfalfa", "corn", "grain","grape","deciduous_misc","cotton","pistachio","pistachio_immature","apple","subtropical_misc", "vegetable_small","field_misc","idle"],
+  "zone": "zone15",
+  "acreage":{
+    "W": [7.691, 0.56, 4.062, 0.321, 1.684, 18.465, 3.447, 1.118, 0.041, 0.080, 1.212, 3.769, 6.360],
+    "AN": [10.140, 0.721, 5.298, 0.0, 0.0, 13.354, 3.374, 0.0, 0.0, 0.0, 2.147, 3.004, 10.802],
+    "BN": [10.140, 0.721, 5.298, 0.0, 0.0, 13.354, 3.374, 0.0, 0.0, 0.0, 2.147, 3.004, 10.802],
+    "D": [7.658, 0.745, 1.674, 0.972, 1.684, 12.624, 3.446, 1.118, 0.041, 0.080, 2.084, 3.122, 11.928],
+    "C": [7.658, 0.745, 1.674, 0.972, 1.684, 12.624, 3.446, 1.118, 0.041, 0.080, 2.084, 3.122, 11.928]
+  },
+  "MDD": 0.0,
+  "urban_profile":[0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333]
+}

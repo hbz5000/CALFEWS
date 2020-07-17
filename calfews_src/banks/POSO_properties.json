@@ -1,0 +1,21 @@
+{
+  "participant_list": ["NKN","SFW","CWO","SMI"],
+  "canal_rights": ["cwy", "lrd"],
+  "initial_recharge": 0.0,
+  "recovery": 0.0,
+  "tot_storage": 0.0,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],  
+  "ownership": {
+    "NKN": 1.0,
+    "SFW": 0.0,
+    "CWO": 0.0,
+    "SMI": 0.0
+  },
+  "bank_cap": {
+    "NKN": 99999.9,
+    "SFW": 99999.9,
+    "CWO": 99999.9,
+    "SMI": 99999.9
+  }
+
+}

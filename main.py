@@ -16,8 +16,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import cord
-from cord import *
+import calfews_src
+from calfews_src import *
 from datetime import datetime
 import os
 import shutil
@@ -89,7 +89,7 @@ else: # non-parallel mode
   rank = 0
 
 # infrastructure scenario file, to be used for all sensitivity samples
-with open('cord/scenarios/scenarios_main.json') as f:
+with open('calfews_src/scenarios/scenarios_main.json') as f:
   scenarios = json.load(f)
 scenario = scenarios[scenario_name]
 results_folder = output_directory + '/' + scenario_name + '/' + model_mode + '/'
@@ -105,12 +105,12 @@ if (seed > 0):
   np.random.seed(seed)
 
 # always use shorter historical dataframe for expected delta releases
-expected_release_datafile = 'cord/data/input/cord-data.csv'
+expected_release_datafile = 'calfews_src/data/input/calfews_src-data.csv'
 # data for actual simulation
 if model_mode == 'simulation':
   demand_type = 'baseline'
   #demand_type = 'pmp'
-  base_data_file = 'cord/data/input/cord-data.csv'
+  base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
   new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder)
   new_inputs.run_initialization('XXX')
   new_inputs.run_routine(flow_input_type, flow_input_source)
@@ -118,13 +118,13 @@ if model_mode == 'simulation':
 
 elif model_mode == 'validation':
   demand_type = 'pesticide'
-  input_data_file = 'cord/data/input/cord-data.csv'
+  input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 elif model_mode == 'sensitivity':
   demand_type = 'baseline'
-  base_data_file = 'cord/data/input/cord-data.csv'
+  base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 elif model_mode == 'climate_ensemble':
   demand_type = 'baseline'
-  base_data_file = 'cord/data/input/cord-data.csv'
+  base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 
 # output all print statements to log file. separate for each processor.
 if print_log:
@@ -220,7 +220,7 @@ for k in range(start, stop):
   ### climate ensemble mode ############################################################
   ######################################################################################
   elif (model_mode == 'climate_ensemble'):
-    file_folder = 'cord/data/CA_FNF_climate_change/'
+    file_folder = 'calfews_src/data/CA_FNF_climate_change/'
     model_name_list = ['gfdl-esm2m', 'canesm2', 'ccsm4', 'cnrm-cm5', 'csiro-mk3-6-0', 'gfdl-cm3', 'hadgem2-cc', 'hadgem2-es', 'inmcm4', 'ipsl-cm5a-mr', 'miroc5']
     proj_list = ['rcp45', 'rcp85']
     total_model_proj = len(model_name_list) * len(proj_list)

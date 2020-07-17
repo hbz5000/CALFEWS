@@ -3,7 +3,7 @@
 name=$1
 
 cd ../
-rm -r cord/data/results/baseline_wy2017
+rm -r results/baseline_wy2017
 python3 -W ignore main_profile.py
 python3 -W ignore main_profile.py
 #python3 -W ignore -m cProfile -o profiling/profile_${name}.stats main_profile.py

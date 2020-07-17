@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import line_profiler
 profile = line_profiler.LineProfiler()
-import cord
-from cord import *
+import calfews_src
+from calfews_src import *
 from datetime import datetime
 import os
 import shutil
@@ -39,9 +39,10 @@ output_directory = config['output_directory']
 clean_output = bool(strtobool(config['clean_output']))
 
 # infrastructure scenario file, to be used for all sensitivity samples
-with open('cord/scenarios/scenarios_main.json') as f:
+with open('calfews_src/scenarios/scenarios_main.json') as f:
   scenarios = json.load(f)
 scenario = scenarios[scenario_name]
+print(output_directory, scenario_name, model_mode)
 results_folder = output_directory + '/' + scenario_name + '/' model_mode + '/'
 os.makedirs(results_folder, exist_ok=True)
 shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
@@ -54,21 +55,21 @@ if (os.path.exists(results_folder + '/results_p0.hdf5')):
   os.remove(results_folder + '/results_p0.hdf5')
 
 # always use shorter historical dataframe for expected delta releases
-expected_release_datafile = 'cord/data/input/cord-data.csv'
+expected_release_datafile = 'calfews_src/data/input/calfews_src-data.csv'
 # data for actual simulation
 if model_mode == 'simulation':
   demand_type = 'baseline'
   #demand_type = 'pmp'
-  input_data_file = 'cord/data/input/cord-data-wet-dry.csv'
+  input_data_file = 'calfews_src/data/input/calfews_src-data-wet-dry.csv'
 # elif model_mode == 'validation':
 #   demand_type = 'pesticide'
-#   input_data_file = 'cord/data/input/cord-data.csv'
+#   input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 # elif model_mode == 'sensitivity':
 #   demand_type = 'baseline'
-#   base_data_file = 'cord/data/input/cord-data.csv'
+#   base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 # elif model_mode == 'climate_ensemble':
 #   demand_type = 'baseline'
-#   base_data_file = 'cord/data/input/cord-data.csv'
+#   base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 
 print(model_mode)
 

@@ -1,0 +1,25 @@
+{
+  "capacity": {
+    "normal": [1100.0, 1100.0, 1100.0, 1100.0, 1100.0, 800.0, 0.0],
+    "reverse": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "closed": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	},
+  "turnout": {
+    "normal": [0.0, 200.0, 200.0, 200.0, 800.0, 800.0],
+    "reverse": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "closed": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  },
+  "recovery_feeder": true,
+  "flow_directions":{
+    "recharge": {
+      "knr": "closed",
+      "kbc": "reverse"
+      },
+    "recovery": {
+      "knr": "closed",
+      "kbc": "reverse"
+      }
+  },
+
+  "name": "knc"
+}

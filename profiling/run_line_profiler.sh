@@ -3,7 +3,7 @@
 name=$1
 
 cd ../
-rm -r cord/data/results/baseline_wy2017
+rm -r results/baseline_wy2017
 kernprof -l -v main_profile.py		# run once for initialization
 kernprof -l -v main_profile.py   # now run again for profiling
 cd profiling

@@ -1,0 +1,26 @@
+{
+  "participant_list": ["DLR","KCWA","ID4","SMI","TJC","WON","WRM"],
+  "canal_rights": ["kbc", "knr"],
+  "initial_recharge": 600.0,
+  "recovery": 0.0,
+  "tot_storage": 1.188,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "ownership": {
+    "DLR": 0.0962,
+    "KCWA": 0.0,
+    "ID4": 0.0962,
+    "SMI": 0.0667,
+    "TJC": 0.02,
+    "WON": 0.4806,
+    "WRM": 0.2403
+  },
+  "bank_cap": {
+    "DLR": 99999.9,
+    "KCWA": 99999.9,
+    "ID4": 99999.9,
+    "SMI": 99999.9,
+    "TJC": 99999.9,
+    "WON": 99999.9,
+    "WRM": 99999.9
+  }
+}

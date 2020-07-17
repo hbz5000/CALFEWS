@@ -1,0 +1,21 @@
+{
+  "participant_list": ["BLR","BDM","LHL","WRM"],
+  "participant_type": ["direct","paper","paper","direct","direct"],
+  "canal_rights": ["xvc", "knr"],
+  "initial_recharge": 90.0,
+  "recovery": 0.1589,
+  "tot_storage": 0.1782,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],  
+  "ownership": {
+    "BLR": 0.1145,
+    "BDM": 0.609,
+    "LHL": 0.0987,
+    "WRM": 0.1778
+  },
+  "bank_cap": {
+    "BLR": 99999.9,
+    "BDM": 99999.9,
+    "LHL": 99999.9,
+    "WRM": 99999.9
+  }
+}

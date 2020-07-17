@@ -2,8 +2,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import cord
-from cord import *
+import calfews_src
+from calfews_src import *
 from datetime import datetime
 import os
 import shutil
@@ -12,8 +12,8 @@ import json
 import h5py
 
 # get example data to help get output classes. Note that if new infrastructure, banking arrangements, etc, may need to update output classes.
-modelno = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelno0.pkl')
-modelso = pd.read_pickle('cord/data/results/baseline_wy2017/p0/modelso0.pkl')
+modelno = pd.read_pickle('calfews_src/data/results/baseline_wy2017/p0/modelno0.pkl')
+modelso = pd.read_pickle('calfews_src/data/results/baseline_wy2017/p0/modelso0.pkl')
 
 # create nested dict to hold all possible output types
 d = {'north':{'reservoirs': {}, 'delta':{}}, 'south':{'reservoirs':{}, 'contracts':{}, 'districts':{}, 'private':{}, 'waterbanks':{}}}
@@ -127,9 +127,9 @@ for name in [x.name for x in modelso.leiu_list]:
   for partner in modelso.__getattribute__(name).bank_timeseries.keys():
     d['south']['waterbanks'][name][partner] = True
 
-with open('cord/data/input/output_list.json', 'w') as f:
+with open('calfews_src/data/input/output_list.json', 'w') as f:
   json.dump(d, f, indent=2)
 
-# with open('cord/data/input/output_list.json', 'r') as f:
+# with open('calfews_src/data/input/output_list.json', 'r') as f:
 #   dat=json.load(f)
 

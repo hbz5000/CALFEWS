@@ -1,0 +1,31 @@
+{
+  "participant_list": ["RRB","ARV","DLE","CTL","CCH", "BVA", "SOC", "KRT"],
+  "participant_type": ["direct","direct","paper","paper","direct","direct","direct"],
+  "canal_rights": ["gsl"],
+  "initial_recharge": 400.0,
+  "recovery": 0.1233,
+  "tot_storage": 0.792,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "ownership": {
+    "RRB": 0.5,
+    "ARV": 0.0,
+    "DLE": 0.0,
+    "KRT": 0.0,
+    "CTL": 0.25,
+    "CCH": 0.25,
+    "BVA": 0.0,
+    "KRT": 0.0,
+    "SOC": 0.0
+  },
+  "bank_cap": {
+    "RRB": 99999.9,
+    "ARV": 99999.9,
+    "DLE": 99999.9,
+    "KRT": 99999.9,
+    "CTL": 99999.9,
+    "CCH": 99999.9,
+    "BVA": 99999.9,
+    "KRT": 99999.9,
+    "SOC": 99999.9
+  }
+}

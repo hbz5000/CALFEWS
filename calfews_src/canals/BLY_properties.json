@@ -1,0 +1,24 @@
+{
+  "capacity": {
+    "normal": [165.0, 165.0, 0.0],
+    "reverse": [0.0, 0.0, 0.0],
+    "closed": [0.0, 0.0, 0.0]
+	},
+  "turnout": {
+    "normal": [165.0, 165.0],
+    "reverse": [0.0, 0.0],
+    "closed": [0.0, 0.0]
+  },
+  "recovery_feeder": true,
+  "flow_directions": {
+    "recharge": {
+      "xvc": "closed",
+      "cwy": "normal"
+      },
+    "recovery": {
+      "xvc": "closed",
+      "cwy": "normal"
+      }
+  },
+  "name": "bly"
+}

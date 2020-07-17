@@ -5,8 +5,8 @@ import json
 import matplotlib.pyplot as plt
 from itertools import compress
 import os
-from cord import *
-from cord.visualizer import Visualizer
+from calfews_src import *
+from calfews_src.visualizer import Visualizer
 
 #results hdf5 file location from CALFEWS simulations
 output_folder_val = 'results/baseline_wy2017/validation/p0/'

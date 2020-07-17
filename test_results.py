@@ -10,7 +10,7 @@ import sys
 new_data = sys.argv[1]
 old_data = sys.argv[2]
 labelnum = sys.argv[3]
-#output_file = "C:/Users/km663/Documents/Papers/ErrorPropagation/CALFEWS__Feb2020/ORCA_COMBINED-master/ORCA_COMBINED-master/cord/data/results/baseline_wy2017/p0"
+#output_file = "C:/Users/km663/Documents/Papers/ErrorPropagation/CALFEWS__Feb2020/ORCA_COMBINED-master/ORCA_COMBINED-master/calfews_src/data/results/baseline_wy2017/p0"
 
 # given a particular sensitivity factor sample number, get entire model output and output as dataframe
 def get_results_sensitivity_number(results_file, labelnum):

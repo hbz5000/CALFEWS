@@ -1,0 +1,17 @@
+{
+  "total": 1848.598,
+  "maxForecastValue": 1190.4,
+  "carryover": 200.0,
+  "type": "contract",
+  "name": "cvpdelta",
+  "allocation_priority": 0,
+  "storage_priority": 1,
+  "contractors": ["BAC", "BYB", "DLP", "EGF", "MCS", "OOL", "PJV", "PAT", "WST", "TRA", "USV", "WSS", "WSL", "COE", "FSL", "JMS", "LAG", "RD1606", "TRQ", "SBC", "SCV", "PAC", "PAN", "SNL", "SLM"],
+  "reduction":{
+    "W": 1.0,
+    "AN": 1.0,
+    "BN": 1.0,
+    "D": 1.0,
+    "C": 1.0
+  }
+}

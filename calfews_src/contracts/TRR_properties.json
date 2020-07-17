@@ -1,0 +1,16 @@
+{
+  "total": 9999999,
+  "maxForecastValue": 550.0,
+  "carryover": 0.0,
+  "type": "right",
+  "name": "tule",
+  "allocation_priority": 1,
+  "storage_priority": 1,
+  "reduction":{
+    "W": 1.0,
+    "AN": 1.0,
+    "BN": 1.0,
+    "D": 1.0,
+    "C": 1.0
+  }
+}

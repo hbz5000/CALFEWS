@@ -1,0 +1,19 @@
+{
+  "participant_list": ["RRB","CTL", "CCH"],
+  "canal_rights": ["xvc"],
+  "initial_recharge": 150.0,
+  "recovery": 0.11,
+  "tot_storage": 0.297,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "ownership": {
+    "RRB": 0.43,
+    "CTL": 0.25,
+    "CCH": 0.32
+  },
+  "bank_cap": {
+    "RRB": 99999.9,
+    "CCH": 99999.9,
+    "CTL": 99999.9
+  }
+
+}

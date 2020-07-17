@@ -6,7 +6,7 @@ import h5py
 import json
 import matplotlib.pyplot as plt
 from itertools import compress
-import cord
+import calfews_src
 #from read_hdf5_output import get_results_sensitivity_number
 import seaborn as sns
 import os
@@ -66,19 +66,19 @@ def calculate_district_reveneues(year_range, sensitivity_range, district_display
       dayNum += 1
     end_of_year[yearNum] = dayNum
   
-  #with open('cord/data/results/baseline_wy2017/p0/modelso0.pkl', 'rb') as f:
+  #with open('calfews_src/data/results/baseline_wy2017/p0/modelso0.pkl', 'rb') as f:
   #   pickle.load(f)
   #read model data (so we know district contracts, etc..)
- # modelno = pd.read_pickle('cord/data/results/baseline_wy2017_DryYearAdded/p0/modelno0.pkl')
-  #modelso = pd.read_pickle('cord/data/results/baseline_wy2017_DryYearAdded/p0/modelso0.pkl')
-#  modelno = pd.read_pickle('cord/data/results/baseline_wy2017_GWCorrected/p0/modelno0.pkl')
-#  modelso = pd.read_pickle('cord/data/results/baseline_wy2017_GWCorrected/p0/modelso0.pkl')
-  #modelno = pd.read_pickle('cord/data/results/baseline_wy2017_NoGWCorrection/p0/modelno0.pkl')
-  #modelso = pd.read_pickle('cord/data/results/baseline_wy2017_NoGWCorrection/p0/modelso0.pkl')
-  modelno = pd.read_pickle('cord/data/results/baseline_wy2017_bias_corrected/p0/modelno0.pkl')
-  modelso = pd.read_pickle('cord/data/results/baseline_wy2017_bias_corrected/p0/modelso0.pkl')
+ # modelno = pd.read_pickle('calfews_src/data/results/baseline_wy2017_DryYearAdded/p0/modelno0.pkl')
+  #modelso = pd.read_pickle('calfews_src/data/results/baseline_wy2017_DryYearAdded/p0/modelso0.pkl')
+#  modelno = pd.read_pickle('calfews_src/data/results/baseline_wy2017_GWCorrected/p0/modelno0.pkl')
+#  modelso = pd.read_pickle('calfews_src/data/results/baseline_wy2017_GWCorrected/p0/modelso0.pkl')
+  #modelno = pd.read_pickle('calfews_src/data/results/baseline_wy2017_NoGWCorrection/p0/modelno0.pkl')
+  #modelso = pd.read_pickle('calfews_src/data/results/baseline_wy2017_NoGWCorrection/p0/modelso0.pkl')
+  modelno = pd.read_pickle('calfews_src/data/results/baseline_wy2017_bias_corrected/p0/modelno0.pkl')
+  modelso = pd.read_pickle('calfews_src/data/results/baseline_wy2017_bias_corrected/p0/modelso0.pkl')
   #read price data from PMP
-  district_prices = pd.read_csv('cord/postprocess/district_water_prices.csv')
+  district_prices = pd.read_csv('calfews_src/postprocess/district_water_prices.csv')
   district_prices.set_index('PMPDKEY', inplace = True)
   banking_price = 50.0#volumetric rate to deliver water to a bank
   #create dictionary to store annual district revenues
@@ -88,8 +88,8 @@ def calculate_district_reveneues(year_range, sensitivity_range, district_display
 	
   #read CALFEWS output data
   
-  #output_file = 'cord/data/results/baseline_wy2017_GWCorrected/p0/results_p0.hdf5'
-  output_file = 'cord/data/results/baseline_wy2017_bias_corrected/p0/results_p0.hdf5'
+  #output_file = 'calfews_src/data/results/baseline_wy2017_GWCorrected/p0/results_p0.hdf5'
+  output_file = 'calfews_src/data/results/baseline_wy2017_bias_corrected/p0/results_p0.hdf5'
   revenues_save_file = {}
   for sensitivity_realization in sensitivity_range:
     print("sensitivity_realization =",sensitivity_realization)
@@ -166,7 +166,7 @@ def calculate_district_reveneues(year_range, sensitivity_range, district_display
         revenues_save_file['S' + str(sensitivity_realization)] = total_revenues
         del total_revenues
   revenues_save_file = pd.DataFrame(revenues_save_file, index = year_range)
-  revenues_save_file.to_csv('cord/data/results/Financial_output/BC/' + district_display_key + '_revenues.csv')
+  revenues_save_file.to_csv('calfews_src/data/results/Financial_output/BC/' + district_display_key + '_revenues.csv')
   ax.set_xlim((min(year_range), max(year_range)))
   ax.set_xticks(np.arange(min(year_range), max(year_range), np.round(len(year_range)/10)))
   ax.set_ylabel('Total Irrigation District Revenue, Banking and Deliveries')

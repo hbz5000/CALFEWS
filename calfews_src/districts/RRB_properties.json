@@ -1,0 +1,124 @@
+{
+  "contract_list": ["tableA", "kern"],
+  "turnout_list": ["xvc", "knr"],
+  "in_leiu_banking": true,
+  "participant_list": ["RRB","ARV","DLE","CTL","CCH", "BVA", "SOC", "KRT"],
+  "leiu_ownership": {
+    "RRB": 0.5,
+    "ARV": 0.0,
+    "DLE": 0.0,
+    "KRT": 0.0,
+    "CTL": 0.25,
+    "CCH": 0.25,
+    "BVA": 0.0,
+    "KRT": 0.0,
+    "SOC": 0.0
+  },
+  "inleiucap": {
+    "RRB": 99999.9,
+    "ARV": 99999.9,
+    "DLE": 99999.9,
+    "KRT": 99999.9,
+    "CTL": 99999.9,
+    "CCH": 99999.9,
+    "BVA": 99999.9,
+    "KRT": 99999.9,
+    "SOC": 99999.9
+  },
+  "leiu_recovery": 0.1233,
+  "in_district_direct_recharge": 400.0,
+  "in_district_storage": 0.792,
+  "loss_rate": 0.1,
+  "recovery_fraction": 0.5,
+  "surface_water_sa" : 0.0,
+  "must_fill" : 0,
+  "seasonal_connection" : 1.0,
+  "seepage" : 1.25,
+  "inleiuhaircut" : 0.9,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "project_contract": {
+    "tableA": 0.007272807,
+    "cvpdelta": 0.0,
+    "friant1": 0.0,
+    "friant2": 0.0,
+    "cvc": 0.0,
+    "exchange": 0.0,
+    "hidden": 0.0,
+    "buchannon": 0.0,
+    "eastside": 0.0
+  },
+  "rights": {
+    "tuolumne": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "merced": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kings": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kaweah": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "tule": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    },
+    "kern": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    }
+  },
+  "service": {
+    "storage": 0.0,
+    "unlined": 0.0,
+    "recharge": 1.04
+  },
+  "crop_list": ["cotton", "alfalfa", "deciduous_misc","grape","corn","grain","vegetable_small","pasture","idle"],
+  "zone": "zone15",
+  "acreage":{
+    "W": [2.8, 6.16, 11.67, 0.4, 0.89, 2.68, 1.86, 0.13, 7.939],
+    "AN": [2.8, 6.16, 11.67, 0.4, 0.89, 2.68, 1.86, 0.13, 7.939],
+    "BN": [2.8, 6.16, 11.67, 0.4, 0.89, 2.68, 1.86, 0.13, 7.939],
+    "D": [2.8, 6.16, 11.67, 0.4, 0.89, 2.68, 1.86, 0.13, 7.939],
+    "C": [2.8, 6.16, 11.67, 0.4, 0.89, 2.68, 1.86, 0.13, 7.939]
+  },
+  "MDD": 0.0,
+  "urban_profile":[0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333]
+
+
+}

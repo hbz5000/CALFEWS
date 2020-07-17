@@ -1,0 +1,116 @@
+{
+  "contract_list": ["friant1", "friant2"],
+  "turnout_list": ["fkc", "cvc", "aec"],
+  "in_leiu_banking": true,
+  "participant_list": ["ARV", "MET", "OXV", "LWT", "KRT", "PIX"],  
+  "leiu_ownership": {
+    "ARV": 0.5,
+    "MET": 0.5,
+    "OXV": 0.0,
+    "LWT": 0.0,
+    "KRT": 0.0,
+    "PIX": 0.0
+  },
+  "inleiucap": {
+    "ARV": 99999.9,
+    "MET": 350.0,
+    "OXV": 99999.9,
+    "LWT": 99999.9,
+    "KRT": 99999.9,
+    "PIX": 99999.9
+  },
+  "leiu_recovery": 0.411,
+  "in_district_direct_recharge": 378.79,
+  "in_district_storage": 0.75,
+  "loss_rate": 0.1,
+  "recovery_fraction": 0.85,
+  "surface_water_sa" : 0.5,
+  "must_fill" : 0,
+  "seasonal_connection" : 1.0,
+  "seepage" : 1.25,
+  "inleiuhaircut" : 0.9,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
+  "project_contract": {
+    "tableA": 0.0,
+    "cvpdelta": 0.0,
+    "friant1": 0.05,
+    "friant2": 0.22239,
+    "cvc": 0.0,
+    "exchange": 0.0,
+    "hidden": 0.0,
+    "buchannon": 0.0,
+    "eastside": 0.0
+  },
+  "rights": {
+    "tuolumne": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "merced": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kings": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "kaweah": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    },
+    "tule": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [0.0, 0.0]
+    },
+    "kern": {
+      "capacity": 0.0,
+      "carryover": 0.0,
+      "numrights": 1,
+      "d": [0, 366],
+      "start": [9999999, 9999999],
+      "volume": [0, 0],
+      "fraction": [1.0, 1.0]
+    }
+  },
+  "service": {
+    "storage": 0.0,
+    "unlined": 0.0,
+    "recharge": 0.0
+  },
+  "crop_list": ["grape", "potatoe", "citrus", "grain", "vegetable_small", "almond", "field_misc", "idle"],
+  "zone": "zone15",
+  "acreage":{
+    "W": [29.239, 13.283, 12.758, 7.026, 11.469, 6.070, 32.772, 19.043],
+    "AN": [29.239, 13.283, 12.758, 7.026, 11.469, 6.070, 32.772, 19.043],
+    "BN": [29.239, 13.283, 12.758, 7.026, 11.469, 6.070, 32.772, 19.043],
+    "D": [29.239, 13.283, 12.758, 7.026, 11.469, 6.070, 32.772, 19.043],
+    "C": [29.239, 13.283, 12.758, 7.026, 11.469, 6.070, 32.772, 19.043]
+  },
+  "MDD": 0.0,
+  "urban_profile":[0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333, 0.08333]
+}
