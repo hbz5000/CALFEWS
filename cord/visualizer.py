@@ -66,7 +66,7 @@ class Visualizer():
     self.values = {}
     numdays_index = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     with h5py.File(results_file, 'r') as f:
-      data = f['s' + str(sensitivity_number)]
+      data = f['s' + sensitivity_number]
       names = data.attrs['columns']
       names = list(map(lambda x: str(x).split("'")[1], names))
       df_data = pd.DataFrame(data[:], columns=names)
@@ -280,15 +280,15 @@ class Visualizer():
     self.figure_params['district_water_use']['physical']['color map'] = 'YlGbBu_r'
     self.figure_params['district_water_use']['physical']['write file'] = True
 
-    self.figure_params['district_water_use']['account'] = {}
-    self.figure_params['district_water_use']['account']['district_groups'] = ['Municipal Districts', 'Kern County Water Agency', 'CVP - Friant Contractors', 'CVP - San Luis Contractors']
-    self.figure_params['district_water_use']['account']['Municipal Districts'] = ['bakersfield', 'ID4', 'fresno', 'southbay', 'socal', 'centralcoast']
-    self.figure_params['district_water_use']['account']['Kern County Water Agency'] = ['berrenda', 'belridge', 'buenavista', 'cawelo', 'henrymiller', 'losthills', 'rosedale', 'semitropic', 'tehachapi', 'tejon', 'westkern', 'wheeler']
-    self.figure_params['district_water_use']['account']['CVP - Friant Contractors'] = ['arvin', 'delano', 'pixley', 'exeter', 'kerntulare', 'lindmore', 'lindsay', 'lowertule', 'porterville', 'saucelito', 'shaffer', 'sosanjoaquin', 'teapot', 'terra', 'chowchilla', 'maderairr', 'tulare', 'fresnoid']
-    self.figure_params['district_water_use']['account']['CVP - San Luis Contractors'] = ['westlands', 'panoche', 'sanluiswater', 'delpuerto'] 
-    self.figure_params['district_water_use']['account']['subplot columns'] = 2
-    self.figure_params['district_water_use']['account']['color map'] = 'BrBG_r'
-    self.figure_params['district_water_use']['account']['write file'] = False
+    self.figure_params['district_water_use']['annual'] = {}
+    self.figure_params['district_water_use']['annual']['district_groups'] = ['Municipal Districts', 'Kern County Water Agency', 'CVP - Friant Contractors', 'CVP - San Luis Contractors']
+    self.figure_params['district_water_use']['annual']['Municipal Districts'] = ['bakersfield', 'ID4', 'fresno', 'southbay', 'socal', 'centralcoast']
+    self.figure_params['district_water_use']['annual']['Kern County Water Agency'] = ['berrenda', 'belridge', 'buenavista', 'cawelo', 'henrymiller', 'losthills', 'rosedale', 'semitropic', 'tehachapi', 'tejon', 'westkern', 'wheeler']
+    self.figure_params['district_water_use']['annual']['CVP - Friant Contractors'] = ['arvin', 'delano', 'pixley', 'exeter', 'kerntulare', 'lindmore', 'lindsay', 'lowertule', 'porterville', 'saucelito', 'shaffer', 'sosanjoaquin', 'teapot', 'terra', 'chowchilla', 'maderairr', 'tulare', 'fresnoid']
+    self.figure_params['district_water_use']['annual']['CVP - San Luis Contractors'] = ['westlands', 'panoche', 'sanluiswater', 'delpuerto'] 
+    self.figure_params['district_water_use']['annual']['subplot columns'] = 2
+    self.figure_params['district_water_use']['annual']['color map'] = 'BrBG_r'
+    self.figure_params['district_water_use']['annual']['write file'] = True
 
     self.figure_params['flow_diagram'] = {}
     self.figure_params['flow_diagram']['tulare'] = {}
@@ -447,93 +447,167 @@ class Visualizer():
     plt.close()
 
   def make_deliveries_by_district(self, folder_name, figure_name, plot_name, scenario_name, show_plot):
+    
+    if plot_name == 'annual':
+      name_bridge = {}
+      name_bridge['semitropic'] = 'KER01'
+      name_bridge['westkern'] = 'KER02' 
+      name_bridge['wheeler'] = 'KER03'
+      name_bridge['kerndelta'] = 'KER04'
+      name_bridge['arvin'] = 'KER05'
+      name_bridge['belridge'] = 'KER06'
+      name_bridge['losthills'] = 'KER07'
+      name_bridge['northkern'] = 'KER08'
+      name_bridge['northkernwb'] = 'KER08'
+      name_bridge['ID4'] = 'KER09'
+      name_bridge['sosanjoaquin'] = 'KER10'  
+      name_bridge['berrenda'] = 'KER11'
+      name_bridge['buenavista'] = 'KER12'
+      name_bridge['cawelo'] = 'KER13'
+      name_bridge['rosedale'] = 'KER14'
+      name_bridge['shaffer'] = 'KER15'
+      name_bridge['henrymiller'] = 'KER16'  
+      name_bridge['kwb'] = 'KER17'
+      name_bridge['b2800'] = 'KER17'
+      name_bridge['pioneer'] = 'KER17'
+      name_bridge['irvineranch'] = 'KER17'
+      name_bridge['kernriverbed'] = 'KER17'
+      name_bridge['poso'] = 'KER17'
+      name_bridge['stockdale'] = 'KER17'
 
-    district_group_list = self.figure_params[figure_name][plot_name]['district_groups']
-    district_groups = {}
-    for x in district_group_list:
-      district_groups[x] = self.figure_params[figure_name][plot_name][x]
-    name_bridge = {}
-    name_bridge['semitropic'] = 'KER01'
-    name_bridge['westkern'] = 'KER02' 
-    name_bridge['wheeler'] = 'KER03'
-    name_bridge['kerndelta'] = 'KER04'
-    name_bridge['arvin'] = 'KER05'
-    name_bridge['belridge'] = 'KER06'
-    name_bridge['losthills'] = 'KER07'
-    name_bridge['northkern'] = 'KER08'
-    name_bridge['northkernwb'] = 'KER08'
-    name_bridge['ID4'] = 'KER09'
-    name_bridge['sosanjoaquin'] = 'KER10'  
-    name_bridge['berrenda'] = 'KER11'
-    name_bridge['buenavista'] = 'KER12'
-    name_bridge['cawelo'] = 'KER13'
-    name_bridge['rosedale'] = 'KER14'
-    name_bridge['shaffer'] = 'KER15'
-    name_bridge['henrymiller'] = 'KER16'  
-    name_bridge['kwb'] = 'KER17'
-    name_bridge['b2800'] = 'KER17'
-    name_bridge['pioneer'] = 'KER17'
-    name_bridge['irvineranch'] = 'KER17'
-    name_bridge['kernriverbed'] = 'KER17'
-    name_bridge['poso'] = 'KER17'
-    name_bridge['stockdale'] = 'KER17'
+      name_bridge['delano'] = 'KeT01'
+      name_bridge['kerntulare'] = 'KeT02' 
+      name_bridge['lowertule'] = 'TUL01'
+      name_bridge['tulare'] = 'TUL02'
+      name_bridge['lindmore'] = 'TUL03'
+      name_bridge['saucelito'] = 'TUL04'
+      name_bridge['porterville'] = 'TUL05'
+      name_bridge['lindsay'] = 'TUL06'
+      name_bridge['exeter'] = 'TUL07'
+      name_bridge['terra'] = 'TUL08'
+      name_bridge['teapot'] = 'TUL09'
 
-    name_bridge['delano'] = 'KeT01'
-    name_bridge['kerntulare'] = 'KeT02' 
-    name_bridge['lowertule'] = 'TUL01'
-    name_bridge['tulare'] = 'TUL02'
-    name_bridge['lindmore'] = 'TUL03'
-    name_bridge['saucelito'] = 'TUL04'
-    name_bridge['porterville'] = 'TUL05'
-    name_bridge['lindsay'] = 'TUL06'
-    name_bridge['exeter'] = 'TUL07'
-    name_bridge['terra'] = 'TUL08'
-    name_bridge['teapot'] = 'TUL09'
+      name_bridge['bakersfield'] = 'BAK'     
+      name_bridge['fresno'] = 'FRE' 
+      name_bridge['southbay'] = 'SOB'
+      name_bridge['socal'] = 'SOC'
+      name_bridge['tehachapi'] = 'TEH'
+      name_bridge['tejon'] = 'TEJ'
+      name_bridge['centralcoast'] = 'SLO'    
+      name_bridge['pixley'] = 'PIX'
+      name_bridge['chowchilla'] = 'CHW'  
+      name_bridge['maderairr'] = 'MAD'
+      name_bridge['fresnoid'] = 'FSI'
+      name_bridge['westlands'] = 'WTL'
+      name_bridge['panoche'] = 'PAN'
+      name_bridge['sanluiswater'] = 'SLW'   
+      name_bridge['delpuerto'] = 'DEL'
+    elif plot_name == 'monthly':
+      name_bridge = {}
+      name_bridge['semitropic'] = 'Semitropic Water Storage District'
+      name_bridge['westkern'] = 'West Kern Water District' 
+      name_bridge['wheeler'] = 'Wheeler Ridge-Maricopa Water Storage District'
+      name_bridge['kerndelta'] = 'Kern Delta Water District'
+      name_bridge['arvin'] = 'Arvin-Edison Water Storage District'
+      name_bridge['belridge'] = 'Belridge Water Storage District'
+      name_bridge['losthills'] = 'Lost Hills Water District'
+      name_bridge['northkern'] = 'North Kern Water Storage District'
+      name_bridge['northkernwb'] = 'North Kern Water Storage District'
+      name_bridge['ID4'] = 'Urban'
+      name_bridge['sosanjoaquin'] = 'Southern San Joaquin Municipal Utility District'  
+      name_bridge['berrenda'] = 'Berrenda Mesa Water District'
+      name_bridge['buenavista'] = 'Buena Vista Water Storage District'
+      name_bridge['cawelo'] = 'Cawelo Water District'
+      name_bridge['rosedale'] = 'Rosedale-Rio Bravo Water Storage District'
+      name_bridge['shaffer'] = 'Shafter-Wasco Irrigation District'
+      name_bridge['henrymiller'] = 'Henry Miller Water District'  
+      name_bridge['kwb'] = 'Kern Water Bank Authority'
+      name_bridge['b2800'] = 'Kern Water Bank Authority'
+      name_bridge['pioneer'] = 'Kern Water Bank Authority'
+      name_bridge['irvineranch'] = 'Kern Water Bank Authority'
+      name_bridge['kernriverbed'] = 'Kern Water Bank Authority'
+      name_bridge['poso'] = 'Kern Water Bank Authority'
+      name_bridge['stockdale'] = 'Kern Water Bank Authority'
 
-    name_bridge['bakersfield'] = 'BAK'     
-    name_bridge['fresno'] = 'FRE' 
-    name_bridge['southbay'] = 'SOB'
-    name_bridge['socal'] = 'SOC'
-    name_bridge['tehachapi'] = 'TEH'
-    name_bridge['tejon'] = 'TEJ'
-    name_bridge['centralcoast'] = 'SLO'    
-    name_bridge['pixley'] = 'PIX'
-    name_bridge['chowchilla'] = 'CHW'  
-    name_bridge['maderairr'] = 'MAD'
-    name_bridge['fresnoid'] = 'FSI'
-    name_bridge['westlands'] = 'WTL'
-    name_bridge['panoche'] = 'PAN'
-    name_bridge['sanluiswater'] = 'SLW'   
-    name_bridge['delpuerto'] = 'DEL'
+      name_bridge['delano'] = 'Delano-Earlimart Irrigation District'
+      name_bridge['kerntulare'] = 'Kern-Tulare Water District' 
+      name_bridge['lowertule'] = 'Lower Tule River Irrigation District'
+      name_bridge['tulare'] = 'Tulare Irrigation District'
+      name_bridge['lindmore'] = 'Lindmore Irrigation District'
+      name_bridge['saucelito'] = 'Saucelito Irrigation District'
+      name_bridge['porterville'] = 'Porterville Irrigation District'
+      name_bridge['lindsay'] = 'Lindsay-Strathmore Irrigation District'
+      name_bridge['exeter'] = 'Exeter Irrigation District'
+      name_bridge['terra'] = 'Terra Bella Irrigation District'
+      name_bridge['teapot'] = 'Tea Pot Dome Water District'
 
-    n_cols = self.figure_params[figure_name][plot_name]['subplot columns']
-    write_file = self.figure_params[figure_name][plot_name]['write file']
-    figure_color_map = self.figure_params[figure_name][plot_name]['color map']
+      name_bridge['bakersfield'] = 'Urban'     
+      name_bridge['fresno'] = 'Urban' 
+      name_bridge['southbay'] = 'Urban'
+      name_bridge['socal'] = 'Urban'
+      name_bridge['tehachapi'] = 'Tehachapi - Cummings County Water District'
+      name_bridge['tejon'] = 'Tejon-Castac Water District'
+      name_bridge['centralcoast'] = 'SLO'    
+      name_bridge['pixley'] = 'Pixley Irrigation District'
+      name_bridge['chowchilla'] = 'Chowchilla Water District'  
+      name_bridge['maderairr'] = 'Madera Irrigation District'
+      name_bridge['fresnoid'] = 'Fresno Irrigation District'
+      name_bridge['westlands'] = 'Westlands Water District'
+      name_bridge['panoche'] = 'Panoche Water District'
+      name_bridge['sanluiswater'] = 'San Luis Water District'   
+      name_bridge['delpuerto'] = 'Del Puerto Water District'
+      name_bridge['alta'] = 'Alta Irrigation District' 
+      name_bridge['consolidated'] = 'Consolidated Irrigation District' 
+   
 
     location_type = plot_name
 
-    self.total_irrigation_by_district = {}
-    self.total_recharge_by_district = {}
-    self.total_pumping_by_district = {}
-    self.total_recharge_out_of_district = {}
-    self.total_pumping_out_of_district = {}
+    self.total_irrigation = {}
+    self.total_recharge = {}
+    self.total_pumping = {}
+    self.total_flood_purchases = {}
+    self.total_recovery_rebate = {}
+    self.total_recharge_sales = {}
+    self.total_recharge_purchases = {}
+    self.total_recovery_sales = {}
+    self.total_recovery_purchases = {}
 
     for bank in self.bank_list:
-      self.total_recharge_by_district[bank.name] = np.zeros(self.number_years)
-      self.total_irrigation_by_district[bank.name] = np.zeros(self.number_years)
-      self.total_pumping_by_district[bank.name] = np.zeros(self.number_years)
-      self.total_recharge_out_of_district[bank.name] = np.zeros(self.number_years)
-      self.total_pumping_out_of_district[bank.name] = np.zeros(self.number_years)
+      self.total_irrigation[bank.name] = np.zeros(self.number_years*12)
+      self.total_recharge[bank.name] = np.zeros(self.number_years*12)
+      self.total_pumping[bank.name] = np.zeros(self.number_years*12)
+      self.total_flood_purchases[bank.name] = np.zeros(self.number_years*12)
+      self.total_recovery_rebate[bank.name] = np.zeros(self.number_years*12)
+      self.total_recharge_sales[bank.name] = np.zeros(self.number_years*12)
+      self.total_recharge_purchases[bank.name] = np.zeros(self.number_years*12)
+      self.total_recovery_sales[bank.name] = np.zeros(self.number_years*12)
+      self.total_recovery_purchases[bank.name] = np.zeros(self.number_years*12)
 
     for district in self.district_list:
-      self.total_irrigation_by_district[district.name] = np.zeros(self.number_years)
-      self.total_recharge_by_district[district.name] = np.zeros(self.number_years)
-      self.total_pumping_by_district[district.name] = np.zeros(self.number_years)
-      self.total_recharge_out_of_district[district.name] = np.zeros(self.number_years)
-      self.total_pumping_out_of_district[district.name] = np.zeros(self.number_years)
+      self.total_irrigation[district.name] = np.zeros(self.number_years*12)
+      self.total_recharge[district.name] = np.zeros(self.number_years*12)
+      self.total_pumping[district.name] = np.zeros(self.number_years*12)
+      self.total_flood_purchases[district.name] = np.zeros(self.number_years*12)
+      self.total_recovery_rebate[district.name] = np.zeros(self.number_years*12)
+      self.total_recharge_sales[district.name] = np.zeros(self.number_years*12)
+      self.total_recharge_purchases[district.name] = np.zeros(self.number_years*12)
+      self.total_recovery_sales[district.name] = np.zeros(self.number_years*12)
+      self.total_recovery_purchases[district.name] = np.zeros(self.number_years*12)
+
+    date_list_labels = []
+    
+    for year_num in range(self.starting_year, 2017):
+      start_month = 1
+      end_month = 13
+      if year_num == self.starting_year:
+        start_month = 10
+      if year_num == 2016:
+        end_month = 10
+      for month_num in range(start_month, end_month):
+        date_string_start = str(year_num) + '-' + str(month_num) + '-01'
+        date_list_labels.append(date_string_start)
 
     for district in self.district_list:
-
       inleiu_name = district.name + '_inleiu_irrigation'
       inleiu_recharge_name = district.name + '_inleiu_recharge'
       direct_recover_name = district.name + '_recover_banked'
@@ -543,100 +617,160 @@ class Visualizer():
       pumping_name = district.name + '_pumping'
       recharge_name = district.name + '_' + district.key + '_recharged'
 
+      numdays_month = [31, 28, 31, 30, 31, 30, 31, 31, 29, 31, 30, 31]
+      for year_num in range(0, self.number_years+1):
+        year_str = str(year_num + self.starting_year)
+        start_month = 1
+        end_month = 13
+        if year_num == 0:
+          start_month = 10
+        if year_num == self.number_years:
+          end_month = 10
 
-      for year_num in range(0, self.number_years):
-        year_str = str(year_num + self.starting_year + 1)
+        for month_num in range(start_month, end_month):
+          if month_num == 1:
+            month_num_prev = '12'
+            year_str_prior = str(year_num + self.starting_year - 1)
+            end_day_prior = str(numdays_month[11])
+          else:
+            month_num_prev = str(month_num - 1)
+            year_str_prior = str(year_num + self.starting_year)
+            end_day_prior = str(numdays_month[month_num-2])              
+          date_string_current = year_str + '-' + str(month_num) + '-' + str(numdays_month[month_num-1])
+          date_string_prior = year_str_prior + '-' + month_num_prev + '-' + end_day_prior
+          
         ###GW/SW exchanges, 
-        if indirect_surface_name in self.values:
-          total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), indirect_surface_name]
-          #count irrigation deliveries for district that gave up SW (for GW in canal)
-          self.total_irrigation_by_district[district.name][year_num] += total_delivery
+          if indirect_surface_name in self.values:
+            if month_num == 10:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_surface_name].values[0]
+            else:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_surface_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), indirect_surface_name].values[0]
+            #count irrigation deliveries for district that gave up SW (for GW in canal)
+            self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
 
         ###GW/SW exchanges, 
-        if indirect_ground_name in self.values:
-          total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), indirect_ground_name]
-          #count irrigation deliveries for district that gave up SW (for GW in canal)
-          if location_type == 'account':
-            self.total_pumping_out_of_district[district.name][year_num] += total_delivery
-            self.total_irrigation_by_district[district.name][year_num] -= total_delivery
+          if indirect_ground_name in self.values:
+            if month_num == 10:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_ground_name].values[0]
+            else:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_ground_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), indirect_ground_name].values[0]
+            self.total_recovery_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
+              
+          ##In leiu deliveries for irrigation
+          if inleiu_name in self.values:
+            if month_num == 10:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_name].values[0]
+            else:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), inleiu_name].values[0]
+            #attibute inleiu deliveries for irrigation to district operating the bank
+            self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
+            self.total_recharge_sales[district.name][year_num*12 + month_num - 10] += total_delivery
+          if inleiu_recharge_name in self.values:
+            if month_num == 10:
+              total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_recharge_name].values[0]
+            else:
+              total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), inleiu_recharge_name].values[0]
+            #attibute inleiu deliveries for irrigation to district operating the bank
+            self.total_recharge[district.name][year_num*12 + month_num - 10] += total_recharge
+            self.total_recharge_sales[district.name][year_num*12 + month_num - 10] += total_recharge
 
-
-        ##In leiu deliveries for irrigation
-        if inleiu_name in self.values:
-          total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_name]
-          #attibute inleiu deliveries for irrigation to district operating the bank
-          self.total_irrigation_by_district[district.name][year_num] += total_delivery
-        if inleiu_recharge_name in self.values:
-          total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_recharge_name]
-          #attibute inleiu deliveries for irrigation to district operating the bank
-          self.total_recharge_by_district[district.name][year_num] += total_recharge
-
-        #GW recovery 
-        if direct_recover_name in self.values:
-          total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), direct_recover_name]
-          #if classifying by physical location, attribute to district recieving water (as irrigation)
-          if location_type == 'physical':
-            self.total_irrigation_by_district[district.name][year_num] += total_delivery
-          #if classifying by account, attribute to district recieving water as GW from out of district
-          elif location_type == 'account':
-            self.total_pumping_out_of_district[district.name][year_num] += total_delivery
-  
-        ##Pumnping for inleiu recovery     
-        if inleiu_pumping_name in self.values:
-          total_leiupumping = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_pumping_name]
-          #if classifying by physical location, to district operating the bank
-          if location_type == 'physical':
-            self.total_pumping_by_district[district.name][year_num] += total_leiupumping
+          #GW recovery 
+          if direct_recover_name in self.values:
+            if month_num == 10:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), direct_recover_name].values[0]
+            else:
+              total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), direct_recover_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), direct_recover_name].values[0]
+           #if classifying by physical location, attribute to district recieving water (as irrigation)
+            self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
+            self.total_recovery_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
+              
+          ##Pumnping for inleiu recovery     
+          if inleiu_pumping_name in self.values:
+            if month_num == 10:
+              total_leiupumping = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_pumping_name].values[0]
+            else:
+              total_leiupumping = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_pumping_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), inleiu_pumping_name].values[0]
+            #if classifying by physical location, to district operating the bank
+            self.total_pumping[district.name][year_num*12 + month_num - 10] += total_leiupumping
+            self.total_recovery_sales[district.name][year_num*12 + month_num - 10] += total_leiupumping
+            self.total_recovery_rebate[district.name][year_num*12 + month_num - 10] += total_leiupumping
          
-        #Recharge, in- and out- of district          
-        if recharge_name in self.values:
-          total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), recharge_name]
-          self.total_recharge_by_district[district.name][year_num] += total_recharge
-        for bank_name in self.bank_list:
-          bank_recharge_name = district.name + '_' + bank_name.key + '_recharged'
-          if bank_recharge_name in self.values:
-            total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), bank_recharge_name]
-            if location_type == 'physical':
-              self.total_recharge_by_district[bank_name.name][year_num] += total_recharge#      for bank_name in self.leiu_list:
-            elif location_type == 'account':
-              self.total_recharge_out_of_district[bank_name.name][year_num] += total_recharge#      for bank_name in self.leiu_list:
-        for bank_name in self.leiu_list:
-          bank_recharge_name = district.name + '_' + bank_name.key + '_recharged'
-          if bank_recharge_name in self.values:
-            total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), bank_recharge_name]
-            if location_type == 'account':
-              self.total_recharge_out_of_district[bank_name.name][year_num] += total_recharge#      for bank_name in self.leiu_list:
-
-      #Contract deliveries (minus deliveries made for recharge (accouted for above) 
-      for contract in self.contract_list:
-        delivery_name = district.name + '_' + contract.name + '_delivery'
-        recharge_name = district.name + '_' + contract.name + '_recharged'
-        flood_irr_name = district.name + '_' + contract.name + '_flood_irrigation'
-        for year_num in range(0, self.number_years):
-          year_str = str(year_num + self.starting_year + 1)
-          ###All deliveries made from a district's contract
-          if delivery_name in self.values:
-            total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), delivery_name]
-            self.total_irrigation_by_district[district.name][year_num] += total_delivery         
-          ##Deliveries made for recharge are subtracted from the overall contract deliveries
+          #Recharge, in- and out- of district          
           if recharge_name in self.values:
-            total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), recharge_name]
-            self.total_irrigation_by_district[district.name][year_num] -= total_recharge
-          #flood water used for irrigation - always attribute as irrigation
-          if flood_irr_name in self.values:
-            total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), flood_irr_name]
-            self.total_irrigation_by_district[district.name][year_num] += total_delivery
+            if month_num == 10:
+              total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_name].values[0]
+            else:
+              total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), recharge_name].values[0]
+            self.total_recharge[district.name][year_num*12 + month_num - 10] += total_recharge
+          for bank_name in self.bank_list:
+            bank_recharge_name = district.name + '_' + bank_name.key + '_recharged'
+            if bank_recharge_name in self.values:
+              if month_num == 10:
+                total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0]
+              else:
+                total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), bank_recharge_name].values[0]
+              self.total_recharge[bank_name.name][year_num*12 + month_num - 10] += total_recharge
+              self.total_recharge_purchases[district.name][year_num*12 + month_num - 10] += total_recharge
+
+          for bank_name in self.leiu_list:
+            bank_recharge_name = district.name + '_' + bank_name.key + '_recharged'
+            if bank_recharge_name in self.values:
+              if month_num == 10:
+                total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0]
+              else:
+                total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), bank_recharge_name].values[0]
+
+              self.total_recharge_purchases[district.name][year_num*12 + month_num - 10] += total_recharge
+
+          #Contract deliveries 
+          for contract in self.contract_list:
+            delivery_name = district.name + '_' + contract.name + '_delivery'
+            recharge_contract_name = district.name + '_' + contract.name + '_recharged'
+            flood_irr_name = district.name + '_' + contract.name + '_flood_irrigation'
+            flood_name = district.name + '_' + contract.name + '_flood'
+            ###All deliveries made from a district's contract
+            if delivery_name in self.values:
+              if month_num == 10:
+                total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), delivery_name].values[0]
+              else:
+                total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), delivery_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), delivery_name].values[0]
+              self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery         
+
+            ##Deliveries made for recharge are subtracted from the overall contract deliveries
+            if recharge_contract_name in self.values:
+              if month_num == 10:
+                total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_contract_name].values[0]
+              else:
+                total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_contract_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), recharge_contract_name].values[0]
+              self.total_irrigation[district.name][year_num*12 + month_num - 10] -= total_recharge
+
+            #flood water used for irrigation - always attribute as irrigation
+            if flood_irr_name in self.values:
+              if month_num == 10:
+                total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_irr_name].values[0]
+              else:
+                total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_irr_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), flood_irr_name].values[0]
+              self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
+              self.total_flood_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
+
+            if flood_name in self.values:
+              if month_num == 10:
+                total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_name].values[0]
+              else:
+                total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), flood_name].values[0]
+              self.total_flood_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
         
       ##Pumping (daily values aggregated by year)
       if pumping_name in self.values:
-        anuual_pumping = 0.0
+        annual_pumping = 0.0
         for x in range(0, len(self.index)):
-          if self.month[x] == 10 and self.day_month[x] == 1:
+          monthly_index = (self.year[x] - self.starting_year)*12 + self.month[x] - 10
+          if self.day_month[x] == 1:
+            self.total_pumping[district.name][monthly_index] += annual_pumping          
             annual_pumping = 0.0
           else:
             annual_pumping += self.values.loc[self.index[x], pumping_name]
-            if self.month[x] == 9 and self.day_month[x] == 30:            
-              self.total_pumping_by_district[district.name][self.year[x] - self.starting_year - 1] += annual_pumping          
+        self.total_pumping[district.name][-1] += annual_pumping          
 
       #Get values for any private entities within the district      
       for private_name in self.private_list:
@@ -651,102 +785,163 @@ class Visualizer():
           pumping_name = private + '_' + district.key + '_pumping'
           recharge_name = private + '_' + district.key + '_' + district.key + '_recharged'
 
-
-          for year_num in range(0, self.number_years):
+          for year_num in range(0, self.number_years - 1):
             year_str = str(year_num + self.starting_year + 1)
-            ###GW/SW exchanges, 
-            if indirect_surface_name in self.values:
-              total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), indirect_surface_name]
-              #count irrigation deliveries for district that gave up SW (for GW in canal)
-              self.total_irrigation_by_district[district.name][year_num] += total_delivery
+            start_month = 1
+            end_month = 13
+            if year_num == 0:
+              start_month = 10
+            if year_num == self.number_years - 1:
+              end_month = 10
 
-            ###GW/SW exchanges, 
-            if indirect_ground_name in self.values:
-              total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), indirect_ground_name]
-              #count irrigation deliveries for district that gave up SW (for GW in canal)
-              if location_type == 'account':
-                self.total_pumping_out_of_district[district.name][year_num] += total_delivery
+            for month_num in range(start_month, end_month):
+              if month_num == 1:
+                month_num_prev = '12'
+                year_str_prior = str(year_num + self.starting_year)
+                end_day_prior = str(numdays_month[11])
+              else:
+                month_num_prev = str(month_num - 1)
+                year_str_prior = str(year_num + self.starting_year + 1)
+                end_day_prior = str(numdays_month[month_num-2])              
+              date_string_current = year_str + '-' + str(month_num) + '-' + str(numdays_month[month_num-1])
+              date_string_prior = year_str_prior + '-' + month_num_prev + '-' + end_day_prior
 
-                self.total_irrigation_by_district[district.name][year_num] -= total_delivery
+              ###GW/SW exchanges, 
+              if indirect_surface_name in self.values:
+                if month_num == 10:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_surface_name].values[0]
+                else:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_surface_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), indirect_surface_name].values[0]
+                #count irrigation deliveries for district that gave up SW (for GW in canal)
+                self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
 
+              ###GW/SW exchanges, 
+              if indirect_ground_name in self.values:
+                if month_num == 10:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_ground_name].values[0]
+                else:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), indirect_ground_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), indirect_ground_name].values[0]
+                #count irrigation deliveries for district that gave up SW (for GW in canal)
+                self.total_recovery_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
 
-            ##In leiu deliveries for irrigation
-            if inleiu_name in self.values:
-              total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_name]
-              #attibute inleiu deliveries for irrigation to district operating the bank
-              self.total_irrigation_by_district[district.name][year_num] += total_delivery
-            if inleiu_recharge_name in self.values:
-              total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_recharge_name]
-              #attibute inleiu deliveries for irrigation to district operating the bank
-              self.total_recharge_by_district[district.name][year_num] += total_recharge
+              ##In leiu deliveries for irrigation
+              if inleiu_name in self.values:
+                if month_num == 10:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_name].values[0]
+                else:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), inleiu_name].values[0]
+                #attibute inleiu deliveries for irrigation to district operating the bank
+                self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
+                self.total_recharge_sales[district.name][year_num*12 + month_num - 10] += total_delivery
 
-            #GW recovery 
-            if direct_recover_name in self.values:
-              total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), direct_recover_name]
-              #if classifying by physical location, attribute to district recieving water (as irrigation)
-              if location_type == 'physical':
-                self.total_irrigation_by_district[district.name][year_num] += total_delivery
-              #if classifying by account, attribute to district recieving water as GW from out of district
-              elif location_type == 'account':
-                self.total_pumping_out_of_district[district.name][year_num] += total_delivery
+              if inleiu_recharge_name in self.values:
+                if month_num == 10:
+                  total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_recharge_name].values[0]
+                else:
+                  total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), inleiu_recharge_name].values[0]
+                #attibute inleiu deliveries for irrigation to district operating the bank
+                self.total_recharge[district.name][year_num*12 + month_num - 10] += total_recharge
+                self.total_recharge_sales[district.name][year_num*12 + month_num - 10] += total_recharge
+
+              #GW recovery 
+              if direct_recover_name in self.values:
+                if month_num == 10:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), direct_recover_name].values[0]
+                else:
+                  total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), direct_recover_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), direct_recover_name].values[0]
+                #if classifying by physical location, attribute to district recieving water (as irrigation)
+                self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
+                self.total_recovery_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
 
   
-            ##Pumnping for inleiu recovery     
-            if inleiu_pumping_name in self.values:
-              total_leiupumping = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), inleiu_pumping_name]
-              #if classifying by phyiscal location, to district operating the bank
-              if location_type == 'physical':
-                self.total_pumping_by_district[district.name][year_num] += total_leiupumping
+              ##Pumnping for inleiu recovery     
+              if inleiu_pumping_name in self.values:
+                if month_num == 10:
+                  total_leiupumping = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_pumping_name].values[0]
+                else:
+                  total_leiupumping = self.values.loc[pd.DatetimeIndex([date_string_current]), inleiu_pumping_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), inleiu_pumping_name].values[0]
+                #if classifying by phyiscal location, to district operating the bank
+                self.total_pumping[district.name][year_num*12 + month_num - 10] += total_leiupumping
+                self.total_recovery_sales[district.name][year_num*12 + month_num - 10] += total_leiupumping
+                self.total_recovery_rebate[district.name][year_num*12 + month_num - 10] += total_leiupumping
          
-            #Recharge, in- and out- of district          
-            if recharge_name in self.values:
-              total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), recharge_name]
-              self.total_recharge_by_district[district.name][year_num] += total_recharge
-            for bank_name in self.bank_list:
-              bank_recharge_name = private + '_' + district.key + '_' + bank_name.key + '_recharged'
-              if bank_recharge_name in self.values:
-                total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), bank_recharge_name]
-                if location_type == 'physical':
-                  self.total_recharge_by_district[bank_name.name][year_num] += total_recharge
-                elif location_type == 'account':
-                  self.total_recharge_out_of_district[district.name][year_num] += total_recharge
-            for bank_name in self.leiu_list:
-              bank_recharge_name = private + '_' + district.key + '_' + bank_name.key + '_recharged'
-              if bank_recharge_name in self.values:
-                total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), bank_recharge_name]
-                if location_type == 'account':
-                  self.total_recharge_out_of_district[district.name][year_num] += total_recharge
-
-          #Contract deliveries (minus deliveries made for recharge (accouted for above) 
-          for contract in self.contract_list:
-            delivery_name = private + '_' + district.key + '_' + contract.name + '_delivery'
-            recharge_name = private + '_' + district.key + '_' + contract.name + '_recharged'
-            flood_irr_name = private + '_' + district.key + '_' + contract.name + '_flood_irrigation'
-            for year_num in range(0, self.number_years):
-              year_str = str(year_num + self.starting_year + 1)
-              ###All deliveries made from a district's contract
-              if delivery_name in self.values:
-                total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), delivery_name]
-                self.total_irrigation_by_district[district.name][year_num] += total_delivery         
-              ##Deliveries made for recharge are subtracted from the overall contract deliveries
+              #Recharge, in- and out- of district          
               if recharge_name in self.values:
-                total_recharge = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), recharge_name]
-                self.total_irrigation_by_district[district.name][year_num] -= total_recharge
-              #flood water used for irrigation - always attribute as irrigation
-              if flood_irr_name in self.values:
-                total_delivery = self.values.loc[pd.DatetimeIndex([year_str + '-9-29']), flood_irr_name]
-                self.total_irrigation_by_district[district.name][year_num] += total_delivery
+                if month_num == 10:
+                  total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_name].values[0]
+                else:
+                  total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), recharge_name].values[0]
+                self.total_recharge[district.name][year_num*12 + month_num - 10] += total_recharge
+
+              for bank_name in self.bank_list:
+                bank_recharge_name = private + '_' + district.key + '_' + bank_name.key + '_recharged'
+                if bank_recharge_name in self.values:
+                  if month_num == 10:
+                    total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0]
+                  else:
+                    total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), bank_recharge_name].values[0]
+                  self.total_recharge[bank_name.name][year_num*12 + month_num - 10] += total_recharge
+                  self.total_recharge_purchases[district.name][year_num*12 + month_num - 10] += total_recharge
+
+              for bank_name in self.leiu_list:
+                bank_recharge_name = private + '_' + district.key + '_' + bank_name.key + '_recharged'
+                if bank_recharge_name in self.values:
+                  if month_num == 10:
+                    total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0]
+                  else:
+                    total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), bank_recharge_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), bank_recharge_name].values[0]
+                  self.total_recharge_purchases[district.name][year_num*12 + month_num - 10] += total_recharge
+
+              #Contract deliveries (minus deliveries made for recharge (accouted for above) 
+              for contract in self.contract_list:
+                delivery_name = private + '_' + district.key + '_' + contract.name + '_delivery'
+                recharge_contract_name = private + '_' + district.key + '_' + contract.name + '_recharged'
+                flood_irr_name = private + '_' + district.key + '_' + contract.name + '_flood_irrigation'
+                flood_name = private + '_' + district.key + '_' + contract.name + '_flood'
+                ###All deliveries made from a district's contract
+                if delivery_name in self.values:
+                  if month_num == 10:
+                    total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), delivery_name].values[0]
+                  else:
+                    total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), delivery_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), delivery_name].values[0]
+                  self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery         
+
+                ##Deliveries made for recharge are subtracted from the overall contract deliveries
+                if recharge_contract_name in self.values:
+                  if month_num == 10:
+                    total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_contract_name].values[0]
+                  else:
+                    total_recharge = self.values.loc[pd.DatetimeIndex([date_string_current]), recharge_contract_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), recharge_contract_name].values[0]
+                  self.total_irrigation[district.name][year_num*12 + month_num - 10] -= total_recharge
+
+                #flood water used for irrigation - always attribute as irrigation
+                if flood_irr_name in self.values:
+                  if month_num == 10:
+                    total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_irr_name].values[0]
+                  else:
+                    total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_irr_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), flood_irr_name].values[0]
+                  self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
+                  self.total_flood_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
+
+                if flood_name in self.values:
+                  if month_num == 10:
+                    total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_name].values[0]
+                  else:
+                    total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), flood_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), flood_name].values[0]
+                  self.total_flood_purchases[district.name][year_num*12 + month_num - 10] += total_delivery
+
         
           ##Pumping (daily values aggregated by year)
           if pumping_name in self.values:
             annual_pumping = 0.0
             for x in range(0, len(self.index)):
-              if self.month[x] == 10 and self.day_month[x] == 1:
+              monthly_index = (self.year[x] - self.starting_year)*12 + self.month[x] - 10
+              if self.day_month[x] == 1:
+                self.total_pumping[district.name][monthly_index] += annual_pumping          
                 annual_pumping = 0.0
               else:
                 annual_pumping += self.values.loc[self.index[x], pumping_name]
-                if self.month[x] == 9 and self.day_month[x] == 30:            
-                  self.total_pumping_by_district[district.name][self.year[x] - self.starting_year - 1] += annual_pumping
+            self.total_pumping[district.name][-1] += annual_pumping          
 
     for bank_name in self.bank_list:
       for partner_name in bank_name.participant_list:
@@ -755,125 +950,176 @@ class Visualizer():
           annual_pumping = 0.0
           yesterday_account = 0.0
           for x in range(0, len(self.index)):
-            if self.month[x] == 10 and self.day_month[x] == 1:
+            monthly_index = (self.year[x] - self.starting_year)*12 + self.month[x] - 10
+            if self.day_month[x] == 1:
+              self.total_pumping[bank_name.name][monthly_index] += annual_pumping          
               annual_pumping = 0.0
             else:
               today_account = self.values.loc[self.index[x], account_name]
               annual_pumping += max(yesterday_account - today_account, 0.0)
               yesterday_account = today_account * 1.0
-              if self.month[x] == 9 and self.day_month[x] == 30:
-                if location_type == 'physical':            
-                  self.total_pumping_by_district[bank_name.name][self.year[x] - self.starting_year - 1] += annual_pumping          
+          self.total_pumping[bank_name.name][-1] += annual_pumping          
 
+    write_file = True
+    if write_file:
 
-    if location_type == 'physical':
-      colors = sns.color_palette('YlGnBu_r', n_colors = len(district_groups))
-      fig, ax = plt.subplots(3, figsize = (8, 18))
-    elif location_type == 'account':
+      if location_type == 'monthly':
+        district_irrigation = pd.DataFrame(index = date_list_labels)
+        district_recharge = pd.DataFrame(index = date_list_labels)
+        district_pumping = pd.DataFrame(index = date_list_labels)
+        district_recharge_sales = pd.DataFrame(index = date_list_labels)
+        district_recharge_purchases = pd.DataFrame(index = date_list_labels)
+        district_recovery_sales = pd.DataFrame(index = date_list_labels)
+        district_recovery_purchases = pd.DataFrame(index = date_list_labels)
+        district_flood_purchases = pd.DataFrame(index = date_list_labels)
+        district_recovery_rebate = pd.DataFrame(index = date_list_labels)
+        for y in name_bridge:
+          file_col_name = name_bridge[y]
+          if file_col_name in district_irrigation:
+            district_irrigation[file_col_name] += self.total_irrigation[y]
+            district_recharge[file_col_name] += self.total_recharge[y]
+            district_pumping[file_col_name] += self.total_pumping[y]
+            district_recharge_sales[file_col_name] += self.total_recharge_sales[y]
+            district_recharge_purchases[file_col_name] += self.total_recharge_purchases[y]
+            district_recovery_sales[file_col_name] += self.total_recovery_sales[y]
+            district_recovery_purchases[file_col_name] += self.total_recovery_purchases[y]
+            district_flood_purchases[file_col_name] += self.total_flood_purchases[y]
+            district_recovery_rebate[file_col_name] += self.total_recovery_rebate[y]
+
+          else:
+            district_irrigation[file_col_name] = self.total_irrigation[y]
+            district_recharge[file_col_name] = self.total_recharge[y]
+            district_pumping[file_col_name] = self.total_pumping[y]
+            district_recharge_sales[file_col_name] = self.total_recharge_sales[y]
+            district_recharge_purchases[file_col_name] = self.total_recharge_purchases[y]
+            district_recovery_sales[file_col_name] = self.total_recovery_sales[y]
+            district_recovery_purchases[file_col_name] = self.total_recovery_purchases[y]
+            district_flood_purchases[file_col_name] = self.total_flood_purchases[y]
+            district_recovery_rebate[file_col_name] = self.total_recovery_rebate[y]
+
+      elif location_type == 'annual':
+        district_irrigation = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_recharge = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_pumping = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_recharge_sales = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_recharge_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_recovery_sales = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_recovery_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_flood_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        district_recovery_rebate = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+        self.total_irrigation_annual = {}
+        self.total_recharge_annual = {}
+        self.total_pumping_annual = {}
+        self.total_recharge_sales_annual = {}
+        self.total_recharge_purchases_annual = {}
+        self.total_recovery_sales_annual = {}
+        self.total_recovery_purchases_annual = {}
+        self.total_flood_purchases_annual = {}
+        self.total_recovery_rebate_annual = {}
+
+        for y in name_bridge:
+          self.total_irrigation_annual[y] = np.zeros(self.number_years)
+          self.total_recharge_annual[y] = np.zeros(self.number_years)
+          self.total_pumping_annual[y] = np.zeros(self.number_years)
+          self.total_recharge_sales_annual[y] = np.zeros(self.number_years)
+          self.total_recharge_purchases_annual[y] = np.zeros(self.number_years)
+          self.total_recovery_sales_annual[y] = np.zeros(self.number_years)
+          self.total_recovery_purchases_annual[y] = np.zeros(self.number_years)
+          self.total_flood_purchases_annual[y] = np.zeros(self.number_years)
+          self.total_recovery_rebate_annual[y] = np.zeros(self.number_years)
+
+          for xx in range(0, self.number_years):
+            self.total_irrigation_annual[y][xx] = np.sum(self.total_irrigation[y][(xx*12):(xx*12 + 12)])
+            self.total_recharge_annual[y][xx] = np.sum(self.total_recharge[y][(xx*12):(xx*12 + 12)])
+            self.total_pumping_annual[y][xx] = np.sum(self.total_pumping[y][(xx*12):(xx*12 + 12)])
+            self.total_recharge_sales_annual[y][xx] = np.sum(self.total_recharge_sales[y][(xx*12):(xx*12 + 12)])
+            self.total_recharge_purchases_annual[y][xx] = np.sum(self.total_recharge_purchases[y][(xx*12):(xx*12 + 12)])
+            self.total_recovery_sales_annual[y][xx] = np.sum(self.total_recovery_sales[y][(xx*12):(xx*12 + 12)])
+            self.total_recovery_purchases_annual[y][xx] = np.sum(self.total_recovery_purchases[y][(xx*12):(xx*12 + 12)])
+            self.total_flood_purchases_annual[y][xx] = np.sum(self.total_flood_purchases[y][(xx*12):(xx*12 + 12)])
+            self.total_recovery_rebate_annual[y][xx] = np.sum(self.total_recovery_rebate[y][(xx*12):(xx*12 + 12)])
+
+          file_col_name = name_bridge[y]
+          if file_col_name in district_irrigation:
+            district_irrigation[file_col_name] += self.total_irrigation_annual[y]
+            district_recharge[file_col_name] += self.total_recharge_annual[y]
+            district_pumping[file_col_name] += self.total_pumping_annual[y]
+            district_recharge_sales[file_col_name] += self.total_recharge_sales_annual[y]
+            district_recharge_purchases[file_col_name] += self.total_recharge_purchases_annual[y]
+            district_recovery_sales[file_col_name] += self.total_recovery_sales_annual[y]
+            district_recovery_purchases[file_col_name] += self.total_recovery_purchases_annual[y]
+            district_flood_purchases[file_col_name] += self.total_flood_purchases_annual[y]
+            district_recovery_rebate[file_col_name] += self.total_recovery_rebate_annual[y]
+
+          else:
+            district_irrigation[file_col_name] = self.total_irrigation_annual[y]
+            district_recharge[file_col_name] = self.total_recharge_annual[y]
+            district_pumping[file_col_name] = self.total_pumping_annual[y]
+            district_recharge_sales[file_col_name] = self.total_recharge_sales_annual[y]
+            district_recharge_purchases[file_col_name] = self.total_recharge_purchases_annual[y]
+            district_recovery_sales[file_col_name] = self.total_recovery_sales_annual[y]
+            district_recovery_purchases[file_col_name] = self.total_recovery_purchases_annual[y]
+            district_flood_purchases[file_col_name] = self.total_flood_purchases_annual[y]
+            district_recovery_rebate[file_col_name] = self.total_recovery_rebate_annual[y]
+
+      
+
+      district_irrigation.to_csv(folder_name + 'irrigation_' + plot_name + '_' + scenario_name + '.csv')
+      district_recharge.to_csv(folder_name + 'recharge_' + plot_name + '_' + scenario_name + '.csv')
+      district_pumping.to_csv(folder_name + 'pumping_' + plot_name + '_' + scenario_name + '.csv')
+      district_recharge_sales.to_csv(folder_name + 'recharge_sales_' + plot_name + '_' + scenario_name + '.csv')
+      district_recharge_purchases.to_csv(folder_name + 'recharge_purchases_' + plot_name + '_' + scenario_name + '.csv')
+      district_recovery_sales.to_csv(folder_name + 'recovery_sales_' + plot_name + '_' + scenario_name + '.csv')
+      district_recovery_purchases.to_csv(folder_name + 'recovery_purchases_' + plot_name + '_' + scenario_name + '.csv')
+      district_flood_purchases.to_csv(folder_name + 'flood_purchases_' + plot_name + '_' + scenario_name + '.csv')
+      district_recovery_rebate.to_csv(folder_name + 'recovery_rebate_' + plot_name + '_' + scenario_name + '.csv')
+        
+    if location_type == 'annual':
+      sns.set()        
+      district_group_list = self.figure_params[figure_name][plot_name]['district_groups']
+      district_groups = {}
+      for x in district_group_list:
+        district_groups[x] = self.figure_params[figure_name][plot_name][x]
+
+      n_cols = self.figure_params[figure_name][plot_name]['subplot columns']
+      write_file = self.figure_params[figure_name][plot_name]['write file']
+      figure_color_map = self.figure_params[figure_name][plot_name]['color map']
       n_rows = int(np.ceil(len(district_groups)/n_cols))
       colors = sns.color_palette('BrBG_r', n_colors = 7)
       fig, ax = plt.subplots(n_rows, n_cols, figsize = (16,12))
-    sns.set()    
-    if location_type == 'physical':
-      total_deliveries = np.zeros(self.number_years)
-      for x_cnt, x in enumerate(district_groups):
-        for y in district_groups[x]:
-          total_deliveries += self.total_irrigation_by_district[y] + self.total_recharge_by_district[y]
-      plotting_order = np.argsort(total_deliveries)
-    
-      prev_list = np.zeros(self.number_years)
-      prev_list2 = np.zeros(self.number_years)
-      prev_list3 = np.zeros(self.number_years)
-      for x_cnt, x in enumerate(district_groups):
-        for y in district_groups[x]:          
-          this_list = prev_list + self.total_irrigation_by_district[y]
-          ax[0].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[x_cnt], edgecolor = 'black')
-          prev_list = this_list * 1.0
-          this_list2 = prev_list2 + self.total_recharge_by_district[y]
-          ax[1].fill_between(np.arange(self.number_years), prev_list2[plotting_order], this_list2[plotting_order], color = colors[x_cnt], edgecolor = 'black')
-          prev_list2 = this_list2 * 1.0
-          this_list3 = prev_list3 + self.total_pumping_by_district[y]
-          ax[2].fill_between(np.arange(self.number_years), prev_list3[plotting_order], this_list3[plotting_order], color = colors[x_cnt], edgecolor = 'black')
-          prev_list3 = this_list3 * 1.0
 
 
-
-      ax[2].set_xlabel('Frequency of Years with Fewer Total Surface Water Deliveries', fontsize = 14, fontname = 'Gill Sans MT')
-
-      ax[0].set_ylabel('Surface Water Consumptive Use (tAF/year)', fontsize = 14, fontname = 'Gill Sans MT')
-      ax[1].set_ylabel('Direct Groundwater Recharge (tAF/year)', fontsize = 14, fontname = 'Gill Sans MT')
-      ax[2].set_ylabel('Groundwater Pumping (tAF/year)', fontsize = 14, fontname = 'Gill Sans MT')
-
-      ax[0].set_ylim([0, np.ceil(max(prev_list)/500.0) * 500.0])
-      ax[1].set_ylim([0, np.ceil(max(prev_list2)/500.0) * 500.0])
-      ax[2].set_ylim([0, np.ceil(max(prev_list3)/500.0) * 500.0])
-
-      for x in range(0, 3):
-        ax[x].set_xlim([0, self.number_years - 1])
-        ax[x].set_xticks([0, int(np.ceil(self.number_years/2)), self.number_years])
-        ax[x].set_xticklabels(['0%', '50%', '100%'])
-        ax[x].grid(False)
-        for tick in ax[x].get_xticklabels():
-          tick.set_fontname('Gill Sans MT')
-        for tick in ax[x].get_yticklabels():
-          tick.set_fontname('Gill Sans MT')
-          
-      legend_elements = []
-      for cnt, xx in enumerate(district_group_list):
-        legend_elements.append(Patch(facecolor = colors[cnt], edgecolor = 'black', label = xx))
-      ax[0].legend(handles = legend_elements, loc = 'lower right', framealpha  = 0.7, shadow = True, prop={'family':'Gill Sans MT','weight':'bold','size':10}) 
-
-      plt.savefig(folder_name + figure_name + '_' + plot_name + '.png', dpi = 150, bbox_inches = 'tight', pad_inches = 0.0)
-      if write_file:
-        final_district_irrigation = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
-        final_district_recharge = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
-        final_district_pumping = pd.DataFrame(index = np.arange(self.starting_year, self.starting_year + self.number_years))
-        for y in name_bridge:
-          file_col_name = name_bridge[y]
-          if file_col_name in final_district_irrigation:
-            final_district_irrigation[file_col_name] += self.total_irrigation_by_district[y]
-            final_district_recharge[file_col_name] += self.total_recharge_by_district[y]
-            final_district_pumping[file_col_name] += self.total_pumping_by_district[y]
-          else:
-            final_district_irrigation[file_col_name] = self.total_irrigation_by_district[y]
-            final_district_recharge[file_col_name] = self.total_recharge_by_district[y]
-            final_district_pumping[file_col_name] = self.total_pumping_by_district[y]
-        final_district_irrigation.to_csv(folder_name + 'irrigation_by_year_' + scenario_name + '.csv')
-        final_district_recharge.to_csv(folder_name + 'recharge_by_year_' + scenario_name + '.csv')
-        final_district_pumping.to_csv(folder_name + 'pumping_by_year_' + scenario_name + '.csv')
-    
-    elif location_type == 'account':
       counter_x = 0
       counter_y = 0
       for x_cnt, x in enumerate(district_groups):
         total_deliveries = np.zeros(self.number_years)
         for y in district_groups[x]:
-          total_deliveries += self.total_irrigation_by_district[y] + self.total_recharge_by_district[y] + self.total_recharge_out_of_district[y]
+          total_deliveries += self.total_irrigation_annual[y] + self.total_recharge_annual[y] + self.total_recharge_purchases_annual[y]
         plotting_order = np.argsort(total_deliveries)
         
         prev_list = np.zeros(self.number_years)        
         for y in district_groups[x]:          
-          this_list = prev_list + self.total_irrigation_by_district[y]
-          ax[counter_x][counter_y].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[0], edgecolor = 'black')
-          prev_list = this_list * 1.0
-
-        for y in district_groups[x]:          
-          this_list = prev_list + self.total_pumping_out_of_district[y]
-          ax[counter_x][counter_y].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[4], edgecolor = 'black')
-          prev_list = this_list * 1.0
-
-        for y in district_groups[x]:          
-          this_list = prev_list + self.total_pumping_by_district[y]
+          this_list = prev_list + self.total_pumping_annual[y] - self.total_recovery_rebate_annual[y]
           ax[counter_x][counter_y].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[5], edgecolor = 'black')
           prev_list = this_list * 1.0
 
         for y in district_groups[x]:          
-          this_list = prev_list + self.total_recharge_by_district[y]
+          this_list = prev_list + self.total_recovery_purchases_annual[y]
+          ax[counter_x][counter_y].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[4], edgecolor = 'black')
+          prev_list = this_list * 1.0
+
+        for y in district_groups[x]:          
+          this_list = prev_list + self.total_irrigation_annual[y] - self.total_recovery_purchases_annual[y]
+          ax[counter_x][counter_y].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[0], edgecolor = 'black')
+          prev_list = this_list * 1.0
+
+        for y in district_groups[x]:          
+          this_list = prev_list + self.total_recharge_annual[y]
           ax[counter_x][counter_y].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[1], edgecolor = 'black')
           prev_list = this_list * 1.0
 
         for y in district_groups[x]:          
-          this_list = prev_list + self.total_recharge_out_of_district[y]
+          this_list = prev_list + self.total_recharge_purchases_annual[y]
           ax[counter_x][counter_y].fill_between(np.arange(self.number_years), prev_list[plotting_order], this_list[plotting_order], color = colors[2], edgecolor = 'black')
           prev_list = this_list * 1.0
 
@@ -915,9 +1161,9 @@ class Visualizer():
             tick.set_fontname('Gill Sans MT')
       plt.savefig(folder_name + figure_name + '_' + plot_name + '_' + scenario_name + '.png', dpi = 150, bbox_inches = 'tight', pad_inches = 0.0)
 
-    if show_plot:
-      plt.show()
-    plt.close()
+      if show_plot:
+        plt.show()
+      plt.close()
 
 
   def plot_forecasts(self, folder_name, figure_name, plot_name, n_colors, scatter_interval, range_sensitivity, show_plot):

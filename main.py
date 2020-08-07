@@ -94,11 +94,18 @@ with open('cord/scenarios/scenarios_main.json') as f:
 scenario = scenarios[scenario_name]
 results_folder = output_directory + '/' + scenario_name + '/' + model_mode + '/'
 os.makedirs(results_folder, exist_ok=True)
-shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
 
 # make separate output folder for each processor
-results_folder = results_folder + '/p' + str(rank)
+if rank > 0:
+  results_folder = results_folder + '/p' + flow_input_source + '_' + str(rank)
+elif model_mode == 'validation':
+  flow_input_source = 'CDEC'
+  results_folder = results_folder + '/p' + flow_input_source
+else:
+  results_folder = results_folder + '/p' + flow_input_source
+
 os.makedirs(results_folder, exist_ok=False)
+shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
 
 # set random seed
 if (seed > 0):
@@ -112,9 +119,12 @@ if model_mode == 'simulation':
   #demand_type = 'pmp'
   base_data_file = 'cord/data/input/cord-data.csv'
   new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder)
-  new_inputs.run_initialization('XXX')
-  new_inputs.run_routine(flow_input_type, flow_input_source)
-  input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_0.csv"
+  if new_inputs.has_full_inputs[flow_input_type][flow_input_source]:
+    input_data_file = new_inputs.flow_input_source[flow_input_type][flow_input_source]
+  else:
+    new_inputs.run_initialization('XXX')
+    new_inputs.run_routine(flow_input_type, flow_input_source)
+    input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_0.csv"
 
 elif model_mode == 'validation':
   demand_type = 'pesticide'
@@ -140,8 +150,6 @@ if parallel_mode:
 # =============================================================================
 if model_mode == 'simulation' or model_mode == 'validation':
   stop = 1
-print(start)
-print(stop)
 print(model_mode)
 for k in range(start, stop):
 
@@ -206,7 +214,7 @@ for k in range(start, stop):
       pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
       pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
 
-    data_output(output_list, results_folder, clean_output, rank, k, new_inputs.sensitivity_factors, modelno, modelso)
+    data_output(output_list, results_folder, flow_input_source, k, new_inputs.sensitivity_factors, modelno, modelso)
 
     del modelno
     del modelso
@@ -330,7 +338,6 @@ for k in range(start, stop):
     ##
 
     # new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode)
-
     modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
     modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
     modelso.max_tax_free = {}
@@ -372,14 +379,8 @@ for k in range(start, stop):
         pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
       except Exception as e:
         print(e)
-    if model_mode == 'validation':
-      rank = 19962016
-      k = 19962016
-    elif model_mode == 'simulation':
-      rank = 19062016
-      k = 19062016
     sensitivity_factors = {}
-    data_output(output_list, results_folder, clean_output, rank, k, sensitivity_factors, modelno, modelso)
+    data_output(output_list, results_folder, clean_output, flow_input_source, sensitivity_factors, modelno, modelso)
 
     del modelno
     del modelso

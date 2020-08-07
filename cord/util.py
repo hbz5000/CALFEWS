@@ -81,7 +81,7 @@ def first_d_of_month(dowyeom, daysinmonth):
   return first_d
 
 # function to take northern & southern model, process & output data
-def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity_number, sensitivity_factors, modelno, modelso):
+def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity_factors, modelno, modelso):
   nt = modelno.shasta.baseline_inf.shape[0]
   with open(output_list_loc, 'r') as f:
     output_list = json.load(f)
@@ -150,8 +150,8 @@ def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity
       sensitivity_value.append(sensitivity_factors[k]['realization'])
       sensitivity_name.append(np.string_(k))
   # output to hdf5 file
-  with h5py.File(results_folder + '/results_p' + str(rank) + '.hdf5', 'a') as f:
-    d = f.create_dataset('s' + str(sensitivity_number), (nt, col), dtype='float', compression='gzip')
+  with h5py.File(results_folder + '/results_p' + rank + '.hdf5', 'a') as f:
+    d = f.create_dataset('s' + rank, (nt, col), dtype='float', compression='gzip')
     d.attrs['columns'] = names
     d.attrs['sensitivity_factors'] = sensitivity_name
     d.attrs['sensitivity_factor_values'] = sensitivity_value
