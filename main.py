@@ -372,12 +372,7 @@ for k in range(start, stop):
         pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
       except Exception as e:
         print(e)
-    if model_mode == 'validation':
-      rank = 19962016
-      k = 19962016
-    elif model_mode == 'simulation':
-      rank = 19062016
-      k = 19062016
+
     sensitivity_factors = {}
     data_output(output_list, results_folder, clean_output, rank, k, sensitivity_factors, modelno, modelso)
 

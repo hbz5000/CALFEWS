@@ -822,7 +822,7 @@ class Inputter():
                                 self.days_in_month[self.non_leap_year][monthcount])
         leapcount = 0
 		
-        filename = self.flow_input_source[flow_input_type][flow_input_source]
+        filename = self.flow_input_file[flow_input_type][flow_input_source]
         self.fnf_df = pd.read_csv(filename)
         if 'datetime' in self.fnf_df:
           dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])

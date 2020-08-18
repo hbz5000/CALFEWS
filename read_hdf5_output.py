@@ -30,11 +30,11 @@ os.makedirs(sankeys_folder, exist_ok=True)
 show_plot = False
 ##Set up data for validation results
 validation = Visualizer(modelso_val.district_list, modelso_val.private_list, modelso_val.city_list, modelso_val.contract_list, modelso_val.waterbank_list, modelso_val.leiu_list)
-validation.get_results_sensitivity_number(output_file_val, 19962016, 10, 1996, 1)
+validation.get_results_sensitivity_number(output_file_val, 0, 10, 1996, 1)
 validation.set_figure_params()
 #Set up data for scenario results
 simulation = Visualizer(modelso_sim.district_list, modelso_sim.private_list, modelso_sim.city_list, modelso_sim.contract_list, modelso_sim.waterbank_list, modelso_sim.leiu_list)
-simulation.get_results_sensitivity_number(output_file_sim, 19062016, 10, 1905, 1)
+simulation.get_results_sensitivity_number(output_file_sim, 0, 10, 1905, 1)
 simulation.set_figure_params()
 
 ##Compare Delta pumping/outflow distributions between scenarios
