@@ -97,12 +97,12 @@ os.makedirs(results_folder, exist_ok=True)
 
 # make separate output folder for each processor
 if rank > 0:
-  results_folder = results_folder + '/p' + flow_input_source + '_' + str(rank)
+  results_folder = results_folder + '/' + flow_input_source + '_' + str(rank)
 elif model_mode == 'validation':
   flow_input_source = 'CDEC'
-  results_folder = results_folder + '/p' + flow_input_source
+  results_folder = results_folder + '/' + flow_input_source
 else:
-  results_folder = results_folder + '/p' + flow_input_source
+  results_folder = results_folder + '/' + flow_input_source
 
 os.makedirs(results_folder, exist_ok=False)
 shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')

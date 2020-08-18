@@ -150,7 +150,7 @@ def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity
       sensitivity_value.append(sensitivity_factors[k]['realization'])
       sensitivity_name.append(np.string_(k))
   # output to hdf5 file
-  with h5py.File(results_folder + '/results_p' + rank + '.hdf5', 'a') as f:
+  with h5py.File(results_folder + '/results_' + rank + '.hdf5', 'a') as f:
     d = f.create_dataset('s' + rank, (nt, col), dtype='float', compression='gzip')
     d.attrs['columns'] = names
     d.attrs['sensitivity_factors'] = sensitivity_name

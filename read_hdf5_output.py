@@ -9,10 +9,10 @@ from calfews_src import *
 from calfews_src.visualizer import Visualizer
 
 #results hdf5 file location from CALFEWS simulations
-output_folder_val = 'results/baseline_wy2017/validation/pCDEC/'
-output_folder_sim = 'results/baseline_wy2017/simulation/pCDEC/'
-output_file_val = output_folder_val + 'results_pCDEC.hdf5'
-output_file_sim = output_folder_sim + 'results_pCDEC.hdf5'
+output_folder_val = 'results/baseline_wy2017/validation/CDEC/'
+output_folder_sim = 'results/baseline_wy2017/simulation/CDEC/'
+output_file_val = output_folder_val + 'results_CDEC.hdf5'
+output_file_sim = output_folder_sim + 'results_CDEC.hdf5'
 
 ##get model variable names
 modelno_val = pd.read_pickle(output_folder_val+ 'modelno0.pkl')
