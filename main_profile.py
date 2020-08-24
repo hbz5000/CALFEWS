@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import line_profiler
 profile = line_profiler.LineProfiler()
-import calfews_src
-from calfews_src import *
+import calfews_src_cy
+from calfews_src_cy import *
 from datetime import datetime
 import os
 import shutil
@@ -25,7 +25,7 @@ from distutils.util import strtobool
 startTime = datetime.now()
 
 # get runtime params from config file
-config = ConfigObj('runtime_params.ini')
+config = ConfigObj('runtime_params_wet_dry.ini')
 model_mode = 'simulation'  #config['model_mode']
 short_test = int(config['short_test'])
 seed = int(config['seed'])
@@ -42,17 +42,16 @@ clean_output = bool(strtobool(config['clean_output']))
 with open('calfews_src/scenarios/scenarios_main.json') as f:
   scenarios = json.load(f)
 scenario = scenarios[scenario_name]
-print(output_directory, scenario_name, model_mode)
-results_folder = output_directory + '/' + scenario_name + '/' model_mode + '/'
+results_folder = output_directory + '/' + scenario_name + '/' + model_mode + '/' + flow_input_source + '/'
 os.makedirs(results_folder, exist_ok=True)
 shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
 
 # make separate output folder for each processor
 rank = 0
-results_folder = results_folder + '/p' + str(rank)
-os.makedirs(results_folder, exist_ok=True)
-if (os.path.exists(results_folder + '/results_p0.hdf5')):
-  os.remove(results_folder + '/results_p0.hdf5')
+# results_folder = results_folder + '/p' + str(rank)
+# os.makedirs(results_folder, exist_ok=True)
+if (os.path.exists(results_folder + '/results_' + flow_input_source + '.hdf5')):
+  os.remove(results_folder + '/results_' + flow_input_source + '.hdf5')
 
 # always use shorter historical dataframe for expected delta releases
 expected_release_datafile = 'calfews_src/data/input/calfews_src-data.csv'
@@ -101,6 +100,7 @@ else:
     timeseries_length = min(modelno.T, modelso.T)
   else:
     timeseries_length = short_test
+
   swp_release = 1
   cvp_release = 1
   swp_release2 = 1
@@ -119,10 +119,12 @@ else:
 
     swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.forecastSCWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
 
+
+
   # save output as hdf5
   try:
     sensitivity_factors = {}
-    data_output(output_list, results_folder, clean_output, rank, k, sensitivity_factors, modelno, modelso)
+    data_output(output_list, results_folder, clean_output, flow_input_source, sensitivity_factors, modelno, modelso)
     pd.to_pickle(modelno, results_folder + '/modelno.pkl')
     pd.to_pickle(modelso, results_folder + '/modelso.pkl')
   except:

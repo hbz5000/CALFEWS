@@ -16,8 +16,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import calfews_src
-from calfews_src import *
+import calfews_src_cy
+from calfews_src_cy import *
 from datetime import datetime
 import os
 import shutil
