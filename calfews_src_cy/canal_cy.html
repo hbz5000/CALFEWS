@@ -2399,7 +2399,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
 <pre class="cython line score-0">&#xA0;<span class="">119</span>: 	<span class="c">#these turnback flows will be run through the previous canal nodes again, to see if any of the prior nodes (where canal capacity</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">120</span>: 	<span class="c">#is large enough to take the excess flow) have demand for more flow.  This runs until the current node, at which point any remaining</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">121</span>: 	<span class="c">#flow is considered not delivered</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">122</span>:     <span class="c">#at this node, recalfews_src the total delivery as &#39;turnout&#39; and the total flow as &#39;flow&#39; for this canal object</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">122</span>:     <span class="c">#at this node, record the total delivery as &#39;turnout&#39; and the total flow as &#39;flow&#39; for this canal object</span></pre>
 <pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">123</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">turnout_use</span><span class="p">[</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">+=</span> <span class="n">location_delivery</span></pre>
 <pre class='cython code score-33 '>  if (unlikely(__pyx_v_self-&gt;turnout_use == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2538,8 +2538,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_turnback_flows = __pyx_t_2;
   __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">135</span>:     <span class="c">#if there is turnback flow, we need to remove that flow from the available flow (and all recalfews_srced canal flows at previous nodes)</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">136</span>: 	<span class="c">#if the turnback flow can be accepted by other nodes, it will be recalfews_srced as &#39;flow&#39; and &#39;turnout_use&#39; then (not this function)</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">135</span>:     <span class="c">#if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">136</span>: 	<span class="c">#if the turnback flow can be accepted by other nodes, it will be recorded as &#39;flow&#39; and &#39;turnout_use&#39; then (not this function)</span></pre>
 <pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">137</span>:     <span class="k">if</span> <span class="n">turnback_flows</span> <span class="o">&gt;</span> <span class="mf">0.005</span><span class="p">:</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_turnback_flows, __pyx_float_0_005, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)</span>
   __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 137, __pyx_L1_error)</span>

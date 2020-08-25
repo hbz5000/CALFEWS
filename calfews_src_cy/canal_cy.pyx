@@ -119,7 +119,7 @@ cdef class Canal():
 	#these turnback flows will be run through the previous canal nodes again, to see if any of the prior nodes (where canal capacity
 	#is large enough to take the excess flow) have demand for more flow.  This runs until the current node, at which point any remaining
 	#flow is considered not delivered
-    #at this node, recalfews_src the total delivery as 'turnout' and the total flow as 'flow' for this canal object
+    #at this node, record the total delivery as 'turnout' and the total flow as 'flow' for this canal object
     self.turnout_use[canal_loc] += location_delivery
     self.flow[canal_loc] += available_flow
     evap_flows = 0.0
@@ -132,8 +132,8 @@ cdef class Canal():
       next_step = -1
     #turnback flows are the remaining available flow in excess of the next node's capacity
     turnback_flows = max(available_flow - self.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + self.flow[canal_loc+next_step], 0.0)
-    #if there is turnback flow, we need to remove that flow from the available flow (and all recalfews_srced canal flows at previous nodes)
-	#if the turnback flow can be accepted by other nodes, it will be recalfews_srced as 'flow' and 'turnout_use' then (not this function)
+    #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
+	#if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
     if turnback_flows > 0.005:
       available_flow -= turnback_flows
       if flow_dir == "normal":

@@ -144,7 +144,7 @@ cdef class Contract():
       self.available_water[t] = max(min(total_water - priority_storage, self.allocation[t], reservoir_storage), 0.0)
 	  	  
   def adjust_accounts(self, contract_deliveries, search_type, wateryear):
-    #this function recalfews_srcs deliveries made on a contract by year - for use in determining if 
+    #this function records deliveries made on a contract by year - for use in determining if 
     if search_type == "flood":
       self.flood_deliveries[wateryear] += contract_deliveries
     else:

@@ -5,7 +5,7 @@ cdef class Delta():
                 final_allocation_swp, final_allocation_cvp, rio_gains, forecastSWPPUMP, vernalis_gains, \
                 delta_uncontrolled_remaining, forecastCVPPUMP, total_inflow
 
-    public int T, omr_recalfews_src_start, omr_rule_start, vamp_rule_start, first_empty_day_SWP, first_empty_day_CVP, \
+    public int T, omr_record_start, omr_rule_start, vamp_rule_start, first_empty_day_SWP, first_empty_day_CVP, \
                 iter_count
     
     public str model_mode, key, forecastSCWYT, forecastSJWYT

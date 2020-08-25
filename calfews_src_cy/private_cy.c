@@ -2126,7 +2126,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_52give_paper_tr
 static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_54give_paper_exchange(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_trade_amount, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_trade_frac, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district_name); /* proto */
 static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_56get_paper_trade(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_trade_amount, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_wateryear); /* proto */
 static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_58get_paper_exchange(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_trade_amount, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_trade_frac, PyObject *__pyx_v_wateryear); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src_direct_delivery(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_delivery, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district); /* proto */
+static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60record_direct_delivery(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_delivery, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district); /* proto */
 static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_62direct_delivery_bank(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_delivery, CYTHON_UNUSED PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district); /* proto */
 static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accounts(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_direct_deliveries, PyObject *__pyx_v_recharge_deliveries, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_search_type, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_delivery_location); /* proto */
 static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_account_district(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_actual_deliveries, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_search_type, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district_name, PyObject *__pyx_v_delivery_location); /* proto */
@@ -29045,14 +29045,14 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_58get_paper_exc
 /* "calfews_src_cy/private_cy.pyx":1196
  * 
  * 
- *   def recalfews_src_direct_delivery(self, delivery, wateryear, district):             # <<<<<<<<<<<<<<
+ *   def record_direct_delivery(self, delivery, wateryear, district):             # <<<<<<<<<<<<<<
  *     actual_delivery = min(delivery, self.dailydemand[district]*self.seepage[district])
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61record_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61record_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_delivery = 0;
   PyObject *__pyx_v_wateryear = 0;
   PyObject *__pyx_v_district = 0;
@@ -29061,7 +29061,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("recalfews_src_direct_delivery (wrapper)", 0);
+  __Pyx_RefNannySetupContext("record_direct_delivery (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_delivery_2,&__pyx_n_s_wateryear,&__pyx_n_s_district,0};
     PyObject* values[3] = {0,0,0};
@@ -29087,17 +29087,17 @@ static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_wateryear)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("recalfews_src_direct_delivery", 1, 3, 3, 1); __PYX_ERR(0, 1196, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("record_direct_delivery", 1, 3, 3, 1); __PYX_ERR(0, 1196, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_district)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("recalfews_src_direct_delivery", 1, 3, 3, 2); __PYX_ERR(0, 1196, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("record_direct_delivery", 1, 3, 3, 2); __PYX_ERR(0, 1196, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "recalfews_src_direct_delivery") < 0)) __PYX_ERR(0, 1196, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "record_direct_delivery") < 0)) __PYX_ERR(0, 1196, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -29112,20 +29112,20 @@ static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("recalfews_src_direct_delivery", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1196, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("record_direct_delivery", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1196, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src_cy.private_cy.Private.recalfews_src_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("calfews_src_cy.private_cy.Private.record_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src_direct_delivery(((struct __pyx_obj_14calfews_src_cy_10private_cy_Private *)__pyx_v_self), __pyx_v_delivery, __pyx_v_wateryear, __pyx_v_district);
+  __pyx_r = __pyx_pf_14calfews_src_cy_10private_cy_7Private_60record_direct_delivery(((struct __pyx_obj_14calfews_src_cy_10private_cy_Private *)__pyx_v_self), __pyx_v_delivery, __pyx_v_wateryear, __pyx_v_district);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src_direct_delivery(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_delivery, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district) {
+static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60record_direct_delivery(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_delivery, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district) {
   PyObject *__pyx_v_actual_delivery = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
@@ -29139,12 +29139,12 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("recalfews_src_direct_delivery", 0);
-  __Pyx_TraceCall("recalfews_src_direct_delivery", __pyx_f[0], 1196, 0, __PYX_ERR(0, 1196, __pyx_L1_error));
+  __Pyx_RefNannySetupContext("record_direct_delivery", 0);
+  __Pyx_TraceCall("record_direct_delivery", __pyx_f[0], 1196, 0, __PYX_ERR(0, 1196, __pyx_L1_error));
 
   /* "calfews_src_cy/private_cy.pyx":1197
  * 
- *   def recalfews_src_direct_delivery(self, delivery, wateryear, district):
+ *   def record_direct_delivery(self, delivery, wateryear, district):
  *     actual_delivery = min(delivery, self.dailydemand[district]*self.seepage[district])             # <<<<<<<<<<<<<<
  * 
  *     self.deliveries[district]['recover_banked'][wateryear] += actual_delivery
@@ -29284,7 +29284,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src
   /* "calfews_src_cy/private_cy.pyx":1196
  * 
  * 
- *   def recalfews_src_direct_delivery(self, delivery, wateryear, district):             # <<<<<<<<<<<<<<
+ *   def record_direct_delivery(self, delivery, wateryear, district):             # <<<<<<<<<<<<<<
  *     actual_delivery = min(delivery, self.dailydemand[district]*self.seepage[district])
  * 
  */
@@ -29296,7 +29296,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("calfews_src_cy.private_cy.Private.recalfews_src_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("calfews_src_cy.private_cy.Private.record_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_actual_delivery);
@@ -30364,7 +30364,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
  *         contract_deliveries = 0.0
  * 
  *       delivery_by_contract[y.name] = contract_deliveries             # <<<<<<<<<<<<<<
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":
  */
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_y, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1248, __pyx_L1_error)
@@ -30374,7 +30374,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
 
     /* "calfews_src_cy/private_cy.pyx":1250
  *       delivery_by_contract[y.name] = contract_deliveries
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":             # <<<<<<<<<<<<<<
  *         for x in self.district_list:
  *           if contract_deliveries > 0.0:
@@ -30383,7 +30383,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
     if (__pyx_t_7) {
 
       /* "calfews_src_cy/private_cy.pyx":1251
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":
  *         for x in self.district_list:             # <<<<<<<<<<<<<<
  *           if contract_deliveries > 0.0:
@@ -30515,7 +30515,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
  *             self.deliveries[x][delivery_location + '_recharged'][wateryear] += recharge_deliveries/len(self.district_list)
  *             self.deliveries[x][y.name + '_flood_irrigation'][wateryear] += direct_deliveries/len(self.district_list)             # <<<<<<<<<<<<<<
  *       else:
- *         #irrigation/banking deliveries are recalfews_srced under the contract name so they are included in the
+ *         #irrigation/banking deliveries are recorded under the contract name so they are included in the
  */
           if (unlikely(__pyx_v_self->deliveries == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -30568,7 +30568,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
         }
 
         /* "calfews_src_cy/private_cy.pyx":1251
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":
  *         for x in self.district_list:             # <<<<<<<<<<<<<<
  *           if contract_deliveries > 0.0:
@@ -30579,7 +30579,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
 
       /* "calfews_src_cy/private_cy.pyx":1250
  *       delivery_by_contract[y.name] = contract_deliveries
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":             # <<<<<<<<<<<<<<
  *         for x in self.district_list:
  *           if contract_deliveries > 0.0:
@@ -32085,7 +32085,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_accoun
  *       else:
  *         contract_deliveries = 0.0             # <<<<<<<<<<<<<<
  *       delivery_by_contract[y.name] = contract_deliveries
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  */
     /*else*/ {
       __Pyx_INCREF(__pyx_float_0_0);
@@ -32097,7 +32097,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_accoun
  *       else:
  *         contract_deliveries = 0.0
  *       delivery_by_contract[y.name] = contract_deliveries             # <<<<<<<<<<<<<<
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":
  */
     if (unlikely(!__pyx_v_contract_deliveries)) { __Pyx_RaiseUnboundLocalError("contract_deliveries"); __PYX_ERR(0, 1307, __pyx_L1_error) }
@@ -32108,7 +32108,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_accoun
 
     /* "calfews_src_cy/private_cy.pyx":1309
  *       delivery_by_contract[y.name] = contract_deliveries
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":             # <<<<<<<<<<<<<<
  *         self.deliveries[district_name][y.name + '_flood'][wateryear] += contract_deliveries
  *       else:
@@ -32117,11 +32117,11 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_accoun
     if (__pyx_t_5) {
 
       /* "calfews_src_cy/private_cy.pyx":1310
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":
  *         self.deliveries[district_name][y.name + '_flood'][wateryear] += contract_deliveries             # <<<<<<<<<<<<<<
  *       else:
- *         #irrigation/banking deliveries are recalfews_srced under the contract name so they are included in the
+ *         #irrigation/banking deliveries are recorded under the contract name so they are included in the
  */
       if (unlikely(__pyx_v_self->deliveries == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -32153,7 +32153,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_accoun
 
       /* "calfews_src_cy/private_cy.pyx":1309
  *       delivery_by_contract[y.name] = contract_deliveries
- *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+ *       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
  *       if search_type == "flood":             # <<<<<<<<<<<<<<
  *         self.deliveries[district_name][y.name + '_flood'][wateryear] += contract_deliveries
  *       else:
@@ -48649,7 +48649,7 @@ static PyMethodDef __pyx_methods_14calfews_src_cy_10private_cy_Private[] = {
   {"give_paper_exchange", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_55give_paper_exchange, METH_VARARGS|METH_KEYWORDS, 0},
   {"get_paper_trade", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_57get_paper_trade, METH_VARARGS|METH_KEYWORDS, 0},
   {"get_paper_exchange", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_59get_paper_exchange, METH_VARARGS|METH_KEYWORDS, 0},
-  {"recalfews_src_direct_delivery", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src_direct_delivery, METH_VARARGS|METH_KEYWORDS, 0},
+  {"record_direct_delivery", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_61record_direct_delivery, METH_VARARGS|METH_KEYWORDS, 0},
   {"direct_delivery_bank", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_63direct_delivery_bank, METH_VARARGS|METH_KEYWORDS, 0},
   {"adjust_accounts", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_65adjust_accounts, METH_VARARGS|METH_KEYWORDS, 0},
   {"adjust_account_district", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_10private_cy_7Private_67adjust_account_district, METH_VARARGS|METH_KEYWORDS, 0},

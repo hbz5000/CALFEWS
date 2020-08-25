@@ -4721,7 +4721,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_11contract_cy_8Contract_12find_storag
  *       self.available_water[t] = max(min(total_water - priority_storage, self.allocation[t], reservoir_storage), 0.0)
  * 
  *   def adjust_accounts(self, contract_deliveries, search_type, wateryear):             # <<<<<<<<<<<<<<
- *     #this function recalfews_srcs deliveries made on a contract by year - for use in determining if
+ *     #this function records deliveries made on a contract by year - for use in determining if
  *     if search_type == "flood":
  */
 
@@ -4818,7 +4818,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_11contract_cy_8Contract_14adjust_acco
 
   /* "calfews_src_cy/contract_cy.pyx":148
  *   def adjust_accounts(self, contract_deliveries, search_type, wateryear):
- *     #this function recalfews_srcs deliveries made on a contract by year - for use in determining if
+ *     #this function records deliveries made on a contract by year - for use in determining if
  *     if search_type == "flood":             # <<<<<<<<<<<<<<
  *       self.flood_deliveries[wateryear] += contract_deliveries
  *     else:
@@ -4827,7 +4827,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_11contract_cy_8Contract_14adjust_acco
   if (__pyx_t_1) {
 
     /* "calfews_src_cy/contract_cy.pyx":149
- *     #this function recalfews_srcs deliveries made on a contract by year - for use in determining if
+ *     #this function records deliveries made on a contract by year - for use in determining if
  *     if search_type == "flood":
  *       self.flood_deliveries[wateryear] += contract_deliveries             # <<<<<<<<<<<<<<
  *     else:
@@ -4861,7 +4861,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_11contract_cy_8Contract_14adjust_acco
 
     /* "calfews_src_cy/contract_cy.pyx":148
  *   def adjust_accounts(self, contract_deliveries, search_type, wateryear):
- *     #this function recalfews_srcs deliveries made on a contract by year - for use in determining if
+ *     #this function records deliveries made on a contract by year - for use in determining if
  *     if search_type == "flood":             # <<<<<<<<<<<<<<
  *       self.flood_deliveries[wateryear] += contract_deliveries
  *     else:
@@ -4925,7 +4925,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_11contract_cy_8Contract_14adjust_acco
  *       self.available_water[t] = max(min(total_water - priority_storage, self.allocation[t], reservoir_storage), 0.0)
  * 
  *   def adjust_accounts(self, contract_deliveries, search_type, wateryear):             # <<<<<<<<<<<<<<
- *     #this function recalfews_srcs deliveries made on a contract by year - for use in determining if
+ *     #this function records deliveries made on a contract by year - for use in determining if
  *     if search_type == "flood":
  */
 

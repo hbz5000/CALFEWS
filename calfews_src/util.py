@@ -17,15 +17,15 @@ def leap(y):
     leap[i] = calendar.isleap(y[i])
   return leap
 
-# get first non-leap year index in historical recalfews_src, to use for dowy_eom & days_in_month of non-historical recalfews_src based on leap.
+# get first non-leap year index in historical record, to use for dowy_eom & days_in_month of non-historical record based on leap.
 def first_non_leap_year(dowyeom):
   return (np.where(dowyeom[0][1] == 28, 0, 1))
 
-# get first leap year index in historical recalfews_src, to use for dowy_eom & days_in_month of non-historical recalfews_src based on leap.
+# get first leap year index in historical record, to use for dowy_eom & days_in_month of non-historical record based on leap.
 def first_leap_year(dowyeom):
   return (np.argmax([dowyeom[0][1], dowyeom[1][1], dowyeom[2][1], dowyeom[3][1]]))
 
-# get day of water year for historical recalfews_src
+# get day of water year for historical record
 def water_day(d, y):
   dowy = np.empty(len(d), dtype=int)
   for i in range(len(d)):
@@ -41,7 +41,7 @@ def water_day(d, y):
       dowy[i] = 364
   return dowy
 
-# get water year of each month/year in historical recalfews_src.
+# get water year of each month/year in historical record.
 def water_year(month, year, startYear):
   wy = np.empty(len(year), dtype=int)
   wy[month >= 10] = year[month >= 10] - startYear
@@ -72,7 +72,7 @@ def dowy_eom(year, leap):
       dowy[i,:] = eom
   return dowy
 
-# get first day of each month, 1-indexed (i.e. first day Jan = 1). Each row is a year in historical recalfews_src.
+# get first day of each month, 1-indexed (i.e. first day Jan = 1). Each row is a year in historical record.
 def first_d_of_month(dowyeom, daysinmonth):
   first_d = np.empty([len(dowyeom), 12], dtype=int)
   for i in range(len(dowyeom)):

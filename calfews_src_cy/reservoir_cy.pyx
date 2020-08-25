@@ -56,12 +56,12 @@ cdef class Reservoir():
     if self.key == "SLS":
       #San Luis - State portion
       #San Luis Reservoir is off-line so it doesn't need the full reservoir class parameter set contained in the KEY_properties.json files
-      #self.Q = model.df'HRO_pump'] * cfs_tafd
+      #self.Q = model.df[0]'HRO_pump'] * cfs_tafd
       self.dead_pool = 40
       self.S[0] = 740.4
     elif self.key == "SLF":
       #San Luis - Federal portion
-      #self.Q = model.df'TRP_pump'] * cfs_tafd
+      #self.Q = model.df[0]'TRP_pump'] * cfs_tafd
       self.dead_pool = 40
       self.S[0] = 174.4
     elif self.key != "SNL":
@@ -69,8 +69,8 @@ cdef class Reservoir():
       for k,v in json.load(open('calfews_src/reservoir/%s_properties.json' % key)).items():
           setattr(self,k,v)
       #load timeseries inputs from calfews_src-data.csv input file
-      self.Q = [_ * cfs_tafd for _ in model.df['%s_inf'% key].values]
-      self.E = [_ * cfs_tafd for _ in model.df['%s_evap'% key].values]
+      self.Q = [_ * cfs_tafd for _ in model.df[0]['%s_inf'% key].values]
+      self.E = [_ * cfs_tafd for _ in model.df[0]['%s_evap'% key].values]
       ####Note - Shasta FCI values are not right - the original calculation units are in AF, but it should be in CFS
 	  ####so the actual values are high.  Just recalculate here instead of changing input files
       if self.key == "SHA":
@@ -85,16 +85,16 @@ cdef class Reservoir():
           else:
             self.fci[x] = self.fci[x-1]*0.95 + self.Q[x]*tafd_cfs
       else:
-        self.fci = [_ for _ in model.df['%s_fci' % key].values]
-      self.SNPK = [_ for _ in model.df['%s_snow' % key].values]
-      self.precip = [_ * cfs_tafd for _ in model.df['%s_precip'% key].values]
-      self.downstream = [_ * cfs_tafd for _ in model.df['%s_gains'% key].values]
-      self.fnf = [_ / 1000000.0 for _ in model.df['%s_fnf'% key].values]
+        self.fci = [_ for _ in model.df[0]['%s_fci' % key].values]
+      self.SNPK = [_ for _ in model.df[0]['%s_snow' % key].values]
+      self.precip = [_ * cfs_tafd for _ in model.df[0]['%s_precip'% key].values]
+      self.downstream = [_ * cfs_tafd for _ in model.df[0]['%s_gains'% key].values]
+      self.fnf = [_ / 1000000.0 for _ in model.df[0]['%s_fnf'% key].values]
       self.R[0] = 0
       use_capacity = False
-      storage_start_date = model.index[0]
-      if storage_start_date in model.df_short.index: #keyvan
-        storage_start_index = model.df_short.index.get_loc(storage_start_date)
+      storage_start_date = model.df[0].index[0]
+      if storage_start_date in model.df_short[0].index: 
+        storage_start_index = model.df_short[0].index.get_loc(storage_start_date)
       else:
         use_capacity = True
       if use_capacity:
@@ -102,9 +102,9 @@ cdef class Reservoir():
         self.EOS_target = (self.capacity - 1000.0)/2 + 1000.0
         self.lastYearEOS_target = (self.capacity - 1000.0)/2 + 1000.0
       else:
-        self.S[0] = model.df_short['%s_storage' % key].iloc[storage_start_index] / 1000.0
-        self.EOS_target = model.df_short['%s_storage' % key].iloc[storage_start_index] / 1000.0
-        self.lastYearEOS_target = model.df_short['%s_storage' % key].iloc[storage_start_index] / 1000.0
+        self.S[0] = model.df_short[0]['%s_storage' % key].iloc[storage_start_index] / 1000.0
+        self.EOS_target = model.df_short[0]['%s_storage' % key].iloc[storage_start_index] / 1000.0
+        self.lastYearEOS_target = model.df_short[0]['%s_storage' % key].iloc[storage_start_index] / 1000.0
 	  
     #Environmental release requirements
     #environmental rules are dependent on the water year type	
@@ -759,9 +759,9 @@ cdef class Reservoir():
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][0]
 	
   def create_flow_shapes(self, model):
-    flow_series = model.df_short['%s_inf'% self.key].values * cfs_tafd
-    snow_series = model.df_short['%s_snow'% self.key].values
-    fnf_series = model.df_short['%s_fnf'% self.key].values / 1000000.0
+    flow_series = model.df_short[0]['%s_inf'% self.key].values * cfs_tafd
+    snow_series = model.df_short[0]['%s_snow'% self.key].values
+    fnf_series = model.df_short[0]['%s_fnf'% self.key].values / 1000000.0
     startYear = model.short_starting_year
     endYear = model.short_ending_year
     numYears = endYear - startYear
@@ -923,9 +923,9 @@ cdef class Reservoir():
     startYear = model.short_starting_year
     endYear = model.short_ending_year
     numYears = endYear - startYear
-    Q_predict = model.df_short['%s_inf'% self.key].values * cfs_tafd
-    fnf_predict = model.df_short['%s_fnf'% self.key].values / 1000000.0
-    SNPK_predict = model.df_short['%s_snow' % self.key].values
+    Q_predict = model.df_short[0]['%s_inf'% self.key].values * cfs_tafd
+    fnf_predict = model.df_short[0]['%s_fnf'% self.key].values / 1000000.0
+    SNPK_predict = model.df_short[0]['%s_snow' % self.key].values
 
     rainfnf = np.zeros(numYears)###total full-natural flow OCT-MAR
     snowfnf = np.zeros(numYears)###total full-natural flow APR-JUL

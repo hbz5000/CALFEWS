@@ -199,7 +199,7 @@ class Model():
     # generates - water contract parameters (see calfews_src-combined/calfews_src/contracts/readme.txt)
     # self.contract_list - list of contract objects
     # self.contract_keys - dictionary pairing contract keys w/contract class objects
-    # self.res.contract_carryover_list - recalfews_src of carryover space afforded to each contract (for all district)
+    # self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
     self.initialize_sw_contracts()
     # print('Initialize Contracts, time ', datetime.now() - startTime)
     # initialize water banks for southern model
@@ -229,8 +229,8 @@ class Model():
     # self.reservoir_canal - dict keys are reservoirs, object lists are canal(s) that connect to the reservoir (note - only millerton has more than one canal)
     # Also initializes some canal properties
     # self.canal.demand - dictionary for the different types of demand that can be created at each canal node (note - these values are updated within model steps)
-    # self.canal.flow - vector recalfews_srcing flow to a node on a canal (note - these values are updated within model steps)
-    # self.canal.turnout_use - vector recalfews_srcing diversions to a node on a canal (note - these values are updated within model steps)
+    # self.canal.flow - vector recording flow to a node on a canal (note - these values are updated within model steps)
+    # self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
     self.create_object_associations()
     # print('Create Object Associations, time ', datetime.now() - startTime)
 	
@@ -1273,7 +1273,7 @@ class Model():
     startYear = self.short_starting_year
     ##########################################################################################
     ##########################################################################################
-    #Read flow from historical recalfews_src
+    #Read flow from historical record
 	##########################################################################################
     prev_gains = 0.0
     prev_fnf = 0.0
@@ -1689,7 +1689,7 @@ class Model():
       x.delivery_risk_rate = np.zeros(len(total_available))
       cumulative_balance = 0.0
       cumulative_years = 0.0
-      total_delivery_recalfews_src = np.zeros(len(total_available))
+      total_delivery_record = np.zeros(len(total_available))
       for hist_year in range(0, len(total_available)):
         private_deliveries = 0.0
         for district in x.district_list:
@@ -1701,7 +1701,7 @@ class Model():
             else:
               private_deliveries += delivery_values[contract_object.key][hist_year]*district_object.rights[contract_object.name]['capacity']*x.private_fraction[district][0]
 
-        total_delivery_recalfews_src[hist_year] = private_deliveries
+        total_delivery_record[hist_year] = private_deliveries
         annual_balance = private_deliveries - x.target_annual_demand[0]
         cumulative_balance += annual_balance
         cumulative_years += 1.0
@@ -1712,7 +1712,7 @@ class Model():
         x.delivery_risk_rate[hist_year] = cumulative_years
       # df = pd.DataFrame()
       # df['delivery_risk'] = pd.Series(x.delivery_risk)
-      # df['deliveries'] = pd.Series(total_delivery_recalfews_src)
+      # df['deliveries'] = pd.Series(total_delivery_record)
       # df['average_demand'] = pd.Series(np.ones(len(x.delivery_risk))*x.target_annual_demand[0])
       # df.to_csv(self.results_folder + '/delivery_risk_' + x.key + '.csv')
 		     		
@@ -3320,7 +3320,7 @@ class Model():
     for x in self.district_list:
       x.accounting_full(t, wateryear)
       for y in self.contract_list:
-        #from individual contracts - paper balance, carryover storage, allocations, and deliveries (irrigation) - recalfews_srcs daily values
+        #from individual contracts - paper balance, carryover storage, allocations, and deliveries (irrigation) - records daily values
         y.accounting(t, da, m, wateryear, x.deliveries[y.name][wateryear], x.carryover[y.name], x.turnback_pool[y.name], x.deliveries[y.name + '_flood'][wateryear] + x.deliveries[y.name + '_flood_irrigation'][wateryear])
     for x in self.private_list:
       x.accounting_full(t, wateryear)
@@ -3453,7 +3453,7 @@ class Model():
     ##Clear Canal Flows
     ##every day, we zero out the flows on each canal (i.e. no canal storage, no 'routing' of water on the canals)
 	###any flow released from a reservoir is assumed to arrive at its destimation immediately
-    #Reset canals and recalfews_src turnouts & flows at each node
+    #Reset canals and record turnouts & flows at each node
     for z in self.canal_list:
       counter = 0
       for canal_loc in range(0, self.canal_district_len[z.name]):
@@ -4768,7 +4768,7 @@ class Model():
           for y in delivery_by_contract:
             self.contract_keys[y].adjust_accounts(delivery_by_contract[y], search_type, wateryear)
             location_delivery += delivery_by_contract[y]
-          #recalfews_src flow and turnout on each canal, check for capacity turnback at the next node				
+          #record flow and turnout on each canal, check for capacity turnback at the next node				
         #find new district demand at the node
         demand_constraint = x.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge)
         self.find_node_demand_district(x, canal, canal_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge)
@@ -4799,7 +4799,7 @@ class Model():
           if new_excess_flow > 0.0:
             for zz in type_list:
               canal.demand[zz][canal_loc] = 0.0
-          #recalfews_src deliveries
+          #record deliveries
           location_delivery -= new_excess_flow
           canal_fractions = {}
           for zz in type_list:
@@ -4812,7 +4812,7 @@ class Model():
             # canal_fractions[zz] = 0.0
 
         canal.find_turnout_adjustment(turnout_available, flow_dir, canal_loc, type_list)
-      #recalfews_src flow and turnout on each canal, check for capacity turnback at the next node
+      #record flow and turnout on each canal, check for capacity turnback at the next node
       available_flow, turnback_flow, turnback_end, remaining_excess_flow = canal.update_canal_use(available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list)
       excess_flow += remaining_excess_flow
       #if there is more demand/available water than canal capacity at the next canal node, the 'extra' water (that was expected to be delivered down-canal in earlier calculations) can be distributed among upstream nodes if there is remaining demand
@@ -5068,13 +5068,13 @@ class Model():
                     location_delivery -= paper_delivery
                     total_paper -= paper_delivery
 					  
-            location_delivery -= x.recalfews_src_direct_delivery(location_delivery, wateryear)
+            location_delivery -= x.record_direct_delivery(location_delivery, wateryear)
 
             if x.has_private:
               for city_pump in self.city_list:
                 for yy in city_pump.district_list:
                   if yy == x.key:
-                    location_delivery -= city_pump.recalfews_src_direct_delivery(location_delivery, wateryear, x.key)
+                    location_delivery -= city_pump.record_direct_delivery(location_delivery, wateryear, x.key)
 		  
 	#once all canal nodes have been searched, we can check to make sure the demands aren't bigger than the canal capacity, then adjust our demands	
     #type_deliveries = canal.capacity_adjust_demand(starting_point, canal_range, flow_dir, type_list)

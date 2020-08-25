@@ -449,9 +449,9 @@ def show_recovery(district_results, key_list, delivery_type):
   plt.show()
   
 def show_recovery_historic(district_results, timeseries_revenues, average_revenues, key_list, year_start, year_end, min_rev, max_rev, rev_int, min_del, max_del, del_int, legend_loc):
-  recalfews_src_start = 1905
-  index_start = int(year_start - recalfews_src_start - 1)
-  index_end = int(year_end - recalfews_src_start - 1)
+  record_start = 1905
+  index_start = int(year_start - record_start - 1)
+  index_end = int(year_end - record_start - 1)
   total_delivery = np.zeros(len(district_results))
   total_banked = np.zeros(len(district_results))
   total_revenue = np.zeros(len(district_results))
@@ -515,9 +515,9 @@ def show_recovery_historic(district_results, timeseries_revenues, average_revenu
   plt.show()
 
 def show_banking_historic(deliveries, deposits, revenues, average_revenues, key_list, year_start, year_end, min_rev, max_rev, rev_int, min_del, max_del, del_int, legend_loc):
-  recalfews_src_start = 1905
-  index_start = int(year_start - recalfews_src_start - 1)
-  index_end = int(year_end - recalfews_src_start - 1)
+  record_start = 1905
+  index_start = int(year_start - record_start - 1)
+  index_end = int(year_end - record_start - 1)
   period_revenue = revenues[index_start:index_end]
   period_delivery = deliveries[index_start:index_end]
   period_deposit = deposits[index_start:index_end]

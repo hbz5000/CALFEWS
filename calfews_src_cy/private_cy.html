@@ -19755,16 +19755,16 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_58get_paper_exc
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">1194</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">1195</span>: </pre>
-<pre class="cython line score-38" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1196</span>:   <span class="k">def</span> <span class="nf">recalfews_src_direct_delivery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delivery</span><span class="p">,</span> <span class="n">wateryear</span><span class="p">,</span> <span class="n">district</span><span class="p">):</span></pre>
+<pre class="cython line score-38" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1196</span>:   <span class="k">def</span> <span class="nf">record_direct_delivery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delivery</span><span class="p">,</span> <span class="n">wateryear</span><span class="p">,</span> <span class="n">district</span><span class="p">):</span></pre>
 <pre class='cython code score-38 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61record_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61record_direct_delivery(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_delivery = 0;
   PyObject *__pyx_v_wateryear = 0;
   PyObject *__pyx_v_district = 0;
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
-  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("recalfews_src_direct_delivery (wrapper)", 0);
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("record_direct_delivery (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&amp;__pyx_n_s_delivery_2,&amp;__pyx_n_s_wateryear,&amp;__pyx_n_s_district,0};
     PyObject* values[3] = {0,0,0};
@@ -19790,17 +19790,17 @@ static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src
         case  1:
         if (likely((values[1] = <span class='pyx_c_api'>__Pyx_PyDict_GetItemStr</span>(__pyx_kwds, __pyx_n_s_wateryear)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("recalfews_src_direct_delivery", 1, 3, 3, 1); <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("record_direct_delivery", 1, 3, 3, 1); <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = <span class='pyx_c_api'>__Pyx_PyDict_GetItemStr</span>(__pyx_kwds, __pyx_n_s_district)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("recalfews_src_direct_delivery", 1, 3, 3, 2); <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("record_direct_delivery", 1, 3, 3, 2); <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
         }
       }
       if (unlikely(kw_args &gt; 0)) {
-        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "recalfews_src_direct_delivery") &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
+        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "record_direct_delivery") &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
       }
     } else if (<span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -19815,13 +19815,13 @@ static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("recalfews_src_direct_delivery", 1, 3, 3, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
+  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("record_direct_delivery", 1, 3, 3, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.private_cy.Private.recalfews_src_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.private_cy.Private.record_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src_direct_delivery(((struct __pyx_obj_14calfews_src_cy_10private_cy_Private *)__pyx_v_self), __pyx_v_delivery, __pyx_v_wateryear, __pyx_v_district);
+  __pyx_r = __pyx_pf_14calfews_src_cy_10private_cy_7Private_60record_direct_delivery(((struct __pyx_obj_14calfews_src_cy_10private_cy_Private *)__pyx_v_self), __pyx_v_delivery, __pyx_v_wateryear, __pyx_v_district);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -19831,13 +19831,13 @@ static PyObject *__pyx_pw_14calfews_src_cy_10private_cy_7Private_61recalfews_src
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src_direct_delivery(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_delivery, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district) {
+static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60record_direct_delivery(struct __pyx_obj_14calfews_src_cy_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_delivery, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_district) {
   PyObject *__pyx_v_actual_delivery = NULL;
   PyObject *__pyx_r = NULL;
   <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
-  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("recalfews_src_direct_delivery", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("recalfews_src_direct_delivery", __pyx_f[0], 1196, 0, <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L1_error)</span>);
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("record_direct_delivery", 0);
+  <span class='trace'>__Pyx_TraceCall</span>("record_direct_delivery", __pyx_f[0], 1196, 0, <span class='error_goto'>__PYX_ERR(0, 1196, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -19846,7 +19846,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_60recalfews_src
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_6);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.private_cy.Private.recalfews_src_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.private_cy.Private.record_direct_delivery", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_actual_delivery);
@@ -20729,7 +20729,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_delivery_by_contract, __pyx_t_4, __pyx_v_contract_deliveries) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 1248, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">1249</span>:       <span class="c">#flood deliveries do not count against a district&#39;s contract allocation, so the deliveries are recalfews_srced as &#39;flood&#39;</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">1249</span>:       <span class="c">#flood deliveries do not count against a district&#39;s contract allocation, so the deliveries are recorded as &#39;flood&#39;</span></pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1250</span>:       <span class="k">if</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s">&quot;flood&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>    __pyx_t_7 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_search_type, __pyx_n_u_flood_2, Py_EQ)); if (unlikely(__pyx_t_7 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 1250, __pyx_L1_error)</span>
     if (__pyx_t_7) {
@@ -20883,7 +20883,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_64adjust_accoun
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_12); __pyx_t_12 = 0;
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_13); __pyx_t_13 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">1256</span>:       <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">1257</span>:         <span class="c">#irrigation/banking deliveries are recalfews_srced under the contract name so they are included in the </span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">1257</span>:         <span class="c">#irrigation/banking deliveries are recorded under the contract name so they are included in the </span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">1258</span>: 		<span class="c">#contract balance calculations</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">1259</span>:         <span class="c">#update the individual district accounts</span></pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1260</span>:         <span class="k">if</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s">&#39;banking&#39;</span><span class="p">:</span></pre>
@@ -21970,7 +21970,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_accoun
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
     if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_delivery_by_contract, __pyx_t_9, __pyx_v_contract_deliveries) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 1307, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">1308</span>:       <span class="c">#flood deliveries do not count against a district&#39;s contract allocation, so the deliveries are recalfews_srced as &#39;flood&#39;</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">1308</span>:       <span class="c">#flood deliveries do not count against a district&#39;s contract allocation, so the deliveries are recorded as &#39;flood&#39;</span></pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1309</span>:       <span class="k">if</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s">&quot;flood&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>    __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_search_type, __pyx_n_u_flood_2, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 1309, __pyx_L1_error)</span>
     if (__pyx_t_5) {
@@ -22006,7 +22006,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_10private_cy_7Private_66adjust_accoun
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">1311</span>:       <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">1312</span>:         <span class="c">#irrigation/banking deliveries are recalfews_srced under the contract name so they are included in the </span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">1312</span>:         <span class="c">#irrigation/banking deliveries are recorded under the contract name so they are included in the </span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">1313</span>: 		<span class="c">#contract balance calculations</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">1314</span>:         <span class="c">#update the individual district accounts</span></pre>
 <pre class="cython line score-32" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1315</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">deliveries</span><span class="p">[</span><span class="n">district_name</span><span class="p">][</span><span class="n">y</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="n">wateryear</span><span class="p">]</span> <span class="o">+=</span> <span class="n">contract_deliveries</span></pre>

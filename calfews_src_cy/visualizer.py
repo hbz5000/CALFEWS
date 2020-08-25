@@ -1209,7 +1209,7 @@ class Visualizer():
       SNPK = self.observations['%s_snow' % key].values
       scatterplot_values = pd.DataFrame(index = self.observations.index, columns = all_cols)
        
-      #recalfews_src predictor and observed variables at each timestep
+      #record predictor and observed variables at each timestep
       for x in range(0, len(Q)):      
         index_val = self.observations.index[x]
         day_year_val = index_val.dayofyear

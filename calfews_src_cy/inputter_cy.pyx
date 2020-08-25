@@ -2,7 +2,6 @@
 import numpy as np
 import pandas as pd
 import collections as cl
-# import toyplot as tp
 import calendar
 import scipy.stats as stats
 from .reservoir_cy cimport Reservoir
@@ -21,11 +20,13 @@ import json
 class Inputter():
 
     def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number=0, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False): # keyvan added i_N
-        self.df = pd.read_csv(input_data_file, index_col=0, parse_dates=True)
-        self.df_short = pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True)
-        self.T = len(self.df)
-        self.T_short = len(self.df_short)
-        self.index = self.df.index
+        self.df = []
+        self.df.append(pd.read_csv(input_data_file, index_col=0, parse_dates=True))
+        self.df_short = []
+        self.df_short.append(pd.read_csv(expected_release_datafile, index_col=0, parse_dates=True))
+        self.T = len(self.df[0])
+        self.T_short = len(self.df_short[0])
+        self.index = self.df[0].index
         self.day_year = self.index.dayofyear
         self.day_month = self.index.day
         self.month = self.index.month
@@ -213,7 +214,7 @@ class Inputter():
                 x.monthly['evap']['flows'][m - 1][wateryear] += x.E[t]
                 x.monthly['precip']['flows'][m - 1][wateryear] += x.precip[t]
                 x.monthly['fci']['flows'][m - 1][wateryear] += x.fci[t] / self.days_in_month[year][m - 1]
-                x.monthly['otf']['flows'][m - 1][wateryear] += self.df['%s_otf' % x.key].iloc[t] * cfs_tafd
+                x.monthly['otf']['flows'][m - 1][wateryear] += self.df[0]['%s_otf' % x.key].iloc[t] * cfs_tafd
 
                 x.monthly['fnf']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += x.fnf[t] * 1000.0
                 x.monthly['inf']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += x.Q[t]
@@ -221,7 +222,7 @@ class Inputter():
                 x.monthly['evap']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += x.E[t]
                 x.monthly['precip']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += x.precip[t]
                 x.monthly['fci']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += x.fci[t]
-                x.monthly['otf']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df['%s_otf' % x.key].iloc[
+                x.monthly['otf']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df[0]['%s_otf' % x.key].iloc[
                                                                                            t] * cfs_tafd
 
         for x in self.reservoir_list:
@@ -396,20 +397,20 @@ class Inputter():
             if da == 29 and m == 2:
                 da = 28
 
-            self.monthly['SAC']['gains'][m - 1][wateryear] += self.df.SAC_gains[t] * cfs_tafd
-            self.monthly['SJ']['gains'][m - 1][wateryear] += self.df.SJ_gains[t] * cfs_tafd
-            self.monthly['EAST']['gains'][m - 1][wateryear] += self.df.EAST_gains[t] * cfs_tafd
-            self.monthly['depletions']['gains'][m - 1][wateryear] += self.df.delta_depletions[t] * cfs_tafd
-            self.monthly['CCC']['gains'][m - 1][wateryear] += self.df.CCC_pump[t] * cfs_tafd
-            self.monthly['BRK']['gains'][m - 1][wateryear] += self.df.BRK_pump[t] * cfs_tafd
+            self.monthly['SAC']['gains'][m - 1][wateryear] += self.df[0].SAC_gains[t] * cfs_tafd
+            self.monthly['SJ']['gains'][m - 1][wateryear] += self.df[0].SJ_gains[t] * cfs_tafd
+            self.monthly['EAST']['gains'][m - 1][wateryear] += self.df[0].EAST_gains[t] * cfs_tafd
+            self.monthly['depletions']['gains'][m - 1][wateryear] += self.df[0].delta_depletions[t] * cfs_tafd
+            self.monthly['CCC']['gains'][m - 1][wateryear] += self.df[0].CCC_pump[t] * cfs_tafd
+            self.monthly['BRK']['gains'][m - 1][wateryear] += self.df[0].BRK_pump[t] * cfs_tafd
 
-            self.monthly['SAC']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df.SAC_gains[t] * cfs_tafd
-            self.monthly['SJ']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df.SJ_gains[t] * cfs_tafd
-            self.monthly['EAST']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df.EAST_gains[t] * cfs_tafd
-            self.monthly['depletions']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df.delta_depletions[
+            self.monthly['SAC']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df[0].SAC_gains[t] * cfs_tafd
+            self.monthly['SJ']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df[0].SJ_gains[t] * cfs_tafd
+            self.monthly['EAST']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df[0].EAST_gains[t] * cfs_tafd
+            self.monthly['depletions']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df[0].delta_depletions[
                                                                                                  t] * cfs_tafd
-            self.monthly['CCC']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df.CCC_pump[t] * cfs_tafd
-            self.monthly['BRK']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df.BRK_pump[t] * cfs_tafd
+            self.monthly['CCC']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df[0].CCC_pump[t] * cfs_tafd
+            self.monthly['BRK']['daily'][self.monthlist[m - 1]][wateryear][da - 1] += self.df[0].BRK_pump[t] * cfs_tafd
 
         for deltaname in self.delta_list:
             monthcounter = 0
@@ -1369,10 +1370,10 @@ class Inputter():
             if plot_key == 'Y' and (data_type == 'fnf' or data_type == 'inf'):
               fig = plt.figure()
               gs = gridspec.GridSpec(4, 3)
-              if start_year + numYears > self.df_short.index.year[-1]:
+              if start_year + numYears > self.df_short[0].index.year[-1]:
                 hist_start_point = 0
               else:
-                hist_start_point = (start_year - self.df_short.index.year[0])*365
+                hist_start_point = (start_year - self.df_short[0].index.year[0])*365
             counter1 = 0
             counter2 = 0
             for reservoir in self.reservoir_list:
@@ -1431,20 +1432,20 @@ class Inputter():
                 ax1 = plt.subplot(gs[0, 0])
                 ax1.plot(self.daily_output_data[deltaname], c='red')
                 ax2 = plt.subplot(gs[1, 0])
-                ax2.plot(self.daily_output_data[deltaname][0:len(self.df.SAC_gains)], c='red')
+                ax2.plot(self.daily_output_data[deltaname][0:len(self.df[0].SAC_gains)], c='red')
                 if deltaname == 'SAC':
-                    ax2.plot(range(274, 274 + len(self.df.SAC_gains)), self.df.SAC_gains * cfs_tafd, c='black')
+                    ax2.plot(range(274, 274 + len(self.df[0].SAC_gains)), self.df[0].SAC_gains * cfs_tafd, c='black')
                 elif deltaname == 'SJ':
-                    ax2.plot(range(274, 274 + len(self.df.SJ_gains)), self.df.SJ_gains * cfs_tafd, c='black')
+                    ax2.plot(range(274, 274 + len(self.df[0].SJ_gains)), self.df[0].SJ_gains * cfs_tafd, c='black')
                 elif deltaname == 'EAST':
-                    ax2.plot(range(274, 274 + len(self.df.EAST_gains)), self.df.EAST_gains * cfs_tafd, c='black')
+                    ax2.plot(range(274, 274 + len(self.df[0].EAST_gains)), self.df[0].EAST_gains * cfs_tafd, c='black')
                 elif deltaname == 'depletions':
-                    ax2.plot(range(274, 274 + len(self.df.delta_depletions)), self.df.delta_depletions * cfs_tafd,
+                    ax2.plot(range(274, 274 + len(self.df[0].delta_depletions)), self.df[0].delta_depletions * cfs_tafd,
                              c='black')
                 elif deltaname == 'CCC':
-                    ax2.plot(range(274, 274 + len(self.df.CCC_pump)), self.df.CCC_pump * cfs_tafd, c='black')
+                    ax2.plot(range(274, 274 + len(self.df[0].CCC_pump)), self.df[0].CCC_pump * cfs_tafd, c='black')
                 elif deltaname == 'BRK':
-                    ax2.plot(range(274, 274 + len(self.df.BRK_pump)), self.df.BRK_pump * cfs_tafd, c='black')
+                    ax2.plot(range(274, 274 + len(self.df[0].BRK_pump)), self.df[0].BRK_pump * cfs_tafd, c='black')
                 fig.suptitle(deltaname)
                 plt.tight_layout()
                 plt.show()

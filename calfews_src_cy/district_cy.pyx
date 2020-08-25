@@ -62,15 +62,15 @@ cdef class District():
       self.deliveries[x+ '_flood_irrigation'] = np.zeros(model.number_years)
 	#deliveries from a groundwater bank (reocrded by banking partner recieving recovery water)
     self.deliveries['recover_banked'] = np.zeros(model.number_years)
-	#deliveries to a in-leiu bank from a banking partner (recalfews_srced by the district acting as a bank)
+	#deliveries to a in-leiu bank from a banking partner (recorded by the district acting as a bank)
     self.deliveries['inleiu_irrigation'] = np.zeros(model.number_years)
     self.deliveries['inleiu_recharge'] = np.zeros(model.number_years)
 
-	#deliveries from an in leiu bank to a banking partner (recalfews_srced by the district acting as a bank)
+	#deliveries from an in leiu bank to a banking partner (recorded by the district acting as a bank)
     self.deliveries['leiupumping'] = np.zeros(model.number_years)
     #deliveries made from a districts bank to third-party district (district recieves a surface water 'paper' credit)
     self.deliveries['exchanged_GW'] = np.zeros(model.number_years)
-    #recalfews_srced when a district recieves water from a bank owned by another district (district gives a surface water 'paper' credit)
+    #recorded when a district recieves water from a bank owned by another district (district gives a surface water 'paper' credit)
     self.deliveries['exchanged_SW'] = np.zeros(model.number_years)
     self.deliveries['undelivered_trades'] = np.zeros(model.number_years)
 	
@@ -1025,7 +1025,7 @@ cdef class District():
       contract_counter += 1
     self.deliveries['exchanged_GW'][wateryear] += trade_amount
 
-  def recalfews_src_direct_delivery(self, delivery, wateryear):
+  def record_direct_delivery(self, delivery, wateryear):
     actual_delivery = min(delivery, self.dailydemand[0]*self.seepage*self.surface_water_sa)
     self.deliveries['recover_banked'][wateryear] += actual_delivery
     self.dailydemand[0] -= actual_delivery/(self.seepage*self.surface_water_sa)
@@ -1077,14 +1077,14 @@ cdef class District():
       else:
         contract_deliveries = 0.0
       delivery_by_contract[y.name] = contract_deliveries
-      #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+      #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
       if search_type == "flood":
         if contract_deliveries > 0.0:
           self.deliveries[y.name + '_flood'][wateryear] += recharge_deliveries
           self.deliveries[y.name + '_flood_irrigation'][wateryear] += direct_deliveries
           self.deliveries[delivery_location + '_recharged'][wateryear] += recharge_deliveries
       else:
-        #irrigation/banking deliveries are recalfews_srced under the contract name so they are included in the 
+        #irrigation/banking deliveries are recorded under the contract name so they are included in the 
 		#contract balance calculations
         #update the individual district accounts
         self.deliveries[y.name][wateryear] += contract_deliveries

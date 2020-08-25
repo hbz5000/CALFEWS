@@ -36,14 +36,14 @@ cdef class Delta():
       setattr(self,k,v)
     # Vectors for delta Inflows
     self.gains = [0.0 for _ in range(self.T)]
-    self.gains_sac = [_ * cfs_tafd for _ in model.df.SAC_gains]
-    self.gains_sj = [_ * cfs_tafd for _ in model.df.SJ_gains]
-    self.depletions = [_ * cfs_tafd for _ in model.df.delta_depletions]
+    self.gains_sac = [_ * cfs_tafd for _ in model.df[0].SAC_gains]
+    self.gains_sj = [_ * cfs_tafd for _ in model.df[0].SJ_gains]
+    self.depletions = [_ * cfs_tafd for _ in model.df[0].delta_depletions]
     self.vernalis_flow = [0.0 for _ in range(self.T)]
-    self.eastside_streams = [_ * cfs_tafd for _ in model.df.EAST_gains]
+    self.eastside_streams = [_ * cfs_tafd for _ in model.df[0].EAST_gains]
     self.inflow = [0.0 for _ in range(self.T)]
-    self.ccc = [_ * cfs_tafd for _ in model.df.CCC_pump]
-    self.barkerslough = [_ * cfs_tafd for _ in model.df.BRK_pump]
+    self.ccc = [_ * cfs_tafd for _ in model.df[0].CCC_pump]
+    self.barkerslough = [_ * cfs_tafd for _ in model.df[0].BRK_pump]
 
 
 
@@ -71,18 +71,18 @@ cdef class Delta():
     self.sac_fnf = [0.0 for _ in range(model.number_years)]
 	##Old/Middle River Calculations
     if self.model_mode == 'validation':
-      if 'OMR' in model.df:
-        self.hist_OMR = [_ * cfs_tafd for _ in model.df.OMR]
-        self.hist_TRP_pump = [_ * cfs_tafd for _ in model.df.TRP_pump]
-        self.hist_HRO_pump = [_ * cfs_tafd for _ in model.df.HRO_pump]
-        self.omr_recalfews_src_start = 4440
+      if 'OMR' in model.df[0]:
+        self.hist_OMR = [_ * cfs_tafd for _ in model.df[0].OMR]
+        self.hist_TRP_pump = [_ * cfs_tafd for _ in model.df[0].TRP_pump]
+        self.hist_HRO_pump = [_ * cfs_tafd for _ in model.df[0].HRO_pump]
+        self.omr_record_start = 4440
       else:
-        self.omr_recalfews_src_start = self.T + 1
+        self.omr_record_start = self.T + 1
 
       self.omr_rule_start = 2006
       self.vamp_rule_start = 2009
     else:
-      self.omr_recalfews_src_start = self.T + 1
+      self.omr_record_start = self.T + 1
       self.omr_rule_start = -1
       self.vamp_rule_start = -1
       self.fish_condition = [_ for _ in np.random.random_sample((self.T,))]
@@ -454,7 +454,7 @@ cdef class Delta():
 	#become.  To model this, we use either a liner adjustment of flow at vernalis, or the observed flow (adding back in the pumping, to estimate
 	#the 'natural' flow on the Old-Middle Rivers).  Once we have a model of the Old-Middle River, we assume that this flow is reduced (can become negative)
 	# by 90% of the total pumping.  So, if the OMR limit is -5000CFS, & the natural flow is 1000CFS, pumping can be, maximum, 6000CFS/0.9
-    if t > self.omr_recalfews_src_start:
+    if t > self.omr_record_start:
       omrNat = self.hist_OMR[t] + (self.hist_TRP_pump[t] + self.hist_HRO_pump[t])*.94
       pumping_coef = 0.94
     else:
@@ -984,7 +984,7 @@ cdef class Delta():
 
 	##Calculate X2 values, for salinity rules - note, if outflow is negative (may happen under extreme conditions in which not enough storage to meet negative gains)
 	##X2 is calculated w/an outflow of 50 cfs b/c log calcs require positive flow
-    if t > self.omr_recalfews_src_start:
+    if t > self.omr_record_start:
       self.OMR[t] = self.hist_OMR[t] + self.hist_TRP_pump[t] + self.hist_HRO_pump[t] - self.TRP_pump[t] - self.HRO_pump[t]
     else:
       if self.vernalis_gains < 16000.0*cfs_tafd:
@@ -1010,17 +1010,17 @@ cdef class Delta():
 	
 	
   def create_flow_shapes_omr(self, model):
-    omr_series = model.df_short['OMR'].values * cfs_tafd
-    pump_series = model.df_short['HRO_pump'].values * cfs_tafd
-    pump_series2 = model.df_short['TRP_pump'].values * cfs_tafd
+    omr_series = model.df_short[0]['OMR'].values * cfs_tafd
+    pump_series = model.df_short[0]['HRO_pump'].values * cfs_tafd
+    pump_series2 = model.df_short[0]['TRP_pump'].values * cfs_tafd
     flow_series = omr_series + (pump_series + pump_series2)*0.94
-    omr_short_recalfews_src_start = 4440
+    omr_short_record_start = 4440
 
-    fnf_series = np.zeros(len(model.df_short))
+    fnf_series = np.zeros(len(model.df_short[0]))
     for fnf_keys in ['NML', 'DNP', 'EXC', 'MIL']:
-      fnf_ind = model.df_short['%s_fnf'% fnf_keys].values / 1000000.0
+      fnf_ind = model.df_short[0]['%s_fnf'% fnf_keys].values / 1000000.0
       fnf_series += fnf_ind
-    startYear = model.short_year[omr_short_recalfews_src_start]
+    startYear = model.short_year[omr_short_record_start]
     endYear = model.short_ending_year
     numYears = endYear - startYear
     self.omr_regression = {}
@@ -1029,10 +1029,10 @@ cdef class Delta():
     monthly_flow = np.zeros((12, (endYear - startYear)))
     running_fnf = np.zeros((365,(endYear - startYear)))
     prev_fnf = 0.0
-    for t in range(omr_short_recalfews_src_start,(model.T_short)):
+    for t in range(omr_short_record_start,(model.T_short)):
       m = model.short_month[t]
       dowy = model.short_dowy[t]
-      wateryear = model.short_water_year[t] - model.short_water_year[omr_short_recalfews_src_start]
+      wateryear = model.short_water_year[t] - model.short_water_year[omr_short_record_start]
       monthly_flow[m-1][wateryear] += flow_series[t-1]
       prev_fnf += fnf_series[t-1]
       running_fnf[dowy][wateryear] = np.sum(fnf_series[(t-30):t])

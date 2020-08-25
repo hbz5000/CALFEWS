@@ -4559,7 +4559,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
 
   /* "calfews_src_cy/canal_cy.pyx":123
  * 	#flow is considered not delivered
- *     #at this node, recalfews_src the total delivery as 'turnout' and the total flow as 'flow' for this canal object
+ *     #at this node, record the total delivery as 'turnout' and the total flow as 'flow' for this canal object
  *     self.turnout_use[canal_loc] += location_delivery             # <<<<<<<<<<<<<<
  *     self.flow[canal_loc] += available_flow
  *     evap_flows = 0.0
@@ -4591,7 +4591,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "calfews_src_cy/canal_cy.pyx":124
- *     #at this node, recalfews_src the total delivery as 'turnout' and the total flow as 'flow' for this canal object
+ *     #at this node, record the total delivery as 'turnout' and the total flow as 'flow' for this canal object
  *     self.turnout_use[canal_loc] += location_delivery
  *     self.flow[canal_loc] += available_flow             # <<<<<<<<<<<<<<
  *     evap_flows = 0.0
@@ -4707,8 +4707,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
  *       next_step = -1
  *     #turnback flows are the remaining available flow in excess of the next node's capacity
  *     turnback_flows = max(available_flow - self.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + self.flow[canal_loc+next_step], 0.0)             # <<<<<<<<<<<<<<
- *     #if there is turnback flow, we need to remove that flow from the available flow (and all recalfews_srced canal flows at previous nodes)
- * 	#if the turnback flow can be accepted by other nodes, it will be recalfews_srced as 'flow' and 'turnout_use' then (not this function)
+ *     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
+ * 	#if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
  */
   __pyx_t_6 = 0.0;
   if (unlikely(__pyx_v_self->capacity == Py_None)) {
@@ -4770,8 +4770,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
   __pyx_t_2 = 0;
 
   /* "calfews_src_cy/canal_cy.pyx":137
- *     #if there is turnback flow, we need to remove that flow from the available flow (and all recalfews_srced canal flows at previous nodes)
- * 	#if the turnback flow can be accepted by other nodes, it will be recalfews_srced as 'flow' and 'turnout_use' then (not this function)
+ *     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
+ * 	#if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
  *     if turnback_flows > 0.005:             # <<<<<<<<<<<<<<
  *       available_flow -= turnback_flows
  *       if flow_dir == "normal":
@@ -4782,7 +4782,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
   if (__pyx_t_5) {
 
     /* "calfews_src_cy/canal_cy.pyx":138
- * 	#if the turnback flow can be accepted by other nodes, it will be recalfews_srced as 'flow' and 'turnout_use' then (not this function)
+ * 	#if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
  *     if turnback_flows > 0.005:
  *       available_flow -= turnback_flows             # <<<<<<<<<<<<<<
  *       if flow_dir == "normal":
@@ -5076,8 +5076,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8canal_cy_5Canal_16update_canal_use(s
     __pyx_L6:;
 
     /* "calfews_src_cy/canal_cy.pyx":137
- *     #if there is turnback flow, we need to remove that flow from the available flow (and all recalfews_srced canal flows at previous nodes)
- * 	#if the turnback flow can be accepted by other nodes, it will be recalfews_srced as 'flow' and 'turnout_use' then (not this function)
+ *     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
+ * 	#if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
  *     if turnback_flows > 0.005:             # <<<<<<<<<<<<<<
  *       available_flow -= turnback_flows
  *       if flow_dir == "normal":

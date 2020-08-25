@@ -1208,7 +1208,7 @@ class Private():
         self.deliveries[district]['exchanged_GW'][wateryear] += trade_amount * district_portion
 
 
-  def recalfews_src_direct_delivery(self, delivery, wateryear, district):
+  def record_direct_delivery(self, delivery, wateryear, district):
     actual_delivery = min(delivery, self.dailydemand[district]*self.seepage[district])
 
     self.deliveries[district]['recover_banked'][wateryear] += actual_delivery
@@ -1261,7 +1261,7 @@ class Private():
         contract_deliveries = 0.0
       
       delivery_by_contract[y.name] = contract_deliveries
-      #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+      #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
       if search_type == "flood":
         for x in self.district_list:
           if contract_deliveries > 0.0:
@@ -1269,7 +1269,7 @@ class Private():
             self.deliveries[x][delivery_location + '_recharged'][wateryear] += recharge_deliveries/len(self.district_list)
             self.deliveries[x][y.name + '_flood_irrigation'][wateryear] += direct_deliveries/len(self.district_list)
       else:
-        #irrigation/banking deliveries are recalfews_srced under the contract name so they are included in the 
+        #irrigation/banking deliveries are recorded under the contract name so they are included in the 
 		#contract balance calculations
         #update the individual district accounts
         if search_type == 'banking':
@@ -1320,11 +1320,11 @@ class Private():
       else:
         contract_deliveries = 0.0
       delivery_by_contract[y.name] = contract_deliveries
-      #flood deliveries do not count against a district's contract allocation, so the deliveries are recalfews_srced as 'flood'
+      #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
       if search_type == "flood":
         self.deliveries[district_name][y.name + '_flood'][wateryear] += contract_deliveries
       else:
-        #irrigation/banking deliveries are recalfews_srced under the contract name so they are included in the 
+        #irrigation/banking deliveries are recorded under the contract name so they are included in the 
 		#contract balance calculations
         #update the individual district accounts
         self.deliveries[district_name][y.name][wateryear] += contract_deliveries
