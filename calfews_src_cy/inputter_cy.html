@@ -396,7 +396,7 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_stats, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 6, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">0007</span>: <span class="k">from</span> <span class="nn">.reservoir_cy</span> <span class="k">cimport</span> <span class="n">Reservoir</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">0007</span>: <span class="k">from</span> <span class="nn">calfews_src_cy.reservoir_cy</span> <span class="k">cimport</span> <span class="n">Reservoir</span></pre>
 <pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0008</span>: <span class="k">import</span> <span class="nn">math</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_math, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -456,7 +456,7 @@ body.cython { font-family: courier; font-size: 12; }
  * import matplotlib.dates as mdates
  * from matplotlib import gridspec             # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
  * from matplotlib.lines import Line2D
- * from .util import *
+ * from calfews_src_cy.util import *
  */
   __pyx_t_2 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -485,13 +485,13 @@ body.cython { font-family: courier; font-size: 12; }
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_Line2D, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 14, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0015</span>: <span class="k">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="o">*</span></pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0015</span>: <span class="k">from</span> <span class="nn">calfews_src_cy.util</span> <span class="k">import</span> <span class="o">*</span></pre>
 <pre class='cython code score-11 '>  __pyx_t_2 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__51);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s__51);
   <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 0, __pyx_n_s__51);
-  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_util, __pyx_t_2, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)</span>
+  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_calfews_src_cy_util, __pyx_t_2, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_import_star(__pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 15, __pyx_L1_error)</span>;

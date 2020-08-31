@@ -3,12 +3,12 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "calfews_src_cy.crop_cy",
+        "name": "crop_cy",
         "sources": [
             "calfews_src_cy/crop_cy.pyx"
         ]
     },
-    "module_name": "calfews_src_cy.crop_cy"
+    "module_name": "crop_cy"
 }
 END: Cython Metadata */
 
@@ -614,8 +614,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__calfews_src_cy__crop_cy
-#define __PYX_HAVE_API__calfews_src_cy__crop_cy
+#define __PYX_HAVE__crop_cy
+#define __PYX_HAVE_API__crop_cy
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -831,14 +831,14 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
-struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop;
+struct __pyx_obj_7crop_cy_Crop;
 
-/* "calfews_src_cy/crop_cy.pxd":1
+/* "crop_cy.pxd":1
  * cdef class Crop():             # <<<<<<<<<<<<<<
  * 
  *   cdef:
  */
-struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop {
+struct __pyx_obj_7crop_cy_Crop {
   PyObject_HEAD
   double sub;
   double price;
@@ -1544,14 +1544,14 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'calfews_src_cy.crop_cy' */
-static PyTypeObject *__pyx_ptype_14calfews_src_cy_7crop_cy_Crop = 0;
-static PyObject *__pyx_f_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop__set_state(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *, PyObject *); /*proto*/
-#define __Pyx_MODULE_NAME "calfews_src_cy.crop_cy"
-extern int __pyx_module_is_main_calfews_src_cy__crop_cy;
-int __pyx_module_is_main_calfews_src_cy__crop_cy = 0;
+/* Module declarations from 'crop_cy' */
+static PyTypeObject *__pyx_ptype_7crop_cy_Crop = 0;
+static PyObject *__pyx_f_7crop_cy___pyx_unpickle_Crop__set_state(struct __pyx_obj_7crop_cy_Crop *, PyObject *); /*proto*/
+#define __Pyx_MODULE_NAME "crop_cy"
+extern int __pyx_module_is_main_crop_cy;
+int __pyx_module_is_main_crop_cy = 0;
 
-/* Implementation of 'calfews_src_cy.crop_cy' */
+/* Implementation of 'crop_cy' */
 static PyObject *__pyx_builtin_StopIteration;
 static PyObject *__pyx_builtin_open;
 static const char __pyx_k_x[] = "x";
@@ -1635,6 +1635,7 @@ static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_tomato[] = "tomato";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_alfalfa[] = "alfalfa";
+static const char __pyx_k_crop_cy[] = "crop_cy";
 static const char __pyx_k_pasture[] = "pasture";
 static const char __pyx_k_potatoe[] = "potatoe";
 static const char __pyx_k_DISTRICT[] = "DISTRICT";
@@ -1675,7 +1676,6 @@ static const char __pyx_k_pyx_unpickle_Crop[] = "__pyx_unpickle_Crop";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_constrain_resource[] = "constrain_resource";
 static const char __pyx_k_resource_constraint[] = "resource_constraint";
-static const char __pyx_k_calfews_src_cy_crop_cy[] = "calfews_src_cy.crop_cy";
 static const char __pyx_k_water_source_constraint[] = "water_source_constraint";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x04[] = "Incompatible checksums (%s vs 0x0435536 = (baseline_inputs, baseline_revenue, beta, crop_keys, crop_list, delta, econ_factors, etM, eta, gamma, key, leontief, pmp_keys, price, sub, tau, water_source_list))";
 static const char __pyx_k_calfews_src_crop_s_properties_js[] = "calfews_src/crop/%s_properties.json";
@@ -1733,12 +1733,12 @@ static PyObject *__pyx_n_s_basinhopping;
 static PyObject *__pyx_n_u_bounds;
 static PyObject *__pyx_n_s_calc_ag_profit;
 static PyObject *__pyx_kp_u_calfews_src_crop_s_properties_js;
-static PyObject *__pyx_n_s_calfews_src_cy_crop_cy;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_constrain_resource;
 static PyObject *__pyx_n_u_constraints;
 static PyObject *__pyx_n_u_corn;
 static PyObject *__pyx_n_u_cotton;
+static PyObject *__pyx_n_s_crop_cy;
 static PyObject *__pyx_n_u_deciduous_misc;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_district;
@@ -1805,69 +1805,69 @@ static PyObject *__pyx_n_u_vegetable_small;
 static PyObject *__pyx_n_s_water_source_constraint;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_x0;
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static Py_ssize_t __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(CYTHON_UNUSED struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_key); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_all_parameters, PyObject *__pyx_v_district); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_econ_parameters, PyObject *__pyx_v_district); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_water_source_constraint, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x, PyObject *__pyx_v_resource_constraint, PyObject *__pyx_v_resource_type); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_20__reduce_cython__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_22__setstate_cython__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_tp_new_14calfews_src_cy_7crop_cy_Crop(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_pf_7crop_cy_4Crop___iter__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_2__next__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static Py_ssize_t __pyx_pf_7crop_cy_4Crop_4__len__(CYTHON_UNUSED struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_6__init__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_key); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_8set_pmp_parameters(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_all_parameters, PyObject *__pyx_v_district); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_10set_econ_parameters(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_econ_parameters, PyObject *__pyx_v_district); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_12find_pmp_acreage(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_water_source_constraint, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_14constrain_resource(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x, PyObject *__pyx_v_resource_constraint, PyObject *__pyx_v_resource_type); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_16calc_ag_profit(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_18make_crop_list(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_3sub___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3sub_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_5price___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_5price_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_3key___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3key_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3key_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_17water_source_list___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_17water_source_list_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_17water_source_list_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_9crop_list___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_9crop_list_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_9crop_list_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_3tau___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3tau_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3tau_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_4beta___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_4beta_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_4beta_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_5delta___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_5delta_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_5delta_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_5gamma___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_5gamma_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_5gamma_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_8leontief___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_8leontief_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_8leontief_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_3eta___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3eta_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3eta_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_15baseline_inputs___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_15baseline_inputs_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_15baseline_inputs_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_16baseline_revenue___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_16baseline_revenue_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_16baseline_revenue_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_12econ_factors___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_12econ_factors_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_12econ_factors_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_8pmp_keys___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_8pmp_keys_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_8pmp_keys_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_9crop_keys___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_9crop_keys_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_9crop_keys_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_3etM___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3etM_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7crop_cy_4Crop_3etM_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_20__reduce_cython__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7crop_cy_4Crop_22__setstate_cython__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_7crop_cy___pyx_unpickle_Crop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_tp_new_7crop_cy_Crop(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_index = {0, &__pyx_n_s_index, 0, 0, 0};
 static PyObject *__pyx_float_0_0;
 static PyObject *__pyx_float_1_0;
@@ -1881,7 +1881,7 @@ static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_codeobj__3;
 /* Late includes */
 
-/* "calfews_src_cy/crop_cy.pyx":13
+/* "crop_cy.pyx":13
  * cdef class Crop():
  * 
  *   def __iter__(self):             # <<<<<<<<<<<<<<
@@ -1890,19 +1890,19 @@ static PyObject *__pyx_codeobj__3;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_1__iter__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_1__iter__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_1__iter__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_1__iter__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__iter__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop___iter__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop___iter__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -1912,7 +1912,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_
   __Pyx_RefNannySetupContext("__iter__", 0);
   __Pyx_TraceCall("__iter__", __pyx_f[0], 13, 0, __PYX_ERR(0, 13, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":14
+  /* "crop_cy.pyx":14
  * 
  *   def __iter__(self):
  *     self.iter_count = 0             # <<<<<<<<<<<<<<
@@ -1921,7 +1921,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_
  */
   if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_int_0) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":15
+  /* "crop_cy.pyx":15
  *   def __iter__(self):
  *     self.iter_count = 0
  *     return self             # <<<<<<<<<<<<<<
@@ -1933,7 +1933,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "calfews_src_cy/crop_cy.pyx":13
+  /* "crop_cy.pyx":13
  * cdef class Crop():
  * 
  *   def __iter__(self):             # <<<<<<<<<<<<<<
@@ -1943,7 +1943,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.__iter__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.__iter__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1952,7 +1952,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":17
+/* "crop_cy.pyx":17
  *     return self
  * 
  *   def __next__(self):             # <<<<<<<<<<<<<<
@@ -1961,19 +1961,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop___iter__(struct __pyx_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3__next__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3__next__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_3__next__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_3__next__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__next__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_2__next__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_2__next__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -1986,7 +1986,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
   __Pyx_RefNannySetupContext("__next__", 0);
   __Pyx_TraceCall("__next__", __pyx_f[0], 17, 0, __PYX_ERR(0, 17, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":18
+  /* "crop_cy.pyx":18
  * 
  *   def __next__(self):
  *     if self.iter_count == 0:             # <<<<<<<<<<<<<<
@@ -2002,7 +2002,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(__pyx_t_3)) {
 
-    /* "calfews_src_cy/crop_cy.pyx":19
+    /* "crop_cy.pyx":19
  *   def __next__(self):
  *     if self.iter_count == 0:
  *       self.iter_count += 1             # <<<<<<<<<<<<<<
@@ -2017,7 +2017,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
     if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":20
+    /* "crop_cy.pyx":20
  *     if self.iter_count == 0:
  *       self.iter_count += 1
  *       return self             # <<<<<<<<<<<<<<
@@ -2029,7 +2029,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
     __pyx_r = ((PyObject *)__pyx_v_self);
     goto __pyx_L0;
 
-    /* "calfews_src_cy/crop_cy.pyx":18
+    /* "crop_cy.pyx":18
  * 
  *   def __next__(self):
  *     if self.iter_count == 0:             # <<<<<<<<<<<<<<
@@ -2038,7 +2038,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
  */
   }
 
-  /* "calfews_src_cy/crop_cy.pyx":22
+  /* "crop_cy.pyx":22
  *       return self
  *     else:
  *       raise StopIteration             # <<<<<<<<<<<<<<
@@ -2050,7 +2050,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
     __PYX_ERR(0, 22, __pyx_L1_error)
   }
 
-  /* "calfews_src_cy/crop_cy.pyx":17
+  /* "crop_cy.pyx":17
  *     return self
  * 
  *   def __next__(self):             # <<<<<<<<<<<<<<
@@ -2062,7 +2062,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.__next__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.__next__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2071,7 +2071,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":24
+/* "crop_cy.pyx":24
  *       raise StopIteration
  * 
  *   def __len__(self):             # <<<<<<<<<<<<<<
@@ -2080,19 +2080,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_2__next__(struct __pyx
  */
 
 /* Python wrapper */
-static Py_ssize_t __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5__len__(PyObject *__pyx_v_self); /*proto*/
-static Py_ssize_t __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5__len__(PyObject *__pyx_v_self) {
+static Py_ssize_t __pyx_pw_7crop_cy_4Crop_5__len__(PyObject *__pyx_v_self); /*proto*/
+static Py_ssize_t __pyx_pw_7crop_cy_4Crop_5__len__(PyObject *__pyx_v_self) {
   Py_ssize_t __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__len__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_4__len__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static Py_ssize_t __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(CYTHON_UNUSED struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static Py_ssize_t __pyx_pf_7crop_cy_4Crop_4__len__(CYTHON_UNUSED struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   Py_ssize_t __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -2102,7 +2102,7 @@ static Py_ssize_t __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(CYTHON_UNUSE
   __Pyx_RefNannySetupContext("__len__", 0);
   __Pyx_TraceCall("__len__", __pyx_f[0], 24, 0, __PYX_ERR(0, 24, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":25
+  /* "crop_cy.pyx":25
  * 
  *   def __len__(self):
  *     return 1             # <<<<<<<<<<<<<<
@@ -2112,7 +2112,7 @@ static Py_ssize_t __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(CYTHON_UNUSE
   __pyx_r = 1;
   goto __pyx_L0;
 
-  /* "calfews_src_cy/crop_cy.pyx":24
+  /* "crop_cy.pyx":24
  *       raise StopIteration
  * 
  *   def __len__(self):             # <<<<<<<<<<<<<<
@@ -2122,7 +2122,7 @@ static Py_ssize_t __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(CYTHON_UNUSE
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -2130,7 +2130,7 @@ static Py_ssize_t __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":27
+/* "crop_cy.pyx":27
  *     return 1
  * 
  *   def __init__(self, key):             # <<<<<<<<<<<<<<
@@ -2139,8 +2139,8 @@ static Py_ssize_t __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4__len__(CYTHON_UNUSE
  */
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_key = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -2180,18 +2180,18 @@ static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), __pyx_v_key);
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_6__init__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), __pyx_v_key);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_key) {
+static int __pyx_pf_7crop_cy_4Crop_6__init__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_key) {
   PyObject *__pyx_v_k = NULL;
   PyObject *__pyx_v_v = NULL;
   int __pyx_r;
@@ -2213,7 +2213,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __Pyx_RefNannySetupContext("__init__", 0);
   __Pyx_TraceCall("__init__", __pyx_f[0], 27, 0, __PYX_ERR(0, 27, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":28
+  /* "crop_cy.pyx":28
  * 
  *   def __init__(self, key):
  *     self.key = key             # <<<<<<<<<<<<<<
@@ -2229,7 +2229,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->key = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":29
+  /* "crop_cy.pyx":29
  *   def __init__(self, key):
  *     self.key = key
  *     self.tau = {}             # <<<<<<<<<<<<<<
@@ -2244,7 +2244,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->tau = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":30
+  /* "crop_cy.pyx":30
  *     self.key = key
  *     self.tau = {}
  *     self.beta = {}             # <<<<<<<<<<<<<<
@@ -2259,7 +2259,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->beta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":31
+  /* "crop_cy.pyx":31
  *     self.tau = {}
  *     self.beta = {}
  *     self.delta = {}             # <<<<<<<<<<<<<<
@@ -2274,7 +2274,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->delta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":32
+  /* "crop_cy.pyx":32
  *     self.beta = {}
  *     self.delta = {}
  *     self.gamma = {}             # <<<<<<<<<<<<<<
@@ -2289,7 +2289,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->gamma = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":33
+  /* "crop_cy.pyx":33
  *     self.delta = {}
  *     self.gamma = {}
  *     self.leontief = {}             # <<<<<<<<<<<<<<
@@ -2304,7 +2304,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->leontief = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":34
+  /* "crop_cy.pyx":34
  *     self.gamma = {}
  *     self.leontief = {}
  *     self.eta = {}             # <<<<<<<<<<<<<<
@@ -2319,7 +2319,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->eta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":35
+  /* "crop_cy.pyx":35
  *     self.leontief = {}
  *     self.eta = {}
  *     self.baseline_inputs = {}             # <<<<<<<<<<<<<<
@@ -2334,7 +2334,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->baseline_inputs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":36
+  /* "crop_cy.pyx":36
  *     self.eta = {}
  *     self.baseline_inputs = {}
  *     self.baseline_revenue = {}             # <<<<<<<<<<<<<<
@@ -2349,7 +2349,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->baseline_revenue = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":37
+  /* "crop_cy.pyx":37
  *     self.baseline_inputs = {}
  *     self.baseline_revenue = {}
  *     self.econ_factors = {}             # <<<<<<<<<<<<<<
@@ -2364,7 +2364,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->econ_factors = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":38
+  /* "crop_cy.pyx":38
  *     self.baseline_revenue = {}
  *     self.econ_factors = {}
  *     self.pmp_keys = {}             # <<<<<<<<<<<<<<
@@ -2379,7 +2379,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->pmp_keys = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":39
+  /* "crop_cy.pyx":39
  *     self.econ_factors = {}
  *     self.pmp_keys = {}
  *     self.pmp_keys['TAU'] = self.tau             # <<<<<<<<<<<<<<
@@ -2395,7 +2395,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_TAU, __pyx_t_1) < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":40
+  /* "crop_cy.pyx":40
  *     self.pmp_keys = {}
  *     self.pmp_keys['TAU'] = self.tau
  *     self.pmp_keys['BETA'] = self.beta             # <<<<<<<<<<<<<<
@@ -2411,7 +2411,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_BETA, __pyx_t_1) < 0)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":41
+  /* "crop_cy.pyx":41
  *     self.pmp_keys['TAU'] = self.tau
  *     self.pmp_keys['BETA'] = self.beta
  *     self.pmp_keys['DELTA'] = self.delta             # <<<<<<<<<<<<<<
@@ -2427,7 +2427,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_DELTA, __pyx_t_1) < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":42
+  /* "crop_cy.pyx":42
  *     self.pmp_keys['BETA'] = self.beta
  *     self.pmp_keys['DELTA'] = self.delta
  *     self.pmp_keys['GAMMA'] = self.gamma             # <<<<<<<<<<<<<<
@@ -2443,7 +2443,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_GAMMA, __pyx_t_1) < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":43
+  /* "crop_cy.pyx":43
  *     self.pmp_keys['DELTA'] = self.delta
  *     self.pmp_keys['GAMMA'] = self.gamma
  *     self.pmp_keys['ETA'] = self.eta             # <<<<<<<<<<<<<<
@@ -2459,7 +2459,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_ETA, __pyx_t_1) < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":44
+  /* "crop_cy.pyx":44
  *     self.pmp_keys['GAMMA'] = self.gamma
  *     self.pmp_keys['ETA'] = self.eta
  *     self.pmp_keys['LEONTIEF'] = self.leontief             # <<<<<<<<<<<<<<
@@ -2475,7 +2475,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_LEONTIEF, __pyx_t_1) < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":45
+  /* "crop_cy.pyx":45
  *     self.pmp_keys['ETA'] = self.eta
  *     self.pmp_keys['LEONTIEF'] = self.leontief
  *     self.pmp_keys['INPUTS'] = self.baseline_inputs             # <<<<<<<<<<<<<<
@@ -2491,7 +2491,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_INPUTS, __pyx_t_1) < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":46
+  /* "crop_cy.pyx":46
  *     self.pmp_keys['LEONTIEF'] = self.leontief
  *     self.pmp_keys['INPUTS'] = self.baseline_inputs
  *     self.pmp_keys['REV'] = self.baseline_revenue             # <<<<<<<<<<<<<<
@@ -2507,7 +2507,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_REV, __pyx_t_1) < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":47
+  /* "crop_cy.pyx":47
  *     self.pmp_keys['INPUTS'] = self.baseline_inputs
  *     self.pmp_keys['REV'] = self.baseline_revenue
  *     self.crop_keys = {}             # <<<<<<<<<<<<<<
@@ -2522,7 +2522,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __pyx_v_self->crop_keys = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":48
+  /* "crop_cy.pyx":48
  *     self.pmp_keys['REV'] = self.baseline_revenue
  *     self.crop_keys = {}
  *     self.crop_keys['ALFAL'] = 'alfalfa'             # <<<<<<<<<<<<<<
@@ -2535,7 +2535,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ALFAL, __pyx_n_u_alfalfa) < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":49
+  /* "crop_cy.pyx":49
  *     self.crop_keys = {}
  *     self.crop_keys['ALFAL'] = 'alfalfa'
  *     self.crop_keys['ALPIS'] = 'pistachio'             # <<<<<<<<<<<<<<
@@ -2548,7 +2548,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ALPIS, __pyx_n_u_pistachio) < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":50
+  /* "crop_cy.pyx":50
  *     self.crop_keys['ALFAL'] = 'alfalfa'
  *     self.crop_keys['ALPIS'] = 'pistachio'
  *     self.crop_keys['CORN'] = 'corn'             # <<<<<<<<<<<<<<
@@ -2561,7 +2561,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_CORN, __pyx_n_u_corn) < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":51
+  /* "crop_cy.pyx":51
  *     self.crop_keys['ALPIS'] = 'pistachio'
  *     self.crop_keys['CORN'] = 'corn'
  *     self.crop_keys['COTTN'] = 'cotton'             # <<<<<<<<<<<<<<
@@ -2574,7 +2574,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_COTTN, __pyx_n_u_cotton) < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":52
+  /* "crop_cy.pyx":52
  *     self.crop_keys['CORN'] = 'corn'
  *     self.crop_keys['COTTN'] = 'cotton'
  *     self.crop_keys['CUCUR'] = 'melon'             # <<<<<<<<<<<<<<
@@ -2587,7 +2587,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_CUCUR, __pyx_n_u_melon) < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":53
+  /* "crop_cy.pyx":53
  *     self.crop_keys['COTTN'] = 'cotton'
  *     self.crop_keys['CUCUR'] = 'melon'
  *     self.crop_keys['DRYBN'] = 'field_misc'             # <<<<<<<<<<<<<<
@@ -2600,7 +2600,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_DRYBN, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":54
+  /* "crop_cy.pyx":54
  *     self.crop_keys['CUCUR'] = 'melon'
  *     self.crop_keys['DRYBN'] = 'field_misc'
  *     self.crop_keys['FRTOM'] = 'tomato'             # <<<<<<<<<<<<<<
@@ -2613,7 +2613,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_FRTOM, __pyx_n_u_tomato) < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":55
+  /* "crop_cy.pyx":55
  *     self.crop_keys['DRYBN'] = 'field_misc'
  *     self.crop_keys['FRTOM'] = 'tomato'
  *     self.crop_keys['GRAIN'] = 'grain'             # <<<<<<<<<<<<<<
@@ -2626,7 +2626,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_GRAIN, __pyx_n_u_grain) < 0)) __PYX_ERR(0, 55, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":56
+  /* "crop_cy.pyx":56
  *     self.crop_keys['FRTOM'] = 'tomato'
  *     self.crop_keys['GRAIN'] = 'grain'
  *     self.crop_keys['ONGAR'] = 'onion'             # <<<<<<<<<<<<<<
@@ -2639,7 +2639,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ONGAR, __pyx_n_u_onion) < 0)) __PYX_ERR(0, 56, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":57
+  /* "crop_cy.pyx":57
  *     self.crop_keys['GRAIN'] = 'grain'
  *     self.crop_keys['ONGAR'] = 'onion'
  *     self.crop_keys['OTHDEC'] = 'deciduous_misc'             # <<<<<<<<<<<<<<
@@ -2652,7 +2652,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHDEC, __pyx_n_u_deciduous_misc) < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":58
+  /* "crop_cy.pyx":58
  *     self.crop_keys['ONGAR'] = 'onion'
  *     self.crop_keys['OTHDEC'] = 'deciduous_misc'
  *     self.crop_keys['OTHFLD'] = 'field_misc'             # <<<<<<<<<<<<<<
@@ -2665,7 +2665,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHFLD, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":59
+  /* "crop_cy.pyx":59
  *     self.crop_keys['OTHDEC'] = 'deciduous_misc'
  *     self.crop_keys['OTHFLD'] = 'field_misc'
  *     self.crop_keys['OTHTRK'] = 'field_misc'             # <<<<<<<<<<<<<<
@@ -2678,7 +2678,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHTRK, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":60
+  /* "crop_cy.pyx":60
  *     self.crop_keys['OTHFLD'] = 'field_misc'
  *     self.crop_keys['OTHTRK'] = 'field_misc'
  *     self.crop_keys['PASTR'] = 'pasture'             # <<<<<<<<<<<<<<
@@ -2691,7 +2691,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_PASTR, __pyx_n_u_pasture) < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":61
+  /* "crop_cy.pyx":61
  *     self.crop_keys['OTHTRK'] = 'field_misc'
  *     self.crop_keys['PASTR'] = 'pasture'
  *     self.crop_keys['POTATO'] = 'potatoe'             # <<<<<<<<<<<<<<
@@ -2704,7 +2704,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_POTATO, __pyx_n_u_potatoe) < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":62
+  /* "crop_cy.pyx":62
  *     self.crop_keys['PASTR'] = 'pasture'
  *     self.crop_keys['POTATO'] = 'potatoe'
  *     self.crop_keys['PRTOM'] = 'tomato'             # <<<<<<<<<<<<<<
@@ -2717,7 +2717,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_PRTOM, __pyx_n_u_tomato) < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":63
+  /* "crop_cy.pyx":63
  *     self.crop_keys['POTATO'] = 'potatoe'
  *     self.crop_keys['PRTOM'] = 'tomato'
  *     self.crop_keys['RICE'] = 'rice'             # <<<<<<<<<<<<<<
@@ -2730,7 +2730,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_RICE, __pyx_n_u_rice) < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":64
+  /* "crop_cy.pyx":64
  *     self.crop_keys['PRTOM'] = 'tomato'
  *     self.crop_keys['RICE'] = 'rice'
  *     self.crop_keys['SAFLR'] = 'safflower'             # <<<<<<<<<<<<<<
@@ -2743,7 +2743,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SAFLR, __pyx_n_u_safflower) < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":65
+  /* "crop_cy.pyx":65
  *     self.crop_keys['RICE'] = 'rice'
  *     self.crop_keys['SAFLR'] = 'safflower'
  *     self.crop_keys['SBEET'] = 'vegetable_small'             # <<<<<<<<<<<<<<
@@ -2756,7 +2756,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SBEET, __pyx_n_u_vegetable_small) < 0)) __PYX_ERR(0, 65, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":66
+  /* "crop_cy.pyx":66
  *     self.crop_keys['SAFLR'] = 'safflower'
  *     self.crop_keys['SBEET'] = 'vegetable_small'
  *     self.crop_keys['SUBTRP'] = 'subtropical_misc'             # <<<<<<<<<<<<<<
@@ -2769,7 +2769,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SUBTRP, __pyx_n_u_subtropical_misc) < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":67
+  /* "crop_cy.pyx":67
  *     self.crop_keys['SBEET'] = 'vegetable_small'
  *     self.crop_keys['SUBTRP'] = 'subtropical_misc'
  *     self.crop_keys['VINE'] = 'grape'             # <<<<<<<<<<<<<<
@@ -2782,7 +2782,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_VINE, __pyx_n_u_grape) < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
 
-  /* "calfews_src_cy/crop_cy.pyx":68
+  /* "crop_cy.pyx":68
  *     self.crop_keys['SUBTRP'] = 'subtropical_misc'
  *     self.crop_keys['VINE'] = 'grape'
  *     self.sub = 0.17             # <<<<<<<<<<<<<<
@@ -2791,7 +2791,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
  */
   __pyx_v_self->sub = 0.17;
 
-  /* "calfews_src_cy/crop_cy.pyx":71
+  /* "crop_cy.pyx":71
  * 
  * 
  *     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():             # <<<<<<<<<<<<<<
@@ -2846,7 +2846,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":72
+    /* "crop_cy.pyx":72
  * 
  *     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():
  *         setattr(self,k,v)             # <<<<<<<<<<<<<<
@@ -2857,7 +2857,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":27
+  /* "crop_cy.pyx":27
  *     return 1
  * 
  *   def __init__(self, key):             # <<<<<<<<<<<<<<
@@ -2874,7 +2874,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_k);
@@ -2884,7 +2884,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":74
+/* "crop_cy.pyx":74
  *         setattr(self,k,v)
  * 
  *   def set_pmp_parameters(self, all_parameters, district):             # <<<<<<<<<<<<<<
@@ -2893,8 +2893,8 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_6__init__(struct __pyx_obj_1
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9set_pmp_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9set_pmp_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_9set_pmp_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_9set_pmp_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_all_parameters = 0;
   PyObject *__pyx_v_district = 0;
   int __pyx_lineno = 0;
@@ -2945,18 +2945,18 @@ static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9set_pmp_parameters(Py
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("set_pmp_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 74, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.set_pmp_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.set_pmp_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), __pyx_v_all_parameters, __pyx_v_district);
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_8set_pmp_parameters(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), __pyx_v_all_parameters, __pyx_v_district);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_all_parameters, PyObject *__pyx_v_district) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_8set_pmp_parameters(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_all_parameters, PyObject *__pyx_v_district) {
   PyObject *__pyx_v_parameter_name = NULL;
   PyObject *__pyx_v_parameter_data = NULL;
   PyObject *__pyx_v_district_index = NULL;
@@ -2985,7 +2985,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
   __Pyx_RefNannySetupContext("set_pmp_parameters", 0);
   __Pyx_TraceCall("set_pmp_parameters", __pyx_f[0], 74, 0, __PYX_ERR(0, 74, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":75
+  /* "crop_cy.pyx":75
  * 
  *   def set_pmp_parameters(self, all_parameters, district):
  *     for parameter_name in all_parameters:             # <<<<<<<<<<<<<<
@@ -3034,7 +3034,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     __Pyx_XDECREF_SET(__pyx_v_parameter_name, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":76
+    /* "crop_cy.pyx":76
  *   def set_pmp_parameters(self, all_parameters, district):
  *     for parameter_name in all_parameters:
  *       parameter_data = all_parameters[parameter_name]             # <<<<<<<<<<<<<<
@@ -3046,7 +3046,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     __Pyx_XDECREF_SET(__pyx_v_parameter_data, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":77
+    /* "crop_cy.pyx":77
  *     for parameter_name in all_parameters:
  *       parameter_data = all_parameters[parameter_name]
  *       district_index = parameter_data['Region'] == district             # <<<<<<<<<<<<<<
@@ -3060,7 +3060,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     __Pyx_XDECREF_SET(__pyx_v_district_index, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":78
+    /* "crop_cy.pyx":78
  *       parameter_data = all_parameters[parameter_name]
  *       district_index = parameter_data['Region'] == district
  *       district_crops = parameter_data['Crop'][district_index]             # <<<<<<<<<<<<<<
@@ -3075,7 +3075,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     __Pyx_XDECREF_SET(__pyx_v_district_crops, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":79
+    /* "crop_cy.pyx":79
  *       district_index = parameter_data['Region'] == district
  *       district_crops = parameter_data['Crop'][district_index]
  *       district_values = parameter_data['Level'][district_index]             # <<<<<<<<<<<<<<
@@ -3090,7 +3090,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     __Pyx_XDECREF_SET(__pyx_v_district_values, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":81
+    /* "crop_cy.pyx":81
  *       district_values = parameter_data['Level'][district_index]
  * 
  *       if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
@@ -3101,7 +3101,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     __pyx_t_7 = (__pyx_t_6 != 0);
     if (__pyx_t_7) {
 
-      /* "calfews_src_cy/crop_cy.pyx":82
+      /* "crop_cy.pyx":82
  * 
  *       if 'Input' in parameter_data:
  *         district_factors = parameter_data['Input'][district_index]             # <<<<<<<<<<<<<<
@@ -3116,7 +3116,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
       __Pyx_XDECREF_SET(__pyx_v_district_factors, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":81
+      /* "crop_cy.pyx":81
  *       district_values = parameter_data['Level'][district_index]
  * 
  *       if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
@@ -3125,7 +3125,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
  */
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":84
+    /* "crop_cy.pyx":84
  *         district_factors = parameter_data['Input'][district_index]
  * 
  *       parameter_dict = self.pmp_keys[parameter_name]             # <<<<<<<<<<<<<<
@@ -3141,7 +3141,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     __Pyx_XDECREF_SET(__pyx_v_parameter_dict, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":85
+    /* "crop_cy.pyx":85
  * 
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:             # <<<<<<<<<<<<<<
@@ -3196,7 +3196,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
       __Pyx_XDECREF_SET(__pyx_v_y, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":86
+      /* "crop_cy.pyx":86
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
@@ -3207,7 +3207,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
       __pyx_t_6 = (__pyx_t_7 != 0);
       if (__pyx_t_6) {
 
-        /* "calfews_src_cy/crop_cy.pyx":87
+        /* "crop_cy.pyx":87
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:
  *           if district_factors[y] in parameter_dict:             # <<<<<<<<<<<<<<
@@ -3222,7 +3222,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
         __pyx_t_7 = (__pyx_t_6 != 0);
         if (__pyx_t_7) {
 
-          /* "calfews_src_cy/crop_cy.pyx":88
+          /* "crop_cy.pyx":88
  *         if 'Input' in parameter_data:
  *           if district_factors[y] in parameter_dict:
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]             # <<<<<<<<<<<<<<
@@ -3244,7 +3244,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "calfews_src_cy/crop_cy.pyx":87
+          /* "crop_cy.pyx":87
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:
  *           if district_factors[y] in parameter_dict:             # <<<<<<<<<<<<<<
@@ -3254,7 +3254,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
           goto __pyx_L9;
         }
 
-        /* "calfews_src_cy/crop_cy.pyx":90
+        /* "crop_cy.pyx":90
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]
  *           else:
  *             parameter_dict[district_factors[y]] = {}             # <<<<<<<<<<<<<<
@@ -3271,7 +3271,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "calfews_src_cy/crop_cy.pyx":91
+          /* "crop_cy.pyx":91
  *           else:
  *             parameter_dict[district_factors[y]] = {}
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]             # <<<<<<<<<<<<<<
@@ -3295,7 +3295,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
         }
         __pyx_L9:;
 
-        /* "calfews_src_cy/crop_cy.pyx":86
+        /* "crop_cy.pyx":86
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
@@ -3305,7 +3305,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
         goto __pyx_L8;
       }
 
-      /* "calfews_src_cy/crop_cy.pyx":93
+      /* "crop_cy.pyx":93
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]
  *         else:
  *           parameter_dict[district_crops[y]] = district_values[y]             # <<<<<<<<<<<<<<
@@ -3323,7 +3323,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
       }
       __pyx_L8:;
 
-      /* "calfews_src_cy/crop_cy.pyx":85
+      /* "crop_cy.pyx":85
  * 
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:             # <<<<<<<<<<<<<<
@@ -3333,7 +3333,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":75
+    /* "crop_cy.pyx":75
  * 
  *   def set_pmp_parameters(self, all_parameters, district):
  *     for parameter_name in all_parameters:             # <<<<<<<<<<<<<<
@@ -3343,7 +3343,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":74
+  /* "crop_cy.pyx":74
  *         setattr(self,k,v)
  * 
  *   def set_pmp_parameters(self, all_parameters, district):             # <<<<<<<<<<<<<<
@@ -3360,7 +3360,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.set_pmp_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.set_pmp_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_parameter_name);
@@ -3377,7 +3377,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":95
+/* "crop_cy.pyx":95
  *           parameter_dict[district_crops[y]] = district_values[y]
  * 
  *   def set_econ_parameters(self, econ_parameters, district):             # <<<<<<<<<<<<<<
@@ -3386,8 +3386,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8set_pmp_parameters(st
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_11set_econ_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_11set_econ_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_11set_econ_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_11set_econ_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_econ_parameters = 0;
   PyObject *__pyx_v_district = 0;
   int __pyx_lineno = 0;
@@ -3438,18 +3438,18 @@ static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_11set_econ_parameters(
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("set_econ_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 95, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.set_econ_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.set_econ_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), __pyx_v_econ_parameters, __pyx_v_district);
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_10set_econ_parameters(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), __pyx_v_econ_parameters, __pyx_v_district);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_econ_parameters, PyObject *__pyx_v_district) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_10set_econ_parameters(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_econ_parameters, PyObject *__pyx_v_district) {
   PyObject *__pyx_v_parameter_name = NULL;
   PyObject *__pyx_v_econ_data = NULL;
   PyObject *__pyx_v_district_list = NULL;
@@ -3476,7 +3476,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
   __Pyx_RefNannySetupContext("set_econ_parameters", 0);
   __Pyx_TraceCall("set_econ_parameters", __pyx_f[0], 95, 0, __PYX_ERR(0, 95, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":96
+  /* "crop_cy.pyx":96
  * 
  *   def set_econ_parameters(self, econ_parameters, district):
  *     for parameter_name in econ_parameters:             # <<<<<<<<<<<<<<
@@ -3525,7 +3525,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __Pyx_XDECREF_SET(__pyx_v_parameter_name, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":97
+    /* "crop_cy.pyx":97
  *   def set_econ_parameters(self, econ_parameters, district):
  *     for parameter_name in econ_parameters:
  *       econ_data = econ_parameters[parameter_name]             # <<<<<<<<<<<<<<
@@ -3537,7 +3537,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __Pyx_XDECREF_SET(__pyx_v_econ_data, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":98
+    /* "crop_cy.pyx":98
  *     for parameter_name in econ_parameters:
  *       econ_data = econ_parameters[parameter_name]
  *       district_list = list(econ_data['DISTRICT'])             # <<<<<<<<<<<<<<
@@ -3552,7 +3552,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __Pyx_XDECREF_SET(__pyx_v_district_list, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":99
+    /* "crop_cy.pyx":99
  *       econ_data = econ_parameters[parameter_name]
  *       district_list = list(econ_data['DISTRICT'])
  *       district_index = district_list.index(district)             # <<<<<<<<<<<<<<
@@ -3564,7 +3564,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __Pyx_XDECREF_SET(__pyx_v_district_index, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":100
+    /* "crop_cy.pyx":100
  *       district_list = list(econ_data['DISTRICT'])
  *       district_index = district_list.index(district)
  *       if parameter_name == 'WCST':             # <<<<<<<<<<<<<<
@@ -3574,7 +3574,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_WCST, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
     if (__pyx_t_6) {
 
-      /* "calfews_src_cy/crop_cy.pyx":101
+      /* "crop_cy.pyx":101
  *       district_index = district_list.index(district)
  *       if parameter_name == 'WCST':
  *         self.water_source_list = []             # <<<<<<<<<<<<<<
@@ -3589,7 +3589,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       __pyx_v_self->water_source_list = ((PyObject*)__pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":102
+      /* "crop_cy.pyx":102
  *       if parameter_name == 'WCST':
  *         self.water_source_list = []
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3638,7 +3638,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __Pyx_XDECREF_SET(__pyx_v_source, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":103
+        /* "crop_cy.pyx":103
  *         self.water_source_list = []
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
@@ -3648,7 +3648,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
         if (__pyx_t_6) {
 
-          /* "calfews_src_cy/crop_cy.pyx":104
+          /* "crop_cy.pyx":104
  *         for source in econ_data:
  *           if source != 'DISTRICT':
  *             self.water_source_list.append(source)             # <<<<<<<<<<<<<<
@@ -3661,7 +3661,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
           }
           __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_self->water_source_list, __pyx_v_source); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
 
-          /* "calfews_src_cy/crop_cy.pyx":105
+          /* "crop_cy.pyx":105
  *           if source != 'DISTRICT':
  *             self.water_source_list.append(source)
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]             # <<<<<<<<<<<<<<
@@ -3683,7 +3683,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-          /* "calfews_src_cy/crop_cy.pyx":103
+          /* "crop_cy.pyx":103
  *         self.water_source_list = []
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
@@ -3692,7 +3692,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
  */
         }
 
-        /* "calfews_src_cy/crop_cy.pyx":102
+        /* "crop_cy.pyx":102
  *       if parameter_name == 'WCST':
  *         self.water_source_list = []
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3702,7 +3702,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":100
+      /* "crop_cy.pyx":100
  *       district_list = list(econ_data['DISTRICT'])
  *       district_index = district_list.index(district)
  *       if parameter_name == 'WCST':             # <<<<<<<<<<<<<<
@@ -3712,7 +3712,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       goto __pyx_L5;
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":106
+    /* "crop_cy.pyx":106
  *             self.water_source_list.append(source)
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':             # <<<<<<<<<<<<<<
@@ -3722,7 +3722,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_WSOU, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 106, __pyx_L1_error)
     if (__pyx_t_6) {
 
-      /* "calfews_src_cy/crop_cy.pyx":107
+      /* "crop_cy.pyx":107
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3771,7 +3771,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __Pyx_XDECREF_SET(__pyx_v_source, __pyx_t_10);
         __pyx_t_10 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":108
+        /* "crop_cy.pyx":108
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
@@ -3781,7 +3781,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
         if (__pyx_t_6) {
 
-          /* "calfews_src_cy/crop_cy.pyx":109
+          /* "crop_cy.pyx":109
  *         for source in econ_data:
  *           if source != 'DISTRICT':
  *             self.econ_factors[source] = econ_data[source][district_index]             # <<<<<<<<<<<<<<
@@ -3800,7 +3800,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
           if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_source, __pyx_t_4) < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "calfews_src_cy/crop_cy.pyx":108
+          /* "crop_cy.pyx":108
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
@@ -3809,7 +3809,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
  */
         }
 
-        /* "calfews_src_cy/crop_cy.pyx":107
+        /* "crop_cy.pyx":107
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3819,7 +3819,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":106
+      /* "crop_cy.pyx":106
  *             self.water_source_list.append(source)
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':             # <<<<<<<<<<<<<<
@@ -3829,7 +3829,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       goto __pyx_L5;
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":111
+    /* "crop_cy.pyx":111
  *             self.econ_factors[source] = econ_data[source][district_index]
  * 
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':             # <<<<<<<<<<<<<<
@@ -3847,7 +3847,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __pyx_L12_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "calfews_src_cy/crop_cy.pyx":112
+      /* "crop_cy.pyx":112
  * 
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':
  *         self.econ_factors[parameter_name] = {}             # <<<<<<<<<<<<<<
@@ -3863,7 +3863,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_t_5) < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":113
+      /* "crop_cy.pyx":113
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -3912,7 +3912,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":114
+        /* "crop_cy.pyx":114
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]             # <<<<<<<<<<<<<<
@@ -3934,7 +3934,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":115
+        /* "crop_cy.pyx":115
  *         for crop in econ_data:
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]
  *           self.econ_factors[parameter_name] = 1.0             # <<<<<<<<<<<<<<
@@ -3947,7 +3947,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         }
         if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_float_1_0) < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
 
-        /* "calfews_src_cy/crop_cy.pyx":113
+        /* "crop_cy.pyx":113
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -3957,7 +3957,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":111
+      /* "crop_cy.pyx":111
  *             self.econ_factors[source] = econ_data[source][district_index]
  * 
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':             # <<<<<<<<<<<<<<
@@ -3967,7 +3967,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       goto __pyx_L5;
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":116
+    /* "crop_cy.pyx":116
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]
  *           self.econ_factors[parameter_name] = 1.0
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':             # <<<<<<<<<<<<<<
@@ -3985,7 +3985,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     __pyx_L16_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "calfews_src_cy/crop_cy.pyx":117
+      /* "crop_cy.pyx":117
  *           self.econ_factors[parameter_name] = 1.0
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':
  *         self.econ_factors[parameter_name] = {}             # <<<<<<<<<<<<<<
@@ -4001,7 +4001,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_t_5) < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":118
+      /* "crop_cy.pyx":118
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -4050,7 +4050,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_10);
         __pyx_t_10 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":119
+        /* "crop_cy.pyx":119
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:
  *           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]             # <<<<<<<<<<<<<<
@@ -4072,7 +4072,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":118
+        /* "crop_cy.pyx":118
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -4082,7 +4082,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":116
+      /* "crop_cy.pyx":116
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]
  *           self.econ_factors[parameter_name] = 1.0
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':             # <<<<<<<<<<<<<<
@@ -4092,7 +4092,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
     }
     __pyx_L5:;
 
-    /* "calfews_src_cy/crop_cy.pyx":96
+    /* "crop_cy.pyx":96
  * 
  *   def set_econ_parameters(self, econ_parameters, district):
  *     for parameter_name in econ_parameters:             # <<<<<<<<<<<<<<
@@ -4102,7 +4102,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":95
+  /* "crop_cy.pyx":95
  *           parameter_dict[district_crops[y]] = district_values[y]
  * 
  *   def set_econ_parameters(self, econ_parameters, district):             # <<<<<<<<<<<<<<
@@ -4118,7 +4118,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.set_econ_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.set_econ_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_parameter_name);
@@ -4133,7 +4133,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":121
+/* "crop_cy.pyx":121
  *           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]
  * 
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):             # <<<<<<<<<<<<<<
@@ -4142,8 +4142,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_10set_econ_parameters(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_13find_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_13find_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_13find_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_13find_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_water_source_constraint = 0;
   PyObject *__pyx_v_land_constraint = 0;
   PyObject *__pyx_v_x0 = 0;
@@ -4205,18 +4205,18 @@ static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_13find_pmp_acreage(PyO
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("find_pmp_acreage", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 121, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.find_pmp_acreage", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.find_pmp_acreage", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), __pyx_v_water_source_constraint, __pyx_v_land_constraint, __pyx_v_x0);
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_12find_pmp_acreage(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), __pyx_v_water_source_constraint, __pyx_v_land_constraint, __pyx_v_x0);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_water_source_constraint, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_12find_pmp_acreage(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_water_source_constraint, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0) {
   PyObject *__pyx_v_bb = NULL;
   PyObject *__pyx_v_bnds = NULL;
   PyObject *__pyx_v_crop = NULL;
@@ -4246,7 +4246,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __Pyx_RefNannySetupContext("find_pmp_acreage", 0);
   __Pyx_TraceCall("find_pmp_acreage", __pyx_f[0], 121, 0, __PYX_ERR(0, 121, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":122
+  /* "crop_cy.pyx":122
  * 
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):
  *     bb = (0.0, land_constraint)             # <<<<<<<<<<<<<<
@@ -4264,7 +4264,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_v_bb = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":123
+  /* "crop_cy.pyx":123
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):
  *     bb = (0.0, land_constraint)
  *     bnds = []             # <<<<<<<<<<<<<<
@@ -4276,7 +4276,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_v_bnds = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":124
+  /* "crop_cy.pyx":124
  *     bb = (0.0, land_constraint)
  *     bnds = []
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4299,7 +4299,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":125
+    /* "crop_cy.pyx":125
  *     bnds = []
  *     for crop in self.crop_list:
  *       bnds.append(bb)             # <<<<<<<<<<<<<<
@@ -4308,7 +4308,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
  */
     __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_bnds, __pyx_v_bb); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
 
-    /* "calfews_src_cy/crop_cy.pyx":124
+    /* "crop_cy.pyx":124
  *     bb = (0.0, land_constraint)
  *     bnds = []
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4318,7 +4318,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":126
+  /* "crop_cy.pyx":126
  *     for crop in self.crop_list:
  *       bnds.append(bb)
  *     water_constraint = 0.0             # <<<<<<<<<<<<<<
@@ -4328,7 +4328,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_water_constraint = __pyx_float_0_0;
 
-  /* "calfews_src_cy/crop_cy.pyx":127
+  /* "crop_cy.pyx":127
  *       bnds.append(bb)
  *     water_constraint = 0.0
  *     water_cost = 0.0             # <<<<<<<<<<<<<<
@@ -4338,7 +4338,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_water_cost = __pyx_float_0_0;
 
-  /* "calfews_src_cy/crop_cy.pyx":128
+  /* "crop_cy.pyx":128
  *     water_constraint = 0.0
  *     water_cost = 0.0
  *     self.econ_factors['WATER'] = {}             # <<<<<<<<<<<<<<
@@ -4354,7 +4354,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER, __pyx_t_1) < 0)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":129
+  /* "crop_cy.pyx":129
  *     water_cost = 0.0
  *     self.econ_factors['WATER'] = {}
  *     for source in water_source_constraint:             # <<<<<<<<<<<<<<
@@ -4403,7 +4403,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
     __Pyx_XDECREF_SET(__pyx_v_source, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":130
+    /* "crop_cy.pyx":130
  *     self.econ_factors['WATER'] = {}
  *     for source in water_source_constraint:
  *       water_constraint += water_source_constraint[source]             # <<<<<<<<<<<<<<
@@ -4418,7 +4418,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
     __Pyx_DECREF_SET(__pyx_v_water_constraint, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":131
+    /* "crop_cy.pyx":131
  *     for source in water_source_constraint:
  *       water_constraint += water_source_constraint[source]
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']             # <<<<<<<<<<<<<<
@@ -4446,7 +4446,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
     __Pyx_DECREF_SET(__pyx_v_water_cost, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":129
+    /* "crop_cy.pyx":129
  *     water_cost = 0.0
  *     self.econ_factors['WATER'] = {}
  *     for source in water_source_constraint:             # <<<<<<<<<<<<<<
@@ -4456,7 +4456,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":132
+  /* "crop_cy.pyx":132
  *       water_constraint += water_source_constraint[source]
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4479,7 +4479,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":133
+    /* "crop_cy.pyx":133
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:
  *       if crop == 'ALFAL' or crop == 'PASTR':             # <<<<<<<<<<<<<<
@@ -4497,7 +4497,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
     __pyx_L10_bool_binop_done:;
     if (__pyx_t_8) {
 
-      /* "calfews_src_cy/crop_cy.pyx":134
+      /* "crop_cy.pyx":134
  *     for crop in self.crop_list:
  *       if crop == 'ALFAL' or crop == 'PASTR':
  *         self.econ_factors['WATER'][crop] = 50.0             # <<<<<<<<<<<<<<
@@ -4513,7 +4513,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
       if (unlikely(PyObject_SetItem(__pyx_t_7, __pyx_v_crop, __pyx_float_50_0) < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":133
+      /* "crop_cy.pyx":133
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:
  *       if crop == 'ALFAL' or crop == 'PASTR':             # <<<<<<<<<<<<<<
@@ -4523,7 +4523,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
       goto __pyx_L9;
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":136
+    /* "crop_cy.pyx":136
  *         self.econ_factors['WATER'][crop] = 50.0
  *       else:
  *         self.econ_factors['WATER'][crop] = water_cost/water_constraint             # <<<<<<<<<<<<<<
@@ -4545,7 +4545,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
     }
     __pyx_L9:;
 
-    /* "calfews_src_cy/crop_cy.pyx":132
+    /* "crop_cy.pyx":132
  *       water_constraint += water_source_constraint[source]
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4555,7 +4555,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":137
+  /* "crop_cy.pyx":137
  *       else:
  *         self.econ_factors['WATER'][crop] = water_cost/water_constraint
  *     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}             # <<<<<<<<<<<<<<
@@ -4582,7 +4582,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_v_con1 = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":138
+  /* "crop_cy.pyx":138
  *         self.econ_factors['WATER'][crop] = water_cost/water_constraint
  *     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}
  *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}             # <<<<<<<<<<<<<<
@@ -4609,7 +4609,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_v_con2 = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":139
+  /* "crop_cy.pyx":139
  *     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}
  *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}
  *     cons = [con1, con2]             # <<<<<<<<<<<<<<
@@ -4627,7 +4627,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_v_cons = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":140
+  /* "crop_cy.pyx":140
  *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}
  *     cons = [con1, con2]
  *     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}             # <<<<<<<<<<<<<<
@@ -4642,7 +4642,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_v_minimizer_kwargs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":141
+  /* "crop_cy.pyx":141
  *     cons = [con1, con2]
  *     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}
  *     sol = scipy.optimize.basinhopping(self.calc_ag_profit,x0,minimizer_kwargs=minimizer_kwargs)             # <<<<<<<<<<<<<<
@@ -4678,7 +4678,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_v_sol = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":143
+  /* "crop_cy.pyx":143
  *     sol = scipy.optimize.basinhopping(self.calc_ag_profit,x0,minimizer_kwargs=minimizer_kwargs)
  * 
  *     return sol.x             # <<<<<<<<<<<<<<
@@ -4692,7 +4692,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "calfews_src_cy/crop_cy.pyx":121
+  /* "crop_cy.pyx":121
  *           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]
  * 
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):             # <<<<<<<<<<<<<<
@@ -4706,7 +4706,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.find_pmp_acreage", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.find_pmp_acreage", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_bb);
@@ -4726,7 +4726,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":145
+/* "crop_cy.pyx":145
  *     return sol.x
  * 
  *   def constrain_resource(self, x, resource_constraint, resource_type):             # <<<<<<<<<<<<<<
@@ -4735,8 +4735,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12find_pmp_acreage(str
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15constrain_resource(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15constrain_resource(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_15constrain_resource(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_15constrain_resource(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x = 0;
   PyObject *__pyx_v_resource_constraint = 0;
   PyObject *__pyx_v_resource_type = 0;
@@ -4798,18 +4798,18 @@ static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15constrain_resource(P
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("constrain_resource", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 145, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.constrain_resource", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.constrain_resource", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), __pyx_v_x, __pyx_v_resource_constraint, __pyx_v_resource_type);
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_14constrain_resource(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), __pyx_v_x, __pyx_v_resource_constraint, __pyx_v_resource_type);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x, PyObject *__pyx_v_resource_constraint, PyObject *__pyx_v_resource_type) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_14constrain_resource(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x, PyObject *__pyx_v_resource_constraint, PyObject *__pyx_v_resource_type) {
   PyObject *__pyx_v_sum_resource = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_crop = NULL;
@@ -4827,7 +4827,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
   __Pyx_RefNannySetupContext("constrain_resource", 0);
   __Pyx_TraceCall("constrain_resource", __pyx_f[0], 145, 0, __PYX_ERR(0, 145, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":146
+  /* "crop_cy.pyx":146
  * 
  *   def constrain_resource(self, x, resource_constraint, resource_type):
  *     sum_resource = 0.0             # <<<<<<<<<<<<<<
@@ -4837,7 +4837,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_sum_resource = __pyx_float_0_0;
 
-  /* "calfews_src_cy/crop_cy.pyx":147
+  /* "crop_cy.pyx":147
  *   def constrain_resource(self, x, resource_constraint, resource_type):
  *     sum_resource = 0.0
  *     i = 0             # <<<<<<<<<<<<<<
@@ -4847,7 +4847,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_i = __pyx_int_0;
 
-  /* "calfews_src_cy/crop_cy.pyx":148
+  /* "crop_cy.pyx":148
  *     sum_resource = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4870,7 +4870,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":149
+    /* "crop_cy.pyx":149
  *     i = 0
  *     for crop in self.crop_list:
  *       sum_resource += x[i]*self.leontief[resource_type][crop]             # <<<<<<<<<<<<<<
@@ -4898,7 +4898,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
     __Pyx_DECREF_SET(__pyx_v_sum_resource, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":150
+    /* "crop_cy.pyx":150
  *     for crop in self.crop_list:
  *       sum_resource += x[i]*self.leontief[resource_type][crop]
  *       i += 1             # <<<<<<<<<<<<<<
@@ -4910,7 +4910,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
     __Pyx_DECREF_SET(__pyx_v_i, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":148
+    /* "crop_cy.pyx":148
  *     sum_resource = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4920,7 +4920,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":151
+  /* "crop_cy.pyx":151
  *       sum_resource += x[i]*self.leontief[resource_type][crop]
  *       i += 1
  *     return resource_constraint - sum_resource             # <<<<<<<<<<<<<<
@@ -4934,7 +4934,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "calfews_src_cy/crop_cy.pyx":145
+  /* "crop_cy.pyx":145
  *     return sol.x
  * 
  *   def constrain_resource(self, x, resource_constraint, resource_type):             # <<<<<<<<<<<<<<
@@ -4948,7 +4948,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.constrain_resource", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.constrain_resource", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_sum_resource);
@@ -4960,7 +4960,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":153
+/* "crop_cy.pyx":153
  *     return resource_constraint - sum_resource
  * 
  *   def calc_ag_profit(self, x):             # <<<<<<<<<<<<<<
@@ -4969,19 +4969,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_14constrain_resource(s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17calc_ag_profit(PyObject *__pyx_v_self, PyObject *__pyx_v_x); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17calc_ag_profit(PyObject *__pyx_v_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_17calc_ag_profit(PyObject *__pyx_v_self, PyObject *__pyx_v_x); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_17calc_ag_profit(PyObject *__pyx_v_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_ag_profit (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_x));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_16calc_ag_profit(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_x));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_16calc_ag_profit(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_v_total_revenue = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_crop = NULL;
@@ -5007,7 +5007,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
   __Pyx_RefNannySetupContext("calc_ag_profit", 0);
   __Pyx_TraceCall("calc_ag_profit", __pyx_f[0], 153, 0, __PYX_ERR(0, 153, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":154
+  /* "crop_cy.pyx":154
  * 
  *   def calc_ag_profit(self, x):
  *     total_revenue = 0.0             # <<<<<<<<<<<<<<
@@ -5017,7 +5017,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_total_revenue = __pyx_float_0_0;
 
-  /* "calfews_src_cy/crop_cy.pyx":155
+  /* "crop_cy.pyx":155
  *   def calc_ag_profit(self, x):
  *     total_revenue = 0.0
  *     i = 0             # <<<<<<<<<<<<<<
@@ -5027,7 +5027,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_i = __pyx_int_0;
 
-  /* "calfews_src_cy/crop_cy.pyx":156
+  /* "crop_cy.pyx":156
  *     total_revenue = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -5050,7 +5050,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":157
+    /* "crop_cy.pyx":157
  *     i = 0
  *     for crop in self.crop_list:
  *       total_factor_beta = 0.0             # <<<<<<<<<<<<<<
@@ -5060,7 +5060,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_INCREF(__pyx_float_0_0);
     __Pyx_XDECREF_SET(__pyx_v_total_factor_beta, __pyx_float_0_0);
 
-    /* "calfews_src_cy/crop_cy.pyx":158
+    /* "crop_cy.pyx":158
  *     for crop in self.crop_list:
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:             # <<<<<<<<<<<<<<
@@ -5075,7 +5075,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "calfews_src_cy/crop_cy.pyx":159
+      /* "crop_cy.pyx":159
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:             # <<<<<<<<<<<<<<
@@ -5094,7 +5094,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
         __Pyx_XDECREF_SET(__pyx_v_factor, ((PyObject*)__pyx_t_3));
         __pyx_t_3 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":160
+        /* "crop_cy.pyx":160
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))             # <<<<<<<<<<<<<<
@@ -5146,7 +5146,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
         __Pyx_DECREF_SET(__pyx_v_total_factor_beta, __pyx_t_3);
         __pyx_t_3 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":159
+        /* "crop_cy.pyx":159
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:             # <<<<<<<<<<<<<<
@@ -5156,7 +5156,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":161
+      /* "crop_cy.pyx":161
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5175,7 +5175,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
         __Pyx_XDECREF_SET(__pyx_v_factor, ((PyObject*)__pyx_t_3));
         __pyx_t_3 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":162
+        /* "crop_cy.pyx":162
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:
  *           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration             # <<<<<<<<<<<<<<
@@ -5221,7 +5221,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
         __Pyx_DECREF_SET(__pyx_v_total_factor_beta, __pyx_t_8);
         __pyx_t_8 = 0;
 
-        /* "calfews_src_cy/crop_cy.pyx":161
+        /* "crop_cy.pyx":161
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5231,7 +5231,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":158
+      /* "crop_cy.pyx":158
  *     for crop in self.crop_list:
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:             # <<<<<<<<<<<<<<
@@ -5240,7 +5240,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
  */
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":164
+    /* "crop_cy.pyx":164
  *           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration
  * 
  *       if total_factor_beta > 0.0:             # <<<<<<<<<<<<<<
@@ -5252,7 +5252,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "calfews_src_cy/crop_cy.pyx":165
+      /* "crop_cy.pyx":165
  * 
  *       if total_factor_beta > 0.0:
  *         total_factor_beta = total_factor_beta**(self.sub/(self.sub-1.0))             # <<<<<<<<<<<<<<
@@ -5272,7 +5272,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
       __Pyx_DECREF_SET(__pyx_v_total_factor_beta, __pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":164
+      /* "crop_cy.pyx":164
  *           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration
  * 
  *       if total_factor_beta > 0.0:             # <<<<<<<<<<<<<<
@@ -5282,7 +5282,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
       goto __pyx_L10;
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":167
+    /* "crop_cy.pyx":167
  *         total_factor_beta = total_factor_beta**(self.sub/(self.sub-1.0))
  *       else:
  *         total_factor_beta = 0.0             # <<<<<<<<<<<<<<
@@ -5295,7 +5295,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     }
     __pyx_L10:;
 
-    /* "calfews_src_cy/crop_cy.pyx":169
+    /* "crop_cy.pyx":169
  *         total_factor_beta = 0.0
  * 
  *       total_revenue -= self.econ_factors['PRICE'][crop]*self.tau[crop]*total_factor_beta             # <<<<<<<<<<<<<<
@@ -5330,7 +5330,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":170
+    /* "crop_cy.pyx":170
  * 
  *       total_revenue -= self.econ_factors['PRICE'][crop]*self.tau[crop]*total_factor_beta
  *       total_revenue += self.delta[crop]*np.exp(self.gamma[crop]*x[i])             # <<<<<<<<<<<<<<
@@ -5386,7 +5386,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_8);
     __pyx_t_8 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":171
+    /* "crop_cy.pyx":171
  *       total_revenue -= self.econ_factors['PRICE'][crop]*self.tau[crop]*total_factor_beta
  *       total_revenue += self.delta[crop]*np.exp(self.gamma[crop]*x[i])
  *       total_revenue += self.econ_factors['WATER'][crop]*x[i]*self.leontief['WATER'][crop]             # <<<<<<<<<<<<<<
@@ -5427,7 +5427,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":173
+    /* "crop_cy.pyx":173
  *       total_revenue += self.econ_factors['WATER'][crop]*x[i]*self.leontief['WATER'][crop]
  * 
  *       for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5446,7 +5446,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
       __Pyx_XDECREF_SET(__pyx_v_factor, ((PyObject*)__pyx_t_8));
       __pyx_t_8 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":174
+      /* "crop_cy.pyx":174
  * 
  *       for factor in ['SUPPL', 'LABOR']:
  *         total_revenue += self.leontief[factor][crop]####needs to be fixed in PMP calibration             # <<<<<<<<<<<<<<
@@ -5468,7 +5468,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
       __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "calfews_src_cy/crop_cy.pyx":173
+      /* "crop_cy.pyx":173
  *       total_revenue += self.econ_factors['WATER'][crop]*x[i]*self.leontief['WATER'][crop]
  * 
  *       for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5478,7 +5478,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     }
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":176
+    /* "crop_cy.pyx":176
  *         total_revenue += self.leontief[factor][crop]####needs to be fixed in PMP calibration
  * 
  *       i += 1             # <<<<<<<<<<<<<<
@@ -5490,7 +5490,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
     __Pyx_DECREF_SET(__pyx_v_i, __pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":156
+    /* "crop_cy.pyx":156
  *     total_revenue = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -5500,7 +5500,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":178
+  /* "crop_cy.pyx":178
  *       i += 1
  * 
  *     return total_revenue             # <<<<<<<<<<<<<<
@@ -5512,7 +5512,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
   __pyx_r = __pyx_v_total_revenue;
   goto __pyx_L0;
 
-  /* "calfews_src_cy/crop_cy.pyx":153
+  /* "crop_cy.pyx":153
  *     return resource_constraint - sum_resource
  * 
  *   def calc_ag_profit(self, x):             # <<<<<<<<<<<<<<
@@ -5529,7 +5529,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.calc_ag_profit", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.calc_ag_profit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_total_revenue);
@@ -5543,7 +5543,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pyx":180
+/* "crop_cy.pyx":180
  *     return total_revenue
  * 
  *   def make_crop_list(self):             # <<<<<<<<<<<<<<
@@ -5552,19 +5552,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16calc_ag_profit(struc
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_19make_crop_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_19make_crop_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_19make_crop_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_19make_crop_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("make_crop_list (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_18make_crop_list(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_18make_crop_list(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_v_y = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
@@ -5582,7 +5582,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
   __Pyx_RefNannySetupContext("make_crop_list", 0);
   __Pyx_TraceCall("make_crop_list", __pyx_f[0], 180, 0, __PYX_ERR(0, 180, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":181
+  /* "crop_cy.pyx":181
  * 
  *   def make_crop_list(self):
  *     self.crop_list = []             # <<<<<<<<<<<<<<
@@ -5597,7 +5597,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
   __pyx_v_self->crop_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":182
+  /* "crop_cy.pyx":182
  *   def make_crop_list(self):
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:             # <<<<<<<<<<<<<<
@@ -5653,7 +5653,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
     __Pyx_XDECREF_SET(__pyx_v_y, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "calfews_src_cy/crop_cy.pyx":183
+    /* "crop_cy.pyx":183
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:
  *       if self.baseline_inputs['LAND'][y] > 50.0:             # <<<<<<<<<<<<<<
@@ -5674,7 +5674,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_6) {
 
-      /* "calfews_src_cy/crop_cy.pyx":184
+      /* "crop_cy.pyx":184
  *     for y in self.baseline_inputs['LAND']:
  *       if self.baseline_inputs['LAND'][y] > 50.0:
  *         self.crop_list.append(y)             # <<<<<<<<<<<<<<
@@ -5685,7 +5685,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
       }
       __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_self->crop_list, __pyx_v_y); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 184, __pyx_L1_error)
 
-      /* "calfews_src_cy/crop_cy.pyx":183
+      /* "crop_cy.pyx":183
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:
  *       if self.baseline_inputs['LAND'][y] > 50.0:             # <<<<<<<<<<<<<<
@@ -5693,7 +5693,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
  */
     }
 
-    /* "calfews_src_cy/crop_cy.pyx":182
+    /* "crop_cy.pyx":182
  *   def make_crop_list(self):
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:             # <<<<<<<<<<<<<<
@@ -5703,7 +5703,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":180
+  /* "crop_cy.pyx":180
  *     return total_revenue
  * 
  *   def make_crop_list(self):             # <<<<<<<<<<<<<<
@@ -5718,7 +5718,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.make_crop_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.make_crop_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_y);
@@ -5728,7 +5728,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pxd":4
+/* "crop_cy.pxd":4
  * 
  *   cdef:
  *     public double sub, price             # <<<<<<<<<<<<<<
@@ -5737,19 +5737,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_18make_crop_list(struc
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3sub_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3sub_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_3sub_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_3sub_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3sub___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_3sub___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5769,7 +5769,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub___get__(struct __
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.sub.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.sub.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5779,19 +5779,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub___get__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3sub_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3sub_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_3sub_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3sub_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3sub_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_3sub_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5808,7 +5808,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub_2__set__(struct __pyx_o
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.sub.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.sub.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -5817,19 +5817,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3sub_2__set__(struct __pyx_o
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5price_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5price_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_5price_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_5price_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5price___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_5price___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5849,7 +5849,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price___get__(struct 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.price.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.price.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5859,19 +5859,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price___get__(struct 
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5price_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5price_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_5price_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_5price_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5price_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_5price_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5888,7 +5888,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price_2__set__(struct __pyx
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.price.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.price.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -5896,7 +5896,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price_2__set__(struct __pyx
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pxd":5
+/* "crop_cy.pxd":5
  *   cdef:
  *     public double sub, price
  *     public str key             # <<<<<<<<<<<<<<
@@ -5905,19 +5905,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5price_2__set__(struct __pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_3key_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_3key_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3key___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_3key___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5933,7 +5933,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key___get__(struct __
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.key.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.key.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5943,19 +5943,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key___get__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_3key_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3key_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3key_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_3key_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5979,7 +5979,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_2__set__(struct __pyx_o
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.key.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.key.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -5988,19 +5988,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_2__set__(struct __pyx_o
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_3key_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3key_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3key_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_3key_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6019,7 +6019,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_4__del__(struct __pyx_o
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.key.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.key.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6027,7 +6027,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_4__del__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pxd":6
+/* "crop_cy.pxd":6
  *     public double sub, price
  *     public str key
  *     public list water_source_list, crop_list             # <<<<<<<<<<<<<<
@@ -6035,19 +6035,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3key_4__del__(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_17water_source_list_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_17water_source_list_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_17water_source_list___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_17water_source_list___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6063,7 +6063,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list___
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.water_source_list.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.water_source_list.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6073,19 +6073,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list___
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_17water_source_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_17water_source_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_17water_source_list_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_17water_source_list_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6109,7 +6109,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_2__set__
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.water_source_list.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.water_source_list.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6118,19 +6118,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_2__set__
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_17water_source_list_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_17water_source_list_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_17water_source_list_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_17water_source_list_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6149,7 +6149,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_4__del__
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.water_source_list.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.water_source_list.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6158,19 +6158,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_4__del__
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_9crop_list_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_9crop_list_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_9crop_list___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_9crop_list___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6186,7 +6186,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list___get__(str
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.crop_list.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.crop_list.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6196,19 +6196,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list___get__(str
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_9crop_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_9crop_list_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_9crop_list_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_9crop_list_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6232,7 +6232,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_2__set__(struct _
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.crop_list.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.crop_list.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6241,19 +6241,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_2__set__(struct _
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_9crop_list_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_9crop_list_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_9crop_list_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_9crop_list_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6272,7 +6272,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_4__del__(struct _
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.crop_list.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.crop_list.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6280,26 +6280,26 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_list_4__del__(struct _
   return __pyx_r;
 }
 
-/* "calfews_src_cy/crop_cy.pxd":7
+/* "crop_cy.pxd":7
  *     public str key
  *     public list water_source_list, crop_list
  *     public dict tau, beta, delta, gamma, leontief, eta, baseline_inputs, baseline_revenue, econ_factors, pmp_keys, crop_keys, etM             # <<<<<<<<<<<<<<
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_3tau_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_3tau_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3tau___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_3tau___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6315,7 +6315,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau___get__(struct __
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.tau.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.tau.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6325,19 +6325,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau___get__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_3tau_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3tau_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3tau_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_3tau_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6361,7 +6361,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_2__set__(struct __pyx_o
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.tau.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.tau.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6370,19 +6370,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_2__set__(struct __pyx_o
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_3tau_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3tau_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3tau_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_3tau_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6401,7 +6401,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_4__del__(struct __pyx_o
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.tau.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.tau.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6410,19 +6410,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3tau_4__del__(struct __pyx_o
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_4beta_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_4beta_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_4beta___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_4beta___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6438,7 +6438,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta___get__(struct _
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.beta.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.beta.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6448,19 +6448,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta___get__(struct _
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_4beta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_4beta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_4beta_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_4beta_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6484,7 +6484,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_2__set__(struct __pyx_
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.beta.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.beta.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6493,19 +6493,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_2__set__(struct __pyx_
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_4beta_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_4beta_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_4beta_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_4beta_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6524,7 +6524,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_4__del__(struct __pyx_
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.beta.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.beta.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6533,19 +6533,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_4beta_4__del__(struct __pyx_
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_5delta_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_5delta_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5delta___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_5delta___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6561,7 +6561,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta___get__(struct 
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.delta.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.delta.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6571,19 +6571,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta___get__(struct 
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_5delta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_5delta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5delta_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_5delta_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6607,7 +6607,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_2__set__(struct __pyx
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.delta.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.delta.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6616,19 +6616,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_2__set__(struct __pyx
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_5delta_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_5delta_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5delta_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_5delta_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6647,7 +6647,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_4__del__(struct __pyx
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.delta.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.delta.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6656,19 +6656,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5delta_4__del__(struct __pyx
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_5gamma_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_5gamma_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5gamma___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_5gamma___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6684,7 +6684,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma___get__(struct 
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.gamma.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.gamma.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6694,19 +6694,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma___get__(struct 
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_5gamma_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_5gamma_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5gamma_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_5gamma_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6730,7 +6730,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_2__set__(struct __pyx
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.gamma.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.gamma.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6739,19 +6739,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_2__set__(struct __pyx
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_5gamma_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_5gamma_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_5gamma_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_5gamma_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6770,7 +6770,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_4__del__(struct __pyx
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.gamma.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.gamma.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6779,19 +6779,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_5gamma_4__del__(struct __pyx
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_8leontief_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_8leontief_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_8leontief___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_8leontief___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6807,7 +6807,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief___get__(stru
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.leontief.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.leontief.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6817,19 +6817,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief___get__(stru
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_8leontief_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_8leontief_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_8leontief_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_8leontief_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6853,7 +6853,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_2__set__(struct __
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.leontief.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.leontief.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6862,19 +6862,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_2__set__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_8leontief_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_8leontief_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_8leontief_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_8leontief_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6893,7 +6893,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_4__del__(struct __
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.leontief.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.leontief.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6902,19 +6902,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8leontief_4__del__(struct __
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_3eta_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_3eta_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3eta___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_3eta___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6930,7 +6930,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta___get__(struct __
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.eta.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.eta.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6940,19 +6940,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta___get__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_3eta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3eta_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3eta_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_3eta_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6976,7 +6976,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_2__set__(struct __pyx_o
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.eta.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.eta.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6985,19 +6985,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_2__set__(struct __pyx_o
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_3eta_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3eta_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3eta_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_3eta_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7016,7 +7016,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_4__del__(struct __pyx_o
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.eta.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.eta.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7025,19 +7025,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3eta_4__del__(struct __pyx_o
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_15baseline_inputs_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_15baseline_inputs_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_15baseline_inputs___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_15baseline_inputs___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7053,7 +7053,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs___ge
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.baseline_inputs.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.baseline_inputs.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7063,19 +7063,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs___ge
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_15baseline_inputs_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_15baseline_inputs_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_15baseline_inputs_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_15baseline_inputs_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7099,7 +7099,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_2__set__(s
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.baseline_inputs.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.baseline_inputs.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7108,19 +7108,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_2__set__(s
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_15baseline_inputs_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_15baseline_inputs_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_15baseline_inputs_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_15baseline_inputs_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7139,7 +7139,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_4__del__(s
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.baseline_inputs.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.baseline_inputs.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7148,19 +7148,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_4__del__(s
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_16baseline_revenue_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_16baseline_revenue_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_16baseline_revenue___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_16baseline_revenue___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7176,7 +7176,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue___g
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.baseline_revenue.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.baseline_revenue.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7186,19 +7186,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue___g
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_16baseline_revenue_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_16baseline_revenue_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_16baseline_revenue_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_16baseline_revenue_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7222,7 +7222,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_2__set__(
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.baseline_revenue.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.baseline_revenue.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7231,19 +7231,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_2__set__(
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_16baseline_revenue_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_16baseline_revenue_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_16baseline_revenue_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_16baseline_revenue_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7262,7 +7262,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_4__del__(
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.baseline_revenue.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.baseline_revenue.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7271,19 +7271,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_4__del__(
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_12econ_factors_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_12econ_factors_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_12econ_factors___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_12econ_factors___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7299,7 +7299,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors___get__
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.econ_factors.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.econ_factors.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7309,19 +7309,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors___get__
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_12econ_factors_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_12econ_factors_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_12econ_factors_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_12econ_factors_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7345,7 +7345,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_2__set__(stru
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.econ_factors.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.econ_factors.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7354,19 +7354,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_2__set__(stru
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_12econ_factors_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_12econ_factors_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_12econ_factors_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_12econ_factors_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7385,7 +7385,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_4__del__(stru
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.econ_factors.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.econ_factors.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7394,19 +7394,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_4__del__(stru
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_8pmp_keys_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_8pmp_keys_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_8pmp_keys___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_8pmp_keys___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7422,7 +7422,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys___get__(stru
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.pmp_keys.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.pmp_keys.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7432,19 +7432,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys___get__(stru
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_8pmp_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_8pmp_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_8pmp_keys_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_8pmp_keys_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7468,7 +7468,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_2__set__(struct __
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.pmp_keys.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.pmp_keys.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7477,19 +7477,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_2__set__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_8pmp_keys_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_8pmp_keys_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_8pmp_keys_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_8pmp_keys_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7508,7 +7508,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_4__del__(struct __
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.pmp_keys.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.pmp_keys.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7517,19 +7517,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_4__del__(struct __
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_9crop_keys_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_9crop_keys_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_9crop_keys___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_9crop_keys___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7545,7 +7545,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys___get__(str
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.crop_keys.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.crop_keys.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7555,19 +7555,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys___get__(str
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_9crop_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_9crop_keys_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_9crop_keys_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_9crop_keys_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7591,7 +7591,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_2__set__(struct _
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.crop_keys.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.crop_keys.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7600,19 +7600,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_2__set__(struct _
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_9crop_keys_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_9crop_keys_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_9crop_keys_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_9crop_keys_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7631,7 +7631,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_4__del__(struct _
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.crop_keys.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.crop_keys.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7640,19 +7640,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_4__del__(struct _
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_3etM_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_3etM_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM___get__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3etM___get__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM___get__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_3etM___get__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7668,7 +7668,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM___get__(struct __
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.etM.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.etM.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7678,19 +7678,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM___get__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7crop_cy_4Crop_3etM_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3etM_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_2__set__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3etM_2__set__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_2__set__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7crop_cy_4Crop_3etM_2__set__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7714,7 +7714,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_2__set__(struct __pyx_o
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.etM.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.etM.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7723,19 +7723,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_2__set__(struct __pyx_o
 }
 
 /* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7crop_cy_4Crop_3etM_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7crop_cy_4Crop_3etM_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_4__del__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_3etM_4__del__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_4__del__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static int __pyx_pf_7crop_cy_4Crop_3etM_4__del__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -7754,7 +7754,7 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_4__del__(struct __pyx_o
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.etM.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.etM.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -7769,19 +7769,19 @@ static int __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_3etM_4__del__(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_20__reduce_cython__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_20__reduce_cython__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_20__reduce_cython__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_20__reduce_cython__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -8142,7 +8142,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_20__reduce_cython__(st
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_state);
@@ -8161,19 +8161,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_20__reduce_cython__(st
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_7crop_cy_4Crop_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_7crop_cy_4Crop_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy_4Crop_22__setstate_cython__(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_7crop_cy_4Crop_22__setstate_cython__(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_22__setstate_cython__(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_7crop_cy_4Crop_22__setstate_cython__(struct __pyx_obj_7crop_cy_Crop *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -8190,7 +8190,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_22__setstate_cython__(
  *     __pyx_unpickle_Crop__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
   if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(2, 17, __pyx_L1_error)
-  __pyx_t_1 = __pyx_f_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 17, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_7crop_cy___pyx_unpickle_Crop__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -8206,7 +8206,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_22__setstate_cython__(
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.Crop.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.Crop.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8222,9 +8222,9 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy_4Crop_22__setstate_cython__(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_1__pyx_unpickle_Crop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_14calfews_src_cy_7crop_cy_1__pyx_unpickle_Crop = {"__pyx_unpickle_Crop", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_7crop_cy_1__pyx_unpickle_Crop, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_1__pyx_unpickle_Crop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7crop_cy_1__pyx_unpickle_Crop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7crop_cy_1__pyx_unpickle_Crop = {"__pyx_unpickle_Crop", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7crop_cy_1__pyx_unpickle_Crop, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7crop_cy_1__pyx_unpickle_Crop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -8286,18 +8286,18 @@ static PyObject *__pyx_pw_14calfews_src_cy_7crop_cy_1__pyx_unpickle_Crop(PyObjec
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_Crop", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 1, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.__pyx_unpickle_Crop", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.__pyx_unpickle_Crop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_7crop_cy___pyx_unpickle_Crop(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_7crop_cy___pyx_unpickle_Crop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -8397,7 +8397,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop(CYTHON_U
  *     if __pyx_state is not None:
  *         __pyx_unpickle_Crop__set_state(<Crop> __pyx_result, __pyx_state)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_14calfews_src_cy_7crop_cy_Crop), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_7crop_cy_Crop), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8436,7 +8436,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop(CYTHON_U
  * cdef __pyx_unpickle_Crop__set_state(Crop __pyx_result, tuple __pyx_state):
  */
     if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(2, 9, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop__set_state(((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 9, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_7crop_cy___pyx_unpickle_Crop__set_state(((struct __pyx_obj_7crop_cy_Crop *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 9, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
@@ -8473,7 +8473,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop(CYTHON_U
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.__pyx_unpickle_Crop", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.__pyx_unpickle_Crop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v___pyx_PickleError);
@@ -8492,7 +8492,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop(CYTHON_U
  *     if len(__pyx_state) > 17 and hasattr(__pyx_result, '__dict__'):
  */
 
-static PyObject *__pyx_f_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop__set_state(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_f_7crop_cy___pyx_unpickle_Crop__set_state(struct __pyx_obj_7crop_cy_Crop *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -8798,7 +8798,7 @@ static PyObject *__pyx_f_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop__set_stat
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("calfews_src_cy.crop_cy.__pyx_unpickle_Crop__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("crop_cy.__pyx_unpickle_Crop__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8807,8 +8807,8 @@ static PyObject *__pyx_f_14calfews_src_cy_7crop_cy___pyx_unpickle_Crop__set_stat
   return __pyx_r;
 }
 
-static PyObject *__pyx_tp_new_14calfews_src_cy_7crop_cy_Crop(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
-  struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *p;
+static PyObject *__pyx_tp_new_7crop_cy_Crop(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_7crop_cy_Crop *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -8816,7 +8816,7 @@ static PyObject *__pyx_tp_new_14calfews_src_cy_7crop_cy_Crop(PyTypeObject *t, CY
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)o);
+  p = ((struct __pyx_obj_7crop_cy_Crop *)o);
   p->key = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->water_source_list = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->crop_list = ((PyObject*)Py_None); Py_INCREF(Py_None);
@@ -8835,8 +8835,8 @@ static PyObject *__pyx_tp_new_14calfews_src_cy_7crop_cy_Crop(PyTypeObject *t, CY
   return o;
 }
 
-static void __pyx_tp_dealloc_14calfews_src_cy_7crop_cy_Crop(PyObject *o) {
-  struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *p = (struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)o;
+static void __pyx_tp_dealloc_7crop_cy_Crop(PyObject *o) {
+  struct __pyx_obj_7crop_cy_Crop *p = (struct __pyx_obj_7crop_cy_Crop *)o;
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -8861,9 +8861,9 @@ static void __pyx_tp_dealloc_14calfews_src_cy_7crop_cy_Crop(PyObject *o) {
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static int __pyx_tp_traverse_14calfews_src_cy_7crop_cy_Crop(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_7crop_cy_Crop(PyObject *o, visitproc v, void *a) {
   int e;
-  struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *p = (struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)o;
+  struct __pyx_obj_7crop_cy_Crop *p = (struct __pyx_obj_7crop_cy_Crop *)o;
   if (p->water_source_list) {
     e = (*v)(p->water_source_list, a); if (e) return e;
   }
@@ -8909,9 +8909,9 @@ static int __pyx_tp_traverse_14calfews_src_cy_7crop_cy_Crop(PyObject *o, visitpr
   return 0;
 }
 
-static int __pyx_tp_clear_14calfews_src_cy_7crop_cy_Crop(PyObject *o) {
+static int __pyx_tp_clear_7crop_cy_Crop(PyObject *o) {
   PyObject* tmp;
-  struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *p = (struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop *)o;
+  struct __pyx_obj_7crop_cy_Crop *p = (struct __pyx_obj_7crop_cy_Crop *)o;
   tmp = ((PyObject*)p->water_source_list);
   p->water_source_list = ((PyObject*)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
@@ -8957,13 +8957,13 @@ static int __pyx_tp_clear_14calfews_src_cy_7crop_cy_Crop(PyObject *o) {
   return 0;
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_sub(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3sub_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_sub(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_3sub_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_sub(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_sub(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3sub_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_3sub_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -8971,13 +8971,13 @@ static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_sub(PyObject *o, PyObje
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_price(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5price_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_price(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_5price_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_price(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_price(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5price_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_5price_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -8985,239 +8985,239 @@ static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_price(PyObject *o, PyOb
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_key(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_key(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_3key_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_key(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_key(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_3key_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3key_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_3key_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_water_source_list(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_water_source_list(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_17water_source_list_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_water_source_list(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_water_source_list(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_17water_source_list_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17water_source_list_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_17water_source_list_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_crop_list(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_crop_list(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_9crop_list_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_crop_list(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_crop_list(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_9crop_list_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_list_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_9crop_list_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_tau(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_tau(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_3tau_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_tau(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_tau(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_3tau_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3tau_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_3tau_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_beta(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_beta(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_4beta_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_beta(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_beta(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_4beta_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_4beta_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_4beta_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_delta(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_delta(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_5delta_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_delta(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_delta(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_5delta_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5delta_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_5delta_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_gamma(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_gamma(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_5gamma_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_gamma(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_gamma(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_5gamma_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5gamma_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_5gamma_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_leontief(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_leontief(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_8leontief_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_leontief(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_leontief(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_8leontief_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8leontief_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_8leontief_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_eta(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_eta(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_3eta_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_eta(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_eta(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_3eta_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3eta_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_3eta_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_baseline_inputs(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_baseline_inputs(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_15baseline_inputs_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_baseline_inputs(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_baseline_inputs(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_15baseline_inputs_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15baseline_inputs_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_15baseline_inputs_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_baseline_revenue(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_baseline_revenue(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_16baseline_revenue_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_baseline_revenue(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_baseline_revenue(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_16baseline_revenue_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_16baseline_revenue_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_16baseline_revenue_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_econ_factors(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_econ_factors(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_12econ_factors_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_econ_factors(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_econ_factors(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_12econ_factors_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_12econ_factors_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_12econ_factors_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_pmp_keys(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_pmp_keys(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_8pmp_keys_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_pmp_keys(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_pmp_keys(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_8pmp_keys_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_8pmp_keys_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_8pmp_keys_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_crop_keys(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_crop_keys(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_9crop_keys_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_crop_keys(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_crop_keys(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_9crop_keys_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9crop_keys_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_9crop_keys_5__del__(o);
   }
 }
 
-static PyObject *__pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_etM(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_1__get__(o);
+static PyObject *__pyx_getprop_7crop_cy_4Crop_etM(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7crop_cy_4Crop_3etM_1__get__(o);
 }
 
-static int __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_etM(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7crop_cy_4Crop_etM(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_3__set__(o, v);
+    return __pyx_pw_7crop_cy_4Crop_3etM_3__set__(o, v);
   }
   else {
-    return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3etM_5__del__(o);
+    return __pyx_pw_7crop_cy_4Crop_3etM_5__del__(o);
   }
 }
 
-static PyObject *__pyx_specialmethod___pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3__next__(PyObject *self, CYTHON_UNUSED PyObject *arg) {return __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3__next__(self);}
+static PyObject *__pyx_specialmethod___pyx_pw_7crop_cy_4Crop_3__next__(PyObject *self, CYTHON_UNUSED PyObject *arg) {return __pyx_pw_7crop_cy_4Crop_3__next__(self);}
 
-static PyMethodDef __pyx_methods_14calfews_src_cy_7crop_cy_Crop[] = {
-  {"__next__", (PyCFunction)__pyx_specialmethod___pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3__next__, METH_NOARGS|METH_COEXIST, 0},
-  {"set_pmp_parameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_9set_pmp_parameters, METH_VARARGS|METH_KEYWORDS, 0},
-  {"set_econ_parameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_11set_econ_parameters, METH_VARARGS|METH_KEYWORDS, 0},
-  {"find_pmp_acreage", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_13find_pmp_acreage, METH_VARARGS|METH_KEYWORDS, 0},
-  {"constrain_resource", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_15constrain_resource, METH_VARARGS|METH_KEYWORDS, 0},
-  {"calc_ag_profit", (PyCFunction)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_17calc_ag_profit, METH_O, 0},
-  {"make_crop_list", (PyCFunction)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_19make_crop_list, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_21__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_14calfews_src_cy_7crop_cy_4Crop_23__setstate_cython__, METH_O, 0},
+static PyMethodDef __pyx_methods_7crop_cy_Crop[] = {
+  {"__next__", (PyCFunction)__pyx_specialmethod___pyx_pw_7crop_cy_4Crop_3__next__, METH_NOARGS|METH_COEXIST, 0},
+  {"set_pmp_parameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7crop_cy_4Crop_9set_pmp_parameters, METH_VARARGS|METH_KEYWORDS, 0},
+  {"set_econ_parameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7crop_cy_4Crop_11set_econ_parameters, METH_VARARGS|METH_KEYWORDS, 0},
+  {"find_pmp_acreage", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7crop_cy_4Crop_13find_pmp_acreage, METH_VARARGS|METH_KEYWORDS, 0},
+  {"constrain_resource", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7crop_cy_4Crop_15constrain_resource, METH_VARARGS|METH_KEYWORDS, 0},
+  {"calc_ag_profit", (PyCFunction)__pyx_pw_7crop_cy_4Crop_17calc_ag_profit, METH_O, 0},
+  {"make_crop_list", (PyCFunction)__pyx_pw_7crop_cy_4Crop_19make_crop_list, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_7crop_cy_4Crop_21__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_7crop_cy_4Crop_23__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_14calfews_src_cy_7crop_cy_Crop[] = {
-  {(char *)"sub", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_sub, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_sub, (char *)0, 0},
-  {(char *)"price", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_price, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_price, (char *)0, 0},
-  {(char *)"key", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_key, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_key, (char *)0, 0},
-  {(char *)"water_source_list", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_water_source_list, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_water_source_list, (char *)0, 0},
-  {(char *)"crop_list", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_crop_list, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_crop_list, (char *)0, 0},
-  {(char *)"tau", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_tau, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_tau, (char *)0, 0},
-  {(char *)"beta", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_beta, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_beta, (char *)0, 0},
-  {(char *)"delta", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_delta, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_delta, (char *)0, 0},
-  {(char *)"gamma", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_gamma, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_gamma, (char *)0, 0},
-  {(char *)"leontief", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_leontief, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_leontief, (char *)0, 0},
-  {(char *)"eta", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_eta, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_eta, (char *)0, 0},
-  {(char *)"baseline_inputs", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_baseline_inputs, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_baseline_inputs, (char *)0, 0},
-  {(char *)"baseline_revenue", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_baseline_revenue, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_baseline_revenue, (char *)0, 0},
-  {(char *)"econ_factors", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_econ_factors, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_econ_factors, (char *)0, 0},
-  {(char *)"pmp_keys", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_pmp_keys, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_pmp_keys, (char *)0, 0},
-  {(char *)"crop_keys", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_crop_keys, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_crop_keys, (char *)0, 0},
-  {(char *)"etM", __pyx_getprop_14calfews_src_cy_7crop_cy_4Crop_etM, __pyx_setprop_14calfews_src_cy_7crop_cy_4Crop_etM, (char *)0, 0},
+static struct PyGetSetDef __pyx_getsets_7crop_cy_Crop[] = {
+  {(char *)"sub", __pyx_getprop_7crop_cy_4Crop_sub, __pyx_setprop_7crop_cy_4Crop_sub, (char *)0, 0},
+  {(char *)"price", __pyx_getprop_7crop_cy_4Crop_price, __pyx_setprop_7crop_cy_4Crop_price, (char *)0, 0},
+  {(char *)"key", __pyx_getprop_7crop_cy_4Crop_key, __pyx_setprop_7crop_cy_4Crop_key, (char *)0, 0},
+  {(char *)"water_source_list", __pyx_getprop_7crop_cy_4Crop_water_source_list, __pyx_setprop_7crop_cy_4Crop_water_source_list, (char *)0, 0},
+  {(char *)"crop_list", __pyx_getprop_7crop_cy_4Crop_crop_list, __pyx_setprop_7crop_cy_4Crop_crop_list, (char *)0, 0},
+  {(char *)"tau", __pyx_getprop_7crop_cy_4Crop_tau, __pyx_setprop_7crop_cy_4Crop_tau, (char *)0, 0},
+  {(char *)"beta", __pyx_getprop_7crop_cy_4Crop_beta, __pyx_setprop_7crop_cy_4Crop_beta, (char *)0, 0},
+  {(char *)"delta", __pyx_getprop_7crop_cy_4Crop_delta, __pyx_setprop_7crop_cy_4Crop_delta, (char *)0, 0},
+  {(char *)"gamma", __pyx_getprop_7crop_cy_4Crop_gamma, __pyx_setprop_7crop_cy_4Crop_gamma, (char *)0, 0},
+  {(char *)"leontief", __pyx_getprop_7crop_cy_4Crop_leontief, __pyx_setprop_7crop_cy_4Crop_leontief, (char *)0, 0},
+  {(char *)"eta", __pyx_getprop_7crop_cy_4Crop_eta, __pyx_setprop_7crop_cy_4Crop_eta, (char *)0, 0},
+  {(char *)"baseline_inputs", __pyx_getprop_7crop_cy_4Crop_baseline_inputs, __pyx_setprop_7crop_cy_4Crop_baseline_inputs, (char *)0, 0},
+  {(char *)"baseline_revenue", __pyx_getprop_7crop_cy_4Crop_baseline_revenue, __pyx_setprop_7crop_cy_4Crop_baseline_revenue, (char *)0, 0},
+  {(char *)"econ_factors", __pyx_getprop_7crop_cy_4Crop_econ_factors, __pyx_setprop_7crop_cy_4Crop_econ_factors, (char *)0, 0},
+  {(char *)"pmp_keys", __pyx_getprop_7crop_cy_4Crop_pmp_keys, __pyx_setprop_7crop_cy_4Crop_pmp_keys, (char *)0, 0},
+  {(char *)"crop_keys", __pyx_getprop_7crop_cy_4Crop_crop_keys, __pyx_setprop_7crop_cy_4Crop_crop_keys, (char *)0, 0},
+  {(char *)"etM", __pyx_getprop_7crop_cy_4Crop_etM, __pyx_setprop_7crop_cy_4Crop_etM, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
 
 static PySequenceMethods __pyx_tp_as_sequence_Crop = {
-  __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5__len__, /*sq_length*/
+  __pyx_pw_7crop_cy_4Crop_5__len__, /*sq_length*/
   0, /*sq_concat*/
   0, /*sq_repeat*/
   0, /*sq_item*/
@@ -9230,17 +9230,17 @@ static PySequenceMethods __pyx_tp_as_sequence_Crop = {
 };
 
 static PyMappingMethods __pyx_tp_as_mapping_Crop = {
-  __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_5__len__, /*mp_length*/
+  __pyx_pw_7crop_cy_4Crop_5__len__, /*mp_length*/
   0, /*mp_subscript*/
   0, /*mp_ass_subscript*/
 };
 
-static PyTypeObject __pyx_type_14calfews_src_cy_7crop_cy_Crop = {
+static PyTypeObject __pyx_type_7crop_cy_Crop = {
   PyVarObject_HEAD_INIT(0, 0)
-  "calfews_src_cy.crop_cy.Crop", /*tp_name*/
-  sizeof(struct __pyx_obj_14calfews_src_cy_7crop_cy_Crop), /*tp_basicsize*/
+  "crop_cy.Crop", /*tp_name*/
+  sizeof(struct __pyx_obj_7crop_cy_Crop), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_14calfews_src_cy_7crop_cy_Crop, /*tp_dealloc*/
+  __pyx_tp_dealloc_7crop_cy_Crop, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -9267,23 +9267,23 @@ static PyTypeObject __pyx_type_14calfews_src_cy_7crop_cy_Crop = {
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  __pyx_tp_traverse_14calfews_src_cy_7crop_cy_Crop, /*tp_traverse*/
-  __pyx_tp_clear_14calfews_src_cy_7crop_cy_Crop, /*tp_clear*/
+  __pyx_tp_traverse_7crop_cy_Crop, /*tp_traverse*/
+  __pyx_tp_clear_7crop_cy_Crop, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
-  __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_1__iter__, /*tp_iter*/
-  __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_3__next__, /*tp_iternext*/
-  __pyx_methods_14calfews_src_cy_7crop_cy_Crop, /*tp_methods*/
+  __pyx_pw_7crop_cy_4Crop_1__iter__, /*tp_iter*/
+  __pyx_pw_7crop_cy_4Crop_3__next__, /*tp_iternext*/
+  __pyx_methods_7crop_cy_Crop, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_14calfews_src_cy_7crop_cy_Crop, /*tp_getset*/
+  __pyx_getsets_7crop_cy_Crop, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
   0, /*tp_descr_set*/
   0, /*tp_dictoffset*/
-  __pyx_pw_14calfews_src_cy_7crop_cy_4Crop_7__init__, /*tp_init*/
+  __pyx_pw_7crop_cy_4Crop_7__init__, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_14calfews_src_cy_7crop_cy_Crop, /*tp_new*/
+  __pyx_tp_new_7crop_cy_Crop, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -9533,12 +9533,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_bounds, __pyx_k_bounds, sizeof(__pyx_k_bounds), 0, 1, 0, 1},
   {&__pyx_n_s_calc_ag_profit, __pyx_k_calc_ag_profit, sizeof(__pyx_k_calc_ag_profit), 0, 0, 1, 1},
   {&__pyx_kp_u_calfews_src_crop_s_properties_js, __pyx_k_calfews_src_crop_s_properties_js, sizeof(__pyx_k_calfews_src_crop_s_properties_js), 0, 1, 0, 0},
-  {&__pyx_n_s_calfews_src_cy_crop_cy, __pyx_k_calfews_src_cy_crop_cy, sizeof(__pyx_k_calfews_src_cy_crop_cy), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_constrain_resource, __pyx_k_constrain_resource, sizeof(__pyx_k_constrain_resource), 0, 0, 1, 1},
   {&__pyx_n_u_constraints, __pyx_k_constraints, sizeof(__pyx_k_constraints), 0, 1, 0, 1},
   {&__pyx_n_u_corn, __pyx_k_corn, sizeof(__pyx_k_corn), 0, 1, 0, 1},
   {&__pyx_n_u_cotton, __pyx_k_cotton, sizeof(__pyx_k_cotton), 0, 1, 0, 1},
+  {&__pyx_n_s_crop_cy, __pyx_k_crop_cy, sizeof(__pyx_k_crop_cy), 0, 0, 1, 1},
   {&__pyx_n_u_deciduous_misc, __pyx_k_deciduous_misc, sizeof(__pyx_k_deciduous_misc), 0, 1, 0, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_district, __pyx_k_district, sizeof(__pyx_k_district), 0, 0, 1, 1},
@@ -9619,7 +9619,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "calfews_src_cy/crop_cy.pyx":159
+  /* "crop_cy.pyx":159
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:             # <<<<<<<<<<<<<<
@@ -9630,7 +9630,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "calfews_src_cy/crop_cy.pyx":161
+  /* "crop_cy.pyx":161
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -9710,16 +9710,16 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_14calfews_src_cy_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_14calfews_src_cy_7crop_cy_Crop.tp_print = 0;
+  __pyx_type_7crop_cy_Crop.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_14calfews_src_cy_7crop_cy_Crop.tp_dictoffset && __pyx_type_14calfews_src_cy_7crop_cy_Crop.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_14calfews_src_cy_7crop_cy_Crop.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_7crop_cy_Crop.tp_dictoffset && __pyx_type_7crop_cy_Crop.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_7crop_cy_Crop.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Crop, (PyObject *)&__pyx_type_14calfews_src_cy_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_14calfews_src_cy_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
-  __pyx_ptype_14calfews_src_cy_7crop_cy_Crop = &__pyx_type_14calfews_src_cy_7crop_cy_Crop;
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Crop, (PyObject *)&__pyx_type_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_ptype_7crop_cy_Crop = &__pyx_type_7crop_cy_Crop;
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -9927,14 +9927,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_calfews_src_cy__crop_cy) {
+  if (__pyx_module_is_main_crop_cy) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "calfews_src_cy.crop_cy")) {
-      if (unlikely(PyDict_SetItemString(modules, "calfews_src_cy.crop_cy", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "crop_cy")) {
+      if (unlikely(PyDict_SetItemString(modules, "crop_cy", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -9956,7 +9956,7 @@ if (!__Pyx_RefNanny) {
   #endif
   __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_crop_cy(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
-  /* "calfews_src_cy/crop_cy.pyx":3
+  /* "crop_cy.pyx":3
  * # cython: profile=True
  * from __future__ import division
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -9968,7 +9968,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":4
+  /* "crop_cy.pyx":4
  * from __future__ import division
  * import numpy as np
  * import matplotlib.pyplot as plt             # <<<<<<<<<<<<<<
@@ -9986,7 +9986,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_plt, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":5
+  /* "crop_cy.pyx":5
  * import numpy as np
  * import matplotlib.pyplot as plt
  * import scipy             # <<<<<<<<<<<<<<
@@ -9998,7 +9998,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_scipy, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":6
+  /* "crop_cy.pyx":6
  * import matplotlib.pyplot as plt
  * import scipy
  * import pandas as pd             # <<<<<<<<<<<<<<
@@ -10010,7 +10010,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pd, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":7
+  /* "crop_cy.pyx":7
  * import scipy
  * import pandas as pd
  * import json             # <<<<<<<<<<<<<<
@@ -10022,7 +10022,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":8
+  /* "crop_cy.pyx":8
  * import pandas as pd
  * import json
  * from .util import *             # <<<<<<<<<<<<<<
@@ -10045,12 +10045,12 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_14calfews_src_cy_7crop_cy_1__pyx_unpickle_Crop, NULL, __pyx_n_s_calfews_src_cy_crop_cy); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_7crop_cy_1__pyx_unpickle_Crop, NULL, __pyx_n_s_crop_cy); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Crop, __pyx_t_1) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src_cy/crop_cy.pyx":1
+  /* "crop_cy.pyx":1
  * # cython: profile=True             # <<<<<<<<<<<<<<
  * from __future__ import division
  * import numpy as np
@@ -10069,11 +10069,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init calfews_src_cy.crop_cy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init crop_cy", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init calfews_src_cy.crop_cy");
+    PyErr_SetString(PyExc_ImportError, "init crop_cy");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib import gridspec
 from matplotlib.lines import Line2D
-from .util import *
+from calfews_src_cy.util import *
 import seaborn as sns
 from matplotlib.ticker import FormatStrFormatter
 

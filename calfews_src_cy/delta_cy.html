@@ -389,7 +389,7 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
 </pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0006</span>: <span class="k">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span></pre>
 <pre class='cython code score-8 '>
-  /* "calfews_src_cy/delta_cy.pyx":6
+  /* "delta_cy.pyx":6
  * import calendar
  * import matplotlib.pyplot as plt
  * import pandas as pd             # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
@@ -421,19 +421,19 @@ body.cython { font-family: courier; font-size: 12; }
 <pre class="cython line score-0">&#xA0;<span class="">0011</span>: </pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0012</span>:   <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_1__iter__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_1__iter__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_1__iter__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_1__iter__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__iter__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta___iter__(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta___iter__(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta___iter__(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self) {
+static PyObject *__pyx_pf_8delta_cy_5Delta___iter__(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
@@ -442,7 +442,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta___iter__(struct __py
 /* … */
   /* function exit code */
   __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.__iter__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.__iter__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
@@ -460,19 +460,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta___iter__(struct __py
 </pre><pre class="cython line score-0">&#xA0;<span class="">0015</span>: </pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0016</span>:   <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_3__next__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_3__next__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_3__next__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_3__next__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__next__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_2__next__(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_2__next__(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_2__next__(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_2__next__(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
@@ -481,7 +481,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_2__next__(struct __p
 /* … */
   /* function exit code */
   __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.__next__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.__next__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
@@ -510,19 +510,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_2__next__(struct __p
 </pre><pre class="cython line score-0">&#xA0;<span class="">0022</span>: </pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0023</span>:   <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
-static Py_ssize_t __pyx_pw_14calfews_src_cy_8delta_cy_5Delta_5__len__(PyObject *__pyx_v_self); /*proto*/
-static Py_ssize_t __pyx_pw_14calfews_src_cy_8delta_cy_5Delta_5__len__(PyObject *__pyx_v_self) {
+static Py_ssize_t __pyx_pw_8delta_cy_5Delta_5__len__(PyObject *__pyx_v_self); /*proto*/
+static Py_ssize_t __pyx_pw_8delta_cy_5Delta_5__len__(PyObject *__pyx_v_self) {
   Py_ssize_t __pyx_r;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__len__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_4__len__(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_4__len__(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static Py_ssize_t __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_4__len__(CYTHON_UNUSED struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self) {
+static Py_ssize_t __pyx_pf_8delta_cy_5Delta_4__len__(CYTHON_UNUSED struct __pyx_obj_8delta_cy_Delta *__pyx_v_self) {
   Py_ssize_t __pyx_r;
   <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
@@ -531,7 +531,7 @@ static Py_ssize_t __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_4__len__(CYTHON_UNU
 /* … */
   /* function exit code */
   __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
@@ -544,8 +544,8 @@ static Py_ssize_t __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_4__len__(CYTHON_UNU
 </pre><pre class="cython line score-0">&#xA0;<span class="">0025</span>: </pre>
 <pre class="cython line score-58" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0026</span>:   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">model_mode</span><span class="p">):</span></pre>
 <pre class='cython code score-58 '>/* Python wrapper */
-static int __pyx_pw_14calfews_src_cy_8delta_cy_5Delta_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_14calfews_src_cy_8delta_cy_5Delta_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_8delta_cy_5Delta_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_8delta_cy_5Delta_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_model = 0;
   CYTHON_UNUSED PyObject *__pyx_v_name = 0;
   PyObject *__pyx_v_key = 0;
@@ -615,11 +615,11 @@ static int __pyx_pw_14calfews_src_cy_8delta_cy_5Delta_7__init__(PyObject *__pyx_
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 1, 4, 4, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 26, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_6__init__(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_model, __pyx_v_name, __pyx_v_key, __pyx_v_model_mode);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_6__init__(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_model, __pyx_v_name, __pyx_v_key, __pyx_v_model_mode);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -629,7 +629,7 @@ static int __pyx_pw_14calfews_src_cy_8delta_cy_5Delta_7__init__(PyObject *__pyx_
   return __pyx_r;
 }
 
-static int __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_6__init__(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_model, CYTHON_UNUSED PyObject *__pyx_v_name, PyObject *__pyx_v_key, PyObject *__pyx_v_model_mode) {
+static int __pyx_pf_8delta_cy_5Delta_6__init__(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_model, CYTHON_UNUSED PyObject *__pyx_v_name, PyObject *__pyx_v_key, PyObject *__pyx_v_model_mode) {
   PyObject *__pyx_v_k = NULL;
   PyObject *__pyx_v_v = NULL;
   CYTHON_UNUSED int __pyx_7genexpr__pyx_v__;
@@ -687,7 +687,7 @@ static int __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_6__init__(struct __pyx_obj
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_8);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_k);
@@ -2313,8 +2313,8 @@ static int __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_6__init__(struct __pyx_obj
 </pre><pre class="cython line score-0">&#xA0;<span class="">0116</span>: </pre>
 <pre class="cython line score-38" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0117</span>:   <span class="k">def</span> <span class="nf">set_sensitivity_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta_outflow_factor</span><span class="p">,</span> <span class="n">omr_flow_factor</span><span class="p">,</span> <span class="n">omr_prob_factor</span><span class="p">):</span></pre>
 <pre class='cython code score-38 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_9set_sensitivity_factors(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_9set_sensitivity_factors(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_9set_sensitivity_factors(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_9set_sensitivity_factors(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_delta_outflow_factor = 0;
   PyObject *__pyx_v_omr_flow_factor = 0;
   PyObject *__pyx_v_omr_prob_factor = 0;
@@ -2373,11 +2373,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_9set_sensitivity_fac
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("set_sensitivity_factors", 1, 3, 3, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 117, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.set_sensitivity_factors", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.set_sensitivity_factors", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_8set_sensitivity_factors(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_delta_outflow_factor, __pyx_v_omr_flow_factor, __pyx_v_omr_prob_factor);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_8set_sensitivity_factors(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_delta_outflow_factor, __pyx_v_omr_flow_factor, __pyx_v_omr_prob_factor);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2387,7 +2387,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_9set_sensitivity_fac
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_8set_sensitivity_factors(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_delta_outflow_factor, PyObject *__pyx_v_omr_flow_factor, PyObject *__pyx_v_omr_prob_factor) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_8set_sensitivity_factors(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_delta_outflow_factor, PyObject *__pyx_v_omr_flow_factor, PyObject *__pyx_v_omr_prob_factor) {
   PyObject *__pyx_v_wyt = NULL;
   long __pyx_v_monthcount;
   PyObject *__pyx_v_omr_threshold = NULL;
@@ -2404,7 +2404,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_8set_sensitivity_fac
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.set_sensitivity_factors", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.set_sensitivity_factors", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -2505,19 +2505,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_8set_sensitivity_fac
 </pre><pre class="cython line score-0">&#xA0;<span class="">0124</span>: </pre>
 <pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0125</span>:   <span class="k">def</span> <span class="nf">object_equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span></pre>
 <pre class='cython code score-13 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_11object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_11object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_11object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_11object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("object_equals (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_10object_equals(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_other));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_10object_equals(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_other));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_10object_equals(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_other) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_10object_equals(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_other) {
   PyObject *__pyx_v_equality = NULL;
   PyObject *__pyx_v_differences = NULL;
   PyObject *__pyx_v_i = NULL;
@@ -2537,7 +2537,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_10object_equals(stru
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_13);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_15);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_16);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.object_equals", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.object_equals", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_equality);
@@ -3083,8 +3083,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_10object_equals(stru
 </pre><pre class="cython line score-0">&#xA0;<span class="">0154</span>: </pre>
 <pre class="cython line score-119" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0155</span>:   <span class="k">def</span> <span class="nf">calc_expected_delta_outflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">model</span><span class="p">,</span><span class="n">shastaD</span><span class="p">,</span><span class="n">orovilleD</span><span class="p">,</span><span class="n">yubaD</span><span class="p">,</span><span class="n">folsomD</span><span class="p">,</span><span class="n">shastaMIN</span><span class="p">,</span><span class="n">orovilleMIN</span><span class="p">,</span><span class="n">yubaMIN</span><span class="p">,</span><span class="n">folsomMIN</span><span class="p">,</span> <span class="n">gains_sac_short</span><span class="p">,</span> <span class="n">gains_sj_short</span><span class="p">,</span> <span class="n">depletions_short</span><span class="p">,</span> <span class="n">eastside_short</span><span class="p">):</span></pre>
 <pre class='cython code score-119 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_13calc_expected_delta_outflow(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_13calc_expected_delta_outflow(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_13calc_expected_delta_outflow(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_13calc_expected_delta_outflow(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_model = 0;
   PyObject *__pyx_v_shastaD = 0;
   PyObject *__pyx_v_orovilleD = 0;
@@ -3253,11 +3253,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_13calc_expected_delt
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("calc_expected_delta_outflow", 1, 13, 13, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 155, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_expected_delta_outflow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_expected_delta_outflow", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_12calc_expected_delta_outflow(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_model, __pyx_v_shastaD, __pyx_v_orovilleD, __pyx_v_yubaD, __pyx_v_folsomD, __pyx_v_shastaMIN, __pyx_v_orovilleMIN, __pyx_v_yubaMIN, __pyx_v_folsomMIN, __pyx_v_gains_sac_short, __pyx_v_gains_sj_short, __pyx_v_depletions_short, __pyx_v_eastside_short);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_12calc_expected_delta_outflow(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_model, __pyx_v_shastaD, __pyx_v_orovilleD, __pyx_v_yubaD, __pyx_v_folsomD, __pyx_v_shastaMIN, __pyx_v_orovilleMIN, __pyx_v_yubaMIN, __pyx_v_folsomMIN, __pyx_v_gains_sac_short, __pyx_v_gains_sj_short, __pyx_v_depletions_short, __pyx_v_eastside_short);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3267,7 +3267,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_13calc_expected_delt
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_12calc_expected_delta_outflow(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_model, PyObject *__pyx_v_shastaD, PyObject *__pyx_v_orovilleD, PyObject *__pyx_v_yubaD, PyObject *__pyx_v_folsomD, PyObject *__pyx_v_shastaMIN, PyObject *__pyx_v_orovilleMIN, PyObject *__pyx_v_yubaMIN, PyObject *__pyx_v_folsomMIN, PyObject *__pyx_v_gains_sac_short, PyObject *__pyx_v_gains_sj_short, PyObject *__pyx_v_depletions_short, PyObject *__pyx_v_eastside_short) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_12calc_expected_delta_outflow(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_model, PyObject *__pyx_v_shastaD, PyObject *__pyx_v_orovilleD, PyObject *__pyx_v_yubaD, PyObject *__pyx_v_folsomD, PyObject *__pyx_v_shastaMIN, PyObject *__pyx_v_orovilleMIN, PyObject *__pyx_v_yubaMIN, PyObject *__pyx_v_folsomMIN, PyObject *__pyx_v_gains_sac_short, PyObject *__pyx_v_gains_sj_short, PyObject *__pyx_v_depletions_short, PyObject *__pyx_v_eastside_short) {
   PyObject *__pyx_v_expected_outflow_releases = NULL;
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_num_obs = NULL;
@@ -3309,7 +3309,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_12calc_expected_delt
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_16);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_17);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_18);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_expected_delta_outflow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_expected_delta_outflow", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_expected_outflow_releases);
@@ -4984,8 +4984,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_12calc_expected_delt
 </pre><pre class="cython line score-0">&#xA0;<span class="">0261</span>: </pre>
 <pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0262</span>:   <span class="k">def</span> <span class="nf">calc_rio_vista_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">cvp_stored_release</span><span class="p">,</span> <span class="n">swp_stored_release</span><span class="p">):</span></pre>
 <pre class='cython code score-46 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_15calc_rio_vista_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_15calc_rio_vista_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_15calc_rio_vista_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_15calc_rio_vista_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_m = 0;
   PyObject *__pyx_v_cvp_stored_release = 0;
@@ -5055,11 +5055,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_15calc_rio_vista_rul
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("calc_rio_vista_rule", 1, 4, 4, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 262, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_rio_vista_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_rio_vista_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_14calc_rio_vista_rule(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_cvp_stored_release, __pyx_v_swp_stored_release);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_14calc_rio_vista_rule(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_cvp_stored_release, __pyx_v_swp_stored_release);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5069,7 +5069,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_15calc_rio_vista_rul
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_14calc_rio_vista_rule(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_cvp_stored_release, PyObject *__pyx_v_swp_stored_release) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_14calc_rio_vista_rule(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_cvp_stored_release, PyObject *__pyx_v_swp_stored_release) {
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_din = NULL;
   PyObject *__pyx_v_swp_din = NULL;
@@ -5086,7 +5086,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_14calc_rio_vista_rul
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_rio_vista_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_rio_vista_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -5254,8 +5254,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_14calc_rio_vista_rul
 </pre><pre class="cython line score-0">&#xA0;<span class="">0282</span>: </pre>
 <pre class="cython line score-64" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0283</span>:   <span class="k">def</span> <span class="nf">calc_vernalis_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">dowy</span><span class="p">,</span><span class="n">NMI</span><span class="p">):</span></pre>
 <pre class='cython code score-64 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_17calc_vernalis_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_17calc_vernalis_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_17calc_vernalis_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_17calc_vernalis_rule(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_d = 0;
   PyObject *__pyx_v_y = 0;
@@ -5347,11 +5347,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_17calc_vernalis_rule
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("calc_vernalis_rule", 1, 6, 6, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 283, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_vernalis_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_vernalis_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_16calc_vernalis_rule(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_d, __pyx_v_y, __pyx_v_m, __pyx_v_dowy, __pyx_v_NMI);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_16calc_vernalis_rule(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_d, __pyx_v_y, __pyx_v_m, __pyx_v_dowy, __pyx_v_NMI);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5361,7 +5361,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_17calc_vernalis_rule
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_16calc_vernalis_rule(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_d, PyObject *__pyx_v_y, PyObject *__pyx_v_m, PyObject *__pyx_v_dowy, CYTHON_UNUSED PyObject *__pyx_v_NMI) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_16calc_vernalis_rule(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_d, PyObject *__pyx_v_y, PyObject *__pyx_v_m, PyObject *__pyx_v_dowy, CYTHON_UNUSED PyObject *__pyx_v_NMI) {
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_zone = NULL;
   PyObject *__pyx_v_d_1641_min = NULL;
@@ -5385,7 +5385,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_16calc_vernalis_rule
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_vernalis_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_vernalis_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -5786,19 +5786,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_16calc_vernalis_rule
 </pre><pre class="cython line score-0">&#xA0;<span class="">0327</span>: </pre>
 <pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0328</span>:   <span class="k">def</span> <span class="nf">vamp_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ix</span><span class="p">):</span></pre>
 <pre class='cython code score-11 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_19vamp_rule(PyObject *__pyx_v_self, PyObject *__pyx_v_ix); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_19vamp_rule(PyObject *__pyx_v_self, PyObject *__pyx_v_ix) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_19vamp_rule(PyObject *__pyx_v_self, PyObject *__pyx_v_ix); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_19vamp_rule(PyObject *__pyx_v_self, PyObject *__pyx_v_ix) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("vamp_rule (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_18vamp_rule(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_ix));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_18vamp_rule(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_ix));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_18vamp_rule(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_ix) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_18vamp_rule(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_ix) {
   PyObject *__pyx_v_flow = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_v = NULL;
@@ -5816,7 +5816,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_18vamp_rule(struct _
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.vamp_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.vamp_rule", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_flow);
@@ -6017,19 +6017,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_18vamp_rule(struct _
 </pre><pre class="cython line score-0">&#xA0;<span class="">0349</span>: </pre>
 <pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0350</span>:   <span class="k">def</span> <span class="nf">get_vamp_no</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wyt</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_21get_vamp_no(PyObject *__pyx_v_self, PyObject *__pyx_v_wyt); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_21get_vamp_no(PyObject *__pyx_v_self, PyObject *__pyx_v_wyt) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_21get_vamp_no(PyObject *__pyx_v_self, PyObject *__pyx_v_wyt); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_21get_vamp_no(PyObject *__pyx_v_self, PyObject *__pyx_v_wyt) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get_vamp_no (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_20get_vamp_no(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_wyt));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_20get_vamp_no(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_wyt));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_20get_vamp_no(CYTHON_UNUSED struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_wyt) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_20get_vamp_no(CYTHON_UNUSED struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_wyt) {
   double __pyx_v_vamp_no;
   PyObject *__pyx_r = NULL;
   <span class='trace'>__Pyx_TraceDeclarations</span>
@@ -6040,7 +6040,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_20get_vamp_no(CYTHON
   /* function exit code */
   __pyx_L1_error:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_2);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.get_vamp_no", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.get_vamp_no", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
@@ -6098,8 +6098,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_20get_vamp_no(CYTHON
 </pre><pre class="cython line score-0">&#xA0;<span class="">0362</span>: </pre>
 <pre class="cython line score-56" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0363</span>:   <span class="k">def</span> <span class="nf">calc_outflow_release</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">dowy</span><span class="p">,</span><span class="n">cvp_stored_release</span><span class="p">,</span> <span class="n">swp_stored_release</span><span class="p">):</span></pre>
 <pre class='cython code score-56 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_23calc_outflow_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_23calc_outflow_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_23calc_outflow_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_23calc_outflow_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_m = 0;
   PyObject *__pyx_v_dowy = 0;
@@ -6180,11 +6180,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_23calc_outflow_relea
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("calc_outflow_release", 1, 5, 5, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 363, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_outflow_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_outflow_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_22calc_outflow_release(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_dowy, __pyx_v_cvp_stored_release, __pyx_v_swp_stored_release);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_22calc_outflow_release(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_dowy, __pyx_v_cvp_stored_release, __pyx_v_swp_stored_release);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6194,7 +6194,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_23calc_outflow_relea
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_22calc_outflow_release(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_dowy, PyObject *__pyx_v_cvp_stored_release, PyObject *__pyx_v_swp_stored_release) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_22calc_outflow_release(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_dowy, PyObject *__pyx_v_cvp_stored_release, PyObject *__pyx_v_swp_stored_release) {
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_outflow_rule = NULL;
   PyObject *__pyx_v_x2outflow = NULL;
@@ -6215,7 +6215,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_22calc_outflow_relea
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_6);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_outflow_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_outflow_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -6747,8 +6747,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_22calc_outflow_relea
 </pre><pre class="cython line score-0">&#xA0;<span class="">0405</span>: </pre>
 <pre class="cython line score-78" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0406</span>:   <span class="k">def</span> <span class="nf">assign_releases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">shastaAS</span><span class="p">,</span><span class="n">folsomAS</span><span class="p">,</span><span class="n">orovilleAS</span><span class="p">,</span><span class="n">yubaAS</span><span class="p">,</span><span class="n">shastaODP</span><span class="p">,</span><span class="n">folsomODP</span><span class="p">,</span><span class="n">orovilleODP</span><span class="p">,</span><span class="n">yubaODP</span><span class="p">):</span></pre>
 <pre class='cython code score-78 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_25assign_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_25assign_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_25assign_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_25assign_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_shastaAS = 0;
   PyObject *__pyx_v_folsomAS = 0;
   PyObject *__pyx_v_orovilleAS = 0;
@@ -6862,11 +6862,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_25assign_releases(Py
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("assign_releases", 1, 8, 8, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 406, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.assign_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.assign_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_24assign_releases(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_shastaAS, __pyx_v_folsomAS, __pyx_v_orovilleAS, __pyx_v_yubaAS, __pyx_v_shastaODP, __pyx_v_folsomODP, __pyx_v_orovilleODP, __pyx_v_yubaODP);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_24assign_releases(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_shastaAS, __pyx_v_folsomAS, __pyx_v_orovilleAS, __pyx_v_yubaAS, __pyx_v_shastaODP, __pyx_v_folsomODP, __pyx_v_orovilleODP, __pyx_v_yubaODP);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6876,7 +6876,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_25assign_releases(Py
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_24assign_releases(CYTHON_UNUSED struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_shastaAS, PyObject *__pyx_v_folsomAS, PyObject *__pyx_v_orovilleAS, PyObject *__pyx_v_yubaAS, PyObject *__pyx_v_shastaODP, PyObject *__pyx_v_folsomODP, PyObject *__pyx_v_orovilleODP, PyObject *__pyx_v_yubaODP) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_24assign_releases(CYTHON_UNUSED struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_shastaAS, PyObject *__pyx_v_folsomAS, PyObject *__pyx_v_orovilleAS, PyObject *__pyx_v_yubaAS, PyObject *__pyx_v_shastaODP, PyObject *__pyx_v_folsomODP, PyObject *__pyx_v_orovilleODP, PyObject *__pyx_v_yubaODP) {
   PyObject *__pyx_v_cvp_AS = NULL;
   PyObject *__pyx_v_swp_AS = NULL;
   PyObject *__pyx_v_cvp_ODP = NULL;
@@ -6901,7 +6901,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_24assign_releases(CY
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.assign_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.assign_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_cvp_AS);
@@ -7557,8 +7557,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_24assign_releases(CY
 </pre><pre class="cython line score-0">&#xA0;<span class="">0447</span>: </pre>
 <pre class="cython line score-67" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0448</span>:   <span class="k">def</span> <span class="nf">meet_OMR_requirement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dowy</span><span class="p">,</span> <span class="n">cvp_m</span><span class="p">,</span> <span class="n">swp_m</span><span class="p">):</span></pre>
 <pre class='cython code score-67 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_27meet_OMR_requirement(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_27meet_OMR_requirement(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_27meet_OMR_requirement(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_27meet_OMR_requirement(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_m = 0;
   PyObject *__pyx_v_y = 0;
@@ -7650,11 +7650,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_27meet_OMR_requireme
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("meet_OMR_requirement", 1, 6, 6, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 448, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.meet_OMR_requirement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.meet_OMR_requirement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_26meet_OMR_requirement(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_y, __pyx_v_dowy, __pyx_v_cvp_m, __pyx_v_swp_m);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_26meet_OMR_requirement(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_y, __pyx_v_dowy, __pyx_v_cvp_m, __pyx_v_swp_m);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7664,7 +7664,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_27meet_OMR_requireme
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_26meet_OMR_requirement(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_dowy, PyObject *__pyx_v_cvp_m, PyObject *__pyx_v_swp_m) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_26meet_OMR_requirement(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_dowy, PyObject *__pyx_v_cvp_m, PyObject *__pyx_v_swp_m) {
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_omrNat = NULL;
   double __pyx_v_pumping_coef;
@@ -7690,7 +7690,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_26meet_OMR_requireme
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_8);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.meet_OMR_requirement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.meet_OMR_requirement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -8509,8 +8509,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_26meet_OMR_requireme
 <pre class="cython line score-0">&#xA0;<span class="">0516</span>: </pre>
 <pre class="cython line score-58" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0517</span>:   <span class="k">def</span> <span class="nf">hypothetical_pumping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">capacity_max</span><span class="p">,</span> <span class="n">supply_max</span><span class="p">,</span> <span class="n">pump_trigger</span><span class="p">,</span> <span class="n">fraction</span><span class="p">):</span></pre>
 <pre class='cython code score-58 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_29hypothetical_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_29hypothetical_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_29hypothetical_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_29hypothetical_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_m = 0;
   PyObject *__pyx_v_capacity_max = 0;
@@ -8602,11 +8602,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_29hypothetical_pumpi
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("hypothetical_pumping", 1, 6, 6, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 517, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.hypothetical_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.hypothetical_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_28hypothetical_pumping(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_capacity_max, __pyx_v_supply_max, __pyx_v_pump_trigger, __pyx_v_fraction);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_28hypothetical_pumping(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_capacity_max, __pyx_v_supply_max, __pyx_v_pump_trigger, __pyx_v_fraction);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8616,7 +8616,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_29hypothetical_pumpi
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_28hypothetical_pumping(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_capacity_max, PyObject *__pyx_v_supply_max, PyObject *__pyx_v_pump_trigger, PyObject *__pyx_v_fraction) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_28hypothetical_pumping(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_capacity_max, PyObject *__pyx_v_supply_max, PyObject *__pyx_v_pump_trigger, PyObject *__pyx_v_fraction) {
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_pumping_forgone = NULL;
   PyObject *__pyx_v_free_pumping = NULL;
@@ -8633,7 +8633,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_28hypothetical_pumpi
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.hypothetical_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.hypothetical_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -8788,8 +8788,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_28hypothetical_pumpi
 </pre><pre class="cython line score-0">&#xA0;<span class="">0534</span>: </pre>
 <pre class="cython line score-65" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0535</span>:   <span class="k">def</span> <span class="nf">distribute_export_releases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pump_max</span><span class="p">,</span> <span class="n">sodd_tot</span><span class="p">,</span> <span class="n">flood_storage_1</span><span class="p">,</span> <span class="n">flood_storage_2</span><span class="p">,</span> <span class="n">available_storage_1</span><span class="p">,</span> <span class="n">available_storage_2</span><span class="p">):</span></pre>
 <pre class='cython code score-65 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_31distribute_export_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_31distribute_export_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_31distribute_export_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_31distribute_export_releases(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_t = 0;
   CYTHON_UNUSED PyObject *__pyx_v_pump_max = 0;
   PyObject *__pyx_v_sodd_tot = 0;
@@ -8892,11 +8892,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_31distribute_export_
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("distribute_export_releases", 1, 7, 7, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 535, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.distribute_export_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.distribute_export_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_30distribute_export_releases(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_pump_max, __pyx_v_sodd_tot, __pyx_v_flood_storage_1, __pyx_v_flood_storage_2, __pyx_v_available_storage_1, __pyx_v_available_storage_2);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_30distribute_export_releases(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_pump_max, __pyx_v_sodd_tot, __pyx_v_flood_storage_1, __pyx_v_flood_storage_2, __pyx_v_available_storage_1, __pyx_v_available_storage_2);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8906,7 +8906,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_31distribute_export_
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_30distribute_export_releases(CYTHON_UNUSED struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, CYTHON_UNUSED PyObject *__pyx_v_pump_max, PyObject *__pyx_v_sodd_tot, PyObject *__pyx_v_flood_storage_1, PyObject *__pyx_v_flood_storage_2, PyObject *__pyx_v_available_storage_1, PyObject *__pyx_v_available_storage_2) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_30distribute_export_releases(CYTHON_UNUSED struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, CYTHON_UNUSED PyObject *__pyx_v_pump_max, PyObject *__pyx_v_sodd_tot, PyObject *__pyx_v_flood_storage_1, PyObject *__pyx_v_flood_storage_2, PyObject *__pyx_v_available_storage_1, PyObject *__pyx_v_available_storage_2) {
   PyObject *__pyx_v_total_flood_storage = NULL;
   PyObject *__pyx_v_total_available_storage = NULL;
   PyObject *__pyx_v_main_sodd = NULL;
@@ -8924,7 +8924,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_30distribute_export_
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.distribute_export_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.distribute_export_releases", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_total_flood_storage);
@@ -9249,8 +9249,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_30distribute_export_
 </pre><pre class="cython line score-0">&#xA0;<span class="">0553</span>: </pre>
 <pre class="cython line score-183" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0554</span>:   <span class="k">def</span> <span class="nf">calc_flow_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">year_index</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dowy</span><span class="p">,</span> <span class="n">dowy_eom</span><span class="p">,</span> <span class="n">cvp_max</span><span class="p">,</span> <span class="n">swp_max</span><span class="p">,</span> <span class="n">cvp_max_alt</span><span class="p">,</span> <span class="n">swp_max_alt</span><span class="p">,</span> <span class="n">cvp_release</span><span class="p">,</span> <span class="n">swp_release</span><span class="p">,</span> <span class="n">cvp_AS</span><span class="p">,</span> <span class="n">swp_AS</span><span class="p">,</span> <span class="n">cvp_flood</span><span class="p">,</span> <span class="n">swp_flood</span><span class="p">,</span> <span class="n">swp_over_dead_pool</span><span class="p">,</span> <span class="n">cvp_over_dead_pool</span><span class="p">,</span> <span class="n">swp_flood_volume</span><span class="p">,</span> <span class="n">cvp_flood_volume</span><span class="p">,</span> <span class="n">swp_fillup</span><span class="p">,</span> <span class="n">cvp_fillup</span><span class="p">):</span></pre>
 <pre class='cython code score-183 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_33calc_flow_bounds(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_33calc_flow_bounds(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_33calc_flow_bounds(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_33calc_flow_bounds(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_m = 0;
   PyObject *__pyx_v_y = 0;
@@ -9529,11 +9529,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_33calc_flow_bounds(P
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("calc_flow_bounds", 1, 23, 23, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 554, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_flow_bounds", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_flow_bounds", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_32calc_flow_bounds(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_y, __pyx_v_year_index, __pyx_v_d, __pyx_v_dowy, __pyx_v_dowy_eom, __pyx_v_cvp_max, __pyx_v_swp_max, __pyx_v_cvp_max_alt, __pyx_v_swp_max_alt, __pyx_v_cvp_release, __pyx_v_swp_release, __pyx_v_cvp_AS, __pyx_v_swp_AS, __pyx_v_cvp_flood, __pyx_v_swp_flood, __pyx_v_swp_over_dead_pool, __pyx_v_cvp_over_dead_pool, __pyx_v_swp_flood_volume, __pyx_v_cvp_flood_volume, __pyx_v_swp_fillup, __pyx_v_cvp_fillup);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_32calc_flow_bounds(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_y, __pyx_v_year_index, __pyx_v_d, __pyx_v_dowy, __pyx_v_dowy_eom, __pyx_v_cvp_max, __pyx_v_swp_max, __pyx_v_cvp_max_alt, __pyx_v_swp_max_alt, __pyx_v_cvp_release, __pyx_v_swp_release, __pyx_v_cvp_AS, __pyx_v_swp_AS, __pyx_v_cvp_flood, __pyx_v_swp_flood, __pyx_v_swp_over_dead_pool, __pyx_v_cvp_over_dead_pool, __pyx_v_swp_flood_volume, __pyx_v_cvp_flood_volume, __pyx_v_swp_fillup, __pyx_v_cvp_fillup);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -9543,7 +9543,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_33calc_flow_bounds(P
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_32calc_flow_bounds(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_year_index, PyObject *__pyx_v_d, PyObject *__pyx_v_dowy, PyObject *__pyx_v_dowy_eom, PyObject *__pyx_v_cvp_max, PyObject *__pyx_v_swp_max, PyObject *__pyx_v_cvp_max_alt, PyObject *__pyx_v_swp_max_alt, PyObject *__pyx_v_cvp_release, PyObject *__pyx_v_swp_release, PyObject *__pyx_v_cvp_AS, PyObject *__pyx_v_swp_AS, PyObject *__pyx_v_cvp_flood, PyObject *__pyx_v_swp_flood, PyObject *__pyx_v_swp_over_dead_pool, CYTHON_UNUSED PyObject *__pyx_v_cvp_over_dead_pool, PyObject *__pyx_v_swp_flood_volume, PyObject *__pyx_v_cvp_flood_volume, PyObject *__pyx_v_swp_fillup, PyObject *__pyx_v_cvp_fillup) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_32calc_flow_bounds(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_year_index, PyObject *__pyx_v_d, PyObject *__pyx_v_dowy, PyObject *__pyx_v_dowy_eom, PyObject *__pyx_v_cvp_max, PyObject *__pyx_v_swp_max, PyObject *__pyx_v_cvp_max_alt, PyObject *__pyx_v_swp_max_alt, PyObject *__pyx_v_cvp_release, PyObject *__pyx_v_swp_release, PyObject *__pyx_v_cvp_AS, PyObject *__pyx_v_swp_AS, PyObject *__pyx_v_cvp_flood, PyObject *__pyx_v_swp_flood, PyObject *__pyx_v_swp_over_dead_pool, CYTHON_UNUSED PyObject *__pyx_v_cvp_over_dead_pool, PyObject *__pyx_v_swp_flood_volume, PyObject *__pyx_v_cvp_flood_volume, PyObject *__pyx_v_swp_fillup, PyObject *__pyx_v_cvp_fillup) {
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_outflow_rule = NULL;
   double __pyx_v_cvp_frac;
@@ -9588,7 +9588,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_32calc_flow_bounds(s
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_9);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_10);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_flow_bounds", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_flow_bounds", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -11620,8 +11620,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_32calc_flow_bounds(s
 <pre class="cython line score-0">&#xA0;<span class="">0663</span>: </pre>
 <pre class="cython line score-53" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0664</span>:   <span class="k">def</span> <span class="nf">find_max_pumping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dowy</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">wyt</span><span class="p">):</span></pre>
 <pre class='cython code score-53 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_35find_max_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_35find_max_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_35find_max_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_35find_max_pumping(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_d = 0;
   PyObject *__pyx_v_dowy = 0;
   PyObject *__pyx_v_t = 0;
@@ -11691,11 +11691,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_35find_max_pumping(P
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("find_max_pumping", 1, 4, 4, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 664, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.find_max_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.find_max_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_34find_max_pumping(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_d, __pyx_v_dowy, __pyx_v_t, __pyx_v_wyt);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_34find_max_pumping(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_d, __pyx_v_dowy, __pyx_v_t, __pyx_v_wyt);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -11705,7 +11705,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_35find_max_pumping(P
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_34find_max_pumping(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_d, PyObject *__pyx_v_dowy, PyObject *__pyx_v_t, CYTHON_UNUSED PyObject *__pyx_v_wyt) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_34find_max_pumping(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_d, PyObject *__pyx_v_dowy, PyObject *__pyx_v_t, CYTHON_UNUSED PyObject *__pyx_v_wyt) {
   PyObject *__pyx_v_swp_intake_max = NULL;
   PyObject *__pyx_v_cvp_intake_max = NULL;
   PyObject *__pyx_v_san_joaquin_adj = NULL;
@@ -11729,7 +11729,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_34find_max_pumping(s
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_12);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.find_max_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.find_max_pumping", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_swp_intake_max);
@@ -13149,8 +13149,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_34find_max_pumping(s
 <pre class="cython line score-0">&#xA0;<span class="">0721</span>: </pre>
 <pre class="cython line score-131" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0722</span>:   <span class="k">def</span> <span class="nf">find_release</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">year_index</span><span class="p">,</span> <span class="n">dowy</span><span class="p">,</span> <span class="n">days_in_month</span><span class="p">,</span> <span class="n">dowy_eom</span><span class="p">,</span> <span class="n">cvp_max</span><span class="p">,</span> <span class="n">swp_max</span><span class="p">,</span> <span class="n">cvpAS</span><span class="p">,</span> <span class="n">swpAS</span><span class="p">,</span> <span class="n">cvp_release</span><span class="p">,</span> <span class="n">swp_release</span><span class="p">,</span> <span class="n">proj_surplus</span><span class="p">,</span> <span class="n">max_pumping</span><span class="p">):</span></pre>
 <pre class='cython code score-131 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_37find_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_37find_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_37find_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_37find_release(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_m = 0;
   PyObject *__pyx_v_y = 0;
@@ -13341,11 +13341,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_37find_release(PyObj
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("find_release", 1, 15, 15, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 722, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.find_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.find_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_36find_release(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_y, __pyx_v_year_index, __pyx_v_dowy, __pyx_v_days_in_month, __pyx_v_dowy_eom, __pyx_v_cvp_max, __pyx_v_swp_max, __pyx_v_cvpAS, __pyx_v_swpAS, __pyx_v_cvp_release, __pyx_v_swp_release, __pyx_v_proj_surplus, __pyx_v_max_pumping);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_36find_release(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_y, __pyx_v_year_index, __pyx_v_dowy, __pyx_v_days_in_month, __pyx_v_dowy_eom, __pyx_v_cvp_max, __pyx_v_swp_max, __pyx_v_cvpAS, __pyx_v_swpAS, __pyx_v_cvp_release, __pyx_v_swp_release, __pyx_v_proj_surplus, __pyx_v_max_pumping);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -13355,7 +13355,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_37find_release(PyObj
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_36find_release(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_year_index, PyObject *__pyx_v_dowy, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_dowy_eom, PyObject *__pyx_v_cvp_max, PyObject *__pyx_v_swp_max, PyObject *__pyx_v_cvpAS, PyObject *__pyx_v_swpAS, PyObject *__pyx_v_cvp_release, PyObject *__pyx_v_swp_release, PyObject *__pyx_v_proj_surplus, PyObject *__pyx_v_max_pumping) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_36find_release(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_year_index, PyObject *__pyx_v_dowy, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_dowy_eom, PyObject *__pyx_v_cvp_max, PyObject *__pyx_v_swp_max, PyObject *__pyx_v_cvpAS, PyObject *__pyx_v_swpAS, PyObject *__pyx_v_cvp_release, PyObject *__pyx_v_swp_release, PyObject *__pyx_v_proj_surplus, PyObject *__pyx_v_max_pumping) {
   PyObject *__pyx_v_wyt = NULL;
   PyObject *__pyx_v_pumping = NULL;
   PyObject *__pyx_v_storage = NULL;
@@ -13392,7 +13392,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_36find_release(struc
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_10);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_11);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.find_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.find_release", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -15096,8 +15096,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_36find_release(struc
 <pre class="cython line score-0">&#xA0;<span class="">0901</span>: </pre>
 <pre class="cython line score-116" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0902</span>:   <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">da</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">wateryear</span><span class="p">,</span> <span class="n">dowy</span><span class="p">,</span> <span class="n">cvp_flows</span><span class="p">,</span> <span class="n">swp_flows</span><span class="p">,</span> <span class="n">swp_pump</span><span class="p">,</span> <span class="n">cvp_pump</span><span class="p">,</span> <span class="n">swp_AS</span><span class="p">,</span> <span class="n">cvp_AS</span><span class="p">):</span></pre>
 <pre class='cython code score-116 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_39step(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_39step(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_39step(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_39step(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_d = 0;
   PyObject *__pyx_v_da = 0;
@@ -15266,11 +15266,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_39step(PyObject *__p
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("step", 1, 13, 13, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 902, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.step", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.step", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_38step(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_d, __pyx_v_da, __pyx_v_m, __pyx_v_y, __pyx_v_wateryear, __pyx_v_dowy, __pyx_v_cvp_flows, __pyx_v_swp_flows, __pyx_v_swp_pump, __pyx_v_cvp_pump, __pyx_v_swp_AS, __pyx_v_cvp_AS);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_38step(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_d, __pyx_v_da, __pyx_v_m, __pyx_v_y, __pyx_v_wateryear, __pyx_v_dowy, __pyx_v_cvp_flows, __pyx_v_swp_flows, __pyx_v_swp_pump, __pyx_v_cvp_pump, __pyx_v_swp_AS, __pyx_v_cvp_AS);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -15280,7 +15280,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_39step(PyObject *__p
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_38step(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_d, PyObject *__pyx_v_da, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_dowy, PyObject *__pyx_v_cvp_flows, PyObject *__pyx_v_swp_flows, PyObject *__pyx_v_swp_pump, PyObject *__pyx_v_cvp_pump, PyObject *__pyx_v_swp_AS, PyObject *__pyx_v_cvp_AS) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_38step(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_d, PyObject *__pyx_v_da, PyObject *__pyx_v_m, PyObject *__pyx_v_y, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_dowy, PyObject *__pyx_v_cvp_flows, PyObject *__pyx_v_swp_flows, PyObject *__pyx_v_swp_pump, PyObject *__pyx_v_cvp_pump, PyObject *__pyx_v_swp_AS, PyObject *__pyx_v_cvp_AS) {
   PyObject *__pyx_v_wyt = NULL;
   double __pyx_v_cvp_frac;
   double __pyx_v_swp_frac;
@@ -15317,7 +15317,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_38step(struct __pyx_
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_10);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_11);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_12);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.step", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.step", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_wyt);
@@ -17393,8 +17393,8 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_38step(struct __pyx_
 <pre class="cython line score-0">&#xA0;<span class="">0999</span>: </pre>
 <pre class="cython line score-56" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1000</span>:   <span class="k">def</span> <span class="nf">calc_project_allocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">da</span><span class="p">,</span> <span class="n">wateryear</span><span class="p">,</span> <span class="n">SWP_AS</span><span class="p">,</span> <span class="n">CVP_AS</span><span class="p">):</span></pre>
 <pre class='cython code score-56 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_41calc_project_allocation(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_41calc_project_allocation(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_41calc_project_allocation(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_41calc_project_allocation(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_t = 0;
   CYTHON_UNUSED PyObject *__pyx_v_m = 0;
   CYTHON_UNUSED PyObject *__pyx_v_da = 0;
@@ -17486,11 +17486,11 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_41calc_project_alloc
   __pyx_L5_argtuple_error:;
   <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("calc_project_allocation", 1, 6, 6, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 1000, __pyx_L3_error)</span>
   __pyx_L3_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_project_allocation", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_project_allocation", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_40calc_project_allocation(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_da, __pyx_v_wateryear, __pyx_v_SWP_AS, __pyx_v_CVP_AS);
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_40calc_project_allocation(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_da, __pyx_v_wateryear, __pyx_v_SWP_AS, __pyx_v_CVP_AS);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -17500,7 +17500,7 @@ static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_41calc_project_alloc
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_40calc_project_allocation(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, CYTHON_UNUSED PyObject *__pyx_v_m, CYTHON_UNUSED PyObject *__pyx_v_da, PyObject *__pyx_v_wateryear, CYTHON_UNUSED PyObject *__pyx_v_SWP_AS, CYTHON_UNUSED PyObject *__pyx_v_CVP_AS) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_40calc_project_allocation(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_t, CYTHON_UNUSED PyObject *__pyx_v_m, CYTHON_UNUSED PyObject *__pyx_v_da, PyObject *__pyx_v_wateryear, CYTHON_UNUSED PyObject *__pyx_v_SWP_AS, CYTHON_UNUSED PyObject *__pyx_v_CVP_AS) {
   PyObject *__pyx_r = NULL;
   <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
@@ -17516,7 +17516,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_40calc_project_alloc
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.calc_project_allocation", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.calc_project_allocation", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
@@ -17645,19 +17645,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_40calc_project_alloc
 <pre class="cython line score-0">&#xA0;<span class="">1011</span>: </pre>
 <pre class="cython line score-35" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1012</span>:   <span class="k">def</span> <span class="nf">create_flow_shapes_omr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span></pre>
 <pre class='cython code score-35 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_43create_flow_shapes_omr(PyObject *__pyx_v_self, PyObject *__pyx_v_model); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_43create_flow_shapes_omr(PyObject *__pyx_v_self, PyObject *__pyx_v_model) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_43create_flow_shapes_omr(PyObject *__pyx_v_self, PyObject *__pyx_v_model); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_43create_flow_shapes_omr(PyObject *__pyx_v_self, PyObject *__pyx_v_model) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("create_flow_shapes_omr (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_42create_flow_shapes_omr(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_model));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_42create_flow_shapes_omr(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_model));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_42create_flow_shapes_omr(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_model) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_42create_flow_shapes_omr(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_model) {
   PyObject *__pyx_v_omr_series = NULL;
   PyObject *__pyx_v_pump_series = NULL;
   PyObject *__pyx_v_pump_series2 = NULL;
@@ -17702,7 +17702,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_42create_flow_shapes
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_8);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.create_flow_shapes_omr", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.create_flow_shapes_omr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_omr_series);
@@ -19099,19 +19099,19 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_42create_flow_shapes
 <pre class="cython line score-0">&#xA0;<span class="">1086</span>: </pre>
 <pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1087</span>:   <span class="k">def</span> <span class="nf">accounting_as_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span></pre>
 <pre class='cython code score-12 '>/* Python wrapper */
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_45accounting_as_df(PyObject *__pyx_v_self, PyObject *__pyx_v_index); /*proto*/
-static PyObject *__pyx_pw_14calfews_src_cy_8delta_cy_5Delta_45accounting_as_df(PyObject *__pyx_v_self, PyObject *__pyx_v_index) {
+static PyObject *__pyx_pw_8delta_cy_5Delta_45accounting_as_df(PyObject *__pyx_v_self, PyObject *__pyx_v_index); /*proto*/
+static PyObject *__pyx_pw_8delta_cy_5Delta_45accounting_as_df(PyObject *__pyx_v_self, PyObject *__pyx_v_index) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("accounting_as_df (wrapper)", 0);
-  __pyx_r = __pyx_pf_14calfews_src_cy_8delta_cy_5Delta_44accounting_as_df(((struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_index));
+  __pyx_r = __pyx_pf_8delta_cy_5Delta_44accounting_as_df(((struct __pyx_obj_8delta_cy_Delta *)__pyx_v_self), ((PyObject *)__pyx_v_index));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_44accounting_as_df(struct __pyx_obj_14calfews_src_cy_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_index) {
+static PyObject *__pyx_pf_8delta_cy_5Delta_44accounting_as_df(struct __pyx_obj_8delta_cy_Delta *__pyx_v_self, PyObject *__pyx_v_index) {
   PyObject *__pyx_v_df = NULL;
   PyObject *__pyx_v_names = NULL;
   PyObject *__pyx_v_things = NULL;
@@ -19130,7 +19130,7 @@ static PyObject *__pyx_pf_14calfews_src_cy_8delta_cy_5Delta_44accounting_as_df(s
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("calfews_src_cy.delta_cy.Delta.accounting_as_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("delta_cy.Delta.accounting_as_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_df);

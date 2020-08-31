@@ -1,3 +1,6 @@
+from .crop_cy cimport Crop
+from .contract_cy cimport Contract
+
 cdef class Private():
 
   cdef:
@@ -21,3 +24,5 @@ cdef class Private():
                 direct_recovery_delivery, turnback_sales, turnback_purchases, annual_private_pumping, seepage, zone, \
                 seasonal_connection, k_close_wateryear, last_days_demand_regression_error, MDD, has_pesticide, irrdemand, \
                 urban_profile, contract_fraction, private_fraction, has_pmp, turnout_list, delivery_location_list, must_fill
+
+  # cdef double find_node_demand(self, list contract_list, str search_type, str district_name)

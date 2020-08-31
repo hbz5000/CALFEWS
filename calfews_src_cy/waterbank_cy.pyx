@@ -98,25 +98,29 @@ cdef class Waterbank():
 #####################################################################################################################
 
 	  
-  def find_node_demand(self,contract_list,xx,num_members, search_type):
+  def find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
+    cdef double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
+    cdef str recovery_use_key, participant_key
     #this function finds the maximum 'demand' available at each node - if
-	#in recovery mode, max demand is the available recovery capacity
-	#all other modes, max demand is the available recharge space
+	  #in recovery mode, max demand is the available recovery capacity
+	  #all other modes, max demand is the available recharge space
     if search_type == "recovery":
       #recovery mode - sum the (pumping) capacity use of each wb member
       current_recovery_use = 0.0
-      for x in self.recovery_use:
-        current_recovery_use += self.recovery_use[x]
+      for recovery_use_key in self.recovery_use:
+        current_recovery_use += self.recovery_use[recovery_use_key]
       demand_constraint = max(self.recovery - current_recovery_use, 0.0)
     else:
       #recharge mode - sum the (spreading basin) capacity use of each wb member
       current_storage = 0.0
-      for xx in self.participant_list:
-        current_storage += self.storage[xx]
+      for participant_key in self.participant_list:
+        storage = self.storage[participant_key]
+        current_storage += storage
 
       demand_constraint = max(self.tot_storage - current_storage, 0.0)
 
     return demand_constraint
+
 
   def find_priority_space(self, num_members, xx, search_type):
     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given bank 

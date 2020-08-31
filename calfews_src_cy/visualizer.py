@@ -1968,7 +1968,7 @@ class Visualizer():
       plt.show()
     plt.close()
 
-  def plot_account_flows(self, folder_name, fig_name, plot_name, timesteps, snapshot_range):
+  def plot_account_flows(self, folder_name, fig_name, plot_name, timesteps, snapshot_range, step):
     open_area = 0.2
     min_label_height = 0.06
     source_types = ['delivered', 'projected']
@@ -2427,7 +2427,7 @@ class Visualizer():
     scale_away_iii =  find_away_scale(timesteps, away_groups_iii, source_sizes_iii, open_area, min_label_height)
     scale_away_iv =  find_away_scale(timesteps, away_groups_iv, destination_sizes_iv, open_area, min_label_height)
 
-    for snapshot_t in range(snapshot_range[0], snapshot_range[1]):
+    for snapshot_t in range(snapshot_range[0], snapshot_range[1], step):
       data_figure = Sanker()
 
       running_start = 0.0
@@ -2688,9 +2688,9 @@ class Visualizer():
     self.ax.fill_between(x_plot, z_bottom, z_top, color= color, alpha = alpha, edgecolor = 'b', linewidth = 0.0, zorder = zorder_num) 
 
 
-  def make_gif(self, figure_base, figure_year, figure_range_start, figure_range_end):
+  def make_gif(self, figure_base, figure_year, figure_range_start, figure_range_end, figure_range_step):
     image_list = []
-    for fig_num in range(figure_range_start, figure_range_end):
+    for fig_num in range(figure_range_start, figure_range_end, figure_range_step):
       file_name = figure_base + '_' + str(fig_num) + '.png'
       image_list.append(imageio.imread(file_name))
     imageio.mimwrite(figure_base + figure_year + '.gif', image_list)

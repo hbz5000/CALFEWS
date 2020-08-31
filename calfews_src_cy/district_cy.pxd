@@ -1,4 +1,5 @@
 from .crop_cy cimport Crop
+from .contract_cy cimport Contract
 
 cdef class District():
 
@@ -30,3 +31,6 @@ cdef class District():
                 dailydemand_start
                 
     public Crop irrdemand
+
+  # cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge)
+  # cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)

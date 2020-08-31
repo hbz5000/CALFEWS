@@ -4,7 +4,7 @@ import pandas as pd
 import collections as cl
 import calendar
 import scipy.stats as stats
-from .reservoir_cy cimport Reservoir
+from calfews_src_cy.reservoir_cy cimport Reservoir
 import math
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -12,7 +12,7 @@ import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 from matplotlib import gridspec
 from matplotlib.lines import Line2D
-from .util import *
+from calfews_src_cy.util import *
 import seaborn as sns
 import json
 

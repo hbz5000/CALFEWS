@@ -844,7 +844,7 @@ struct __pyx_defaults {
   PyObject *__pyx_arg_sensitivity_samples;
 };
 
-/* "reservoir_cy.pxd":1
+/* "calfews_src_cy/reservoir_cy.pxd":1
  * cdef class Reservoir():             # <<<<<<<<<<<<<<
  * 
  *   cdef:
@@ -2142,7 +2142,6 @@ static const char __pyx_k_show[] = "show";
 static const char __pyx_k_snow[] = "snow";
 static const char __pyx_k_sort[] = "sort";
 static const char __pyx_k_test[] = "__test__";
-static const char __pyx_k_util[] = "util";
 static const char __pyx_k_xmax[] = "xmax";
 static const char __pyx_k_xmin[] = "xmin";
 static const char __pyx_k_year[] = "year";
@@ -2472,6 +2471,7 @@ static const char __pyx_k_sensitivity_factor[] = "sensitivity_factor";
 static const char __pyx_k_this_year_fnf_melt[] = "this_year_fnf_melt";
 static const char __pyx_k_whitened_residuals[] = "whitened_residuals";
 static const char __pyx_k_year_leap_non_leap[] = "year_leap_non_leap";
+static const char __pyx_k_calfews_src_cy_util[] = "calfews_src_cy.util";
 static const char __pyx_k_first_non_leap_year[] = "first_non_leap_year";
 static const char __pyx_k_make_fnf_prediction[] = "make_fnf_prediction";
 static const char __pyx_k_predicted_deviation[] = "predicted_deviation";
@@ -2663,6 +2663,7 @@ static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_s_calendar;
 static PyObject *__pyx_n_s_calfews_src_cy_inputter_cy;
 static PyObject *__pyx_kp_s_calfews_src_cy_inputter_cy_pyx;
+static PyObject *__pyx_n_s_calfews_src_cy_util;
 static PyObject *__pyx_kp_u_calfews_src_data_input_base_infl;
 static PyObject *__pyx_n_u_cfs;
 static PyObject *__pyx_n_s_cfs_tafd;
@@ -3025,7 +3026,6 @@ static PyObject *__pyx_n_s_unfold_series;
 static PyObject *__pyx_n_u_use_log;
 static PyObject *__pyx_n_s_use_sensitivity;
 static PyObject *__pyx_n_s_use_zeros;
-static PyObject *__pyx_n_s_util;
 static PyObject *__pyx_n_s_v;
 static PyObject *__pyx_n_s_values;
 static PyObject *__pyx_n_s_volatility_adjust;
@@ -50432,6 +50432,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_calendar, __pyx_k_calendar, sizeof(__pyx_k_calendar), 0, 0, 1, 1},
   {&__pyx_n_s_calfews_src_cy_inputter_cy, __pyx_k_calfews_src_cy_inputter_cy, sizeof(__pyx_k_calfews_src_cy_inputter_cy), 0, 0, 1, 1},
   {&__pyx_kp_s_calfews_src_cy_inputter_cy_pyx, __pyx_k_calfews_src_cy_inputter_cy_pyx, sizeof(__pyx_k_calfews_src_cy_inputter_cy_pyx), 0, 0, 1, 0},
+  {&__pyx_n_s_calfews_src_cy_util, __pyx_k_calfews_src_cy_util, sizeof(__pyx_k_calfews_src_cy_util), 0, 0, 1, 1},
   {&__pyx_kp_u_calfews_src_data_input_base_infl, __pyx_k_calfews_src_data_input_base_infl, sizeof(__pyx_k_calfews_src_data_input_base_infl), 0, 1, 0, 0},
   {&__pyx_n_u_cfs, __pyx_k_cfs, sizeof(__pyx_k_cfs), 0, 1, 0, 1},
   {&__pyx_n_s_cfs_tafd, __pyx_k_cfs_tafd, sizeof(__pyx_k_cfs_tafd), 0, 0, 1, 1},
@@ -50794,7 +50795,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_use_log, __pyx_k_use_log, sizeof(__pyx_k_use_log), 0, 1, 0, 1},
   {&__pyx_n_s_use_sensitivity, __pyx_k_use_sensitivity, sizeof(__pyx_k_use_sensitivity), 0, 0, 1, 1},
   {&__pyx_n_s_use_zeros, __pyx_k_use_zeros, sizeof(__pyx_k_use_zeros), 0, 0, 1, 1},
-  {&__pyx_n_s_util, __pyx_k_util, sizeof(__pyx_k_util), 0, 0, 1, 1},
   {&__pyx_n_s_v, __pyx_k_v, sizeof(__pyx_k_v), 0, 0, 1, 1},
   {&__pyx_n_s_values, __pyx_k_values, sizeof(__pyx_k_values), 0, 0, 1, 1},
   {&__pyx_n_s_volatility_adjust, __pyx_k_volatility_adjust, sizeof(__pyx_k_volatility_adjust), 0, 0, 1, 1},
@@ -51770,7 +51770,7 @@ if (!__Pyx_RefNanny) {
  * import collections as cl
  * import calendar             # <<<<<<<<<<<<<<
  * import scipy.stats as stats
- * from .reservoir_cy cimport Reservoir
+ * from calfews_src_cy.reservoir_cy cimport Reservoir
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_calendar, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -51781,7 +51781,7 @@ if (!__Pyx_RefNanny) {
  * import collections as cl
  * import calendar
  * import scipy.stats as stats             # <<<<<<<<<<<<<<
- * from .reservoir_cy cimport Reservoir
+ * from calfews_src_cy.reservoir_cy cimport Reservoir
  * import math
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
@@ -51797,7 +51797,7 @@ if (!__Pyx_RefNanny) {
 
   /* "calfews_src_cy/inputter_cy.pyx":8
  * import scipy.stats as stats
- * from .reservoir_cy cimport Reservoir
+ * from calfews_src_cy.reservoir_cy cimport Reservoir
  * import math             # <<<<<<<<<<<<<<
  * from datetime import datetime
  * import matplotlib.pyplot as plt
@@ -51808,7 +51808,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "calfews_src_cy/inputter_cy.pyx":9
- * from .reservoir_cy cimport Reservoir
+ * from calfews_src_cy.reservoir_cy cimport Reservoir
  * import math
  * from datetime import datetime             # <<<<<<<<<<<<<<
  * import matplotlib.pyplot as plt
@@ -51887,7 +51887,7 @@ if (!__Pyx_RefNanny) {
  * import matplotlib.dates as mdates
  * from matplotlib import gridspec             # <<<<<<<<<<<<<<
  * from matplotlib.lines import Line2D
- * from .util import *
+ * from calfews_src_cy.util import *
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -51907,7 +51907,7 @@ if (!__Pyx_RefNanny) {
  * import matplotlib.dates as mdates
  * from matplotlib import gridspec
  * from matplotlib.lines import Line2D             # <<<<<<<<<<<<<<
- * from .util import *
+ * from calfews_src_cy.util import *
  * import seaborn as sns
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
@@ -51927,7 +51927,7 @@ if (!__Pyx_RefNanny) {
   /* "calfews_src_cy/inputter_cy.pyx":15
  * from matplotlib import gridspec
  * from matplotlib.lines import Line2D
- * from .util import *             # <<<<<<<<<<<<<<
+ * from calfews_src_cy.util import *             # <<<<<<<<<<<<<<
  * import seaborn as sns
  * import json
  */
@@ -51936,7 +51936,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s__51);
   __Pyx_GIVEREF(__pyx_n_s__51);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__51);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_util, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_calfews_src_cy_util, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error);
@@ -51944,7 +51944,7 @@ if (!__Pyx_RefNanny) {
 
   /* "calfews_src_cy/inputter_cy.pyx":16
  * from matplotlib.lines import Line2D
- * from .util import *
+ * from calfews_src_cy.util import *
  * import seaborn as sns             # <<<<<<<<<<<<<<
  * import json
  * 
@@ -51955,7 +51955,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "calfews_src_cy/inputter_cy.pyx":17
- * from .util import *
+ * from calfews_src_cy.util import *
  * import seaborn as sns
  * import json             # <<<<<<<<<<<<<<
  * 

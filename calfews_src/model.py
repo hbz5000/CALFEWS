@@ -2943,13 +2943,13 @@ class Model():
     requester_list = [self.cawelo, self.ID4, self.rosedale]
     total_request = 0.0
     for requester in requester_list:
-      total_request += max(min(requester.dailydemand_start + requester.recharge_carryover[y.name], requester.dailydemand + requester.recharge_carryover[y.name], requester.current_balance['tableA'], requester.projected_supply['tableA']),0.0)
+      total_request += max(min(requester.dailydemand_start + requester.recharge_carryover['tableA'], requester.dailydemand + requester.recharge_carryover['tableA'], requester.current_balance['tableA'], requester.projected_supply['tableA']),0.0)
     if available_exchange_kern > 0.0:
       request_fraction = min(available_exchange_kern/total_request, 1.0)
     else:
       request_fraction = 0.0
     for requester in requester_list:
-      exchanged_value = request_fraction * max(min(requester.dailydemand_start + requester.recharge_carryover[y.name], requester.dailydemand + requester.recharge_carryover[y.name], requester.current_balance['tableA'], requester.projected_supply['tableA']),0.0)
+      exchanged_value = request_fraction * max(min(requester.dailydemand_start + requester.recharge_carryover['tableA'], requester.dailydemand + requester.recharge_carryover['tableA'], requester.current_balance['tableA'], requester.projected_supply['tableA']),0.0)
       requester.paper_balance['kern'] += exchanged_value
       requester.paper_balance['tableA'] -= exchanged_value
       self.buenavista.paper_balance['kern'] -= exchanged_value
@@ -4816,7 +4816,17 @@ class Model():
       available_flow, turnback_flow, turnback_end, remaining_excess_flow = canal.update_canal_use(available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list)
       excess_flow += remaining_excess_flow
       #if there is more demand/available water than canal capacity at the next canal node, the 'extra' water (that was expected to be delivered down-canal in earlier calculations) can be distributed among upstream nodes if there is remaining demand
-      type_demands[zz] -= canal.demand[zz][canal_loc]     ### NOTE: this seems weird, zz out of scope - ALH
+      # for zz in type_list:
+      #   type_demands[zz] -= canal.demand[zz][canal_loc]   
+      toggle_demand_count = 0
+      for zz in type_list:
+        type_demands[zz] = 0.0
+      for canal_loc_int in canal_range:
+        if toggle_demand_count == 1:
+          for zz in type_list:
+            type_demands[zz] += canal.demand[zz][canal_loc_int]
+        if canal_loc_int == canal_loc:
+          toggle_demand_count = 1  
 
       if turnback_flow > 0.001:
         remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type)

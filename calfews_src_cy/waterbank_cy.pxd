@@ -11,3 +11,5 @@ cdef class Waterbank():
     public list participant_list, participant_type, canal_rights, recharge_rate_series, recharge_decline
 
     public dict ownership, bank_cap, storage, recovery_use, banked, bank_timeseries
+
+  # cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type)

@@ -4,10 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import collections as cl
 import pandas as pd
-from .crop_cy cimport Crop
 from .scenario import Scenario
 import json
 from .util import *
+from .crop_cy cimport Crop
+from .contract_cy cimport Contract
 
 
 cdef class District():
@@ -679,27 +680,36 @@ cdef class District():
 #####################################################################################################################
 
 			
-  def find_node_demand(self,contract_list, search_type, partial_demand_toggle,  toggle_recharge):
+  def find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge):
+    cdef double access_mult, total_projected_allocation, private_add, total_demand_met, annualdemand, dailydemand, dailydemand_start, demand_constraint, private_demand, private_delivery, projected_supply
+    cdef str private_key, contract_key
+    cdef Contract contract_obj
+
     #this function is used to calculate the current demand at each 'district' node
     access_mult = self.surface_water_sa*self.seepage#this accounts for water seepage & the total district area that can be reached by SW canals (seepage is >= 1.0; surface_water_sa <= 1.0)
 	
     total_projected_allocation = 0.0
     private_add = 0.0
     if self.has_private == 1:
-      for xx in self.private_demand:
-        private_add += min(self.private_demand[xx], self.private_delivery[xx])
+      for private_key in self.private_demand:
+        private_demand, private_delivery = self.private_demand[private_key], self.private_delivery[private_key]
+        private_add += min(self.private_demand[private_key], self.private_delivery[private_key])
 
-    for y in contract_list:
-      total_projected_allocation += max(self.projected_supply[y.name], 0.0)#projected allocation
+    for contract_obj in contract_list:
+      projected_supply = self.projected_supply[contract_obj.name]
+      total_projected_allocation += max(projected_supply, 0.0)#projected allocation
 
     #percentage of demand filled in the day is equal to the total projected allocation as a percent of annual demand
 	#(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
-    if self.annualdemand[0]*access_mult > 0.0 and partial_demand_toggle == 1:
+    annualdemand = self.annualdemand[0]
+    dailydemand_start = self.dailydemand_start[0]
+    dailydemand = self.dailydemand[0]
+    if annualdemand*access_mult > 0.0 and partial_demand_toggle == 1:
       if self.must_fill == 1:
       #pumping to urban branches of the Cal Aqueduct is 'must fill', (i.e., demand is always met)
         total_demand_met = 1.0
       else:
-        if self.annualdemand[0]*access_mult > 0.0:
+        if annualdemand*access_mult > 0.0:
           total_demand_met = 1.0
         else:
           total_demand_met = 0.0		
@@ -707,18 +717,20 @@ cdef class District():
       total_demand_met = 1.0
     #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
     if search_type == 'flood':
-      if self.annualdemand[0] > 0.0 and total_projected_allocation > 0.0:
-        demand_constraint = (1.0 - min(total_projected_allocation/self.annualdemand[0], 1.0))*max(min(self.dailydemand_start[0]*access_mult*total_demand_met, self.dailydemand[0]*access_mult),0.0)
+      if annualdemand > 0.0 and total_projected_allocation > 0.0:
+        demand_constraint = (1.0 - min(total_projected_allocation/annualdemand, 1.0))*max(min(dailydemand_start*access_mult*total_demand_met, dailydemand*access_mult),0.0)
       else:
-        demand_constraint = max(min(self.dailydemand_start[0]*access_mult*total_demand_met, self.dailydemand[0]*access_mult),0.0)
+        demand_constraint = max(min(dailydemand_start*access_mult*total_demand_met, dailydemand*access_mult),0.0)
 
     else:
-      demand_constraint = max(min(self.dailydemand_start[0]*access_mult*total_demand_met, self.dailydemand[0]*access_mult),0.0)
+      demand_constraint = max(min(dailydemand_start*access_mult*total_demand_met, dailydemand*access_mult),0.0)
     #if we want to include recharge demands in the demand calculations, add available recharge space
     if toggle_recharge == 1:
       demand_constraint += max(self.in_district_storage - self.current_recharge_storage, 0.0)
     return demand_constraint + private_add
 	
+
+
   def find_node_output(self):
     #this function calculates the total recovery capacity that is contained in each district node
 	#(i.e. in leiu banks)
@@ -734,7 +746,7 @@ cdef class District():
 	
   def find_leiu_output(self, contract_list, ownership, member_name, wateryear):
     member_constraint = 0.0
-    total_contract = np.zeros(len(self.contract_list))
+    total_contract = [0.0 for _ in range(len(self.contract_list))]
     if self.in_leiu_banking:
       bank_counter = 0
       for bank_contracts in self.contract_list:
@@ -753,10 +765,10 @@ cdef class District():
     return member_constraint, total_contract
      
 	
-  def set_request_constraints(self, demand, search_type, contract_list, bank_space, bank_capacity, dowy, wateryear):
+  def set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear):
     #this function is used to determine if a district node 'wants' to make a request
-	#under the different usage types (flood, delievery, banking, or recovery) under a given contract
-	#(contract_list)
+    #under the different usage types (flood, delievery, banking, or recovery) under a given contract
+    #(contract_list)
     self.projected_supply['tot'] = 0.0
     # total_recharge = 0.0
     for y in self.contract_list:
