@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import collections as cl
 import pandas as pd
-#from random import randint
 from .crop import Crop
 from .scenario import Scenario
 import json

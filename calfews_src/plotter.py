@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import collections as cl
-# import toyplot as tp
 import scipy.stats as stats
 import math
 import datetime

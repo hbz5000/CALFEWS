@@ -1,0 +1,16 @@
+name: .venv_conda_calfews
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pandas
+  - python=3.7
+  - h5py
+  - matplotlib
+  - imageio
+  - numpy
+  - cython
+  - scipy
+  - seaborn
+  - configobj
+prefix: C:\Users\Andrew\anaconda3\envs\.venv_conda_calfews
