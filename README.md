@@ -9,7 +9,14 @@ Licensed under the MIT License, 2017.
 
 ## Installation and setup
 1. Clone this repository to your local machine.
-1. **TODO-add conda environment instructions**
-1. Run model with ``python3 -W ignore main.py``, or run ``main.py`` from your favorite IDE.
+1. If you use Anaconda:
+    1. Create a new environment using the yml file: ``conda env create -f environment.yml``
+    1. Activate environment: ``conda activate .venv_conda_calfews``
+1. If you don't use Anaconda:
+    1. Manually install the packages listed in ``environment.yml``
+1. Run model with ``python -W ignore run_main_cy.py``, or run ``run_main_cy.py`` from your favorite IDE. (Note: the command for Python 3 may be python3, not python, depending on your machine).
+1. If this doesn't work (or you want to make any changes to source files), you will need to recompile the model, which includes C binaries from Cython. 
+    1. If you are running on Linux or MacOS, you should already have gcc installed. If you are running on Windows, you will need to install Visual Studio 2019 Community Edition. When it asks which programs to install, choose "Desktop development with C++".
+    1. Cythonize and recompile with the command: ``python setup_cy.py build_ext --inplace``.
 1. For more details on model parameters, input files, and output files, run the Jupyter Notebook ``CALFEWS_intro_tutorial.ipynb``.
 1. To run all simulations and reproduce all figures from Zeff et al. 2020 (in preparation), run the Jupyter Notebook ``modeling_paper_notebook.ipynb``.
