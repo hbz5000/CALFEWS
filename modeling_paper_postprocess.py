@@ -4,9 +4,11 @@ import h5py
 import json
 import matplotlib.pyplot as plt
 from itertools import compress
+from datetime import datetime
 import os
-from calfews_src import *
-from calfews_src.visualizer import Visualizer
+from calfews_src_cy import *
+from calfews_src_cy.visualizer import Visualizer
+startTime = datetime.now()
 
 #results hdf5 file location from CALFEWS simulations
 output_folder_val = 'results/baseline_wy2017/validation/CDEC/'
@@ -27,7 +29,6 @@ sankeys_folder = 'results/baseline_wy2017/sankeys/'
 os.makedirs(fig_folder, exist_ok=True)
 os.makedirs(sankeys_folder, exist_ok=True)
 
-
 ##Set up data for validation results
 validation = Visualizer(modelso_val.district_list, modelso_val.private_list, modelso_val.city_list, modelso_val.contract_list, modelso_val.waterbank_list, modelso_val.leiu_list)
 validation.get_results_sensitivity_number(output_file_val, 'CDEC', 10, 1996, 1)
@@ -40,21 +41,25 @@ simulation.set_figure_params()
 ##plot figures in python
 show_plot = False
 
+print('Finish set up, ', datetime.now() - startTime)
+
 ##Compare Delta pumping/outflow distributions between scenarios
-print('Scenario Comp')
+# print('Scenario Comp')
 plot_type = 'delta_pumping'
 plot_name = 'extended_simulation'
 simulation.scenario_compare(fig_folder, plot_type, plot_name, validation.values, show_plot)
+print('Finish Delta pumping/outflow figure, ', datetime.now() - startTime)
 
 #Plot district deliveries - both the physical location (for links w/GW and PMP modelling) and the 'account' - for financial risk
 plot_type = 'district_water_use'
 water_use_plots = ['annual', 'monthly']
 for plot_name in water_use_plots:
-  print('Deliveries ' + plot_name)
+  # print('Deliveries ' + plot_name)
   ##Uses the 'scenario' files
   #simulation.make_deliveries_by_district(fig_folder, plot_type, plot_name, show_plot)
-  validation.make_deliveries_by_district(fig_folder, plot_type, plot_name, '19972016', show_plot)
-  simulation.make_deliveries_by_district(fig_folder, plot_type, plot_name, '19062016', show_plot)
+  validation.make_deliveries_by_district(fig_folder, plot_type, plot_name, 'validation', show_plot)
+  simulation.make_deliveries_by_district(fig_folder, plot_type, plot_name, 'simulation', show_plot)
+print('Finish district deliveries figure, ', datetime.now() - startTime)
 
 ##Plot snowpack/flow relationships for different watersheds
 plot_type = 'state_estimation'
@@ -63,8 +68,9 @@ n_days_colorbar = 180
 scatter_plot_interval = 30
 range_sensitivity = 5.0 # higher number limits range of regression function plotting closer to the range of the data
 for plot_name in forecast_plots:
-  print('Forcasts ' + plot_name)
+  # print('Forcasts ' + plot_name)
   validation.plot_forecasts(fig_folder, plot_type, plot_name, n_days_colorbar, scatter_plot_interval, range_sensitivity, show_plot)
+print('Finish snowpack/flow relationship figure, ', datetime.now() - startTime)
 
 #Plot 'states' for contracts, reservoirs, districts
 reservoir_name = 'sanluisstate'
@@ -73,12 +79,13 @@ district_key = 'WRM'
 plot_type = 'state_response'
 district_private_labels = []
 district_private_keys = []
-print('State Response, ' + district_key)
+# print('State Response, ' + district_key)
 ##Uses the 'vaidation' files
 validation.show_state_response(fig_folder, plot_type, reservoir_name, district_label, district_key, district_private_labels, district_private_keys, show_plot)
+print('Finish state response figure, ', datetime.now() - startTime)
 
 ##Plot validation between model & observations
-print('Model Validation')
+# print('Model Validation')
 #delta pumping variables
 plot_type = 'model_validation'
 plot_name = 'delta'
@@ -100,13 +107,16 @@ validation.make_validation_timeseries(fig_folder, plot_type, plot_name, show_plo
 plot_name = 'bank'
 use_scatter = True
 validation.make_validation_timeseries(fig_folder, plot_type, plot_name, show_plot, use_scatter)
+print('Finish validation figures, ', datetime.now() - startTime)
 
 #sankey diagrams - write figures for water 'flows' in each day, then write to GIF
+print('Starting Sankey diagrams (this will take a while)')
 plot_type = 'flow_diagram'
 plot_name = 'tulare'
-timesteps = 20000 #timesteps need to be greater than the snapshot range
-snapshot_range = (14600, 14975)
+timesteps = 15000 #timesteps need to be greater than the snapshot range
+snapshot_range = list(range(14600, 14975))
 simulation.plot_account_flows(sankeys_folder, plot_type, plot_name, timesteps, snapshot_range)	
-simulation.make_gif(sankeys_folder + 'cali_sankey', '1946', 14601, 14975)
+simulation.make_gif(sankeys_folder + 'cali_sankey', '1946', snapshot_range)
+print('Finish Sankey gif, ', datetime.now() - startTime)
 
 

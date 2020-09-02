@@ -18,13 +18,6 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-# import calfews_src_cy
-# from calfews_src_cy import *
-from calfews_src_cy.model_cy cimport Model
-from calfews_src_cy.inputter_cy import Inputter
-from calfews_src_cy.scenario import Scenario
-from calfews_src_cy.util import *
-from calfews_src_cy.plotter import *
 from datetime import datetime
 import os
 import shutil
@@ -32,6 +25,11 @@ import sys
 from configobj import ConfigObj
 import json
 from distutils.util import strtobool
+from calfews_src_cy.model_cy cimport Model
+from calfews_src_cy.inputter_cy import Inputter
+from calfews_src_cy.scenario import Scenario
+from calfews_src_cy.util import *
+from calfews_src_cy.plotter import *
 
 cdef class main_cy():
 
