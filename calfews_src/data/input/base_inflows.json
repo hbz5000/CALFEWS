@@ -37,37 +37,37 @@
       "VIC": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv", 
       "WRF": "calfews_src/data/CA_FNF_WRF/WRF_20902100.csv"
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_canesm2_rcp45_r1i1p1.csv",
-    "canesm2_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_canesm2_rcp85_r1i1p1.csv",
-    "ccsm4_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp45_r1i1p1.csv",
-    "ccsm4_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
-    "cnrm-cm5_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_cnrm-cm5_rcp45_r1i1p1.csv",
-    "cnrm-cm5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_cnrm-cm5_rcp85_r1i1p1.csv",
-    "csiro-mk3-6-0_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_csiro-mk3-6-0_rcp45_r1i1p1.csv",
-    "csiro-mk3-6-0_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_csiro-mk3-6-0_rcp85_r1i1p1.csv",
-    "gfdl-cm3_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-cm3_rcp45_r1i1p1.csv",
-    "gfdl-cm3_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-cm3_rcp85_r1i1p1.csv",
-    "gfdl-esm2m_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-esm2m_rcp45_r1i1p1.csv",
-    "gfdl-esm2m_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-esm2m_rcp85_r1i1p1.csv",
-    "hadgem2-cc_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-cc_rcp45_r1i1p1.csv",
-    "hadgem2-cc_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-cc_rcp85_r1i1p1.csv",
-    "hadgem2-es_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-es_rcp45_r1i1p1.csv",
-    "hadgem2-es_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-es_rcp85_r1i1p1.csv",
-    "inmcm4_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_inmcm4_rcp45_r1i1p1.csv",
-    "inmcm4_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_inmcm4_rcp85_r1i1p1.csv",
-    "ipsl-cm5a-mr_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ipsl-cm5a-mr_rcp45_r1i1p1.csv",
-    "ipsl-cm5a-mr_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1.csv",
-    "miroc5_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp45_r1i1p1.csv",
-    "miroc5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp85_r1i1p1.csv"
-    }
-  },
+    "downscaled_19502100":{
+      "canesm2_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_canesm2_rcp45_r1i1p1.csv",
+      "canesm2_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_canesm2_rcp85_r1i1p1.csv",
+      "ccsm4_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp45_r1i1p1.csv",
+      "ccsm4_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
+      "cnrm-cm5_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_cnrm-cm5_rcp45_r1i1p1.csv",
+      "cnrm-cm5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_cnrm-cm5_rcp85_r1i1p1.csv",
+      "csiro-mk3-6-0_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_csiro-mk3-6-0_rcp45_r1i1p1.csv",
+      "csiro-mk3-6-0_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_csiro-mk3-6-0_rcp85_r1i1p1.csv",
+      "gfdl-cm3_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-cm3_rcp45_r1i1p1.csv",
+      "gfdl-cm3_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-cm3_rcp85_r1i1p1.csv",
+      "gfdl-esm2m_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-esm2m_rcp45_r1i1p1.csv",
+      "gfdl-esm2m_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-esm2m_rcp85_r1i1p1.csv",
+      "hadgem2-cc_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-cc_rcp45_r1i1p1.csv",
+      "hadgem2-cc_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-cc_rcp85_r1i1p1.csv",
+      "hadgem2-es_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-es_rcp45_r1i1p1.csv",
+      "hadgem2-es_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-es_rcp85_r1i1p1.csv",
+      "inmcm4_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_inmcm4_rcp45_r1i1p1.csv",
+      "inmcm4_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_inmcm4_rcp85_r1i1p1.csv",
+      "ipsl-cm5a-mr_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ipsl-cm5a-mr_rcp45_r1i1p1.csv",
+      "ipsl-cm5a-mr_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1.csv",
+      "miroc5_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp45_r1i1p1.csv",
+      "miroc5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp85_r1i1p1.csv"
+      }
+    },
 
   "export_series":{
     "observations":{
       "CDEC": "calfews_src-data-CDEC_19052016",
       "CDEC_wet_dry": "calfews_src-data-CDEC_wet_dry",
-      "CDEC_short": "calfews_src-data-CDEC_19052016.csv",
+      "CDEC_short": "calfews_src-data-CDEC_19052016.csv"
       },
     "downscaled_19952005":{
       "VIC": "calfews_src-data-VIC_19952005", 
@@ -99,53 +99,37 @@
       "VIC": "calfews_src-data-VIC_20902100", 
       "WRF": "calfews_src-data-WRF_20902100"
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": "calfews_src-data-CA_FNF_canesm2_rcp45_r1i1p1",
-    "canesm2_rcp85": "calfews_src-data-CA_FNF_canesm2_rcp85_r1i1p1",
-    "ccsm4_rcp45": "calfews_src-data-CA_FNF_ccsm4_rcp45_r1i1p1",
-    "ccsm4_rcp85": "calfews_src-data-CA_FNF_ccsm4_rcp85_r1i1p1",
-    "cnrm-cm5_rcp45": "calfews_src-data-CA_FNF_cnrm-cm5_rcp45_r1i1p1",
-    "cnrm-cm5_rcp85": "calfews_src-data-CA_FNF_cnrm-cm5_rcp85_r1i1p1",
-    "csiro-mk3-6-0_rcp45": "calfews_src-data-CA_FNF_csiro-mk3-6-0_rcp45_r1i1p1",
-    "csiro-mk3-6-0_rcp85": "calfews_src-data-CA_FNF_csiro-mk3-6-0_rcp85_r1i1p1",
-    "gfdl-cm3_rcp45": "calfews_src-data-CA_FNF_gfdl-cm3_rcp45_r1i1p1",
-    "gfdl-cm3_rcp85": "calfews_src-data-CA_FNF_gfdl-cm3_rcp85_r1i1p1",
-    "gfdl-esm2m_rcp45": "calfews_src-data-CA_FNF_gfdl-esm2m_rcp45_r1i1p1",
-    "gfdl-esm2m_rcp85": "calfews_src-data-CA_FNF_gfdl-esm2m_rcp85_r1i1p1",
-    "hadgem2-cc_rcp45": "calfews_src-data-CA_FNF_hadgem2-cc_rcp45_r1i1p1",
-    "hadgem2-cc_rcp85": "calfews_src-data-CA_FNF_hadgem2-cc_rcp85_r1i1p1",
-    "hadgem2-es_rcp45": "calfews_src-data-CA_FNF_hadgem2-es_rcp45_r1i1p1",
-    "hadgem2-es_rcp85": "calfews_src-data-CA_FNF_hadgem2-es_rcp85_r1i1p1",
-    "inmcm4_rcp45": "calfews_src-data-CA_FNF_inmcm4_rcp45_r1i1p1",
-    "inmcm4_rcp85": "calfews_src-data-CA_FNF_inmcm4_rcp85_r1i1p1",
-    "ipsl-cm5a-mr_rcp45": "calfews_src-data-CA_FNF_ipsl-cm5a-mr_rcp45_r1i1p1",
-    "ipsl-cm5a-mr_rcp85": "calfews_src-data-CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1",
-    "miroc5_rcp45": "calfews_src-data-CA_FNF_miroc5_rcp45_r1i1p1",
-    "miroc5_rcp85": "calfews_src-data-CA_FNF_miroc5_rcp85_r1i1p1"
-    }
-  },
+    "downscaled_19502100":{
+      "canesm2_rcp45": "calfews_src-data-CA_FNF_canesm2_rcp45_r1i1p1",
+      "canesm2_rcp85": "calfews_src-data-CA_FNF_canesm2_rcp85_r1i1p1",
+      "ccsm4_rcp45": "calfews_src-data-CA_FNF_ccsm4_rcp45_r1i1p1",
+      "ccsm4_rcp85": "calfews_src-data-CA_FNF_ccsm4_rcp85_r1i1p1",
+      "cnrm-cm5_rcp45": "calfews_src-data-CA_FNF_cnrm-cm5_rcp45_r1i1p1",
+      "cnrm-cm5_rcp85": "calfews_src-data-CA_FNF_cnrm-cm5_rcp85_r1i1p1",
+      "csiro-mk3-6-0_rcp45": "calfews_src-data-CA_FNF_csiro-mk3-6-0_rcp45_r1i1p1",
+      "csiro-mk3-6-0_rcp85": "calfews_src-data-CA_FNF_csiro-mk3-6-0_rcp85_r1i1p1",
+      "gfdl-cm3_rcp45": "calfews_src-data-CA_FNF_gfdl-cm3_rcp45_r1i1p1",
+      "gfdl-cm3_rcp85": "calfews_src-data-CA_FNF_gfdl-cm3_rcp85_r1i1p1",
+      "gfdl-esm2m_rcp45": "calfews_src-data-CA_FNF_gfdl-esm2m_rcp45_r1i1p1",
+      "gfdl-esm2m_rcp85": "calfews_src-data-CA_FNF_gfdl-esm2m_rcp85_r1i1p1",
+      "hadgem2-cc_rcp45": "calfews_src-data-CA_FNF_hadgem2-cc_rcp45_r1i1p1",
+      "hadgem2-cc_rcp85": "calfews_src-data-CA_FNF_hadgem2-cc_rcp85_r1i1p1",
+      "hadgem2-es_rcp45": "calfews_src-data-CA_FNF_hadgem2-es_rcp45_r1i1p1",
+      "hadgem2-es_rcp85": "calfews_src-data-CA_FNF_hadgem2-es_rcp85_r1i1p1",
+      "inmcm4_rcp45": "calfews_src-data-CA_FNF_inmcm4_rcp45_r1i1p1",
+      "inmcm4_rcp85": "calfews_src-data-CA_FNF_inmcm4_rcp85_r1i1p1",
+      "ipsl-cm5a-mr_rcp45": "calfews_src-data-CA_FNF_ipsl-cm5a-mr_rcp45_r1i1p1",
+      "ipsl-cm5a-mr_rcp85": "calfews_src-data-CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1",
+      "miroc5_rcp45": "calfews_src-data-CA_FNF_miroc5_rcp45_r1i1p1",
+      "miroc5_rcp85": "calfews_src-data-CA_FNF_miroc5_rcp85_r1i1p1"
+      }
+    },
   
   "simulation_period_start":{
     "observations":{
       "CDEC": 1905, 
       "CDEC_wet_dry": 1996,
-      "CDEC_short": 1996,
-      "WRF": 2006,
-      "WRF_GW_corr":2006,
-      "DryYearAdded": 1996,
-      "WetYearAdded": 1996,
-      "Bias_Corrected": 2006,
-      "Remove_AR": 1996,
-      "AR_1.5": 1996,
-      "AR_1.4": 1996,
-      "AR_1.3": 1996,
-      "AR_1.2": 1996,
-      "AR_1.1": 1996,
-      "AR_0.9": 1996,
-      "AR_0.8": 1996,
-      "AR_0.7": 1996,
-      "AR_0.6": 1996,
-      "AR_0.5": 1996
+      "CDEC_short": 1996
       },
     "downscaled_19952005":{
       "VIC": 1996,
@@ -177,37 +161,37 @@
       "VIC": 2089,
       "WRF": 2089
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": 1950,
-    "canesm2_rcp85": 1950,
-    "ccsm4_rcp45": 1950,
-    "ccsm4_rcp85": 1950,
-    "cnrm-cm5_rcp45": 1950,
-    "cnrm-cm5_rcp85": 1950,
-    "csiro-mk3-6-0_rcp45": 1950,
-    "csiro-mk3-6-0_rcp85": 1950,
-    "gfdl-cm3_rcp45": 1950,
-    "gfdl-cm3_rcp85": 1950,
-    "gfdl-esm2m_rcp45": 1950,
-    "gfdl-esm2m_rcp85": 1950,
-    "hadgem2-cc_rcp45": 1950,
-    "hadgem2-cc_rcp85": 1950,
-    "hadgem2-es_rcp45": 1950,
-    "hadgem2-es_rcp85": 1950,
-    "inmcm4_rcp45": 1950,
-    "inmcm4_rcp85": 1950,
-    "ipsl-cm5a-mr_rcp45": 1950,
-    "ipsl-cm5a-mr_rcp85": 1950,
-    "miroc5_rcp45": 1950,
-    "miroc5_rcp85": 1950
-   }
+    "downscaled_19502100":{
+      "canesm2_rcp45": 1950,
+      "canesm2_rcp85": 1950,
+      "ccsm4_rcp45": 1950,
+      "ccsm4_rcp85": 1950,
+      "cnrm-cm5_rcp45": 1950,
+      "cnrm-cm5_rcp85": 1950,
+      "csiro-mk3-6-0_rcp45": 1950,
+      "csiro-mk3-6-0_rcp85": 1950,
+      "gfdl-cm3_rcp45": 1950,
+      "gfdl-cm3_rcp85": 1950,
+      "gfdl-esm2m_rcp45": 1950,
+      "gfdl-esm2m_rcp85": 1950,
+      "hadgem2-cc_rcp45": 1950,
+      "hadgem2-cc_rcp85": 1950,
+      "hadgem2-es_rcp45": 1950,
+      "hadgem2-es_rcp85": 1950,
+      "inmcm4_rcp45": 1950,
+      "inmcm4_rcp85": 1950,
+      "ipsl-cm5a-mr_rcp45": 1950,
+      "ipsl-cm5a-mr_rcp85": 1950,
+      "miroc5_rcp45": 1950,
+      "miroc5_rcp85": 1950
+    }
   },
   
   "simulation_period_end":{
     "observations":{
       "CDEC": 2016,
       "CDEC_wet_dry": 1998,
-      "CDEC_short": 2016,  
+      "CDEC_short": 2016 
       },
     "downscaled_19952005":{
       "VIC": 2005,
@@ -239,37 +223,37 @@
       "VIC": 2099,
       "WRF": 2100
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": 2099,
-    "canesm2_rcp85": 2099,
-    "ccsm4_rcp45": 2099,
-    "ccsm4_rcp85": 2099,
-    "cnrm-cm5_rcp45": 2099,
-    "cnrm-cm5_rcp85": 2099,
-    "csiro-mk3-6-0_rcp45": 2099,
-    "csiro-mk3-6-0_rcp85": 2099,
-    "gfdl-cm3_rcp45": 2099,
-    "gfdl-cm3_rcp85": 2099,
-    "gfdl-esm2m_rcp45": 2099,
-    "gfdl-esm2m_rcp85": 2099,
-    "hadgem2-cc_rcp45": 2099,
-    "hadgem2-cc_rcp85": 2099,
-    "hadgem2-es_rcp45": 2099,
-    "hadgem2-es_rcp85": 2099,
-    "inmcm4_rcp45": 2099,
-    "inmcm4_rcp85": 2099,
-    "ipsl-cm5a-mr_rcp45": 2099,
-    "ipsl-cm5a-mr_rcp85": 2099,
-    "miroc5_rcp45": 2099,
-    "miroc5_rcp85": 2099
-   }
+    "downscaled_19502100":{
+      "canesm2_rcp45": 2099,
+      "canesm2_rcp85": 2099,
+      "ccsm4_rcp45": 2099,
+      "ccsm4_rcp85": 2099,
+      "cnrm-cm5_rcp45": 2099,
+      "cnrm-cm5_rcp85": 2099,
+      "csiro-mk3-6-0_rcp45": 2099,
+      "csiro-mk3-6-0_rcp85": 2099,
+      "gfdl-cm3_rcp45": 2099,
+      "gfdl-cm3_rcp85": 2099,
+      "gfdl-esm2m_rcp45": 2099,
+      "gfdl-esm2m_rcp85": 2099,
+      "hadgem2-cc_rcp45": 2099,
+      "hadgem2-cc_rcp85": 2099,
+      "hadgem2-es_rcp45": 2099,
+      "hadgem2-es_rcp85": 2099,
+      "inmcm4_rcp45": 2099,
+      "inmcm4_rcp85": 2099,
+      "ipsl-cm5a-mr_rcp45": 2099,
+      "ipsl-cm5a-mr_rcp85": 2099,
+      "miroc5_rcp45": 2099,
+      "miroc5_rcp85": 2099
+    }
   },
   
   "file_start":{
     "observations":{
       "CDEC": "10/1/1905",
       "CDEC_wet_dry": "10/1/1996",
-      "CDEC_short": "10/1/1996",
+      "CDEC_short": "10/1/1996"
       },
     "downscaled_19952005":{
       "VIC": "1/1/1950",
@@ -301,37 +285,37 @@
       "VIC": "1/1/1950",
       "WRF": "10/1/2089"
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": "1/1/1950",
-    "canesm2_rcp85": "1/1/1950",
-    "ccsm4_rcp45": "1/1/1950",
-    "ccsm4_rcp85": "1/1/1950",
-    "cnrm-cm5_rcp45": "1/1/1950",
-    "cnrm-cm5_rcp85": "1/1/1950",
-    "csiro-mk3-6-0_rcp45": "1/1/1950",
-    "csiro-mk3-6-0_rcp85": "1/1/1950",
-    "gfdl-cm3_rcp45": "1/1/1950",
-    "gfdl-cm3_rcp85": "1/1/1950",
-    "gfdl-esm2m_rcp45": "1/1/1950",
-    "gfdl-esm2m_rcp85": "1/1/1950",
-    "hadgem2-cc_rcp45": "1/1/1950",
-    "hadgem2-cc_rcp85": "1/1/1950",
-    "hadgem2-es_rcp45": "1/1/1950",
-    "hadgem2-es_rcp85": "1/1/1950",
-    "inmcm4_rcp45": "1/1/1950",
-    "inmcm4_rcp85": "1/1/1950",
-    "ipsl-cm5a-mr_rcp45": "1/1/1950",
-    "ipsl-cm5a-mr_rcp85": "1/1/1950",
-    "miroc5_rcp45": "1/1/1950",
-    "miroc5_rcp85": "1/1/1950"
-   }
+    "downscaled_19502100":{
+      "canesm2_rcp45": "1/1/1950",
+      "canesm2_rcp85": "1/1/1950",
+      "ccsm4_rcp45": "1/1/1950",
+      "ccsm4_rcp85": "1/1/1950",
+      "cnrm-cm5_rcp45": "1/1/1950",
+      "cnrm-cm5_rcp85": "1/1/1950",
+      "csiro-mk3-6-0_rcp45": "1/1/1950",
+      "csiro-mk3-6-0_rcp85": "1/1/1950",
+      "gfdl-cm3_rcp45": "1/1/1950",
+      "gfdl-cm3_rcp85": "1/1/1950",
+      "gfdl-esm2m_rcp45": "1/1/1950",
+      "gfdl-esm2m_rcp85": "1/1/1950",
+      "hadgem2-cc_rcp45": "1/1/1950",
+      "hadgem2-cc_rcp85": "1/1/1950",
+      "hadgem2-es_rcp45": "1/1/1950",
+      "hadgem2-es_rcp85": "1/1/1950",
+      "inmcm4_rcp45": "1/1/1950",
+      "inmcm4_rcp85": "1/1/1950",
+      "ipsl-cm5a-mr_rcp45": "1/1/1950",
+      "ipsl-cm5a-mr_rcp85": "1/1/1950",
+      "miroc5_rcp45": "1/1/1950",
+      "miroc5_rcp85": "1/1/1950"
+    }
   },
   
   "file_end":{
     "observations":{
       "CDEC": "9/30/2016",
       "CDEC_wet_dry": "9/30/1998",
-      "CDEC_short": "9/30/2016", 
+      "CDEC_short": "9/30/2016" 
       },
     "downscaled_19952005":{
       "VIC": "12/31/2099", 
@@ -363,36 +347,36 @@
       "VIC": "12/31/2099",
       "WRF": "9/30/2100"
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": "12/31/2099",
-    "canesm2_rcp85": "12/31/2099",
-    "ccsm4_rcp45": "12/31/2099",
-    "ccsm4_rcp85": "12/31/2099",
-    "cnrm-cm5_rcp45": "12/31/2099",
-    "cnrm-cm5_rcp85": "12/31/2099",
-    "csiro-mk3-6-0_rcp45": "12/31/2099",
-    "csiro-mk3-6-0_rcp85": "12/31/2099",
-    "gfdl-cm3_rcp45": "12/31/2099",
-    "gfdl-cm3_rcp85": "12/31/2099",
-    "gfdl-esm2m_rcp45": "12/31/2099",
-    "gfdl-esm2m_rcp85": "12/31/2099",
-    "hadgem2-cc_rcp45": "12/31/2099",
-    "hadgem2-cc_rcp85": "12/31/2099",
-    "hadgem2-es_rcp45": "11/30/2099",
-    "hadgem2-es_rcp85": "12/31/2099",
-    "inmcm4_rcp45": "12/31/2099",
-    "inmcm4_rcp85": "12/31/2099",
-    "ipsl-cm5a-mr_rcp45": "12/31/2099",
-    "ipsl-cm5a-mr_rcp85": "12/31/2099",
-    "miroc5_rcp45": "12/31/2099",
-    "miroc5_rcp85": "12/31/2099"
-   }
+    "downscaled_19502100":{
+      "canesm2_rcp45": "12/31/2099",
+      "canesm2_rcp85": "12/31/2099",
+      "ccsm4_rcp45": "12/31/2099",
+      "ccsm4_rcp85": "12/31/2099",
+      "cnrm-cm5_rcp45": "12/31/2099",
+      "cnrm-cm5_rcp85": "12/31/2099",
+      "csiro-mk3-6-0_rcp45": "12/31/2099",
+      "csiro-mk3-6-0_rcp85": "12/31/2099",
+      "gfdl-cm3_rcp45": "12/31/2099",
+      "gfdl-cm3_rcp85": "12/31/2099",
+      "gfdl-esm2m_rcp45": "12/31/2099",
+      "gfdl-esm2m_rcp85": "12/31/2099",
+      "hadgem2-cc_rcp45": "12/31/2099",
+      "hadgem2-cc_rcp85": "12/31/2099",
+      "hadgem2-es_rcp45": "11/30/2099",
+      "hadgem2-es_rcp85": "12/31/2099",
+      "inmcm4_rcp45": "12/31/2099",
+      "inmcm4_rcp85": "12/31/2099",
+      "ipsl-cm5a-mr_rcp45": "12/31/2099",
+      "ipsl-cm5a-mr_rcp85": "12/31/2099",
+      "miroc5_rcp45": "12/31/2099",
+      "miroc5_rcp85": "12/31/2099"
+    }
   },
   "has_full_inputs":{
     "observations":{
       "CDEC": false,
       "CDEC_wet_dry": false,
-      "CDEC_short": true,
+      "CDEC_short": true
       },
     "downscaled_19952005":{
       "VIC": false,
@@ -424,37 +408,37 @@
       "VIC": false,
       "WRF": false
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": false,
-    "canesm2_rcp85": false,
-    "ccsm4_rcp45": false,
-    "ccsm4_rcp85": false,
-    "cnrm-cm5_rcp45": false,
-    "cnrm-cm5_rcp85": false,
-    "csiro-mk3-6-0_rcp45": false,
-    "csiro-mk3-6-0_rcp85": false,
-    "gfdl-cm3_rcp45": false,
-    "gfdl-cm3_rcp85": false,
-    "gfdl-esm2m_rcp45": false,
-    "gfdl-esm2m_rcp85": false,
-    "hadgem2-cc_rcp45": false,
-    "hadgem2-cc_rcp85": false,
-    "hadgem2-es_rcp45": false,
-    "hadgem2-es_rcp85": false,
-    "inmcm4_rcp45": false,
-    "inmcm4_rcp85": false,
-    "ipsl-cm5a-mr_rcp45": false,
-    "ipsl-cm5a-mr_rcp85": false,
-    "miroc5_rcp45": false,
-    "miroc5_rcp85": false
-   }
+    "downscaled_19502100":{
+      "canesm2_rcp45": false,
+      "canesm2_rcp85": false,
+      "ccsm4_rcp45": false,
+      "ccsm4_rcp85": false,
+      "cnrm-cm5_rcp45": false,
+      "cnrm-cm5_rcp85": false,
+      "csiro-mk3-6-0_rcp45": false,
+      "csiro-mk3-6-0_rcp85": false,
+      "gfdl-cm3_rcp45": false,
+      "gfdl-cm3_rcp85": false,
+      "gfdl-esm2m_rcp45": false,
+      "gfdl-esm2m_rcp85": false,
+      "hadgem2-cc_rcp45": false,
+      "hadgem2-cc_rcp85": false,
+      "hadgem2-es_rcp45": false,
+      "hadgem2-es_rcp85": false,
+      "inmcm4_rcp45": false,
+      "inmcm4_rcp85": false,
+      "ipsl-cm5a-mr_rcp45": false,
+      "ipsl-cm5a-mr_rcp85": false,
+      "miroc5_rcp45": false,
+      "miroc5_rcp85": false
+    }
   },
   
   "has_leap":{
     "observations":{
       "CDEC": true,
       "CDEC_wet_dry": true,
-      "CDEC_short": true,
+      "CDEC_short": true
       },
     "downscaled_19952005":{
       "VIC": false,
@@ -486,36 +470,36 @@
       "VIC": false,
       "WRF": false
       },
-  "downscaled_19502100":{
-    "canesm2_rcp45": false,
-    "canesm2_rcp85": false,
-    "ccsm4_rcp45": false,
-    "ccsm4_rcp85": false,
-    "cnrm-cm5_rcp45": false,
-    "cnrm-cm5_rcp85": false,
-    "csiro-mk3-6-0_rcp45": false,
-    "csiro-mk3-6-0_rcp85": false,
-    "gfdl-cm3_rcp45": false,
-    "gfdl-cm3_rcp85": false,
-    "gfdl-esm2m_rcp45": false,
-    "gfdl-esm2m_rcp85": false,
-    "hadgem2-cc_rcp45": false,
-    "hadgem2-cc_rcp85": false,
-    "hadgem2-es_rcp45": false,
-    "hadgem2-es_rcp85": false,
-    "inmcm4_rcp45": false,
-    "inmcm4_rcp85": false,
-    "ipsl-cm5a-mr_rcp45": false,
-    "ipsl-cm5a-mr_rcp85": false,
-    "miroc5_rcp45": false,
-    "miroc5_rcp85": false
-   }
+    "downscaled_19502100":{
+      "canesm2_rcp45": false,
+      "canesm2_rcp85": false,
+      "ccsm4_rcp45": false,
+      "ccsm4_rcp85": false,
+      "cnrm-cm5_rcp45": false,
+      "cnrm-cm5_rcp85": false,
+      "csiro-mk3-6-0_rcp45": false,
+      "csiro-mk3-6-0_rcp85": false,
+      "gfdl-cm3_rcp45": false,
+      "gfdl-cm3_rcp85": false,
+      "gfdl-esm2m_rcp45": false,
+      "gfdl-esm2m_rcp85": false,
+      "hadgem2-cc_rcp45": false,
+      "hadgem2-cc_rcp85": false,
+      "hadgem2-es_rcp45": false,
+      "hadgem2-es_rcp85": false,
+      "inmcm4_rcp45": false,
+      "inmcm4_rcp85": false,
+      "ipsl-cm5a-mr_rcp45": false,
+      "ipsl-cm5a-mr_rcp85": false,
+      "miroc5_rcp45": false,
+      "miroc5_rcp85": false
+    }
   },
 
   "inflow_unit":{
     "observations":{
       "CDEC": "af",
-      "CDEC_wet_dry": "af",
+      "CDEC_wet_dry": "af"
       },
     "downscaled_19952005":{
       "VIC": "cfs",
@@ -548,30 +532,30 @@
       "WRF": "af"
       }
     ,
-  "downscaled_19502100":{
-    "canesm2_rcp45": "cfs",
-    "canesm2_rcp85": "cfs",
-    "ccsm4_rcp45": "cfs",
-    "ccsm4_rcp85": "cfs",
-    "cnrm-cm5_rcp45": "cfs",
-    "cnrm-cm5_rcp85": "cfs",
-    "csiro-mk3-6-0_rcp45": "cfs",
-    "csiro-mk3-6-0_rcp85": "cfs",
-    "gfdl-cm3_rcp45": "cfs",
-    "gfdl-cm3_rcp85": "cfs",
-    "gfdl-esm2m_rcp45": "cfs",
-    "gfdl-esm2m_rcp85": "cfs",
-    "hadgem2-cc_rcp45": "cfs",
-    "hadgem2-cc_rcp85": "cfs",
-    "hadgem2-es_rcp45": "cfs",
-    "hadgem2-es_rcp85": "cfs",
-    "inmcm4_rcp45": "cfs",
-    "inmcm4_rcp85": "cfs",
-    "ipsl-cm5a-mr_rcp45": "cfs",
-    "ipsl-cm5a-mr_rcp85": "cfs",
-    "miroc5_rcp45": "cfs",
-    "miroc5_rcp85": "cfs"
-   }
+    "downscaled_19502100":{
+      "canesm2_rcp45": "cfs",
+      "canesm2_rcp85": "cfs",
+      "ccsm4_rcp45": "cfs",
+      "ccsm4_rcp85": "cfs",
+      "cnrm-cm5_rcp45": "cfs",
+      "cnrm-cm5_rcp85": "cfs",
+      "csiro-mk3-6-0_rcp45": "cfs",
+      "csiro-mk3-6-0_rcp85": "cfs",
+      "gfdl-cm3_rcp45": "cfs",
+      "gfdl-cm3_rcp85": "cfs",
+      "gfdl-esm2m_rcp45": "cfs",
+      "gfdl-esm2m_rcp85": "cfs",
+      "hadgem2-cc_rcp45": "cfs",
+      "hadgem2-cc_rcp85": "cfs",
+      "hadgem2-es_rcp45": "cfs",
+      "hadgem2-es_rcp85": "cfs",
+      "inmcm4_rcp45": "cfs",
+      "inmcm4_rcp85": "cfs",
+      "ipsl-cm5a-mr_rcp45": "cfs",
+      "ipsl-cm5a-mr_rcp85": "cfs",
+      "miroc5_rcp45": "cfs",
+      "miroc5_rcp85": "cfs"
+    }
   },
 
     
