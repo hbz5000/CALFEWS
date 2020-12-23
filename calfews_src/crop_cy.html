@@ -286,75 +286,6 @@ body.cython { font-family: courier; font-size: 12; }
 .cython.score-252 {background-color: #FFFF09;}
 .cython.score-253 {background-color: #FFFF09;}
 .cython.score-254 {background-color: #FFFF09;}
-.cython .hll { background-color: #ffffcc }
-.cython  { background: #f8f8f8; }
-.cython .c { color: #408080; font-style: italic } /* Comment */
-.cython .err { border: 1px solid #FF0000 } /* Error */
-.cython .k { color: #008000; font-weight: bold } /* Keyword */
-.cython .o { color: #666666 } /* Operator */
-.cython .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
-.cython .cm { color: #408080; font-style: italic } /* Comment.Multiline */
-.cython .cp { color: #BC7A00 } /* Comment.Preproc */
-.cython .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
-.cython .c1 { color: #408080; font-style: italic } /* Comment.Single */
-.cython .cs { color: #408080; font-style: italic } /* Comment.Special */
-.cython .gd { color: #A00000 } /* Generic.Deleted */
-.cython .ge { font-style: italic } /* Generic.Emph */
-.cython .gr { color: #FF0000 } /* Generic.Error */
-.cython .gh { color: #000080; font-weight: bold } /* Generic.Heading */
-.cython .gi { color: #00A000 } /* Generic.Inserted */
-.cython .go { color: #888888 } /* Generic.Output */
-.cython .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
-.cython .gs { font-weight: bold } /* Generic.Strong */
-.cython .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.cython .gt { color: #0044DD } /* Generic.Traceback */
-.cython .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
-.cython .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
-.cython .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
-.cython .kp { color: #008000 } /* Keyword.Pseudo */
-.cython .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
-.cython .kt { color: #B00040 } /* Keyword.Type */
-.cython .m { color: #666666 } /* Literal.Number */
-.cython .s { color: #BA2121 } /* Literal.String */
-.cython .na { color: #7D9029 } /* Name.Attribute */
-.cython .nb { color: #008000 } /* Name.Builtin */
-.cython .nc { color: #0000FF; font-weight: bold } /* Name.Class */
-.cython .no { color: #880000 } /* Name.Constant */
-.cython .nd { color: #AA22FF } /* Name.Decorator */
-.cython .ni { color: #999999; font-weight: bold } /* Name.Entity */
-.cython .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
-.cython .nf { color: #0000FF } /* Name.Function */
-.cython .nl { color: #A0A000 } /* Name.Label */
-.cython .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
-.cython .nt { color: #008000; font-weight: bold } /* Name.Tag */
-.cython .nv { color: #19177C } /* Name.Variable */
-.cython .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
-.cython .w { color: #bbbbbb } /* Text.Whitespace */
-.cython .mb { color: #666666 } /* Literal.Number.Bin */
-.cython .mf { color: #666666 } /* Literal.Number.Float */
-.cython .mh { color: #666666 } /* Literal.Number.Hex */
-.cython .mi { color: #666666 } /* Literal.Number.Integer */
-.cython .mo { color: #666666 } /* Literal.Number.Oct */
-.cython .sa { color: #BA2121 } /* Literal.String.Affix */
-.cython .sb { color: #BA2121 } /* Literal.String.Backtick */
-.cython .sc { color: #BA2121 } /* Literal.String.Char */
-.cython .dl { color: #BA2121 } /* Literal.String.Delimiter */
-.cython .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
-.cython .s2 { color: #BA2121 } /* Literal.String.Double */
-.cython .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
-.cython .sh { color: #BA2121 } /* Literal.String.Heredoc */
-.cython .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
-.cython .sx { color: #008000 } /* Literal.String.Other */
-.cython .sr { color: #BB6688 } /* Literal.String.Regex */
-.cython .s1 { color: #BA2121 } /* Literal.String.Single */
-.cython .ss { color: #19177C } /* Literal.String.Symbol */
-.cython .bp { color: #008000 } /* Name.Builtin.Pseudo */
-.cython .fm { color: #0000FF } /* Name.Function.Magic */
-.cython .vc { color: #19177C } /* Name.Variable.Class */
-.cython .vg { color: #19177C } /* Name.Variable.Global */
-.cython .vi { color: #19177C } /* Name.Variable.Instance */
-.cython .vm { color: #19177C } /* Name.Variable.Magic */
-.cython .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
 </head>
 <body class="cython">
@@ -364,14 +295,14 @@ body.cython { font-family: courier; font-size: 12; }
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
 <p>Raw output: <a href="crop_cy.c">crop_cy.c</a></p>
-<div class="cython"><pre class="cython line score-0">&#xA0;<span class="">001</span>: <span class="c"># cython: profile=True</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">002</span>: <span class="k">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span></pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">003</span>: <span class="k">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span></pre>
+<div class="cython"><pre class="cython line score-0">&#xA0;<span class="">001</span>: # cython: profile=True</pre>
+<pre class="cython line score-0">&#xA0;<span class="">002</span>: from __future__ import division</pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">003</span>: import numpy as np</pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_numpy, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_np, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 3, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">004</span>: <span class="k">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span></pre>
+</pre><pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">004</span>: import matplotlib.pyplot as plt</pre>
 <pre class='cython code score-16 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__4);
@@ -382,12 +313,12 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_plt, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 4, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">005</span>: <span class="k">import</span> <span class="nn">scipy</span></pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">005</span>: import scipy</pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_scipy, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_scipy, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">006</span>: <span class="k">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span></pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">006</span>: import pandas as pd</pre>
 <pre class='cython code score-8 '>
   /* "calfews_src/crop_cy.pyx":6
  * import matplotlib.pyplot as plt
@@ -400,12 +331,12 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_pd, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 6, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">007</span>: <span class="k">import</span> <span class="nn">json</span></pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">007</span>: import json</pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_json, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_json, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 7, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">008</span>: <span class="k">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="o">*</span></pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">008</span>: from .util import *</pre>
 <pre class='cython code score-11 '>  __pyx_t_2 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__4);
@@ -418,9 +349,9 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">009</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">010</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">011</span>: <span class="k">cdef</span> <span class="k">class</span> <span class="nf">Crop</span><span class="p">():</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">011</span>: cdef class Crop():</pre>
 <pre class="cython line score-0">&#xA0;<span class="">012</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">013</span>:   <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">013</span>:   def __iter__(self):</pre>
 <pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_1__iter__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_1__iter__(PyObject *__pyx_v_self) {
@@ -451,15 +382,15 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop___iter__(struct __pyx_obj
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">014</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">=</span> <span class="mf">0</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">014</span>:     self.iter_count = 0</pre>
 <pre class='cython code score-2 '>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_int_0) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 14, __pyx_L1_error)</span>
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">015</span>:     <span class="k">return</span> <span class="bp">self</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">015</span>:     return self</pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self));
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">016</span>: </pre>
-<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">017</span>:   <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">017</span>:   def __next__(self):</pre>
 <pre class='cython code score-4 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_3__next__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_3__next__(PyObject *__pyx_v_self) {
@@ -492,7 +423,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">018</span>:     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">==</span> <span class="mf">0</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">018</span>:     if self.iter_count == 0:</pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_EqObjC</span>(__pyx_t_1, __pyx_int_0, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)</span>
@@ -503,7 +434,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
   if (likely(__pyx_t_3)) {
 /* … */
   }
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">019</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">+=</span> <span class="mf">1</span></pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">019</span>:       self.iter_count += 1</pre>
 <pre class='cython code score-8 '>    __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
     __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_t_2, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)</span>
@@ -511,19 +442,19 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
     if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 19, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">020</span>:       <span class="k">return</span> <span class="bp">self</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">020</span>:       return self</pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self));
     __pyx_r = ((PyObject *)__pyx_v_self);
     goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">021</span>:     <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">022</span>:       <span class="k">raise</span> <span class="ne">StopIteration</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">021</span>:     else:</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">022</span>:       raise StopIteration</pre>
 <pre class='cython code score-2 '>  /*else*/ {
     <span class='pyx_c_api'>__Pyx_Raise</span>(__pyx_builtin_StopIteration, 0, 0, 0);
     <span class='error_goto'>__PYX_ERR(0, 22, __pyx_L1_error)</span>
   }
 </pre><pre class="cython line score-0">&#xA0;<span class="">023</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">024</span>:   <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">024</span>:   def __len__(self):</pre>
 <pre class='cython code score-2 '>/* Python wrapper */
 static Py_ssize_t __pyx_pw_11calfews_src_7crop_cy_4Crop_5__len__(PyObject *__pyx_v_self); /*proto*/
 static Py_ssize_t __pyx_pw_11calfews_src_7crop_cy_4Crop_5__len__(PyObject *__pyx_v_self) {
@@ -553,11 +484,11 @@ static Py_ssize_t __pyx_pf_11calfews_src_7crop_cy_4Crop_4__len__(CYTHON_UNUSED s
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">025</span>:     <span class="k">return</span> <span class="mf">1</span></pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">025</span>:     return 1</pre>
 <pre class='cython code score-0 '>  __pyx_r = 1;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">026</span>: </pre>
-<pre class="cython line score-27" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">027</span>:   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span></pre>
+<pre class="cython line score-27" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">027</span>:   def __init__(self, key):</pre>
 <pre class='cython code score-27 '>/* Python wrapper */
 static int __pyx_pw_11calfews_src_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_11calfews_src_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -638,7 +569,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">028</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">028</span>:     self.key = key</pre>
 <pre class='cython code score-12 '>  if (!(likely(<span class='py_c_api'>PyUnicode_CheckExact</span>(__pyx_v_key))||((__pyx_v_key) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_key)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 28, __pyx_L1_error)</span>
   __pyx_t_1 = __pyx_v_key;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
@@ -647,7 +578,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;key);
   __pyx_v_self-&gt;key = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">029</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">029</span>:     self.tau = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -655,7 +586,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;tau);
   __pyx_v_self-&gt;tau = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">030</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">030</span>:     self.beta = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -663,7 +594,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;beta);
   __pyx_v_self-&gt;beta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">031</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">031</span>:     self.delta = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -671,7 +602,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;delta);
   __pyx_v_self-&gt;delta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">032</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">032</span>:     self.gamma = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -679,7 +610,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;gamma);
   __pyx_v_self-&gt;gamma = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">033</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">leontief</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">033</span>:     self.leontief = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -687,7 +618,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;leontief);
   __pyx_v_self-&gt;leontief = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">034</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">034</span>:     self.eta = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -695,7 +626,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;eta);
   __pyx_v_self-&gt;eta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">035</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">baseline_inputs</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">035</span>:     self.baseline_inputs = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -703,7 +634,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;baseline_inputs);
   __pyx_v_self-&gt;baseline_inputs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">036</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">baseline_revenue</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">036</span>:     self.baseline_revenue = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -711,7 +642,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;baseline_revenue);
   __pyx_v_self-&gt;baseline_revenue = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">037</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">037</span>:     self.econ_factors = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -719,7 +650,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;econ_factors);
   __pyx_v_self-&gt;econ_factors = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">038</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">038</span>:     self.pmp_keys = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -727,7 +658,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;pmp_keys);
   __pyx_v_self-&gt;pmp_keys = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">039</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;TAU&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">039</span>:     self.pmp_keys['TAU'] = self.tau</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;tau;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -736,7 +667,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_TAU, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 39, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">040</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;BETA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">040</span>:     self.pmp_keys['BETA'] = self.beta</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;beta;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -745,7 +676,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_BETA, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 40, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">041</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;DELTA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">041</span>:     self.pmp_keys['DELTA'] = self.delta</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;delta;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -754,7 +685,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_DELTA, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 41, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">042</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;GAMMA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">042</span>:     self.pmp_keys['GAMMA'] = self.gamma</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;gamma;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -763,7 +694,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_GAMMA, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 42, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">043</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;ETA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">043</span>:     self.pmp_keys['ETA'] = self.eta</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;eta;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -772,7 +703,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_ETA, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 43, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">044</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;LEONTIEF&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leontief</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">044</span>:     self.pmp_keys['LEONTIEF'] = self.leontief</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;leontief;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -781,7 +712,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_LEONTIEF, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 44, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">045</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;INPUTS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_inputs</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">045</span>:     self.pmp_keys['INPUTS'] = self.baseline_inputs</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;baseline_inputs;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -790,7 +721,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_INPUTS, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 45, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">046</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="s">&#39;REV&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_revenue</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">046</span>:     self.pmp_keys['REV'] = self.baseline_revenue</pre>
 <pre class='cython code score-12 '>  __pyx_t_1 = __pyx_v_self-&gt;baseline_revenue;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
@@ -799,7 +730,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;pmp_keys, __pyx_n_u_REV, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 46, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">047</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">047</span>:     self.crop_keys = {}</pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -807,131 +738,131 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;crop_keys);
   __pyx_v_self-&gt;crop_keys = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">048</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;ALFAL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;alfalfa&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">048</span>:     self.crop_keys['ALFAL'] = 'alfalfa'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 48, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_ALFAL, __pyx_n_u_alfalfa) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 48, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">049</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;ALPIS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;pistachio&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">049</span>:     self.crop_keys['ALPIS'] = 'pistachio'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 49, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_ALPIS, __pyx_n_u_pistachio) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 49, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;CORN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;corn&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:     self.crop_keys['CORN'] = 'corn'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 50, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_CORN, __pyx_n_u_corn) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 50, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">051</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;COTTN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;cotton&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">051</span>:     self.crop_keys['COTTN'] = 'cotton'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 51, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_COTTN, __pyx_n_u_cotton) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 51, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">052</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;CUCUR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;melon&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">052</span>:     self.crop_keys['CUCUR'] = 'melon'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 52, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_CUCUR, __pyx_n_u_melon) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 52, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">053</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;DRYBN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;field_misc&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">053</span>:     self.crop_keys['DRYBN'] = 'field_misc'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 53, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_DRYBN, __pyx_n_u_field_misc) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 53, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">054</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;FRTOM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;tomato&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">054</span>:     self.crop_keys['FRTOM'] = 'tomato'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 54, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_FRTOM, __pyx_n_u_tomato) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 54, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">055</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;GRAIN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grain&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">055</span>:     self.crop_keys['GRAIN'] = 'grain'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 55, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_GRAIN, __pyx_n_u_grain) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 55, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">056</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;ONGAR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;onion&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">056</span>:     self.crop_keys['ONGAR'] = 'onion'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 56, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_ONGAR, __pyx_n_u_onion) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 56, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">057</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;OTHDEC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;deciduous_misc&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">057</span>:     self.crop_keys['OTHDEC'] = 'deciduous_misc'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 57, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_OTHDEC, __pyx_n_u_deciduous_misc) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 57, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">058</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;OTHFLD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;field_misc&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">058</span>:     self.crop_keys['OTHFLD'] = 'field_misc'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 58, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_OTHFLD, __pyx_n_u_field_misc) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 58, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">059</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;OTHTRK&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;field_misc&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">059</span>:     self.crop_keys['OTHTRK'] = 'field_misc'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 59, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_OTHTRK, __pyx_n_u_field_misc) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 59, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">060</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;PASTR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;pasture&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">060</span>:     self.crop_keys['PASTR'] = 'pasture'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 60, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_PASTR, __pyx_n_u_pasture) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 60, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">061</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;POTATO&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;potatoe&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">061</span>:     self.crop_keys['POTATO'] = 'potatoe'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 61, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_POTATO, __pyx_n_u_potatoe) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 61, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">062</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;PRTOM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;tomato&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">062</span>:     self.crop_keys['PRTOM'] = 'tomato'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 62, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_PRTOM, __pyx_n_u_tomato) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 62, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;RICE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;rice&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>:     self.crop_keys['RICE'] = 'rice'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 63, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_RICE, __pyx_n_u_rice) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 63, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">064</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;SAFLR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;safflower&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">064</span>:     self.crop_keys['SAFLR'] = 'safflower'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 64, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_SAFLR, __pyx_n_u_safflower) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 64, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">065</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;SBEET&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;vegetable_small&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">065</span>:     self.crop_keys['SBEET'] = 'vegetable_small'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 65, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_SBEET, __pyx_n_u_vegetable_small) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 65, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">066</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;SUBTRP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;subtropical_misc&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">066</span>:     self.crop_keys['SUBTRP'] = 'subtropical_misc'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 66, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_SUBTRP, __pyx_n_u_subtropical_misc) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 66, __pyx_L1_error)</span>
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">067</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_keys</span><span class="p">[</span><span class="s">&#39;VINE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grape&#39;</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">067</span>:     self.crop_keys['VINE'] = 'grape'</pre>
 <pre class='cython code score-10 '>  if (unlikely(__pyx_v_self-&gt;crop_keys == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 67, __pyx_L1_error)</span>
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;crop_keys, __pyx_n_u_VINE, __pyx_n_u_grape) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 67, __pyx_L1_error)</span>
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">068</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">sub</span> <span class="o">=</span> <span class="mf">0.17</span></pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">068</span>:     self.sub = 0.17</pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;sub = 0.17;
 </pre><pre class="cython line score-0">&#xA0;<span class="">069</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">070</span>: </pre>
-<pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">071</span>:     <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;calfews_src/crop/</span><span class="si">%s</span><span class="s">_properties.json&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></pre>
+<pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">071</span>:     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():</pre>
 <pre class='cython code score-34 '>  __pyx_t_2 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_6, __pyx_n_s_json);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
@@ -979,12 +910,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
     __pyx_t_7 = 0;
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">072</span>:         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">072</span>:         setattr(self,k,v)</pre>
 <pre class='cython code score-6 '>    __pyx_t_10 = <span class='py_c_api'>PyObject_SetAttr</span>(((PyObject *)__pyx_v_self), __pyx_v_k, __pyx_v_v);<span class='error_goto'> if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 72, __pyx_L1_error)</span>
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">073</span>: </pre>
-<pre class="cython line score-40" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">074</span>:   <span class="k">def</span> <span class="nf">set_pmp_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_parameters</span><span class="p">,</span> <span class="n">district</span><span class="p">):</span></pre>
+<pre class="cython line score-40" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">074</span>:   def set_pmp_parameters(self, all_parameters, district):</pre>
 <pre class='cython code score-40 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_9set_pmp_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_9set_pmp_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -1089,7 +1020,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">075</span>:     <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">all_parameters</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">075</span>:     for parameter_name in all_parameters:</pre>
 <pre class='cython code score-43 '>  if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_all_parameters)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_all_parameters)) {
     __pyx_t_1 = __pyx_v_all_parameters; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
@@ -1134,19 +1065,19 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">076</span>:       <span class="n">parameter_data</span> <span class="o">=</span> <span class="n">all_parameters</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">076</span>:       parameter_data = all_parameters[parameter_name]</pre>
 <pre class='cython code score-3 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_all_parameters, __pyx_v_parameter_name);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_parameter_data, __pyx_t_4);
     __pyx_t_4 = 0;
-</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">077</span>:       <span class="n">district_index</span> <span class="o">=</span> <span class="n">parameter_data</span><span class="p">[</span><span class="s">&#39;Region&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">district</span></pre>
+</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">077</span>:       district_index = parameter_data['Region'] == district</pre>
 <pre class='cython code score-9 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_Dict_GetItem</span>(__pyx_v_parameter_data, __pyx_n_u_Region);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     __pyx_t_5 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_4, __pyx_v_district, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_5);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_district_index, __pyx_t_5);
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">078</span>:       <span class="n">district_crops</span> <span class="o">=</span> <span class="n">parameter_data</span><span class="p">[</span><span class="s">&#39;Crop&#39;</span><span class="p">][</span><span class="n">district_index</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">078</span>:       district_crops = parameter_data['Crop'][district_index]</pre>
 <pre class='cython code score-6 '>    __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_Dict_GetItem</span>(__pyx_v_parameter_data, __pyx_n_u_Crop);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
     __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_5, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)</span>
@@ -1154,7 +1085,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_district_crops, __pyx_t_4);
     __pyx_t_4 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">079</span>:       <span class="n">district_values</span> <span class="o">=</span> <span class="n">parameter_data</span><span class="p">[</span><span class="s">&#39;Level&#39;</span><span class="p">][</span><span class="n">district_index</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">079</span>:       district_values = parameter_data['Level'][district_index]</pre>
 <pre class='cython code score-6 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_Dict_GetItem</span>(__pyx_v_parameter_data, __pyx_n_u_Level);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_4, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 79, __pyx_L1_error)</span>
@@ -1163,13 +1094,13 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_district_values, __pyx_t_5);
     __pyx_t_5 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">080</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">081</span>:       <span class="k">if</span> <span class="s">&#39;Input&#39;</span> <span class="ow">in</span> <span class="n">parameter_data</span><span class="p">:</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">081</span>:       if 'Input' in parameter_data:</pre>
 <pre class='cython code score-2 '>    __pyx_t_6 = (<span class='pyx_c_api'>__Pyx_PySequence_ContainsTF</span>(__pyx_n_u_Input, __pyx_v_parameter_data, Py_EQ)); if (unlikely(__pyx_t_6 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 81, __pyx_L1_error)</span>
     __pyx_t_7 = (__pyx_t_6 != 0);
     if (__pyx_t_7) {
 /* … */
     }
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">082</span>:         <span class="n">district_factors</span> <span class="o">=</span> <span class="n">parameter_data</span><span class="p">[</span><span class="s">&#39;Input&#39;</span><span class="p">][</span><span class="n">district_index</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">082</span>:         district_factors = parameter_data['Input'][district_index]</pre>
 <pre class='cython code score-6 '>      __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_Dict_GetItem</span>(__pyx_v_parameter_data, __pyx_n_u_Input);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
       __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_5, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)</span>
@@ -1178,7 +1109,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
       <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_district_factors, __pyx_t_4);
       __pyx_t_4 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">083</span>: </pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">084</span>:       <span class="n">parameter_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pmp_keys</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span></pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">084</span>:       parameter_dict = self.pmp_keys[parameter_name]</pre>
 <pre class='cython code score-8 '>    if (unlikely(__pyx_v_self-&gt;pmp_keys == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 84, __pyx_L1_error)</span>
@@ -1187,7 +1118,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_parameter_dict, __pyx_t_4);
     __pyx_t_4 = 0;
-</pre><pre class="cython line score-49" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">085</span>:       <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">parameter_data</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">district_index</span><span class="p">]:</span></pre>
+</pre><pre class="cython line score-49" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">085</span>:       for y in parameter_data.index[district_index]:</pre>
 <pre class='cython code score-49 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_parameter_data, __pyx_n_s_index);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_4, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)</span>
@@ -1238,14 +1169,14 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
 /* … */
     }
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">086</span>:         <span class="k">if</span> <span class="s">&#39;Input&#39;</span> <span class="ow">in</span> <span class="n">parameter_data</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">086</span>:         if 'Input' in parameter_data:</pre>
 <pre class='cython code score-2 '>      __pyx_t_7 = (<span class='pyx_c_api'>__Pyx_PySequence_ContainsTF</span>(__pyx_n_u_Input, __pyx_v_parameter_data, Py_EQ)); if (unlikely(__pyx_t_7 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 86, __pyx_L1_error)</span>
       __pyx_t_6 = (__pyx_t_7 != 0);
       if (__pyx_t_6) {
 /* … */
         goto __pyx_L8;
       }
-</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">087</span>:           <span class="k">if</span> <span class="n">district_factors</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="ow">in</span> <span class="n">parameter_dict</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">087</span>:           if district_factors[y] in parameter_dict:</pre>
 <pre class='cython code score-7 '>        if (unlikely(!__pyx_v_district_factors)) { <span class='pyx_c_api'>__Pyx_RaiseUnboundLocalError</span>("district_factors"); <span class='error_goto'>__PYX_ERR(0, 87, __pyx_L1_error)</span> }
         __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_district_factors, __pyx_v_y);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
@@ -1256,7 +1187,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
 /* … */
           goto __pyx_L9;
         }
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">088</span>:             <span class="n">parameter_dict</span><span class="p">[</span><span class="n">district_factors</span><span class="p">[</span><span class="n">y</span><span class="p">]][</span><span class="n">district_crops</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span> <span class="o">=</span> <span class="n">district_values</span><span class="p">[</span><span class="n">y</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">088</span>:             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]</pre>
 <pre class='cython code score-19 '>          __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_district_values, __pyx_v_y);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
           if (unlikely(!__pyx_v_district_factors)) { <span class='pyx_c_api'>__Pyx_RaiseUnboundLocalError</span>("district_factors"); <span class='error_goto'>__PYX_ERR(0, 88, __pyx_L1_error)</span> }
@@ -1271,8 +1202,8 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_11); __pyx_t_11 = 0;
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_10); __pyx_t_10 = 0;
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">089</span>:           <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">090</span>:             <span class="n">parameter_dict</span><span class="p">[</span><span class="n">district_factors</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">089</span>:           else:</pre>
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">090</span>:             parameter_dict[district_factors[y]] = {}</pre>
 <pre class='cython code score-13 '>        /*else*/ {
           __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
@@ -1282,7 +1213,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
           if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_parameter_dict, __pyx_t_10, __pyx_t_5) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 90, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_10); __pyx_t_10 = 0;
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">091</span>:             <span class="n">parameter_dict</span><span class="p">[</span><span class="n">district_factors</span><span class="p">[</span><span class="n">y</span><span class="p">]][</span><span class="n">district_crops</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span> <span class="o">=</span> <span class="n">district_values</span><span class="p">[</span><span class="n">y</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">091</span>:             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]</pre>
 <pre class='cython code score-19 '>          __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_district_values, __pyx_v_y);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
           if (unlikely(!__pyx_v_district_factors)) { <span class='pyx_c_api'>__Pyx_RaiseUnboundLocalError</span>("district_factors"); <span class='error_goto'>__PYX_ERR(0, 91, __pyx_L1_error)</span> }
@@ -1299,8 +1230,8 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
         }
         __pyx_L9:;
-</pre><pre class="cython line score-0">&#xA0;<span class="">092</span>:         <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">093</span>:           <span class="n">parameter_dict</span><span class="p">[</span><span class="n">district_crops</span><span class="p">[</span><span class="n">y</span><span class="p">]]</span> <span class="o">=</span> <span class="n">district_values</span><span class="p">[</span><span class="n">y</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">092</span>:         else:</pre>
+<pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">093</span>:           parameter_dict[district_crops[y]] = district_values[y]</pre>
 <pre class='cython code score-11 '>      /*else*/ {
         __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_district_values, __pyx_v_y);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
@@ -1312,7 +1243,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
       }
       __pyx_L8:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">094</span>: </pre>
-<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">095</span>:   <span class="k">def</span> <span class="nf">set_econ_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">econ_parameters</span><span class="p">,</span> <span class="n">district</span><span class="p">):</span></pre>
+<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">095</span>:   def set_econ_parameters(self, econ_parameters, district):</pre>
 <pre class='cython code score-37 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_11set_econ_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_11set_econ_parameters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -1412,7 +1343,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">096</span>:     <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">econ_parameters</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">096</span>:     for parameter_name in econ_parameters:</pre>
 <pre class='cython code score-43 '>  if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_econ_parameters)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_econ_parameters)) {
     __pyx_t_1 = __pyx_v_econ_parameters; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
@@ -1457,12 +1388,12 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">097</span>:       <span class="n">econ_data</span> <span class="o">=</span> <span class="n">econ_parameters</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">097</span>:       econ_data = econ_parameters[parameter_name]</pre>
 <pre class='cython code score-3 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_econ_parameters, __pyx_v_parameter_name);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_econ_data, __pyx_t_4);
     __pyx_t_4 = 0;
-</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">098</span>:       <span class="n">district_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">econ_data</span><span class="p">[</span><span class="s">&#39;DISTRICT&#39;</span><span class="p">])</span></pre>
+</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">098</span>:       district_list = list(econ_data['DISTRICT'])</pre>
 <pre class='cython code score-9 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_Dict_GetItem</span>(__pyx_v_econ_data, __pyx_n_u_DISTRICT);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     __pyx_t_5 = <span class='py_c_api'>PySequence_List</span>(__pyx_t_4);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)</span>
@@ -1470,18 +1401,18 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_district_list, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">099</span>:       <span class="n">district_index</span> <span class="o">=</span> <span class="n">district_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">district</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">099</span>:       district_index = district_list.index(district)</pre>
 <pre class='cython code score-1 '>    __pyx_t_5 = __Pyx_CallUnboundCMethod1(&amp;__pyx_umethod_PyList_Type_index, __pyx_v_district_list, __pyx_v_district);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_district_index, __pyx_t_5);
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">100</span>:       <span class="k">if</span> <span class="n">parameter_name</span> <span class="o">==</span> <span class="s">&#39;WCST&#39;</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">100</span>:       if parameter_name == 'WCST':</pre>
 <pre class='cython code score-2 '>    __pyx_t_6 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_parameter_name, __pyx_n_u_WCST, Py_EQ)); if (unlikely(__pyx_t_6 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 100, __pyx_L1_error)</span>
     if (__pyx_t_6) {
 /* … */
       goto __pyx_L5;
     }
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">101</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">water_source_list</span> <span class="o">=</span> <span class="p">[]</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">101</span>:         self.water_source_list = []</pre>
 <pre class='cython code score-6 '>      __pyx_t_5 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
       <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_5);
@@ -1489,7 +1420,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;water_source_list);
       __pyx_v_self-&gt;water_source_list = ((PyObject*)__pyx_t_5);
       __pyx_t_5 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">102</span>:         <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">econ_data</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">102</span>:         for source in econ_data:</pre>
 <pre class='cython code score-43 '>      if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_econ_data)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_econ_data)) {
         __pyx_t_5 = __pyx_v_econ_data; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
@@ -1534,18 +1465,18 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">103</span>:           <span class="k">if</span> <span class="n">source</span> <span class="o">!=</span> <span class="s">&#39;DISTRICT&#39;</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">103</span>:           if source != 'DISTRICT':</pre>
 <pre class='cython code score-2 '>        __pyx_t_6 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 103, __pyx_L1_error)</span>
         if (__pyx_t_6) {
 /* … */
         }
-</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">104</span>:             <span class="bp">self</span><span class="o">.</span><span class="n">water_source_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">104</span>:             self.water_source_list.append(source)</pre>
 <pre class='cython code score-7 '>          if (unlikely(__pyx_v_self-&gt;water_source_list == Py_None)) {
             <span class='py_c_api'>PyErr_Format</span>(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
             <span class='error_goto'>__PYX_ERR(0, 104, __pyx_L1_error)</span>
           }
           __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyList_Append</span>(__pyx_v_self-&gt;water_source_list, __pyx_v_source);<span class='error_goto'> if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 104, __pyx_L1_error)</span>
-</pre><pre class="cython line score-22" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">105</span>:             <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="n">source</span> <span class="o">+</span> <span class="s">&#39;_price&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">econ_data</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">district_index</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-22" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">105</span>:             self.econ_factors[source + '_price'] = econ_data[source][district_index]</pre>
 <pre class='cython code score-22 '>          __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_econ_data, __pyx_v_source);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
           __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_4, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 105, __pyx_L1_error)</span>
@@ -1560,13 +1491,13 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
           if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;econ_factors, __pyx_t_4, __pyx_t_10) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 105, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_10); __pyx_t_10 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">106</span>:       <span class="k">elif</span> <span class="n">parameter_name</span> <span class="o">==</span> <span class="s">&#39;WSOU&#39;</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">106</span>:       elif parameter_name == 'WSOU':</pre>
 <pre class='cython code score-2 '>    __pyx_t_6 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_parameter_name, __pyx_n_u_WSOU, Py_EQ)); if (unlikely(__pyx_t_6 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 106, __pyx_L1_error)</span>
     if (__pyx_t_6) {
 /* … */
       goto __pyx_L5;
     }
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">107</span>:         <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">econ_data</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">107</span>:         for source in econ_data:</pre>
 <pre class='cython code score-43 '>      if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_econ_data)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_econ_data)) {
         __pyx_t_5 = __pyx_v_econ_data; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
@@ -1611,12 +1542,12 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">108</span>:           <span class="k">if</span> <span class="n">source</span> <span class="o">!=</span> <span class="s">&#39;DISTRICT&#39;</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">108</span>:           if source != 'DISTRICT':</pre>
 <pre class='cython code score-2 '>        __pyx_t_6 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 108, __pyx_L1_error)</span>
         if (__pyx_t_6) {
 /* … */
         }
-</pre><pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">109</span>:             <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">econ_data</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="n">district_index</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">109</span>:             self.econ_factors[source] = econ_data[source][district_index]</pre>
 <pre class='cython code score-16 '>          __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_econ_data, __pyx_v_source);<span class='error_goto'> if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 109, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_10);
           __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_10, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)</span>
@@ -1629,7 +1560,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
           if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;econ_factors, __pyx_v_source, __pyx_t_4) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 109, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">110</span>: </pre>
-<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">111</span>:       <span class="k">elif</span> <span class="n">parameter_name</span> <span class="o">==</span> <span class="s">&#39;LABOR&#39;</span> <span class="ow">or</span> <span class="n">parameter_name</span> <span class="o">==</span> <span class="s">&#39;SUPPL&#39;</span><span class="p">:</span></pre>
+<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">111</span>:       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':</pre>
 <pre class='cython code score-4 '>    __pyx_t_11 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_parameter_name, __pyx_n_u_LABOR, Py_EQ)); if (unlikely(__pyx_t_11 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 111, __pyx_L1_error)</span>
     if (!__pyx_t_11) {
     } else {
@@ -1643,7 +1574,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
 /* … */
       goto __pyx_L5;
     }
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">112</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">112</span>:         self.econ_factors[parameter_name] = {}</pre>
 <pre class='cython code score-13 '>      __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
       if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
@@ -1652,7 +1583,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       }
       if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;econ_factors, __pyx_v_parameter_name, __pyx_t_5) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 112, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">113</span>:         <span class="k">for</span> <span class="n">crop</span> <span class="ow">in</span> <span class="n">econ_data</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">113</span>:         for crop in econ_data:</pre>
 <pre class='cython code score-43 '>      if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_econ_data)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_econ_data)) {
         __pyx_t_5 = __pyx_v_econ_data; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
@@ -1697,7 +1628,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">114</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">leontief</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span> <span class="o">=</span> <span class="n">econ_data</span><span class="p">[</span><span class="n">crop</span><span class="p">][</span><span class="n">district_index</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">114</span>:           self.leontief[parameter_name][crop] = econ_data[crop][district_index]</pre>
 <pre class='cython code score-19 '>        __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_econ_data, __pyx_v_crop);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
         __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_4, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 114, __pyx_L1_error)</span>
@@ -1712,13 +1643,13 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_4, __pyx_v_crop, __pyx_t_10) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 114, __pyx_L1_error)</span>
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_10); __pyx_t_10 = 0;
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">115</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span></pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">115</span>:           self.econ_factors[parameter_name] = 1.0</pre>
 <pre class='cython code score-10 '>        if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
           <span class='error_goto'>__PYX_ERR(0, 115, __pyx_L1_error)</span>
         }
         if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;econ_factors, __pyx_v_parameter_name, __pyx_float_1_0) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 115, __pyx_L1_error)</span>
-</pre><pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">116</span>:       <span class="k">elif</span> <span class="n">parameter_name</span> <span class="o">==</span> <span class="s">&#39;PRICE&#39;</span> <span class="ow">or</span> <span class="n">parameter_name</span> <span class="o">==</span> <span class="s">&#39;LANDCOST&#39;</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">116</span>:       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':</pre>
 <pre class='cython code score-4 '>    __pyx_t_11 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_parameter_name, __pyx_n_u_PRICE, Py_EQ)); if (unlikely(__pyx_t_11 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 116, __pyx_L1_error)</span>
     if (!__pyx_t_11) {
     } else {
@@ -1732,7 +1663,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
 /* … */
     }
     __pyx_L5:;
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">117</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">117</span>:         self.econ_factors[parameter_name] = {}</pre>
 <pre class='cython code score-13 '>      __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
       if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
@@ -1741,7 +1672,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       }
       if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;econ_factors, __pyx_v_parameter_name, __pyx_t_5) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 117, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">118</span>:         <span class="k">for</span> <span class="n">crop</span> <span class="ow">in</span> <span class="n">econ_data</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">118</span>:         for crop in econ_data:</pre>
 <pre class='cython code score-43 '>      if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_econ_data)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_econ_data)) {
         __pyx_t_5 = __pyx_v_econ_data; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
@@ -1786,7 +1717,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">119</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span> <span class="o">=</span> <span class="n">econ_data</span><span class="p">[</span><span class="n">crop</span><span class="p">][</span><span class="n">district_index</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">119</span>:           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]</pre>
 <pre class='cython code score-19 '>        __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_econ_data, __pyx_v_crop);<span class='error_goto'> if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 119, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_10);
         __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_10, __pyx_v_district_index);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L1_error)</span>
@@ -1802,7 +1733,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_10); __pyx_t_10 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">120</span>: </pre>
-<pre class="cython line score-47" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">121</span>:   <span class="k">def</span> <span class="nf">find_pmp_acreage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">water_source_constraint</span><span class="p">,</span> <span class="n">land_constraint</span><span class="p">,</span> <span class="n">x0</span><span class="p">):</span></pre>
+<pre class="cython line score-47" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">121</span>:   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):</pre>
 <pre class='cython code score-47 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_13find_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_13find_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -1921,7 +1852,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">122</span>:     <span class="n">bb</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">land_constraint</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">122</span>:     bb = (0.0, land_constraint)</pre>
 <pre class='cython code score-9 '>  __pyx_t_1 = <span class='py_c_api'>PyTuple_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
@@ -1932,12 +1863,12 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 1, __pyx_v_land_constraint);
   __pyx_v_bb = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">123</span>:     <span class="n">bnds</span> <span class="o">=</span> <span class="p">[]</span></pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">123</span>:     bnds = []</pre>
 <pre class='cython code score-5 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_v_bnds = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">124</span>:     <span class="k">for</span> <span class="n">crop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crop_list</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">124</span>:     for crop in self.crop_list:</pre>
 <pre class='cython code score-12 '>  if (unlikely(__pyx_v_self-&gt;crop_list == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not iterable");
     <span class='error_goto'>__PYX_ERR(0, 124, __pyx_L1_error)</span>
@@ -1956,15 +1887,15 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">125</span>:       <span class="n">bnds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bb</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">125</span>:       bnds.append(bb)</pre>
 <pre class='cython code score-2 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyList_Append</span>(__pyx_v_bnds, __pyx_v_bb);<span class='error_goto'> if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(0, 125, __pyx_L1_error)</span>
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">126</span>:     <span class="n">water_constraint</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">126</span>:     water_constraint = 0.0</pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
   __pyx_v_water_constraint = __pyx_float_0_0;
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">127</span>:     <span class="n">water_cost</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">127</span>:     water_cost = 0.0</pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
   __pyx_v_water_cost = __pyx_float_0_0;
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">128</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="s">&#39;WATER&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">128</span>:     self.econ_factors['WATER'] = {}</pre>
 <pre class='cython code score-13 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
@@ -1973,7 +1904,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   }
   if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;econ_factors, __pyx_n_u_WATER, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 128, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">129</span>:     <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">water_source_constraint</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">129</span>:     for source in water_source_constraint:</pre>
 <pre class='cython code score-43 '>  if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_water_source_constraint)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_water_source_constraint)) {
     __pyx_t_1 = __pyx_v_water_source_constraint; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_5 = NULL;
@@ -2018,7 +1949,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">130</span>:       <span class="n">water_constraint</span> <span class="o">+=</span> <span class="n">water_source_constraint</span><span class="p">[</span><span class="n">source</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">130</span>:       water_constraint += water_source_constraint[source]</pre>
 <pre class='cython code score-9 '>    __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_water_source_constraint, __pyx_v_source);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 130, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     __pyx_t_6 = <span class='py_c_api'>PyNumber_InPlaceAdd</span>(__pyx_v_water_constraint, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)</span>
@@ -2026,7 +1957,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_water_constraint, __pyx_t_6);
     __pyx_t_6 = 0;
-</pre><pre class="cython line score-29" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">131</span>:       <span class="n">water_cost</span> <span class="o">+=</span> <span class="n">water_source_constraint</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="n">source</span> <span class="o">+</span> <span class="s">&#39;_price&#39;</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-29" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">131</span>:       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']</pre>
 <pre class='cython code score-29 '>    __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_water_source_constraint, __pyx_v_source);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 131, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
     if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
@@ -2047,7 +1978,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_water_cost, __pyx_t_7);
     __pyx_t_7 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">132</span>:     <span class="k">for</span> <span class="n">crop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crop_list</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">132</span>:     for crop in self.crop_list:</pre>
 <pre class='cython code score-12 '>  if (unlikely(__pyx_v_self-&gt;crop_list == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not iterable");
     <span class='error_goto'>__PYX_ERR(0, 132, __pyx_L1_error)</span>
@@ -2066,7 +1997,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">133</span>:       <span class="k">if</span> <span class="n">crop</span> <span class="o">==</span> <span class="s">&#39;ALFAL&#39;</span> <span class="ow">or</span> <span class="n">crop</span> <span class="o">==</span> <span class="s">&#39;PASTR&#39;</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">133</span>:       if crop == 'ALFAL' or crop == 'PASTR':</pre>
 <pre class='cython code score-4 '>    __pyx_t_9 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_crop, __pyx_n_u_ALFAL, Py_EQ)); if (unlikely(__pyx_t_9 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 133, __pyx_L1_error)</span>
     if (!__pyx_t_9) {
     } else {
@@ -2080,7 +2011,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
 /* … */
       goto __pyx_L9;
     }
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">134</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="s">&#39;WATER&#39;</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span> <span class="o">=</span> <span class="mf">50.0</span></pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">134</span>:         self.econ_factors['WATER'][crop] = 50.0</pre>
 <pre class='cython code score-13 '>      if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 134, __pyx_L1_error)</span>
@@ -2089,8 +2020,8 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_7, __pyx_v_crop, __pyx_float_50_0) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 134, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">135</span>:       <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">136</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="s">&#39;WATER&#39;</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span> <span class="o">=</span> <span class="n">water_cost</span><span class="o">/</span><span class="n">water_constraint</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">135</span>:       else:</pre>
+<pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">136</span>:         self.econ_factors['WATER'][crop] = water_cost/water_constraint</pre>
 <pre class='cython code score-16 '>    /*else*/ {
       __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyNumber_Divide</span>(__pyx_v_water_cost, __pyx_v_water_constraint);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
@@ -2105,7 +2036,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
     }
     __pyx_L9:;
-</pre><pre class="cython line score-30" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">137</span>:     <span class="n">con1</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;ineq&#39;</span><span class="p">,</span> <span class="s">&#39;fun&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constrain_resource</span><span class="p">,</span> <span class="s">&#39;args&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="n">land_constraint</span><span class="p">,</span> <span class="s">&#39;LAND&#39;</span><span class="p">)}</span></pre>
+</pre><pre class="cython line score-30" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">137</span>:     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}</pre>
 <pre class='cython code score-30 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(3);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_1, __pyx_n_u_type, __pyx_n_u_ineq) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 137, __pyx_L1_error)</span>
@@ -2125,7 +2056,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_con1 = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-30" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">138</span>:     <span class="n">con2</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;ineq&#39;</span><span class="p">,</span> <span class="s">&#39;fun&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constrain_resource</span><span class="p">,</span> <span class="s">&#39;args&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="n">water_constraint</span><span class="p">,</span> <span class="s">&#39;WATER&#39;</span><span class="p">)}</span></pre>
+</pre><pre class="cython line score-30" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">138</span>:     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}</pre>
 <pre class='cython code score-30 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(3);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_1, __pyx_n_u_type, __pyx_n_u_ineq) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 138, __pyx_L1_error)</span>
@@ -2145,7 +2076,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_con2 = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">139</span>:     <span class="n">cons</span> <span class="o">=</span> <span class="p">[</span><span class="n">con1</span><span class="p">,</span> <span class="n">con2</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">139</span>:     cons = [con1, con2]</pre>
 <pre class='cython code score-9 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_con1);
@@ -2156,7 +2087,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 1, __pyx_v_con2);
   __pyx_v_cons = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">140</span>:     <span class="n">minimizer_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;method&quot;</span><span class="p">:</span><span class="s">&#39;SLSQP&#39;</span><span class="p">,</span><span class="s">&quot;bounds&quot;</span><span class="p">:</span> <span class="n">bnds</span><span class="p">,</span> <span class="s">&quot;constraints&quot;</span><span class="p">:</span><span class="n">cons</span><span class="p">}</span></pre>
+</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">140</span>:     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}</pre>
 <pre class='cython code score-17 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(3);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_1, __pyx_n_u_method, __pyx_n_u_SLSQP) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 140, __pyx_L1_error)</span>
@@ -2164,7 +2095,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_1, __pyx_n_u_constraints, __pyx_v_cons) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 140, __pyx_L1_error)</span>
   __pyx_v_minimizer_kwargs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-30" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">141</span>:     <span class="n">sol</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">basinhopping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_ag_profit</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">minimizer_kwargs</span><span class="o">=</span><span class="n">minimizer_kwargs</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-30" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">141</span>:     sol = scipy.optimize.basinhopping(self.calc_ag_profit,x0,minimizer_kwargs=minimizer_kwargs)</pre>
 <pre class='cython code score-30 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_scipy);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_1, __pyx_n_s_optimize);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 141, __pyx_L1_error)</span>
@@ -2194,7 +2125,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __pyx_v_sol = __pyx_t_6;
   __pyx_t_6 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">142</span>: </pre>
-<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">143</span>:     <span class="k">return</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span></pre>
+<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">143</span>:     return sol.x</pre>
 <pre class='cython code score-3 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_sol, __pyx_n_s_x);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
@@ -2202,7 +2133,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __pyx_t_6 = 0;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">144</span>: </pre>
-<pre class="cython line score-39" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">145</span>:   <span class="k">def</span> <span class="nf">constrain_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">resource_constraint</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">):</span></pre>
+<pre class="cython line score-39" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">145</span>:   def constrain_resource(self, x, resource_constraint, resource_type):</pre>
 <pre class='cython code score-39 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_15constrain_resource(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_15constrain_resource(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -2305,13 +2236,13 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:     <span class="n">sum_resource</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:     sum_resource = 0.0</pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
   __pyx_v_sum_resource = __pyx_float_0_0;
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">147</span>:     <span class="n">i</span> <span class="o">=</span> <span class="mf">0</span></pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">147</span>:     i = 0</pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_int_0);
   __pyx_v_i = __pyx_int_0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">148</span>:     <span class="k">for</span> <span class="n">crop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crop_list</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">148</span>:     for crop in self.crop_list:</pre>
 <pre class='cython code score-12 '>  if (unlikely(__pyx_v_self-&gt;crop_list == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not iterable");
     <span class='error_goto'>__PYX_ERR(0, 148, __pyx_L1_error)</span>
@@ -2330,7 +2261,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">149</span>:       <span class="n">sum_resource</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">leontief</span><span class="p">[</span><span class="n">resource_type</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">149</span>:       sum_resource += x[i]*self.leontief[resource_type][crop]</pre>
 <pre class='cython code score-26 '>    __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_x, __pyx_v_i);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     if (unlikely(__pyx_v_self-&gt;leontief == Py_None)) {
@@ -2351,12 +2282,12 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_sum_resource, __pyx_t_5);
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">150</span>:       <span class="n">i</span> <span class="o">+=</span> <span class="mf">1</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">150</span>:       i += 1</pre>
 <pre class='cython code score-3 '>    __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_i, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 150, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_i, __pyx_t_5);
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">151</span>:     <span class="k">return</span> <span class="n">resource_constraint</span> <span class="o">-</span> <span class="n">sum_resource</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">151</span>:     return resource_constraint - sum_resource</pre>
 <pre class='cython code score-6 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_1 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_resource_constraint, __pyx_v_sum_resource);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -2364,7 +2295,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
   __pyx_t_1 = 0;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">152</span>: </pre>
-<pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">153</span>:   <span class="k">def</span> <span class="nf">calc_ag_profit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span></pre>
+<pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">153</span>:   def calc_ag_profit(self, x):</pre>
 <pre class='cython code score-14 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_17calc_ag_profit(PyObject *__pyx_v_self, PyObject *__pyx_v_x); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_17calc_ag_profit(PyObject *__pyx_v_self, PyObject *__pyx_v_x) {
@@ -2412,13 +2343,13 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">154</span>:     <span class="n">total_revenue</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">154</span>:     total_revenue = 0.0</pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
   __pyx_v_total_revenue = __pyx_float_0_0;
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">155</span>:     <span class="n">i</span> <span class="o">=</span> <span class="mf">0</span></pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">155</span>:     i = 0</pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_int_0);
   __pyx_v_i = __pyx_int_0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">156</span>:     <span class="k">for</span> <span class="n">crop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crop_list</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">156</span>:     for crop in self.crop_list:</pre>
 <pre class='cython code score-12 '>  if (unlikely(__pyx_v_self-&gt;crop_list == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not iterable");
     <span class='error_goto'>__PYX_ERR(0, 156, __pyx_L1_error)</span>
@@ -2437,10 +2368,10 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">157</span>:       <span class="n">total_factor_beta</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">157</span>:       total_factor_beta = 0.0</pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_total_factor_beta, __pyx_float_0_0);
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">158</span>:       <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">158</span>:       if x[i] &gt; 0.0:</pre>
 <pre class='cython code score-11 '>    __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_v_x, __pyx_v_i);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     __pyx_t_4 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_3, __pyx_float_0_0, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_4);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 158, __pyx_L1_error)</span>
@@ -2450,7 +2381,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     if (__pyx_t_5) {
 /* … */
     }
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">159</span>:         <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;LAND&#39;</span><span class="p">,</span> <span class="s">&#39;WATER&#39;</span><span class="p">]:</span></pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">159</span>:         for factor in ['LAND', 'WATER']:</pre>
 <pre class='cython code score-11 '>      __pyx_t_4 = __pyx_tuple_; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_4); __pyx_t_6 = 0;
       for (;;) {
         if (__pyx_t_6 &gt;= 2) break;
@@ -2469,7 +2400,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   __pyx_tuple_ = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_u_LAND, __pyx_n_u_WATER);<span class='error_goto'> if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 159, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple_);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple_);
-</pre><pre class="cython line score-60" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">160</span>:           <span class="n">total_factor_beta</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">factor</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">leontief</span><span class="p">[</span><span class="n">factor</span><span class="p">][</span><span class="n">crop</span><span class="p">])</span><span class="o">**</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="p">))</span></pre>
+</pre><pre class="cython line score-60" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">160</span>:           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))</pre>
 <pre class='cython code score-60 '>        if (unlikely(__pyx_v_self-&gt;beta == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
           <span class='error_goto'>__PYX_ERR(0, 160, __pyx_L1_error)</span>
@@ -2514,7 +2445,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_factor_beta, __pyx_t_3);
         __pyx_t_3 = 0;
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">161</span>:         <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;SUPPL&#39;</span><span class="p">,</span> <span class="s">&#39;LABOR&#39;</span><span class="p">]:</span></pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">161</span>:         for factor in ['SUPPL', 'LABOR']:</pre>
 <pre class='cython code score-11 '>      __pyx_t_4 = __pyx_tuple__2; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_4); __pyx_t_6 = 0;
       for (;;) {
         if (__pyx_t_6 &gt;= 2) break;
@@ -2533,7 +2464,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   __pyx_tuple__2 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_u_SUPPL, __pyx_n_u_LABOR);<span class='error_goto'> if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 161, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__2);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__2);
-</pre><pre class="cython line score-51" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">162</span>:           <span class="n">total_factor_beta</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">factor</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span><span class="o">*</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">leontief</span><span class="p">[</span><span class="n">factor</span><span class="p">][</span><span class="n">crop</span><span class="p">])</span><span class="o">**</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="p">))</span><span class="c">##needs to be fixed in PMP calibration</span></pre>
+</pre><pre class="cython line score-51" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">162</span>:           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration</pre>
 <pre class='cython code score-51 '>        if (unlikely(__pyx_v_self-&gt;beta == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
           <span class='error_goto'>__PYX_ERR(0, 162, __pyx_L1_error)</span>
@@ -2573,7 +2504,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
         <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_factor_beta, __pyx_t_8);
         __pyx_t_8 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">163</span>: </pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">164</span>:       <span class="k">if</span> <span class="n">total_factor_beta</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span></pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">164</span>:       if total_factor_beta &gt; 0.0:</pre>
 <pre class='cython code score-8 '>    __pyx_t_4 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_total_factor_beta, __pyx_float_0_0, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_4);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 164, __pyx_L1_error)</span>
     __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_4); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 164, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
@@ -2581,7 +2512,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
 /* … */
       goto __pyx_L10;
     }
-</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">165</span>:         <span class="n">total_factor_beta</span> <span class="o">=</span> <span class="n">total_factor_beta</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">-</span><span class="mf">1.0</span><span class="p">))</span></pre>
+</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">165</span>:         total_factor_beta = total_factor_beta**(self.sub/(self.sub-1.0))</pre>
 <pre class='cython code score-17 '>      __pyx_t_10 = (__pyx_v_self-&gt;sub - 1.0);
       if (unlikely(__pyx_t_10 == 0)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_ZeroDivisionError, "float division");
@@ -2594,15 +2525,15 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
       <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_factor_beta, __pyx_t_8);
       __pyx_t_8 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">166</span>:       <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">167</span>:         <span class="n">total_factor_beta</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">166</span>:       else:</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">167</span>:         total_factor_beta = 0.0</pre>
 <pre class='cython code score-2 '>    /*else*/ {
       <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
       <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_factor_beta, __pyx_float_0_0);
     }
     __pyx_L10:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">168</span>: </pre>
-<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">169</span>:       <span class="n">total_revenue</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="s">&#39;PRICE&#39;</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">[</span><span class="n">crop</span><span class="p">]</span><span class="o">*</span><span class="n">total_factor_beta</span></pre>
+<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">169</span>:       total_revenue -= self.econ_factors['PRICE'][crop]*self.tau[crop]*total_factor_beta</pre>
 <pre class='cython code score-37 '>    if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 169, __pyx_L1_error)</span>
@@ -2630,7 +2561,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_revenue, __pyx_t_3);
     __pyx_t_3 = 0;
-</pre><pre class="cython line score-57" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">170</span>:       <span class="n">total_revenue</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">[</span><span class="n">crop</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">[</span><span class="n">crop</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></pre>
+</pre><pre class="cython line score-57" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">170</span>:       total_revenue += self.delta[crop]*np.exp(self.gamma[crop]*x[i])</pre>
 <pre class='cython code score-57 '>    if (unlikely(__pyx_v_self-&gt;delta == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 170, __pyx_L1_error)</span>
@@ -2679,7 +2610,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_revenue, __pyx_t_8);
     __pyx_t_8 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">171</span>:       <span class="n">total_revenue</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">econ_factors</span><span class="p">[</span><span class="s">&#39;WATER&#39;</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">leontief</span><span class="p">[</span><span class="s">&#39;WATER&#39;</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">171</span>:       total_revenue += self.econ_factors['WATER'][crop]*x[i]*self.leontief['WATER'][crop]</pre>
 <pre class='cython code score-43 '>    if (unlikely(__pyx_v_self-&gt;econ_factors == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 171, __pyx_L1_error)</span>
@@ -2714,7 +2645,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_revenue, __pyx_t_9);
     __pyx_t_9 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">172</span>: </pre>
-<pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">173</span>:       <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;SUPPL&#39;</span><span class="p">,</span> <span class="s">&#39;LABOR&#39;</span><span class="p">]:</span></pre>
+<pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">173</span>:       for factor in ['SUPPL', 'LABOR']:</pre>
 <pre class='cython code score-6 '>    __pyx_t_9 = __pyx_tuple__2; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_9); __pyx_t_6 = 0;
     for (;;) {
       if (__pyx_t_6 &gt;= 2) break;
@@ -2729,7 +2660,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
 /* … */
     }
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
-</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">174</span>:         <span class="n">total_revenue</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leontief</span><span class="p">[</span><span class="n">factor</span><span class="p">][</span><span class="n">crop</span><span class="p">]</span><span class="c">####needs to be fixed in PMP calibration</span></pre>
+</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">174</span>:         total_revenue += self.leontief[factor][crop]####needs to be fixed in PMP calibration</pre>
 <pre class='cython code score-17 '>      if (unlikely(__pyx_v_self-&gt;leontief == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 174, __pyx_L1_error)</span>
@@ -2745,19 +2676,19 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_revenue, __pyx_t_8);
       __pyx_t_8 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">175</span>: </pre>
-<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">176</span>:       <span class="n">i</span> <span class="o">+=</span> <span class="mf">1</span></pre>
+<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">176</span>:       i += 1</pre>
 <pre class='cython code score-3 '>    __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_i, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 176, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_i, __pyx_t_9);
     __pyx_t_9 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">177</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">178</span>:     <span class="k">return</span> <span class="n">total_revenue</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">178</span>:     return total_revenue</pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_total_revenue);
   __pyx_r = __pyx_v_total_revenue;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">179</span>: </pre>
-<pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">180</span>:   <span class="k">def</span> <span class="nf">make_crop_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">180</span>:   def make_crop_list(self):</pre>
 <pre class='cython code score-7 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_19make_crop_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_19make_crop_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
@@ -2795,7 +2726,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">181</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">crop_list</span> <span class="o">=</span> <span class="p">[]</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">181</span>:     self.crop_list = []</pre>
 <pre class='cython code score-6 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -2803,7 +2734,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;crop_list);
   __pyx_v_self-&gt;crop_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-51" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">182</span>:     <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_inputs</span><span class="p">[</span><span class="s">&#39;LAND&#39;</span><span class="p">]:</span></pre>
+</pre><pre class="cython line score-51" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">182</span>:     for y in self.baseline_inputs['LAND']:</pre>
 <pre class='cython code score-51 '>  if (unlikely(__pyx_v_self-&gt;baseline_inputs == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 182, __pyx_L1_error)</span>
@@ -2855,7 +2786,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">183</span>:       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_inputs</span><span class="p">[</span><span class="s">&#39;LAND&#39;</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">50.0</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">183</span>:       if self.baseline_inputs['LAND'][y] &gt; 50.0:</pre>
 <pre class='cython code score-19 '>    if (unlikely(__pyx_v_self-&gt;baseline_inputs == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 183, __pyx_L1_error)</span>
@@ -2872,7 +2803,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
     if (__pyx_t_6) {
 /* … */
     }
-</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">184</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">crop_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">184</span>:         self.crop_list.append(y)</pre>
 <pre class='cython code score-7 '>      if (unlikely(__pyx_v_self-&gt;crop_list == Py_None)) {
         <span class='py_c_api'>PyErr_Format</span>(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
         <span class='error_goto'>__PYX_ERR(0, 184, __pyx_L1_error)</span>
