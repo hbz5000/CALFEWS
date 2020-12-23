@@ -960,110 +960,108 @@ class Visualizer():
               yesterday_account = today_account * 1.0
           self.total_pumping[bank_name.name][-1] += annual_pumping          
 
-    write_file = True
+    if location_type == 'monthly':
+      district_irrigation = pd.DataFrame(index = date_list_labels)
+      district_recharge = pd.DataFrame(index = date_list_labels)
+      district_pumping = pd.DataFrame(index = date_list_labels)
+      district_recharge_sales = pd.DataFrame(index = date_list_labels)
+      district_recharge_purchases = pd.DataFrame(index = date_list_labels)
+      district_recovery_sales = pd.DataFrame(index = date_list_labels)
+      district_recovery_purchases = pd.DataFrame(index = date_list_labels)
+      district_flood_purchases = pd.DataFrame(index = date_list_labels)
+      district_recovery_rebate = pd.DataFrame(index = date_list_labels)
+      for y in name_bridge:
+        file_col_name = name_bridge[y]
+        if file_col_name in district_irrigation:
+          district_irrigation[file_col_name] += self.total_irrigation[y]
+          district_recharge[file_col_name] += self.total_recharge[y]
+          district_pumping[file_col_name] += self.total_pumping[y]
+          district_recharge_sales[file_col_name] += self.total_recharge_sales[y]
+          district_recharge_purchases[file_col_name] += self.total_recharge_purchases[y]
+          district_recovery_sales[file_col_name] += self.total_recovery_sales[y]
+          district_recovery_purchases[file_col_name] += self.total_recovery_purchases[y]
+          district_flood_purchases[file_col_name] += self.total_flood_purchases[y]
+          district_recovery_rebate[file_col_name] += self.total_recovery_rebate[y]
+
+        else:
+          district_irrigation[file_col_name] = self.total_irrigation[y]
+          district_recharge[file_col_name] = self.total_recharge[y]
+          district_pumping[file_col_name] = self.total_pumping[y]
+          district_recharge_sales[file_col_name] = self.total_recharge_sales[y]
+          district_recharge_purchases[file_col_name] = self.total_recharge_purchases[y]
+          district_recovery_sales[file_col_name] = self.total_recovery_sales[y]
+          district_recovery_purchases[file_col_name] = self.total_recovery_purchases[y]
+          district_flood_purchases[file_col_name] = self.total_flood_purchases[y]
+          district_recovery_rebate[file_col_name] = self.total_recovery_rebate[y]
+
+    elif location_type == 'annual':
+      district_irrigation = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_recharge = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_pumping = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_recharge_sales = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_recharge_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_recovery_sales = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_recovery_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_flood_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      district_recovery_rebate = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
+      self.total_irrigation_annual = {}
+      self.total_recharge_annual = {}
+      self.total_pumping_annual = {}
+      self.total_recharge_sales_annual = {}
+      self.total_recharge_purchases_annual = {}
+      self.total_recovery_sales_annual = {}
+      self.total_recovery_purchases_annual = {}
+      self.total_flood_purchases_annual = {}
+      self.total_recovery_rebate_annual = {}
+
+      for y in name_bridge:
+        self.total_irrigation_annual[y] = np.zeros(self.number_years)
+        self.total_recharge_annual[y] = np.zeros(self.number_years)
+        self.total_pumping_annual[y] = np.zeros(self.number_years)
+        self.total_recharge_sales_annual[y] = np.zeros(self.number_years)
+        self.total_recharge_purchases_annual[y] = np.zeros(self.number_years)
+        self.total_recovery_sales_annual[y] = np.zeros(self.number_years)
+        self.total_recovery_purchases_annual[y] = np.zeros(self.number_years)
+        self.total_flood_purchases_annual[y] = np.zeros(self.number_years)
+        self.total_recovery_rebate_annual[y] = np.zeros(self.number_years)
+
+        for xx in range(0, self.number_years):
+          self.total_irrigation_annual[y][xx] = np.sum(self.total_irrigation[y][(xx*12):(xx*12 + 12)])
+          self.total_recharge_annual[y][xx] = np.sum(self.total_recharge[y][(xx*12):(xx*12 + 12)])
+          self.total_pumping_annual[y][xx] = np.sum(self.total_pumping[y][(xx*12):(xx*12 + 12)])
+          self.total_recharge_sales_annual[y][xx] = np.sum(self.total_recharge_sales[y][(xx*12):(xx*12 + 12)])
+          self.total_recharge_purchases_annual[y][xx] = np.sum(self.total_recharge_purchases[y][(xx*12):(xx*12 + 12)])
+          self.total_recovery_sales_annual[y][xx] = np.sum(self.total_recovery_sales[y][(xx*12):(xx*12 + 12)])
+          self.total_recovery_purchases_annual[y][xx] = np.sum(self.total_recovery_purchases[y][(xx*12):(xx*12 + 12)])
+          self.total_flood_purchases_annual[y][xx] = np.sum(self.total_flood_purchases[y][(xx*12):(xx*12 + 12)])
+          self.total_recovery_rebate_annual[y][xx] = np.sum(self.total_recovery_rebate[y][(xx*12):(xx*12 + 12)])
+
+        file_col_name = name_bridge[y]
+        if file_col_name in district_irrigation:
+          district_irrigation[file_col_name] += self.total_irrigation_annual[y]
+          district_recharge[file_col_name] += self.total_recharge_annual[y]
+          district_pumping[file_col_name] += self.total_pumping_annual[y]
+          district_recharge_sales[file_col_name] += self.total_recharge_sales_annual[y]
+          district_recharge_purchases[file_col_name] += self.total_recharge_purchases_annual[y]
+          district_recovery_sales[file_col_name] += self.total_recovery_sales_annual[y]
+          district_recovery_purchases[file_col_name] += self.total_recovery_purchases_annual[y]
+          district_flood_purchases[file_col_name] += self.total_flood_purchases_annual[y]
+          district_recovery_rebate[file_col_name] += self.total_recovery_rebate_annual[y]
+
+        else:
+          district_irrigation[file_col_name] = self.total_irrigation_annual[y]
+          district_recharge[file_col_name] = self.total_recharge_annual[y]
+          district_pumping[file_col_name] = self.total_pumping_annual[y]
+          district_recharge_sales[file_col_name] = self.total_recharge_sales_annual[y]
+          district_recharge_purchases[file_col_name] = self.total_recharge_purchases_annual[y]
+          district_recovery_sales[file_col_name] = self.total_recovery_sales_annual[y]
+          district_recovery_purchases[file_col_name] = self.total_recovery_purchases_annual[y]
+          district_flood_purchases[file_col_name] = self.total_flood_purchases_annual[y]
+          district_recovery_rebate[file_col_name] = self.total_recovery_rebate_annual[y]
+
+    write_file = False
     if write_file:
-
-      if location_type == 'monthly':
-        district_irrigation = pd.DataFrame(index = date_list_labels)
-        district_recharge = pd.DataFrame(index = date_list_labels)
-        district_pumping = pd.DataFrame(index = date_list_labels)
-        district_recharge_sales = pd.DataFrame(index = date_list_labels)
-        district_recharge_purchases = pd.DataFrame(index = date_list_labels)
-        district_recovery_sales = pd.DataFrame(index = date_list_labels)
-        district_recovery_purchases = pd.DataFrame(index = date_list_labels)
-        district_flood_purchases = pd.DataFrame(index = date_list_labels)
-        district_recovery_rebate = pd.DataFrame(index = date_list_labels)
-        for y in name_bridge:
-          file_col_name = name_bridge[y]
-          if file_col_name in district_irrigation:
-            district_irrigation[file_col_name] += self.total_irrigation[y]
-            district_recharge[file_col_name] += self.total_recharge[y]
-            district_pumping[file_col_name] += self.total_pumping[y]
-            district_recharge_sales[file_col_name] += self.total_recharge_sales[y]
-            district_recharge_purchases[file_col_name] += self.total_recharge_purchases[y]
-            district_recovery_sales[file_col_name] += self.total_recovery_sales[y]
-            district_recovery_purchases[file_col_name] += self.total_recovery_purchases[y]
-            district_flood_purchases[file_col_name] += self.total_flood_purchases[y]
-            district_recovery_rebate[file_col_name] += self.total_recovery_rebate[y]
-
-          else:
-            district_irrigation[file_col_name] = self.total_irrigation[y]
-            district_recharge[file_col_name] = self.total_recharge[y]
-            district_pumping[file_col_name] = self.total_pumping[y]
-            district_recharge_sales[file_col_name] = self.total_recharge_sales[y]
-            district_recharge_purchases[file_col_name] = self.total_recharge_purchases[y]
-            district_recovery_sales[file_col_name] = self.total_recovery_sales[y]
-            district_recovery_purchases[file_col_name] = self.total_recovery_purchases[y]
-            district_flood_purchases[file_col_name] = self.total_flood_purchases[y]
-            district_recovery_rebate[file_col_name] = self.total_recovery_rebate[y]
-
-      elif location_type == 'annual':
-        district_irrigation = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_recharge = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_pumping = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_recharge_sales = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_recharge_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_recovery_sales = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_recovery_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_flood_purchases = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        district_recovery_rebate = pd.DataFrame(index = np.arange(self.starting_year + 1,self.starting_year + self.number_years + 1))
-        self.total_irrigation_annual = {}
-        self.total_recharge_annual = {}
-        self.total_pumping_annual = {}
-        self.total_recharge_sales_annual = {}
-        self.total_recharge_purchases_annual = {}
-        self.total_recovery_sales_annual = {}
-        self.total_recovery_purchases_annual = {}
-        self.total_flood_purchases_annual = {}
-        self.total_recovery_rebate_annual = {}
-
-        for y in name_bridge:
-          self.total_irrigation_annual[y] = np.zeros(self.number_years)
-          self.total_recharge_annual[y] = np.zeros(self.number_years)
-          self.total_pumping_annual[y] = np.zeros(self.number_years)
-          self.total_recharge_sales_annual[y] = np.zeros(self.number_years)
-          self.total_recharge_purchases_annual[y] = np.zeros(self.number_years)
-          self.total_recovery_sales_annual[y] = np.zeros(self.number_years)
-          self.total_recovery_purchases_annual[y] = np.zeros(self.number_years)
-          self.total_flood_purchases_annual[y] = np.zeros(self.number_years)
-          self.total_recovery_rebate_annual[y] = np.zeros(self.number_years)
-
-          for xx in range(0, self.number_years):
-            self.total_irrigation_annual[y][xx] = np.sum(self.total_irrigation[y][(xx*12):(xx*12 + 12)])
-            self.total_recharge_annual[y][xx] = np.sum(self.total_recharge[y][(xx*12):(xx*12 + 12)])
-            self.total_pumping_annual[y][xx] = np.sum(self.total_pumping[y][(xx*12):(xx*12 + 12)])
-            self.total_recharge_sales_annual[y][xx] = np.sum(self.total_recharge_sales[y][(xx*12):(xx*12 + 12)])
-            self.total_recharge_purchases_annual[y][xx] = np.sum(self.total_recharge_purchases[y][(xx*12):(xx*12 + 12)])
-            self.total_recovery_sales_annual[y][xx] = np.sum(self.total_recovery_sales[y][(xx*12):(xx*12 + 12)])
-            self.total_recovery_purchases_annual[y][xx] = np.sum(self.total_recovery_purchases[y][(xx*12):(xx*12 + 12)])
-            self.total_flood_purchases_annual[y][xx] = np.sum(self.total_flood_purchases[y][(xx*12):(xx*12 + 12)])
-            self.total_recovery_rebate_annual[y][xx] = np.sum(self.total_recovery_rebate[y][(xx*12):(xx*12 + 12)])
-
-          file_col_name = name_bridge[y]
-          if file_col_name in district_irrigation:
-            district_irrigation[file_col_name] += self.total_irrigation_annual[y]
-            district_recharge[file_col_name] += self.total_recharge_annual[y]
-            district_pumping[file_col_name] += self.total_pumping_annual[y]
-            district_recharge_sales[file_col_name] += self.total_recharge_sales_annual[y]
-            district_recharge_purchases[file_col_name] += self.total_recharge_purchases_annual[y]
-            district_recovery_sales[file_col_name] += self.total_recovery_sales_annual[y]
-            district_recovery_purchases[file_col_name] += self.total_recovery_purchases_annual[y]
-            district_flood_purchases[file_col_name] += self.total_flood_purchases_annual[y]
-            district_recovery_rebate[file_col_name] += self.total_recovery_rebate_annual[y]
-
-          else:
-            district_irrigation[file_col_name] = self.total_irrigation_annual[y]
-            district_recharge[file_col_name] = self.total_recharge_annual[y]
-            district_pumping[file_col_name] = self.total_pumping_annual[y]
-            district_recharge_sales[file_col_name] = self.total_recharge_sales_annual[y]
-            district_recharge_purchases[file_col_name] = self.total_recharge_purchases_annual[y]
-            district_recovery_sales[file_col_name] = self.total_recovery_sales_annual[y]
-            district_recovery_purchases[file_col_name] = self.total_recovery_purchases_annual[y]
-            district_flood_purchases[file_col_name] = self.total_flood_purchases_annual[y]
-            district_recovery_rebate[file_col_name] = self.total_recovery_rebate_annual[y]
-
-      
-
+   
       district_irrigation.to_csv(folder_name + 'irrigation_' + plot_name + '_' + scenario_name + '.csv')
       district_recharge.to_csv(folder_name + 'recharge_' + plot_name + '_' + scenario_name + '.csv')
       district_pumping.to_csv(folder_name + 'pumping_' + plot_name + '_' + scenario_name + '.csv')
@@ -2427,7 +2425,7 @@ class Visualizer():
     scale_away_iii =  find_away_scale(timesteps, away_groups_iii, source_sizes_iii, open_area, min_label_height)
     scale_away_iv =  find_away_scale(timesteps, away_groups_iv, destination_sizes_iv, open_area, min_label_height)
 
-    for snapshot_t in range(snapshot_range[0], snapshot_range[1]):
+    for snapshot_t in snapshot_range:
       data_figure = Sanker()
 
       running_start = 0.0
@@ -2688,9 +2686,9 @@ class Visualizer():
     self.ax.fill_between(x_plot, z_bottom, z_top, color= color, alpha = alpha, edgecolor = 'b', linewidth = 0.0, zorder = zorder_num) 
 
 
-  def make_gif(self, figure_base, figure_year, figure_range_start, figure_range_end):
+  def make_gif(self, figure_base, figure_year, snapshot_range):
     image_list = []
-    for fig_num in range(figure_range_start, figure_range_end):
+    for fig_num in snapshot_range:
       file_name = figure_base + '_' + str(fig_num) + '.png'
       image_list.append(imageio.imread(file_name))
     imageio.mimwrite(figure_base + figure_year + '.gif', image_list)
@@ -2721,11 +2719,11 @@ def make_group_sums(source_groups, destination_groups, source_types, color_group
     destination_sizes[dg] = np.zeros(timesteps)
   destination_sizes['total'] = np.zeros(timesteps)
 
-  for t in range(0, timesteps):
-    for sg in source_groups:
-      for st in source_types:
-        for dg in destination_groups:
-          for cl in color_groups:
+  for sg in source_groups:
+    for st in source_types:
+      for dg in destination_groups:
+        for cl in color_groups:
+          for t in range(0, timesteps):
             source_sizes[sg][t] += segment_dictionary[sg][st][dg][cl][t]
             source_sizes['total'][t] += segment_dictionary[sg][st][dg][cl][t]
             destination_sizes[dg][t] += segment_dictionary[sg][st][dg][cl][t]

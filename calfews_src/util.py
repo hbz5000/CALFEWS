@@ -15,15 +15,17 @@ def leap(y):
   leap = np.empty(len(y), dtype=bool)
   for i in range(len(y)):
     leap[i] = calendar.isleap(y[i])
-  return leap
+  return leap.tolist()
 
 # get first non-leap year index in historical record, to use for dowy_eom & days_in_month of non-historical record based on leap.
 def first_non_leap_year(dowyeom):
-  return (np.where(dowyeom[0][1] == 28, 0, 1))
+  dowyeom_np = np.array(dowyeom)
+  return (np.where(dowyeom_np[0][1] == 28, 0, 1)).tolist()
 
 # get first leap year index in historical record, to use for dowy_eom & days_in_month of non-historical record based on leap.
 def first_leap_year(dowyeom):
-  return (np.argmax([dowyeom[0][1], dowyeom[1][1], dowyeom[2][1], dowyeom[3][1]]))
+  dowyeom_np = np.array(dowyeom)
+  return (np.argmax([dowyeom_np[0][1], dowyeom_np[1][1], dowyeom_np[2][1], dowyeom_np[3][1]])).tolist()
 
 # get day of water year for historical record
 def water_day(d, y):
@@ -39,14 +41,18 @@ def water_day(d, y):
       dowy[i] = d[i] + 91
     if dowy[i] > 364:
       dowy[i] = 364
-  return dowy
+  return dowy.tolist()
 
 # get water year of each month/year in historical record.
 def water_year(month, year, startYear):
+  month_np = np.array(month)
+  year_np = np.array(year)
+
   wy = np.empty(len(year), dtype=int)
-  wy[month >= 10] = year[month >= 10] - startYear
-  wy[month < 10] = year[month < 10] - startYear - 1
-  return wy
+  wy[month_np >= 10] = year_np[month_np >= 10] - startYear
+  wy[month_np < 10] = year_np[month_np < 10] - startYear - 1
+
+  return wy.tolist()
 
 # get days in each month. rows are years in historical data, accounting for leap years.
 def days_in_month(year, leap):
@@ -58,7 +64,7 @@ def days_in_month(year, leap):
       days[i,:] = dmonth_leap
     else:
       days[i,:] = dmonth
-  return days
+  return days.tolist()
 
 # get day of water year of the end of each month, 0-indexed (i.e. first day Oct = 0). rows are years in historical data, accounting for leap years.
 def dowy_eom(year, leap):
@@ -70,19 +76,19 @@ def dowy_eom(year, leap):
       dowy[i,:] = eom_leap
     else:
       dowy[i,:] = eom
-  return dowy
+  return dowy.tolist()
 
 # get first day of each month, 1-indexed (i.e. first day Jan = 1). Each row is a year in historical record.
 def first_d_of_month(dowyeom, daysinmonth):
   first_d = np.empty([len(dowyeom), 12], dtype=int)
   for i in range(len(dowyeom)):
-    first_d[i][:] = dowyeom[i] - daysinmonth[i] - 90
+    first_d[i][:] = np.array(dowyeom)[i] - np.array(daysinmonth)[i] - 90
     first_d[i][first_d[i][:] < 0] = first_d[i][first_d[i][:] < 0] + 365
-  return first_d
+  return first_d.tolist()
 
 # function to take northern & southern model, process & output data
 def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity_factors, modelno, modelso):
-  nt = modelno.shasta.baseline_inf.shape[0]
+  nt = len(modelno.shasta.baseline_inf)
   with open(output_list_loc, 'r') as f:
     output_list = json.load(f)
   dat = np.zeros([nt, 10000])
@@ -161,7 +167,7 @@ def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity
 
 
 def data_output_climate_ensemble(output_list_loc, results_folder, clean_output, rank, flow_input_source, modelno, modelso):
-  nt = modelno.shasta.baseline_inf.shape[0]
+  nt = len(modelno.shasta.baseline_inf)
   with open(output_list_loc, 'r') as f:
     output_list = json.load(f)
   dat = np.zeros([nt, 10000])

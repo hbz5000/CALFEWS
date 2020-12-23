@@ -5,7 +5,10 @@
 *.pyc
 .idea
 *.bak
-cord/__pycache__/*
+__pycache__
+*/__pycache__
+build
+*/build
 save_address
 .ipynb*
 .vscode
