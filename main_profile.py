@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import line_profiler
 profile = line_profiler.LineProfiler()
-import calfews_src_cy
-from calfews_src_cy import *
+import calfews_src
+from calfews_src import *
 from datetime import datetime
 import os
 import shutil
