@@ -3,7 +3,7 @@ This repository contains all code and data for the California Food-Energy-Water 
 
 More information on the CALFEWS model, and comparison of model output to historical data, can be found in the following manuscript:
 
-Zeff, H.B., Herman, J.D., Hamilton, A.L., Malek, K., Cohen, J.S., Medellin-Azuara, J., Reed, P.M., and G.W. Characklis. (2020). "California's Food-Energy-Water System: An Open Source Simulation Model of Adaptive Surface and Groundwater Management in the Central Valley". (In preparation). 
+Zeff, H.B., Hamilton, A.L., Malek, K., Herman, J.D., Cohen, J.S., Medellin-Azuara, J., Reed, P.M., and G.W. Characklis. (2020). "California's Food-Energy-Water System: An Open Source Simulation Model of Adaptive Surface and Groundwater Management in the Central Valley". (In review). 
 
 Licensed under the MIT License, 2017.
 
