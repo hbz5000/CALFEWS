@@ -9,7 +9,7 @@ cdef class Private():
                 current_recharge_storage, banking_risk_level, total_acreage
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, turnback_use, thismonthuse, monthusecounter, \
-                monthemptycounter, iter_count, age_death
+                monthemptycounter, iter_count, age_death, T
 
     public str key, name
 

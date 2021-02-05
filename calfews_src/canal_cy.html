@@ -286,6 +286,80 @@ body.cython { font-family: courier; font-size: 12; }
 .cython.score-252 {background-color: #FFFF09;}
 .cython.score-253 {background-color: #FFFF09;}
 .cython.score-254 {background-color: #FFFF09;}
+pre { line-height: 125%; }
+td.linenos pre { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+td.linenos pre.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.cython .hll { background-color: #ffffcc }
+.cython { background: #f8f8f8; }
+.cython .c { color: #408080; font-style: italic } /* Comment */
+.cython .err { border: 1px solid #FF0000 } /* Error */
+.cython .k { color: #008000; font-weight: bold } /* Keyword */
+.cython .o { color: #666666 } /* Operator */
+.cython .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.cython .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.cython .cp { color: #BC7A00 } /* Comment.Preproc */
+.cython .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.cython .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.cython .cs { color: #408080; font-style: italic } /* Comment.Special */
+.cython .gd { color: #A00000 } /* Generic.Deleted */
+.cython .ge { font-style: italic } /* Generic.Emph */
+.cython .gr { color: #FF0000 } /* Generic.Error */
+.cython .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.cython .gi { color: #00A000 } /* Generic.Inserted */
+.cython .go { color: #888888 } /* Generic.Output */
+.cython .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.cython .gs { font-weight: bold } /* Generic.Strong */
+.cython .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.cython .gt { color: #0044DD } /* Generic.Traceback */
+.cython .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.cython .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.cython .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.cython .kp { color: #008000 } /* Keyword.Pseudo */
+.cython .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.cython .kt { color: #B00040 } /* Keyword.Type */
+.cython .m { color: #666666 } /* Literal.Number */
+.cython .s { color: #BA2121 } /* Literal.String */
+.cython .na { color: #7D9029 } /* Name.Attribute */
+.cython .nb { color: #008000 } /* Name.Builtin */
+.cython .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.cython .no { color: #880000 } /* Name.Constant */
+.cython .nd { color: #AA22FF } /* Name.Decorator */
+.cython .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.cython .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.cython .nf { color: #0000FF } /* Name.Function */
+.cython .nl { color: #A0A000 } /* Name.Label */
+.cython .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.cython .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.cython .nv { color: #19177C } /* Name.Variable */
+.cython .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.cython .w { color: #bbbbbb } /* Text.Whitespace */
+.cython .mb { color: #666666 } /* Literal.Number.Bin */
+.cython .mf { color: #666666 } /* Literal.Number.Float */
+.cython .mh { color: #666666 } /* Literal.Number.Hex */
+.cython .mi { color: #666666 } /* Literal.Number.Integer */
+.cython .mo { color: #666666 } /* Literal.Number.Oct */
+.cython .sa { color: #BA2121 } /* Literal.String.Affix */
+.cython .sb { color: #BA2121 } /* Literal.String.Backtick */
+.cython .sc { color: #BA2121 } /* Literal.String.Char */
+.cython .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.cython .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.cython .s2 { color: #BA2121 } /* Literal.String.Double */
+.cython .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.cython .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.cython .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.cython .sx { color: #008000 } /* Literal.String.Other */
+.cython .sr { color: #BB6688 } /* Literal.String.Regex */
+.cython .s1 { color: #BA2121 } /* Literal.String.Single */
+.cython .ss { color: #19177C } /* Literal.String.Symbol */
+.cython .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.cython .fm { color: #0000FF } /* Name.Function.Magic */
+.cython .vc { color: #19177C } /* Name.Variable.Class */
+.cython .vg { color: #19177C } /* Name.Variable.Global */
+.cython .vi { color: #19177C } /* Name.Variable.Instance */
+.cython .vm { color: #19177C } /* Name.Variable.Magic */
+.cython .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
 </head>
 <body class="cython">
@@ -295,14 +369,14 @@ body.cython { font-family: courier; font-size: 12; }
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
 <p>Raw output: <a href="canal_cy.c">canal_cy.c</a></p>
-<div class="cython"><pre class="cython line score-0">&#xA0;<span class="">001</span>: # cython: profile=True</pre>
-<pre class="cython line score-0">&#xA0;<span class="">002</span>: from __future__ import division</pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">003</span>: import numpy as np</pre>
+<div class="cython"><pre class="cython line score-0">&#xA0;<span class="">001</span>: <span class="c"># cython: profile=True</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">002</span>: <span class="k">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span></pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">003</span>: <span class="k">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_numpy, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_np, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 3, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">004</span>: import pandas as pd</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">004</span>: <span class="k">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span></pre>
 <pre class='cython code score-8 '>
   /* "calfews_src/canal_cy.pyx":4
  * from __future__ import division
@@ -315,12 +389,12 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_pd, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 4, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">005</span>: import json</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">005</span>: <span class="k">import</span> <span class="nn">json</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_json, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_json, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">006</span>: from .util import *</pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">006</span>: <span class="k">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="o">*</span></pre>
 <pre class='cython code score-11 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__3);
@@ -332,9 +406,9 @@ body.cython { font-family: courier; font-size: 12; }
   if (__pyx_import_star(__pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 6, __pyx_L1_error)</span>;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">007</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">008</span>: cdef class Canal():</pre>
+<pre class="cython line score-0">&#xA0;<span class="">008</span>: <span class="k">cdef</span> <span class="k">class</span> <span class="nf">Canal</span><span class="p">():</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">009</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">010</span>:   def __iter__(self):</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">010</span>:   <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_1__iter__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_1__iter__(PyObject *__pyx_v_self) {
@@ -365,15 +439,15 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal___iter__(struct __pyx_o
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">011</span>:     self.iter_count = 0</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">011</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-2 '>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_int_0) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 11, __pyx_L1_error)</span>
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">012</span>:     return self</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">012</span>:     <span class="k">return</span> <span class="bp">self</span></pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self));
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">013</span>: </pre>
-<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">014</span>:   def __next__(self):</pre>
+<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">014</span>:   <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-4 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_3__next__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_3__next__(PyObject *__pyx_v_self) {
@@ -406,7 +480,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_2__next__(struct __pyx_
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">015</span>:     if self.iter_count == 0:</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">015</span>:     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">==</span> <span class="mf">0</span><span class="p">:</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_EqObjC</span>(__pyx_t_1, __pyx_int_0, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)</span>
@@ -417,7 +491,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_2__next__(struct __pyx_
   if (likely(__pyx_t_3)) {
 /* … */
   }
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">016</span>:       self.iter_count += 1</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">016</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-8 '>    __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
     __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_t_2, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)</span>
@@ -425,19 +499,19 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_2__next__(struct __pyx_
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
     if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 16, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">017</span>:       return self</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">017</span>:       <span class="k">return</span> <span class="bp">self</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self));
     __pyx_r = ((PyObject *)__pyx_v_self);
     goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">018</span>:     else:</pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">019</span>:       raise StopIteration</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">018</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">019</span>:       <span class="k">raise</span> <span class="ne">StopIteration</span></pre>
 <pre class='cython code score-2 '>  /*else*/ {
     <span class='pyx_c_api'>__Pyx_Raise</span>(__pyx_builtin_StopIteration, 0, 0, 0);
     <span class='error_goto'>__PYX_ERR(0, 19, __pyx_L1_error)</span>
   }
 </pre><pre class="cython line score-0">&#xA0;<span class="">020</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">021</span>:   def __len__(self):</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">021</span>:   <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
 static Py_ssize_t __pyx_pw_11calfews_src_8canal_cy_5Canal_5__len__(PyObject *__pyx_v_self); /*proto*/
 static Py_ssize_t __pyx_pw_11calfews_src_8canal_cy_5Canal_5__len__(PyObject *__pyx_v_self) {
@@ -467,11 +541,11 @@ static Py_ssize_t __pyx_pf_11calfews_src_8canal_cy_5Canal_4__len__(CYTHON_UNUSED
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">022</span>:     return 1</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">022</span>:     <span class="k">return</span> <span class="mf">1</span></pre>
 <pre class='cython code score-0 '>  __pyx_r = 1;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">023</span>: </pre>
-<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">024</span>:   def __init__(self, name, key, scenario_file = 'baseline'):</pre>
+<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">024</span>:   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">scenario_file</span> <span class="o">=</span> <span class="s">&#39;baseline&#39;</span><span class="p">):</span></pre>
 <pre class='cython code score-37 '>/* Python wrapper */
 static int __pyx_pw_11calfews_src_8canal_cy_5Canal_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_11calfews_src_8canal_cy_5Canal_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -578,18 +652,18 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">025</span>:     self.is_Canal = 1</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">025</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">is_Canal</span> <span class="o">=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;is_Canal = 1;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">026</span>:     self.is_District = 0</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">026</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">is_District</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;is_District = 0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">027</span>:     self.is_Private = 0</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">027</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">is_Private</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;is_Private = 0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">028</span>:     self.is_Waterbank = 0</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">028</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">is_Waterbank</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;is_Waterbank = 0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">029</span>:     self.is_Reservoir = 0</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">029</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">is_Reservoir</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;is_Reservoir = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">030</span>: </pre>
-<pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">031</span>:     self.key = key</pre>
+<pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">031</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span></pre>
 <pre class='cython code score-12 '>  if (!(likely(<span class='py_c_api'>PyUnicode_CheckExact</span>(__pyx_v_key))||((__pyx_v_key) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_key)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 31, __pyx_L1_error)</span>
   __pyx_t_1 = __pyx_v_key;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
@@ -598,7 +672,7 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;key);
   __pyx_v_self-&gt;key = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">032</span>:     self.name = name</pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">032</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></pre>
 <pre class='cython code score-12 '>  if (!(likely(<span class='py_c_api'>PyUnicode_CheckExact</span>(__pyx_v_name))||((__pyx_v_name) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_name)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 32, __pyx_L1_error)</span>
   __pyx_t_1 = __pyx_v_name;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
@@ -607,9 +681,9 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;name);
   __pyx_v_self-&gt;name = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">033</span>:     self.locked = 0 #toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">033</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">locked</span> <span class="o">=</span> <span class="mf">0</span> <span class="c">#toggle used to &#39;lock&#39; the direction of canal flow for the entire time-step (in bi-directional canals)</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;locked = 0;
-</pre><pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">034</span>:     for k,v in json.load(open('calfews_src/canals/%s_properties.json' % key)).items():</pre>
+</pre><pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">034</span>:     <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;calfews_src/canals/</span><span class="si">%s</span><span class="s">_properties.json&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></pre>
 <pre class='cython code score-34 '>  __pyx_t_2 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_6, __pyx_n_s_json);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 34, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
@@ -657,11 +731,11 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
     __pyx_t_7 = 0;
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">035</span>:         setattr(self,k,v)</pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">035</span>:         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span></pre>
 <pre class='cython code score-6 '>    __pyx_t_10 = <span class='py_c_api'>PyObject_SetAttr</span>(((PyObject *)__pyx_v_self), __pyx_v_k, __pyx_v_v);<span class='error_goto'> if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 35, __pyx_L1_error)</span>
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">036</span>:     if ((scenario_file == 'baseline') == False):</pre>
+</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">036</span>:     <span class="k">if</span> <span class="p">((</span><span class="n">scenario_file</span> <span class="o">==</span> <span class="s">&#39;baseline&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span></pre>
 <pre class='cython code score-14 '>  __pyx_t_1 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_scenario_file, __pyx_n_u_baseline, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)</span>
   __pyx_t_5 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_1, Py_False, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_5);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
@@ -670,7 +744,7 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
   if (__pyx_t_11) {
 /* … */
   }
-</pre><pre class="cython line score-31" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">037</span>:       for k, v in json.load(open(scenario_file)).items():</pre>
+</pre><pre class="cython line score-31" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">037</span>:       <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">scenario_file</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></pre>
 <pre class='cython code score-31 '>    __pyx_t_3 = 0;
     <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_7, __pyx_n_s_json);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 37, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
@@ -715,13 +789,13 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
       __pyx_t_8 = 0;
       <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_v, __pyx_t_1);
       __pyx_t_1 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">038</span>:         setattr(self, k, v)</pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">038</span>:         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></pre>
 <pre class='cython code score-6 '>      __pyx_t_10 = <span class='py_c_api'>PyObject_SetAttr</span>(((PyObject *)__pyx_v_self), __pyx_v_k, __pyx_v_v);<span class='error_goto'> if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 38, __pyx_L1_error)</span>
     }
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">039</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">040</span>: </pre>
-<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">041</span>:   def object_equals(self, other):</pre>
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">041</span>:   <span class="k">def</span> <span class="nf">object_equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span></pre>
 <pre class='cython code score-13 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
@@ -767,13 +841,13 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">042</span>:     ##This function compares two instances of an object, returns True if all attributes are identical.</pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">043</span>:     equality = {}</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">042</span>:     <span class="c">##This function compares two instances of an object, returns True if all attributes are identical.</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">043</span>:     <span class="n">equality</span> <span class="o">=</span> <span class="p">{}</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_v_equality = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-52" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">044</span>:     if (self.__dict__.keys() != other.__dict__.keys()):</pre>
+</pre><pre class="cython line score-52" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">044</span>:     <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span></pre>
 <pre class='cython code score-52 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_dict);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_2, __pyx_n_s_keys);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)</span>
@@ -822,17 +896,17 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
   if (__pyx_t_5) {
 /* … */
   }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">045</span>:       return ('Different Attributes')</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">045</span>:       <span class="k">return</span> <span class="p">(</span><span class="s">&#39;Different Attributes&#39;</span><span class="p">)</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u_Different_Attributes);
     __pyx_r = __pyx_kp_u_Different_Attributes;
     goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">046</span>:     else:</pre>
-<pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">047</span>:       differences = 0</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">046</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">047</span>:       <span class="n">differences</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-1 '>  /*else*/ {
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_int_0);
     __pyx_v_differences = __pyx_int_0;
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">048</span>:       for i in self.__dict__.keys():</pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">048</span>:       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></pre>
 <pre class='cython code score-10 '>    __pyx_t_6 = 0;
     __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_dict);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
@@ -853,7 +927,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
       <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_i, __pyx_t_1);
       __pyx_t_1 = 0;
-</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">049</span>:         if type(self.__getattribute__(i)) is dict:</pre>
+</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">049</span>:         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span></pre>
 <pre class='cython code score-17 '>      __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
       __pyx_t_2 = NULL;
@@ -878,9 +952,9 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
 /* … */
         goto __pyx_L6;
       }
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:           equality[i] = True</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:           <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span></pre>
 <pre class='cython code score-5 '>        if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, Py_True) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 50, __pyx_L1_error)</span>
-</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">051</span>:           for j in self.__getattribute__(i).keys():</pre>
+</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">051</span>:           <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></pre>
 <pre class='cython code score-24 '>        __pyx_t_11 = 0;
         __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -916,7 +990,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
           <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_j, __pyx_t_2);
           __pyx_t_2 = 0;
-</pre><pre class="cython line score-15" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">052</span>:             if ((type(j) == Canal) == False):</pre>
+</pre><pre class="cython line score-15" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">052</span>:             <span class="k">if</span> <span class="p">((</span><span class="nb">type</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="n">Canal</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span></pre>
 <pre class='cython code score-15 '>          __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(((PyObject *)Py_TYPE(__pyx_v_j)), ((PyObject *)__pyx_ptype_11calfews_src_8canal_cy_Canal), Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)</span>
           __pyx_t_3 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_2, Py_False, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
@@ -927,7 +1001,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
           }
         }
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">053</span>:               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):</pre>
+</pre><pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">053</span>:               <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">):</span></pre>
 <pre class='cython code score-46 '>            __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
             __pyx_t_13 = NULL;
@@ -978,7 +1052,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
 /* … */
               goto __pyx_L10;
             }
-</pre><pre class="cython line score-54" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">054</span>:                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):</pre>
+</pre><pre class="cython line score-54" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">054</span>:                 <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span></pre>
 <pre class='cython code score-54 '>              __pyx_t_13 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 54, __pyx_L1_error)</span>
               <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_13);
               __pyx_t_2 = NULL;
@@ -1029,15 +1103,15 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
               if (__pyx_t_5) {
 /* … */
               }
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">055</span>:                   equality[i] = False</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">055</span>:                   <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span></pre>
 <pre class='cython code score-5 '>                if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, Py_False) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 55, __pyx_L1_error)</span>
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">056</span>:                   differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">056</span>:                   <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>                __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)</span>
                 <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
                 <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_2);
                 __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">057</span>:               else:</pre>
-<pre class="cython line score-73" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">058</span>:                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">057</span>:               <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-73" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">058</span>:                 <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span></pre>
 <pre class='cython code score-73 '>            /*else*/ {
               __pyx_t_13 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 58, __pyx_L1_error)</span>
               <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_13);
@@ -1109,15 +1183,15 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
               }
             }
             __pyx_L10:;
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">059</span>:                   equality[i] = False</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">059</span>:                   <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span></pre>
 <pre class='cython code score-5 '>                if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, Py_False) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 59, __pyx_L1_error)</span>
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">060</span>:                   differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">060</span>:                   <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>                __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 60, __pyx_L1_error)</span>
                 <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
                 <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_15);
                 __pyx_t_15 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">061</span>:         else:</pre>
-<pre class="cython line score-40" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">062</span>:           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">061</span>:         <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-40" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">062</span>:           <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">):</span></pre>
 <pre class='cython code score-40 '>      /*else*/ {
         __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 62, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
@@ -1163,7 +1237,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
 /* … */
           goto __pyx_L13;
         }
-</pre><pre class="cython line score-45" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>:             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))</pre>
+</pre><pre class="cython line score-45" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>:             <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span></pre>
 <pre class='cython code score-45 '>          __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 63, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
           __pyx_t_1 = NULL;
@@ -1203,7 +1277,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_15); __pyx_t_15 = 0;
           if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 63, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">064</span>:             if equality[i] == False:</pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">064</span>:             <span class="k">if</span> <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span></pre>
 <pre class='cython code score-11 '>          __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_GetItem</span>(__pyx_v_equality, __pyx_v_i);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
           __pyx_t_15 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_1, Py_False, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_15);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 64, __pyx_L1_error)</span>
@@ -1213,13 +1287,13 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
           if (__pyx_t_10) {
 /* … */
           }
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">065</span>:               differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">065</span>:               <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>            __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 65, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
             <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_15);
             __pyx_t_15 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">066</span>:           else:</pre>
-<pre class="cython line score-64" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">067</span>:             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">066</span>:           <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-64" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">067</span>:             <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></pre>
 <pre class='cython code score-64 '>        /*else*/ {
           __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -1278,7 +1352,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
           if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, __pyx_t_15) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 67, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_15); __pyx_t_15 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">068</span>:             if equality[i] == False:</pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">068</span>:             <span class="k">if</span> <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span></pre>
 <pre class='cython code score-12 '>          __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyDict_GetItem</span>(__pyx_v_equality, __pyx_v_i);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 68, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
           __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_15, Py_False, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)</span>
@@ -1295,12 +1369,12 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
     }
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   }
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">069</span>:               differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">069</span>:               <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>            __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
             <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_2);
             __pyx_t_2 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">070</span>:     return (differences == 0)</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">070</span>:     <span class="k">return</span> <span class="p">(</span><span class="n">differences</span> <span class="o">==</span> <span class="mf">0</span><span class="p">)</span></pre>
 <pre class='cython code score-3 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyInt_EqObjC</span>(__pyx_v_differences, __pyx_int_0, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
@@ -1309,7 +1383,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct _
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">071</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">072</span>: </pre>
-<pre class="cython line score-39" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">073</span>:   def check_flow_capacity(self, available_flow, canal_loc, flow_dir):</pre>
+<pre class="cython line score-39" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">073</span>:   <span class="k">def</span> <span class="nf">check_flow_capacity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">available_flow</span><span class="p">,</span> <span class="n">canal_loc</span><span class="p">,</span> <span class="n">flow_dir</span><span class="p">):</span></pre>
 <pre class='cython code score-39 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_11check_flow_capacity(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_11check_flow_capacity(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -1411,8 +1485,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10check_flow_capacity(s
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">074</span>:     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal at the current node</pre>
-<pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">075</span>:     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">074</span>:     <span class="c">#this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal at the current node </span></pre>
+<pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">075</span>:     <span class="n">initial_capacity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">capacity</span><span class="p">[</span><span class="n">flow_dir</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span><span class="o">*</span><span class="n">cfs_tafd</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">canal_loc</span><span class="p">]</span></pre>
 <pre class='cython code score-33 '>  if (unlikely(__pyx_v_self-&gt;capacity == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 75, __pyx_L1_error)</span>
@@ -1440,7 +1514,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10check_flow_capacity(s
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_initial_capacity = __pyx_t_2;
   __pyx_t_2 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">076</span>:     if available_flow &gt; initial_capacity:</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">076</span>:     <span class="k">if</span> <span class="n">available_flow</span> <span class="o">&gt;</span> <span class="n">initial_capacity</span><span class="p">:</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_available_flow, __pyx_v_initial_capacity, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)</span>
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_4 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 76, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
@@ -1448,23 +1522,23 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10check_flow_capacity(s
 /* … */
     goto __pyx_L3;
   }
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">077</span>:       excess_flow = available_flow - initial_capacity</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">077</span>:       <span class="n">excess_flow</span> <span class="o">=</span> <span class="n">available_flow</span> <span class="o">-</span> <span class="n">initial_capacity</span></pre>
 <pre class='cython code score-5 '>    __pyx_t_2 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_available_flow, __pyx_v_initial_capacity);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
     __pyx_v_excess_flow = __pyx_t_2;
     __pyx_t_2 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">078</span>:       available_flow = initial_capacity</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">078</span>:       <span class="n">available_flow</span> <span class="o">=</span> <span class="n">initial_capacity</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_initial_capacity);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_available_flow, __pyx_v_initial_capacity);
-</pre><pre class="cython line score-0">&#xA0;<span class="">079</span>:     else:</pre>
-<pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">080</span>:       excess_flow = 0.0</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">079</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">080</span>:       <span class="n">excess_flow</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-1 '>  /*else*/ {
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
     __pyx_v_excess_flow = __pyx_float_0_0;
   }
   __pyx_L3:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">081</span>: </pre>
-<pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">082</span>:     return available_flow, excess_flow</pre>
+<pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">082</span>:     <span class="k">return</span> <span class="n">available_flow</span><span class="p">,</span> <span class="n">excess_flow</span></pre>
 <pre class='cython code score-10 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_2 = <span class='py_c_api'>PyTuple_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -1479,7 +1553,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10check_flow_capacity(s
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">083</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">084</span>: </pre>
-<pre class="cython line score-51" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">085</span>:   def find_priority_fractions(self, node_capacity, type_fractions, type_list, canal_loc, flow_dir):</pre>
+<pre class="cython line score-51" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">085</span>:   <span class="k">def</span> <span class="nf">find_priority_fractions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_capacity</span><span class="p">,</span> <span class="n">type_fractions</span><span class="p">,</span> <span class="n">type_list</span><span class="p">,</span> <span class="n">canal_loc</span><span class="p">,</span> <span class="n">flow_dir</span><span class="p">):</span></pre>
 <pre class='cython code score-51 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_13find_priority_fractions(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_13find_priority_fractions(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -1603,8 +1677,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12find_priority_fractio
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">086</span>:     #this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the total demand at that node</pre>
-<pre class="cython line score-71" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">087</span>:     total_delivery_capacity = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], node_capacity), 0.0)</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">086</span>:     <span class="c">#this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the total demand at that node </span></pre>
+<pre class="cython line score-71" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">087</span>:     <span class="n">total_delivery_capacity</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turnout</span><span class="p">[</span><span class="n">flow_dir</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span><span class="o">*</span><span class="n">cfs_tafd</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">turnout_use</span><span class="p">[</span><span class="n">canal_loc</span><span class="p">],</span> <span class="n">node_capacity</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span></pre>
 <pre class='cython code score-71 '>  __pyx_t_1 = 0.0;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_node_capacity);
   __pyx_t_2 = __pyx_v_node_capacity;
@@ -1669,7 +1743,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12find_priority_fractio
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_total_delivery_capacity = __pyx_t_2;
   __pyx_t_2 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">088</span>:     for zz in type_list:</pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">088</span>:     <span class="k">for</span> <span class="n">zz</span> <span class="ow">in</span> <span class="n">type_list</span><span class="p">:</span></pre>
 <pre class='cython code score-43 '>  if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_type_list)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_type_list)) {
     __pyx_t_2 = __pyx_v_type_list; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_2); __pyx_t_7 = 0;
     __pyx_t_8 = NULL;
@@ -1714,8 +1788,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12find_priority_fractio
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">089</span>:       #find the fraction of each priority type that can be filled, based on canal capacity and downstream demands</pre>
-<pre class="cython line score-28" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">090</span>:       if self.demand[zz][canal_loc]*type_fractions[zz] &gt; total_delivery_capacity:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">089</span>:       <span class="c">#find the fraction of each priority type that can be filled, based on canal capacity and downstream demands</span></pre>
+<pre class="cython line score-28" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">090</span>:       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span><span class="o">*</span><span class="n">type_fractions</span><span class="p">[</span><span class="n">zz</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">total_delivery_capacity</span><span class="p">:</span></pre>
 <pre class='cython code score-28 '>    if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 90, __pyx_L1_error)</span>
@@ -1738,7 +1812,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12find_priority_fractio
     if (__pyx_t_6) {
 /* … */
     }
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">091</span>:         if self.demand[zz][canal_loc] &gt; 0.0:</pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">091</span>:         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span></pre>
 <pre class='cython code score-19 '>      if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 91, __pyx_L1_error)</span>
@@ -1756,7 +1830,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12find_priority_fractio
 /* … */
         goto __pyx_L6;
       }
-</pre><pre class="cython line score-42" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">092</span>:           type_fractions[zz] = min(total_delivery_capacity/self.demand[zz][canal_loc], 1.0)</pre>
+</pre><pre class="cython line score-42" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">092</span>:           <span class="n">type_fractions</span><span class="p">[</span><span class="n">zz</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">total_delivery_capacity</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)</span></pre>
 <pre class='cython code score-42 '>        __pyx_t_1 = 1.0;
         if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -1791,14 +1865,14 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12find_priority_fractio
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
         if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_type_fractions, __pyx_v_zz, __pyx_t_3) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 92, __pyx_L1_error)</span>
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">093</span>:         else:</pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">094</span>:           type_fractions[zz] = 0.0</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">093</span>:         <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">094</span>:           <span class="n">type_fractions</span><span class="p">[</span><span class="n">zz</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-5 '>      /*else*/ {
         if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_type_fractions, __pyx_v_zz, __pyx_float_0_0) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 94, __pyx_L1_error)</span>
       }
       __pyx_L6:;
-</pre><pre class="cython line score-0">&#xA0;<span class="">095</span>:       #update the remaining capacity for remaining priority levels</pre>
-<pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">096</span>:       total_delivery_capacity -= self.demand[zz][canal_loc]*type_fractions[zz]</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">095</span>:       <span class="c">#update the remaining capacity for remaining priority levels</span></pre>
+<pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">096</span>:       <span class="n">total_delivery_capacity</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span><span class="o">*</span><span class="n">type_fractions</span><span class="p">[</span><span class="n">zz</span><span class="p">]</span></pre>
 <pre class='cython code score-26 '>    if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 96, __pyx_L1_error)</span>
@@ -1820,13 +1894,13 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12find_priority_fractio
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_total_delivery_capacity, __pyx_t_3);
     __pyx_t_3 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">097</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">098</span>:     return type_fractions</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">098</span>:     <span class="k">return</span> <span class="n">type_fractions</span></pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_type_fractions);
   __pyx_r = __pyx_v_type_fractions;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">099</span>: </pre>
-<pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">100</span>:   def find_turnout_adjustment(self, demand_constraint, flow_dir, canal_loc, type_list):</pre>
+<pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">100</span>:   <span class="k">def</span> <span class="nf">find_turnout_adjustment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">demand_constraint</span><span class="p">,</span> <span class="n">flow_dir</span><span class="p">,</span> <span class="n">canal_loc</span><span class="p">,</span> <span class="n">type_list</span><span class="p">):</span></pre>
 <pre class='cython code score-46 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_15find_turnout_adjustment(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_15find_turnout_adjustment(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -1941,8 +2015,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">101</span>:     #this function adjusts the total demand (by priority) at a node to reflect both the turnout capacity at that node, and the total demand possible (not by priority) at that node - priority demands are sometimes in excess of the total node demands because sometimes 'excess capacity' is shared between multiple districts - so we develop self.turnout_frac to pro-rate each member's share of that capacity so that individual requests do not exceed total capacity</pre>
-<pre class="cython line score-48" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">102</span>:     max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">101</span>:     <span class="c">#this function adjusts the total demand (by priority) at a node to reflect both the turnout capacity at that node, and the total demand possible (not by priority) at that node - priority demands are sometimes in excess of the total node demands because sometimes &#39;excess capacity&#39; is shared between multiple districts - so we develop self.turnout_frac to pro-rate each member&#39;s share of that capacity so that individual requests do not exceed total capacity</span></pre>
+<pre class="cython line score-48" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">102</span>:     <span class="n">max_turnout</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turnout</span><span class="p">[</span><span class="n">flow_dir</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span><span class="o">*</span><span class="n">cfs_tafd</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">turnout_use</span><span class="p">[</span><span class="n">canal_loc</span><span class="p">],</span> <span class="n">demand_constraint</span><span class="p">)</span></pre>
 <pre class='cython code score-48 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_demand_constraint);
   __pyx_t_1 = __pyx_v_demand_constraint;
   if (unlikely(__pyx_v_self-&gt;turnout == Py_None)) {
@@ -1987,7 +2061,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_max_turnout = __pyx_t_1;
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">103</span>:     for zz in type_list:</pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">103</span>:     <span class="k">for</span> <span class="n">zz</span> <span class="ow">in</span> <span class="n">type_list</span><span class="p">:</span></pre>
 <pre class='cython code score-43 '>  if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_v_type_list)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_v_type_list)) {
     __pyx_t_1 = __pyx_v_type_list; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
@@ -2032,7 +2106,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">104</span>:       if self.demand[zz][canal_loc] &gt; max_turnout:</pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">104</span>:       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_turnout</span><span class="p">:</span></pre>
 <pre class='cython code score-19 '>    if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 104, __pyx_L1_error)</span>
@@ -2050,7 +2124,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
 /* … */
       goto __pyx_L5;
     }
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">105</span>:         if self.demand[zz][canal_loc] &gt; 0.0:</pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">105</span>:         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span></pre>
 <pre class='cython code score-19 '>      if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 105, __pyx_L1_error)</span>
@@ -2068,7 +2142,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
 /* … */
         goto __pyx_L6;
       }
-</pre><pre class="cython line score-50" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">106</span>:           self.turnout_frac[zz][canal_loc] = min(max_turnout/self.demand[zz][canal_loc], 1.0)</pre>
+</pre><pre class="cython line score-50" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">106</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">turnout_frac</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_turnout</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)</span></pre>
 <pre class='cython code score-50 '>        __pyx_t_8 = 1.0;
         if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2110,8 +2184,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
         if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_v_canal_loc, __pyx_t_2) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 106, __pyx_L1_error)</span>
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">107</span>:         else:</pre>
-<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">108</span>:           self.turnout_frac[zz][canal_loc] = 0.0</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">107</span>:         <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">108</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">turnout_frac</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-13 '>      /*else*/ {
         if (unlikely(__pyx_v_self-&gt;turnout_frac == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2123,7 +2197,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
       }
       __pyx_L6:;
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">109</span>:         self.demand[zz][canal_loc] = max_turnout</pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">109</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_turnout</span></pre>
 <pre class='cython code score-13 '>      if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 109, __pyx_L1_error)</span>
@@ -2132,8 +2206,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_2, __pyx_v_canal_loc, __pyx_v_max_turnout) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 109, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">110</span>:       else:</pre>
-<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">111</span>:         self.turnout_frac[zz][canal_loc] = 1.0</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">110</span>:       <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">111</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">turnout_frac</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span></pre>
 <pre class='cython code score-13 '>    /*else*/ {
       if (unlikely(__pyx_v_self-&gt;turnout_frac == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2145,7 +2219,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
     }
     __pyx_L5:;
-</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">112</span>:       max_turnout -= self.demand[zz][canal_loc]</pre>
+</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">112</span>:       <span class="n">max_turnout</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">[</span><span class="n">zz</span><span class="p">][</span><span class="n">canal_loc</span><span class="p">]</span></pre>
 <pre class='cython code score-17 '>    if (unlikely(__pyx_v_self-&gt;demand == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 112, __pyx_L1_error)</span>
@@ -2160,18 +2234,18 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_14find_turnout_adjustme
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_max_turnout, __pyx_t_2);
     __pyx_t_2 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">113</span>:       if max_turnout &lt; 0.0:</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">113</span>:       <span class="k">if</span> <span class="n">max_turnout</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span></pre>
 <pre class='cython code score-8 '>    __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_max_turnout, __pyx_float_0_0, Py_LT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)</span>
     __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 113, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_5) {
 /* … */
     }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">114</span>:         max_turnout = 0.0</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">114</span>:         <span class="n">max_turnout</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-2 '>      <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
       <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_max_turnout, __pyx_float_0_0);
 </pre><pre class="cython line score-0">&#xA0;<span class="">115</span>: </pre>
-<pre class="cython line score-68" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">116</span>:   def update_canal_use(self, available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list):</pre>
+<pre class="cython line score-68" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">116</span>:   <span class="k">def</span> <span class="nf">update_canal_use</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">available_flow</span><span class="p">,</span> <span class="n">location_delivery</span><span class="p">,</span> <span class="n">flow_dir</span><span class="p">,</span> <span class="n">canal_loc</span><span class="p">,</span> <span class="n">starting_point</span><span class="p">,</span> <span class="n">canal_size</span><span class="p">,</span> <span class="n">type_list</span><span class="p">):</span></pre>
 <pre class='cython code score-68 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_17update_canal_use(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_17update_canal_use(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -2325,13 +2399,13 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">117</span>:     #this function checks to see if the next canal node has the capacity to take the remaining flow - if not,</pre>
-<pre class="cython line score-0">&#xA0;<span class="">118</span>: 	#the flow is 'turned back', removing the excess water from the canal.flow vector and reallocating it as 'turnback flows'</pre>
-<pre class="cython line score-0">&#xA0;<span class="">119</span>: 	#these turnback flows will be run through the previous canal nodes again, to see if any of the prior nodes (where canal capacity</pre>
-<pre class="cython line score-0">&#xA0;<span class="">120</span>: 	#is large enough to take the excess flow) have demand for more flow.  This runs until the current node, at which point any remaining</pre>
-<pre class="cython line score-0">&#xA0;<span class="">121</span>: 	#flow is considered not delivered</pre>
-<pre class="cython line score-0">&#xA0;<span class="">122</span>:     #at this node, record the total delivery as 'turnout' and the total flow as 'flow' for this canal object</pre>
-<pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">123</span>:     self.turnout_use[canal_loc] += location_delivery</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">117</span>:     <span class="c">#this function checks to see if the next canal node has the capacity to take the remaining flow - if not,</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">118</span>: 	<span class="c">#the flow is &#39;turned back&#39;, removing the excess water from the canal.flow vector and reallocating it as &#39;turnback flows&#39;</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">119</span>: 	<span class="c">#these turnback flows will be run through the previous canal nodes again, to see if any of the prior nodes (where canal capacity</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">120</span>: 	<span class="c">#is large enough to take the excess flow) have demand for more flow.  This runs until the current node, at which point any remaining</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">121</span>: 	<span class="c">#flow is considered not delivered</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">122</span>:     <span class="c">#at this node, record the total delivery as &#39;turnout&#39; and the total flow as &#39;flow&#39; for this canal object</span></pre>
+<pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">123</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">turnout_use</span><span class="p">[</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">+=</span> <span class="n">location_delivery</span></pre>
 <pre class='cython code score-33 '>  if (unlikely(__pyx_v_self-&gt;turnout_use == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 123, __pyx_L1_error)</span>
@@ -2357,7 +2431,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">124</span>:     self.flow[canal_loc] += available_flow</pre>
+</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">124</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">canal_loc</span><span class="p">]</span> <span class="o">+=</span> <span class="n">available_flow</span></pre>
 <pre class='cython code score-33 '>  if (unlikely(__pyx_v_self-&gt;flow == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 124, __pyx_L1_error)</span>
@@ -2383,34 +2457,34 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">125</span>:     evap_flows = 0.0</pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">125</span>:     <span class="n">evap_flows</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
   __pyx_v_evap_flows = __pyx_float_0_0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">126</span>: 	#remaning available flow after delivery is made at this node</pre>
-<pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">127</span>:     available_flow -= location_delivery</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">126</span>: 	<span class="c">#remaning available flow after delivery is made at this node</span></pre>
+<pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">127</span>:     <span class="n">available_flow</span> <span class="o">-=</span> <span class="n">location_delivery</span></pre>
 <pre class='cython code score-6 '>  __pyx_t_2 = <span class='py_c_api'>PyNumber_InPlaceSubtract</span>(__pyx_v_available_flow, __pyx_v_location_delivery);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 127, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_available_flow, __pyx_t_2);
   __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">128</span>:     #direction of flow determines which node is next</pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">129</span>:     if flow_dir == "normal":</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">128</span>:     <span class="c">#direction of flow determines which node is next</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">129</span>:     <span class="k">if</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;normal&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 129, __pyx_L1_error)</span>
   if (__pyx_t_5) {
 /* … */
   }
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">130</span>:        next_step = 1</pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">130</span>:        <span class="n">next_step</span> <span class="o">=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-1 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_int_1);
     __pyx_v_next_step = __pyx_int_1;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">131</span>:     if flow_dir == "reverse":</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">131</span>:     <span class="k">if</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;reverse&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 131, __pyx_L1_error)</span>
   if (__pyx_t_5) {
 /* … */
   }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">132</span>:       next_step = -1</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">132</span>:       <span class="n">next_step</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_int_neg_1);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_next_step, __pyx_int_neg_1);
-</pre><pre class="cython line score-0">&#xA0;<span class="">133</span>:     #turnback flows are the remaining available flow in excess of the next node's capacity</pre>
-<pre class="cython line score-78" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">134</span>:     turnback_flows = max(available_flow - self.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + self.flow[canal_loc+next_step], 0.0)</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">133</span>:     <span class="c">#turnback flows are the remaining available flow in excess of the next node&#39;s capacity</span></pre>
+<pre class="cython line score-78" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">134</span>:     <span class="n">turnback_flows</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">available_flow</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">capacity</span><span class="p">[</span><span class="n">flow_dir</span><span class="p">][</span><span class="n">canal_loc</span><span class="o">+</span><span class="n">next_step</span><span class="p">]</span><span class="o">*</span><span class="n">cfs_tafd</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">canal_loc</span><span class="o">+</span><span class="n">next_step</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">)</span></pre>
 <pre class='cython code score-78 '>  __pyx_t_6 = 0.0;
   if (unlikely(__pyx_v_self-&gt;capacity == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2469,9 +2543,9 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_turnback_flows = __pyx_t_2;
   __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">135</span>:     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">136</span>: 	#if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)</pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">137</span>:     if turnback_flows &gt; 0.005:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">135</span>:     <span class="c">#if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">136</span>: 	<span class="c">#if the turnback flow can be accepted by other nodes, it will be recorded as &#39;flow&#39; and &#39;turnout_use&#39; then (not this function)</span></pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">137</span>:     <span class="k">if</span> <span class="n">turnback_flows</span> <span class="o">&gt;</span> <span class="mf">0.005</span><span class="p">:</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_turnback_flows, __pyx_float_0_005, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)</span>
   __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 137, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
@@ -2479,23 +2553,23 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
 /* … */
     goto __pyx_L5;
   }
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">138</span>:       available_flow -= turnback_flows</pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">138</span>:       <span class="n">available_flow</span> <span class="o">-=</span> <span class="n">turnback_flows</span></pre>
 <pre class='cython code score-6 '>    __pyx_t_2 = <span class='py_c_api'>PyNumber_InPlaceSubtract</span>(__pyx_v_available_flow, __pyx_v_turnback_flows);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_available_flow, __pyx_t_2);
     __pyx_t_2 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">139</span>:       if flow_dir == "normal":</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">139</span>:       <span class="k">if</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;normal&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>    __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 139, __pyx_L1_error)</span>
     if (__pyx_t_5) {
 /* … */
       goto __pyx_L6;
     }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">140</span>:         turnback_end = canal_loc + 1</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">140</span>:         <span class="n">turnback_end</span> <span class="o">=</span> <span class="n">canal_loc</span> <span class="o">+</span> <span class="mf">1</span></pre>
 <pre class='cython code score-2 '>      __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_canal_loc, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       __pyx_v_turnback_end = __pyx_t_2;
       __pyx_t_2 = 0;
-</pre><pre class="cython line score-57" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">141</span>:         for removal_flow in range(starting_point,canal_loc+1):</pre>
+</pre><pre class="cython line score-57" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">141</span>:         <span class="k">for</span> <span class="n">removal_flow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">starting_point</span><span class="p">,</span><span class="n">canal_loc</span><span class="o">+</span><span class="mf">1</span><span class="p">):</span></pre>
 <pre class='cython code score-57 '>      __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_canal_loc, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       __pyx_t_4 = <span class='py_c_api'>PyTuple_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L1_error)</span>
@@ -2554,7 +2628,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">142</span>:           self.flow[removal_flow] -= turnback_flows</pre>
+</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">142</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">removal_flow</span><span class="p">]</span> <span class="o">-=</span> <span class="n">turnback_flows</span></pre>
 <pre class='cython code score-33 '>        if (unlikely(__pyx_v_self-&gt;flow == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
           <span class='error_goto'>__PYX_ERR(0, 142, __pyx_L1_error)</span>
@@ -2580,13 +2654,13 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">143</span>:       elif flow_dir == "reverse":</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">143</span>:       <span class="k">elif</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;reverse&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>    __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 143, __pyx_L1_error)</span>
     if (__pyx_t_5) {
 /* … */
     }
     __pyx_L6:;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">144</span>:         turnback_end = canal_size - canal_loc - 1</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">144</span>:         <span class="n">turnback_end</span> <span class="o">=</span> <span class="n">canal_size</span> <span class="o">-</span> <span class="n">canal_loc</span> <span class="o">-</span> <span class="mf">1</span></pre>
 <pre class='cython code score-8 '>      __pyx_t_4 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_canal_size, __pyx_v_canal_loc);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
       __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_SubtractObjC</span>(__pyx_t_4, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)</span>
@@ -2594,7 +2668,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_v_turnback_end = __pyx_t_2;
       __pyx_t_2 = 0;
-</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">145</span>:         for removal_flow in range(starting_point,canal_loc-1,-1):</pre>
+</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">145</span>:         <span class="k">for</span> <span class="n">removal_flow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">starting_point</span><span class="p">,</span><span class="n">canal_loc</span><span class="o">-</span><span class="mf">1</span><span class="p">,</span><span class="o">-</span><span class="mf">1</span><span class="p">):</span></pre>
 <pre class='cython code score-59 '>      __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_SubtractObjC</span>(__pyx_v_canal_loc, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       __pyx_t_4 = <span class='py_c_api'>PyTuple_New</span>(3);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)</span>
@@ -2656,7 +2730,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:           self.flow[removal_flow] -= turnback_flows</pre>
+</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">removal_flow</span><span class="p">]</span> <span class="o">-=</span> <span class="n">turnback_flows</span></pre>
 <pre class='cython code score-33 '>        if (unlikely(__pyx_v_self-&gt;flow == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
           <span class='error_goto'>__PYX_ERR(0, 146, __pyx_L1_error)</span>
@@ -2682,26 +2756,26 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">147</span>:     else:</pre>
-<pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">148</span>:       available_flow -= turnback_flows</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">147</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">148</span>:       <span class="n">available_flow</span> <span class="o">-=</span> <span class="n">turnback_flows</span></pre>
 <pre class='cython code score-6 '>  /*else*/ {
     __pyx_t_4 = <span class='py_c_api'>PyNumber_InPlaceSubtract</span>(__pyx_v_available_flow, __pyx_v_turnback_flows);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 148, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_available_flow, __pyx_t_4);
     __pyx_t_4 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">149</span>:       evap_flows += turnback_flows</pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">149</span>:       <span class="n">evap_flows</span> <span class="o">+=</span> <span class="n">turnback_flows</span></pre>
 <pre class='cython code score-6 '>    __pyx_t_4 = <span class='py_c_api'>PyNumber_InPlaceAdd</span>(__pyx_v_evap_flows, __pyx_v_turnback_flows);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_evap_flows, __pyx_t_4);
     __pyx_t_4 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">150</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">151</span>:       if flow_dir == "normal":</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">151</span>:       <span class="k">if</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;normal&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>    __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 151, __pyx_L1_error)</span>
     if (__pyx_t_5) {
 /* … */
       goto __pyx_L11;
     }
-</pre><pre class="cython line score-57" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">152</span>:         for removal_flow in range(starting_point, canal_loc + 1):</pre>
+</pre><pre class="cython line score-57" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">152</span>:         <span class="k">for</span> <span class="n">removal_flow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">starting_point</span><span class="p">,</span> <span class="n">canal_loc</span> <span class="o">+</span> <span class="mf">1</span><span class="p">):</span></pre>
 <pre class='cython code score-57 '>      __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_canal_loc, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 152, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
       __pyx_t_2 = <span class='py_c_api'>PyTuple_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)</span>
@@ -2760,7 +2834,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">153</span>:           self.flow[removal_flow] -= turnback_flows</pre>
+</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">153</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">removal_flow</span><span class="p">]</span> <span class="o">-=</span> <span class="n">turnback_flows</span></pre>
 <pre class='cython code score-33 '>        if (unlikely(__pyx_v_self-&gt;flow == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
           <span class='error_goto'>__PYX_ERR(0, 153, __pyx_L1_error)</span>
@@ -2786,13 +2860,13 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">154</span>:       elif flow_dir == "reverse":</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">154</span>:       <span class="k">elif</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;reverse&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>    __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 154, __pyx_L1_error)</span>
     if (__pyx_t_5) {
 /* … */
     }
     __pyx_L11:;
-</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">155</span>:         for removal_flow in range(starting_point, canal_loc-1, -1):</pre>
+</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">155</span>:         <span class="k">for</span> <span class="n">removal_flow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">starting_point</span><span class="p">,</span> <span class="n">canal_loc</span><span class="o">-</span><span class="mf">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1</span><span class="p">):</span></pre>
 <pre class='cython code score-59 '>      __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_SubtractObjC</span>(__pyx_v_canal_loc, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       __pyx_t_4 = <span class='py_c_api'>PyTuple_New</span>(3);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)</span>
@@ -2854,7 +2928,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
 /* … */
       }
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">156</span>:           self.flow[removal_flow] -= turnback_flows</pre>
+</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">156</span>:           <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">removal_flow</span><span class="p">]</span> <span class="o">-=</span> <span class="n">turnback_flows</span></pre>
 <pre class='cython code score-33 '>        if (unlikely(__pyx_v_self-&gt;flow == Py_None)) {
           <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
           <span class='error_goto'>__PYX_ERR(0, 156, __pyx_L1_error)</span>
@@ -2881,31 +2955,31 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">157</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">158</span>:       turnback_flows = 0.0</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">158</span>:       <span class="n">turnback_flows</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_float_0_0);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_turnback_flows, __pyx_float_0_0);
   }
   __pyx_L5:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">159</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">160</span>:       #find the 'stopping point' for turnback flow deliveries (i.e., the last node)</pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">161</span>:     if flow_dir == "normal":</pre>
+<pre class="cython line score-0">&#xA0;<span class="">160</span>:       <span class="c">#find the &#39;stopping point&#39; for turnback flow deliveries (i.e., the last node)</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">161</span>:     <span class="k">if</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;normal&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 161, __pyx_L1_error)</span>
   if (__pyx_t_5) {
 /* … */
     goto __pyx_L16;
   }
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">162</span>:       turnback_end = canal_loc + 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">162</span>:       <span class="n">turnback_end</span> <span class="o">=</span> <span class="n">canal_loc</span> <span class="o">+</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_canal_loc, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_turnback_end, __pyx_t_4);
     __pyx_t_4 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">163</span>:     elif flow_dir == "reverse":</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">163</span>:     <span class="k">elif</span> <span class="n">flow_dir</span> <span class="o">==</span> <span class="s">&quot;reverse&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_5 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_5 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 163, __pyx_L1_error)</span>
   if (__pyx_t_5) {
 /* … */
   }
   __pyx_L16:;
-</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">164</span>:       turnback_end = canal_size - canal_loc - 1</pre>
+</pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">164</span>:       <span class="n">turnback_end</span> <span class="o">=</span> <span class="n">canal_size</span> <span class="o">-</span> <span class="n">canal_loc</span> <span class="o">-</span> <span class="mf">1</span></pre>
 <pre class='cython code score-9 '>    __pyx_t_4 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_canal_size, __pyx_v_canal_loc);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 164, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_SubtractObjC</span>(__pyx_t_4, __pyx_int_1, 1, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)</span>
@@ -2914,7 +2988,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_turnback_end, __pyx_t_2);
     __pyx_t_2 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">165</span>: </pre>
-<pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">166</span>:     return available_flow, turnback_flows, turnback_end, evap_flows</pre>
+<pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">166</span>:     <span class="k">return</span> <span class="n">available_flow</span><span class="p">,</span> <span class="n">turnback_flows</span><span class="p">,</span> <span class="n">turnback_end</span><span class="p">,</span> <span class="n">evap_flows</span></pre>
 <pre class='cython code score-16 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   if (unlikely(!__pyx_v_turnback_end)) { <span class='pyx_c_api'>__Pyx_RaiseUnboundLocalError</span>("turnback_end"); <span class='error_goto'>__PYX_ERR(0, 166, __pyx_L1_error)</span> }
   __pyx_t_2 = <span class='py_c_api'>PyTuple_New</span>(4);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 166, __pyx_L1_error)</span>
@@ -2935,7 +3009,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_16update_canal_use(stru
   __pyx_t_2 = 0;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">167</span>: </pre>
-<pre class="cython line score-58" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">168</span>:   def find_bi_directional(self, closed, direction_true, direction_false, flow_type, new_canal, adjust_flow_types, locked):</pre>
+<pre class="cython line score-58" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">168</span>:   <span class="k">def</span> <span class="nf">find_bi_directional</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">closed</span><span class="p">,</span> <span class="n">direction_true</span><span class="p">,</span> <span class="n">direction_false</span><span class="p">,</span> <span class="n">flow_type</span><span class="p">,</span> <span class="n">new_canal</span><span class="p">,</span> <span class="n">adjust_flow_types</span><span class="p">,</span> <span class="n">locked</span><span class="p">):</span></pre>
 <pre class='cython code score-58 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_19find_bi_directional(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_19find_bi_directional(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -3075,8 +3149,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">169</span>:     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)</pre>
-<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">170</span>:     if closed &gt; 0.0 and locked == 0:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">169</span>:     <span class="c">#this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can&#39;t &#39;change&#39; the direction of flow after deliveries have already been made)</span></pre>
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">170</span>:     <span class="k">if</span> <span class="n">closed</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">locked</span> <span class="o">==</span> <span class="mf">0</span><span class="p">:</span></pre>
 <pre class='cython code score-13 '>  __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_closed, __pyx_float_0_0, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)</span>
   __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_3 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 170, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
@@ -3095,7 +3169,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
 /* … */
     goto __pyx_L3;
   }
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">171</span>:       if adjust_flow_types == 1:</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">171</span>:       <span class="k">if</span> <span class="n">adjust_flow_types</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span></pre>
 <pre class='cython code score-5 '>    __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_EqObjC</span>(__pyx_v_adjust_flow_types, __pyx_int_1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
     __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_1 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 171, __pyx_L1_error)</span>
@@ -3104,7 +3178,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
 /* … */
       goto __pyx_L6;
     }
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">172</span>:         self.flow_directions['recharge'][new_canal] = direction_true</pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">172</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">flow_directions</span><span class="p">[</span><span class="s">&#39;recharge&#39;</span><span class="p">][</span><span class="n">new_canal</span><span class="p">]</span> <span class="o">=</span> <span class="n">direction_true</span></pre>
 <pre class='cython code score-13 '>      if (unlikely(__pyx_v_self-&gt;flow_directions == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 172, __pyx_L1_error)</span>
@@ -3113,7 +3187,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_2, __pyx_v_new_canal, __pyx_v_direction_true) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 172, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">173</span>:         self.flow_directions['recovery'][new_canal] = direction_true</pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">173</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">flow_directions</span><span class="p">[</span><span class="s">&#39;recovery&#39;</span><span class="p">][</span><span class="n">new_canal</span><span class="p">]</span> <span class="o">=</span> <span class="n">direction_true</span></pre>
 <pre class='cython code score-13 '>      if (unlikely(__pyx_v_self-&gt;flow_directions == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 173, __pyx_L1_error)</span>
@@ -3122,8 +3196,8 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_2, __pyx_v_new_canal, __pyx_v_direction_true) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 173, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">174</span>:       else:</pre>
-<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">175</span>:         self.flow_directions[flow_type][new_canal] = direction_true</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">174</span>:       <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">175</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">flow_directions</span><span class="p">[</span><span class="n">flow_type</span><span class="p">][</span><span class="n">new_canal</span><span class="p">]</span> <span class="o">=</span> <span class="n">direction_true</span></pre>
 <pre class='cython code score-13 '>    /*else*/ {
       if (unlikely(__pyx_v_self-&gt;flow_directions == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3136,7 +3210,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
     }
     __pyx_L6:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">176</span>: </pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">177</span>:     elif locked == 0:</pre>
+<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">177</span>:     <span class="k">elif</span> <span class="n">locked</span> <span class="o">==</span> <span class="mf">0</span><span class="p">:</span></pre>
 <pre class='cython code score-5 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyInt_EqObjC</span>(__pyx_v_locked, __pyx_int_0, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_1 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 177, __pyx_L1_error)</span>
@@ -3145,7 +3219,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
 /* … */
   }
   __pyx_L3:;
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">178</span>:       self.flow_directions[flow_type][new_canal] = direction_false</pre>
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">178</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">flow_directions</span><span class="p">[</span><span class="n">flow_type</span><span class="p">][</span><span class="n">new_canal</span><span class="p">]</span> <span class="o">=</span> <span class="n">direction_false</span></pre>
 <pre class='cython code score-13 '>    if (unlikely(__pyx_v_self-&gt;flow_directions == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 178, __pyx_L1_error)</span>
@@ -3155,7 +3229,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_18find_bi_directional(s
     if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_2, __pyx_v_new_canal, __pyx_v_direction_false) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 178, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">179</span>: </pre>
-<pre class="cython line score-35" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">180</span>:   def accounting(self, t, name, counter):</pre>
+<pre class="cython line score-35" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">180</span>:   <span class="k">def</span> <span class="nf">accounting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">counter</span><span class="p">):</span></pre>
 <pre class='cython code score-35 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_21accounting(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_21accounting(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -3252,7 +3326,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_20accounting(struct __p
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">181</span>:     self.daily_turnout[name][t] = self.turnout_use[counter]</pre>
+</pre><pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">181</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_turnout</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">turnout_use</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span></pre>
 <pre class='cython code score-21 '>  if (unlikely(__pyx_v_self-&gt;turnout_use == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 181, __pyx_L1_error)</span>
@@ -3268,7 +3342,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_20accounting(struct __p
   if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_2, __pyx_v_t, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 181, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">182</span>:     self.daily_flow[name][t] = self.flow[counter]</pre>
+</pre><pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">182</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_flow</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span></pre>
 <pre class='cython code score-21 '>  if (unlikely(__pyx_v_self-&gt;flow == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 182, __pyx_L1_error)</span>
@@ -3285,7 +3359,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_20accounting(struct __p
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">183</span>: </pre>
-<pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">184</span>:   def accounting_as_df(self, index):</pre>
+<pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">184</span>:   <span class="k">def</span> <span class="nf">accounting_as_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span></pre>
 <pre class='cython code score-9 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_23accounting_as_df(PyObject *__pyx_v_self, PyObject *__pyx_v_index); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_23accounting_as_df(PyObject *__pyx_v_self, PyObject *__pyx_v_index) {
@@ -3325,7 +3399,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_22accounting_as_df(stru
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">185</span>:     df = pd.DataFrame()</pre>
+</pre><pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">185</span>:     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></pre>
 <pre class='cython code score-21 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_2, __pyx_n_s_pd);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 185, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_2, __pyx_n_s_DataFrame);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)</span>
@@ -3348,7 +3422,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_22accounting_as_df(stru
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_df = __pyx_t_1;
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">186</span>:     for n in self.daily_flow:</pre>
+</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">186</span>:     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">daily_flow</span><span class="p">:</span></pre>
 <pre class='cython code score-7 '>  __pyx_t_4 = 0;
   if (unlikely(__pyx_v_self-&gt;daily_flow == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not iterable");
@@ -3366,7 +3440,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_22accounting_as_df(stru
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_n, __pyx_t_3);
     __pyx_t_3 = 0;
-</pre><pre class="cython line score-73" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">187</span>:       df['%s_%s_flow' % (self.key,n)] = pd.Series(self.daily_flow[n], index = index)</pre>
+</pre><pre class="cython line score-73" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">187</span>:       <span class="n">df</span><span class="p">[</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">_flow&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span><span class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">daily_flow</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">)</span></pre>
 <pre class='cython code score-73 '>    <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_pd);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_3, __pyx_n_s_Series);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 187, __pyx_L1_error)</span>
@@ -3425,7 +3499,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_22accounting_as_df(stru
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">188</span>:     for n in self.daily_turnout:</pre>
+</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">188</span>:     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">daily_turnout</span><span class="p">:</span></pre>
 <pre class='cython code score-7 '>  __pyx_t_5 = 0;
   if (unlikely(__pyx_v_self-&gt;daily_turnout == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not iterable");
@@ -3443,7 +3517,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_22accounting_as_df(stru
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_n, __pyx_t_9);
     __pyx_t_9 = 0;
-</pre><pre class="cython line score-73" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">189</span>:       df['%s_%s_turnout' % (self.key, n)] = pd.Series(self.daily_turnout[n], index=index)</pre>
+</pre><pre class="cython line score-73" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">189</span>:       <span class="n">df</span><span class="p">[</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">_turnout&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">daily_turnout</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span></pre>
 <pre class='cython code score-73 '>    <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_9, __pyx_n_s_pd);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 189, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
     __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_9, __pyx_n_s_Series);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 189, __pyx_L1_error)</span>
@@ -3502,7 +3576,7 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_22accounting_as_df(stru
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">190</span>:     return df</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">190</span>:     <span class="k">return</span> <span class="n">df</span></pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_df);
   __pyx_r = __pyx_v_df;
@@ -3511,70 +3585,70 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_22accounting_as_df(stru
 <pre class="cython line score-0">&#xA0;<span class="">192</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">193</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">194</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">195</span>: ###########################################################################################################</pre>
-<pre class="cython line score-0">&#xA0;<span class="">196</span>: ########################GRAVEYARD##########################################################################</pre>
-<pre class="cython line score-0">&#xA0;<span class="">197</span>: ###########################################################################################################</pre>
-<pre class="cython line score-0">&#xA0;<span class="">198</span>:   #</pre>
-<pre class="cython line score-0">&#xA0;<span class="">199</span>:   # def capacity_adjust_demand(self, starting_point, canal_range, flow_dir, type_list):</pre>
-<pre class="cython line score-0">&#xA0;<span class="">200</span>:   #   #variable dictionaries have a key for each demand 'priority type'</pre>
-<pre class="cython line score-0">&#xA0;<span class="">201</span>:   #   type_demands = {}#new value at every canal location - total demand of all 'downstream' nodes</pre>
-<pre class="cython line score-0">&#xA0;<span class="">202</span>:   #   type_fractions = {}#new value at every canal location - ratio between canal cap @ location &amp; tot 'downstream' demand</pre>
-<pre class="cython line score-0">&#xA0;<span class="">203</span>:   #   type_deliveries = {}#running tally - how much can be delivered in total on the canal for each priority demand type</pre>
-<pre class="cython line score-0">&#xA0;<span class="">204</span>:   #   type_unmet = {}#running tally - how much demand couldn't be met b/c of capacity constraints</pre>
-<pre class="cython line score-0">&#xA0;<span class="">205</span>: 	#</pre>
-<pre class="cython line score-0">&#xA0;<span class="">206</span>:   #   #initialize canal capacity</pre>
-<pre class="cython line score-0">&#xA0;<span class="">207</span>:   #   available_capacity = canal.capacity[flow_dir][starting_point]*cfs_tafd - canal.flow[starting_point]</pre>
-<pre class="cython line score-0">&#xA0;<span class="">208</span>:   #   #start w/ zero for the 'running tally' variable dictionaries</pre>
-<pre class="cython line score-0">&#xA0;<span class="">209</span>:   #   for zz in type_list:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">210</span>:   #     type_deliveries[zz] = 0.0</pre>
-<pre class="cython line score-0">&#xA0;<span class="">211</span>:   #     type_unmet[zz] = 0.0</pre>
-<pre class="cython line score-0">&#xA0;<span class="">212</span>:   #   #loop through all locations within the canal range</pre>
-<pre class="cython line score-0">&#xA0;<span class="">213</span>:   #   for canal_loc in canal_range:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">214</span>:   #     #remaining range is all the canal nodes 'downstream' of current node</pre>
-<pre class="cython line score-0">&#xA0;<span class="">215</span>:   #     if flow_dir == "normal":</pre>
-<pre class="cython line score-0">&#xA0;<span class="">216</span>:   #       remaining_range = range(canal_loc, canal_size)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">217</span>:   #     elif flow_dir == "reverse":</pre>
-<pre class="cython line score-0">&#xA0;<span class="">218</span>:   #       remaining_range = range(canal_loc, 0, -1)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">219</span>:   #     #re-initialize demands at each canal node</pre>
-<pre class="cython line score-0">&#xA0;<span class="">220</span>:   #     for zz in type_list:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">221</span>:   #       type_demands[zz] = 0.0</pre>
-<pre class="cython line score-0">&#xA0;<span class="">222</span>:   #     #sum of all demands 'downstream' of current canal node</pre>
-<pre class="cython line score-0">&#xA0;<span class="">223</span>:   #     for sum_point in remaining_range:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">224</span>:   #       type_demands[zz] += canal.demand[zz][sum_point]</pre>
-<pre class="cython line score-0">&#xA0;<span class="">225</span>:   #     #find the fraction of the total downstream demand that can be filled</pre>
-<pre class="cython line score-0">&#xA0;<span class="">226</span>: 	#   #based on the capacity at the current point</pre>
-<pre class="cython line score-0">&#xA0;<span class="">227</span>:   #     available_capacity_int = available_capacity</pre>
-<pre class="cython line score-0">&#xA0;<span class="">228</span>:   #     for zz in type_list:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">229</span>:   #       if type_demands[zz] &gt; 0.0:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">230</span>:   #         type_fractions[zz] = min(available_capacity_int/type_demands[zz], 1.0)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">231</span>:   #       else:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">232</span>:   #         type_fractions[zz] = 0.0</pre>
-<pre class="cython line score-0">&#xA0;<span class="">233</span>:   #       #the fraction is applied to demands at this canal step, and added to the running total</pre>
-<pre class="cython line score-0">&#xA0;<span class="">234</span>:   #       type_deliveries[zz] += canal.demand[zz][canal_loc]*type_fractions[zz]</pre>
-<pre class="cython line score-0">&#xA0;<span class="">235</span>:   #       #available capacity is now whatever the capacity at this node was, minus what was delivered</pre>
-<pre class="cython line score-0">&#xA0;<span class="">236</span>:   #       available_capacity -= canal.demand[zz][canal_loc]*type_fractions[zz]</pre>
-<pre class="cython line score-0">&#xA0;<span class="">237</span>:   #       #unmet demands are also added to the running total</pre>
-<pre class="cython line score-0">&#xA0;<span class="">238</span>:   #       type_unmet[zz] += canal.demand[zz][canal_loc]*(1-type_fractions[zz])</pre>
-<pre class="cython line score-0">&#xA0;<span class="">239</span>:   #       #the intermediate available capacity measures how much flow is left for the remaining priority levels if all</pre>
-<pre class="cython line score-0">&#xA0;<span class="">240</span>: 	# 	#demands of the current priority are met w/at the fraction specified</pre>
-<pre class="cython line score-0">&#xA0;<span class="">241</span>:   #       available_capacity_int -= type_demands[zz]*type_fractions[zz]</pre>
-<pre class="cython line score-0">&#xA0;<span class="">242</span>:   #     if flow_dir == "normal":</pre>
-<pre class="cython line score-0">&#xA0;<span class="">243</span>:   #       next_step = 1</pre>
-<pre class="cython line score-0">&#xA0;<span class="">244</span>:   #     elif flow_dir == "reverse":</pre>
-<pre class="cython line score-0">&#xA0;<span class="">245</span>:   #       next_step = -1</pre>
-<pre class="cython line score-0">&#xA0;<span class="">246</span>:   #     #check to see if the canal capacity at the next node is less the the available capacity at this node (minus the expected diversions)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">247</span>:   #     turnback_flows = max(available_capacity - canal.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + canal.flow[canal_loc + next_step], 0.0)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">248</span>:   #     available_capacity -= turnback_flows</pre>
-<pre class="cython line score-0">&#xA0;<span class="">249</span>:   #     #if the next step is a 'choke' point, then whatever flow can't make it past that point is redistributed 'upstream'</pre>
-<pre class="cython line score-0">&#xA0;<span class="">250</span>:   #     for zz in type_list:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">251</span>:   #       extra_flow = min(type_unmet[zz], turnback_flows)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">252</span>:   #       type_deliveries[zz] += extra_flow</pre>
-<pre class="cython line score-0">&#xA0;<span class="">253</span>:   #       type_unmet[zz] -= extra_flow</pre>
-<pre class="cython line score-0">&#xA0;<span class="">254</span>: 	#</pre>
-<pre class="cython line score-0">&#xA0;<span class="">255</span>:   #   return type_deliveries</pre>
-<pre class="cython line score-0">&#xA0;<span class="">256</span>:   #</pre>
-<pre class="cython line score-0">&#xA0;<span class="">257</span>: 	#</pre>
-<pre class="cython line score-0">&#xA0;<span class="">258</span>:   # def update_canal_demands(self, priorities, type_fractions, type_list, canal_loc):</pre>
-<pre class="cython line score-0">&#xA0;<span class="">259</span>:   #   for zz in type_list:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">260</span>:   #     self.demand[zz][canal_loc] -= priorities[zz]*type_fractions[zz]</pre>
+<pre class="cython line score-0">&#xA0;<span class="">195</span>: <span class="c">###########################################################################################################</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">196</span>: <span class="c">########################GRAVEYARD##########################################################################</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">197</span>: <span class="c">###########################################################################################################</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">198</span>:   <span class="c">#</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">199</span>:   <span class="c"># def capacity_adjust_demand(self, starting_point, canal_range, flow_dir, type_list):</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">200</span>:   <span class="c">#   #variable dictionaries have a key for each demand &#39;priority type&#39;</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">201</span>:   <span class="c">#   type_demands = {}#new value at every canal location - total demand of all &#39;downstream&#39; nodes</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">202</span>:   <span class="c">#   type_fractions = {}#new value at every canal location - ratio between canal cap @ location &amp; tot &#39;downstream&#39; demand</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">203</span>:   <span class="c">#   type_deliveries = {}#running tally - how much can be delivered in total on the canal for each priority demand type</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">204</span>:   <span class="c">#   type_unmet = {}#running tally - how much demand couldn&#39;t be met b/c of capacity constraints</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">205</span>: 	<span class="c">#</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">206</span>:   <span class="c">#   #initialize canal capacity</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">207</span>:   <span class="c">#   available_capacity = canal.capacity[flow_dir][starting_point]*cfs_tafd - canal.flow[starting_point]</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">208</span>:   <span class="c">#   #start w/ zero for the &#39;running tally&#39; variable dictionaries</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">209</span>:   <span class="c">#   for zz in type_list:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">210</span>:   <span class="c">#     type_deliveries[zz] = 0.0</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">211</span>:   <span class="c">#     type_unmet[zz] = 0.0</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">212</span>:   <span class="c">#   #loop through all locations within the canal range</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">213</span>:   <span class="c">#   for canal_loc in canal_range:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">214</span>:   <span class="c">#     #remaining range is all the canal nodes &#39;downstream&#39; of current node</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">215</span>:   <span class="c">#     if flow_dir == &quot;normal&quot;:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">216</span>:   <span class="c">#       remaining_range = range(canal_loc, canal_size)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">217</span>:   <span class="c">#     elif flow_dir == &quot;reverse&quot;:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">218</span>:   <span class="c">#       remaining_range = range(canal_loc, 0, -1)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">219</span>:   <span class="c">#     #re-initialize demands at each canal node</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">220</span>:   <span class="c">#     for zz in type_list:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">221</span>:   <span class="c">#       type_demands[zz] = 0.0</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">222</span>:   <span class="c">#     #sum of all demands &#39;downstream&#39; of current canal node</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">223</span>:   <span class="c">#     for sum_point in remaining_range:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">224</span>:   <span class="c">#       type_demands[zz] += canal.demand[zz][sum_point]</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">225</span>:   <span class="c">#     #find the fraction of the total downstream demand that can be filled</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">226</span>: 	<span class="c">#   #based on the capacity at the current point</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">227</span>:   <span class="c">#     available_capacity_int = available_capacity</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">228</span>:   <span class="c">#     for zz in type_list:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">229</span>:   <span class="c">#       if type_demands[zz] &gt; 0.0:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">230</span>:   <span class="c">#         type_fractions[zz] = min(available_capacity_int/type_demands[zz], 1.0)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">231</span>:   <span class="c">#       else:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">232</span>:   <span class="c">#         type_fractions[zz] = 0.0</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">233</span>:   <span class="c">#       #the fraction is applied to demands at this canal step, and added to the running total</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">234</span>:   <span class="c">#       type_deliveries[zz] += canal.demand[zz][canal_loc]*type_fractions[zz]</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">235</span>:   <span class="c">#       #available capacity is now whatever the capacity at this node was, minus what was delivered</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">236</span>:   <span class="c">#       available_capacity -= canal.demand[zz][canal_loc]*type_fractions[zz]</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">237</span>:   <span class="c">#       #unmet demands are also added to the running total</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">238</span>:   <span class="c">#       type_unmet[zz] += canal.demand[zz][canal_loc]*(1-type_fractions[zz])</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">239</span>:   <span class="c">#       #the intermediate available capacity measures how much flow is left for the remaining priority levels if all</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">240</span>: 	<span class="c"># 	#demands of the current priority are met w/at the fraction specified</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">241</span>:   <span class="c">#       available_capacity_int -= type_demands[zz]*type_fractions[zz]</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">242</span>:   <span class="c">#     if flow_dir == &quot;normal&quot;:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">243</span>:   <span class="c">#       next_step = 1</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">244</span>:   <span class="c">#     elif flow_dir == &quot;reverse&quot;:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">245</span>:   <span class="c">#       next_step = -1</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">246</span>:   <span class="c">#     #check to see if the canal capacity at the next node is less the the available capacity at this node (minus the expected diversions)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">247</span>:   <span class="c">#     turnback_flows = max(available_capacity - canal.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + canal.flow[canal_loc + next_step], 0.0)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">248</span>:   <span class="c">#     available_capacity -= turnback_flows</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">249</span>:   <span class="c">#     #if the next step is a &#39;choke&#39; point, then whatever flow can&#39;t make it past that point is redistributed &#39;upstream&#39;</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">250</span>:   <span class="c">#     for zz in type_list:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">251</span>:   <span class="c">#       extra_flow = min(type_unmet[zz], turnback_flows)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">252</span>:   <span class="c">#       type_deliveries[zz] += extra_flow</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">253</span>:   <span class="c">#       type_unmet[zz] -= extra_flow</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">254</span>: 	<span class="c">#</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">255</span>:   <span class="c">#   return type_deliveries</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">256</span>:   <span class="c">#</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">257</span>: 	<span class="c">#</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">258</span>:   <span class="c"># def update_canal_demands(self, priorities, type_fractions, type_list, canal_loc):</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">259</span>:   <span class="c">#   for zz in type_list:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">260</span>:   <span class="c">#     self.demand[zz][canal_loc] -= priorities[zz]*type_fractions[zz]</span></pre>
 </div></body></html>

@@ -3,7 +3,6 @@
 ##################################################################################
 #
 # Combined Tulare Basin / SF Delta Model
-# Still in development - not ready for publication
 #
 # This model is designed to simulate surface water flows throughout the CA Central Valley, including:
 # (a) Major SWP/CVP Storage in the Sacramento River Basin
@@ -21,6 +20,8 @@ import matplotlib.pyplot as plt
 import os
 import shutil
 import sys
+import gc
+from time import sleep
 from configobj import ConfigObj
 import json
 from distutils.util import strtobool
@@ -356,8 +357,9 @@ cdef class main_cy():
         modelso.max_tax_free = {}
         modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
         modelso.forecastSRI = modelno.delta.forecastSRI
+        gc.collect()
         modelso.southern_initialization_routine(startTime)
-
+        gc.collect()
         ######################################################################################
         ###Model Simulation
         ######################################################################################
@@ -387,18 +389,26 @@ cdef class main_cy():
           
           swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.forecastSCWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
 
+        print('end simulation, starting data output')
+        sys.stdout.flush()
+        sensitivity_factors = {}
+        gc.collect()
+        data_output(output_list, results_folder, clean_output, flow_input_source, sensitivity_factors, modelno, modelso)
+            
+            
         if (save_full):
           try:
+            gc.collect()
             pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
+            del modelno
+            gc.collect()
             pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
+            del modelso
+            gc.collect()
           except Exception as e:
             print(e)
-            
-        sensitivity_factors = {}
-        data_output(output_list, results_folder, clean_output, flow_input_source, sensitivity_factors, modelno, modelso)
 
-        del modelno
-        del modelso
+
         print('Sample ' + str(k) + ' completed in ', datetime.now() - startTime)
 
         sys.stdout.flush()

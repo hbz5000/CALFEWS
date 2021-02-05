@@ -17,11 +17,13 @@ output_file_val = output_folder_val + 'results_CDEC.hdf5'
 output_file_sim = output_folder_sim + 'results_CDEC.hdf5'
 
 ##get model variable names
-modelno_val = pd.read_pickle(output_folder_val+ 'modelno0.pkl')
-modelno_sim = pd.read_pickle(output_folder_sim + 'modelno0.pkl')
+# modelno_val = pd.read_pickle(output_folder_val+ 'modelno0.pkl')
+# modelno_sim = pd.read_pickle(output_folder_sim + 'modelno0.pkl')
 
-modelso_val = pd.read_pickle(output_folder_val + 'modelso0.pkl')
-modelso_sim = pd.read_pickle(output_folder_sim + 'modelso0.pkl')
+# modelso_val = pd.read_pickle(output_folder_val + 'modelso0.pkl')
+# modelso_sim = pd.read_pickle(output_folder_sim + 'modelso0.pkl')
+results_dict_val = pd.read_pickle(output_folder_val + 'results_dict.pkl')
+results_dict_sim = pd.read_pickle(output_folder_sim + 'results_dict.pkl')
 
 ##Folder to write visualization files
 fig_folder = 'results/baseline_wy2017/figures/'
@@ -30,11 +32,13 @@ os.makedirs(fig_folder, exist_ok=True)
 os.makedirs(sankeys_folder, exist_ok=True)
 
 ##Set up data for validation results
-validation = Visualizer(modelso_val.district_list, modelso_val.private_list, modelso_val.city_list, modelso_val.contract_list, modelso_val.waterbank_list, modelso_val.leiu_list)
+validation = Visualizer(results_dict_val['district_list'], results_dict_val['private_list'], results_dict_val['city_list'], \
+                        results_dict_val['contract_list'], results_dict_val['waterbank_list'], results_dict_val['leiu_list'])
 validation.get_results_sensitivity_number(output_file_val, 'CDEC', 10, 1996, 1)
 validation.set_figure_params()
 #Set up data for scenario results
-simulation = Visualizer(modelso_sim.district_list, modelso_sim.private_list, modelso_sim.city_list, modelso_sim.contract_list, modelso_sim.waterbank_list, modelso_sim.leiu_list)
+simulation = Visualizer(results_dict_sim['district_list'], results_dict_sim['private_list'], results_dict_sim['city_list'], \
+                        results_dict_sim['contract_list'], results_dict_sim['waterbank_list'], results_dict_sim['leiu_list'])
 simulation.get_results_sensitivity_number(output_file_sim, 'CDEC', 10, 1905, 1)
 simulation.set_figure_params()
 

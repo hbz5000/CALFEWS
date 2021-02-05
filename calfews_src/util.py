@@ -1,8 +1,11 @@
 import calendar
 import numpy as np
+import pandas as pd
 import h5py
 import json
 from itertools import compress
+import gc
+from time import sleep
 
 cfs_tafd = 2.29568411*10**-5 * 86400 / 1000
 tafd_cfs = 1000 / 86400 * 43560
@@ -91,148 +94,293 @@ def data_output(output_list_loc, results_folder, clean_output, rank, sensitivity
   nt = len(modelno.shasta.baseline_inf)
   with open(output_list_loc, 'r') as f:
     output_list = json.load(f)
-  dat = np.zeros([nt, 10000])
-  names = []
-  col = 0
-  # get all data columns listed as True in output_list file
-  for r in output_list['north']['reservoirs'].keys():
-    for o in output_list['north']['reservoirs'][r].keys():
-      if output_list['north']['reservoirs'][r][o]:
-        dat[:, col] = modelno.__getattribute__(r).__getattribute__(o)
-        names.append(np.string_(r + '_' + o))
-        col += 1
-  for r in output_list['south']['reservoirs'].keys():
-    for o in output_list['south']['reservoirs'][r].keys():
-      if output_list['south']['reservoirs'][r][o]:
-        dat[:, col] = modelso.__getattribute__(r).__getattribute__(o)
-        names.append(np.string_(r + '_' + o))
-        col += 1
-  for o in output_list['north']['delta'].keys():
-    if output_list['north']['delta'][o]:
-      dat[:, col] = modelno.delta.__getattribute__(o)
-      names.append(np.string_('delta_' + o))
-      col += 1
-  for c in output_list['south']['contracts'].keys():
-    for o in output_list['south']['contracts'][c].keys():
-      if o == 'daily_supplies':
-        for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
-          if output_list['south']['contracts'][c]['daily_supplies'][t]:
-            dat[:,col] = modelso.__getattribute__(c).daily_supplies[t]
-            names.append(np.string_(c + '_' + t))
-            col += 1
-      elif output_list['south']['contracts'][c][o]:
-        dat[:, col] = modelso.__getattribute__(c).__getattribute__(o)
-        names.append(np.string_(c + '_' + o))
-        col += 1
-  for d in output_list['south']['districts'].keys():
-    for o in output_list['south']['districts'][d].keys():
-      dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
-      names.append(np.string_(d + '_' + o))
-      col += 1
-  for p in output_list['south']['private'].keys():
-    for o in output_list['south']['private'][p].keys():
-      dat[:, col] = modelso.__getattribute__(p).daily_supplies_full[o]
-      names.append(np.string_(p + '_' + o))
-      col += 1
 
-  for b in output_list['south']['waterbanks'].keys():
-    for o in output_list['south']['waterbanks'][b].keys():
-      dat[:, col] = modelso.__getattribute__(b).bank_timeseries[o]
-      names.append(np.string_(b + '_' + o ))
-      col += 1
-  # now only keep columns that are non-zero over course of simulation
-  dat = dat[:, :col]
-  if (clean_output):
-    datsum = dat.sum(axis=0)
-    index = np.abs(datsum) > eps
-    dat = dat[:, index]
-    names = list(compress(names, index))
-    col = len(names)
-  # get sensitivity factors
-  sensitivity_value = []
-  sensitivity_name = []
-  for k in sensitivity_factors.keys():
-    if isinstance(sensitivity_factors[k], dict):
-      sensitivity_value.append(sensitivity_factors[k]['realization'])
-      sensitivity_name.append(np.string_(k))
-  # output to hdf5 file
-  with h5py.File(results_folder + '/results_' + rank + '.hdf5', 'a') as f:
-    d = f.create_dataset('s' + rank, (nt, col), dtype='float', compression='gzip')
+  chunk = 50
+  with h5py.File(results_folder + '/results.hdf5', 'a') as f:
+    d = f.create_dataset('s', (nt, chunk), dtype='float', compression='gzip', chunks=(nt, chunk), maxshape=(nt, None))
+
+    ### generator to return data & name if data is non-zero
+    def data_nonzero_generator(att, name):
+      if (clean_output):
+        attsum = np.abs(att).sum()
+        if attsum > eps:
+          yield (att, name)
+          
+    ### generator to loop through important model attributes and return non-zero data
+    def model_att_generator():
+      for r in output_list['north']['reservoirs'].keys():
+        for o in output_list['north']['reservoirs'][r].keys():
+          if output_list['north']['reservoirs'][r][o]:
+            try:
+              att = modelno.__getattribute__(r).__getattribute__(o)
+              if (clean_output):
+                attsum = np.abs(att).sum()
+                if attsum > eps:
+                  yield (att, np.string_(r + '_' + o))
+              else:
+                yield (att, np.string_(r + '_' + o))
+            except:
+              pass
+
+      for r in output_list['south']['reservoirs'].keys():
+        for o in output_list['south']['reservoirs'][r].keys():
+          if output_list['south']['reservoirs'][r][o]:
+            try:
+              att = modelso.__getattribute__(r).__getattribute__(o)
+              if (clean_output):
+                attsum = np.abs(att).sum()
+                if attsum > eps:
+                  yield (att, np.string_(r + '_' + o))
+              else:
+                yield (att, np.string_(r + '_' + o))      
+            except:
+              pass      
+            
+      for o in output_list['north']['delta'].keys():
+        if output_list['north']['delta'][o]:
+          try:
+            att = modelno.delta.__getattribute__(o)
+            if (clean_output):
+              attsum = np.abs(att).sum()
+              if attsum > eps:
+                yield (att, np.string_('delta_' + o))
+            else:
+              yield (att, np.string_('delta_' + o))     
+          except:
+            pass             
+          
+      for c in output_list['south']['contracts'].keys():
+        for o in output_list['south']['contracts'][c].keys():
+          if o == 'daily_supplies':
+            for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
+              if output_list['south']['contracts'][c]['daily_supplies'][t]:
+                try:
+                  att = modelso.__getattribute__(c).daily_supplies[t]
+                  if (clean_output):
+                    attsum = np.abs(att).sum()
+                    if attsum > eps:
+                      yield (att, np.string_(c + '_' + t))
+                  else:
+                    yield (att, np.string_(c + '_' + t))          
+                except:
+                  pass         
+                
+          elif output_list['south']['contracts'][c][o]:
+            try:
+              att = modelso.__getattribute__(c).__getattribute__(o)
+              if (clean_output):
+                attsum = np.abs(att).sum()
+                if attsum > eps:
+                  yield (att, np.string_(c + '_' + o))
+              else:
+                yield (att, np.string_(c + '_' + o))        
+            except:
+              pass       
+            
+      for d in output_list['south']['districts'].keys():
+        for o in output_list['south']['districts'][d].keys():
+          try:
+            att = modelso.__getattribute__(d).daily_supplies_full[o]
+            if (clean_output):
+              attsum = np.abs(att).sum()
+              if attsum > eps:
+                yield (att, np.string_(d + '_' + o))
+            else:
+              yield (att, np.string_(d + '_' + o))             
+          except:
+            pass
+          
+      for p in output_list['south']['private'].keys():
+        for o in output_list['south']['private'][p].keys():
+          try:
+            att =  modelso.__getattribute__(p).daily_supplies_full[o]
+            if (clean_output):
+              attsum = np.abs(att).sum()
+              if attsum > eps:
+                yield (att, np.string_(p + '_' + o))
+            else:
+              yield (att, np.string_(p + '_' + o))            
+          except:
+            pass
+          
+      for b in output_list['south']['waterbanks'].keys():
+        for o in output_list['south']['waterbanks'][b].keys():
+          try:
+            att =  modelso.__getattribute__(b).bank_timeseries[o]
+            if (clean_output):
+              attsum = np.abs(att).sum()
+              if attsum > eps:
+                yield (att, np.string_(b + '_' + o))
+            else:
+              yield (att, np.string_(b + '_' + o))  
+          except:
+            pass
+      
+      ### signify end of dataset
+      yield (False, False)
+
+
+    ### use generator to loop through data and save to hdf5 in chunks
+    dat = np.zeros((nt, chunk))
+    names = []
+    col = 0
+    initial_write = 0
+    for (att, name) in model_att_generator():
+      if name:  ### end of dataset not yet reached
+        names.append(name)
+        if col < chunk:
+          dat[:, col] = att
+          col += 1
+        else:
+          if initial_write == 0:
+            ### write first set of data
+            d[:] = dat[:, :]
+            initial_write = 1
+          else:
+            ### resize and add new data
+            d.resize((nt, d.shape[1] + chunk))
+            d[:, -chunk:] = dat[:, :]
+          dat[:, 0] = att
+          col = 1
+          gc.collect()
+      else: ### end of dataset reached
+        if col > 0:
+          ### resize and add new data
+          d.resize((nt, d.shape[1] + col))
+          d[:, -col:] = dat[:, :col]
+
+    ### add attribute names as columns 
     d.attrs['columns'] = names
+    d.attrs['start_date'] = str(modelno.year[0]) + '-' + str(modelno.month[0]) + '-' + str(modelno.day_month[0])
+
+    # get sensitivity factors (note: defunct except in sensitivity mode, but leave hear so as not to break post-process scripts)
+    sensitivity_value = []
+    sensitivity_name = []
+    for k in sensitivity_factors.keys():
+      if isinstance(sensitivity_factors[k], dict):
+        sensitivity_value.append(sensitivity_factors[k]['realization'])
+        sensitivity_name.append(np.string_(k))
+
     d.attrs['sensitivity_factors'] = sensitivity_name
     d.attrs['sensitivity_factor_values'] = sensitivity_value
-    d[:] = dat
+
+
+
+### TODO: update this function for ensemble runs
+# def data_output_climate_ensemble(output_list_loc, results_folder, clean_output, rank, flow_input_source, modelno, modelso):
+#   nt = len(modelno.shasta.baseline_inf)
+#   with open(output_list_loc, 'r') as f:
+#     output_list = json.load(f)
+#   dat = np.zeros([nt, 10000])
+#   names = []
+#   col = 0
+#   # get all data columns listed as True in output_list file
+#   for r in output_list['north']['reservoirs'].keys():
+#     for o in output_list['north']['reservoirs'][r].keys():
+#       if output_list['north']['reservoirs'][r][o]:
+#         dat[:, col] = modelno.__getattribute__(r).__getattribute__(o)
+#         names.append(np.string_(r + '_' + o))
+#         col += 1
+#   for r in output_list['south']['reservoirs'].keys():
+#     for o in output_list['south']['reservoirs'][r].keys():
+#       if output_list['south']['reservoirs'][r][o]:
+#         dat[:, col] = modelso.__getattribute__(r).__getattribute__(o)
+#         names.append(np.string_(r + '_' + o))
+#         col += 1
+#   for o in output_list['north']['delta'].keys():
+#     if output_list['north']['delta'][o]:
+#       dat[:, col] = modelno.delta.__getattribute__(o)
+#       names.append(np.string_('delta_' + o))
+#       col += 1
+#   for c in output_list['south']['contracts'].keys():
+#     for o in output_list['south']['contracts'][c].keys():
+#       if o == 'daily_supplies':
+#         for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
+#           if output_list['south']['contracts'][c]['daily_supplies'][t]:
+#             dat[:,col] = modelso.__getattribute__(c).daily_supplies[t]
+#             names.append(np.string_(c + '_' + t))
+#             col += 1
+#       elif output_list['south']['contracts'][c][o]:
+#         dat[:, col] = modelso.__getattribute__(c).__getattribute__(o)
+#         names.append(np.string_(c + '_' + o))
+#         col += 1
+#   for d in output_list['south']['districts'].keys():
+#     for o in output_list['south']['districts'][d].keys():
+#       dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
+#       names.append(np.string_(d + '_' + o))
+#       col += 1
+#       #if o == 'deliveries':
+#         #for o in output_list['south']['districts'][d]['deliveries'].keys():
+#           #if output_list['south']['districts'][d]['deliveries'][o]:
+#             #dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
+#             #names.append(np.string_(d + '__deliveries__' + o))
+#             #col += 1
+#       #else:
+#         #if output_list['south']['districts'][d][o]:
+#           #dat[:, col] = modelso._getattribute_(d).daily_supplies_full
+#   for b in output_list['south']['waterbanks'].keys():
+#     for o in output_list['south']['waterbanks'][b].keys():
+#       for p in output_list['south']['waterbanks'][b][o].keys():
+#         dat[:, col] = modelso.__getattribute__(b).__getattribute__(o)[p]
+#         names.append(np.string_(b + '_' + o + '_' + p))
+#         col += 1
+#   # now only keep columns that are non-zero over course of simulation
+#   dat = dat[:, :col]
+#   if (clean_output):
+#     datsum = dat.sum(axis=0)
+#     index = np.abs(datsum) > eps
+#     dat = dat[:, index]
+#     names = list(compress(names, index))
+#     col = len(names)
+#   # output to hdf5 file
+#   with h5py.File(results_folder + '/results_p' + str(rank) + '.hdf5', 'a') as f:
+#     d = f.create_dataset(flow_input_source, (nt, col), dtype='float', compression='gzip')
+#     d.attrs['columns'] = names
+#     d[:] = dat
 
 
 
 
-def data_output_climate_ensemble(output_list_loc, results_folder, clean_output, rank, flow_input_source, modelno, modelso):
-  nt = len(modelno.shasta.baseline_inf)
-  with open(output_list_loc, 'r') as f:
-    output_list = json.load(f)
-  dat = np.zeros([nt, 10000])
-  names = []
-  col = 0
-  # get all data columns listed as True in output_list file
-  for r in output_list['north']['reservoirs'].keys():
-    for o in output_list['north']['reservoirs'][r].keys():
-      if output_list['north']['reservoirs'][r][o]:
-        dat[:, col] = modelno.__getattribute__(r).__getattribute__(o)
-        names.append(np.string_(r + '_' + o))
-        col += 1
-  for r in output_list['south']['reservoirs'].keys():
-    for o in output_list['south']['reservoirs'][r].keys():
-      if output_list['south']['reservoirs'][r][o]:
-        dat[:, col] = modelso.__getattribute__(r).__getattribute__(o)
-        names.append(np.string_(r + '_' + o))
-        col += 1
-  for o in output_list['north']['delta'].keys():
-    if output_list['north']['delta'][o]:
-      dat[:, col] = modelno.delta.__getattribute__(o)
-      names.append(np.string_('delta_' + o))
-      col += 1
-  for c in output_list['south']['contracts'].keys():
-    for o in output_list['south']['contracts'][c].keys():
-      if o == 'daily_supplies':
-        for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
-          if output_list['south']['contracts'][c]['daily_supplies'][t]:
-            dat[:,col] = modelso.__getattribute__(c).daily_supplies[t]
-            names.append(np.string_(c + '_' + t))
-            col += 1
-      elif output_list['south']['contracts'][c][o]:
-        dat[:, col] = modelso.__getattribute__(c).__getattribute__(o)
-        names.append(np.string_(c + '_' + o))
-        col += 1
-  for d in output_list['south']['districts'].keys():
-    for o in output_list['south']['districts'][d].keys():
-      dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
-      names.append(np.string_(d + '_' + o))
-      col += 1
-      #if o == 'deliveries':
-        #for o in output_list['south']['districts'][d]['deliveries'].keys():
-          #if output_list['south']['districts'][d]['deliveries'][o]:
-            #dat[:, col] = modelso.__getattribute__(d).daily_supplies_full[o]
-            #names.append(np.string_(d + '__deliveries__' + o))
-            #col += 1
-      #else:
-        #if output_list['south']['districts'][d][o]:
-          #dat[:, col] = modelso._getattribute_(d).daily_supplies_full
-  for b in output_list['south']['waterbanks'].keys():
-    for o in output_list['south']['waterbanks'][b].keys():
-      for p in output_list['south']['waterbanks'][b][o].keys():
-        dat[:, col] = modelso.__getattribute__(b).__getattribute__(o)[p]
-        names.append(np.string_(b + '_' + o + '_' + p))
-        col += 1
-  # now only keep columns that are non-zero over course of simulation
-  dat = dat[:, :col]
-  if (clean_output):
-    datsum = dat.sum(axis=0)
-    index = np.abs(datsum) > eps
-    dat = dat[:, index]
-    names = list(compress(names, index))
-    col = len(names)
-  # output to hdf5 file
-  with h5py.File(results_folder + '/results_p' + str(rank) + '.hdf5', 'a') as f:
-    d = f.create_dataset(flow_input_source, (nt, col), dtype='float', compression='gzip')
-    d.attrs['columns'] = names
-    d[:] = dat
+def get_results_sensitivity_number_outside_model(results_file, sensitivity_number):
+    values = {}
+    numdays_index = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    with h5py.File(results_file, 'r') as f:
+      data = f['s' + sensitivity_number]
+      names = data.attrs['columns']
+#       print(names)
+      names = list(map(lambda x: str(x).split("'")[1], names))
+      df_data = pd.DataFrame(data[:], columns=names)
+      start_date = pd.to_datetime(data.attrs['start_date'])
+      start_year = start_date.year
+      start_month = start_date.month
+      start_day = start_date.day
+
+        
+#     print(values['pineflat_PIO_recharged'])
+    datetime_index = []
+    monthcount = start_month
+    yearcount = start_year
+    daycount = start_day
+    leapcount = np.remainder(start_year, 4)
+
+    for t in range(0, df_data.shape[0]):
+      datetime_index.append(str(yearcount) + '-' + str(monthcount) + '-' + str(daycount))
+      daycount += 1
+      if leapcount == 0 and monthcount == 2:
+        numdays_month = numdays_index[monthcount - 1] + 1
+      else:
+        numdays_month = numdays_index[monthcount - 1]
+      if daycount > numdays_month:
+        daycount = 1
+        monthcount += 1
+        if monthcount == 13:
+          monthcount = 1
+          yearcount += 1
+          leapcount += 1
+        if leapcount == 4:
+          leapcount = 0
+
+    dt = pd.to_datetime(datetime_index) 
+    df_data.index = dt
+
+    return df_data

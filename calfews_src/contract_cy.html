@@ -286,6 +286,80 @@ body.cython { font-family: courier; font-size: 12; }
 .cython.score-252 {background-color: #FFFF09;}
 .cython.score-253 {background-color: #FFFF09;}
 .cython.score-254 {background-color: #FFFF09;}
+pre { line-height: 125%; }
+td.linenos pre { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+td.linenos pre.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.cython .hll { background-color: #ffffcc }
+.cython { background: #f8f8f8; }
+.cython .c { color: #408080; font-style: italic } /* Comment */
+.cython .err { border: 1px solid #FF0000 } /* Error */
+.cython .k { color: #008000; font-weight: bold } /* Keyword */
+.cython .o { color: #666666 } /* Operator */
+.cython .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.cython .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.cython .cp { color: #BC7A00 } /* Comment.Preproc */
+.cython .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.cython .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.cython .cs { color: #408080; font-style: italic } /* Comment.Special */
+.cython .gd { color: #A00000 } /* Generic.Deleted */
+.cython .ge { font-style: italic } /* Generic.Emph */
+.cython .gr { color: #FF0000 } /* Generic.Error */
+.cython .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.cython .gi { color: #00A000 } /* Generic.Inserted */
+.cython .go { color: #888888 } /* Generic.Output */
+.cython .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.cython .gs { font-weight: bold } /* Generic.Strong */
+.cython .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.cython .gt { color: #0044DD } /* Generic.Traceback */
+.cython .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.cython .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.cython .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.cython .kp { color: #008000 } /* Keyword.Pseudo */
+.cython .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.cython .kt { color: #B00040 } /* Keyword.Type */
+.cython .m { color: #666666 } /* Literal.Number */
+.cython .s { color: #BA2121 } /* Literal.String */
+.cython .na { color: #7D9029 } /* Name.Attribute */
+.cython .nb { color: #008000 } /* Name.Builtin */
+.cython .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.cython .no { color: #880000 } /* Name.Constant */
+.cython .nd { color: #AA22FF } /* Name.Decorator */
+.cython .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.cython .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.cython .nf { color: #0000FF } /* Name.Function */
+.cython .nl { color: #A0A000 } /* Name.Label */
+.cython .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.cython .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.cython .nv { color: #19177C } /* Name.Variable */
+.cython .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.cython .w { color: #bbbbbb } /* Text.Whitespace */
+.cython .mb { color: #666666 } /* Literal.Number.Bin */
+.cython .mf { color: #666666 } /* Literal.Number.Float */
+.cython .mh { color: #666666 } /* Literal.Number.Hex */
+.cython .mi { color: #666666 } /* Literal.Number.Integer */
+.cython .mo { color: #666666 } /* Literal.Number.Oct */
+.cython .sa { color: #BA2121 } /* Literal.String.Affix */
+.cython .sb { color: #BA2121 } /* Literal.String.Backtick */
+.cython .sc { color: #BA2121 } /* Literal.String.Char */
+.cython .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.cython .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.cython .s2 { color: #BA2121 } /* Literal.String.Double */
+.cython .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.cython .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.cython .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.cython .sx { color: #008000 } /* Literal.String.Other */
+.cython .sr { color: #BB6688 } /* Literal.String.Regex */
+.cython .s1 { color: #BA2121 } /* Literal.String.Single */
+.cython .ss { color: #19177C } /* Literal.String.Symbol */
+.cython .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.cython .fm { color: #0000FF } /* Name.Function.Magic */
+.cython .vc { color: #19177C } /* Name.Variable.Class */
+.cython .vg { color: #19177C } /* Name.Variable.Global */
+.cython .vi { color: #19177C } /* Name.Variable.Instance */
+.cython .vm { color: #19177C } /* Name.Variable.Magic */
+.cython .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
 </head>
 <body class="cython">
@@ -295,14 +369,14 @@ body.cython { font-family: courier; font-size: 12; }
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
 <p>Raw output: <a href="contract_cy.c">contract_cy.c</a></p>
-<div class="cython"><pre class="cython line score-0">&#xA0;<span class="">001</span>: # cython: profile=True</pre>
-<pre class="cython line score-0">&#xA0;<span class="">002</span>: from __future__ import division</pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">003</span>: import numpy as np</pre>
+<div class="cython"><pre class="cython line score-0">&#xA0;<span class="">001</span>: <span class="c"># cython: profile=True</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">002</span>: <span class="k">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span></pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">003</span>: <span class="k">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_numpy, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_np, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 3, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">004</span>: import pandas as pd</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">004</span>: <span class="k">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span></pre>
 <pre class='cython code score-8 '>
   /* "calfews_src/contract_cy.pyx":4
  * from __future__ import division
@@ -315,12 +389,12 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_pd, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 4, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">005</span>: import json</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">005</span>: <span class="k">import</span> <span class="nn">json</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_json, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_json, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">006</span>: from .util import *</pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">006</span>: <span class="k">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="o">*</span></pre>
 <pre class='cython code score-11 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__2);
@@ -332,9 +406,9 @@ body.cython { font-family: courier; font-size: 12; }
   if (__pyx_import_star(__pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 6, __pyx_L1_error)</span>;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">007</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">008</span>: cdef class Contract():</pre>
+<pre class="cython line score-0">&#xA0;<span class="">008</span>: <span class="k">cdef</span> <span class="k">class</span> <span class="nf">Contract</span><span class="p">():</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">009</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">010</span>:   def __iter__(self):</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">010</span>:   <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_1__iter__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_1__iter__(PyObject *__pyx_v_self) {
@@ -365,15 +439,15 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract___iter__(struct 
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">011</span>:     self.iter_count = 0</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">011</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;iter_count = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">012</span>:     return self</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">012</span>:     <span class="k">return</span> <span class="bp">self</span></pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self));
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">013</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">014</span>:   def __next__(self):</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">014</span>:   <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_3__next__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_3__next__(PyObject *__pyx_v_self) {
@@ -404,26 +478,26 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_2__next__(struct
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">015</span>:     if self.iter_count == 0:</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">015</span>:     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">==</span> <span class="mf">0</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>  __pyx_t_1 = ((__pyx_v_self-&gt;iter_count == 0) != 0);
   if (likely(__pyx_t_1)) {
 /* … */
   }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">016</span>:       self.iter_count += 1</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">016</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">iter_count</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-0 '>    __pyx_v_self-&gt;iter_count = (__pyx_v_self-&gt;iter_count + 1);
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">017</span>:       return self</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">017</span>:       <span class="k">return</span> <span class="bp">self</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self));
     __pyx_r = ((PyObject *)__pyx_v_self);
     goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">018</span>:     else:</pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">019</span>:       raise StopIteration</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">018</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">019</span>:       <span class="k">raise</span> <span class="ne">StopIteration</span></pre>
 <pre class='cython code score-2 '>  /*else*/ {
     <span class='pyx_c_api'>__Pyx_Raise</span>(__pyx_builtin_StopIteration, 0, 0, 0);
     <span class='error_goto'>__PYX_ERR(0, 19, __pyx_L1_error)</span>
   }
 </pre><pre class="cython line score-0">&#xA0;<span class="">020</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">021</span>:   def __len__(self):</pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">021</span>:   <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>/* Python wrapper */
 static Py_ssize_t __pyx_pw_11calfews_src_11contract_cy_8Contract_5__len__(PyObject *__pyx_v_self); /*proto*/
 static Py_ssize_t __pyx_pw_11calfews_src_11contract_cy_8Contract_5__len__(PyObject *__pyx_v_self) {
@@ -453,11 +527,11 @@ static Py_ssize_t __pyx_pf_11calfews_src_11contract_cy_8Contract_4__len__(CYTHON
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">022</span>:     return 1</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">022</span>:     <span class="k">return</span> <span class="mf">1</span></pre>
 <pre class='cython code score-0 '>  __pyx_r = 1;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">023</span>: </pre>
-<pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">024</span>:   def __init__(self, model, name, key):</pre>
+<pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">024</span>:   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span></pre>
 <pre class='cython code score-46 '>/* Python wrapper */
 static int __pyx_pw_11calfews_src_11contract_cy_8Contract_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_11calfews_src_11contract_cy_8Contract_7__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -574,7 +648,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">025</span>:     self.key = key</pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">025</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span></pre>
 <pre class='cython code score-12 '>  if (!(likely(<span class='py_c_api'>PyUnicode_CheckExact</span>(__pyx_v_key))||((__pyx_v_key) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_key)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 25, __pyx_L1_error)</span>
   __pyx_t_1 = __pyx_v_key;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
@@ -583,7 +657,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;key);
   __pyx_v_self-&gt;key = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">026</span>:     self.name = name</pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">026</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></pre>
 <pre class='cython code score-12 '>  if (!(likely(<span class='py_c_api'>PyUnicode_CheckExact</span>(__pyx_v_name))||((__pyx_v_name) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_name)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 26, __pyx_L1_error)</span>
   __pyx_t_1 = __pyx_v_name;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1);
@@ -593,7 +667,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   __pyx_v_self-&gt;name = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">027</span>: </pre>
-<pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">028</span>:     for k,v in json.load(open('calfews_src/contracts/%s_properties.json' % key)).items():</pre>
+<pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">028</span>:     <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;calfews_src/contracts/</span><span class="si">%s</span><span class="s">_properties.json&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></pre>
 <pre class='cython code score-34 '>  __pyx_t_2 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_6, __pyx_n_s_json);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 28, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
@@ -641,13 +715,13 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
     __pyx_t_7 = 0;
     <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">029</span>:         setattr(self,k,v)</pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">029</span>:         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span></pre>
 <pre class='cython code score-6 '>    __pyx_t_10 = <span class='py_c_api'>PyObject_SetAttr</span>(((PyObject *)__pyx_v_self), __pyx_v_k, __pyx_v_v);<span class='error_goto'> if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 29, __pyx_L1_error)</span>
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">030</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">031</span>: 	#daily state variables for contract allocation &amp; availability</pre>
-<pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">032</span>:     self.allocation = [0.0 for _ in range(model.T)]</pre>
+<pre class="cython line score-0">&#xA0;<span class="">031</span>: 	<span class="c">#daily state variables for contract allocation &amp; availability</span></pre>
+<pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">032</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">allocation</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">T</span><span class="p">)]</span></pre>
 <pre class='cython code score-59 '>  { /* enter inner scope */
     __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L7_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -713,7 +787,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;allocation);
   __pyx_v_self-&gt;allocation = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">033</span>:     self.storage_pool = [0.0 for _ in range(model.T)]</pre>
+</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">033</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">storage_pool</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">T</span><span class="p">)]</span></pre>
 <pre class='cython code score-59 '>  { /* enter inner scope */
     __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L13_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -779,7 +853,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;storage_pool);
   __pyx_v_self-&gt;storage_pool = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">034</span>:     self.available_water = [0.0 for _ in range(model.T)]</pre>
+</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">034</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">available_water</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">T</span><span class="p">)]</span></pre>
 <pre class='cython code score-59 '>  { /* enter inner scope */
     __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L19_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -846,8 +920,8 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   __pyx_v_self-&gt;available_water = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">035</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">036</span>:     #keep track of deliveries made daily/annually from the contract</pre>
-<pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">037</span>:     self.annual_deliveries = [0.0 for _ in range(model.number_years)]</pre>
+<pre class="cython line score-0">&#xA0;<span class="">036</span>:     <span class="c">#keep track of deliveries made daily/annually from the contract</span></pre>
+<pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">037</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">annual_deliveries</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">number_years</span><span class="p">)]</span></pre>
 <pre class='cython code score-59 '>  { /* enter inner scope */
     __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L25_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -913,7 +987,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;annual_deliveries);
   __pyx_v_self-&gt;annual_deliveries = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">038</span>:     self.flood_deliveries = [0.0 for _ in range(model.number_years)]</pre>
+</pre><pre class="cython line score-59" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">038</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">flood_deliveries</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">number_years</span><span class="p">)]</span></pre>
 <pre class='cython code score-59 '>  { /* enter inner scope */
     __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L31_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -979,26 +1053,26 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;flood_deliveries);
   __pyx_v_self-&gt;flood_deliveries = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">039</span>:     self.daily_deliveries = 0.0</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">039</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_deliveries</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;daily_deliveries = 0.0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">040</span>: </pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">041</span>:     self.tot_carryover = 0.0#contract carryover</pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">041</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">tot_carryover</span> <span class="o">=</span> <span class="mf">0.0</span><span class="c">#contract carryover</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;tot_carryover = 0.0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">042</span>:     self.running_carryover = 0.0</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">042</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">running_carryover</span> <span class="o">=</span> <span class="mf">0.0</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;running_carryover = 0.0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">043</span>:     self.lastYearForecast = self.maxForecastValue#last year's allocation forecast (used to make forecast during the beginning of the year)</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">043</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">lastYearForecast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxForecastValue</span><span class="c">#last year&#39;s allocation forecast (used to make forecast during the beginning of the year)</span></pre>
 <pre class='cython code score-0 '>  __pyx_t_12 = __pyx_v_self-&gt;maxForecastValue;
   __pyx_v_self-&gt;lastYearForecast = __pyx_t_12;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">044</span>:     self.projected_carryover = 0.0#projecting the carryover storage for next year (based on individual district storage accounts)</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">044</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">projected_carryover</span> <span class="o">=</span> <span class="mf">0.0</span><span class="c">#projecting the carryover storage for next year (based on individual district storage accounts)</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;projected_carryover = 0.0;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">045</span>:     self.max_allocation = self.total#full allocation for the contract</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">045</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">max_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="c">#full allocation for the contract</span></pre>
 <pre class='cython code score-0 '>  __pyx_t_12 = __pyx_v_self-&gt;total;
   __pyx_v_self-&gt;max_allocation = __pyx_t_12;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">046</span>:     self.tot_new_alloc = 0.0#carryover water that is transferred to next year's allocation (rather than district carryover)</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">046</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">tot_new_alloc</span> <span class="o">=</span> <span class="mf">0.0</span><span class="c">#carryover water that is transferred to next year&#39;s allocation (rather than district carryover)</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;tot_new_alloc = 0.0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">047</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">048</span>: 	#dictionaries to keep track of data for output</pre>
-<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">049</span>:     self.daily_supplies = {}</pre>
+<pre class="cython line score-0">&#xA0;<span class="">048</span>: 	<span class="c">#dictionaries to keep track of data for output</span></pre>
+<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">049</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_supplies</span> <span class="o">=</span> <span class="p">{}</span></pre>
 <pre class='cython code score-3 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
@@ -1006,7 +1080,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_v_self-&gt;daily_supplies);
   __pyx_v_self-&gt;daily_supplies = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-15" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:     supply_types = ['contract', 'carryover', 'turnback', 'flood', 'total_carryover']</pre>
+</pre><pre class="cython line score-15" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:     <span class="n">supply_types</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;contract&#39;</span><span class="p">,</span> <span class="s">&#39;carryover&#39;</span><span class="p">,</span> <span class="s">&#39;turnback&#39;</span><span class="p">,</span> <span class="s">&#39;flood&#39;</span><span class="p">,</span> <span class="s">&#39;total_carryover&#39;</span><span class="p">]</span></pre>
 <pre class='cython code score-15 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(5);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_u_contract);
@@ -1026,7 +1100,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
   <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 4, __pyx_n_u_total_carryover);
   __pyx_v_supply_types = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">051</span>:     for x in supply_types:</pre>
+</pre><pre class="cython line score-7" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">051</span>:     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">supply_types</span><span class="p">:</span></pre>
 <pre class='cython code score-7 '>  __pyx_t_1 = __pyx_v_supply_types; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1); __pyx_t_3 = 0;
   for (;;) {
     if (__pyx_t_3 &gt;= <span class='py_macro_api'>PyList_GET_SIZE</span>(__pyx_t_1)) break;
@@ -1041,7 +1115,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
 /* … */
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">052</span>:       self.daily_supplies[x] = np.zeros(model.T)</pre>
+</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">052</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">daily_supplies</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></pre>
 <pre class='cython code score-33 '>    <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_7, __pyx_n_s_np);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 52, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
     __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_7, __pyx_n_s_zeros);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 52, __pyx_L1_error)</span>
@@ -1072,7 +1146,7 @@ static int __pyx_pf_11calfews_src_11contract_cy_8Contract_6__init__(struct __pyx
     if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_self-&gt;daily_supplies, __pyx_v_x, __pyx_t_5) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 52, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">053</span>: </pre>
-<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">054</span>:   def object_equals(self, other):</pre>
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">054</span>:   <span class="k">def</span> <span class="nf">object_equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span></pre>
 <pre class='cython code score-13 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
@@ -1118,13 +1192,13 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">055</span>:     ##This function compares two instances of an object, returns True if all attributes are identical.</pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">056</span>:     equality = {}</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">055</span>:     <span class="c">##This function compares two instances of an object, returns True if all attributes are identical.</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">056</span>:     <span class="n">equality</span> <span class="o">=</span> <span class="p">{}</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_v_equality = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-</pre><pre class="cython line score-52" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">057</span>:     if (self.__dict__.keys() != other.__dict__.keys()):</pre>
+</pre><pre class="cython line score-52" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">057</span>:     <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span></pre>
 <pre class='cython code score-52 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_dict);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_2, __pyx_n_s_keys);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)</span>
@@ -1173,17 +1247,17 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
   if (__pyx_t_5) {
 /* … */
   }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">058</span>:       return ('Different Attributes')</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">058</span>:       <span class="k">return</span> <span class="p">(</span><span class="s">&#39;Different Attributes&#39;</span><span class="p">)</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u_Different_Attributes);
     __pyx_r = __pyx_kp_u_Different_Attributes;
     goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">059</span>:     else:</pre>
-<pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">060</span>:       differences = 0</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">059</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">060</span>:       <span class="n">differences</span> <span class="o">=</span> <span class="mf">0</span></pre>
 <pre class='cython code score-1 '>  /*else*/ {
     <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_int_0);
     __pyx_v_differences = __pyx_int_0;
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">061</span>:       for i in self.__dict__.keys():</pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">061</span>:       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></pre>
 <pre class='cython code score-10 '>    __pyx_t_6 = 0;
     __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_dict);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
@@ -1204,7 +1278,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
       <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_i, __pyx_t_1);
       __pyx_t_1 = 0;
-</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">062</span>:         if type(self.__getattribute__(i)) is dict:</pre>
+</pre><pre class="cython line score-17" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">062</span>:         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span></pre>
 <pre class='cython code score-17 '>      __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
       __pyx_t_2 = NULL;
@@ -1229,9 +1303,9 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
 /* … */
         goto __pyx_L6;
       }
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>:           equality[i] = True</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>:           <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span></pre>
 <pre class='cython code score-5 '>        if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, Py_True) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 63, __pyx_L1_error)</span>
-</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">064</span>:           for j in self.__getattribute__(i).keys():</pre>
+</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">064</span>:           <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></pre>
 <pre class='cython code score-24 '>        __pyx_t_11 = 0;
         __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -1267,7 +1341,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
           <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_j, __pyx_t_2);
           __pyx_t_2 = 0;
-</pre><pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">065</span>:             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):</pre>
+</pre><pre class="cython line score-46" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">065</span>:             <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">):</span></pre>
 <pre class='cython code score-46 '>          __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
           __pyx_t_13 = NULL;
@@ -1318,7 +1392,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
 /* … */
             goto __pyx_L9;
           }
-</pre><pre class="cython line score-54" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">066</span>:               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):</pre>
+</pre><pre class="cython line score-54" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">066</span>:               <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span></pre>
 <pre class='cython code score-54 '>            __pyx_t_13 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 66, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_13);
             __pyx_t_3 = NULL;
@@ -1369,15 +1443,15 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
             if (__pyx_t_5) {
 /* … */
             }
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">067</span>:                 equality[i] = False</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">067</span>:                 <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span></pre>
 <pre class='cython code score-5 '>              if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, Py_False) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 67, __pyx_L1_error)</span>
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">068</span>:                 differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">068</span>:                 <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>              __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)</span>
               <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
               <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_3);
               __pyx_t_3 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">069</span>:             else:</pre>
-<pre class="cython line score-74" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">070</span>:               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">069</span>:             <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-74" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">070</span>:               <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span></pre>
 <pre class='cython code score-74 '>          /*else*/ {
             __pyx_t_13 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 70, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_13);
@@ -1451,15 +1525,15 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
           __pyx_L9:;
         }
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">071</span>:                 equality[i] = False</pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">071</span>:                 <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span></pre>
 <pre class='cython code score-5 '>              if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, Py_False) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 71, __pyx_L1_error)</span>
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">072</span>:                 differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">072</span>:                 <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>              __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 72, __pyx_L1_error)</span>
               <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
               <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_15);
               __pyx_t_15 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">073</span>:         else:</pre>
-<pre class="cython line score-40" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">074</span>:           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">073</span>:         <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-40" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">074</span>:           <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">):</span></pre>
 <pre class='cython code score-40 '>      /*else*/ {
         __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 74, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
@@ -1505,7 +1579,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
 /* … */
           goto __pyx_L12;
         }
-</pre><pre class="cython line score-45" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">075</span>:             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))</pre>
+</pre><pre class="cython line score-45" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">075</span>:             <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span></pre>
 <pre class='cython code score-45 '>          __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 75, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
           __pyx_t_1 = NULL;
@@ -1545,7 +1619,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_15); __pyx_t_15 = 0;
           if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, __pyx_t_1) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 75, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">076</span>:             if equality[i] == False:</pre>
+</pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">076</span>:             <span class="k">if</span> <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span></pre>
 <pre class='cython code score-11 '>          __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_GetItem</span>(__pyx_v_equality, __pyx_v_i);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
           __pyx_t_15 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_1, Py_False, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_15);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 76, __pyx_L1_error)</span>
@@ -1555,13 +1629,13 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
           if (__pyx_t_10) {
 /* … */
           }
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">077</span>:               differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">077</span>:               <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>            __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 77, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
             <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_15);
             __pyx_t_15 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">078</span>:           else:</pre>
-<pre class="cython line score-64" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">079</span>:             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">078</span>:           <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-64" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">079</span>:             <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></pre>
 <pre class='cython code score-64 '>        /*else*/ {
           __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
@@ -1620,7 +1694,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
           if (unlikely(<span class='py_c_api'>PyDict_SetItem</span>(__pyx_v_equality, __pyx_v_i, __pyx_t_15) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 79, __pyx_L1_error)</span>
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_15); __pyx_t_15 = 0;
-</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">080</span>:             if equality[i] == False:</pre>
+</pre><pre class="cython line score-12" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">080</span>:             <span class="k">if</span> <span class="n">equality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span></pre>
 <pre class='cython code score-12 '>          __pyx_t_15 = <span class='pyx_c_api'>__Pyx_PyDict_GetItem</span>(__pyx_v_equality, __pyx_v_i);<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 80, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
           __pyx_t_3 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_15, Py_False, Py_EQ); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)</span>
@@ -1637,12 +1711,12 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
     }
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   }
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">081</span>:               differences += 1</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">081</span>:               <span class="n">differences</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-3 '>            __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyInt_AddObjC</span>(__pyx_v_differences, __pyx_int_1, 1, 1, 0);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
             <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_differences, __pyx_t_3);
             __pyx_t_3 = 0;
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">082</span>:     return (differences == 0)</pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">082</span>:     <span class="k">return</span> <span class="p">(</span><span class="n">differences</span> <span class="o">==</span> <span class="mf">0</span><span class="p">)</span></pre>
 <pre class='cython code score-3 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyInt_EqObjC</span>(__pyx_v_differences, __pyx_int_0, 0, 0);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
@@ -1651,7 +1725,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_8object_equals(s
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">083</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">084</span>: </pre>
-<pre class="cython line score-56" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">085</span>:   def calc_allocation(self, t, dowy, forecast_available, priority_contract, secondary_contract, wyt):</pre>
+<pre class="cython line score-56" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">085</span>:   <span class="k">def</span> <span class="nf">calc_allocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dowy</span><span class="p">,</span> <span class="n">forecast_available</span><span class="p">,</span> <span class="n">priority_contract</span><span class="p">,</span> <span class="n">secondary_contract</span><span class="p">,</span> <span class="n">wyt</span><span class="p">):</span></pre>
 <pre class='cython code score-56 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_11calc_allocation(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_11calc_allocation(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -1785,11 +1859,11 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">086</span>:     #this function calculates the contract allocation based on snowpack-based flow forecast</pre>
-<pre class="cython line score-0">&#xA0;<span class="">087</span>: 	#before March, allocations are assumed to be equal to last year's allocation (capped at some level)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">088</span>: 	#unless the snowpack is large enough to expect larger flows (i.e., low snowpack early in the year doesn't</pre>
-<pre class="cython line score-0">&#xA0;<span class="">089</span>: 	#cause contracts to predict super-low allocations</pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">090</span>:     if dowy &lt; 90:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">086</span>:     <span class="c">#this function calculates the contract allocation based on snowpack-based flow forecast</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">087</span>: 	<span class="c">#before March, allocations are assumed to be equal to last year&#39;s allocation (capped at some level)</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">088</span>: 	<span class="c">#unless the snowpack is large enough to expect larger flows (i.e., low snowpack early in the year doesn&#39;t</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">089</span>: 	<span class="c">#cause contracts to predict super-low allocations</span></pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">090</span>:     <span class="k">if</span> <span class="n">dowy</span> <span class="o">&lt;</span> <span class="mf">90</span><span class="p">:</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_dowy, __pyx_int_90, Py_LT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_1); if (unlikely(__pyx_t_2 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 90, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
@@ -1797,7 +1871,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
 /* … */
     goto __pyx_L3;
   }
-</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">091</span>:       if forecast_available &gt; self.maxForecastValue:</pre>
+</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">091</span>:       <span class="k">if</span> <span class="n">forecast_available</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxForecastValue</span><span class="p">:</span></pre>
 <pre class='cython code score-14 '>    __pyx_t_1 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;maxForecastValue);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
     __pyx_t_3 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_forecast_available, __pyx_t_1, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)</span>
@@ -1808,13 +1882,13 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
 /* … */
       goto __pyx_L4;
     }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">092</span>:         if self.allocation_priority == 1:</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">092</span>:         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_priority</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>      __pyx_t_2 = ((__pyx_v_self-&gt;allocation_priority == 1) != 0);
       if (__pyx_t_2) {
 /* … */
         goto __pyx_L5;
       }
-</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">093</span>:           forecast_used = forecast_available*self.total/priority_contract</pre>
+</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">093</span>:           <span class="n">forecast_used</span> <span class="o">=</span> <span class="n">forecast_available</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">priority_contract</span></pre>
 <pre class='cython code score-14 '>        __pyx_t_3 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;total);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
         __pyx_t_1 = <span class='py_c_api'>PyNumber_Multiply</span>(__pyx_v_forecast_available, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)</span>
@@ -1825,8 +1899,8 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_v_forecast_used = __pyx_t_3;
         __pyx_t_3 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">094</span>:         else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations</pre>
-<pre class="cython line score-20" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">095</span>:           forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">094</span>:         <span class="k">else</span><span class="p">:</span><span class="c">#if the contract doesn&#39;t have priority, the allocation is the available water minus all priority allocations</span></pre>
+<pre class="cython line score-20" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">095</span>:           <span class="n">forecast_used</span> <span class="o">=</span> <span class="p">(</span><span class="n">forecast_available</span> <span class="o">-</span> <span class="n">priority_contract</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">secondary_contract</span></pre>
 <pre class='cython code score-20 '>      /*else*/ {
         __pyx_t_3 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_forecast_available, __pyx_v_priority_contract);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 95, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
@@ -1843,7 +1917,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
         __pyx_t_1 = 0;
       }
       __pyx_L5:;
-</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">096</span>:       elif self.lastYearForecast &lt; forecast_available:</pre>
+</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">096</span>:       <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastYearForecast</span> <span class="o">&lt;</span> <span class="n">forecast_available</span><span class="p">:</span></pre>
 <pre class='cython code score-14 '>    __pyx_t_1 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;lastYearForecast);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
     __pyx_t_4 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_1, __pyx_v_forecast_available, Py_LT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_4);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)</span>
@@ -1854,13 +1928,13 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
 /* … */
       goto __pyx_L4;
     }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">097</span>:         if self.allocation_priority == 1:</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">097</span>:         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_priority</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>      __pyx_t_2 = ((__pyx_v_self-&gt;allocation_priority == 1) != 0);
       if (__pyx_t_2) {
 /* … */
         goto __pyx_L6;
       }
-</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">098</span>:           forecast_used = forecast_available*self.total/priority_contract</pre>
+</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">098</span>:           <span class="n">forecast_used</span> <span class="o">=</span> <span class="n">forecast_available</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">priority_contract</span></pre>
 <pre class='cython code score-14 '>        __pyx_t_4 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;total);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
         __pyx_t_1 = <span class='py_c_api'>PyNumber_Multiply</span>(__pyx_v_forecast_available, __pyx_t_4);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)</span>
@@ -1871,8 +1945,8 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_v_forecast_used = __pyx_t_4;
         __pyx_t_4 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">099</span>:         else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations</pre>
-<pre class="cython line score-20" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">100</span>:           forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">099</span>:         <span class="k">else</span><span class="p">:</span><span class="c">#if the contract doesn&#39;t have priority, the allocation is the available water minus all priority allocations</span></pre>
+<pre class="cython line score-20" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">100</span>:           <span class="n">forecast_used</span> <span class="o">=</span> <span class="p">(</span><span class="n">forecast_available</span> <span class="o">-</span> <span class="n">priority_contract</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">secondary_contract</span></pre>
 <pre class='cython code score-20 '>      /*else*/ {
         __pyx_t_4 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_forecast_available, __pyx_v_priority_contract);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
@@ -1889,15 +1963,15 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
         __pyx_t_1 = 0;
       }
       __pyx_L6:;
-</pre><pre class="cython line score-0">&#xA0;<span class="">101</span>:       else:</pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">102</span>:         if self.allocation_priority == 1:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">101</span>:       <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">102</span>:         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_priority</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>    /*else*/ {
       __pyx_t_2 = ((__pyx_v_self-&gt;allocation_priority == 1) != 0);
       if (__pyx_t_2) {
 /* … */
         goto __pyx_L7;
       }
-</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">103</span>:           forecast_used = min(self.lastYearForecast, self.maxForecastValue)*self.total/priority_contract</pre>
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">103</span>:           <span class="n">forecast_used</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastYearForecast</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxForecastValue</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">priority_contract</span></pre>
 <pre class='cython code score-8 '>        __pyx_t_5 = __pyx_v_self-&gt;maxForecastValue;
         __pyx_t_6 = __pyx_v_self-&gt;lastYearForecast;
         if (((__pyx_t_5 &lt; __pyx_t_6) != 0)) {
@@ -1912,8 +1986,8 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_v_forecast_used = __pyx_t_3;
         __pyx_t_3 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">104</span>:         else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations</pre>
-<pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">105</span>:           forecast_used = (min(self.lastYearForecast, self.maxForecastValue)- priority_contract)*self.total/secondary_contract</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">104</span>:         <span class="k">else</span><span class="p">:</span><span class="c">#if the contract doesn&#39;t have priority, the allocation is the available water minus all priority allocations</span></pre>
+<pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">105</span>:           <span class="n">forecast_used</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastYearForecast</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxForecastValue</span><span class="p">)</span><span class="o">-</span> <span class="n">priority_contract</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">secondary_contract</span></pre>
 <pre class='cython code score-26 '>      /*else*/ {
         __pyx_t_7 = __pyx_v_self-&gt;maxForecastValue;
         __pyx_t_5 = __pyx_v_self-&gt;lastYearForecast;
@@ -1942,16 +2016,16 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
       __pyx_L7:;
     }
     __pyx_L4:;
-</pre><pre class="cython line score-0">&#xA0;<span class="">106</span>:     else:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">107</span>:       #if the contract has priority, the allocation is just the available (forecasted) water</pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">108</span>:       if self.allocation_priority == 1:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">106</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">107</span>:       <span class="c">#if the contract has priority, the allocation is just the available (forecasted) water</span></pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">108</span>:       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_priority</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>  /*else*/ {
     __pyx_t_2 = ((__pyx_v_self-&gt;allocation_priority == 1) != 0);
     if (__pyx_t_2) {
 /* … */
       goto __pyx_L8;
     }
-</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">109</span>:         forecast_used = forecast_available*self.total/priority_contract</pre>
+</pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">109</span>:         <span class="n">forecast_used</span> <span class="o">=</span> <span class="n">forecast_available</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">priority_contract</span></pre>
 <pre class='cython code score-14 '>      __pyx_t_3 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;total);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
       __pyx_t_4 = <span class='py_c_api'>PyNumber_Multiply</span>(__pyx_v_forecast_available, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)</span>
@@ -1962,8 +2036,8 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_v_forecast_used = __pyx_t_3;
       __pyx_t_3 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">110</span>:       else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations</pre>
-<pre class="cython line score-20" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">111</span>:         forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">110</span>:       <span class="k">else</span><span class="p">:</span><span class="c">#if the contract doesn&#39;t have priority, the allocation is the available water minus all priority allocations</span></pre>
+<pre class="cython line score-20" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">111</span>:         <span class="n">forecast_used</span> <span class="o">=</span> <span class="p">(</span><span class="n">forecast_available</span> <span class="o">-</span> <span class="n">priority_contract</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">secondary_contract</span></pre>
 <pre class='cython code score-20 '>    /*else*/ {
       __pyx_t_3 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_forecast_available, __pyx_v_priority_contract);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
@@ -1983,7 +2057,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
   }
   __pyx_L3:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">112</span>: </pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">113</span>:     if dowy == 360:</pre>
+<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">113</span>:     <span class="k">if</span> <span class="n">dowy</span> <span class="o">==</span> <span class="mf">360</span><span class="p">:</span></pre>
 <pre class='cython code score-5 '>  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyInt_EqObjC</span>(__pyx_v_dowy, __pyx_int_360, 0x168, 0);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_4); if (unlikely(__pyx_t_2 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 113, __pyx_L1_error)</span>
@@ -1991,13 +2065,13 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
   if (__pyx_t_2) {
 /* … */
   }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">114</span>:       if self.allocation_priority == 1:</pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">114</span>:       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation_priority</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>    __pyx_t_2 = ((__pyx_v_self-&gt;allocation_priority == 1) != 0);
     if (__pyx_t_2) {
 /* … */
       goto __pyx_L10;
     }
-</pre><pre class="cython line score-15" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">115</span>:         forecast_used = forecast_available*self.total/priority_contract</pre>
+</pre><pre class="cython line score-15" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">115</span>:         <span class="n">forecast_used</span> <span class="o">=</span> <span class="n">forecast_available</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">priority_contract</span></pre>
 <pre class='cython code score-15 '>      __pyx_t_4 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;total);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
       __pyx_t_1 = <span class='py_c_api'>PyNumber_Multiply</span>(__pyx_v_forecast_available, __pyx_t_4);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)</span>
@@ -2008,8 +2082,8 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
       <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_forecast_used, __pyx_t_4);
       __pyx_t_4 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">116</span>:       else:#if the contract doesn't have priority, the allocation is the available water minus all priority allocations</pre>
-<pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">117</span>:         forecast_used = (forecast_available - priority_contract)*self.total/secondary_contract</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">116</span>:       <span class="k">else</span><span class="p">:</span><span class="c">#if the contract doesn&#39;t have priority, the allocation is the available water minus all priority allocations</span></pre>
+<pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">117</span>:         <span class="n">forecast_used</span> <span class="o">=</span> <span class="p">(</span><span class="n">forecast_available</span> <span class="o">-</span> <span class="n">priority_contract</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="n">secondary_contract</span></pre>
 <pre class='cython code score-21 '>    /*else*/ {
       __pyx_t_4 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_forecast_available, __pyx_v_priority_contract);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 117, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
@@ -2026,12 +2100,12 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
       __pyx_t_1 = 0;
     }
     __pyx_L10:;
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">118</span>:       self.lastYearForecast = forecast_available</pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">118</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">lastYearForecast</span> <span class="o">=</span> <span class="n">forecast_available</span></pre>
 <pre class='cython code score-10 '>    __pyx_t_6 = __pyx_<span class='py_c_api'>PyFloat_AsDouble</span>(__pyx_v_forecast_available); if (unlikely((__pyx_t_6 == (double)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 118, __pyx_L1_error)</span>
     __pyx_v_self-&gt;lastYearForecast = __pyx_t_6;
-</pre><pre class="cython line score-0">&#xA0;<span class="">119</span>:       #if self.lastYearForecast &gt; self.maxForecastValue:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">120</span>:         #self.lastYearForecast = self.maxForecastValue</pre>
-<pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">121</span>:     if forecast_used &gt; self.max_allocation:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">119</span>:       <span class="c">#if self.lastYearForecast &gt; self.maxForecastValue:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">120</span>:         <span class="c">#self.lastYearForecast = self.maxForecastValue</span></pre>
+<pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">121</span>:     <span class="k">if</span> <span class="n">forecast_used</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_allocation</span><span class="p">:</span></pre>
 <pre class='cython code score-14 '>  __pyx_t_1 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;max_allocation);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_3 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_forecast_used, __pyx_t_1, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)</span>
@@ -2041,13 +2115,13 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
   if (__pyx_t_2) {
 /* … */
   }
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">122</span>:       forecast_used = self.max_allocation</pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">122</span>:       <span class="n">forecast_used</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_allocation</span></pre>
 <pre class='cython code score-6 '>    __pyx_t_3 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;max_allocation);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_forecast_used, __pyx_t_3);
     __pyx_t_3 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">123</span>: </pre>
-<pre class="cython line score-68" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">124</span>:     self.allocation[t] = max(min(forecast_used,self.total*self.reduction[wyt]), 0.0)</pre>
+<pre class="cython line score-68" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">124</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">allocation</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">forecast_used</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">reduction</span><span class="p">[</span><span class="n">wyt</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">)</span></pre>
 <pre class='cython code score-68 '>  __pyx_t_6 = 0.0;
   __pyx_t_3 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;total);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 124, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
@@ -2104,7 +2178,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_10calc_allocatio
   if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_self-&gt;allocation, __pyx_v_t, __pyx_t_4) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 124, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">125</span>: </pre>
-<pre class="cython line score-50" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">126</span>:   def find_storage_pool(self, t, wateryear, total_water, reservoir_storage, priority_storage):</pre>
+<pre class="cython line score-50" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">126</span>:   <span class="k">def</span> <span class="nf">find_storage_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">wateryear</span><span class="p">,</span> <span class="n">total_water</span><span class="p">,</span> <span class="n">reservoir_storage</span><span class="p">,</span> <span class="n">priority_storage</span><span class="p">):</span></pre>
 <pre class='cython code score-50 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_13find_storage_pool(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_13find_storage_pool(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -2226,19 +2300,19 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">127</span>:     #this function finds the storage pool for each contract, given the 'total water'</pre>
-<pre class="cython line score-0">&#xA0;<span class="">128</span>: 	#that has come into a given reservoir (storage + deliveries) and the total priority</pre>
-<pre class="cython line score-0">&#xA0;<span class="">129</span>: 	#storage that must be filled before this contract's storage</pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">130</span>:     if self.storage_priority == 1:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">127</span>:     <span class="c">#this function finds the storage pool for each contract, given the &#39;total water&#39;</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">128</span>: 	<span class="c">#that has come into a given reservoir (storage + deliveries) and the total priority</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">129</span>: 	<span class="c">#storage that must be filled before this contract&#39;s storage</span></pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">130</span>:     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_priority</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>  __pyx_t_1 = ((__pyx_v_self-&gt;storage_priority == 1) != 0);
   if (__pyx_t_1) {
 /* … */
     goto __pyx_L3;
   }
-</pre><pre class="cython line score-0">&#xA0;<span class="">131</span>:       #what is the fraction of the allocation that is available to the contract right now</pre>
-<pre class="cython line score-0">&#xA0;<span class="">132</span>: 	  #all contracts with priority storage share the 'total_water' - i.e. if 1/2 of the priority storage</pre>
-<pre class="cython line score-0">&#xA0;<span class="">133</span>: 	  #has already come into the reservoir, then 1/2 of the contract's allocation is 'currently available'</pre>
-<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">134</span>:       if priority_storage &gt; 0.0:</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">131</span>:       <span class="c">#what is the fraction of the allocation that is available to the contract right now</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">132</span>: 	  <span class="c">#all contracts with priority storage share the &#39;total_water&#39; - i.e. if 1/2 of the priority storage</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">133</span>: 	  <span class="c">#has already come into the reservoir, then 1/2 of the contract&#39;s allocation is &#39;currently available&#39;</span></pre>
+<pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">134</span>:       <span class="k">if</span> <span class="n">priority_storage</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span></pre>
 <pre class='cython code score-8 '>    __pyx_t_2 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_v_priority_storage, __pyx_float_0_0, Py_GT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)</span>
     __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_2); if (unlikely(__pyx_t_1 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 134, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
@@ -2246,7 +2320,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
 /* … */
       goto __pyx_L4;
     }
-</pre><pre class="cython line score-48" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">135</span>:         self.storage_pool[t] = min(1.0, total_water/priority_storage)*(self.allocation[t])</pre>
+</pre><pre class="cython line score-48" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">135</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">storage_pool</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">total_water</span><span class="o">/</span><span class="n">priority_storage</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allocation</span><span class="p">[</span><span class="n">t</span><span class="p">])</span></pre>
 <pre class='cython code score-48 '>      __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyNumber_Divide</span>(__pyx_v_total_water, __pyx_v_priority_storage);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
       __pyx_t_3 = 1.0;
@@ -2282,7 +2356,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
       }
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_self-&gt;storage_pool, __pyx_v_t, __pyx_t_6) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 135, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
-</pre><pre class="cython line score-27" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">136</span>:         self.available_water[t] = reservoir_storage * (self.allocation[t])/priority_storage</pre>
+</pre><pre class="cython line score-27" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">136</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">available_water</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">reservoir_storage</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allocation</span><span class="p">[</span><span class="n">t</span><span class="p">])</span><span class="o">/</span><span class="n">priority_storage</span></pre>
 <pre class='cython code score-27 '>      if (unlikely(__pyx_v_self-&gt;allocation == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 136, __pyx_L1_error)</span>
@@ -2301,8 +2375,8 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
       }
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_self-&gt;available_water, __pyx_v_t, __pyx_t_6) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 136, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">137</span>:       else:</pre>
-<pre class="cython line score-18" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">138</span>:         self.storage_pool[t] = self.allocation[t]</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">137</span>:       <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-18" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">138</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">storage_pool</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation</span><span class="p">[</span><span class="n">t</span><span class="p">]</span></pre>
 <pre class='cython code score-18 '>    /*else*/ {
       if (unlikely(__pyx_v_self-&gt;allocation == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2316,7 +2390,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
       }
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_self-&gt;storage_pool, __pyx_v_t, __pyx_t_6) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 138, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
-</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">139</span>:         self.available_water[t] = reservoir_storage</pre>
+</pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">139</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">available_water</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">reservoir_storage</span></pre>
 <pre class='cython code score-10 '>      if (unlikely(__pyx_v_self-&gt;available_water == Py_None)) {
         <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
         <span class='error_goto'>__PYX_ERR(0, 139, __pyx_L1_error)</span>
@@ -2324,10 +2398,10 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
       if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_self-&gt;available_water, __pyx_v_t, __pyx_v_reservoir_storage) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 139, __pyx_L1_error)</span>
     }
     __pyx_L4:;
-</pre><pre class="cython line score-0">&#xA0;<span class="">140</span>:     else:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">141</span>:       #if the contract doesn't have priority, the contract has to wait for the total_water to be greater than the</pre>
-<pre class="cython line score-0">&#xA0;<span class="">142</span>: 	  #priority storage before any of that water is available to them</pre>
-<pre class="cython line score-60" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">143</span>:       self.storage_pool[t] = min(self.allocation[t], max(total_water - priority_storage, 0.0))</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">140</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">141</span>:       <span class="c">#if the contract doesn&#39;t have priority, the contract has to wait for the total_water to be greater than the</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">142</span>: 	  <span class="c">#priority storage before any of that water is available to them</span></pre>
+<pre class="cython line score-60" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">143</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">storage_pool</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allocation</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="nb">max</span><span class="p">(</span><span class="n">total_water</span> <span class="o">-</span> <span class="n">priority_storage</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span></pre>
 <pre class='cython code score-60 '>  /*else*/ {
     __pyx_t_3 = 0.0;
     __pyx_t_6 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_total_water, __pyx_v_priority_storage);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)</span>
@@ -2378,7 +2452,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
     }
     if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_self-&gt;storage_pool, __pyx_v_t, __pyx_t_6) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 143, __pyx_L1_error)</span>
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
-</pre><pre class="cython line score-75" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">144</span>:       self.available_water[t] = max(min(total_water - priority_storage, self.allocation[t], reservoir_storage), 0.0)</pre>
+</pre><pre class="cython line score-75" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">144</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">available_water</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">total_water</span> <span class="o">-</span> <span class="n">priority_storage</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">allocation</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">reservoir_storage</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span></pre>
 <pre class='cython code score-75 '>    __pyx_t_3 = 0.0;
     if (unlikely(__pyx_v_self-&gt;allocation == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2448,7 +2522,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_12find_storage_p
   }
   __pyx_L3:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">145</span>: </pre>
-<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:   def adjust_accounts(self, contract_deliveries, search_type, wateryear):</pre>
+<pre class="cython line score-37" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:   <span class="k">def</span> <span class="nf">adjust_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract_deliveries</span><span class="p">,</span> <span class="n">search_type</span><span class="p">,</span> <span class="n">wateryear</span><span class="p">):</span></pre>
 <pre class='cython code score-37 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_15adjust_accounts(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_15adjust_accounts(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -2547,14 +2621,14 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_14adjust_account
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">147</span>:     #this function records deliveries made on a contract by year - for use in determining if</pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">148</span>:     if search_type == "flood":</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">147</span>:     <span class="c">#this function records deliveries made on a contract by year - for use in determining if </span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">148</span>:     <span class="k">if</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s">&quot;flood&quot;</span><span class="p">:</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_1 = (<span class='pyx_c_api'>__Pyx_PyUnicode_Equals</span>(__pyx_v_search_type, __pyx_n_u_flood, Py_EQ)); if (unlikely(__pyx_t_1 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 148, __pyx_L1_error)</span>
   if (__pyx_t_1) {
 /* … */
     goto __pyx_L3;
   }
-</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">149</span>:       self.flood_deliveries[wateryear] += contract_deliveries</pre>
+</pre><pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">149</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">flood_deliveries</span><span class="p">[</span><span class="n">wateryear</span><span class="p">]</span> <span class="o">+=</span> <span class="n">contract_deliveries</span></pre>
 <pre class='cython code score-33 '>    if (unlikely(__pyx_v_self-&gt;flood_deliveries == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
       <span class='error_goto'>__PYX_ERR(0, 149, __pyx_L1_error)</span>
@@ -2580,8 +2654,8 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_14adjust_account
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">150</span>:     else:</pre>
-<pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">151</span>:       self.annual_deliveries[wateryear] += contract_deliveries</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">150</span>:     <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-33" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">151</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">annual_deliveries</span><span class="p">[</span><span class="n">wateryear</span><span class="p">]</span> <span class="o">+=</span> <span class="n">contract_deliveries</span></pre>
 <pre class='cython code score-33 '>  /*else*/ {
     if (unlikely(__pyx_v_self-&gt;annual_deliveries == Py_None)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2608,7 +2682,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_14adjust_account
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-22" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">152</span>:       self.daily_deliveries += contract_deliveries</pre>
+</pre><pre class="cython line score-22" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">152</span>:       <span class="bp">self</span><span class="o">.</span><span class="n">daily_deliveries</span> <span class="o">+=</span> <span class="n">contract_deliveries</span></pre>
 <pre class='cython code score-22 '>    __pyx_t_3 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;daily_deliveries);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     __pyx_t_4 = <span class='py_c_api'>PyNumber_InPlaceAdd</span>(__pyx_t_3, __pyx_v_contract_deliveries);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 152, __pyx_L1_error)</span>
@@ -2620,7 +2694,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_14adjust_account
   }
   __pyx_L3:;
 </pre><pre class="cython line score-0">&#xA0;<span class="">153</span>: </pre>
-<pre class="cython line score-72" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">154</span>:   def accounting(self, t, da, m, wateryear, deliveries, carryover, turnback, flood):</pre>
+<pre class="cython line score-72" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">154</span>:   <span class="k">def</span> <span class="nf">accounting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">da</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">wateryear</span><span class="p">,</span> <span class="n">deliveries</span><span class="p">,</span> <span class="n">carryover</span><span class="p">,</span> <span class="n">turnback</span><span class="p">,</span> <span class="n">flood</span><span class="p">):</span></pre>
 <pre class='cython code score-72 '>/* Python wrapper */
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_17accounting(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_11calfews_src_11contract_cy_8Contract_17accounting(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -2783,7 +2857,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-80" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">155</span>:     contract_deliveries = max(deliveries - max(carryover, 0.0) - max(turnback, 0.0), 0.0)</pre>
+</pre><pre class="cython line score-80" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">155</span>:     <span class="n">contract_deliveries</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">deliveries</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">carryover</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">turnback</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span></pre>
 <pre class='cython code score-80 '>  __pyx_t_1 = 0.0;
   __pyx_t_2 = 0.0;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_carryover);
@@ -2851,7 +2925,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_contract_deliveries = __pyx_t_4;
   __pyx_t_4 = 0;
-</pre><pre class="cython line score-39" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">156</span>:     carryover_deliveries = max(min(carryover, deliveries), 0.0)</pre>
+</pre><pre class="cython line score-39" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">156</span>:     <span class="n">carryover_deliveries</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">carryover</span><span class="p">,</span> <span class="n">deliveries</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span></pre>
 <pre class='cython code score-39 '>  __pyx_t_1 = 0.0;
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_deliveries);
   __pyx_t_4 = __pyx_v_deliveries;
@@ -2893,7 +2967,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_v_carryover_deliveries = __pyx_t_4;
   __pyx_t_4 = 0;
-</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">157</span>:     turnback_deliveries = max(min(turnback, deliveries - carryover), 0.0)</pre>
+</pre><pre class="cython line score-43" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">157</span>:     <span class="n">turnback_deliveries</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">turnback</span><span class="p">,</span> <span class="n">deliveries</span> <span class="o">-</span> <span class="n">carryover</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span></pre>
 <pre class='cython code score-43 '>  __pyx_t_1 = 0.0;
   __pyx_t_4 = <span class='py_c_api'>PyNumber_Subtract</span>(__pyx_v_deliveries, __pyx_v_carryover);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
@@ -2935,12 +3009,12 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_turnback_deliveries = __pyx_t_4;
   __pyx_t_4 = 0;
-</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">158</span>:     flood_deliveries = flood</pre>
+</pre><pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">158</span>:     <span class="n">flood_deliveries</span> <span class="o">=</span> <span class="n">flood</span></pre>
 <pre class='cython code score-1 '>  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_flood);
   __pyx_v_flood_deliveries = __pyx_v_flood;
 </pre><pre class="cython line score-0">&#xA0;<span class="">159</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">160</span>: 	#we want to 'stack' the different kinds of deliveries for plotting in an area chart</pre>
-<pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">161</span>:     self.daily_supplies['contract'][t] += contract_deliveries</pre>
+<pre class="cython line score-0">&#xA0;<span class="">160</span>: 	<span class="c">#we want to &#39;stack&#39; the different kinds of deliveries for plotting in an area chart</span></pre>
+<pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">161</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_supplies</span><span class="p">[</span><span class="s">&#39;contract&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">contract_deliveries</span></pre>
 <pre class='cython code score-24 '>  if (unlikely(__pyx_v_self-&gt;daily_supplies == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 161, __pyx_L1_error)</span>
@@ -2958,7 +3032,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">162</span>:     self.daily_supplies['carryover'][t] += carryover_deliveries</pre>
+</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">162</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_supplies</span><span class="p">[</span><span class="s">&#39;carryover&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">carryover_deliveries</span></pre>
 <pre class='cython code score-24 '>  if (unlikely(__pyx_v_self-&gt;daily_supplies == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 162, __pyx_L1_error)</span>
@@ -2976,7 +3050,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">163</span>:     self.daily_supplies['turnback'][t] += turnback_deliveries</pre>
+</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">163</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_supplies</span><span class="p">[</span><span class="s">&#39;turnback&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">turnback_deliveries</span></pre>
 <pre class='cython code score-24 '>  if (unlikely(__pyx_v_self-&gt;daily_supplies == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 163, __pyx_L1_error)</span>
@@ -2994,7 +3068,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">164</span>:     self.daily_supplies['flood'][t] += flood_deliveries</pre>
+</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">164</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_supplies</span><span class="p">[</span><span class="s">&#39;flood&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flood_deliveries</span></pre>
 <pre class='cython code score-24 '>  if (unlikely(__pyx_v_self-&gt;daily_supplies == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 164, __pyx_L1_error)</span>
@@ -3012,7 +3086,7 @@ static PyObject *__pyx_pf_11calfews_src_11contract_cy_8Contract_16accounting(str
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">165</span>:     self.daily_supplies['total_carryover'][t] += carryover</pre>
+</pre><pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">165</span>:     <span class="bp">self</span><span class="o">.</span><span class="n">daily_supplies</span><span class="p">[</span><span class="s">&#39;total_carryover&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">carryover</span></pre>
 <pre class='cython code score-24 '>  if (unlikely(__pyx_v_self-&gt;daily_supplies == Py_None)) {
     <span class='py_c_api'>PyErr_SetString</span>(PyExc_TypeError, "'NoneType' object is not subscriptable");
     <span class='error_goto'>__PYX_ERR(0, 165, __pyx_L1_error)</span>
