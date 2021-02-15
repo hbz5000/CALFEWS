@@ -1,7 +1,7 @@
 from .crop_cy cimport Crop
 from .contract_cy cimport Contract
 
-cdef class District():
+cdef public class District()[object District_object, type District_type]:
 
   cdef:
     public double leiu_recovery, in_district_direct_recharge, in_district_storage, recovery_fraction, surface_water_sa, seepage, \

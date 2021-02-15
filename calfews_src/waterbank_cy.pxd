@@ -1,4 +1,4 @@
-cdef class Waterbank():
+cdef public class Waterbank()[object Waterbank_object, type Waterbank_type]:
 
   cdef:
     public double initial_recharge, recovery, tot_storage, recharge_rate, tot_current_storage, current_requested, loss_rate

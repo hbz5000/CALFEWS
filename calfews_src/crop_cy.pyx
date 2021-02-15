@@ -1,5 +1,4 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import matplotlib.pyplot as plt
 import scipy
@@ -8,7 +7,7 @@ import json
 from .util import *
 
 
-cdef class Crop():
+cdef public class Crop()[object Crop_object, type Crop_type]:
 
   def __iter__(self):
     self.iter_count = 0

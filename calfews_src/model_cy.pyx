@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from .util import *
 
-cdef class Model():
+cdef public class Model()[object Model_object, type Model_type]:
  
   def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
     ##Set model dataset & index length

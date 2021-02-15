@@ -1,4 +1,4 @@
-cdef class Canal():
+cdef public class Canal()[object Canal_object, type Canal_type]:
      
   cdef:
 

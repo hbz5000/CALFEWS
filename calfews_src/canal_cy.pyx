@@ -1,11 +1,10 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import pandas as pd
 import json
 from .util import *
 
-cdef class Canal():
+cdef public class Canal()[object Canal_object, type Canal_type]:
 
   def __iter__(self):
     self.iter_count = 0

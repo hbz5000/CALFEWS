@@ -8,5 +8,5 @@ setup(
                                 'calfews_src/model_cy.pyx', 'calfews_src/private_cy.pyx',
                                 'calfews_src/reservoir_cy.pyx', 'calfews_src/waterbank_cy.pyx',
                                 'main_cy.pyx'], 
-                                annotate=True,language_level=3, include_path=['./', 'calfews_src/'])
+                                annotate=False,language_level=3, include_path=['./', 'calfews_src/'])
 )

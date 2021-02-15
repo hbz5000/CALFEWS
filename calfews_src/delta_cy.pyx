@@ -1,5 +1,4 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np
 import calendar
 import matplotlib.pyplot as plt
@@ -7,7 +6,7 @@ import pandas as pd
 import json
 from .util import *
 
-cdef class Delta():
+cdef public class Delta()[object Delta_object, type Delta_type]:
 
   def __iter__(self):
     self.iter_count = 0

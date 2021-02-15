@@ -1,4 +1,4 @@
-cdef class Crop():
+cdef public class Crop()[object Crop_object, type Crop_type]:
 
   cdef:
     public double sub, price

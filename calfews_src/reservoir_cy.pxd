@@ -1,4 +1,4 @@
-cdef class Reservoir():
+cdef public class Reservoir()[object Reservoir_object, type Reservoir_type]:
 
   cdef:
     public double dead_pool, capacity, max_carryover_target, carryover_excess_use, sodd_pct, max_outflow, delta_outflow_pct, \

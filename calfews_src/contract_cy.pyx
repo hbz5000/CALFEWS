@@ -1,11 +1,10 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import pandas as pd
 import json
 from .util import *
 
-cdef class Contract():
+cdef public class Contract()[object Contract_object, type Contract_type]:
  
   def __iter__(self):
     self.iter_count = 0

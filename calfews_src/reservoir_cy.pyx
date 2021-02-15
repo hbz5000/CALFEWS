@@ -1,5 +1,4 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import calendar
 import matplotlib.pyplot as plt
@@ -8,7 +7,7 @@ import json
 from .util import *
 
 
-cdef class Reservoir():
+cdef public class Reservoir()[object Reservoir_object, type Reservoir_type]:
 
   def __iter__(self):
     self.iter_count = 0

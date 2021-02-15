@@ -830,7 +830,7 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
-struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir;
+struct Reservoir_object;
 struct __pyx_obj_11calfews_src_11inputter_cy___pyx_scope_struct__generate_relationships;
 struct __pyx_obj_11calfews_src_11inputter_cy___pyx_scope_struct_1_genexpr;
 struct __pyx_obj_11calfews_src_11inputter_cy___pyx_scope_struct_2_genexpr;
@@ -845,11 +845,11 @@ struct __pyx_defaults {
 };
 
 /* "calfews_src/reservoir_cy.pxd":1
- * cdef class Reservoir():             # <<<<<<<<<<<<<<
+ * cdef public class Reservoir()[object Reservoir_object, type Reservoir_type]:             # <<<<<<<<<<<<<<
  * 
  *   cdef:
  */
-struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir {
+struct Reservoir_object {
   PyObject_HEAD
   double dead_pool;
   double capacity;
@@ -971,6 +971,7 @@ struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir {
   PyObject *monthly_new;
 };
 
+__PYX_EXTERN_C DL_EXPORT(PyTypeObject) Reservoir_type;
 
 /* "calfews_src/inputter_cy.pyx":201
  *                 monthcounter += 1
@@ -51497,7 +51498,7 @@ static int __Pyx_modinit_type_import_code(void) {
   /*--- Type import code ---*/
   __pyx_t_1 = PyImport_ImportModule("calfews_src.reservoir_cy"); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_11calfews_src_12reservoir_cy_Reservoir = __Pyx_ImportType(__pyx_t_1, "calfews_src.reservoir_cy", "Reservoir", sizeof(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir), __Pyx_ImportType_CheckSize_Warn);
+  __pyx_ptype_11calfews_src_12reservoir_cy_Reservoir = __Pyx_ImportType(__pyx_t_1, "calfews_src.reservoir_cy", "Reservoir", sizeof(struct Reservoir_object), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_11calfews_src_12reservoir_cy_Reservoir) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();

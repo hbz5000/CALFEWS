@@ -1,4 +1,4 @@
-cdef class Delta():
+cdef public class Delta()[object Delta_object, type Delta_type]:
 
   cdef:
     public double last_year_vamp, cvp_aval_stor, swp_aval_stor, cvp_delta_outflow_pct, swp_delta_outflow_pct, \

@@ -7,7 +7,7 @@ from .waterbank_cy cimport Waterbank
 from .contract_cy cimport Contract
 
 
-cdef class Model():
+cdef public class Model()[object Model_object, type Model_type]:
  
   cdef:
 

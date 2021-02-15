@@ -1,4 +1,4 @@
-cdef class Contract():
+cdef public class Contract()[object Contract_object, type Contract_type]:
 
   cdef:
 

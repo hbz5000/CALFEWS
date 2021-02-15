@@ -1,5 +1,4 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import matplotlib.pyplot as plt
 import collections as cl
@@ -11,7 +10,7 @@ from .crop_cy cimport Crop
 from .contract_cy cimport Contract
 
 
-cdef class District():
+cdef public class District()[object District_object, type District_type]:
 
   def __iter__(self):
     self.iter_count = 0

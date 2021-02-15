@@ -1,7 +1,7 @@
 from .crop_cy cimport Crop
 from .contract_cy cimport Contract
 
-cdef class Private():
+cdef public class Private()[object Private_object, type Private_type]:
 
   cdef:
     public double in_district_direct_recharge, recovery_fraction, use_recharge, use_recovery, extra_leiu_recovery, \
