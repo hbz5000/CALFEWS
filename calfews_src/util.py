@@ -5,7 +5,6 @@ import h5py
 import json
 from itertools import compress
 import gc
-from time import sleep
 
 cfs_tafd = 2.29568411*10**-5 * 86400 / 1000
 tafd_cfs = 1000 / 86400 * 43560
