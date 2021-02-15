@@ -3,14 +3,15 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - pandas
   - python=3.7
+  - numpy
+  - pandas
   - h5py
   - matplotlib
   - imageio
-  - numpy
   - cython
   - scipy
   - seaborn
   - configobj
+  - bqplot
 prefix: C:\Users\Andrew\anaconda3\envs\.venv_conda_calfews
