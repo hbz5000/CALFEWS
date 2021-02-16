@@ -101,13 +101,6 @@ cdef class main_cy():
     elif model_mode == 'validation':
       demand_type = 'pesticide'
       input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
-    elif model_mode == 'sensitivity':
-      demand_type = 'baseline'
-      base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
-    elif model_mode == 'climate_ensemble':
-      demand_type = 'baseline'
-      base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
-
 
     stop = 1    
      
