@@ -60,7 +60,10 @@
       "ipsl-cm5a-mr_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1.csv",
       "miroc5_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp45_r1i1p1.csv",
       "miroc5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp85_r1i1p1.csv"
-      }
+      },
+    "synthetic":{
+      "capow_23yr": "calfews_src/data/input/ORCA_forecast_flows.csv"
+    }
     },
 
   "export_series":{
@@ -122,6 +125,9 @@
       "ipsl-cm5a-mr_rcp85": "calfews_src-data-CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1",
       "miroc5_rcp45": "calfews_src-data-CA_FNF_miroc5_rcp45_r1i1p1",
       "miroc5_rcp85": "calfews_src-data-CA_FNF_miroc5_rcp85_r1i1p1"
+      },
+      "synthetic":{
+        "capow_23yr": "calfews_src-data-synth_capow"
       }
     },
   
@@ -162,7 +168,7 @@
       "WRF": 2089
       },
     "downscaled_19502100":{
-      "canesm2_rcp45": 1950,
+      "canesm2_rcp45": 1860,
       "canesm2_rcp85": 1950,
       "ccsm4_rcp45": 1950,
       "ccsm4_rcp85": 1950,
@@ -184,6 +190,9 @@
       "ipsl-cm5a-mr_rcp85": 1950,
       "miroc5_rcp45": 1950,
       "miroc5_rcp85": 1950
+    },
+    "synthetic":{
+      "capow_23yr": 1901
     }
   },
   
@@ -198,22 +207,22 @@
       "WRF": 2005
       },
     "downscaled_20062016":{
-      "WRF": 2016,
-      "WRF_GW_corr": 2016,
-      "DryYearAdded": 2016,
-      "WetYearAdded": 2016,
-      "Bias_Corrected": 2016,
-      "Remove_AR": 2016,
-      "AR_1.5": 2016,
-      "AR_1.4": 2016,
-      "AR_1.3": 2016,
-      "AR_1.2": 2016,
-      "AR_1.1": 2016,
-      "AR_0.9": 2016,
-      "AR_0.8": 2016,
-      "AR_0.7": 2016,
-      "AR_0.6": 2016,
-      "AR_0.5": 2016    
+      "WRF": 2017,
+      "WRF_GW_corr": 2017,
+      "DryYearAdded": 2017,
+      "WetYearAdded": 2017,
+      "Bias_Corrected": 2017,
+      "Remove_AR": 2017,
+      "AR_1.5": 2017,
+      "AR_1.4": 2017,
+      "AR_1.3": 2017,
+      "AR_1.2": 2017,
+      "AR_1.1": 2017,
+      "AR_0.9": 2017,
+      "AR_0.8": 2017,
+      "AR_0.7": 2017,
+      "AR_0.6": 2017,
+      "AR_0.5": 2017    
       },
     "downscaled_20402050":{
       "VIC": 2050,
@@ -224,7 +233,7 @@
       "WRF": 2100
       },
     "downscaled_19502100":{
-      "canesm2_rcp45": 2099,
+      "canesm2_rcp45": 2009,
       "canesm2_rcp85": 2099,
       "ccsm4_rcp45": 2099,
       "ccsm4_rcp85": 2099,
@@ -246,6 +255,9 @@
       "ipsl-cm5a-mr_rcp85": 2099,
       "miroc5_rcp45": 2099,
       "miroc5_rcp85": 2099
+    },
+    "synthetic":{
+      "capow_23yr": 1923
     }
   },
   
@@ -260,22 +272,22 @@
       "WRF": "10/1/1994"
       },
     "downscaled_20062016":{
-      "WRF": "10/1/2016",
+      "WRF": "10/1/2006",
       "WRF_GW_corr": "10/1/2006",
-      "DryYearAdded": "10/1/1996",
-      "WetYearAdded": "10/1/1996",
+      "DryYearAdded": "10/1/2006",
+      "WetYearAdded": "10/1/2006",
       "Bias_Corrected": "10/1/2006",
-      "Remove_AR": "10/1/1996",
-      "AR_1.5": "10/1/1996",
-      "AR_1.4": "10/1/1996",
-      "AR_1.3": "10/1/1996",
-      "AR_1.2": "10/1/1996",
-      "AR_1.1": "10/1/1996",
-      "AR_0.9": "10/1/1996",
-      "AR_0.8": "10/1/1996",
-      "AR_0.7": "10/1/1996",
-      "AR_0.6": "10/1/1996",
-      "AR_0.5": "10/1/1996"
+      "Remove_AR": "10/1/2006",
+      "AR_1.5": "10/1/2006",
+      "AR_1.4": "10/1/2006",
+      "AR_1.3": "10/1/2006",
+      "AR_1.2": "10/1/2006",
+      "AR_1.1": "10/1/2006",
+      "AR_0.9": "10/1/2006",
+      "AR_0.8": "10/1/2006",
+      "AR_0.7": "10/1/2006",
+      "AR_0.6": "10/1/2006",
+      "AR_0.5": "10/1/2006"
       },
     "downscaled_20402050":{
       "VIC": "1/1/1950",
@@ -286,7 +298,7 @@
       "WRF": "10/1/2089"
       },
     "downscaled_19502100":{
-      "canesm2_rcp45": "1/1/1950",
+      "canesm2_rcp45": "1/1/1860",
       "canesm2_rcp85": "1/1/1950",
       "ccsm4_rcp45": "1/1/1950",
       "ccsm4_rcp85": "1/1/1950",
@@ -308,6 +320,9 @@
       "ipsl-cm5a-mr_rcp85": "1/1/1950",
       "miroc5_rcp45": "1/1/1950",
       "miroc5_rcp85": "1/1/1950"
+    },
+    "synthetic":{
+      "capow_23yr": "1/1/1901"
     }
   },
   
@@ -322,22 +337,22 @@
       "WRF": "9/30/2005"
       },
     "downscaled_20062016":{
-      "WRF": "9/30/2016",
-      "WRF_GW_corr": "9/30/2016",
-      "DryYearAdded": "9/30/2016",
-      "WetYearAdded": "9/30/2016",
-      "Bias_Corrected": "9/30/2016",
-      "Remove_AR": "9/30/2016",
-      "AR_1.5": "9/30/2016",
-      "AR_1.4": "9/30/2016",
-      "AR_1.3": "9/30/2016",
-      "AR_1.2": "9/30/2016",
-      "AR_1.1": "9/30/2016",
-      "AR_0.9": "9/30/2016",
-      "AR_0.8": "9/30/2016",
-      "AR_0.7": "9/30/2016",
-      "AR_0.6": "9/30/2016",
-      "AR_0.5": "9/30/2016"   
+      "WRF": "9/30/2017",
+      "WRF_GW_corr": "9/30/2017",
+      "DryYearAdded": "9/30/2017",
+      "WetYearAdded": "9/30/2017",
+      "Bias_Corrected": "9/30/2017",
+      "Remove_AR": "9/30/2017",
+      "AR_1.5": "9/30/2017",
+      "AR_1.4": "9/30/2017",
+      "AR_1.3": "9/30/2017",
+      "AR_1.2": "9/30/2017",
+      "AR_1.1": "9/30/2017",
+      "AR_0.9": "9/30/2017",
+      "AR_0.8": "9/30/2017",
+      "AR_0.7": "9/30/2017",
+      "AR_0.6": "9/30/2017",
+      "AR_0.5": "9/30/2017"   
       },
     "downscaled_20402050":{
       "VIC": "12/31/2099",
@@ -348,7 +363,7 @@
       "WRF": "9/30/2100"
       },
     "downscaled_19502100":{
-      "canesm2_rcp45": "12/31/2099",
+      "canesm2_rcp45": "12/31/2009",
       "canesm2_rcp85": "12/31/2099",
       "ccsm4_rcp45": "12/31/2099",
       "ccsm4_rcp85": "12/31/2099",
@@ -370,6 +385,9 @@
       "ipsl-cm5a-mr_rcp85": "12/31/2099",
       "miroc5_rcp45": "12/31/2099",
       "miroc5_rcp85": "12/31/2099"
+    },
+    "synthetic":{
+      "capow_23yr": "12/31/1923"
     }
   },
   "has_full_inputs":{
@@ -431,6 +449,9 @@
       "ipsl-cm5a-mr_rcp85": false,
       "miroc5_rcp45": false,
       "miroc5_rcp85": false
+    },
+    "synthetic":{
+      "capow_23yr": false
     }
   },
   
@@ -471,28 +492,31 @@
       "WRF": false
       },
     "downscaled_19502100":{
-      "canesm2_rcp45": false,
-      "canesm2_rcp85": false,
-      "ccsm4_rcp45": false,
-      "ccsm4_rcp85": false,
-      "cnrm-cm5_rcp45": false,
-      "cnrm-cm5_rcp85": false,
-      "csiro-mk3-6-0_rcp45": false,
-      "csiro-mk3-6-0_rcp85": false,
-      "gfdl-cm3_rcp45": false,
-      "gfdl-cm3_rcp85": false,
-      "gfdl-esm2m_rcp45": false,
-      "gfdl-esm2m_rcp85": false,
-      "hadgem2-cc_rcp45": false,
-      "hadgem2-cc_rcp85": false,
-      "hadgem2-es_rcp45": false,
-      "hadgem2-es_rcp85": false,
-      "inmcm4_rcp45": false,
-      "inmcm4_rcp85": false,
-      "ipsl-cm5a-mr_rcp45": false,
-      "ipsl-cm5a-mr_rcp85": false,
-      "miroc5_rcp45": false,
-      "miroc5_rcp85": false
+      "canesm2_rcp45": true,
+      "canesm2_rcp85": true,
+      "ccsm4_rcp45": true,
+      "ccsm4_rcp85": true,
+      "cnrm-cm5_rcp45": true,
+      "cnrm-cm5_rcp85": true,
+      "csiro-mk3-6-0_rcp45": true,
+      "csiro-mk3-6-0_rcp85": true,
+      "gfdl-cm3_rcp45": true,
+      "gfdl-cm3_rcp85": true,
+      "gfdl-esm2m_rcp45": true,
+      "gfdl-esm2m_rcp85": true,
+      "hadgem2-cc_rcp45": true,
+      "hadgem2-cc_rcp85": true,
+      "hadgem2-es_rcp45": true,
+      "hadgem2-es_rcp85": true,
+      "inmcm4_rcp45": true,
+      "inmcm4_rcp85": true,
+      "ipsl-cm5a-mr_rcp45": true,
+      "ipsl-cm5a-mr_rcp85": true,
+      "miroc5_rcp45": true,
+      "miroc5_rcp85": true
+    },
+    "synthetic":{
+      "capow_23yr": true
     }
   },
 
@@ -555,6 +579,9 @@
       "ipsl-cm5a-mr_rcp85": "cfs",
       "miroc5_rcp45": "cfs",
       "miroc5_rcp85": "cfs"
+    },
+    "synthetic":{
+      "capow_23yr": "af"
     }
   },
 

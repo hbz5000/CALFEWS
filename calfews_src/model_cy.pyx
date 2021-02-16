@@ -184,7 +184,6 @@ cdef class Model():
       self.set_regulations_historical_south(scenario)
     else:
       self.set_regulations_current_south(scenario)
-
     # create dictionaries that structure the relationships between
     # reservoirs, canals, districts, waterbanks, and contracts
     # generates:
@@ -781,14 +780,14 @@ cdef class Model():
     for district_obj in self.district_list:
       district_obj.delivery_location_list = []
       district_obj.delivery_location_list.append(district_obj.key)
-      district_obj.daily_supplies_full[district_obj.key + '_recharged'] = np.zeros(self.T)
+      # district_obj.daily_supplies_full[district_obj.key + '_recharged'] = np.zeros(self.T)
       district_obj.deliveries[district_obj.key + '_recharged'] = np.zeros(self.number_years)
       for waterbank_obj in self.waterbank_list:
-        district_obj.daily_supplies_full[waterbank_obj.key + '_recharged'] = np.zeros(self.T)
+        # district_obj.daily_supplies_full[waterbank_obj.key + '_recharged'] = np.zeros(self.T)
         district_obj.deliveries[waterbank_obj.key + '_recharged'] = np.zeros(self.number_years)
         district_obj.delivery_location_list.append(waterbank_obj.key)
       for leiu_obj in self.leiu_list:
-        district_obj.daily_supplies_full[leiu_obj.key + '_recharged'] = np.zeros(self.T)
+        # district_obj.daily_supplies_full[leiu_obj.key + '_recharged'] = np.zeros(self.T)
         district_obj.deliveries[leiu_obj.key + '_recharged'] = np.zeros(self.number_years)
         district_obj.delivery_location_list.append(leiu_obj.key)
     for private_obj in self.private_list:
@@ -796,34 +795,34 @@ cdef class Model():
       for district_key in private_obj.district_list:
         private_obj.delivery_location_list[district_key] = []
         private_obj.delivery_location_list[district_key].append(district_key)
-        private_obj.daily_supplies_full[district_key + '_' +  district_key + '_recharged'] = np.zeros(self.T)
+        # private_obj.daily_supplies_full[district_key + '_' +  district_key + '_recharged'] = np.zeros(self.T)
         private_obj.deliveries[district_key][district_key + '_recharged'] = np.zeros(self.number_years)
       for waterbank_obj in self.waterbank_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(waterbank_obj.key)
-          private_obj.daily_supplies_full[district_key + '_' + waterbank_obj.key + '_recharged'] = np.zeros(self.T)
+          # private_obj.daily_supplies_full[district_key + '_' + waterbank_obj.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][waterbank_obj.key + '_recharged'] = np.zeros(self.number_years)
       for lb in self.leiu_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(lb.key)
-          private_obj.daily_supplies_full[district_key + '_' + lb.key + '_recharged'] = np.zeros(self.T)
+          # private_obj.daily_supplies_full[district_key + '_' + lb.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][lb.key + '_recharged'] = np.zeros(self.number_years)
     for private_obj in self.city_list:
       private_obj.delivery_location_list = {}
       for district_key in private_obj.district_list:
         private_obj.delivery_location_list[district_key] = []
         private_obj.delivery_location_list[district_key].append(district_key)
-        private_obj.daily_supplies_full[district_key + '_' +  district_key + '_recharged'] = np.zeros(self.T)
+        # private_obj.daily_supplies_full[district_key + '_' +  district_key + '_recharged'] = np.zeros(self.T)
         private_obj.deliveries[district_key][district_key + '_recharged'] = np.zeros(self.number_years)
       for waterbank_obj in self.waterbank_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(waterbank_obj.key)
-          private_obj.daily_supplies_full[district_key + '_' + waterbank_obj.key + '_recharged'] = np.zeros(self.T)
+          # private_obj.daily_supplies_full[district_key + '_' + waterbank_obj.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][waterbank_obj.key + '_recharged'] = np.zeros(self.number_years)
       for lb in self.leiu_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(lb.key)
-          private_obj.daily_supplies_full[district_key + '_' + lb.key + '_recharged'] = np.zeros(self.T)
+          # private_obj.daily_supplies_full[district_key + '_' + lb.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][lb.key + '_recharged'] = np.zeros(self.number_years)
         
     if self.model_mode == 'validation':
@@ -1972,16 +1971,16 @@ cdef class Model():
         private_obj.delivery_percent_coefficient[district_key] = np.zeros((365,4))
         regression_percent[private_obj][district_key] = np.zeros((365,numYears_urban))
     
-    sim_y = self.year
-    sim_m = self.month
-    sim_d = self.day_month
-    start_counter = 0
-    sri_regression = np.zeros(numYears_urban - urban_start_regression)
-    for simt in range(0, self.T):
-      if sim_y[simt] == urban_start_regression_year:
-        start_counter = 1
-      if start_counter == 1 and sim_m[simt] == 9 and sim_d[simt] == 1:
-        sri_regression[sim_y[simt] - urban_start_regression_year] = self.forecastSRI[simt]
+#     sim_y = self.year
+#     sim_m = self.month
+#     sim_d = self.day_month
+#     start_counter = 0
+#     sri_regression = np.zeros(numYears_urban - urban_start_regression)
+#     for simt in range(0, self.T):
+#       if sim_y[simt] == urban_start_regression_year:
+#         start_counter = 1
+#       if start_counter == 1 and sim_m[simt] == 9 and sim_d[simt] == 1:
+#         sri_regression[sim_y[simt] - urban_start_regression_year] = self.forecastSRI[simt]
     urban_leap = leap(np.arange(min(index_urban_y), max(index_urban_y) + 2))
     urban_year_list = np.arange(min(index_urban_y), max(index_urban_y) + 2)
     urban_days_in_month = days_in_month(urban_year_list, urban_leap)
@@ -2218,7 +2217,6 @@ cdef class Model():
         private_obj.demand_auto_errors[district_key] = np.zeros((365,numYears_urban-urban_start_regression))
         pumping_forecast_min = -500.0
         pumping_forecast_max = 500.0
-        fig = plt.figure()
         counter1 = 1
         for wateryear_day in range(0, 365):
           day_error_changes = error_changes[wateryear_day]
@@ -2233,6 +2231,7 @@ cdef class Model():
             private_obj.demand_auto_errors[district_key][wateryear_day][y-urban_start_regression] = pumping_changes[wateryear_day][y - urban_start_regression] * private_obj.delivery_percent_coefficient[district_key][wateryear_day][2] + private_obj.delivery_percent_coefficient[district_key][wateryear_day][3] - error_changes[wateryear_day][y - urban_start_regression]
 
           if private_obj.key == 'XXX':
+            fig = plt.figure()
             ax1 = fig.add_subplot(4,5,counter1)
             ax1.scatter(day_pumping_changes, day_error_changes, s=50, c='red', edgecolor='none', alpha=0.7)
             ax1.plot([np.max(day_pumping_changes), np.min(day_pumping_changes)], [(np.max(day_pumping_changes)*coef[0] + coef[1]), np.min(day_pumping_changes)*coef[0] + coef[1]],c='red')
@@ -2249,10 +2248,10 @@ cdef class Model():
     for private_obj in self.city_list:
       for district_key in private_obj.district_list:
         counter1 = 1
-        fig = plt.figure() 
         for wateryear_day in range(0,365):
           coef = np.polyfit(pumping_forecast_dowy[wateryear_day][urban_start_regression:], regression_percent[private_obj][district_key][wateryear_day][urban_start_regression:],1)
           if private_obj.key == "XXX":
+            fig = plt.figure() 
             r = np.corrcoef(pumping_forecast_dowy[wateryear_day][urban_start_regression:], regression_percent[private_obj][district_key][wateryear_day][urban_start_regression:])[0,1]
             sri = np.zeros(numYears_urban)
             percent = np.zeros(numYears_urban)
@@ -2543,7 +2542,7 @@ cdef class Model():
 			
 
 
-  def simulate_south(self, t, hro_pump, trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, wytSC, max_tax_free, flood_release, flood_volume):
+  def simulate_south(self, int t, double hro_pump, double trp_pump, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, wyt, wytSC, max_tax_free, flood_release, flood_volume):
     cdef Canal canal_obj
     cdef Reservoir reservoir_obj
     cdef Contract contract_obj, contract_obj2
@@ -2551,6 +2550,7 @@ cdef class Model():
     cdef Private private_obj
     cdef Waterbank waterbank_private
     cdef dict total_canal_demand
+    cdef int d, da, dowy, m, y, wateryear, year_index, m1, use_contract
 
     ####Maintain the same date/time accounting as the northern part of the model
     d = self.day_year[t]

@@ -104,21 +104,21 @@ cdef class District():
     # hold all output
     self.daily_supplies_full = {}
     # delivery_list = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern']
-    for x in self.contract_list_all:
-      self.daily_supplies_full[x + '_delivery'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_flood'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_flood_irrigation'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_recharged'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_projected'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_paper'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_carryover'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_turnback'] = np.zeros(self.T)
-      self.daily_supplies_full[x + '_dynamic_recharge_cap'] = np.zeros(self.T)
+    # for x in self.contract_list_all:
+    #   self.daily_supplies_full[x + '_delivery'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_flood'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_flood_irrigation'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_recharged'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_projected'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_paper'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_carryover'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_turnback'] = np.zeros(self.T)
+    #   self.daily_supplies_full[x + '_dynamic_recharge_cap'] = np.zeros(self.T)
 
-    for x in self.non_contract_delivery_list:
-      self.daily_supplies_full[x] = np.zeros(self.T)
-    for x in ['recover_banked', 'inleiu_irrigation', 'inleiu_recharge', 'leiupumping', 'exchanged_GW', 'exchanged_SW', 'pumping', 'irr_demand', 'tot_demand', 'dynamic_recovery_cap']:
-      self.daily_supplies_full[x] = np.zeros(self.T)  
+    # for x in self.non_contract_delivery_list:
+    #   self.daily_supplies_full[x] = np.zeros(self.T)
+    # for x in ['recover_banked', 'inleiu_irrigation', 'inleiu_recharge', 'leiupumping', 'exchanged_GW', 'exchanged_SW', 'pumping', 'irr_demand', 'tot_demand', 'dynamic_recovery_cap']:
+    #   self.daily_supplies_full[x] = np.zeros(self.T)  
 	
     # ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'undelivered_trades']
     #Initialize demands
@@ -1161,34 +1161,46 @@ cdef class District():
     self.total_banked_storage = 0.0
     self.max_leiu_exchange = 0.0
 
+  def set_daily_supplies_full(self, key, value, t):
+    ### only create timeseries for keys that actually ever triggered
+    try:
+        self.daily_supplies_full[key][t] = value
+    except:
+      if abs(value) > 1e-13:
+        self.daily_supplies_full[key] =  np.zeros(self.T)
+        self.daily_supplies_full[key][t] = value
+
+
   def accounting_full(self, t, wateryear):
     # keep track of all contract amounts
     for x in self.contract_list_all:
-      self.daily_supplies_full[x + '_delivery'][t] = self.deliveries[x][wateryear]
-      self.daily_supplies_full[x + '_flood'][t] = self.deliveries[x + '_flood'][wateryear]
-      self.daily_supplies_full[x + '_flood_irrigation'][t] = self.deliveries[x + '_flood_irrigation'][wateryear]
-      self.daily_supplies_full[x + '_recharged'][t] = self.deliveries[x + '_recharged'][wateryear]
-      self.daily_supplies_full[x + '_projected'][t] = self.projected_supply[x]
-      self.daily_supplies_full[x + '_paper'][t] = self.paper_balance[x]
-      self.daily_supplies_full[x + '_carryover'][t] = self.carryover[x]
-      self.daily_supplies_full[x + '_turnback'][t] = self.turnback_pool[x]
-      self.daily_supplies_full[x + '_dynamic_recharge_cap'][t] = self.dynamic_recharge_cap[x]
+      ### only store info for contracts that actually happen
+      self.set_daily_supplies_full(x + '_delivery', self.deliveries[x][wateryear], t)
+      self.set_daily_supplies_full(x + '_flood', self.deliveries[x + '_flood'][wateryear], t)
+      self.set_daily_supplies_full(x + '_flood_irrigation', self.deliveries[x + '_flood_irrigation'][wateryear], t)
+      self.set_daily_supplies_full(x + '_recharged', self.deliveries[x + '_recharged'][wateryear], t)
+      self.set_daily_supplies_full(x + '_projected', self.projected_supply[x], t)
+      self.set_daily_supplies_full(x + '_paper', self.paper_balance[x], t)
+      self.set_daily_supplies_full(x + '_carryover', self.carryover[x], t)
+      self.set_daily_supplies_full(x + '_turnback', self.turnback_pool[x], t)
+      self.set_daily_supplies_full(x + '_dynamic_recharge_cap', self.dynamic_recharge_cap[x], t)
 
     for x in self.delivery_location_list:
-      self.daily_supplies_full[x + '_recharged'][t] = self.deliveries[x + '_recharged'][wateryear]
+      self.set_daily_supplies_full(x + '_recharged', self.deliveries[x + '_recharged'][wateryear], t)
 
     for x in self.non_contract_delivery_list:
-      self.daily_supplies_full[x][t] = self.deliveries[x][wateryear]
-    self.daily_supplies_full['pumping'][t] = self.annual_private_pumping
-    self.daily_supplies_full['irr_demand'][t] = self.dailydemand_start[0]
-    self.daily_supplies_full['tot_demand'][t] = self.annualdemand[0]
-    self.daily_supplies_full['recover_banked'][t] = self.deliveries['recover_banked'][wateryear]
-    self.daily_supplies_full['inleiu_irrigation'][t] = self.deliveries['inleiu_irrigation'][wateryear]
-    self.daily_supplies_full['inleiu_recharge'][t] = self.deliveries['inleiu_recharge'][wateryear]
-    self.daily_supplies_full['leiupumping'][t] = self.deliveries['leiupumping'][wateryear]
-    self.daily_supplies_full['exchanged_GW'][t] = self.deliveries['exchanged_GW'][wateryear]
-    self.daily_supplies_full['exchanged_SW'][t] = self.deliveries['exchanged_SW'][wateryear]
-    self.daily_supplies_full['dynamic_recovery_cap'][t] = self.recovery_capacity_remain
+      self.set_daily_supplies_full(x, self.deliveries[x][wateryear], t)
+      
+    self.set_daily_supplies_full('pumping', self.annual_private_pumping, t)
+    self.set_daily_supplies_full('irr_demand', self.dailydemand_start[0], t)
+    self.set_daily_supplies_full('tot_demand', self.annualdemand[0], t)
+    self.set_daily_supplies_full('recover_banked', self.deliveries['recover_banked'][wateryear], t)
+    self.set_daily_supplies_full('inleiu_irrigation', self.deliveries['inleiu_irrigation'][wateryear], t)
+    self.set_daily_supplies_full('inleiu_recharge', self.deliveries['inleiu_recharge'][wateryear], t)
+    self.set_daily_supplies_full('leiupumping', self.deliveries['leiupumping'][wateryear], t)
+    self.set_daily_supplies_full('exchanged_GW', self.deliveries['exchanged_GW'][wateryear], t)
+    self.set_daily_supplies_full('exchanged_SW', self.deliveries['exchanged_SW'][wateryear], t)
+    self.set_daily_supplies_full('dynamic_recovery_cap', self.recovery_capacity_remain, t)
 
   
   def accounting_leiubank(self,t, m, da, wateryear):

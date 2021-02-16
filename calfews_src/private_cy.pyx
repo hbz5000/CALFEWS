@@ -36,7 +36,7 @@ cdef class Private():
     self.name = name
 
     # self.turnback_use = 1
-
+    self.T = model.T
     for k,v in json.load(open('calfews_src/private/%s_properties.json' % key)).items():
         setattr(self,k,v)
 		
@@ -109,24 +109,24 @@ cdef class Private():
     # delivery_list = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern']
     for z in self.district_list:
       for x in self.contract_list_all:
-        self.daily_supplies_full[z + '_' + x + '_delivery'] = np.zeros(model.T)
-        self.daily_supplies_full[z + '_' + x + '_flood'] = np.zeros(model.T)
-        self.daily_supplies_full[z + '_' + x + '_projected'] = np.zeros(model.T)
-        self.daily_supplies_full[z + '_' + x + '_paper'] = np.zeros(model.T)
-        self.daily_supplies_full[z + '_' + x + '_carryover'] = np.zeros(model.T)
-        self.daily_supplies_full[z + '_' + x + '_turnback'] = np.zeros(model.T)
-        self.daily_supplies_full[z + '_' + x + '_recharged'] = np.zeros(model.T)
-        self.daily_supplies_full[z + '_' + x + '_dynamic_recharge_cap'] = np.zeros(model.T)
-
+        # self.daily_supplies_full[z + '_' + x + '_delivery'] = np.zeros(model.T)
+        # self.daily_supplies_full[z + '_' + x + '_flood'] = np.zeros(model.T)
+        # self.daily_supplies_full[z + '_' + x + '_projected'] = np.zeros(model.T)
+        # self.daily_supplies_full[z + '_' + x + '_paper'] = np.zeros(model.T)
+        # self.daily_supplies_full[z + '_' + x + '_carryover'] = np.zeros(model.T)
+        # self.daily_supplies_full[z + '_' + x + '_turnback'] = np.zeros(model.T)
+        # self.daily_supplies_full[z + '_' + x + '_recharged'] = np.zeros(model.T)
+        # self.daily_supplies_full[z + '_' + x + '_dynamic_recharge_cap'] = np.zeros(model.T)
         self.demand_days['current'][x] = 0.0
         self.demand_days['lookahead'][x] = 0.0
 
-      for x in self.non_contract_delivery_list:
-        self.daily_supplies_full[z + '_' + x] = np.zeros(model.T)
-      self.daily_supplies_full[z + '_irr_demand'] = np.zeros(model.T)
-      self.daily_supplies_full[z + '_tot_demand'] = np.zeros(model.T)
-      self.daily_supplies_full[z + '_pumping'] = np.zeros(model.T)
-      self.daily_supplies_full[z + '_dynamic_recovery_cap'] = np.zeros(model.T)
+      # for x in self.non_contract_delivery_list:
+      #   self.daily_supplies_full[z + '_' + x] = np.zeros(model.T)
+      # self.daily_supplies_full[z + '_irr_demand'] = np.zeros(model.T)
+      # self.daily_supplies_full[z + '_tot_demand'] = np.zeros(model.T)
+      # self.daily_supplies_full[z + '_pumping'] = np.zeros(model.T)
+      # self.daily_supplies_full[z + '_dynamic_recovery_cap'] = np.zeros(model.T)
+
     # ['recover_banked', 'inleiu', 'leiupumping', 'recharged', 'exchanged_GW', 'exchanged_SW', 'undelivered_trades']
     #Initialize demands
     self.annualdemand = {}
@@ -1382,37 +1382,52 @@ cdef class Private():
     self.total_banked_storage = 0.0
     self.max_leiu_exchange = 0.0
 
+
+  def set_daily_supplies_full(self, key, value, t, plusequals):
+    ### only create timeseries for keys that actually ever triggered. plusequals = 0 if standalone value, =1 if we want to add to current value)
+    try:
+      if plusequals == 1:
+        self.daily_supplies_full[key][t] += value
+      else:
+        self.daily_supplies_full[key][t] = value
+
+    except:
+      if abs(value) > 1e-13:
+        self.daily_supplies_full[key] =  np.zeros(self.T)
+        self.daily_supplies_full[key][t] = value
+
+
   def accounting_full(self, t, wateryear):
     # keep track of all contract amounts
     for x in self.contract_list_all:
       for district in self.district_list:
-        self.daily_supplies_full[district + '_' + x + '_delivery'][t] = 0.0
-        self.daily_supplies_full[district + '_' + x + '_flood'][t] = 0.0
-        self.daily_supplies_full[district + '_' + x + '_projected'][t] = 0.0
-        self.daily_supplies_full[district + '_' + x + '_paper'][t] = 0.0
-        self.daily_supplies_full[district + '_' + x + '_carryover'][t] = 0.0
-        self.daily_supplies_full[district + '_' + x + '_turnback'][t] = 0.0
-        self.daily_supplies_full[district + '_' + x + '_paper'][t] += self.paper_balance[district][x]
-        self.daily_supplies_full[district + '_' + x + '_recharged'][t] = 0.0
-        self.daily_supplies_full[district + '_' + x + '_delivery'][t] += self.deliveries[district][x][wateryear]
-        self.daily_supplies_full[district + '_' + x + '_flood'][t] += self.deliveries[district][x + '_flood'][wateryear] + self.deliveries[district][x + '_flood_irrigation'][wateryear]
-        self.daily_supplies_full[district + '_' + x + '_projected'][t] += self.projected_supply[district][x]
-        self.daily_supplies_full[district + '_' + x + '_carryover'][t] += self.carryover[district][x]
-        self.daily_supplies_full[district + '_' + x + '_turnback'][t] += self.turnback_pool[district][x]
-        self.daily_supplies_full[district + '_' + x + '_recharged'][t] += self.deliveries[district][x + '_recharged'][wateryear]
-        self.daily_supplies_full[district + '_' + x + '_dynamic_recharge_cap'][t] = self.dynamic_recharge_cap[district][x]
+        # self.set_daily_supplies_full(district + '_' + x + '_delivery', 0.0, t, 0)
+        # self.set_daily_supplies_full(district + '_' + x + '_flood', 0.0, t, 0)
+        # self.set_daily_supplies_full(district + '_' + x + '_projected', 0.0, t, 0)
+        # self.set_daily_supplies_full(district + '_' + x + '_paper', 0.0, t, 0)
+        # self.set_daily_supplies_full[district + '_' + x + '_carryover', 0.0, t, 0)
+        # self.set_daily_supplies_full(district + '_' + x + '_turnback', 0.0, t, 0)
+        self.set_daily_supplies_full(district + '_' + x + '_paper', self.paper_balance[district][x], t, 1)
+        # self.set_daily_supplies_full(district + '_' + x + '_recharged', 0.0, t, 0)
+        self.set_daily_supplies_full(district + '_' + x + '_delivery', self.deliveries[district][x][wateryear], t, 1)
+        self.set_daily_supplies_full(district + '_' + x + '_flood', self.deliveries[district][x + '_flood'][wateryear] + self.deliveries[district][x + '_flood_irrigation'][wateryear], t, 1)
+        self.set_daily_supplies_full(district + '_' + x + '_projected', self.projected_supply[district][x], t, 1)
+        self.set_daily_supplies_full(district + '_' + x + '_carryover', self.carryover[district][x], t, 1)
+        self.set_daily_supplies_full(district + '_' + x + '_turnback', self.turnback_pool[district][x], t, 1)
+        self.set_daily_supplies_full(district + '_' + x + '_recharged', self.deliveries[district][x + '_recharged'][wateryear], t, 1)
+        self.set_daily_supplies_full(district + '_' + x + '_dynamic_recharge_cap', self.dynamic_recharge_cap[district][x], t, 0)
 
     for district in self.district_list:
       for x in self.delivery_location_list[district]:
-        self.daily_supplies_full[district + '_' + x + '_recharged'][t] = self.deliveries[district][x + '_recharged'][wateryear] 
+        self.set_daily_supplies_full(district + '_' + x + '_recharged', self.deliveries[district][x + '_recharged'][wateryear], t, 0)
     for x in self.non_contract_delivery_list:
       for district in self.district_list:
-        self.daily_supplies_full[district + '_' + x][t] = 0.0
-        self.daily_supplies_full[district + '_' + x][t] = self.deliveries[district][x][wateryear]
+        # self.set_daily_supplies_full(district + '_' + x, 0.0, t, 0)
+        self.set_daily_supplies_full(district + '_' + x, self.deliveries[district][x][wateryear], t, 0)
     for district in self.district_list:
-      self.daily_supplies_full[district + '_irr_demand'][t] += self.dailydemand_start[district]
-      self.daily_supplies_full[district + '_tot_demand'][t] += self.annualdemand[district]
-      self.daily_supplies_full[district + '_pumping'][t] += self.annual_private_pumping[district]
-      self.daily_supplies_full[district + '_dynamic_recovery_cap'][t] += self.recovery_capacity_remain/len(self.district_list)
+      self.set_daily_supplies_full(district + '_irr_demand', self.dailydemand_start[district], t, 1)
+      self.set_daily_supplies_full(district + '_tot_demand', self.annualdemand[district], t, 1)
+      self.set_daily_supplies_full(district + '_pumping', self.annual_private_pumping[district], t, 1)
+      self.set_daily_supplies_full(district + '_dynamic_recovery_cap', self.recovery_capacity_remain/len(self.district_list), t, 1)
 
 
