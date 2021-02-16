@@ -13,7 +13,9 @@ dependencies:
   - scipy
   - seaborn
   - configobj
-  - bqplot
   - xlrd
   - openpyxl
+  - jupyter
+  - ipywidgets
+  - bqplot
 prefix: C:\Users\Andrew\anaconda3\envs\.venv_conda_calfews
