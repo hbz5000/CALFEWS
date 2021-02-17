@@ -32,157 +32,168 @@ from datetime import datetime
 
 cdef class main_cy():
 
-  def __init__(self):
+################################################################################################################################
+### Initial model setup
+################################################################################################################################
+  def __init__(self, str results_folder, str model_mode='', str flow_input_type='', str flow_input_source=''):
     self.progress = 0.0
     self.running_sim = 1
-    
-    print('#######################################################')
-    print('Begin initialization...')
-    sys.stdout.flush()
-
-  def run_py(self, str results_folder, str model_mode='', str flow_input_type='', str flow_input_source=''):
-    self.run(results_folder, model_mode, flow_input_type, flow_input_source)
-    
-  cdef void run(self, str results_folder, str model_mode, str flow_input_type, str flow_input_source):  
-
-    startTime = datetime.now()
 
     # get runtime params from config file
     config = ConfigObj('runtime_params.ini')
-    parallel_mode = bool(strtobool(config['parallel_mode']))
-    short_test = int(config['short_test'])
-    print_log = bool(strtobool(config['print_log']))
-    seed = int(config['seed'])
-    scenario_name = config['scenario_name'] #scenarios provide information on infrastructural plans
-    total_sensitivity_factors = int(config['total_sensitivity_factors'])
-    sensitivity_sample_file = config['sensitivity_sample_file']
-    output_list = config['output_list']
-    clean_output = bool(strtobool(config['clean_output']))
-    save_full = bool(strtobool(config['save_full']))
+    # self.parallel_mode = bool(strtobool(config['parallel_mode']))
+    self.short_test = int(config['short_test'])
+    self.print_log = bool(strtobool(config['print_log']))
+    self.seed = int(config['seed'])
+    self.scenario_name = config['scenario_name'] #scenarios provide information on infrastructural plans
+    # self.total_sensitivity_factors = int(config['total_sensitivity_factors'])
+    # self.sensitivity_sample_file = config['sensitivity_sample_file']
+    self.output_list = config['output_list']
+    self.clean_output = bool(strtobool(config['clean_output']))
+    self.save_full = bool(strtobool(config['save_full']))
     if model_mode == '':
-      model_mode = config['model_mode']
-      flow_input_type = config['flow_input_type']
-      flow_input_source = config['flow_input_source']
+      self.model_mode = config['model_mode']
+      self.flow_input_type = config['flow_input_type']
+      self.flow_input_source = config['flow_input_source']
+    else:
+      self.model_mode = model_mode
+      self.flow_input_type = flow_input_type
+      self.flow_input_source = flow_input_source
+    self.results_folder = results_folder
 
-    start = 0
-    stop = total_sensitivity_factors
-    rank = 0
+    ### Initialize northern & southern models
+    self.initialize()
 
+    
+
+
+################################################################################################################################
+### Northern/southern model initialization
+################################################################################################################################
+  cdef void initialize(self):  
+    cdef:
+      str expected_release_datafile, demand_type, base_data_file, input_data_file
+    
     # infrastructure scenario file, to be used for all sensitivity samples
     with open('calfews_src/scenarios/scenarios_main.json') as f:
       scenarios = json.load(f)
-    scenario = scenarios[scenario_name]
+    scenario = scenarios[self.scenario_name]
 
-    if model_mode == 'validation':
-      flow_input_source = 'CDEC'
+    if self.model_mode == 'validation':
+      self.flow_input_source = 'CDEC'
 
     ### copy runtime file for future use
-    shutil.copy('runtime_params.ini', results_folder + '/runtime_params.ini')
+    shutil.copy('runtime_params.ini', self.results_folder + '/runtime_params.ini')
 
     # set random seed
-    if (seed > 0):
-      np.random.seed(seed)
+    if (self.seed > 0):
+      np.random.seed(self.seed)
 
     # always use shorter historical dataframe for expected delta releases
     expected_release_datafile = 'calfews_src/data/input/calfews_src-data.csv'
     # data for actual simulation
-    if model_mode == 'simulation':
+    if self.model_mode == 'simulation':
       demand_type = 'baseline'
       #demand_type = 'pmp'
       base_data_file = 'calfews_src/data/input/calfews_src-data.csv'
-      new_inputs = Inputter(base_data_file, expected_release_datafile, model_mode, results_folder)
-      if new_inputs.has_full_inputs[flow_input_type][flow_input_source]:
-        input_data_file = new_inputs.flow_input_source[flow_input_type][flow_input_source]
+      new_inputs = Inputter(base_data_file, expected_release_datafile, self.model_mode, self.results_folder)
+      if new_inputs.has_full_inputs[self.flow_input_type][self.flow_input_source]:
+        input_data_file = new_inputs.flow_input_source[self.flow_input_type][self.flow_input_source]
       else:
         new_inputs.run_initialization('XXX')
-        new_inputs.run_routine(flow_input_type, flow_input_source)
-        input_data_file = results_folder + '/' + new_inputs.export_series[flow_input_type][flow_input_source]  + "_0.csv"
+        new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
+        input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
 
-    elif model_mode == 'validation':
+    elif self.model_mode == 'validation':
       demand_type = 'pesticide'
       input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 
-    stop = 1    
-     
-    for k in range(start, stop):
+    ### setup northern & southern models & run initialization
+    self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+    self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+    self.modelso.max_tax_free = {}
+    self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine()
+    self.modelso.forecastSRI = self.modelno.delta.forecastSRI
+    self.modelso.southern_initialization_routine()
+    gc.collect()    
 
-      # reset seed the same each sample k
-      if (seed > 0):
-        np.random.seed(seed)
 
 
-      ######################################################################################
-      if model_mode == 'simulation' or model_mode == 'validation':
+# ################################################################################################################################
+# ### Main simulation
+# ################################################################################################################################
 
-        ######################################################################################
-        #   # Model Class Initialization
-        ## There are two instances of the class 'Model', one for the Nothern System and one for the Southern System
-        ##
+  def run_sim_py(self, start_time):
+    self.run_sim(start_time)
+    
+  cdef void run_sim(self, start_time):  
+    cdef:
+      int timeseries_length, swp_release, cvp_release, swp_release2, cvp_release2, t
+      # double swp_pump, cvp_pump, proj_surplus, swp_available, cvp_available
 
-        modelno = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
-        modelso = Model(input_data_file, expected_release_datafile, model_mode, demand_type)
-        modelso.max_tax_free = {}
-        modelso.omr_rule_start, modelso.max_tax_free = modelno.northern_initialization_routine(startTime)
-        modelso.forecastSRI = modelno.delta.forecastSRI
-        gc.collect()
-        modelso.southern_initialization_routine(startTime)
-        gc.collect()
+
+    # # reset seed the same each sample k
+    # if (self.seed > 0):
+    #   np.random.seed(self.seed)
+
+    ### simulation length (days)
+    if (self.short_test < 0):
+      timeseries_length = min(self.modelno.T, self.modelso.T)
+    else:
+      timeseries_length = self.short_test
+
+    ###initial parameters for northern model input
+    ###generated from southern model at each timestep
+    swp_release = 1
+    cvp_release = 1
+    swp_release2 = 1
+    cvp_release2 = 1
+    swp_pump = 999.0
+    cvp_pump = 999.0
+    proj_surplus = 0.0
+    swp_available = 0.0
+    cvp_available = 0.0
+    print('Begin simulation, ', datetime.now() - start_time)
+    print(self.results_folder)
+    
+    ############################################
+    for t in range(0, timeseries_length):
+      self.progress = (t + 1) / timeseries_length
+      if (t % 365 == 364):
+        print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
+
+      # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
+      swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = self.modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
+
+      swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = self.modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, self.modelno.delta.forecastSJWYT, self.modelno.delta.forecastSCWYT, self.modelno.delta.max_tax_free, flood_release, flood_volume)
         
-        ######################################################################################
-        ###Model Simulation
-        ######################################################################################
-        if (short_test < 0):
-          timeseries_length = min(modelno.T, modelso.T)
-        else:
-          timeseries_length = short_test
-        ###initial parameters for northern model input
-        ###generated from southern model at each timestep
-        swp_release = 1
-        cvp_release = 1
-        swp_release2 = 1
-        cvp_release2 = 1
-        swp_pump = 999.0
-        cvp_pump = 999.0
-        proj_surplus = 0.0
-        swp_available = 0.0
-        cvp_available = 0.0
-        print('Initialization complete, ', datetime.now() - startTime)
-        print('Begin simulation, ', datetime.now() - startTime)
-        print(results_folder)
+    gc.collect()
+
+
+
+# ################################################################################################################################
+# ### Data output
+# ################################################################################################################################
+
+  def output_results(self):
+    ### data output function from calfews_src/util.py
+    data_output(self.output_list, self.results_folder, self.clean_output, {}, self.modelno, self.modelso) 
         
-        ############################################
-        for t in range(0, timeseries_length):
-          self.progress = (t + 1) / timeseries_length
-          if (t % 365 == 364):
-            print('Year ', (t+1)/365, ', ', datetime.now() - startTime)
-
-          # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
-          swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
-
-          swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, modelno.delta.forecastSJWYT, modelno.delta.forecastSCWYT, modelno.delta.max_tax_free, flood_release, flood_volume)
-            
-        sensitivity_factors = {}
+    if (self.save_full):
+      try:
         gc.collect()
-        data_output(output_list, results_folder, clean_output, flow_input_source, sensitivity_factors, modelno, modelso)
-            
-            
-        if (save_full):
-          try:
-            gc.collect()
-            pd.to_pickle(modelno, results_folder + '/modelno' + str(k) + '.pkl')
-            del modelno
-            gc.collect()
-            pd.to_pickle(modelso, results_folder + '/modelso' + str(k) + '.pkl')
-            del modelso
-            gc.collect()
-          except Exception as e:
-            print(e)
-        
-        self.running_sim = False
+        pd.to_pickle(self.modelno, self.results_folder + '/modelno' + str(k) + '.pkl')
+        del self.modelno
+        gc.collect()
+        pd.to_pickle(self.modelso, self.results_folder + '/modelso' + str(k) + '.pkl')
+        del self.modelso
+        gc.collect()
+      except Exception as e:
+        print(e)
+    
+    self.running_sim = False
 
-
-    print ('Simulation complete,', datetime.now() - startTime)
-    if print_log:
+    if self.print_log:
       sys.stdout = sys.__stdout__
 
 

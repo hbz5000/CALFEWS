@@ -825,8 +825,8 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "calfews_src\\inputter_cy.pyx",
-  "calfews_src\\reservoir_cy.pxd",
+  "calfews_src/inputter_cy.pyx",
+  "calfews_src/reservoir_cy.pxd",
 };
 
 /*--- Type declarations ---*/
@@ -2506,7 +2506,7 @@ static const char __pyx_k_make_fnf_prediction_delta[] = "make_fnf_prediction_del
 static const char __pyx_k_sensitivity_sample_number[] = "sensitivity_sample_number";
 static const char __pyx_k_Inputter_read_new_fnf_data[] = "Inputter.read_new_fnf_data";
 static const char __pyx_k_Inputter_run_initialization[] = "Inputter.run_initialization";
-static const char __pyx_k_calfews_src_inputter_cy_pyx[] = "calfews_src\\inputter_cy.pyx";
+static const char __pyx_k_calfews_src_inputter_cy_pyx[] = "calfews_src/inputter_cy.pyx";
 static const char __pyx_k_Inputter_make_fnf_prediction[] = "Inputter.make_fnf_prediction";
 static const char __pyx_k_generate_relationships_delta[] = "generate_relationships_delta";
 static const char __pyx_k_whiten_by_historical_moments[] = "whiten_by_historical_moments";

@@ -6,7 +6,6 @@ import sys
 import calendar
 import json
 import matplotlib.pyplot as plt
-from datetime import datetime
 from .util import *
 
 cdef class Model():
@@ -101,7 +100,7 @@ cdef class Model():
   #####################################################################################################################
 #############################     Object Creation     ###############################################################
 #####################################################################################################################
-  def northern_initialization_routine(self, startTime):
+  def northern_initialization_routine(self):
     ######################################################################################
     ######################################################################################
     # preprocessing for the northern system
@@ -115,12 +114,10 @@ cdef class Model():
     # self.res.raininf_stds; self.res.snowinf_stds; self.res.baseinf_stds
     # self.res.flow_shape - monthly fractions of total period flow
     self.initialize_northern_res()
-    # print('Initialize Northern Reservoirs, time ', datetime.now() - startTime)
     # initialize delta rules, calcluate expected environmental releases at each reservoir
     # generates - cumulative environmental/delta releases remaining (at each reservoir)
     # self.res.cum_min_release; self.res.aug_sept_min_release; self.res.oct_nov_min_release
     self.initialize_delta_ops()
-    # print('Initialize Delta Ops, time ', datetime.now() - startTime)
 
     ######
     # calculate projection-based flow year indicies using flow & snow inputs
@@ -130,7 +127,6 @@ cdef class Model():
     # self.delta.forecastSJI (self.T x 1) - forecasts for san joaquin river index
     # self.delta.forecastSRI (self.T x 1) - forecasts for sacramento river index
     self.find_running_WYI()
-    # print('Find Water Year Indicies, time ', datetime.now() - startTime)
 
     ######
     # calculate expected 'unstored' pumping at the delta (for predictions into San Luis)
@@ -139,7 +135,6 @@ cdef class Model():
     # self.delta_gains_regression2 (365x2) - linear coeffecicients for predicting total unstored pumping, apr-jul, based on ytd full natural flow
     # self.month_averages (12x1) - expected fraction of unstored pumping to come in each month (fraction is for total period flow, so 0.25 in feb is 25% of total oct-mar unstored flow)
     self.predict_delta_gains()
-    # print('Find Delta Gains, time ', datetime.now() - startTime)
     if self.model_mode == 'validation':
       self.set_regulations_historical_north()
     else:
@@ -148,38 +143,33 @@ cdef class Model():
     return self.delta.omr_rule_start, self.delta.max_tax_free
     ######################################################################################
 
-  def southern_initialization_routine(self, startTime, scenario='baseline'):
+  def southern_initialization_routine(self, scenario='baseline'):
     ######################################################################################
     # preprocessing for the southern system
     ######################################################################################
     # initialize the southern reservoirs -
     # generates - same values as initialize_northern_res(), but for southern reservoirs
     self.initialize_southern_res()
-    # print('Initialize Southern Reservoirs, time ', datetime.now() - startTime)
     # initialize water districts for southern model
     # generates - water district parameters (see calfews_src-combined/calfews_src/districts/readme.txt)
     # self.district_list - list of district objects
     # self.district_keys - dictionary pairing district keys w/district class objects
     self.initialize_water_districts(scenario)
-    # print('Initialize Water Districts, time ', datetime.now() - startTime)
     # initialize water contracts for southern model
     # generates - water contract parameters (see calfews_src-combined/calfews_src/contracts/readme.txt)
     # self.contract_list - list of contract objects
     # self.contract_keys - dictionary pairing contract keys w/contract class objects
     # self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
     self.initialize_sw_contracts()
-    # print('Initialize Contracts, time ', datetime.now() - startTime)
     # initialize water banks for southern model
     # generates - water bank parameters (see calfews_src-combined/calfews_src/banks/readme.txt)
     # self.waterbank_list - list of waterbank objects
     # self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
     self.initialize_water_banks()
-    # print('Initialize Water Banks, time ', datetime.now() - startTime)
     # initialize canals/waterways for southern model
     # generates - canal parameters (see calfews_src-combined/calfews_src/canals/readme.txt)
     # self.canal_list - list of canal objects
     self.initialize_canals(scenario)
-    # print('Initialize Canals, time ', datetime.now() - startTime)
     if self.model_mode == 'validation':
       self.set_regulations_historical_south(scenario)
     else:
@@ -197,18 +187,14 @@ cdef class Model():
     # self.canal.demand - dictionary for the different types of demand that can be created at each canal node (note - these values are updated within model steps)
     # self.canal.flow - vector recording flow to a node on a canal (note - these values are updated within model steps)
     # self.canal.turnout_use - vector recording diversions to a node on a canal (note - these values are updated within model steps)
-    self.create_object_associations()
-    # print('Create Object Associations, time ', datetime.now() - startTime)
-	
+    self.create_object_associations()	
     ###Applies initial carryover balances to districts
     ##based on initial reservoir storage conditions
     ##PLEASE NOTE CARRYOVER STORAGE IN SAN LUIS IS HARD-CODED
     self.find_initial_carryover()
-    # print('Initialize Carryover Storage, time ', datetime.now() - startTime)
     ##initial recovery capacities for districts, based on
     ##ownership stakes in waterbanks (direct + inleui)
     self.init_tot_recovery()
-    # print('Initialize Recovery Capacity, time ', datetime.now() - startTime)
     ##initial recharge capacities (projected out 12 months) for districts,
     ##based on ownership stakes in waterbanks (direct + inleui + indistrict)
     urban_datafile = 'calfews_src/data/input/calfews_src-data-urban.csv'
@@ -219,7 +205,6 @@ cdef class Model():
     # that is owned by surface water contracts held at that reservoir - used to determine
     # how much flood water can be released and 'taken' by a contractor
     self.find_all_triggers()
-    # print('Find Triggers, time ', datetime.now() - startTime)
 
 
 

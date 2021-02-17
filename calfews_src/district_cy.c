@@ -825,11 +825,11 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "calfews_src\\district_cy.pyx",
-  "calfews_src\\district_cy.pxd",
+  "calfews_src/district_cy.pyx",
+  "calfews_src/district_cy.pxd",
   "stringsource",
-  "calfews_src\\crop_cy.pxd",
-  "calfews_src\\contract_cy.pxd",
+  "calfews_src/crop_cy.pxd",
+  "calfews_src/contract_cy.pxd",
 };
 
 /*--- Type declarations ---*/
