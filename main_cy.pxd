@@ -8,6 +8,7 @@ cdef class main_cy():
     public int running_sim, short_test, seed, total_sensitivity_factors
     public bint print_log, clean_output, save_full
     public str scenario_name, model_mode, flow_input_type, flow_input_source, results_folder, output_list
+    public dict objs
     public Model modelno, modelso
     # public Inputter new_inputs
 

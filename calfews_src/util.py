@@ -88,114 +88,116 @@ def first_d_of_month(dowyeom, daysinmonth):
     first_d[i][first_d[i][:] < 0] = first_d[i][first_d[i][:] < 0] + 365
   return first_d.tolist()
 
+
+
+def model_attribute_nonzero(att, name, clean_output):
+  if (clean_output):
+    attsum = np.abs(att).sum()
+    if attsum > eps:
+      return (att, name)
+    else:
+      return (False, False)
+  else:
+    return(att, name)
+      
+### generator to loop through important model attributes and return non-zero data
+def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
+  for r in output_list['north']['reservoirs'].keys():
+    for o in output_list['north']['reservoirs'][r].keys():
+      if output_list['north']['reservoirs'][r][o]:
+        try:
+          att, name = model_attribute_nonzero(modelno.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
+          if att:
+            yield att, name
+        except:
+          pass
+
+  for r in output_list['south']['reservoirs'].keys():
+    for o in output_list['south']['reservoirs'][r].keys():
+      if output_list['south']['reservoirs'][r][o]:
+        try:
+          att, name = model_attribute_nonzero(modelso.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
+          if att:
+            yield att, name              
+        except:
+          pass      
+        
+  for o in output_list['north']['delta'].keys():
+    if output_list['north']['delta'][o]:
+      try:
+        att, name = model_attribute_nonzero(modelno.delta.__getattribute__(o), np.string_('delta_' + o), clean_output)     
+        if att:
+          yield att, name            
+      except:
+        pass             
+      
+  for c in output_list['south']['contracts'].keys():
+    for o in output_list['south']['contracts'][c].keys():
+      if o == 'daily_supplies':
+        for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
+          if output_list['south']['contracts'][c]['daily_supplies'][t]:
+            try:
+              att, name = model_attribute_nonzero(modelso.__getattribute__(c).daily_supplies[t], np.string_(c + '_' + t), clean_output)       
+              if att:
+                yield att, name                     
+            except:
+              pass         
+            
+      elif output_list['south']['contracts'][c][o]:
+        try:
+          att, name = model_attribute_nonzero(modelso.__getattribute__(c).__getattribute__(o), np.string_(c + '_' + o), clean_output)        
+          if att:
+            yield att, name              
+        except:
+          pass       
+        
+  for d in output_list['south']['districts'].keys():
+    for o in output_list['south']['districts'][d].keys():
+      try:
+        att, name = model_attribute_nonzero(modelso.__getattribute__(d).daily_supplies_full[o], np.string_(d + '_' + o), clean_output)       
+        if att:
+          yield att, name                  
+      except:
+        pass
+      
+  for p in output_list['south']['private'].keys():
+    for o in output_list['south']['private'][p].keys():
+      try:
+        att, name = model_attribute_nonzero(modelso.__getattribute__(p).daily_supplies_full[o], np.string_(p + '_' + o), clean_output)        
+        if att:
+          yield att, name                
+      except:
+        pass
+      
+  for b in output_list['south']['waterbanks'].keys():
+    for o in output_list['south']['waterbanks'][b].keys():
+      try:
+        att, name = model_attribute_nonzero(modelso.__getattribute__(b).bank_timeseries[o], np.string_(b + '_' + o), clean_output)
+        if att:
+          yield att, name              
+      except:
+        pass
+  
+  ### signify end of dataset
+  yield (False, False)
+
+
 # function to take northern & southern model, process & output data
-def data_output(output_list_loc, results_folder, clean_output, sensitivity_factors, modelno, modelso):
+def data_output(output_list_loc, results_folder, clean_output, sensitivity_factors, modelno, modelso, objs):
   nt = len(modelno.shasta.baseline_inf)
   with open(output_list_loc, 'r') as f:
     output_list = json.load(f)
     
   chunk = 50
   with h5py.File(results_folder + '/results.hdf5', 'a') as f:
-    d = f.create_dataset('s', (nt, chunk), dtype='float', compression='gzip', chunks=(nt, chunk), maxshape=(nt, None))
-    ### generator to return data & name if data is non-zero
-    def model_attribute_nonzero(att, name):
-      if (clean_output):
-        attsum = np.abs(att).sum()
-        if attsum > eps:
-          return (att, name)
-        else:
-          return (False, False)
-      else:
-        return(att, name)
-          
-    ### generator to loop through important model attributes and return non-zero data
-    def model_attribute_loop_generator():
-      for r in output_list['north']['reservoirs'].keys():
-        for o in output_list['north']['reservoirs'][r].keys():
-          if output_list['north']['reservoirs'][r][o]:
-            try:
-              att, name = model_attribute_nonzero(modelno.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o))
-              if att:
-                yield att, name
-            except:
-              pass
-
-      for r in output_list['south']['reservoirs'].keys():
-        for o in output_list['south']['reservoirs'][r].keys():
-          if output_list['south']['reservoirs'][r][o]:
-            try:
-              att, name = model_attribute_nonzero(modelso.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o))
-              if att:
-                yield att, name              
-            except:
-              pass      
-            
-      for o in output_list['north']['delta'].keys():
-        if output_list['north']['delta'][o]:
-          try:
-            att, name = model_attribute_nonzero(modelno.delta.__getattribute__(o), np.string_('delta_' + o))     
-            if att:
-              yield att, name            
-          except:
-            pass             
-          
-      for c in output_list['south']['contracts'].keys():
-        for o in output_list['south']['contracts'][c].keys():
-          if o == 'daily_supplies':
-            for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
-              if output_list['south']['contracts'][c]['daily_supplies'][t]:
-                try:
-                  att, name = model_attribute_nonzero(modelso.__getattribute__(c).daily_supplies[t], np.string_(c + '_' + t))       
-                  if att:
-                    yield att, name                     
-                except:
-                  pass         
-                
-          elif output_list['south']['contracts'][c][o]:
-            try:
-              att, name = model_attribute_nonzero(modelso.__getattribute__(c).__getattribute__(o), np.string_(c + '_' + o))        
-              if att:
-                yield att, name              
-            except:
-              pass       
-            
-      for d in output_list['south']['districts'].keys():
-        for o in output_list['south']['districts'][d].keys():
-          try:
-            att, name = model_attribute_nonzero(modelso.__getattribute__(d).daily_supplies_full[o], np.string_(d + '_' + o))       
-            if att:
-              yield att, name                  
-          except:
-            pass
-          
-      for p in output_list['south']['private'].keys():
-        for o in output_list['south']['private'][p].keys():
-          try:
-            att, name = model_attribute_nonzero(modelso.__getattribute__(p).daily_supplies_full[o], np.string_(p + '_' + o))        
-            if att:
-              yield att, name                
-          except:
-            pass
-          
-      for b in output_list['south']['waterbanks'].keys():
-        for o in output_list['south']['waterbanks'][b].keys():
-          try:
-            att, name = model_attribute_nonzero(modelso.__getattribute__(b).bank_timeseries[o], np.string_(b + '_' + o))
-            if att:
-              yield att, name              
-          except:
-            pass
-      
-      ### signify end of dataset
-      yield (False, False)
-
+    d = f.create_dataset('s', (nt, chunk), dtype='float', compression='gzip', chunks=(nt, chunk), maxshape=(nt, None))  
 
     ### use generator to loop through data and save to hdf5 in chunks
     dat = np.zeros((nt, chunk))
     names = []
     col = 0
     initial_write = 0
-    for (att, name) in model_attribute_loop_generator():
+    for (att, name) in model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       if name:  ### end of dataset not yet reached
         names.append(name)
         if col < chunk:
@@ -233,6 +235,10 @@ def data_output(output_list_loc, results_folder, clean_output, sensitivity_facto
 
     d.attrs['sensitivity_factors'] = sensitivity_name
     d.attrs['sensitivity_factor_values'] = sensitivity_value
+
+    ### add objectives
+    for k, v in objs.items():
+      d.attrs[k] = v
 
 
 

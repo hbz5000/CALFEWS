@@ -174,10 +174,36 @@ cdef class main_cy():
 # ################################################################################################################################
 # ### Data output
 # ################################################################################################################################
+  def calc_objectives(self):
+    ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
+    nt = len(self.modelno.shasta.baseline_inf)
+    with open(self.output_list, 'r') as f:
+      output_list = json.load(f)
+
+    self.objs = {}
+    total_delivery = np.zeros(self.modelno.T)
+    for c in ['friant1', 'friant2']:
+      for cc in ['contract', 'flood']:
+        try:
+          total_delivery += self.modelso.__getattribute__(c).daily_supplies[cc]                  
+        except:
+          pass    
+
+    total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})
+    total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
+    self.objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
+    self.objs['min_friant_delivery'] = np.min(total_wy_delivery)
+
+
+
+
+# ################################################################################################################################
+# ### Data output
+# ################################################################################################################################
 
   def output_results(self):
     ### data output function from calfews_src/util.py
-    data_output(self.output_list, self.results_folder, self.clean_output, {}, self.modelno, self.modelso) 
+    data_output(self.output_list, self.results_folder, self.clean_output, {}, self.modelno, self.modelso, self.objs) 
         
     if (self.save_full):
       try:
