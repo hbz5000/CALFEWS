@@ -107,8 +107,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       if output_list['north']['reservoirs'][r][o]:
         try:
           att, name = model_attribute_nonzero(modelno.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
-          if att:
-            yield att, name
+          if list(att):
+            yield list(att), name
         except:
           pass
 
@@ -117,8 +117,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       if output_list['south']['reservoirs'][r][o]:
         try:
           att, name = model_attribute_nonzero(modelso.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
-          if att:
-            yield att, name              
+          if list(att):
+            yield list(att), name              
         except:
           pass      
         
@@ -126,8 +126,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
     if output_list['north']['delta'][o]:
       try:
         att, name = model_attribute_nonzero(modelno.delta.__getattribute__(o), np.string_('delta_' + o), clean_output)     
-        if att:
-          yield att, name            
+        if list(att):
+          yield list(att), name            
       except:
         pass             
       
@@ -138,16 +138,16 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
           if output_list['south']['contracts'][c]['daily_supplies'][t]:
             try:
               att, name = model_attribute_nonzero(modelso.__getattribute__(c).daily_supplies[t], np.string_(c + '_' + t), clean_output)       
-              if att:
-                yield att, name                     
+              if list(att):
+                yield list(att), name                     
             except:
               pass         
             
       elif output_list['south']['contracts'][c][o]:
         try:
           att, name = model_attribute_nonzero(modelso.__getattribute__(c).__getattribute__(o), np.string_(c + '_' + o), clean_output)        
-          if att:
-            yield att, name              
+          if list(att):
+            yield list(att), name              
         except:
           pass       
         
@@ -155,8 +155,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
     for o in output_list['south']['districts'][d].keys():
       try:
         att, name = model_attribute_nonzero(modelso.__getattribute__(d).daily_supplies_full[o], np.string_(d + '_' + o), clean_output)       
-        if att:
-          yield att, name                  
+        if list(att):
+          yield list(att), name                  
       except:
         pass
       
@@ -164,8 +164,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
     for o in output_list['south']['private'][p].keys():
       try:
         att, name = model_attribute_nonzero(modelso.__getattribute__(p).daily_supplies_full[o], np.string_(p + '_' + o), clean_output)        
-        if att:
-          yield att, name                
+        if list(att):
+          yield list(att), name                
       except:
         pass
       
@@ -173,8 +173,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
     for o in output_list['south']['waterbanks'][b].keys():
       try:
         att, name = model_attribute_nonzero(modelso.__getattribute__(b).bank_timeseries[o], np.string_(b + '_' + o), clean_output)
-        if att:
-          yield att, name              
+        if list(att):
+          yield list(att), name              
       except:
         pass
   

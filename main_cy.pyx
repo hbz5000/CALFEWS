@@ -108,6 +108,9 @@ cdef class main_cy():
       demand_type = 'pesticide'
       input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 
+    if (self.seed > 0):
+      np.random.seed(self.seed)
+
     ### setup northern & southern models & run initialization
     self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
     self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
