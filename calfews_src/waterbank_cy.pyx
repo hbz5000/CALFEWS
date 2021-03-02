@@ -6,6 +6,8 @@ import pandas as pd
 import collections as cl
 import json
 from .util import *
+from .canal_cy cimport Canal
+from .contract_cy cimport Contract
 
 
 cdef class Waterbank():
@@ -98,9 +100,12 @@ cdef class Waterbank():
 #####################################################################################################################
 
 	  
-  def find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
-    cdef double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
-    cdef str recovery_use_key, participant_key
+  # def find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
+  cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
+    cdef:
+      double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
+      str recovery_use_key, participant_key
+
     #this function finds the maximum 'demand' available at each node - if
 	  #in recovery mode, max demand is the available recovery capacity
 	  #all other modes, max demand is the available recharge space
@@ -122,8 +127,11 @@ cdef class Waterbank():
     return demand_constraint
 
 
-  def find_priority_space(self, num_members, xx, search_type):
+  # def find_priority_space(self, int num_members, str xx, str search_type):
+  cdef double find_priority_space(self, int num_members, str xx, str search_type):
     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given bank 
+    cdef double initial_capacity, available_banked
+
     if search_type == "recovery":
       initial_capacity =  max(self.recovery*self.ownership[xx]/num_members - self.recovery_use[xx], 0.0)
       available_banked = self.banked[xx]
@@ -133,9 +141,18 @@ cdef class Waterbank():
       return initial_capacity
 
 	
-  def set_demand_priority(self, priority_list, contract_list, demand, delivery, demand_constraint, search_type, contract_canal, current_canal, member_contracts):
+
+  # def set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
+  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
     #this function creates a dictionary (demand_dict) that has a key for each 'priority type' associated with the flow
-	#different types of flow (flood, delivery, banking, recovery) have different priority types
+  	#different types of flow (flood, delivery, banking, recovery) have different priority types
+    cdef:
+      int priority_toggle, contractor_toggle, canal_toggle
+      dict demand_dict
+      str contract_key, canal_key
+      Canal canal_obj
+      Contract contract_obj
+
     demand_dict = {}
     #for flood flows, determine if the wb members have contracts w/ the flooding reservoir - 1st priority
 	#if not, do they have turnouts on the 'priority' canals - 2nd priority
@@ -144,16 +161,16 @@ cdef class Waterbank():
       priority_toggle = 0
       contractor_toggle = 0
       canal_toggle = 0
-      for yy in priority_list:
-        if yy.name == contract_canal:
+      for canal_obj in priority_list:
+        if canal_obj.name == contract_canal:
           priority_toggle = 1
       if priority_toggle == 1:
-        for y in contract_list:
-          for yx in member_contracts:
-            if y.name == yx:
+        for contract_obj in contract_list:
+          for contract_key in member_contracts:
+            if contract_obj.name == contract_key:
               contractor_toggle = 1
-        for yy in self.canal_rights:
-          if yy == current_canal:
+        for canal_key in self.canal_rights:
+          if canal_key == current_canal:
             canal_toggle = 1
         if contractor_toggle == 1 and canal_toggle == 1:
           demand_dict['contractor'] = demand
@@ -182,8 +199,8 @@ cdef class Waterbank():
 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
     elif search_type == 'banking':
       canal_toggle = 0
-      for yy in self.canal_rights:
-        if yy == current_canal:
+      for canal_key in self.canal_rights:
+        if canal_key == current_canal:
           canal_toggle = 1
       if canal_toggle == 1:
         demand_dict['priority'] = min(max(min(demand,delivery), 0.0), demand_constraint)
@@ -254,5 +271,3 @@ cdef class Waterbank():
     for x in self.participant_list:
       self.bank_timeseries[x][t] = self.banked[x]
       # stacked_amount += self.banked[x]
-
-	  	

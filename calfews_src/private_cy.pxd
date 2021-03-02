@@ -9,7 +9,7 @@ cdef class Private():
                 current_recharge_storage, banking_risk_level, total_acreage
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, turnback_use, thismonthuse, monthusecounter, \
-                monthemptycounter, iter_count, age_death, T
+                monthemptycounter, iter_count, age_death, T, district_list_len
 
     public str key, name
 
@@ -25,4 +25,35 @@ cdef class Private():
                 seasonal_connection, k_close_wateryear, last_days_demand_regression_error, MDD, has_pesticide, irrdemand, \
                 urban_profile, contract_fraction, private_fraction, has_pmp, turnout_list, delivery_location_list, must_fill
 
-  # cdef double find_node_demand(self, list contract_list, str search_type, str district_name)
+  cdef double find_node_demand(self, list contract_list, str search_type, str district_name)
+  
+  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)
+  
+  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal)
+  
+  cdef void get_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear)
+
+  cdef void get_paper_trade(self, double trade_amount, list contract_list, int wateryear)
+  
+  cdef double direct_delivery_bank(self, double delivery, int wateryear, str district_key)
+
+  cdef dict adjust_accounts(self, double direct_deliveries, double recharge_deliveries, list contract_list, str search_type, int wateryear, str delivery_location)
+
+  cdef double find_leiu_priority_space(self, double demand_constraint, int num_members, str member_name, int toggle_recharge, str search_type)
+
+  cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear)
+
+  cdef (double, double) update_balance(self, int t, int wateryear, double water_available, double projected_allocation, double current_water, str key, double tot_carryover, str balance_type, str district_name, dict project_contract, dict rights)
+
+  cdef (double, double) calc_carryover(self, double existing_balance, int wateryear, str balance_type, str key, str district_name, dict project_contract, dict rights)
+
+  cdef void open_recovery(self, int t, int dowy, int wateryear, int number_years, str wyt, int use_delivery_tolerance, double additional_carryover)
+
+  cdef void open_recharge(self, int t, int m, int da, int wateryear, int year_index, list days_in_month, double numdays_fillup, double numdays_fillup2, str key, str wyt, list reachable_turnouts, double additional_carryover, int contract_allocation)
+
+  cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month, str district_key)
+
+  cdef set_turnback_pool(self, str key, int year_index, list days_in_month, double additional_carryover)
+
+  cdef void make_turnback_purchases(self, double turnback_sellers, double turnback_buyers, str key)
+
