@@ -2205,7 +2205,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_26apply_paper_bala
 static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_28calc_carryover(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_existing_balance, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_balance_type, PyObject *__pyx_v_key, PyObject *__pyx_v_district_name, PyObject *__pyx_v_project_contract, PyObject *__pyx_v_rights); /* proto */
 static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_30open_recovery(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_dowy, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_number_years, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_use_delivery_tolerance, PyObject *__pyx_v_additional_carryover); /* proto */
 static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_32open_recharge(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_da, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_numdays_fillup, PyObject *__pyx_v_numdays_fillup2, PyObject *__pyx_v_key, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_reachable_turnouts, PyObject *__pyx_v_additional_carryover, PyObject *__pyx_v_contract_allocation); /* proto */
-static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recovery_target(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_dowy, PyObject *__pyx_v_wateryear, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_pumping, PyObject *__pyx_v_project_contract, PyObject *__pyx_v_demand_days, PyObject *__pyx_v_district, PyObject *__pyx_v_start_month); /* proto */
+static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recovery_target(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_dowy, PyObject *__pyx_v_wateryear, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_pumping, PyObject *__pyx_v_project_contract, PyObject *__pyx_v_demand_days, PyObject *__pyx_v_start_month, PyObject *__pyx_v_district); /* proto */
 static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_36set_turnback_pool(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_additional_carryover); /* proto */
 static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_38make_turnback_purchases(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_turnback_sellers, PyObject *__pyx_v_turnback_buyers, PyObject *__pyx_v_key); /* proto */
 static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_40find_node_demand(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_search_type, PyObject *__pyx_v_district_name); /* proto */
@@ -19713,7 +19713,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_32open_recharge(st
 /* "calfews_src/private_cy.pyx":825
  * 
  * 
- *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, district, start_month):             # <<<<<<<<<<<<<<
+ *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, start_month, district):             # <<<<<<<<<<<<<<
  *     max_pumping_shortfall = 0.0
  *     pumping_shortfall = 0.0
  */
@@ -19728,8 +19728,8 @@ static PyObject *__pyx_pw_11calfews_src_10private_cy_7Private_35get_urban_recove
   PyObject *__pyx_v_pumping = 0;
   PyObject *__pyx_v_project_contract = 0;
   PyObject *__pyx_v_demand_days = 0;
-  PyObject *__pyx_v_district = 0;
   PyObject *__pyx_v_start_month = 0;
+  PyObject *__pyx_v_district = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -19737,7 +19737,7 @@ static PyObject *__pyx_pw_11calfews_src_10private_cy_7Private_35get_urban_recove
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_urban_recovery_target (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_t,&__pyx_n_s_dowy,&__pyx_n_s_wateryear,&__pyx_n_s_wyt,&__pyx_n_s_pumping,&__pyx_n_s_project_contract,&__pyx_n_s_demand_days,&__pyx_n_s_district,&__pyx_n_s_start_month,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_t,&__pyx_n_s_dowy,&__pyx_n_s_wateryear,&__pyx_n_s_wyt,&__pyx_n_s_pumping,&__pyx_n_s_project_contract,&__pyx_n_s_demand_days,&__pyx_n_s_start_month,&__pyx_n_s_district,0};
     PyObject* values[9] = {0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -19807,13 +19807,13 @@ static PyObject *__pyx_pw_11calfews_src_10private_cy_7Private_35get_urban_recove
         }
         CYTHON_FALLTHROUGH;
         case  7:
-        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_district)) != 0)) kw_args--;
+        if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start_month)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("get_urban_recovery_target", 1, 9, 9, 7); __PYX_ERR(0, 825, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
-        if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start_month)) != 0)) kw_args--;
+        if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_district)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("get_urban_recovery_target", 1, 9, 9, 8); __PYX_ERR(0, 825, __pyx_L3_error)
         }
@@ -19841,8 +19841,8 @@ static PyObject *__pyx_pw_11calfews_src_10private_cy_7Private_35get_urban_recove
     __pyx_v_pumping = values[4];
     __pyx_v_project_contract = values[5];
     __pyx_v_demand_days = values[6];
-    __pyx_v_district = values[7];
-    __pyx_v_start_month = values[8];
+    __pyx_v_start_month = values[7];
+    __pyx_v_district = values[8];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -19852,14 +19852,14 @@ static PyObject *__pyx_pw_11calfews_src_10private_cy_7Private_35get_urban_recove
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recovery_target(((struct __pyx_obj_11calfews_src_10private_cy_Private *)__pyx_v_self), __pyx_v_t, __pyx_v_dowy, __pyx_v_wateryear, __pyx_v_wyt, __pyx_v_pumping, __pyx_v_project_contract, __pyx_v_demand_days, __pyx_v_district, __pyx_v_start_month);
+  __pyx_r = __pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recovery_target(((struct __pyx_obj_11calfews_src_10private_cy_Private *)__pyx_v_self), __pyx_v_t, __pyx_v_dowy, __pyx_v_wateryear, __pyx_v_wyt, __pyx_v_pumping, __pyx_v_project_contract, __pyx_v_demand_days, __pyx_v_start_month, __pyx_v_district);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recovery_target(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_dowy, PyObject *__pyx_v_wateryear, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_pumping, PyObject *__pyx_v_project_contract, PyObject *__pyx_v_demand_days, PyObject *__pyx_v_district, PyObject *__pyx_v_start_month) {
+static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recovery_target(struct __pyx_obj_11calfews_src_10private_cy_Private *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_dowy, PyObject *__pyx_v_wateryear, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_pumping, PyObject *__pyx_v_project_contract, PyObject *__pyx_v_demand_days, PyObject *__pyx_v_start_month, PyObject *__pyx_v_district) {
   PyObject *__pyx_v_max_pumping_shortfall = NULL;
   PyObject *__pyx_v_pumping_shortfall = NULL;
   PyObject *__pyx_v_monthcounter = NULL;
@@ -19888,7 +19888,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recove
 
   /* "calfews_src/private_cy.pyx":826
  * 
- *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, district, start_month):
+ *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, start_month, district):
  *     max_pumping_shortfall = 0.0             # <<<<<<<<<<<<<<
  *     pumping_shortfall = 0.0
  *     monthcounter = start_month
@@ -19897,7 +19897,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recove
   __pyx_v_max_pumping_shortfall = __pyx_float_0_0;
 
   /* "calfews_src/private_cy.pyx":827
- *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, district, start_month):
+ *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, start_month, district):
  *     max_pumping_shortfall = 0.0
  *     pumping_shortfall = 0.0             # <<<<<<<<<<<<<<
  *     monthcounter = start_month
@@ -20151,7 +20151,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recove
  * 
  *         max_pumping_shortfall = max(pumping_shortfall, max_pumping_shortfall)             # <<<<<<<<<<<<<<
  * 
- * 
+ *     return max(max_pumping_shortfall, 0.0)
  */
       __Pyx_INCREF(__pyx_v_max_pumping_shortfall);
       __pyx_t_4 = __pyx_v_max_pumping_shortfall;
@@ -20178,25 +20178,25 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recove
   }
   __pyx_L3:;
 
-  /* "calfews_src/private_cy.pyx":844
- * 
+  /* "calfews_src/private_cy.pyx":843
+ *         max_pumping_shortfall = max(pumping_shortfall, max_pumping_shortfall)
  * 
  *     return max(max_pumping_shortfall, 0.0)             # <<<<<<<<<<<<<<
  * 
- *   def set_turnback_pool(self, key, year_index, days_in_month, additional_carryover):
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_12 = 0.0;
   __Pyx_INCREF(__pyx_v_max_pumping_shortfall);
   __pyx_t_4 = __pyx_v_max_pumping_shortfall;
-  __pyx_t_9 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 844, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 843, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_9, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 844, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_9, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 843, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 844, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 843, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_2) {
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 844, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 843, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_1 = __pyx_t_5;
     __pyx_t_5 = 0;
@@ -20213,7 +20213,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recove
   /* "calfews_src/private_cy.pyx":825
  * 
  * 
- *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, district, start_month):             # <<<<<<<<<<<<<<
+ *   def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, start_month, district):             # <<<<<<<<<<<<<<
  *     max_pumping_shortfall = 0.0
  *     pumping_shortfall = 0.0
  */
@@ -20243,7 +20243,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_34get_urban_recove
 }
 
 /* "calfews_src/private_cy.pyx":846
- *     return max(max_pumping_shortfall, 0.0)
+ * 
  * 
  *   def set_turnback_pool(self, key, year_index, days_in_month, additional_carryover):             # <<<<<<<<<<<<<<
  *     ##This function creates the 'turnback pool' (note: only for SWP contracts now, can be used for others)
@@ -20957,7 +20957,7 @@ static PyObject *__pyx_pf_11calfews_src_10private_cy_7Private_36set_turnback_poo
   goto __pyx_L0;
 
   /* "calfews_src/private_cy.pyx":846
- *     return max(max_pumping_shortfall, 0.0)
+ * 
  * 
  *   def set_turnback_pool(self, key, year_index, days_in_month, additional_carryover):             # <<<<<<<<<<<<<<
  *     ##This function creates the 'turnback pool' (note: only for SWP contracts now, can be used for others)

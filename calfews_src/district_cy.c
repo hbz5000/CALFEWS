@@ -2013,10 +2013,8 @@ static const char __pyx_k_direct_deliveries[] = "direct_deliveries";
 static const char __pyx_k_inleiu_irrigation[] = "inleiu_irrigation";
 static const char __pyx_k_matplotlib_pyplot[] = "matplotlib.pyplot";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_contract_carryover[] = "contract_carryover";
 static const char __pyx_k_reachable_turnouts[] = "reachable_turnouts";
 static const char __pyx_k_undelivered_trades[] = "undelivered_trades";
-static const char __pyx_k_contract_allocation[] = "contract_allocation";
 static const char __pyx_k_recharge_deliveries[] = "recharge_deliveries";
 static const char __pyx_k_total_delta_pumping[] = "total_delta_pumping";
 static const char __pyx_k_Different_Attributes[] = "Different Attributes";
@@ -2068,9 +2066,7 @@ static PyObject *__pyx_n_s_cl;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_collections;
 static PyObject *__pyx_n_u_contract;
-static PyObject *__pyx_n_s_contract_allocation;
 static PyObject *__pyx_n_s_contract_canal;
-static PyObject *__pyx_n_s_contract_carryover;
 static PyObject *__pyx_n_s_contract_list;
 static PyObject *__pyx_n_u_contractor;
 static PyObject *__pyx_n_s_current_water;
@@ -2239,7 +2235,7 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_20set_pmp_acreag
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_22update_balance(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_water_available, PyObject *__pyx_v_projected_allocation, PyObject *__pyx_v_current_water, PyObject *__pyx_v_key, PyObject *__pyx_v_tot_carryover, PyObject *__pyx_v_balance_type); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_24calc_carryover(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_existing_balance, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_balance_type, PyObject *__pyx_v_key); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_26open_recovery(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_dowy, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_target_eoy); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_28open_recharge(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_da, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_numdays_fillup, PyObject *__pyx_v_numdays_fillup2, CYTHON_UNUSED PyObject *__pyx_v_contract_carryover, PyObject *__pyx_v_key, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_reachable_turnouts, PyObject *__pyx_v_additional_carryover, CYTHON_UNUSED PyObject *__pyx_v_contract_allocation); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_28open_recharge(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_da, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_numdays_fillup, PyObject *__pyx_v_numdays_fillup2, PyObject *__pyx_v_key, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_reachable_turnouts, PyObject *__pyx_v_additional_carryover); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_30get_urban_recovery_target(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_t, PyObject *__pyx_v_dowy, PyObject *__pyx_v_wateryear, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_pumping, PyObject *__pyx_v_project_contract, PyObject *__pyx_v_demand_days, PyObject *__pyx_v_start_month); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_32set_turnback_pool(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_34make_turnback_purchases(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_turnback_sellers, PyObject *__pyx_v_turnback_buyers, PyObject *__pyx_v_key); /* proto */
@@ -11864,7 +11860,7 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_26open_recovery(
  * 
  *     self.min_direct_recovery = max(self.annualdemand[0] - total_balance,0.0)/(366-dowy)             # <<<<<<<<<<<<<<
  * 
- *   def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, contract_carryover, key, wyt, reachable_turnouts, additional_carryover, contract_allocation):
+ *   def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, key, wyt, reachable_turnouts, additional_carryover):
  */
   __pyx_t_4 = 0.0;
   if (unlikely(__pyx_v_self->annualdemand == Py_None)) {
@@ -11936,7 +11932,7 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_26open_recovery(
 /* "calfews_src/district_cy.pyx":467
  *     self.min_direct_recovery = max(self.annualdemand[0] - total_balance,0.0)/(366-dowy)
  * 
- *   def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, contract_carryover, key, wyt, reachable_turnouts, additional_carryover, contract_allocation):             # <<<<<<<<<<<<<<
+ *   def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, key, wyt, reachable_turnouts, additional_carryover):             # <<<<<<<<<<<<<<
  *     #for a given contract owned by the district (key), how much recharge can they expect to be able to use
  * 	#before the reservoir associated w/ that contract fills to the point where it needs to begin spilling water
  */
@@ -11952,12 +11948,10 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_29open_recharge(
   PyObject *__pyx_v_days_in_month = 0;
   PyObject *__pyx_v_numdays_fillup = 0;
   PyObject *__pyx_v_numdays_fillup2 = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_contract_carryover = 0;
   PyObject *__pyx_v_key = 0;
   CYTHON_UNUSED PyObject *__pyx_v_wyt = 0;
   PyObject *__pyx_v_reachable_turnouts = 0;
   PyObject *__pyx_v_additional_carryover = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_contract_allocation = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -11965,16 +11959,12 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_29open_recharge(
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("open_recharge (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_t,&__pyx_n_s_m,&__pyx_n_s_da,&__pyx_n_s_wateryear,&__pyx_n_s_year_index,&__pyx_n_s_days_in_month,&__pyx_n_s_numdays_fillup,&__pyx_n_s_numdays_fillup2,&__pyx_n_s_contract_carryover,&__pyx_n_s_key,&__pyx_n_s_wyt,&__pyx_n_s_reachable_turnouts,&__pyx_n_s_additional_carryover,&__pyx_n_s_contract_allocation,0};
-    PyObject* values[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_t,&__pyx_n_s_m,&__pyx_n_s_da,&__pyx_n_s_wateryear,&__pyx_n_s_year_index,&__pyx_n_s_days_in_month,&__pyx_n_s_numdays_fillup,&__pyx_n_s_numdays_fillup2,&__pyx_n_s_key,&__pyx_n_s_wyt,&__pyx_n_s_reachable_turnouts,&__pyx_n_s_additional_carryover,0};
+    PyObject* values[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
-        CYTHON_FALLTHROUGH;
-        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
-        CYTHON_FALLTHROUGH;
         case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
         CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
@@ -12011,85 +12001,73 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_29open_recharge(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_m)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 1); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 1); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_da)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 2); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 2); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_wateryear)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 3); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 3); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_year_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 4); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 4); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_days_in_month)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 5); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 5); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_numdays_fillup)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 6); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 6); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_numdays_fillup2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 7); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 7); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
-        if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_contract_carryover)) != 0)) kw_args--;
+        if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_key)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 8); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 8); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  9:
-        if (likely((values[9] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_key)) != 0)) kw_args--;
+        if (likely((values[9] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_wyt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 9); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 9); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case 10:
-        if (likely((values[10] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_wyt)) != 0)) kw_args--;
+        if (likely((values[10] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_reachable_turnouts)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 10); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 10); __PYX_ERR(0, 467, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case 11:
-        if (likely((values[11] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_reachable_turnouts)) != 0)) kw_args--;
+        if (likely((values[11] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_additional_carryover)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 11); __PYX_ERR(0, 467, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case 12:
-        if (likely((values[12] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_additional_carryover)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 12); __PYX_ERR(0, 467, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case 13:
-        if (likely((values[13] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_contract_allocation)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, 13); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, 11); __PYX_ERR(0, 467, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "open_recharge") < 0)) __PYX_ERR(0, 467, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 14) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 12) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -12104,8 +12082,6 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_29open_recharge(
       values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
       values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
       values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
-      values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
-      values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
     }
     __pyx_v_t = values[0];
     __pyx_v_m = values[1];
@@ -12115,29 +12091,27 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_29open_recharge(
     __pyx_v_days_in_month = values[5];
     __pyx_v_numdays_fillup = values[6];
     __pyx_v_numdays_fillup2 = values[7];
-    __pyx_v_contract_carryover = values[8];
-    __pyx_v_key = values[9];
-    __pyx_v_wyt = values[10];
-    __pyx_v_reachable_turnouts = values[11];
-    __pyx_v_additional_carryover = values[12];
-    __pyx_v_contract_allocation = values[13];
+    __pyx_v_key = values[8];
+    __pyx_v_wyt = values[9];
+    __pyx_v_reachable_turnouts = values[10];
+    __pyx_v_additional_carryover = values[11];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 14, 14, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 467, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("open_recharge", 1, 12, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 467, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("calfews_src.district_cy.District.open_recharge", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_28open_recharge(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_da, __pyx_v_wateryear, __pyx_v_year_index, __pyx_v_days_in_month, __pyx_v_numdays_fillup, __pyx_v_numdays_fillup2, __pyx_v_contract_carryover, __pyx_v_key, __pyx_v_wyt, __pyx_v_reachable_turnouts, __pyx_v_additional_carryover, __pyx_v_contract_allocation);
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_28open_recharge(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_t, __pyx_v_m, __pyx_v_da, __pyx_v_wateryear, __pyx_v_year_index, __pyx_v_days_in_month, __pyx_v_numdays_fillup, __pyx_v_numdays_fillup2, __pyx_v_key, __pyx_v_wyt, __pyx_v_reachable_turnouts, __pyx_v_additional_carryover);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_28open_recharge(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_da, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_numdays_fillup, PyObject *__pyx_v_numdays_fillup2, CYTHON_UNUSED PyObject *__pyx_v_contract_carryover, PyObject *__pyx_v_key, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_reachable_turnouts, PyObject *__pyx_v_additional_carryover, CYTHON_UNUSED PyObject *__pyx_v_contract_allocation) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_28open_recharge(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_t, PyObject *__pyx_v_m, PyObject *__pyx_v_da, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_numdays_fillup, PyObject *__pyx_v_numdays_fillup2, PyObject *__pyx_v_key, CYTHON_UNUSED PyObject *__pyx_v_wyt, PyObject *__pyx_v_reachable_turnouts, PyObject *__pyx_v_additional_carryover) {
   PyObject *__pyx_v_total_recharge = NULL;
   PyObject *__pyx_v_total_recharge2 = NULL;
   PyObject *__pyx_v_carryover_storage_proj = NULL;
@@ -13938,7 +13912,7 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_28open_recharge(
   /* "calfews_src/district_cy.pyx":467
  *     self.min_direct_recovery = max(self.annualdemand[0] - total_balance,0.0)/(366-dowy)
  * 
- *   def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, contract_carryover, key, wyt, reachable_turnouts, additional_carryover, contract_allocation):             # <<<<<<<<<<<<<<
+ *   def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, key, wyt, reachable_turnouts, additional_carryover):             # <<<<<<<<<<<<<<
  *     #for a given contract owned by the district (key), how much recharge can they expect to be able to use
  * 	#before the reservoir associated w/ that contract fills to the point where it needs to begin spilling water
  */
@@ -45281,9 +45255,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
   {&__pyx_n_u_contract, __pyx_k_contract, sizeof(__pyx_k_contract), 0, 1, 0, 1},
-  {&__pyx_n_s_contract_allocation, __pyx_k_contract_allocation, sizeof(__pyx_k_contract_allocation), 0, 0, 1, 1},
   {&__pyx_n_s_contract_canal, __pyx_k_contract_canal, sizeof(__pyx_k_contract_canal), 0, 0, 1, 1},
-  {&__pyx_n_s_contract_carryover, __pyx_k_contract_carryover, sizeof(__pyx_k_contract_carryover), 0, 0, 1, 1},
   {&__pyx_n_s_contract_list, __pyx_k_contract_list, sizeof(__pyx_k_contract_list), 0, 0, 1, 1},
   {&__pyx_n_u_contractor, __pyx_k_contractor, sizeof(__pyx_k_contractor), 0, 1, 0, 1},
   {&__pyx_n_s_current_water, __pyx_k_current_water, sizeof(__pyx_k_current_water), 0, 0, 1, 1},

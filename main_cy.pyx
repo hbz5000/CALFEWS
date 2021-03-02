@@ -108,6 +108,7 @@ cdef class main_cy():
       demand_type = 'pesticide'
       input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
 
+    ### reset seed again to match old code
     if (self.seed > 0):
       np.random.seed(self.seed)
 

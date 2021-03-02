@@ -464,7 +464,7 @@ cdef class District():
 	  	  
     self.min_direct_recovery = max(self.annualdemand[0] - total_balance,0.0)/(366-dowy)
 	  	  
-  def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, contract_carryover, key, wyt, reachable_turnouts, additional_carryover, contract_allocation):
+  def open_recharge(self,t,m,da,wateryear,year_index,days_in_month,numdays_fillup, numdays_fillup2, key, wyt, reachable_turnouts, additional_carryover):
     #for a given contract owned by the district (key), how much recharge can they expect to be able to use
 	#before the reservoir associated w/ that contract fills to the point where it needs to begin spilling water
 	#(numdays_fillup) - i.e., how much surface water storage can we keep before start losing it

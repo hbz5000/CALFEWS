@@ -822,7 +822,7 @@ cdef class Private():
         self.recharge_carryover[x][key] = 0.0
     
       
-  def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, district, start_month):
+  def get_urban_recovery_target(self, t, dowy, wateryear, wyt, pumping, project_contract, demand_days, start_month, district):
     max_pumping_shortfall = 0.0
     pumping_shortfall = 0.0
     monthcounter = start_month
@@ -840,9 +840,9 @@ cdef class Private():
 
         max_pumping_shortfall = max(pumping_shortfall, max_pumping_shortfall)	  
 
-  	  
     return max(max_pumping_shortfall, 0.0)
 	
+  
   def set_turnback_pool(self, key, year_index, days_in_month, additional_carryover):
     ##This function creates the 'turnback pool' (note: only for SWP contracts now, can be used for others)
     ##finding contractors with 'extra' contract water that they would like to sell, and contractors who would

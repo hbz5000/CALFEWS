@@ -7,6 +7,15 @@ import calendar
 import json
 import matplotlib.pyplot as plt
 from .util import *
+from .reservoir_cy cimport Reservoir
+from .delta_cy cimport Delta
+from .canal_cy cimport Canal
+from .district_cy cimport District
+from .private_cy cimport Private
+from .waterbank_cy cimport Waterbank
+from .contract_cy cimport Contract
+from .participant_cy cimport Participant
+
 
 cdef class Model():
  
@@ -100,7 +109,7 @@ cdef class Model():
   #####################################################################################################################
 #############################     Object Creation     ###############################################################
 #####################################################################################################################
-  def northern_initialization_routine(self):
+  def northern_initialization_routine(self, scenario='baseline'):
     ######################################################################################
     ######################################################################################
     # preprocessing for the northern system
@@ -947,7 +956,8 @@ cdef class Model():
     ##There are 6 main canals (fkc, madera, calaqueduct, kernriverchannel, kaweahriverchannel, and tuleriverchannel) that are directly connected to surface water storage
     ##The other canals connect these major arteries, but sometimes water from one canal will have 'priority' to use the connecting canals
     ##mainly shows that the California Aqueduct has first priority to use the Cross Valley Canal
-	##and the Kern River has first priority over the kern river canal
+	  ##and the Kern River has first priority over the kern river canal
+
     self.canal_priority = {}
     self.canal_priority['fkc'] = [self.fkc]
     self.canal_priority['mdc'] = [self.madera]
@@ -3105,8 +3115,8 @@ cdef class Model():
               total_contract = self.district_keys[district_key].project_contract[contract_obj.name]
             else:
               total_contract = 0.0
-            private_obj.demand_days['lookahead'][contract_obj.name] += private_obj.get_urban_recovery_target(t, dowy, wateryear, wyt, expected_pumping, total_contract, demand_days, district_key, 0)
-            private_obj.demand_days['current'][contract_obj.name] += private_obj.get_urban_recovery_target(t, 0, wateryear, wyt, expected_pumping, total_contract, demand_days, district_key, m-1)
+            private_obj.demand_days['lookahead'][contract_obj.name] += private_obj.get_urban_recovery_target(t, dowy, wateryear, wyt, expected_pumping, total_contract, demand_days, 0, district_key)
+            private_obj.demand_days['current'][contract_obj.name] += private_obj.get_urban_recovery_target(t, 0, wateryear, wyt, expected_pumping, total_contract, demand_days, m-1, district_key)
 
       else:
         demand_days = int(numdays_fillup)
@@ -3131,8 +3141,8 @@ cdef class Model():
               total_contract = self.district_keys[district_key].project_contract[contract_obj.name]
             else:
               total_contract = 0.0
-            private_obj.demand_days['current'][contract_obj.name] += private_obj.get_urban_recovery_target(t, 0, wateryear, wyt, expected_pumping, total_contract, demand_days, district_key, m-1)
-            private_obj.demand_days['lookahead'][contract_obj.name] += private_obj.get_urban_recovery_target(t, dowy, wateryear, wyt, expected_pumping, total_contract, lookahead_days, district_key, 0)
+            private_obj.demand_days['current'][contract_obj.name] += private_obj.get_urban_recovery_target(t, 0, wateryear, wyt, expected_pumping, total_contract, demand_days, m-1, district_key)
+            private_obj.demand_days['lookahead'][contract_obj.name] += private_obj.get_urban_recovery_target(t, dowy, wateryear, wyt, expected_pumping, total_contract, lookahead_days, 0, district_key)
 
    
     #Find district banking needs
@@ -3154,7 +3164,7 @@ cdef class Model():
           carryover_days = min(reservoir.numdays_fillup['demand'], 999.9)
         additional_carryover = 0.0
 
-        district_obj.open_recharge(t,m-1,da,wateryear,year_index,self.days_in_month, carryover_days, lookahead_days, self.contract_keys[contract_key].tot_carryover - self.contract_keys[contract_key].annual_deliveries[wateryear], contract_key, wyt, self.contract_turnouts[contract_key], 0.0, self.contract_keys[contract_key].allocation_priority)
+        district_obj.open_recharge(t,m-1,da,wateryear,year_index,self.days_in_month, carryover_days, lookahead_days, contract_key, wyt, self.contract_turnouts[contract_key], 0.0)
 		
     for private_obj in self.private_list:
       for contract_key in private_obj.contract_list:
@@ -4103,6 +4113,7 @@ cdef class Model():
     cdef Waterbank waterbank_obj
     cdef District district_obj
     cdef Private private_obj
+    cdef Participant participant_obj
     cdef Reservoir reservoir_obj
 
     for waterbank_obj in self.waterbank_list:
@@ -4129,15 +4140,16 @@ cdef class Model():
 	    ###distribute this recharge capacity among districts (based on ownership share)
       for participant_key in waterbank_obj.participant_list:
         num_districts = self.district_keys_len[participant_key]
+        participant_obj = Participant()
         if self.district_keys[participant_key].is_District == 1:
-          district_obj = self.district_keys[participant_key]
-          participant_obj = district_obj
-        elif self.district_keys[participant_key].is_Private == 1:
-          private_obj = self.district_keys[participant_key]
-          participant_obj = private_obj
+          participant_obj.is_District = 1
+          participant_obj.district_obj = self.district_keys[participant_key]
+        elif self.district_keys[participant_key].is_Private:
+          participant_obj.is_Private = 1
+          participant_obj.private_obj = self.district_keys[participant_key]   
 
         participant_obj.total_banked_storage += waterbank_obj.banked[participant_key]
-        participant_obj.max_direct_recharge[0] += waterbank_obj.ownership[participant_key]*waterbank_obj.recharge_rate/num_districts
+        participant_obj.max_direct_recharge(0, waterbank_obj.ownership[participant_key]*waterbank_obj.recharge_rate/num_districts)
         for reservoir_obj in self.reservoir_list:
           if participant_obj.reservoir_contract[reservoir_obj.key] == 1:
             reservoir_obj.max_direct_recharge[0] += waterbank_obj.ownership[participant_key]*waterbank_obj.recharge_rate/num_districts
@@ -4150,24 +4162,26 @@ cdef class Model():
           if decline_counter > 11:
             decline_counter = 11
           decline_coef *= waterbank_obj.recharge_decline[decline_counter]
-          participant_obj.max_direct_recharge[m_counter] += waterbank_obj.ownership[participant_key]*waterbank_obj.recharge_rate*decline_coef/num_districts
+          participant_obj.max_direct_recharge(m_counter, waterbank_obj.ownership[participant_key]*waterbank_obj.recharge_rate*decline_coef/num_districts)
           for reservoir_obj in self.reservoir_list:
             if participant_obj.reservoir_contract[reservoir_obj.key] == 1:
               reservoir_obj.max_direct_recharge[m_counter] += waterbank_obj.ownership[participant_key]*waterbank_obj.recharge_rate*decline_coef/num_districts
         
 
   def find_leiu_exchange(self, wateryear, dowy):
-    cdef District district_obj, leiu_obj
+    cdef District leiu_obj
+    cdef Participant participant_obj
     cdef Contract contract_obj
 
     for leiu_obj in self.leiu_list:
       for participant_key in leiu_obj.participant_list:
+        participant_obj = Participant()
         if self.district_keys[participant_key].is_District == 1:
-          district_obj = self.district_keys[participant_key]
-          participant_obj = district_obj
-        elif self.district_keys[participant_key].is_Private == 1:
-          private_obj = self.district_keys[participant_key]
-          participant_obj = private_obj
+          participant_obj.is_District = 1
+          participant_obj.district_obj = self.district_keys[participant_key]
+        elif self.district_keys[participant_key].is_Private:
+          participant_obj.is_Private = 1
+          participant_obj.private_obj = self.district_keys[participant_key]   
 
         for contract_key in leiu_obj.contract_list:
           for contract_key2 in participant_obj.contract_list:
@@ -4189,6 +4203,7 @@ cdef class Model():
   ###ownership stake in teh waterbank
     cdef District district_obj, leiu_obj
     cdef Private private_obj
+    cdef Participant participant_obj
     cdef Reservoir reservoir_obj
 
     #in-leiu banks combine both direct and in-leiu recharge
@@ -4217,18 +4232,19 @@ cdef class Model():
       if leiu_obj.key == "SMI":
         for participant_key in leiu_obj.participant_list:
           num_districts = self.district_keys_len[participant_key]
+          participant_obj = Participant()
           if self.district_keys[participant_key].is_District == 1:
-            district_obj = self.district_keys[participant_key]
-            participant_obj = district_obj
-          elif self.district_keys[participant_key].is_Private == 1:
-            private_obj = self.district_keys[participant_key]
-            participant_obj = private_obj
+            participant_obj.is_District = 1
+            participant_obj.district_obj = self.district_keys[participant_key]
+          elif self.district_keys[participant_key].is_Private:
+            participant_obj.is_Private = 1
+            participant_obj.private_obj = self.district_keys[participant_key]   
           
           #current direct recharge
-          participant_obj.max_direct_recharge[0] += leiu_obj.leiu_ownership[participant_key]*leiu_obj.recharge_rate/num_districts
+          participant_obj.max_direct_recharge(0, leiu_obj.leiu_ownership[participant_key]*leiu_obj.recharge_rate/num_districts)
           #current in leiu recharge (based on irrigation demands of the in-leiu bank)
           if leiu_obj.inleiubanked[participant_key] < leiu_obj.inleiucap[participant_key]:
-            participant_obj.max_leiu_recharge[0] += leiu_obj.leiu_ownership[participant_key]*leiu_obj.monthlydemand[wyt][m-1]*(1.0 - min(bank_total_supply/leiu_obj.annualdemand[0], 1.0))/num_districts
+            participant_obj.max_leiu_recharge(0, leiu_obj.leiu_ownership[participant_key]*leiu_obj.monthlydemand[wyt][m-1]*(1.0 - min(bank_total_supply/leiu_obj.annualdemand[0], 1.0))/num_districts)
 
           for reservoir_obj in self.reservoir_list:
             if participant_obj.reservoir_contract[reservoir_obj.key] == 1:
@@ -4248,10 +4264,10 @@ cdef class Model():
               decline_counter = 12
             decline_coef *= leiu_obj.recharge_decline[decline_counter]
             #future (12 months) direct recharge
-            participant_obj.max_direct_recharge[m_counter] += leiu_obj.leiu_ownership[participant_key]*leiu_obj.recharge_rate*decline_coef/num_districts
+            participant_obj.max_direct_recharge(m_counter, leiu_obj.leiu_ownership[participant_key]*leiu_obj.recharge_rate*decline_coef/num_districts)
             #future (12 months) in leiu recharge
             if leiu_obj.inleiubanked[participant_key] < leiu_obj.inleiucap[participant_key]:
-              participant_obj.max_leiu_recharge[m_counter] += leiu_obj.leiu_ownership[participant_key]*leiu_obj.monthlydemand[wyt][future_month]*(1.0 - min(bank_total_supply/leiu_obj.annualdemand[0], 1.0))/num_districts
+              participant_obj.max_leiu_recharge(m_counter, leiu_obj.leiu_ownership[participant_key]*leiu_obj.monthlydemand[wyt][future_month]*(1.0 - min(bank_total_supply/leiu_obj.annualdemand[0], 1.0))/num_districts)
             for reservoir_obj in self.reservoir_list:
               if participant_obj.reservoir_contract[reservoir_obj.key] == 1:
                 if leiu_obj.inleiubanked[participant_key] < leiu_obj.inleiucap[participant_key]:
@@ -4302,8 +4318,9 @@ cdef class Model():
 
 
   def update_leiu_capacity(self):
-    cdef District district_obj, leiu_obj
+    cdef District leiu_obj
     cdef Private private_obj
+    cdef Participant participant_obj
 
     #initialize individual banking partner's recovery capacity
     for leiu_obj in self.leiu_list:
@@ -4314,17 +4331,18 @@ cdef class Model():
 	  #supply in reservoirs accessable by their partners
     for leiu_obj in self.leiu_list:
       for participant_key in leiu_obj.participant_list:
-          if self.district_keys[participant_key].is_District == 1:
-            district_obj = self.district_keys[participant_key]
-            participant_obj = district_obj
-          elif self.district_keys[participant_key].is_Private == 1:
-            private_obj = self.district_keys[participant_key]
-            participant_obj = private_obj
-          for contract_key in participant_obj.contract_list:#if the banking partner has a contract at that reservoir, they can trade water there
-            for contract_key2 in leiu_obj.contract_list:
-              if contract_key == contract_key2:
-                participant_obj.extra_leiu_recovery += leiu_obj.projected_supply[contract_key2]*leiu_obj.leiu_trade_cap*leiu_obj.leiu_ownership[participant_key]
-           						
+        participant_obj = Participant()
+        if self.district_keys[participant_key].is_District == 1:
+          participant_obj.is_District = 1
+          participant_obj.district_obj = self.district_keys[participant_key]
+        elif self.district_keys[participant_key].is_Private:
+          participant_obj.is_Private = 1
+          participant_obj.private_obj = self.district_keys[participant_key]   
+        for contract_key in participant_obj.contract_list:#if the banking partner has a contract at that reservoir, they can trade water there
+          for contract_key2 in leiu_obj.contract_list:
+            if contract_key == contract_key2:
+              participant_obj.extra_leiu_recovery += leiu_obj.projected_supply[contract_key2]*leiu_obj.leiu_trade_cap*leiu_obj.leiu_ownership[participant_key]
+                    
 #####################################################################################################################
 #####################################################################################################################
 #####################################################################################################################
@@ -4608,8 +4626,9 @@ cdef class Model():
 	
 
   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type):
-    cdef District district_obj, district_obj2
+    cdef District district_obj
     cdef Private private_obj
+    cdef Participant participant_obj
     cdef Waterbank waterbank_obj
     cdef Canal canal_obj
     cdef double private_demand_constraint, demand_constraint, excess_flow, unmet_demand, total_demand, turnback_flow, excess_flow_int, available_capacity_int, \
@@ -4748,12 +4767,13 @@ cdef class Model():
         #for waterbanks, we calculate the demands of each waterbank partner individually
         for participant_key in waterbank_obj.participant_list:
           num_members = self.district_keys_len[participant_key]
+          participant_obj = Participant()
           if self.district_keys[participant_key].is_District == 1:
-            district_obj2 = self.district_keys[participant_key]
-            participant_obj = district_obj2
-          elif self.district_keys[participant_key].is_Private == 1:
-            private_obj = self.district_keys[participant_key]
-            participant_obj = private_obj
+            participant_obj.is_District = 1
+            participant_obj.district_obj = self.district_keys[participant_key]
+          elif self.district_keys[participant_key].is_Private:
+            participant_obj.is_Private = 1
+            participant_obj.private_obj = self.district_keys[participant_key]   
 
           #find waterbank partner demand (i.e., recharge capacity of their ownership share)
           demand_constraint = waterbank_obj.find_node_demand(contract_list, participant_key, num_members, search_type)
@@ -4814,12 +4834,13 @@ cdef class Model():
         if (district_obj.in_leiu_banking and search_type == "banking") or (district_obj.in_leiu_banking and search_type == "recovery"):
           for participant_key in district_obj.participant_list:
             num_members = self.district_keys_len[participant_key]
+            participant_obj = Participant()
             if self.district_keys[participant_key].is_District == 1:
-              district_obj2 = self.district_keys[participant_key]
-              participant_obj = district_obj2
-            elif self.district_keys[participant_key].is_Private == 1:
-              private_obj = self.district_keys[participant_key]
-              participant_obj = private_obj
+              participant_obj.is_District = 1
+              participant_obj.district_obj = self.district_keys[participant_key]
+            elif self.district_keys[participant_key].is_Private:
+              participant_obj.is_Private = 1
+              participant_obj.private_obj = self.district_keys[participant_key]   
               
             #find if the banking partner wants to bank
             deliveries = participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, district_obj.inleiubanked[participant_key], district_obj.inleiucap[participant_key], dowy, wateryear)
@@ -4979,7 +5000,7 @@ cdef class Model():
                 total_district_demand, total_available, existing_canal_space, total_exchange, paper_recovery, private_deliveries, direct_recovery, max_flow, \
                 committed, location_delivery, total_paper, deliveries
     cdef str new_flow_dir, list_member, district_key, participant_key, zz, delivery_type, private_key
-    cdef District district_obj, district_obj2
+    cdef District district_obj
     cdef Private private_obj
     cdef Waterbank waterbank_obj
     cdef Canal canal_obj
@@ -5127,12 +5148,13 @@ cdef class Model():
             for participant_key in district_obj.participant_list:
               if participant_key != district_obj.key:
                 num_members = self.district_keys_len[participant_key]      
+                participant_obj = Participant()
                 if self.district_keys[participant_key].is_District == 1:
-                  district_obj2 = self.district_keys[participant_key]
-                  participant_obj = district_obj2
-                elif self.district_keys[participant_key].is_Private == 1:
-                  private_obj = self.district_keys[participant_key]
-                  participant_obj = private_obj
+                  participant_obj.is_District = 1
+                  participant_obj.district_obj = self.district_keys[participant_key]
+                elif self.district_keys[participant_key].is_Private:
+                  participant_obj.is_Private = 1
+                  participant_obj.private_obj = self.district_keys[participant_key]          
 
                 #find waterbank partner demand (i.e., recovery capacity of their ownership share)                 
                 demand_constraint, demand_constraint_by_contracts = district_obj.find_leiu_output(contract_list, district_obj.leiu_ownership[participant_key], participant_key, wateryear)
@@ -5141,7 +5163,7 @@ cdef class Model():
                 #what is their priority over the water/canal space?
                 priority_bank_space = district_obj.find_leiu_priority_space(demand_constraint, num_members, participant_key, 0, search_type)
       
-                priorities = district_obj.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A")
+                priorities = district_obj.set_demand_priority(None, None, priority_bank_space, deliveries, demand_constraint, search_type, None)
                 #need to adjust the water request to account for the banking partner share of the turnout
                 for zz in type_list:
                 #paper trade recovery is equal to 
@@ -5235,10 +5257,11 @@ cdef class Model():
 
 
   cdef (double, double) delivery_recovery(self, list contract_list, Canal canal, lookback_range, int starting_point, dict paper_fractions, double direct_recovery, str flow_dir, list type_list, list priority_list, str contract_canal, str delivery_loc_name, int dowy, int wateryear):
-    cdef District district_obj, district_obj2
-    cdef Private private_obj
-    cdef Waterbank waterbank_obj
-    cdef Canal canal_obj
+    # cdef District district_obj
+    # cdef Private private_obj
+    cdef Participant participant_obj, recovery_source_obj
+    # cdef Waterbank waterbank_obj
+    # cdef Canal canal_obj
     cdef double location_pumpout, paper_amount, demand_constraint, sum_deliveries, existing_canal_space, new_flow, available_flow, total_paper, max_current_release, \
               deliveries, priority_bank_space, direct_amount, actual_delivery, current_recovery
     cdef int lookback_loc, canal_backtrack, toggle_district_recharge, num_members, counter_toggle, new_canal_size, new_starting_point
@@ -5272,41 +5295,42 @@ cdef class Model():
     toggle_district_recharge = 0
     for lookback_loc in lookback_range:
       location_pumpout = 0.0
-
+      recovery_source_obj = Participant()
       if self.canal_district[canal.name][lookback_loc].is_District == 1:
-        district_obj = self.canal_district[canal.name][lookback_loc]
-        recovery_source = district_obj
+        recovery_source_obj.is_District = 1
+        recovery_source_obj.district_obj = self.canal_district[canal.name][lookback_loc]
       elif self.canal_district[canal.name][lookback_loc].is_Waterbank == 1:
-        waterbank_obj = self.canal_district[canal.name][lookback_loc]
-        recovery_source = waterbank_obj
+        recovery_source_obj.is_Waterbank = 1
+        recovery_source_obj.waterbank_obj = self.canal_district[canal.name][lookback_loc]    
       elif self.canal_district[canal.name][lookback_loc].is_Canal == 1:
-        canal_obj = self.canal_district[canal.name][lookback_loc]
-        recovery_source = canal_obj
+        recovery_source_obj.is_Canal = 1
+        recovery_source_obj.canal_obj =self.canal_district[canal.name][lookback_loc] 
 
       search_type = "recovery"
       max_current_release = 0.0
       for zz in type_list:
         max_current_release = canal.demand[zz][lookback_loc]*canal.recovery_flow_frac[zz][lookback_loc]
-      if recovery_source.is_District == 1:
-        if recovery_source.in_leiu_banking:
-          for participant_key in recovery_source.participant_list:
+      if recovery_source_obj.is_District == 1:
+        if recovery_source_obj.in_leiu_banking:
+          for participant_key in recovery_source_obj.participant_list:
             num_members = self.district_keys_len[participant_key]
-            if participant_key != recovery_source.key:
+            if participant_key != recovery_source_obj.key:
+              participant_obj = Participant()
               if self.district_keys[participant_key].is_District == 1:
-                district_obj2 = self.district_keys[participant_key]
-                participant_obj = district_obj2
-              elif self.district_keys[participant_key].is_Private == 1:
-                private_obj = self.district_keys[participant_key]
-                participant_obj = private_obj
+                participant_obj.is_District = 1
+                participant_obj.district_obj = self.district_keys[participant_key]
+              elif self.district_keys[participant_key].is_Private:
+                participant_obj.is_Private = 1
+                participant_obj.private_obj = self.district_keys[participant_key]                
 
               #find waterbank partner demand (i.e., recovery capacity of their ownership share)
-              demand_constraint = recovery_source.find_node_output()
+              demand_constraint = recovery_source_obj.find_node_output()
               #does this partner want recovery water?
-              deliveries = participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, recovery_source.inleiubanked[participant_key], recovery_source.inleiucap[participant_key], dowy, wateryear)
+              deliveries = participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, recovery_source_obj.inleiubanked[participant_key], recovery_source_obj.inleiucap[participant_key], dowy, wateryear)
               #what is their priority over the water/canal space?
-              priority_bank_space = recovery_source.find_leiu_priority_space(demand_constraint, num_members, participant_key, 0, search_type)
+              priority_bank_space = recovery_source_obj.find_leiu_priority_space(demand_constraint, num_members, participant_key, 0, search_type)
       
-              priorities = recovery_source.set_demand_priority("N/A", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A")
+              priorities = recovery_source_obj.set_demand_priority(None, None, priority_bank_space, deliveries, demand_constraint, search_type, None)
               priority_turnout_adjusted = {}
               #need to adjust the water request to account for the banking partner share of the turnout
               for zz in type_list:
@@ -5315,25 +5339,25 @@ cdef class Model():
                 #paper trade recovery is equal to 
                 paper_amount = priority_turnout_adjusted[zz]*min(paper_fractions[zz], canal.recovery_flow_frac[zz][lookback_loc])
                 direct_amount = min(direct_recovery, priority_turnout_adjusted[zz]*canal.recovery_flow_frac[zz][lookback_loc] - paper_amount)
-                recovery_source.adjust_recovery(paper_amount, participant_key, wateryear)
+                recovery_source_obj.adjust_recovery(paper_amount, participant_key, wateryear)
                 location_pumpout += paper_amount
                 actual_delivery = 0.0
                 if delivery_loc_name == participant_obj.key:
-                  demand_constraint = recovery_source.find_node_output()
-                  max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.inleiubanked[participant_key]/num_members)
+                  demand_constraint = recovery_source_obj.find_node_output()
+                  max_direct_recovery = min(demand_constraint, direct_amount, recovery_source_obj.inleiubanked[participant_key]/num_members)
                   actual_delivery = participant_obj.direct_delivery_bank(max_direct_recovery, wateryear)
                   direct_recovery -= actual_delivery
-                  recovery_source.adjust_recovery(actual_delivery, participant_key, wateryear)
+                  recovery_source_obj.adjust_recovery(actual_delivery, participant_key, wateryear)
                   location_pumpout += actual_delivery
                 elif participant_obj.is_Private == 1:
                   counter_toggle = 0
                   for district_key in participant_obj.district_list:
                     if delivery_loc_name == district_key:
-                      demand_constraint = recovery_source.find_node_output()
-                      max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.inleiubanked[participant_key]/num_members)
+                      demand_constraint = recovery_source_obj.find_node_output()
+                      max_direct_recovery = min(demand_constraint, direct_amount, recovery_source_obj.inleiubanked[participant_key]/num_members)
                       actual_delivery = participant_obj.direct_delivery_bank(max_direct_recovery, wateryear, district_key)
                       direct_recovery -= actual_delivery
-                      recovery_source.adjust_recovery(actual_delivery, participant_key, wateryear)
+                      recovery_source_obj.adjust_recovery(actual_delivery, participant_key, wateryear)
                       location_pumpout += actual_delivery
                       counter_toggle = 1
                     if counter_toggle == 0:
@@ -5345,27 +5369,28 @@ cdef class Model():
 
 
           #recalculate the 'recovery demand' at each waterbank		  
-          demand_constraint = recovery_source.find_node_output()
-          self.find_node_demand_district(recovery_source, canal, lookback_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge)
+          demand_constraint = recovery_source_obj.find_node_output()
+          self.find_node_demand_district(recovery_source_obj.district_obj, canal, lookback_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge)
           canal.find_turnout_adjustment(demand_constraint, flow_dir, lookback_loc, type_list)
 		
-      elif recovery_source.is_Waterbank == 1:
-        for participant_key in recovery_source.participant_list:
+      elif recovery_source_obj.is_Waterbank == 1:
+        for participant_key in recovery_source_obj.participant_list:
           num_members = self.district_keys_len[participant_key]
+          participant_obj = Participant()
           if self.district_keys[participant_key].is_District == 1:
-            district_obj = self.district_keys[participant_key]
-            participant_obj = district_obj
-          elif self.district_keys[participant_key].is_Private == 1:
-            private_obj = self.district_keys[participant_key]
-            participant_obj = private_obj
+            participant_obj.is_District = 1
+            participant_obj.district_obj = self.district_keys[participant_key]
+          elif self.district_keys[participant_key].is_Private:
+            participant_obj.is_Private = 1
+            participant_obj.private_obj = self.district_keys[participant_key]     
 
           #find waterbank partner demand (i.e., recovery capacity of their ownership share)
-          demand_constraint = recovery_source.find_node_demand(contract_list, participant_key, num_members, search_type) 
+          demand_constraint = recovery_source_obj.find_node_demand(contract_list, participant_key, num_members, search_type) 
           #does this partner want recovery water?
-          deliveries =  participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, recovery_source.banked[participant_key], recovery_source.bank_cap[participant_key], dowy, wateryear)
+          deliveries =  participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, recovery_source_obj.banked[participant_key], recovery_source_obj.bank_cap[participant_key], dowy, wateryear)
           #what is their priority over the water/canal space?
-          priority_bank_space = recovery_source.find_priority_space(num_members, participant_key, search_type)
-          priorities = recovery_source.set_demand_priority("NA", "N/A", priority_bank_space, deliveries, demand_constraint, search_type, "N/A", "N/A",participant_obj.contract_list)
+          priority_bank_space = recovery_source_obj.find_priority_space(num_members, participant_key, search_type)
+          priorities = recovery_source_obj.set_demand_priority(None, None, priority_bank_space, deliveries, demand_constraint, search_type, None, None, participant_obj.contract_list)
           priority_turnout_adjusted = {}
 
 
@@ -5378,26 +5403,26 @@ cdef class Model():
           for zz in type_list:
             paper_amount = priority_turnout_adjusted[zz]*min(paper_fractions[zz], canal.recovery_flow_frac[zz][lookback_loc])
             direct_amount = min(direct_recovery, priority_turnout_adjusted[zz]*canal.recovery_flow_frac[zz][lookback_loc] - paper_amount)
-            recovery_source.adjust_recovery(paper_amount, participant_key, wateryear)#adjust accounts
+            recovery_source_obj.adjust_recovery(paper_amount, participant_key, wateryear)#adjust accounts
             location_pumpout += paper_amount
       #if the GW is being delivered to the WB owner, more water can be delivered (not constrained by 
       #another district's willingness to trade SW storage)
             if delivery_loc_name == participant_obj.key:
-              demand_constraint = recovery_source.find_node_demand(contract_list, participant_key, num_members, search_type)
-              max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.banked[participant_key]/num_members)
+              demand_constraint = recovery_source_obj.find_node_demand(contract_list, participant_key, num_members, search_type)
+              max_direct_recovery = min(demand_constraint, direct_amount, recovery_source_obj.banked[participant_key]/num_members)
               actual_delivery = participant_obj.direct_delivery_bank(max_direct_recovery, wateryear)
               direct_recovery -= actual_delivery
-              recovery_source.adjust_recovery(actual_delivery, participant_key, wateryear)
+              recovery_source_obj.adjust_recovery(actual_delivery, participant_key, wateryear)
               location_pumpout += actual_delivery
             elif participant_obj.is_Private == 1:
               counter_toggle = 0
               for district_key in participant_obj.district_list:
                 if delivery_loc_name == district_key:
-                  demand_constraint = recovery_source.find_node_demand(contract_list, participant_key, num_members, search_type)
-                  max_direct_recovery = min(demand_constraint, direct_amount, recovery_source.banked[participant_key]/num_members)
+                  demand_constraint = recovery_source_obj.find_node_demand(contract_list, participant_key, num_members, search_type)
+                  max_direct_recovery = min(demand_constraint, direct_amount, recovery_source_obj.banked[participant_key]/num_members)
                   actual_delivery = participant_obj.direct_delivery_bank(max_direct_recovery, wateryear, district_key)
                   direct_recovery -= actual_delivery
-                  recovery_source.adjust_recovery(actual_delivery, participant_key, wateryear)
+                  recovery_source_obj.adjust_recovery(actual_delivery, participant_key, wateryear)
                   location_pumpout += actual_delivery
                   counter_toggle = 1
               if counter_toggle == 0:
@@ -5408,19 +5433,19 @@ cdef class Model():
               total_paper += paper_amount
     
         #recalculate the 'recovery demand' at each waterbank			
-        self.find_node_demand_bank(recovery_source, canal, lookback_loc, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list)
+        self.find_node_demand_bank(recovery_source_obj.waterbank_obj, canal, lookback_loc, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list)
         current_recovery = 0.0
-        for participant_key in recovery_source.participant_list:
-          current_recovery += recovery_source.recovery_use[participant_key]
-        demand_constraint = recovery_source.recovery - current_recovery
+        for participant_key in recovery_source_obj.participant_list:
+          current_recovery += recovery_source_obj.recovery_use[participant_key]
+        demand_constraint = recovery_source_obj.recovery - current_recovery
         canal.find_turnout_adjustment(demand_constraint, flow_dir, lookback_loc, type_list)
 				
-      elif recovery_source.is_Canal == 1:
-        new_flow_dir = canal.flow_directions['recovery'][recovery_source.name]
-        new_canal_size = self.canal_district_len[recovery_source.name]
+      elif recovery_source_obj.is_Canal == 1:
+        new_flow_dir = canal.flow_directions['recovery'][recovery_source_obj.name]
+        new_canal_size = self.canal_district_len[recovery_source_obj.name]
         new_prev_canal = canal.key
-        new_lookback_range, new_starting_point = self.set_canal_range(new_flow_dir, 'recovery', recovery_source, new_prev_canal, new_canal_size)
-        location_pumpout, paper_amount = self.delivery_recovery(contract_list, recovery_source, new_lookback_range, new_starting_point, paper_fractions, direct_recovery, new_flow_dir, type_list, priority_list, contract_canal, delivery_loc_name, dowy, wateryear)
+        new_lookback_range, new_starting_point = self.set_canal_range(new_flow_dir, 'recovery', recovery_source_obj.canal_obj, new_prev_canal, new_canal_size)
+        location_pumpout, paper_amount = self.delivery_recovery(contract_list, recovery_source_obj.canal_obj, new_lookback_range, new_starting_point, paper_fractions, direct_recovery, new_flow_dir, type_list, priority_list, contract_canal, delivery_loc_name, dowy, wateryear)
         total_paper += paper_amount
 
       available_flow += location_pumpout
@@ -5434,6 +5459,7 @@ cdef class Model():
   cdef void find_node_demand_district(self, District district_node, Canal canal, int canal_loc, double demand_constraint, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list, int toggle_district_recharge):
     cdef District district_obj
     cdef Private private_obj
+    cdef Participant participant_obj
     cdef double priority_bank_space, deliveries
     cdef int num_members
     cdef str zz, participant_key
@@ -5447,24 +5473,25 @@ cdef class Model():
     if (district_node.in_leiu_banking and search_type == "banking") or (district_node.in_leiu_banking and search_type == "recovery"):
       for participant_key in district_node.participant_list:
         num_members = self.district_keys_len[participant_key]
+        participant_obj = Participant()
         if self.district_keys[participant_key].is_District == 1:
-          district_obj = self.district_keys[participant_key]
-          participant_obj = district_obj
-        elif self.district_keys[participant_key].is_Private == 1:
-          private_obj = self.district_keys[participant_key]
-          participant_obj = private_obj
+          participant_obj.is_District = 1
+          participant_obj.district_obj = self.district_keys[participant_key]
+        elif self.district_keys[participant_key].is_Private:
+          participant_obj.is_Private = 1
+          participant_obj.private_obj = self.district_keys[participant_key]     
+
         #find if the banking partner wants to bank
         deliveries = participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, district_node.inleiubanked[participant_key], district_node.inleiucap[participant_key], dowy, wateryear)
         #determine the priorities of the banking
         priority_bank_space = district_node.find_leiu_priority_space(demand_constraint, num_members, participant_key, toggle_district_recharge, search_type)
         priorities = participant_obj.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal)
-
         for zz in type_list:
           canal.demand[zz][canal_loc] += priorities[zz]
         #can't purchase more than the turnout capacity
 
     else:
-      deliveries =  district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)
+      deliveries =  district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)      
       #find what priority district has for flow purchases
       priorities = district_node.set_demand_priority(priority_list, contract_list, demand_constraint, deliveries, demand_constraint, search_type, contract_canal)
 
@@ -5480,6 +5507,7 @@ cdef class Model():
     cdef dict priorities
     cdef District district_obj
     cdef Private private_obj
+    cdef Participant participant_obj
 
     #this function finds the total demand at a waterbank node - 3 parts (i) find total water that can be taken (ii) find how much water district(s) want to apply (iii) give each water request a priority  
     #for waterbanks, we calculate the demands of each waterbank partner individually
@@ -5488,12 +5516,13 @@ cdef class Model():
 
     for participant_key in bank_node.participant_list:
       num_members = self.district_keys_len[participant_key]
+      participant_obj = Participant()
       if self.district_keys[participant_key].is_District == 1:
-        district_obj = self.district_keys[participant_key]
-        participant_obj = district_obj
-      elif self.district_keys[participant_key].is_Private == 1:
-        private_obj = self.district_keys[participant_key]
-        participant_obj = private_obj
+        participant_obj.is_District = 1
+        participant_obj.district_obj = self.district_keys[participant_key]
+      elif self.district_keys[participant_key].is_Private:
+        participant_obj.is_Private = 1
+        participant_obj.private_obj = self.district_keys[participant_key]   
 
       #find waterbank partner demand (i.e., recharge capacity of their ownership share)
       demand_constraint = bank_node.find_node_demand(contract_list, participant_key, num_members, search_type) 
@@ -5714,7 +5743,7 @@ cdef class Model():
       self.kwb.recovery = 0.7863
       self.kwb.tot_storage = 2.4
       if (scenario == 'baseline'):
-        do_nothing = 0
+        pass
       elif (scenario['FKC'] == 'baseline'):
         self.fkc.capacity["normal"] = self.fkc.capacity["normal_wy2010"]
 
@@ -6252,5 +6281,4 @@ cdef class Model():
       self.exchequer.forecastWYT = "AN"
   	
     return newmelonesIndex
-
 

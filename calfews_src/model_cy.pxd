@@ -5,6 +5,7 @@ from .district_cy cimport District
 from .private_cy cimport Private
 from .waterbank_cy cimport Waterbank
 from .contract_cy cimport Contract
+from .participant_cy cimport Participant
 
 
 cdef class Model():
