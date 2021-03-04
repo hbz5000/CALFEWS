@@ -9,6 +9,7 @@ start_time = datetime.now()
 
 results_folder = sys.argv[1]  ### folder directory to store results, relative to base calfews directory
 redo_init = int(sys.argv[2])   ### this should be 0 if we want to use saved initialized model, else 1
+run_sim = int(sys.argv[3])   ### this should be 1 if we want to run sim, else 0 to just do init
 
 ### if initialized main_cy object given, load it in
 save_init = results_folder + '/main_cy_init.pkl'
@@ -20,9 +21,9 @@ except:
   pass
 
 if redo_init == 0:
-  initialized_pkl_loc = sys.argv[2]
   try:
     main_cy_obj = pd.read_pickle(save_init)
+    print(main_cy_obj)
   except:
     redo_init = 1
 
@@ -46,18 +47,18 @@ if redo_init == 1:
   print('Initialization complete, ', datetime.now() - start_time)
   sys.stdout.flush()
 
+if run_sim == 1:
+  ### main simulation loop
+  main_cy_obj.run_sim_py(start_time)
+  print ('Simulation complete,', datetime.now() - start_time)
+  sys.stdout.flush()
 
-### main simulation loop
-main_cy_obj.run_sim_py(start_time)
-print ('Simulation complete,', datetime.now() - start_time)
-sys.stdout.flush()
+  ### calculate objectives
+  main_cy_obj.calc_objectives()
+  print ('Objective calculation complete,', datetime.now() - start_time)
 
-### calculate objectives
-main_cy_obj.calc_objectives()
-print ('Objective calculation complete,', datetime.now() - start_time)
-
-### output results
-main_cy_obj.output_results()
-print ('Data output complete,', datetime.now() - start_time)
-sys.stdout.flush()
+  ### output results
+  main_cy_obj.output_results()
+  print ('Data output complete,', datetime.now() - start_time)
+  sys.stdout.flush()
 

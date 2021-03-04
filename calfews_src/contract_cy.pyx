@@ -1,5 +1,4 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import pandas as pd
 import json
@@ -82,11 +81,13 @@ cdef class Contract():
     return (differences == 0)
 
 
-  def calc_allocation(self, t, dowy, forecast_available, priority_contract, secondary_contract, wyt):
+  cdef void calc_allocation(self, int t, int dowy, double forecast_available, double priority_contract, double secondary_contract, str wyt):
     #this function calculates the contract allocation based on snowpack-based flow forecast
-	#before March, allocations are assumed to be equal to last year's allocation (capped at some level)
-	#unless the snowpack is large enough to expect larger flows (i.e., low snowpack early in the year doesn't
-	#cause contracts to predict super-low allocations
+    #before March, allocations are assumed to be equal to last year's allocation (capped at some level)
+    #unless the snowpack is large enough to expect larger flows (i.e., low snowpack early in the year doesn't
+    #cause contracts to predict super-low allocations
+    cdef double forecast_used
+    
     if dowy < 90:
       if forecast_available > self.maxForecastValue:
         if self.allocation_priority == 1:
@@ -123,7 +124,8 @@ cdef class Contract():
 	  
     self.allocation[t] = max(min(forecast_used,self.total*self.reduction[wyt]), 0.0)
 	
-  def find_storage_pool(self, t, wateryear, total_water, reservoir_storage, priority_storage):
+
+  cdef void find_storage_pool(self, int t, int wateryear, double total_water, double reservoir_storage, double priority_storage):
     #this function finds the storage pool for each contract, given the 'total water'
 	#that has come into a given reservoir (storage + deliveries) and the total priority
 	#storage that must be filled before this contract's storage
@@ -143,7 +145,8 @@ cdef class Contract():
       self.storage_pool[t] = min(self.allocation[t], max(total_water - priority_storage, 0.0))
       self.available_water[t] = max(min(total_water - priority_storage, self.allocation[t], reservoir_storage), 0.0)
 	  	  
-  def adjust_accounts(self, contract_deliveries, search_type, wateryear):
+
+  cdef void adjust_accounts(self, double contract_deliveries, str search_type, int wateryear):
     #this function records deliveries made on a contract by year - for use in determining if 
     if search_type == "flood":
       self.flood_deliveries[wateryear] += contract_deliveries
@@ -151,17 +154,12 @@ cdef class Contract():
       self.annual_deliveries[wateryear] += contract_deliveries
       self.daily_deliveries += contract_deliveries
 	  
-  def accounting(self, t, da, m, wateryear, deliveries, carryover, turnback, flood):
-    contract_deliveries = max(deliveries - max(carryover, 0.0) - max(turnback, 0.0), 0.0)
-    carryover_deliveries = max(min(carryover, deliveries), 0.0)
-    turnback_deliveries = max(min(turnback, deliveries - carryover), 0.0)
-    flood_deliveries = flood
-	
-	#we want to 'stack' the different kinds of deliveries for plotting in an area chart
-    self.daily_supplies['contract'][t] += contract_deliveries
-    self.daily_supplies['carryover'][t] += carryover_deliveries
-    self.daily_supplies['turnback'][t] += turnback_deliveries 
-    self.daily_supplies['flood'][t] += flood_deliveries
+
+  cdef void accounting(self, int t, double deliveries, double carryover, double turnback, double flood):
+    self.daily_supplies['contract'][t] += max(deliveries - max(carryover, 0.0) - max(turnback, 0.0), 0.0)
+    self.daily_supplies['carryover'][t] += max(min(carryover, deliveries), 0.0)
+    self.daily_supplies['turnback'][t] += max(min(turnback, deliveries - carryover), 0.0) 
+    self.daily_supplies['flood'][t] += flood
     self.daily_supplies['total_carryover'][t] += carryover
 
 

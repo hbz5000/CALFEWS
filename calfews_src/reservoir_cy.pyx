@@ -1,12 +1,11 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import calendar
 import matplotlib.pyplot as plt
 import pandas as pd
 import json
 from .util import *
-
+from .model_cy cimport Model
 
 cdef class Reservoir():
 
@@ -193,20 +192,22 @@ cdef class Reservoir():
     return (differences == 0)
 
 
-  def find_available_storage(self, t, m, da, dowy):
+  cdef void find_available_storage(self, int t, int m, int da, int dowy):
     ##this function uses the linear regression variables calculated in find_release_func (called before simulation loop) to figure out how
     ##much 'excess' storage is available to be released to the delta with the explicit intention of running the pumps.  This function is calculated
     ##each timestep before the reservoirs' individual step function is called
+    cdef str wyt 
+
     wyt = self.forecastWYT
 
-	###Find the target end of year storage, and the expected minimum releases, at the beginning of each water year
+	  ###Find the target end of year storage, and the expected minimum releases, at the beginning of each water year
     if m == 10 and da == 1:
       self.rainflood_flows = 0.0##total observed flows in Oct-Mar, through the current day
       self.snowflood_flows = 0.0##total observed flows in Apr-Jul, through the current day
       self.baseline_flows = 0.0
 	  
-	  ##Exceedence level for flow forecasts (i.e. 2 is ~90%, 9 is ~50%)
-	  ##If year starts in drought conditions, be conservative in Oct-Dec, otherwise, normal operations until January
+      ##Exceedence level for flow forecasts (i.e. 2 is ~90%, 9 is ~50%)
+      ##If year starts in drought conditions, be conservative in Oct-Dec, otherwise, normal operations until January
       if self.key == "FOL" or self.key == "YRS":
         self.exceedence_level = 2
       else:
@@ -218,17 +219,18 @@ cdef class Reservoir():
       ###Evap. projections are a perfect forecast (not much variation, didn't feel like making a seperate forecast for evap)
       self.evap_forecast = sum(self.E[(t):(t + 364)])
       self.eos_day = t
+
     if m == 8 and da == 1:
       self.lastYearEOS_target = self.EOS_target
       self.lastYearRainflood = self.rainflood_flows
 
-	##Update the target EOS storage as the water year type forecasts change
+	  ##Update the target EOS storage as the water year type forecasts change
     self.calc_EOS_storage(t,self.eos_day)###end-of-september target storage, based on the storage at the beginning of october
     ##Update the projected evaporation (its a perfect forecast)
     self.evap_forecast -= self.E[t]
     
-	##Forecast exccedence levels set the percentile from which we forecast flows (i.e. 90% exceedence means 90% of years, with same snow conditions, would have higher flow)
-	## excedence level 9 is 50% exceedence, level 1 is 90% exceedence.  Be more conservative with forecasts in drier years
+	  ##Forecast exccedence levels set the percentile from which we forecast flows (i.e. 90% exceedence means 90% of years, with same snow conditions, would have higher flow)
+	  ## excedence level 9 is 50% exceedence, level 1 is 90% exceedence.  Be more conservative with forecasts in drier years
     if m < 8:
       if self.key == "FOL" or self.key == "YRS":
         self.exceedence_level = min(m+2,7)
@@ -247,12 +249,12 @@ cdef class Reservoir():
       self.snowflood_flows += self.Q[t]##add to the total flow observations (
     else:
       self.baseline_flows += self.Q[t]
-	###Rain- and snow-flood forecasts are predictions of future flows to come into the reservoir, for a given confidence interval (i.e. projections minus YTD observations)
+
+	  ###Rain- and snow-flood forecasts are predictions of future flows to come into the reservoir, for a given confidence interval (i.e. projections minus YTD observations)
     if dowy < self.days_through_month[self.melt_start]:
       ##Forecasts are adjusted for a given exceedence level (i.e. 90%, 50%, etc)
       #self.rainflood_forecast[t] = min(self.lastYearRainflood, self.rainflood_inf[t] + self.raininf_stds[dowy]*z_table_transform[self.exceedence_level]) - self.rainflood_flows
       self.rainflood_forecast[t] = min(self.lastYearRainflood, self.rainflood_inf[t] + self.raininf_stds[dowy]*z_table_transform[self.exceedence_level])
-
       self.snowflood_forecast[t] = (self.snowflood_inf[t] + self.snowinf_stds[dowy]*z_table_transform[self.exceedence_level])
       self.baseline_forecast[t] = self.baseline_inf[t] + self.baseinf_stds[dowy]*z_table_transform[self.exceedence_level]
       if self.rainflood_forecast[t] < 0.0:
@@ -278,7 +280,7 @@ cdef class Reservoir():
       self.baseline_forecast[t] = self.baseline_inf[t] + self.baseinf_stds[dowy]*z_table_transform[self.exceedence_level]
 	
     #available storage is storage in reservoir in exceedence of end-of-september target plus forecast for oct-mar (adjusted for already observed flow)
-	#plus forecast for apr-jul (adjusted for already observed flow) minus the flow expected to be released for environmental requirements (at the reservoir, not delta)
+	  #plus forecast for apr-jul (adjusted for already observed flow) minus the flow expected to be released for environmental requirements (at the reservoir, not delta)
     self.available_storage[t] = self.S[t] - self.EOS_target + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]     
 
     self.total_available_storage[t] = self.S[t] + self.rainflood_forecast[t] + self.snowflood_forecast[t] + self.baseline_forecast[t] - self.cum_min_release[wyt][dowy] - self.evap_forecast - self.aug_sept_min_release[wyt][dowy]
@@ -305,7 +307,7 @@ cdef class Reservoir():
 		
     return swp_extra
 	    
-  def release_environmental(self,t, d, m, dowy, first_d_of_month, basinWYT):
+  cdef void release_environmental(self, int t, int d, int m, int dowy, list first_d_of_month, str basinWYT):
     ###This function calculates how much water will be coming into the delta
     ###based on environmental requirements (and flood control releases).
     ###The additions to the delta contained in self.envmin represent the releases
@@ -313,8 +315,13 @@ cdef class Reservoir():
     ###reservoir.  This number does not include downstream 'gains' to the delta,
     ###although when those gains can be used to meet demands which would otherwise 'call'
     ###in their water rights, those gains are considered consumed before the delta but
-	###no release is required from the reservoir (the reason for this is how water is 
-	###accounted at the delta for dividing SWP/CVP pumping)
+    ###no release is required from the reservoir (the reason for this is how water is 
+    ###accounted at the delta for dividing SWP/CVP pumping)
+    cdef:
+      double reservoir_target_release, downstream_target_release, W
+      str wyt
+      
+
     wyt = self.forecastWYT
     	
 	####ENVIRONMENTAL FLOWS
@@ -328,7 +335,7 @@ cdef class Reservoir():
       reservoir_target_release = max(self.env_min_flow[wyt][m-1]*cfs_tafd, self.variable_min_flow)
 
 	###What releases are needed to meet flow requirements further downstream (at a point we can calculate 'gains')
-    downstream_target_release = (self.temp_releases[basinWYT][m-1]*cfs_tafd - self.downstream[t])
+    downstream_target_release = self.temp_releases[basinWYT][m-1]*cfs_tafd - self.downstream[t]
       
 	####FLOOD CONTROL
 	##Top of storage pool
@@ -342,10 +349,14 @@ cdef class Reservoir():
     self.envmin = min(self.envmin, W - self.dead_pool)
     self.envmin -= self.consumed_releases
 	      
-  def step(self, t):
-	###What are the contract obligations north-of-delta (only for Northern Reservoirs)
+
+
+  cdef step(self, int t):
+    cdef double W
+
+	  ###What are the contract obligations north-of-delta (only for Northern Reservoirs)
     self.envmin += (self.basinuse + self.consumed_releases)
-	##What is the constraining factor - flood, consumptive demands, or environment?
+	  ##What is the constraining factor - flood, consumptive demands, or environment?
     self.Rtarget[t] = self.envmin + self.sodd + self.din + self.dout
     # then clip based on constraints
     W = self.S[t] + self.Q[t]
@@ -361,18 +372,18 @@ cdef class Reservoir():
     self.R_to_delta[t] = max(self.R[t] - self.basinuse - self.consumed_releases, 0) # delta calcs need this
 	
 	
-  def find_flow_pumping(self, t, m, dowy, year_index, days_in_month, dowy_eom, wyt, release):
-    # projection_length = 15
-    # first_of_month_shift = dowy - (1 + dowy_eom[m-1] - days_in_month[m-1])
-	###This function allows us to predict, at a monthly step, how much
+  cdef void find_flow_pumping(self, int t, int m, int dowy, int year_index, list days_in_month, list dowy_eom, str wyt, str release):
+	  ###This function allows us to predict, at a monthly step, how much
     ###flow might come into the reservoir, and the rate at which we will
     ###have to release it, starting right now, in order to avoid spilling water
     ###from flood control rules.  This considers the variable inflow over time but
     ###also the variable flood control rules over time
-    # if t < projection_length:
-    #   flow_range = range(0,projection_length)
-    # else:
-    #   flow_range = range(t-projection_length, t)
+    cdef:
+      double current_storage, running_storage, numdays_fillup_next_year, total_applied, numdays_fillup_cap, uncontrolled_cap, additional_drawdown_cap, \
+              running_fnf, month_flow_int, total_mandatory_releases, total_possible_releases, reservoir_change_rate, storage_cap_start, storage_cap_end, \
+              eom_storage, crossover_date, this_month_min_release, total_min_release, differential_storage_change, fillup_fraction, fillup_fraction2
+      int drawdown_toggle, cross_counter_wy, cross_counter_y, excess_toggle, excess_toggle2, month_counter, month_evaluate, start_of_month, \
+              block_start, block_end
 
     current_storage = self.S[t]#starting storage
     running_storage = current_storage#storage after each (monthly) timestep
@@ -401,16 +412,9 @@ cdef class Reservoir():
         month_evaluate -= 12
       if month_evaluate == 9 and month_counter > 0:
         #restart flow count for new period (Oct-Mar)
-        # this_month_flow = 0
         cross_counter_wy = 1
       elif month_evaluate == 0 and month_counter > 0:
         cross_counter_y = 1
-      # elif month_evaluate == 3:
-      #   #restart flow count for new period (Apr-July)
-      #   this_month_flow = 0
-      # elif month_evaluate == 7:
-      #   #restart flow count for new perio (Aug-Sept)
-      #   this_month_flow = 0
 
       #Project flow for this month
 	  ##find an estimate for the remaining flow in the given period
@@ -432,25 +436,12 @@ cdef class Reservoir():
         else:
           running_fnf = np.log(np.sum(self.fnf[(t-30):(t-1)]))
 
-      #if self.key == "MIL" and dowy < 180:
-        #if month_evaluate > 2 and month_evaluate < 7:
-          #month_flow_int = np.exp(self.flow_shape_regression['slope'][dowy][month_evaluate]*self.SNPK[t] + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
-        #else:
-          #month_flow_int = np.exp(self.flow_shape_regression['slope'][dowy][month_evaluate]*min(running_fnf,0.25) + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
-      #else:
       if month_evaluate > 2 and month_evaluate < 7:
-          #if dowy > 181 and dowy < 304:
-            #month_flow_int = (self.flow_shape_regression['slope'][dowy][month_evaluate]*running_fnf + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
-          #else:
         month_flow_int = np.exp(self.flow_shape_regression['slope'][dowy][month_evaluate]*self.SNPK[t] + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
       else:
         month_flow_int = np.exp(self.flow_shape_regression['slope'][dowy][month_evaluate]*running_fnf + self.flow_shape_regression['intercept'][dowy][month_evaluate])/(block_end - start_of_month + 1)
 
-      #month_flow_int = (remaining_flow_proj*self.flow_shape['slope'][month_evaluate]+self.flow_shape['intercept'][month_evaluate])*remaining_flow_proj
-	  #running tally of total flow in the month
-      # this_month_flow += month_flow_int
-      #current month start dowy
-	  #what are the mandatory releases between now and the end of this month?
+  	  #what are the mandatory releases between now and the end of this month?
       if release == 'demand':
         if self.key == "MIL":
           if month_evaluate > 8 or month_evaluate < 2:
@@ -463,12 +454,10 @@ cdef class Reservoir():
         total_possible_releases = (self.monthly_demand_full[wyt][month_evaluate] + self.monthly_demand_must_fill[wyt][month_evaluate])/(block_end-start_of_month+1) + (self.cum_min_release[wyt][block_start] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][block_start] - self.aug_sept_min_release[wyt][block_end+1])/(block_end-block_start + 1)
         additional_drawdown_cap += max(total_possible_releases - total_mandatory_releases, 0.0)*(block_end - block_start + 1)
 
-
       elif release == 'env':
         # Note: cum_min_release is indexed 0 (for cum total before year starts), 1 for min release left after subtracting first day, ..., to 366 after last day. So for each month, we want the end of this month minus end of last month, indexed +1
         total_mandatory_releases = (self.cum_min_release[wyt][block_start] - self.cum_min_release[wyt][block_end+1] + self.aug_sept_min_release[wyt][block_start] - self.aug_sept_min_release[wyt][block_end+1])/(block_end-block_start + 1)
       #expected change in reservoir storage
-      #reservoir_change_rate = (month_flow_int - total_mandatory_releases)/days_in_month[year_index+cross_counter_y][month_evaluate]
       if month_counter == 0:
         month_flow_int = max(month_flow_int, np.mean(self.Q[(t-min(t,4)):t]))
       reservoir_change_rate = month_flow_int - total_mandatory_releases
@@ -479,8 +468,8 @@ cdef class Reservoir():
 
       #flood control pool at start and end of the month
       if self.key == 'MIL' or self.key == "KWH":
-        storage_cap_start, max_cap_start = self.current_tocs(np.where(block_start > 0, block_start - 1, 0) ,self.fci[t])
-        storage_cap_end, max_cap_end = self.current_tocs(block_end, self.fci[t])
+        storage_cap_start, _ = self.current_tocs(np.where(block_start > 0, block_start - 1, 0) ,self.fci[t])
+        storage_cap_end, _ = self.current_tocs(block_end, self.fci[t])
       else:
         storage_cap_start = self.capacity * 1.0
         storage_cap_end = self.capacity * 1.0
@@ -495,7 +484,6 @@ cdef class Reservoir():
       if eom_storage > storage_cap_end:
         #rate of release to avoid flood pool
         if storage_cap_start > running_storage:
-          #this_month_min_release = (eom_storage - storage_cap_end ) / (block_end + 1 + cross_counter_wy*365 - dowy)
           if self.key == 'MIL' or self.key == 'KWH':
             this_month_min_release = max((eom_storage - storage_cap_end) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
             total_min_release = eom_storage - storage_cap_end
@@ -562,9 +550,11 @@ cdef class Reservoir():
 
 
 
-  def current_tocs(self,dowy,ix):
+  cdef (double, double) current_tocs(self, int dowy, int ix):
   ##Interpolates rules from tocs_rule in *_properties.json file to get the top of the conservation
   ##pool in order to determine flood control releases in reservoir.step
+    cdef int i, v, x, y
+
     for i,v in enumerate(self.tocs_rule['index']):
       if ix > v:
         break
@@ -584,6 +574,7 @@ cdef class Reservoir():
     index_bounds[0] = self.tocs_rule['index'][i]
     return np.interp(ix, index_bounds, storage_bounds), np.interp(ix, index_bounds, day_bounds)
 
+
   def rights_call(self,downstream_flow, reset = 0):
     if reset == 0:
       if downstream_flow < 0.0:
@@ -598,10 +589,12 @@ cdef class Reservoir():
       else:
         self.gains_to_delta += downstream_flow
 	  
-  def sj_riv_res_flows(self,t,dowy,toggle_short_series = 0):
+  cdef double sj_riv_res_flows(self, int t, int dowy, int toggle_short_series = 0):
     ##Interpolates rules from sj_restoration_proj in *_properties.json file (note: only for Lake Millerton)
-	##to get the total daily releases needed to be made under the SJ River Restoration Program (note: rules go into effect
-	##in 2009 - they are triggered by the model.update_regulations function
+	  ##to get the total daily releases needed to be made under the SJ River Restoration Program (note: rules go into effect
+	  ##in 2009 - they are triggered by the model.update_regulations function
+    cdef int i, v
+
     for i,v in enumerate(self.sj_restoration_proj['dowy']):
       if v > dowy:
         break
@@ -653,9 +646,17 @@ cdef class Reservoir():
 	
     return emergency_available
 	
-  def calc_expected_min_release(self,model,delta_req,depletions,sjrr_toggle):
+
+
+  cdef void calc_expected_min_release(self, Model model, dict delta_req, depletions, int sjrr_toggle):
     ##this function calculates the total expected releases needed to meet environmental minimums used in the find_available_storage function
     ##calclulated as a pre-processing function (w/find_release_func)
+    cdef:
+      double sjrr_flow, downstream_req, reservoir_target_release, downstream_needs
+      int startYear, startFeb, startAug, t, dowy, m, da, y, wateryear, month_count, x
+      str wyt
+      dict downstream_release
+
     startYear = model.short_year[0]
     startFeb = (model.dowy_eom[model.non_leap_year][0] + 1)
     startAug = (model.dowy_eom[model.non_leap_year][6] + 1)
@@ -665,8 +666,8 @@ cdef class Reservoir():
       self.oct_nov_min_release[wyt][0] = 0.0 	  
 
     ##the cum_min_release is a 365x1 vector representing each day of the coming water year.  In each day, the value is equal to 
-	##the total expected minimum releases remaining in the water year, so that the 0 index is the sum of all expected releases,
-	##with the total value being reduce as the index values go up, until the value is zero at the last index spot
+	  ##the total expected minimum releases remaining in the water year, so that the 0 index is the sum of all expected releases,
+	  ##with the total value being reduce as the index values go up, until the value is zero at the last index spot
     downstream_release = {}
     for wyt in self.wytlist:
       downstream_release[wyt] = np.zeros(12)
@@ -758,7 +759,13 @@ cdef class Reservoir():
           else:
             self.oct_nov_min_release[wyt][x] = self.oct_nov_min_release[wyt][0]
 	
-  def create_flow_shapes(self, model):
+
+
+  cdef void create_flow_shapes(self, Model model):
+    cdef:
+      double prev_fnf
+      int startYear, endYear, numYears, t, m, dowy, wateryear, x, mm, yy
+    
     flow_series = model.df_short[0]['%s_inf'% self.key].values * cfs_tafd
     snow_series = model.df_short[0]['%s_snow'% self.key].values
     fnf_series = model.df_short[0]['%s_fnf'% self.key].values / 1000000.0
@@ -914,12 +921,16 @@ cdef class Reservoir():
     #scatterplot_values.to_csv('manuscript_figures/Figure3/' + self.key + '_flow_forecast_scatter.csv')
 
 			
-  def find_release_func(self, model):
+  cdef void find_release_func(self, Model model):
     ##this function is used to make forecasts when calculating available storage for export releases from reservoir
     ##using data from 1996 to 2016 (b/c data is available for all inputs needed), calculate total flows in oct-mar period and apr-jul period
     ##based on linear regression w/snowpack (apr-jul) and w/inflow (oct-mar)
     ##this function is called before simulation loop, and the linear regression coefficient & standard deviation of linear regresion residuals
     ##is used in the find_available_storage function
+    cdef:
+      double running_rain_fnf, running_rain_inf
+      int startYear, endYear, numYears, section, current_year, complete_year, t, dowy, m, da, section_fnf, x, y, xx
+
     startYear = model.short_starting_year
     endYear = model.short_ending_year
     numYears = endYear - startYear
@@ -944,10 +955,10 @@ cdef class Reservoir():
     
     snowPattern = np.zeros((365,numYears))###daily cumulative snowpack
 	
-    section = 0;##1 is oct-mar, 2 is apr-jul, 3 is aug-sept
-    current_year = 0;
+    section = 0   ##1 is oct-mar, 2 is apr-jul, 3 is aug-sept
+    current_year = 0
     complete_year = 0;##complete year counts all the years that have complete oct-jul data (partial years not used for lin. regression)
-    for t in range(1,model.T_short):
+    for t in range(1, model.T_short):
       ##Get date information
       dowy = model.short_dowy[t - 1]
       m = model.short_month[t - 1]
@@ -965,7 +976,7 @@ cdef class Reservoir():
         complete_year += 1##if data exists through end of jul, counts as a 'complete year' for linear regression purposes
 
       if m == self.melt_start:
-        section_inf = 2###for reservoir inflows, section 2 is given a variable start month, runs through end of September
+        section_inf = 2  ###for reservoir inflows, section 2 is given a variable start month, runs through end of September
 		
 	  #find the cumulative full natural flows through each day of the rainflood season - each day has a unique 21 value (year) vector which is the independent variable in the regression to predict total rainflood season flows
       if m == 10 and da == 1:
@@ -1017,11 +1028,11 @@ cdef class Reservoir():
       elif section_inf == 3:
         baseinf[current_year-1] += Q_predict[t-1]
     scatterplot_values = pd.DataFrame(columns = ['December Snowpack', 'February Snowpack', 'April Snowpack', 'Snowmelt Flow', 'D Pred Flow High', 'D Pred Flow Low', 'F Pred Flow High', 'F Pred Flow Low', 'A Pred Flow High', 'A Pred Flow Low'])
-    for x in range(1,365):
-      
-	  ########Full natural flow regressions
-	  ########################################################################################################################
-	  ###rainflood season regression - full natural flow (regress cumulative full natural flow through each day with total full natural flow, Oct-Mar)
+    
+    for x in range(1,365):  
+      ########Full natural flow regressions
+      ########################################################################################################################
+      ###rainflood season regression - full natural flow (regress cumulative full natural flow through each day with total full natural flow, Oct-Mar)
       one_year_flow = rainfnf_cumulative[x-1]##this days set of cumulative flow values (X vector)
       if sum(one_year_flow) == 0.0:
         coef[0] = 0.0
@@ -1129,7 +1140,6 @@ cdef class Reservoir():
         pred_dev[y-1] = remaining_base[y-1] - coef[0]*one_year_snow[y-1] - coef[1]##how much was the linear regression off actual observations
 
       self.baseinf_stds[x-1] = np.std(pred_dev)##standard deviations of linear regression residuals
-          
       	 
     scatterplot_values['Snowmelt Flow'] = snowinf[0:(complete_year-1)]
     #scatterplot_values.to_csv(self.key + '_snow_forecast_scatter.csv')
@@ -1159,12 +1169,5 @@ cdef class Reservoir():
 
 	  
 	  
-  def accounting_as_df(self, index):
-    df = pd.DataFrame()
-    names = ['storage', 'tocs', 'available_storage', 'flood_storage', 'out', 'numdays_fillup', 'flood_spill', 'flood_delivery']
-    things = [self.S, self.tocs, self.available_storage, self.flood_storage, self.R, self.days_til_full, self.flood_spill, self.flood_deliveries]
-    for n,t in zip(names,things):
-      df['%s_%s' % (self.key,n)] = pd.Series(t, index=index)
-    return df
 
 

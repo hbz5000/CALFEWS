@@ -63,6 +63,34 @@ cdef class District():
 
   cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month)
 
-  cdef set_turnback_pool(self, str key, int year_index, list days_in_month)
+  cdef tuple set_turnback_pool(self, str key, int year_index, list days_in_month)
 
   cdef void make_turnback_purchases(self, double turnback_sellers, double turnback_buyers, str key)
+  
+  cdef tuple find_leiu_output(self, list contract_list)
+
+  cdef void adjust_exchange(self, double deliveries, str member_name, int wateryear)
+
+  cdef double give_paper_trade(self, double trade_amount, list contract_list, int wateryear, str district_name)
+
+  cdef void give_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear, str district_name)
+
+  cdef double record_direct_delivery(self, double delivery, int wateryear)
+
+  cdef (double, double, double) set_deliveries(self, dict priorities, dict type_fractions, list type_list, str search_type, int toggle_district_recharge, str member_name, int wateryear)
+
+  cdef void adjust_bank_accounts(self, str member_name, double direct_deliveries, double recharge_deliveries, int wateryear)
+
+  cdef void accounting_full(self, int t, int wateryear)
+
+  cdef void set_daily_supplies_full(self, str key, double value, int t)
+
+  cdef void accounting_leiubank(self, int t)
+
+  cdef void calc_demand(self, int wateryear, int year_index, int da, int m, list days_in_month, int m1, str wyt)
+
+  cdef void get_urban_demand(self, int t, int m, int da, int dowy, int wateryear, int year_index, list dowy_eom, double total_delta_pumping, double allocation_change, str model_mode)
+
+
+
+  

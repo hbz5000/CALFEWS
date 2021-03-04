@@ -78,11 +78,11 @@ cdef class Participant():
     # should only be triggered if district
     return self.district_obj.find_leiu_priority_space(demand_constraint, num_members, member_name, toggle_recharge, search_type)
 
-  cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):
+  cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=0):
     if self.is_District == 1:
       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
     elif self.is_Waterbank == 1:
-      self.waterbank_obj.adjust_recovery(deliveries, member_name, wateryear)
+      self.waterbank_obj.adjust_recovery(deliveries, member_name)
 
   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
     # should only be triggered if waterbank

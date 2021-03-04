@@ -53,7 +53,21 @@ cdef class Private():
 
   cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month, str district_key)
 
-  cdef set_turnback_pool(self, str key, int year_index, list days_in_month, double additional_carryover)
+  cdef tuple set_turnback_pool(self, str key, int year_index, list days_in_month, double additional_carryover)
 
   cdef void make_turnback_purchases(self, double turnback_sellers, double turnback_buyers, str key)
+
+  cdef double set_request_to_district(self, double demand, str search_type, list contract_list, str district_name)
+
+  cdef dict adjust_account_district(self, double actual_deliveries, list contract_list, str search_type, int wateryear, str district_name, str delivery_location)
+
+  cdef void reset_recharge_recovery(self)
+
+  cdef void set_daily_supplies_full(self, str key, double value, int t, int plusequals)
+
+  cdef void accounting_full(self, int t, int wateryear)
+
+  cdef void get_urban_demand(self, int t, int m, int da, int wateryear, int year_index, list dowy_eom, int dowy, double total_delta_pumping, double allocation_change, str model_mode)
+
+  cdef void calc_demand(self, int wateryear, int year_index, int da, int m, list days_in_month, int non_leap_year, int m1, str wyt)
 

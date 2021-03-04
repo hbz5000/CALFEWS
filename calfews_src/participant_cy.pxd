@@ -30,7 +30,7 @@ cdef class Participant():
 
   cdef double find_leiu_priority_space(self, double demand_constraint, int num_members, str member_name, int toggle_recharge, str search_type)
 
-  cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear)
+  cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=*)
 
   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type)
 

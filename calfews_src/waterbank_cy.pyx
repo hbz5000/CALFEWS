@@ -1,5 +1,4 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -48,7 +47,7 @@ cdef class Waterbank():
     self.banked = {} #how much water is stored in the groundwater banking account of the member
 	#timeseries for export to csv
     self.bank_timeseries = {}#daily
-    self.recharge_rate_series = [] #np.zeros(model.T)#daily recharge rate
+    self.recharge_rate_series = [0.0 for _ in range(model.T)]#daily recharge rate
     for x in self.participant_list:
       self.storage[x] = 0.0
       self.bank_timeseries[x] = np.zeros(model.T)
@@ -216,7 +215,11 @@ cdef class Waterbank():
     return demand_dict
 
 
-  def set_deliveries(self, priorities,type_fractions,type_list,member_name):
+  cdef double set_deliveries(self, dict priorities, dict type_fractions, list type_list, str member_name):
+    cdef:
+      double final_deliveries, total_deliveries
+      str zz
+      
     final_deliveries = 0.0
     for zz in type_list:
       #deliveries at this priority level
@@ -237,22 +240,29 @@ cdef class Waterbank():
 #####################################################################################################################
 
 	
-  def adjust_recovery(self, deliveries, member_name, wateryear):
+  cdef void adjust_recovery(self, double deliveries, str member_name):
     #this function adjusts the waterbank accounts & capacity usage after
 	#a wb member uses recovery
     self.banked[member_name] -= deliveries#bank account
     self.recovery_use[member_name] += deliveries#capacity use
 	
-  def sum_storage(self):
+  cdef void sum_storage(self):
     #this function calculates the total capacity use in a recharge basin
+    cdef str x
+
     self.tot_current_storage = 0.0
     for x in self.participant_list:
       self.tot_current_storage += self.storage[x]
  
-  def absorb_storage(self):
+
+  cdef void absorb_storage(self):
     #this function takes water applied to a recharge basin and 'absorbs' it into the
-	#ground, clearing up capacity in the recharge basin and adding to the 'bank' accounts
-	#of the wb member that applied it
+    #ground, clearing up capacity in the recharge basin and adding to the 'bank' accounts
+    #of the wb member that applied it
+    cdef:
+      double absorb_fraction
+      str x 
+
     if self.tot_current_storage > self.recharge_rate*0.75:
       self.thismonthuse = 1
     if self.tot_current_storage > 0.0:
@@ -262,12 +272,11 @@ cdef class Waterbank():
         self.banked[x] += self.storage[x]*absorb_fraction*(1.0-self.loss_rate)#bank account (only credit a portion of the recharge to the bank acct)
         self.storage[x] -= self.storage[x]*absorb_fraction#capacity use
 
-  def accounting(self, t, m, da, wateryear):
-    #this stores bank account balances in a daily dictionary (for export to 
-    # stacked_amount = 0.0
-    # self.recharge_rate_series[t] = self.recharge_rate
-    self.recharge_rate_series.append(self.recharge_rate)
 
+  cdef void accounting(self, t):
+    #this stores bank account balances in a daily dictionary (for export to 
+    cdef str x 
+
+    self.recharge_rate_series[t] = self.recharge_rate
     for x in self.participant_list:
       self.bank_timeseries[x][t] = self.banked[x]
-      # stacked_amount += self.banked[x]

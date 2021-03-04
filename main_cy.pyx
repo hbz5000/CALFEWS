@@ -25,7 +25,7 @@ from configobj import ConfigObj
 import json
 from distutils.util import strtobool
 from calfews_src.model_cy cimport Model
-from calfews_src.inputter_cy import Inputter
+from calfews_src.inputter_cy cimport Inputter
 from calfews_src.scenario import Scenario
 from calfews_src.util import *
 from datetime import datetime
@@ -132,8 +132,10 @@ cdef class main_cy():
     
   cdef void run_sim(self, start_time):  
     cdef:
-      int timeseries_length, swp_release, cvp_release, swp_release2, cvp_release2, t
-      # double swp_pump, cvp_pump, proj_surplus, swp_available, cvp_available
+      int timeseries_length, t, swp_release, cvp_release, swp_release2, cvp_release2
+      double swp_pump, cvp_pump, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, 
+      dict proj_surplus, max_pumping, max_tax_free, flood_release, flood_volume
+      str wyt, wytSC
 
 
     # # reset seed the same each sample k
@@ -155,8 +157,6 @@ cdef class main_cy():
     swp_pump = 999.0
     cvp_pump = 999.0
     proj_surplus = 0.0
-    swp_available = 0.0
-    cvp_available = 0.0
     print('Begin simulation, ', datetime.now() - start_time)
     print(self.results_folder)
     

@@ -846,20 +846,52 @@ struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank;
 struct __pyx_obj_11calfews_src_14participant_cy_Participant;
 struct __pyx_ctuple_double__and_double;
 typedef struct __pyx_ctuple_double__and_double __pyx_ctuple_double__and_double;
+struct __pyx_ctuple_double__and_double__and_int__and_double;
+typedef struct __pyx_ctuple_double__and_double__and_int__and_double __pyx_ctuple_double__and_double__and_int__and_double;
 
-/* "district_cy.pxd":56
- *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear)
+/* "canal_cy.pxd":17
+ *   cdef void find_turnout_adjustment(self, double demand_constraint, str flow_dir, int canal_loc, list type_list)
  * 
- *   cdef (double, double) update_balance(self, int t, int wateryear, double water_available, double projected_allocation, double current_water, str key, double tot_carryover, str balance_type)             # <<<<<<<<<<<<<<
+ *   cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir)             # <<<<<<<<<<<<<<
  * 
- *   cdef (double, double) calc_carryover(self, double existing_balance, int wateryear, str balance_type, str key)
+ *   cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir)
  */
 struct __pyx_ctuple_double__and_double {
   double f0;
   double f1;
 };
+
+/* "canal_cy.pxd":21
+ *   cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir)
+ * 
+ *   cdef (double, double, int, double) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list)             # <<<<<<<<<<<<<<
+ * 
+ *   cdef void find_bi_directional(self, double closed, str direction_true, str direction_false, str flow_type, str new_canal, int adjust_flow_types, int locked)
+ */
+struct __pyx_ctuple_double__and_double__and_int__and_double {
+  double f0;
+  double f1;
+  int f2;
+  double f3;
+};
+struct __pyx_ctuple_double__and_double__and_double;
+typedef struct __pyx_ctuple_double__and_double__and_double __pyx_ctuple_double__and_double__and_double;
+
+/* "district_cy.pxd":80
+ *   cdef double record_direct_delivery(self, double delivery, int wateryear)
+ * 
+ *   cdef (double, double, double) set_deliveries(self, dict priorities, dict type_fractions, list type_list, str search_type, int toggle_district_recharge, str member_name, int wateryear)             # <<<<<<<<<<<<<<
+ * 
+ *   cdef void adjust_bank_accounts(self, str member_name, double direct_deliveries, double recharge_deliveries, int wateryear)
+ */
+struct __pyx_ctuple_double__and_double__and_double {
+  double f0;
+  double f1;
+  double f2;
+};
 struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_set_demand_priority;
 struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_direct_delivery_bank;
+struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_adjust_recovery;
 
 /* "calfews_src/participant_cy.pxd":19
  *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)
@@ -884,6 +916,18 @@ struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_set_demand_pr
 struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_direct_delivery_bank {
   int __pyx_n;
   PyObject *district_key;
+};
+
+/* "calfews_src/participant_cy.pxd":33
+ *   cdef double find_leiu_priority_space(self, double demand_constraint, int num_members, str member_name, int toggle_recharge, str search_type)
+ * 
+ *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=*)             # <<<<<<<<<<<<<<
+ * 
+ *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type)
+ */
+struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_adjust_recovery {
+  int __pyx_n;
+  int wateryear;
 };
 
 /* "crop_cy.pxd":1
@@ -920,6 +964,7 @@ struct __pyx_obj_11calfews_src_7crop_cy_Crop {
  */
 struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   PyObject_HEAD
+  struct __pyx_vtabstruct_11calfews_src_8canal_cy_Canal *__pyx_vtab;
   int is_Canal;
   int is_District;
   int is_Private;
@@ -950,6 +995,7 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
  */
 struct __pyx_obj_11calfews_src_11contract_cy_Contract {
   PyObject_HEAD
+  struct __pyx_vtabstruct_11calfews_src_11contract_cy_Contract *__pyx_vtab;
   double total;
   double maxForecastValue;
   double carryover;
@@ -1268,6 +1314,38 @@ struct __pyx_obj_11calfews_src_14participant_cy_Participant {
 
 
 
+/* "canal_cy.pxd":1
+ * cdef class Canal():             # <<<<<<<<<<<<<<
+ * 
+ *   cdef:
+ */
+
+struct __pyx_vtabstruct_11calfews_src_8canal_cy_Canal {
+  void (*find_turnout_adjustment)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, PyObject *, int, PyObject *);
+  __pyx_ctuple_double__and_double (*check_flow_capacity)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, int, PyObject *);
+  PyObject *(*find_priority_fractions)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, PyObject *, PyObject *, int, PyObject *);
+  __pyx_ctuple_double__and_double__and_int__and_double (*update_canal_use)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, double, PyObject *, int, int, int, PyObject *);
+  void (*find_bi_directional)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, PyObject *, PyObject *, PyObject *, PyObject *, int, int);
+  void (*accounting)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, int, PyObject *, int);
+};
+static struct __pyx_vtabstruct_11calfews_src_8canal_cy_Canal *__pyx_vtabptr_11calfews_src_8canal_cy_Canal;
+
+
+/* "contract_cy.pxd":1
+ * cdef class Contract():             # <<<<<<<<<<<<<<
+ * 
+ *   cdef:
+ */
+
+struct __pyx_vtabstruct_11calfews_src_11contract_cy_Contract {
+  void (*calc_allocation)(struct __pyx_obj_11calfews_src_11contract_cy_Contract *, int, int, double, double, double, PyObject *);
+  void (*find_storage_pool)(struct __pyx_obj_11calfews_src_11contract_cy_Contract *, int, int, double, double, double);
+  void (*adjust_accounts)(struct __pyx_obj_11calfews_src_11contract_cy_Contract *, double, PyObject *, int);
+  void (*accounting)(struct __pyx_obj_11calfews_src_11contract_cy_Contract *, int, double, double, double, double);
+};
+static struct __pyx_vtabstruct_11calfews_src_11contract_cy_Contract *__pyx_vtabptr_11calfews_src_11contract_cy_Contract;
+
+
 /* "district_cy.pxd":5
  * from .contract_cy cimport Contract
  * 
@@ -1294,6 +1372,18 @@ struct __pyx_vtabstruct_11calfews_src_11district_cy_District {
   double (*get_urban_recovery_target)(struct __pyx_obj_11calfews_src_11district_cy_District *, int, int, int, PyObject *, PyObject *, double, int, int);
   PyObject *(*set_turnback_pool)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *, int, PyObject *);
   void (*make_turnback_purchases)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, double, PyObject *);
+  PyObject *(*find_leiu_output)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *);
+  void (*adjust_exchange)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, PyObject *, int);
+  double (*give_paper_trade)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, PyObject *, int, PyObject *);
+  void (*give_paper_exchange)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, PyObject *, PyObject *, int, PyObject *);
+  double (*record_direct_delivery)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, int);
+  __pyx_ctuple_double__and_double__and_double (*set_deliveries)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *, PyObject *, PyObject *, PyObject *, int, PyObject *, int);
+  void (*adjust_bank_accounts)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *, double, double, int);
+  void (*accounting_full)(struct __pyx_obj_11calfews_src_11district_cy_District *, int, int);
+  void (*set_daily_supplies_full)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *, double, int);
+  void (*accounting_leiubank)(struct __pyx_obj_11calfews_src_11district_cy_District *, int);
+  void (*calc_demand)(struct __pyx_obj_11calfews_src_11district_cy_District *, int, int, int, int, PyObject *, int, PyObject *);
+  void (*get_urban_demand)(struct __pyx_obj_11calfews_src_11district_cy_District *, int, int, int, int, int, int, PyObject *, double, double, PyObject *);
 };
 static struct __pyx_vtabstruct_11calfews_src_11district_cy_District *__pyx_vtabptr_11calfews_src_11district_cy_District;
 
@@ -1323,6 +1413,13 @@ struct __pyx_vtabstruct_11calfews_src_10private_cy_Private {
   double (*get_urban_recovery_target)(struct __pyx_obj_11calfews_src_10private_cy_Private *, int, int, int, PyObject *, PyObject *, double, int, int, PyObject *);
   PyObject *(*set_turnback_pool)(struct __pyx_obj_11calfews_src_10private_cy_Private *, PyObject *, int, PyObject *, double);
   void (*make_turnback_purchases)(struct __pyx_obj_11calfews_src_10private_cy_Private *, double, double, PyObject *);
+  double (*set_request_to_district)(struct __pyx_obj_11calfews_src_10private_cy_Private *, double, PyObject *, PyObject *, PyObject *);
+  PyObject *(*adjust_account_district)(struct __pyx_obj_11calfews_src_10private_cy_Private *, double, PyObject *, PyObject *, int, PyObject *, PyObject *);
+  void (*reset_recharge_recovery)(struct __pyx_obj_11calfews_src_10private_cy_Private *);
+  void (*set_daily_supplies_full)(struct __pyx_obj_11calfews_src_10private_cy_Private *, PyObject *, double, int, int);
+  void (*accounting_full)(struct __pyx_obj_11calfews_src_10private_cy_Private *, int, int);
+  void (*get_urban_demand)(struct __pyx_obj_11calfews_src_10private_cy_Private *, int, int, int, int, int, PyObject *, int, double, double, PyObject *);
+  void (*calc_demand)(struct __pyx_obj_11calfews_src_10private_cy_Private *, int, int, int, int, PyObject *, int, int, PyObject *);
 };
 static struct __pyx_vtabstruct_11calfews_src_10private_cy_Private *__pyx_vtabptr_11calfews_src_10private_cy_Private;
 
@@ -1339,6 +1436,11 @@ struct __pyx_vtabstruct_11calfews_src_12waterbank_cy_Waterbank {
   double (*find_node_demand)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, PyObject *, PyObject *, int, PyObject *);
   double (*find_priority_space)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, int, PyObject *, PyObject *);
   PyObject *(*set_demand_priority)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, PyObject *, PyObject *, double, double, double, PyObject *, PyObject *, PyObject *, PyObject *);
+  double (*set_deliveries)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, PyObject *, PyObject *, PyObject *, PyObject *);
+  void (*adjust_recovery)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, double, PyObject *);
+  void (*sum_storage)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *);
+  void (*absorb_storage)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *);
+  void (*accounting)(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, PyObject *);
 };
 static struct __pyx_vtabstruct_11calfews_src_12waterbank_cy_Waterbank *__pyx_vtabptr_11calfews_src_12waterbank_cy_Waterbank;
 
@@ -1360,7 +1462,7 @@ struct __pyx_vtabstruct_11calfews_src_14participant_cy_Participant {
   PyObject *(*adjust_accounts)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, double, PyObject *, PyObject *, int, PyObject *);
   double (*find_node_output)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *);
   double (*find_leiu_priority_space)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, int, PyObject *, int, PyObject *);
-  void (*adjust_recovery)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, PyObject *, int);
+  void (*adjust_recovery)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, PyObject *, struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_adjust_recovery *__pyx_optional_args);
   double (*find_node_demand)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, PyObject *, PyObject *, int, PyObject *);
   double (*find_priority_space)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, int, PyObject *, PyObject *);
 };
@@ -1693,43 +1795,6 @@ static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
 
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
-#else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#define __Pyx_BUILD_ASSERT_EXPR(cond)\
-    (sizeof(char [1 - 2*!(cond)]) - 1)
-#ifndef Py_MEMBER_SIZE
-#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
-#endif
-  static size_t __pyx_pyframe_localsplus_offset = 0;
-  #include "frameobject.h"
-  #define __Pxy_PyFrame_Initialize_Offsets()\
-    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
-     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
-  #define __Pyx_PyFrame_GetLocalsplus(frame)\
-    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
-#endif
-
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
 /* RaiseDoubleKeywords.proto */
 static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
 
@@ -1836,6 +1901,43 @@ static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
 /* ImportFrom.proto */
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#define __Pyx_BUILD_ASSERT_EXPR(cond)\
+    (sizeof(char [1 - 2*!(cond)]) - 1)
+#ifndef Py_MEMBER_SIZE
+#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
+#endif
+  static size_t __pyx_pyframe_localsplus_offset = 0;
+  #include "frameobject.h"
+  #define __Pxy_PyFrame_Initialize_Offsets()\
+    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
+     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
+  #define __Pyx_PyFrame_GetLocalsplus(frame)\
+    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#endif
+
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
 
 /* PyObjectCall2Args.proto */
 static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
@@ -1953,7 +2055,7 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_direct_delive
 static PyObject *__pyx_f_11calfews_src_14participant_cy_11Participant_adjust_accounts(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, double __pyx_v_direct_deliveries, double __pyx_v_recharge_deliveries, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_search_type, int __pyx_v_wateryear, PyObject *__pyx_v_delivery_location); /* proto*/
 static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_node_output(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self); /* proto*/
 static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_leiu_priority_space(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, double __pyx_v_demand_constraint, int __pyx_v_num_members, PyObject *__pyx_v_member_name, int __pyx_v_toggle_recharge, PyObject *__pyx_v_search_type); /* proto*/
-static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, double __pyx_v_deliveries, PyObject *__pyx_v_member_name, int __pyx_v_wateryear); /* proto*/
+static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, double __pyx_v_deliveries, PyObject *__pyx_v_member_name, struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_adjust_recovery *__pyx_optional_args); /* proto*/
 static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_node_demand(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, PyObject *__pyx_v_contract_list, PyObject *__pyx_v_xx, int __pyx_v_num_members, PyObject *__pyx_v_search_type); /* proto*/
 static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_priority_space(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, int __pyx_v_num_members, PyObject *__pyx_v_xx, PyObject *__pyx_v_search_type); /* proto*/
 
@@ -2011,7 +2113,6 @@ static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_value_to_add[] = "value_to_add";
 static const char __pyx_k_StopIteration[] = "StopIteration";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
-static const char __pyx_k_adjust_recovery[] = "adjust_recovery";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_participant_list[] = "participant_list";
@@ -2024,7 +2125,6 @@ static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb1;
 static PyObject *__pyx_n_s_Participant;
 static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_n_s_StopIteration;
-static PyObject *__pyx_n_s_adjust_recovery;
 static PyObject *__pyx_n_s_calfews_src_participant_cy;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_dict;
@@ -3147,7 +3247,7 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_leiu_pri
  *     # should only be triggered if district
  *     return self.district_obj.find_leiu_priority_space(demand_constraint, num_members, member_name, toggle_recharge, search_type)             # <<<<<<<<<<<<<<
  * 
- *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):
+ *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=0):
  */
   __pyx_r = ((struct __pyx_vtabstruct_11calfews_src_11district_cy_District *)__pyx_v_self->district_obj->__pyx_vtab)->find_leiu_priority_space(__pyx_v_self->district_obj, __pyx_v_demand_constraint, __pyx_v_num_members, __pyx_v_member_name, __pyx_v_toggle_recharge, __pyx_v_search_type);
   goto __pyx_L0;
@@ -3173,31 +3273,30 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_leiu_pri
 /* "calfews_src/participant_cy.pyx":81
  *     return self.district_obj.find_leiu_priority_space(demand_constraint, num_members, member_name, toggle_recharge, search_type)
  * 
- *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):             # <<<<<<<<<<<<<<
+ *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=0):             # <<<<<<<<<<<<<<
  *     if self.is_District == 1:
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
  */
 
-static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, double __pyx_v_deliveries, PyObject *__pyx_v_member_name, int __pyx_v_wateryear) {
+static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery(struct __pyx_obj_11calfews_src_14participant_cy_Participant *__pyx_v_self, double __pyx_v_deliveries, PyObject *__pyx_v_member_name, struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_adjust_recovery *__pyx_optional_args) {
+  int __pyx_v_wateryear = ((int)0);
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("adjust_recovery", 0);
   __Pyx_TraceCall("adjust_recovery", __pyx_f[0], 81, 0, __PYX_ERR(0, 81, __pyx_L1_error));
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_wateryear = __pyx_optional_args->wateryear;
+    }
+  }
 
   /* "calfews_src/participant_cy.pyx":82
  * 
- *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):
+ *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=0):
  *     if self.is_District == 1:             # <<<<<<<<<<<<<<
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
  *     elif self.is_Waterbank == 1:
@@ -3206,17 +3305,17 @@ static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery
   if (__pyx_t_1) {
 
     /* "calfews_src/participant_cy.pyx":83
- *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):
+ *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=0):
  *     if self.is_District == 1:
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)             # <<<<<<<<<<<<<<
  *     elif self.is_Waterbank == 1:
- *       self.waterbank_obj.adjust_recovery(deliveries, member_name, wateryear)
+ *       self.waterbank_obj.adjust_recovery(deliveries, member_name)
  */
     ((struct __pyx_vtabstruct_11calfews_src_11district_cy_District *)__pyx_v_self->district_obj->__pyx_vtab)->adjust_recovery(__pyx_v_self->district_obj, __pyx_v_deliveries, __pyx_v_member_name, __pyx_v_wateryear);
 
     /* "calfews_src/participant_cy.pyx":82
  * 
- *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):
+ *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=0):
  *     if self.is_District == 1:             # <<<<<<<<<<<<<<
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
  *     elif self.is_Waterbank == 1:
@@ -3228,7 +3327,7 @@ static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery
  *     if self.is_District == 1:
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
  *     elif self.is_Waterbank == 1:             # <<<<<<<<<<<<<<
- *       self.waterbank_obj.adjust_recovery(deliveries, member_name, wateryear)
+ *       self.waterbank_obj.adjust_recovery(deliveries, member_name)
  * 
  */
   __pyx_t_1 = ((__pyx_v_self->is_Waterbank == 1) != 0);
@@ -3237,75 +3336,17 @@ static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery
     /* "calfews_src/participant_cy.pyx":85
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
  *     elif self.is_Waterbank == 1:
- *       self.waterbank_obj.adjust_recovery(deliveries, member_name, wateryear)             # <<<<<<<<<<<<<<
+ *       self.waterbank_obj.adjust_recovery(deliveries, member_name)             # <<<<<<<<<<<<<<
  * 
  *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->waterbank_obj), __pyx_n_s_adjust_recovery); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_deliveries); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_wateryear); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = NULL;
-    __pyx_t_7 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_6);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-        __pyx_t_7 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_4, __pyx_v_member_name, __pyx_t_5};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_4, __pyx_v_member_name, __pyx_t_5};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 85, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      if (__pyx_t_6) {
-        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_t_4);
-      __Pyx_INCREF(__pyx_v_member_name);
-      __Pyx_GIVEREF(__pyx_v_member_name);
-      PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_v_member_name);
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_7, __pyx_t_5);
-      __pyx_t_4 = 0;
-      __pyx_t_5 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    ((struct __pyx_vtabstruct_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self->waterbank_obj->__pyx_vtab)->adjust_recovery(__pyx_v_self->waterbank_obj, __pyx_v_deliveries, __pyx_v_member_name);
 
     /* "calfews_src/participant_cy.pyx":84
  *     if self.is_District == 1:
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
  *     elif self.is_Waterbank == 1:             # <<<<<<<<<<<<<<
- *       self.waterbank_obj.adjust_recovery(deliveries, member_name, wateryear)
+ *       self.waterbank_obj.adjust_recovery(deliveries, member_name)
  * 
  */
   }
@@ -3314,7 +3355,7 @@ static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery
   /* "calfews_src/participant_cy.pyx":81
  *     return self.district_obj.find_leiu_priority_space(demand_constraint, num_members, member_name, toggle_recharge, search_type)
  * 
- *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):             # <<<<<<<<<<<<<<
+ *   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear=0):             # <<<<<<<<<<<<<<
  *     if self.is_District == 1:
  *       self.district_obj.adjust_recovery(deliveries, member_name, wateryear)
  */
@@ -3322,12 +3363,6 @@ static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery
   /* function exit code */
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_WriteUnraisable("calfews_src.participant_cy.Participant.adjust_recovery", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -3335,7 +3370,7 @@ static void __pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery
 }
 
 /* "calfews_src/participant_cy.pyx":87
- *       self.waterbank_obj.adjust_recovery(deliveries, member_name, wateryear)
+ *       self.waterbank_obj.adjust_recovery(deliveries, member_name)
  * 
  *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):             # <<<<<<<<<<<<<<
  *     # should only be triggered if waterbank
@@ -3363,7 +3398,7 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_node_dem
   goto __pyx_L0;
 
   /* "calfews_src/participant_cy.pyx":87
- *       self.waterbank_obj.adjust_recovery(deliveries, member_name, wateryear)
+ *       self.waterbank_obj.adjust_recovery(deliveries, member_name)
  * 
  *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):             # <<<<<<<<<<<<<<
  *     # should only be triggered if waterbank
@@ -8046,7 +8081,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Participant, __pyx_k_Participant, sizeof(__pyx_k_Participant), 0, 0, 1, 1},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_StopIteration, __pyx_k_StopIteration, sizeof(__pyx_k_StopIteration), 0, 0, 1, 1},
-  {&__pyx_n_s_adjust_recovery, __pyx_k_adjust_recovery, sizeof(__pyx_k_adjust_recovery), 0, 0, 1, 1},
   {&__pyx_n_s_calfews_src_participant_cy, __pyx_k_calfews_src_participant_cy, sizeof(__pyx_k_calfews_src_participant_cy), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
@@ -8161,7 +8195,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_11calfews_src_14participant_cy_Participant.adjust_accounts = (PyObject *(*)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, double, PyObject *, PyObject *, int, PyObject *))__pyx_f_11calfews_src_14participant_cy_11Participant_adjust_accounts;
   __pyx_vtable_11calfews_src_14participant_cy_Participant.find_node_output = (double (*)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *))__pyx_f_11calfews_src_14participant_cy_11Participant_find_node_output;
   __pyx_vtable_11calfews_src_14participant_cy_Participant.find_leiu_priority_space = (double (*)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, int, PyObject *, int, PyObject *))__pyx_f_11calfews_src_14participant_cy_11Participant_find_leiu_priority_space;
-  __pyx_vtable_11calfews_src_14participant_cy_Participant.adjust_recovery = (void (*)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, PyObject *, int))__pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery;
+  __pyx_vtable_11calfews_src_14participant_cy_Participant.adjust_recovery = (void (*)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, double, PyObject *, struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_adjust_recovery *__pyx_optional_args))__pyx_f_11calfews_src_14participant_cy_11Participant_adjust_recovery;
   __pyx_vtable_11calfews_src_14participant_cy_Participant.find_node_demand = (double (*)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, PyObject *, PyObject *, int, PyObject *))__pyx_f_11calfews_src_14participant_cy_11Participant_find_node_demand;
   __pyx_vtable_11calfews_src_14participant_cy_Participant.find_priority_space = (double (*)(struct __pyx_obj_11calfews_src_14participant_cy_Participant *, int, PyObject *, PyObject *))__pyx_f_11calfews_src_14participant_cy_11Participant_find_priority_space;
   if (PyType_Ready(&__pyx_type_11calfews_src_14participant_cy_Participant) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
@@ -8199,11 +8233,13 @@ static int __Pyx_modinit_type_import_code(void) {
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_11calfews_src_8canal_cy_Canal = __Pyx_ImportType(__pyx_t_1, "calfews_src.canal_cy", "Canal", sizeof(struct __pyx_obj_11calfews_src_8canal_cy_Canal), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_11calfews_src_8canal_cy_Canal) __PYX_ERR(4, 1, __pyx_L1_error)
+  __pyx_vtabptr_11calfews_src_8canal_cy_Canal = (struct __pyx_vtabstruct_11calfews_src_8canal_cy_Canal*)__Pyx_GetVtable(__pyx_ptype_11calfews_src_8canal_cy_Canal->tp_dict); if (unlikely(!__pyx_vtabptr_11calfews_src_8canal_cy_Canal)) __PYX_ERR(4, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("calfews_src.contract_cy"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_11calfews_src_11contract_cy_Contract = __Pyx_ImportType(__pyx_t_1, "calfews_src.contract_cy", "Contract", sizeof(struct __pyx_obj_11calfews_src_11contract_cy_Contract), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_11calfews_src_11contract_cy_Contract) __PYX_ERR(5, 1, __pyx_L1_error)
+  __pyx_vtabptr_11calfews_src_11contract_cy_Contract = (struct __pyx_vtabstruct_11calfews_src_11contract_cy_Contract*)__Pyx_GetVtable(__pyx_ptype_11calfews_src_11contract_cy_Contract->tp_dict); if (unlikely(!__pyx_vtabptr_11calfews_src_11contract_cy_Contract)) __PYX_ERR(5, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("calfews_src.district_cy"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -8937,168 +8973,6 @@ static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
 #endif
 }
 
-/* PyFunctionFastCall */
-#if CYTHON_FAST_PYCALL
-static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
-                                               PyObject *globals) {
-    PyFrameObject *f;
-    PyThreadState *tstate = __Pyx_PyThreadState_Current;
-    PyObject **fastlocals;
-    Py_ssize_t i;
-    PyObject *result;
-    assert(globals != NULL);
-    /* XXX Perhaps we should create a specialized
-       PyFrame_New() that doesn't take locals, but does
-       take builtins without sanity checking them.
-       */
-    assert(tstate != NULL);
-    f = PyFrame_New(tstate, co, globals, NULL);
-    if (f == NULL) {
-        return NULL;
-    }
-    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
-    for (i = 0; i < na; i++) {
-        Py_INCREF(*args);
-        fastlocals[i] = *args++;
-    }
-    result = PyEval_EvalFrameEx(f,0);
-    ++tstate->recursion_depth;
-    Py_DECREF(f);
-    --tstate->recursion_depth;
-    return result;
-}
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs) {
-    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
-    PyObject *globals = PyFunction_GET_GLOBALS(func);
-    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
-    PyObject *closure;
-#if PY_MAJOR_VERSION >= 3
-    PyObject *kwdefs;
-#endif
-    PyObject *kwtuple, **k;
-    PyObject **d;
-    Py_ssize_t nd;
-    Py_ssize_t nk;
-    PyObject *result;
-    assert(kwargs == NULL || PyDict_Check(kwargs));
-    nk = kwargs ? PyDict_Size(kwargs) : 0;
-    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
-        return NULL;
-    }
-    if (
-#if PY_MAJOR_VERSION >= 3
-            co->co_kwonlyargcount == 0 &&
-#endif
-            likely(kwargs == NULL || nk == 0) &&
-            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
-        if (argdefs == NULL && co->co_argcount == nargs) {
-            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
-            goto done;
-        }
-        else if (nargs == 0 && argdefs != NULL
-                 && co->co_argcount == Py_SIZE(argdefs)) {
-            /* function called with no arguments, but all parameters have
-               a default value: use default values as arguments .*/
-            args = &PyTuple_GET_ITEM(argdefs, 0);
-            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
-            goto done;
-        }
-    }
-    if (kwargs != NULL) {
-        Py_ssize_t pos, i;
-        kwtuple = PyTuple_New(2 * nk);
-        if (kwtuple == NULL) {
-            result = NULL;
-            goto done;
-        }
-        k = &PyTuple_GET_ITEM(kwtuple, 0);
-        pos = i = 0;
-        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
-            Py_INCREF(k[i]);
-            Py_INCREF(k[i+1]);
-            i += 2;
-        }
-        nk = i / 2;
-    }
-    else {
-        kwtuple = NULL;
-        k = NULL;
-    }
-    closure = PyFunction_GET_CLOSURE(func);
-#if PY_MAJOR_VERSION >= 3
-    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
-#endif
-    if (argdefs != NULL) {
-        d = &PyTuple_GET_ITEM(argdefs, 0);
-        nd = Py_SIZE(argdefs);
-    }
-    else {
-        d = NULL;
-        nd = 0;
-    }
-#if PY_MAJOR_VERSION >= 3
-    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
-                               args, (int)nargs,
-                               k, (int)nk,
-                               d, (int)nd, kwdefs, closure);
-#else
-    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
-                               args, (int)nargs,
-                               k, (int)nk,
-                               d, (int)nd, closure);
-#endif
-    Py_XDECREF(kwtuple);
-done:
-    Py_LeaveRecursiveCall();
-    return result;
-}
-#endif
-#endif
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
-}
-#endif
-
-/* PyObjectCall */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
 /* RaiseDoubleKeywords */
 static void __Pyx_RaiseDoubleKeywordsError(
     const char* func_name,
@@ -9536,6 +9410,168 @@ static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
     }
     return value;
 }
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
+}
+#endif
+
+/* PyFunctionFastCall */
+#if CYTHON_FAST_PYCALL
+static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
+                                               PyObject *globals) {
+    PyFrameObject *f;
+    PyThreadState *tstate = __Pyx_PyThreadState_Current;
+    PyObject **fastlocals;
+    Py_ssize_t i;
+    PyObject *result;
+    assert(globals != NULL);
+    /* XXX Perhaps we should create a specialized
+       PyFrame_New() that doesn't take locals, but does
+       take builtins without sanity checking them.
+       */
+    assert(tstate != NULL);
+    f = PyFrame_New(tstate, co, globals, NULL);
+    if (f == NULL) {
+        return NULL;
+    }
+    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
+    for (i = 0; i < na; i++) {
+        Py_INCREF(*args);
+        fastlocals[i] = *args++;
+    }
+    result = PyEval_EvalFrameEx(f,0);
+    ++tstate->recursion_depth;
+    Py_DECREF(f);
+    --tstate->recursion_depth;
+    return result;
+}
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs) {
+    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
+    PyObject *globals = PyFunction_GET_GLOBALS(func);
+    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
+    PyObject *closure;
+#if PY_MAJOR_VERSION >= 3
+    PyObject *kwdefs;
+#endif
+    PyObject *kwtuple, **k;
+    PyObject **d;
+    Py_ssize_t nd;
+    Py_ssize_t nk;
+    PyObject *result;
+    assert(kwargs == NULL || PyDict_Check(kwargs));
+    nk = kwargs ? PyDict_Size(kwargs) : 0;
+    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
+        return NULL;
+    }
+    if (
+#if PY_MAJOR_VERSION >= 3
+            co->co_kwonlyargcount == 0 &&
+#endif
+            likely(kwargs == NULL || nk == 0) &&
+            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
+        if (argdefs == NULL && co->co_argcount == nargs) {
+            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
+            goto done;
+        }
+        else if (nargs == 0 && argdefs != NULL
+                 && co->co_argcount == Py_SIZE(argdefs)) {
+            /* function called with no arguments, but all parameters have
+               a default value: use default values as arguments .*/
+            args = &PyTuple_GET_ITEM(argdefs, 0);
+            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
+            goto done;
+        }
+    }
+    if (kwargs != NULL) {
+        Py_ssize_t pos, i;
+        kwtuple = PyTuple_New(2 * nk);
+        if (kwtuple == NULL) {
+            result = NULL;
+            goto done;
+        }
+        k = &PyTuple_GET_ITEM(kwtuple, 0);
+        pos = i = 0;
+        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
+            Py_INCREF(k[i]);
+            Py_INCREF(k[i+1]);
+            i += 2;
+        }
+        nk = i / 2;
+    }
+    else {
+        kwtuple = NULL;
+        k = NULL;
+    }
+    closure = PyFunction_GET_CLOSURE(func);
+#if PY_MAJOR_VERSION >= 3
+    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
+#endif
+    if (argdefs != NULL) {
+        d = &PyTuple_GET_ITEM(argdefs, 0);
+        nd = Py_SIZE(argdefs);
+    }
+    else {
+        d = NULL;
+        nd = 0;
+    }
+#if PY_MAJOR_VERSION >= 3
+    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, kwdefs, closure);
+#else
+    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, closure);
+#endif
+    Py_XDECREF(kwtuple);
+done:
+    Py_LeaveRecursiveCall();
+    return result;
+}
+#endif
+#endif
+
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
 
 /* PyObjectCall2Args */
 static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
