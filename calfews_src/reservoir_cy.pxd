@@ -1,3 +1,5 @@
+from .model_cy cimport Model
+
 cdef class Reservoir():
 
   cdef:
@@ -25,4 +27,24 @@ cdef class Reservoir():
                 cum_min_release, oct_nov_min_release, aug_sept_min_release, monthly_demand, monthly_demand_full, \
                 monthly_demand_must_fill, numdays_fillup, flow_shape_regression, dry_year_carryover, env_min_flow_ya, \
                 temp_releases_ya, monthly, daily_df_data, snowpack, daily_output_data, k_close_wateryear, monthly_new
+
+  cdef (double, double) current_tocs(self, int dowy, int ix)
+
+  cdef void find_flow_pumping(self, int t, int m, int dowy, int year_index, list days_in_month, list dowy_eom, str wyt, str release)
+
+  cdef step(self, int t)
+
+  cdef void release_environmental(self, int t, int d, int m, int dowy, list first_d_of_month, str basinWYT)
+
+  cdef void find_available_storage(self, int t, int m, int da, int dowy)
+
+  cdef void create_flow_shapes(self, Model model)
+
+  cdef void find_release_func(self, Model model)
+
+  cdef void calc_expected_min_release(self, Model model, dict delta_req, depletions, int sjrr_toggle)
+
+  cdef double sj_riv_res_flows(self, int t, int dowy, int toggle_short_series=*)
+
+  
 

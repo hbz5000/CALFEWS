@@ -825,8 +825,8 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "calfews_src\\crop_cy.pyx",
-  "calfews_src\\crop_cy.pxd",
+  "calfews_src/crop_cy.pyx",
+  "calfews_src/crop_cy.pxd",
   "stringsource",
 };
 
@@ -1881,7 +1881,7 @@ static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_codeobj__3;
 /* Late includes */
 
-/* "calfews_src/crop_cy.pyx":13
+/* "calfews_src/crop_cy.pyx":12
  * cdef class Crop():
  * 
  *   def __iter__(self):             # <<<<<<<<<<<<<<
@@ -1910,18 +1910,18 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop___iter__(struct __pyx_obj
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
-  __Pyx_TraceCall("__iter__", __pyx_f[0], 13, 0, __PYX_ERR(0, 13, __pyx_L1_error));
+  __Pyx_TraceCall("__iter__", __pyx_f[0], 12, 0, __PYX_ERR(0, 12, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":14
+  /* "calfews_src/crop_cy.pyx":13
  * 
  *   def __iter__(self):
  *     self.iter_count = 0             # <<<<<<<<<<<<<<
  *     return self
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_int_0) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_int_0) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":15
+  /* "calfews_src/crop_cy.pyx":14
  *   def __iter__(self):
  *     self.iter_count = 0
  *     return self             # <<<<<<<<<<<<<<
@@ -1933,7 +1933,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop___iter__(struct __pyx_obj
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "calfews_src/crop_cy.pyx":13
+  /* "calfews_src/crop_cy.pyx":12
  * cdef class Crop():
  * 
  *   def __iter__(self):             # <<<<<<<<<<<<<<
@@ -1952,7 +1952,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop___iter__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":17
+/* "calfews_src/crop_cy.pyx":16
  *     return self
  * 
  *   def __next__(self):             # <<<<<<<<<<<<<<
@@ -1984,40 +1984,40 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__next__", 0);
-  __Pyx_TraceCall("__next__", __pyx_f[0], 17, 0, __PYX_ERR(0, 17, __pyx_L1_error));
+  __Pyx_TraceCall("__next__", __pyx_f[0], 16, 0, __PYX_ERR(0, 16, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":18
+  /* "calfews_src/crop_cy.pyx":17
  * 
  *   def __next__(self):
  *     if self.iter_count == 0:             # <<<<<<<<<<<<<<
  *       self.iter_count += 1
  *       return self
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(__pyx_t_3)) {
 
-    /* "calfews_src/crop_cy.pyx":19
+    /* "calfews_src/crop_cy.pyx":18
  *   def __next__(self):
  *     if self.iter_count == 0:
  *       self.iter_count += 1             # <<<<<<<<<<<<<<
  *       return self
  *     else:
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_iter_count, __pyx_t_1) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "calfews_src/crop_cy.pyx":20
+    /* "calfews_src/crop_cy.pyx":19
  *     if self.iter_count == 0:
  *       self.iter_count += 1
  *       return self             # <<<<<<<<<<<<<<
@@ -2029,7 +2029,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
     __pyx_r = ((PyObject *)__pyx_v_self);
     goto __pyx_L0;
 
-    /* "calfews_src/crop_cy.pyx":18
+    /* "calfews_src/crop_cy.pyx":17
  * 
  *   def __next__(self):
  *     if self.iter_count == 0:             # <<<<<<<<<<<<<<
@@ -2038,7 +2038,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
  */
   }
 
-  /* "calfews_src/crop_cy.pyx":22
+  /* "calfews_src/crop_cy.pyx":21
  *       return self
  *     else:
  *       raise StopIteration             # <<<<<<<<<<<<<<
@@ -2047,10 +2047,10 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
  */
   /*else*/ {
     __Pyx_Raise(__pyx_builtin_StopIteration, 0, 0, 0);
-    __PYX_ERR(0, 22, __pyx_L1_error)
+    __PYX_ERR(0, 21, __pyx_L1_error)
   }
 
-  /* "calfews_src/crop_cy.pyx":17
+  /* "calfews_src/crop_cy.pyx":16
  *     return self
  * 
  *   def __next__(self):             # <<<<<<<<<<<<<<
@@ -2071,7 +2071,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_2__next__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":24
+/* "calfews_src/crop_cy.pyx":23
  *       raise StopIteration
  * 
  *   def __len__(self):             # <<<<<<<<<<<<<<
@@ -2100,9 +2100,9 @@ static Py_ssize_t __pyx_pf_11calfews_src_7crop_cy_4Crop_4__len__(CYTHON_UNUSED s
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
-  __Pyx_TraceCall("__len__", __pyx_f[0], 24, 0, __PYX_ERR(0, 24, __pyx_L1_error));
+  __Pyx_TraceCall("__len__", __pyx_f[0], 23, 0, __PYX_ERR(0, 23, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":25
+  /* "calfews_src/crop_cy.pyx":24
  * 
  *   def __len__(self):
  *     return 1             # <<<<<<<<<<<<<<
@@ -2112,7 +2112,7 @@ static Py_ssize_t __pyx_pf_11calfews_src_7crop_cy_4Crop_4__len__(CYTHON_UNUSED s
   __pyx_r = 1;
   goto __pyx_L0;
 
-  /* "calfews_src/crop_cy.pyx":24
+  /* "calfews_src/crop_cy.pyx":23
  *       raise StopIteration
  * 
  *   def __len__(self):             # <<<<<<<<<<<<<<
@@ -2130,7 +2130,7 @@ static Py_ssize_t __pyx_pf_11calfews_src_7crop_cy_4Crop_4__len__(CYTHON_UNUSED s
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":27
+/* "calfews_src/crop_cy.pyx":26
  *     return 1
  * 
  *   def __init__(self, key):             # <<<<<<<<<<<<<<
@@ -2167,7 +2167,7 @@ static int __pyx_pw_11calfews_src_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_sel
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 27, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 26, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -2178,7 +2178,7 @@ static int __pyx_pw_11calfews_src_7crop_cy_4Crop_7__init__(PyObject *__pyx_v_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 26, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("calfews_src.crop_cy.Crop.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2211,16 +2211,16 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 27, 0, __PYX_ERR(0, 27, __pyx_L1_error));
+  __Pyx_TraceCall("__init__", __pyx_f[0], 26, 0, __PYX_ERR(0, 26, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":28
+  /* "calfews_src/crop_cy.pyx":27
  * 
  *   def __init__(self, key):
  *     self.key = key             # <<<<<<<<<<<<<<
  *     self.tau = {}
  *     self.beta = {}
  */
-  if (!(likely(PyUnicode_CheckExact(__pyx_v_key))||((__pyx_v_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_key)->tp_name), 0))) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (!(likely(PyUnicode_CheckExact(__pyx_v_key))||((__pyx_v_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_key)->tp_name), 0))) __PYX_ERR(0, 27, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_key;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -2229,14 +2229,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->key = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":29
+  /* "calfews_src/crop_cy.pyx":28
  *   def __init__(self, key):
  *     self.key = key
  *     self.tau = {}             # <<<<<<<<<<<<<<
  *     self.beta = {}
  *     self.delta = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->tau);
@@ -2244,14 +2244,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->tau = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":30
+  /* "calfews_src/crop_cy.pyx":29
  *     self.key = key
  *     self.tau = {}
  *     self.beta = {}             # <<<<<<<<<<<<<<
  *     self.delta = {}
  *     self.gamma = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->beta);
@@ -2259,14 +2259,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->beta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":31
+  /* "calfews_src/crop_cy.pyx":30
  *     self.tau = {}
  *     self.beta = {}
  *     self.delta = {}             # <<<<<<<<<<<<<<
  *     self.gamma = {}
  *     self.leontief = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->delta);
@@ -2274,14 +2274,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->delta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":32
+  /* "calfews_src/crop_cy.pyx":31
  *     self.beta = {}
  *     self.delta = {}
  *     self.gamma = {}             # <<<<<<<<<<<<<<
  *     self.leontief = {}
  *     self.eta = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->gamma);
@@ -2289,14 +2289,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->gamma = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":33
+  /* "calfews_src/crop_cy.pyx":32
  *     self.delta = {}
  *     self.gamma = {}
  *     self.leontief = {}             # <<<<<<<<<<<<<<
  *     self.eta = {}
  *     self.baseline_inputs = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->leontief);
@@ -2304,14 +2304,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->leontief = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":34
+  /* "calfews_src/crop_cy.pyx":33
  *     self.gamma = {}
  *     self.leontief = {}
  *     self.eta = {}             # <<<<<<<<<<<<<<
  *     self.baseline_inputs = {}
  *     self.baseline_revenue = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->eta);
@@ -2319,14 +2319,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->eta = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":35
+  /* "calfews_src/crop_cy.pyx":34
  *     self.leontief = {}
  *     self.eta = {}
  *     self.baseline_inputs = {}             # <<<<<<<<<<<<<<
  *     self.baseline_revenue = {}
  *     self.econ_factors = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->baseline_inputs);
@@ -2334,14 +2334,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->baseline_inputs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":36
+  /* "calfews_src/crop_cy.pyx":35
  *     self.eta = {}
  *     self.baseline_inputs = {}
  *     self.baseline_revenue = {}             # <<<<<<<<<<<<<<
  *     self.econ_factors = {}
  *     self.pmp_keys = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->baseline_revenue);
@@ -2349,14 +2349,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->baseline_revenue = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":37
+  /* "calfews_src/crop_cy.pyx":36
  *     self.baseline_inputs = {}
  *     self.baseline_revenue = {}
  *     self.econ_factors = {}             # <<<<<<<<<<<<<<
  *     self.pmp_keys = {}
  *     self.pmp_keys['TAU'] = self.tau
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->econ_factors);
@@ -2364,14 +2364,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->econ_factors = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":38
+  /* "calfews_src/crop_cy.pyx":37
  *     self.baseline_revenue = {}
  *     self.econ_factors = {}
  *     self.pmp_keys = {}             # <<<<<<<<<<<<<<
  *     self.pmp_keys['TAU'] = self.tau
  *     self.pmp_keys['BETA'] = self.beta
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->pmp_keys);
@@ -2379,7 +2379,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->pmp_keys = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":39
+  /* "calfews_src/crop_cy.pyx":38
  *     self.econ_factors = {}
  *     self.pmp_keys = {}
  *     self.pmp_keys['TAU'] = self.tau             # <<<<<<<<<<<<<<
@@ -2390,12 +2390,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 39, __pyx_L1_error)
+    __PYX_ERR(0, 38, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_TAU, __pyx_t_1) < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_TAU, __pyx_t_1) < 0)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":40
+  /* "calfews_src/crop_cy.pyx":39
  *     self.pmp_keys = {}
  *     self.pmp_keys['TAU'] = self.tau
  *     self.pmp_keys['BETA'] = self.beta             # <<<<<<<<<<<<<<
@@ -2406,12 +2406,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 40, __pyx_L1_error)
+    __PYX_ERR(0, 39, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_BETA, __pyx_t_1) < 0)) __PYX_ERR(0, 40, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_BETA, __pyx_t_1) < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":41
+  /* "calfews_src/crop_cy.pyx":40
  *     self.pmp_keys['TAU'] = self.tau
  *     self.pmp_keys['BETA'] = self.beta
  *     self.pmp_keys['DELTA'] = self.delta             # <<<<<<<<<<<<<<
@@ -2422,12 +2422,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 41, __pyx_L1_error)
+    __PYX_ERR(0, 40, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_DELTA, __pyx_t_1) < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_DELTA, __pyx_t_1) < 0)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":42
+  /* "calfews_src/crop_cy.pyx":41
  *     self.pmp_keys['BETA'] = self.beta
  *     self.pmp_keys['DELTA'] = self.delta
  *     self.pmp_keys['GAMMA'] = self.gamma             # <<<<<<<<<<<<<<
@@ -2438,12 +2438,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 42, __pyx_L1_error)
+    __PYX_ERR(0, 41, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_GAMMA, __pyx_t_1) < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_GAMMA, __pyx_t_1) < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":43
+  /* "calfews_src/crop_cy.pyx":42
  *     self.pmp_keys['DELTA'] = self.delta
  *     self.pmp_keys['GAMMA'] = self.gamma
  *     self.pmp_keys['ETA'] = self.eta             # <<<<<<<<<<<<<<
@@ -2454,12 +2454,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 43, __pyx_L1_error)
+    __PYX_ERR(0, 42, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_ETA, __pyx_t_1) < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_ETA, __pyx_t_1) < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":44
+  /* "calfews_src/crop_cy.pyx":43
  *     self.pmp_keys['GAMMA'] = self.gamma
  *     self.pmp_keys['ETA'] = self.eta
  *     self.pmp_keys['LEONTIEF'] = self.leontief             # <<<<<<<<<<<<<<
@@ -2470,12 +2470,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 44, __pyx_L1_error)
+    __PYX_ERR(0, 43, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_LEONTIEF, __pyx_t_1) < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_LEONTIEF, __pyx_t_1) < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":45
+  /* "calfews_src/crop_cy.pyx":44
  *     self.pmp_keys['ETA'] = self.eta
  *     self.pmp_keys['LEONTIEF'] = self.leontief
  *     self.pmp_keys['INPUTS'] = self.baseline_inputs             # <<<<<<<<<<<<<<
@@ -2486,12 +2486,12 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 45, __pyx_L1_error)
+    __PYX_ERR(0, 44, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_INPUTS, __pyx_t_1) < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_INPUTS, __pyx_t_1) < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":46
+  /* "calfews_src/crop_cy.pyx":45
  *     self.pmp_keys['LEONTIEF'] = self.leontief
  *     self.pmp_keys['INPUTS'] = self.baseline_inputs
  *     self.pmp_keys['REV'] = self.baseline_revenue             # <<<<<<<<<<<<<<
@@ -2502,19 +2502,19 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 46, __pyx_L1_error)
+    __PYX_ERR(0, 45, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_REV, __pyx_t_1) < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->pmp_keys, __pyx_n_u_REV, __pyx_t_1) < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":47
+  /* "calfews_src/crop_cy.pyx":46
  *     self.pmp_keys['INPUTS'] = self.baseline_inputs
  *     self.pmp_keys['REV'] = self.baseline_revenue
  *     self.crop_keys = {}             # <<<<<<<<<<<<<<
  *     self.crop_keys['ALFAL'] = 'alfalfa'
  *     self.crop_keys['ALPIS'] = 'pistachio'
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->crop_keys);
@@ -2522,7 +2522,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_v_self->crop_keys = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":48
+  /* "calfews_src/crop_cy.pyx":47
  *     self.pmp_keys['REV'] = self.baseline_revenue
  *     self.crop_keys = {}
  *     self.crop_keys['ALFAL'] = 'alfalfa'             # <<<<<<<<<<<<<<
@@ -2531,11 +2531,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 48, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ALFAL, __pyx_n_u_alfalfa) < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ALFAL, __pyx_n_u_alfalfa) < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":49
+  /* "calfews_src/crop_cy.pyx":48
  *     self.crop_keys = {}
  *     self.crop_keys['ALFAL'] = 'alfalfa'
  *     self.crop_keys['ALPIS'] = 'pistachio'             # <<<<<<<<<<<<<<
@@ -2544,11 +2544,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 49, __pyx_L1_error)
+    __PYX_ERR(0, 48, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ALPIS, __pyx_n_u_pistachio) < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ALPIS, __pyx_n_u_pistachio) < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":50
+  /* "calfews_src/crop_cy.pyx":49
  *     self.crop_keys['ALFAL'] = 'alfalfa'
  *     self.crop_keys['ALPIS'] = 'pistachio'
  *     self.crop_keys['CORN'] = 'corn'             # <<<<<<<<<<<<<<
@@ -2557,11 +2557,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 50, __pyx_L1_error)
+    __PYX_ERR(0, 49, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_CORN, __pyx_n_u_corn) < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_CORN, __pyx_n_u_corn) < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":51
+  /* "calfews_src/crop_cy.pyx":50
  *     self.crop_keys['ALPIS'] = 'pistachio'
  *     self.crop_keys['CORN'] = 'corn'
  *     self.crop_keys['COTTN'] = 'cotton'             # <<<<<<<<<<<<<<
@@ -2570,11 +2570,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 51, __pyx_L1_error)
+    __PYX_ERR(0, 50, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_COTTN, __pyx_n_u_cotton) < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_COTTN, __pyx_n_u_cotton) < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":52
+  /* "calfews_src/crop_cy.pyx":51
  *     self.crop_keys['CORN'] = 'corn'
  *     self.crop_keys['COTTN'] = 'cotton'
  *     self.crop_keys['CUCUR'] = 'melon'             # <<<<<<<<<<<<<<
@@ -2583,11 +2583,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 52, __pyx_L1_error)
+    __PYX_ERR(0, 51, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_CUCUR, __pyx_n_u_melon) < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_CUCUR, __pyx_n_u_melon) < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":53
+  /* "calfews_src/crop_cy.pyx":52
  *     self.crop_keys['COTTN'] = 'cotton'
  *     self.crop_keys['CUCUR'] = 'melon'
  *     self.crop_keys['DRYBN'] = 'field_misc'             # <<<<<<<<<<<<<<
@@ -2596,11 +2596,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 53, __pyx_L1_error)
+    __PYX_ERR(0, 52, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_DRYBN, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_DRYBN, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":54
+  /* "calfews_src/crop_cy.pyx":53
  *     self.crop_keys['CUCUR'] = 'melon'
  *     self.crop_keys['DRYBN'] = 'field_misc'
  *     self.crop_keys['FRTOM'] = 'tomato'             # <<<<<<<<<<<<<<
@@ -2609,11 +2609,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 54, __pyx_L1_error)
+    __PYX_ERR(0, 53, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_FRTOM, __pyx_n_u_tomato) < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_FRTOM, __pyx_n_u_tomato) < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":55
+  /* "calfews_src/crop_cy.pyx":54
  *     self.crop_keys['DRYBN'] = 'field_misc'
  *     self.crop_keys['FRTOM'] = 'tomato'
  *     self.crop_keys['GRAIN'] = 'grain'             # <<<<<<<<<<<<<<
@@ -2622,11 +2622,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 55, __pyx_L1_error)
+    __PYX_ERR(0, 54, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_GRAIN, __pyx_n_u_grain) < 0)) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_GRAIN, __pyx_n_u_grain) < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":56
+  /* "calfews_src/crop_cy.pyx":55
  *     self.crop_keys['FRTOM'] = 'tomato'
  *     self.crop_keys['GRAIN'] = 'grain'
  *     self.crop_keys['ONGAR'] = 'onion'             # <<<<<<<<<<<<<<
@@ -2635,11 +2635,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 56, __pyx_L1_error)
+    __PYX_ERR(0, 55, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ONGAR, __pyx_n_u_onion) < 0)) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_ONGAR, __pyx_n_u_onion) < 0)) __PYX_ERR(0, 55, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":57
+  /* "calfews_src/crop_cy.pyx":56
  *     self.crop_keys['GRAIN'] = 'grain'
  *     self.crop_keys['ONGAR'] = 'onion'
  *     self.crop_keys['OTHDEC'] = 'deciduous_misc'             # <<<<<<<<<<<<<<
@@ -2648,11 +2648,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 57, __pyx_L1_error)
+    __PYX_ERR(0, 56, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHDEC, __pyx_n_u_deciduous_misc) < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHDEC, __pyx_n_u_deciduous_misc) < 0)) __PYX_ERR(0, 56, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":58
+  /* "calfews_src/crop_cy.pyx":57
  *     self.crop_keys['ONGAR'] = 'onion'
  *     self.crop_keys['OTHDEC'] = 'deciduous_misc'
  *     self.crop_keys['OTHFLD'] = 'field_misc'             # <<<<<<<<<<<<<<
@@ -2661,11 +2661,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 58, __pyx_L1_error)
+    __PYX_ERR(0, 57, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHFLD, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHFLD, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":59
+  /* "calfews_src/crop_cy.pyx":58
  *     self.crop_keys['OTHDEC'] = 'deciduous_misc'
  *     self.crop_keys['OTHFLD'] = 'field_misc'
  *     self.crop_keys['OTHTRK'] = 'field_misc'             # <<<<<<<<<<<<<<
@@ -2674,11 +2674,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 59, __pyx_L1_error)
+    __PYX_ERR(0, 58, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHTRK, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_OTHTRK, __pyx_n_u_field_misc) < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":60
+  /* "calfews_src/crop_cy.pyx":59
  *     self.crop_keys['OTHFLD'] = 'field_misc'
  *     self.crop_keys['OTHTRK'] = 'field_misc'
  *     self.crop_keys['PASTR'] = 'pasture'             # <<<<<<<<<<<<<<
@@ -2687,11 +2687,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 60, __pyx_L1_error)
+    __PYX_ERR(0, 59, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_PASTR, __pyx_n_u_pasture) < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_PASTR, __pyx_n_u_pasture) < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":61
+  /* "calfews_src/crop_cy.pyx":60
  *     self.crop_keys['OTHTRK'] = 'field_misc'
  *     self.crop_keys['PASTR'] = 'pasture'
  *     self.crop_keys['POTATO'] = 'potatoe'             # <<<<<<<<<<<<<<
@@ -2700,11 +2700,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 61, __pyx_L1_error)
+    __PYX_ERR(0, 60, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_POTATO, __pyx_n_u_potatoe) < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_POTATO, __pyx_n_u_potatoe) < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":62
+  /* "calfews_src/crop_cy.pyx":61
  *     self.crop_keys['PASTR'] = 'pasture'
  *     self.crop_keys['POTATO'] = 'potatoe'
  *     self.crop_keys['PRTOM'] = 'tomato'             # <<<<<<<<<<<<<<
@@ -2713,11 +2713,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 62, __pyx_L1_error)
+    __PYX_ERR(0, 61, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_PRTOM, __pyx_n_u_tomato) < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_PRTOM, __pyx_n_u_tomato) < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":63
+  /* "calfews_src/crop_cy.pyx":62
  *     self.crop_keys['POTATO'] = 'potatoe'
  *     self.crop_keys['PRTOM'] = 'tomato'
  *     self.crop_keys['RICE'] = 'rice'             # <<<<<<<<<<<<<<
@@ -2726,11 +2726,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 63, __pyx_L1_error)
+    __PYX_ERR(0, 62, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_RICE, __pyx_n_u_rice) < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_RICE, __pyx_n_u_rice) < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":64
+  /* "calfews_src/crop_cy.pyx":63
  *     self.crop_keys['PRTOM'] = 'tomato'
  *     self.crop_keys['RICE'] = 'rice'
  *     self.crop_keys['SAFLR'] = 'safflower'             # <<<<<<<<<<<<<<
@@ -2739,11 +2739,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 64, __pyx_L1_error)
+    __PYX_ERR(0, 63, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SAFLR, __pyx_n_u_safflower) < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SAFLR, __pyx_n_u_safflower) < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":65
+  /* "calfews_src/crop_cy.pyx":64
  *     self.crop_keys['RICE'] = 'rice'
  *     self.crop_keys['SAFLR'] = 'safflower'
  *     self.crop_keys['SBEET'] = 'vegetable_small'             # <<<<<<<<<<<<<<
@@ -2752,11 +2752,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 65, __pyx_L1_error)
+    __PYX_ERR(0, 64, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SBEET, __pyx_n_u_vegetable_small) < 0)) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SBEET, __pyx_n_u_vegetable_small) < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":66
+  /* "calfews_src/crop_cy.pyx":65
  *     self.crop_keys['SAFLR'] = 'safflower'
  *     self.crop_keys['SBEET'] = 'vegetable_small'
  *     self.crop_keys['SUBTRP'] = 'subtropical_misc'             # <<<<<<<<<<<<<<
@@ -2765,11 +2765,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 66, __pyx_L1_error)
+    __PYX_ERR(0, 65, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SUBTRP, __pyx_n_u_subtropical_misc) < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_SUBTRP, __pyx_n_u_subtropical_misc) < 0)) __PYX_ERR(0, 65, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":67
+  /* "calfews_src/crop_cy.pyx":66
  *     self.crop_keys['SBEET'] = 'vegetable_small'
  *     self.crop_keys['SUBTRP'] = 'subtropical_misc'
  *     self.crop_keys['VINE'] = 'grape'             # <<<<<<<<<<<<<<
@@ -2778,11 +2778,11 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   if (unlikely(__pyx_v_self->crop_keys == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 67, __pyx_L1_error)
+    __PYX_ERR(0, 66, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_VINE, __pyx_n_u_grape) < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->crop_keys, __pyx_n_u_VINE, __pyx_n_u_grape) < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
 
-  /* "calfews_src/crop_cy.pyx":68
+  /* "calfews_src/crop_cy.pyx":67
  *     self.crop_keys['SUBTRP'] = 'subtropical_misc'
  *     self.crop_keys['VINE'] = 'grape'
  *     self.sub = 0.17             # <<<<<<<<<<<<<<
@@ -2791,7 +2791,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  */
   __pyx_v_self->sub = 0.17;
 
-  /* "calfews_src/crop_cy.pyx":71
+  /* "calfews_src/crop_cy.pyx":70
  * 
  * 
  *     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():             # <<<<<<<<<<<<<<
@@ -2799,14 +2799,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  * 
  */
   __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_json); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_json); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_load); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_load); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_calfews_src_crop_s_properties_js, __pyx_v_key); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_calfews_src_crop_s_properties_js, __pyx_v_key); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_builtin_open, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_builtin_open, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -2822,14 +2822,14 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_6, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   if (unlikely(__pyx_t_5 == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(0, 71, __pyx_L1_error)
+    __PYX_ERR(0, 70, __pyx_L1_error)
   }
-  __pyx_t_7 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_XDECREF(__pyx_t_1);
@@ -2838,7 +2838,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   while (1) {
     __pyx_t_9 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, &__pyx_t_7, &__pyx_t_5, NULL, __pyx_t_4);
     if (unlikely(__pyx_t_9 == 0)) break;
-    if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 71, __pyx_L1_error)
+    if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_7);
@@ -2846,18 +2846,18 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src/crop_cy.pyx":72
+    /* "calfews_src/crop_cy.pyx":71
  * 
  *     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():
  *         setattr(self,k,v)             # <<<<<<<<<<<<<<
  * 
  *   def set_pmp_parameters(self, all_parameters, district):
  */
-    __pyx_t_10 = PyObject_SetAttr(((PyObject *)__pyx_v_self), __pyx_v_k, __pyx_v_v); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_10 = PyObject_SetAttr(((PyObject *)__pyx_v_self), __pyx_v_k, __pyx_v_v); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 71, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":27
+  /* "calfews_src/crop_cy.pyx":26
  *     return 1
  * 
  *   def __init__(self, key):             # <<<<<<<<<<<<<<
@@ -2884,7 +2884,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":74
+/* "calfews_src/crop_cy.pyx":73
  *         setattr(self,k,v)
  * 
  *   def set_pmp_parameters(self, all_parameters, district):             # <<<<<<<<<<<<<<
@@ -2926,11 +2926,11 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_9set_pmp_parameters(PyObj
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_district)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_pmp_parameters", 1, 2, 2, 1); __PYX_ERR(0, 74, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_pmp_parameters", 1, 2, 2, 1); __PYX_ERR(0, 73, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_pmp_parameters") < 0)) __PYX_ERR(0, 74, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_pmp_parameters") < 0)) __PYX_ERR(0, 73, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2943,7 +2943,7 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_9set_pmp_parameters(PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_pmp_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 74, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_pmp_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 73, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("calfews_src.crop_cy.Crop.set_pmp_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2983,9 +2983,9 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_pmp_parameters", 0);
-  __Pyx_TraceCall("set_pmp_parameters", __pyx_f[0], 74, 0, __PYX_ERR(0, 74, __pyx_L1_error));
+  __Pyx_TraceCall("set_pmp_parameters", __pyx_f[0], 73, 0, __PYX_ERR(0, 73, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":75
+  /* "calfews_src/crop_cy.pyx":74
  * 
  *   def set_pmp_parameters(self, all_parameters, district):
  *     for parameter_name in all_parameters:             # <<<<<<<<<<<<<<
@@ -2996,26 +2996,26 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
     __pyx_t_1 = __pyx_v_all_parameters; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_all_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_all_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 74, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 74, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -3025,7 +3025,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 75, __pyx_L1_error)
+          else __PYX_ERR(0, 74, __pyx_L1_error)
         }
         break;
       }
@@ -3034,89 +3034,89 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
     __Pyx_XDECREF_SET(__pyx_v_parameter_name, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src/crop_cy.pyx":76
+    /* "calfews_src/crop_cy.pyx":75
  *   def set_pmp_parameters(self, all_parameters, district):
  *     for parameter_name in all_parameters:
  *       parameter_data = all_parameters[parameter_name]             # <<<<<<<<<<<<<<
  *       district_index = parameter_data['Region'] == district
  *       district_crops = parameter_data['Crop'][district_index]
  */
-    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_all_parameters, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_all_parameters, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_parameter_data, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src/crop_cy.pyx":77
+    /* "calfews_src/crop_cy.pyx":76
  *     for parameter_name in all_parameters:
  *       parameter_data = all_parameters[parameter_name]
  *       district_index = parameter_data['Region'] == district             # <<<<<<<<<<<<<<
  *       district_crops = parameter_data['Crop'][district_index]
  *       district_values = parameter_data['Level'][district_index]
  */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Region); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Region); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_v_district, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_v_district, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF_SET(__pyx_v_district_index, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src/crop_cy.pyx":78
+    /* "calfews_src/crop_cy.pyx":77
  *       parameter_data = all_parameters[parameter_name]
  *       district_index = parameter_data['Region'] == district
  *       district_crops = parameter_data['Crop'][district_index]             # <<<<<<<<<<<<<<
  *       district_values = parameter_data['Level'][district_index]
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Crop); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Crop); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF_SET(__pyx_v_district_crops, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src/crop_cy.pyx":79
+    /* "calfews_src/crop_cy.pyx":78
  *       district_index = parameter_data['Region'] == district
  *       district_crops = parameter_data['Crop'][district_index]
  *       district_values = parameter_data['Level'][district_index]             # <<<<<<<<<<<<<<
  * 
  *       if 'Input' in parameter_data:
  */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Level); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Level); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF_SET(__pyx_v_district_values, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src/crop_cy.pyx":81
+    /* "calfews_src/crop_cy.pyx":80
  *       district_values = parameter_data['Level'][district_index]
  * 
  *       if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
  *         district_factors = parameter_data['Input'][district_index]
  * 
  */
-    __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_Input, __pyx_v_parameter_data, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_Input, __pyx_v_parameter_data, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 80, __pyx_L1_error)
     __pyx_t_7 = (__pyx_t_6 != 0);
     if (__pyx_t_7) {
 
-      /* "calfews_src/crop_cy.pyx":82
+      /* "calfews_src/crop_cy.pyx":81
  * 
  *       if 'Input' in parameter_data:
  *         district_factors = parameter_data['Input'][district_index]             # <<<<<<<<<<<<<<
  * 
  *       parameter_dict = self.pmp_keys[parameter_name]
  */
-      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Input); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_parameter_data, __pyx_n_u_Input); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF_SET(__pyx_v_district_factors, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "calfews_src/crop_cy.pyx":81
+      /* "calfews_src/crop_cy.pyx":80
  *       district_values = parameter_data['Level'][district_index]
  * 
  *       if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
@@ -3125,7 +3125,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
  */
     }
 
-    /* "calfews_src/crop_cy.pyx":84
+    /* "calfews_src/crop_cy.pyx":83
  *         district_factors = parameter_data['Input'][district_index]
  * 
  *       parameter_dict = self.pmp_keys[parameter_name]             # <<<<<<<<<<<<<<
@@ -3134,32 +3134,32 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
  */
     if (unlikely(__pyx_v_self->pmp_keys == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 84, __pyx_L1_error)
+      __PYX_ERR(0, 83, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->pmp_keys, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->pmp_keys, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_parameter_dict, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src/crop_cy.pyx":85
+    /* "calfews_src/crop_cy.pyx":84
  * 
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:             # <<<<<<<<<<<<<<
  *         if 'Input' in parameter_data:
  *           if district_factors[y] in parameter_dict:
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_parameter_data, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_parameter_data, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
       __pyx_t_4 = __pyx_t_5; __Pyx_INCREF(__pyx_t_4); __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
     } else {
-      __pyx_t_8 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __pyx_t_8 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_9 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __pyx_t_9 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 84, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     for (;;) {
@@ -3167,17 +3167,17 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
         if (likely(PyList_CheckExact(__pyx_t_4))) {
           if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_5); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
+          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_5); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 84, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         } else {
           if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_5); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_5); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 84, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         }
@@ -3187,7 +3187,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 85, __pyx_L1_error)
+            else __PYX_ERR(0, 84, __pyx_L1_error)
           }
           break;
         }
@@ -3196,55 +3196,55 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
       __Pyx_XDECREF_SET(__pyx_v_y, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":86
+      /* "calfews_src/crop_cy.pyx":85
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
  *           if district_factors[y] in parameter_dict:
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]
  */
-      __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_Input, __pyx_v_parameter_data, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
+      __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_Input, __pyx_v_parameter_data, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
       __pyx_t_6 = (__pyx_t_7 != 0);
       if (__pyx_t_6) {
 
-        /* "calfews_src/crop_cy.pyx":87
+        /* "calfews_src/crop_cy.pyx":86
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:
  *           if district_factors[y] in parameter_dict:             # <<<<<<<<<<<<<<
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]
  *           else:
  */
-        if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 87, __pyx_L1_error) }
-        __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
+        if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 86, __pyx_L1_error) }
+        __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_parameter_dict, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_parameter_dict, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_t_7 = (__pyx_t_6 != 0);
         if (__pyx_t_7) {
 
-          /* "calfews_src/crop_cy.pyx":88
+          /* "calfews_src/crop_cy.pyx":87
  *         if 'Input' in parameter_data:
  *           if district_factors[y] in parameter_dict:
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]             # <<<<<<<<<<<<<<
  *           else:
  *             parameter_dict[district_factors[y]] = {}
  */
-          __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_values, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_values, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 88, __pyx_L1_error) }
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 88, __pyx_L1_error)
+          if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 87, __pyx_L1_error) }
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_parameter_dict, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 88, __pyx_L1_error)
+          __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_parameter_dict, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_crops, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 88, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_crops, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          if (unlikely(PyObject_SetItem(__pyx_t_11, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
+          if (unlikely(PyObject_SetItem(__pyx_t_11, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "calfews_src/crop_cy.pyx":87
+          /* "calfews_src/crop_cy.pyx":86
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:
  *           if district_factors[y] in parameter_dict:             # <<<<<<<<<<<<<<
@@ -3254,7 +3254,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
           goto __pyx_L9;
         }
 
-        /* "calfews_src/crop_cy.pyx":90
+        /* "calfews_src/crop_cy.pyx":89
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]
  *           else:
  *             parameter_dict[district_factors[y]] = {}             # <<<<<<<<<<<<<<
@@ -3262,40 +3262,40 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
  *         else:
  */
         /*else*/ {
-          __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 90, __pyx_L1_error) }
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 90, __pyx_L1_error)
+          if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 89, __pyx_L1_error) }
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          if (unlikely(PyObject_SetItem(__pyx_v_parameter_dict, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
+          if (unlikely(PyObject_SetItem(__pyx_v_parameter_dict, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "calfews_src/crop_cy.pyx":91
+          /* "calfews_src/crop_cy.pyx":90
  *           else:
  *             parameter_dict[district_factors[y]] = {}
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]             # <<<<<<<<<<<<<<
  *         else:
  *           parameter_dict[district_crops[y]] = district_values[y]
  */
-          __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_values, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_values, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 91, __pyx_L1_error) }
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L1_error)
+          if (unlikely(!__pyx_v_district_factors)) { __Pyx_RaiseUnboundLocalError("district_factors"); __PYX_ERR(0, 90, __pyx_L1_error) }
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_factors, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_parameter_dict, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_parameter_dict, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_crops, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_crops, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          if (unlikely(PyObject_SetItem(__pyx_t_11, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
+          if (unlikely(PyObject_SetItem(__pyx_t_11, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
         __pyx_L9:;
 
-        /* "calfews_src/crop_cy.pyx":86
+        /* "calfews_src/crop_cy.pyx":85
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:
  *         if 'Input' in parameter_data:             # <<<<<<<<<<<<<<
@@ -3305,7 +3305,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
         goto __pyx_L8;
       }
 
-      /* "calfews_src/crop_cy.pyx":93
+      /* "calfews_src/crop_cy.pyx":92
  *             parameter_dict[district_factors[y]][district_crops[y]] = district_values[y]
  *         else:
  *           parameter_dict[district_crops[y]] = district_values[y]             # <<<<<<<<<<<<<<
@@ -3313,17 +3313,17 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
  *   def set_econ_parameters(self, econ_parameters, district):
  */
       /*else*/ {
-        __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_values, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_district_values, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_crops, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_district_crops, __pyx_v_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        if (unlikely(PyObject_SetItem(__pyx_v_parameter_dict, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_v_parameter_dict, __pyx_t_10, __pyx_t_5) < 0)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
       __pyx_L8:;
 
-      /* "calfews_src/crop_cy.pyx":85
+      /* "calfews_src/crop_cy.pyx":84
  * 
  *       parameter_dict = self.pmp_keys[parameter_name]
  *       for y in parameter_data.index[district_index]:             # <<<<<<<<<<<<<<
@@ -3333,7 +3333,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "calfews_src/crop_cy.pyx":75
+    /* "calfews_src/crop_cy.pyx":74
  * 
  *   def set_pmp_parameters(self, all_parameters, district):
  *     for parameter_name in all_parameters:             # <<<<<<<<<<<<<<
@@ -3343,7 +3343,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":74
+  /* "calfews_src/crop_cy.pyx":73
  *         setattr(self,k,v)
  * 
  *   def set_pmp_parameters(self, all_parameters, district):             # <<<<<<<<<<<<<<
@@ -3377,7 +3377,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_8set_pmp_parameters(struc
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":95
+/* "calfews_src/crop_cy.pyx":94
  *           parameter_dict[district_crops[y]] = district_values[y]
  * 
  *   def set_econ_parameters(self, econ_parameters, district):             # <<<<<<<<<<<<<<
@@ -3419,11 +3419,11 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_11set_econ_parameters(PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_district)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_econ_parameters", 1, 2, 2, 1); __PYX_ERR(0, 95, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_econ_parameters", 1, 2, 2, 1); __PYX_ERR(0, 94, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_econ_parameters") < 0)) __PYX_ERR(0, 95, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_econ_parameters") < 0)) __PYX_ERR(0, 94, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3436,7 +3436,7 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_11set_econ_parameters(PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_econ_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 95, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_econ_parameters", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 94, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("calfews_src.crop_cy.Crop.set_econ_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3474,9 +3474,9 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_econ_parameters", 0);
-  __Pyx_TraceCall("set_econ_parameters", __pyx_f[0], 95, 0, __PYX_ERR(0, 95, __pyx_L1_error));
+  __Pyx_TraceCall("set_econ_parameters", __pyx_f[0], 94, 0, __PYX_ERR(0, 94, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":96
+  /* "calfews_src/crop_cy.pyx":95
  * 
  *   def set_econ_parameters(self, econ_parameters, district):
  *     for parameter_name in econ_parameters:             # <<<<<<<<<<<<<<
@@ -3487,26 +3487,26 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
     __pyx_t_1 = __pyx_v_econ_parameters; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_econ_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_econ_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 95, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 95, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 95, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -3516,7 +3516,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 96, __pyx_L1_error)
+          else __PYX_ERR(0, 95, __pyx_L1_error)
         }
         break;
       }
@@ -3525,63 +3525,63 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
     __Pyx_XDECREF_SET(__pyx_v_parameter_name, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src/crop_cy.pyx":97
+    /* "calfews_src/crop_cy.pyx":96
  *   def set_econ_parameters(self, econ_parameters, district):
  *     for parameter_name in econ_parameters:
  *       econ_data = econ_parameters[parameter_name]             # <<<<<<<<<<<<<<
  *       district_list = list(econ_data['DISTRICT'])
  *       district_index = district_list.index(district)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_econ_parameters, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_econ_parameters, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_econ_data, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "calfews_src/crop_cy.pyx":98
+    /* "calfews_src/crop_cy.pyx":97
  *     for parameter_name in econ_parameters:
  *       econ_data = econ_parameters[parameter_name]
  *       district_list = list(econ_data['DISTRICT'])             # <<<<<<<<<<<<<<
  *       district_index = district_list.index(district)
  *       if parameter_name == 'WCST':
  */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_econ_data, __pyx_n_u_DISTRICT); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_econ_data, __pyx_n_u_DISTRICT); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 97, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF_SET(__pyx_v_district_list, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "calfews_src/crop_cy.pyx":99
+    /* "calfews_src/crop_cy.pyx":98
  *       econ_data = econ_parameters[parameter_name]
  *       district_list = list(econ_data['DISTRICT'])
  *       district_index = district_list.index(district)             # <<<<<<<<<<<<<<
  *       if parameter_name == 'WCST':
  *         self.water_source_list = []
  */
-    __pyx_t_5 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyList_Type_index, __pyx_v_district_list, __pyx_v_district); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyList_Type_index, __pyx_v_district_list, __pyx_v_district); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_district_index, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src/crop_cy.pyx":100
+    /* "calfews_src/crop_cy.pyx":99
  *       district_list = list(econ_data['DISTRICT'])
  *       district_index = district_list.index(district)
  *       if parameter_name == 'WCST':             # <<<<<<<<<<<<<<
  *         self.water_source_list = []
  *         for source in econ_data:
  */
-    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_WCST, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_WCST, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 99, __pyx_L1_error)
     if (__pyx_t_6) {
 
-      /* "calfews_src/crop_cy.pyx":101
+      /* "calfews_src/crop_cy.pyx":100
  *       district_index = district_list.index(district)
  *       if parameter_name == 'WCST':
  *         self.water_source_list = []             # <<<<<<<<<<<<<<
  *         for source in econ_data:
  *           if source != 'DISTRICT':
  */
-      __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
+      __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_v_self->water_source_list);
@@ -3589,7 +3589,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       __pyx_v_self->water_source_list = ((PyObject*)__pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":102
+      /* "calfews_src/crop_cy.pyx":101
  *       if parameter_name == 'WCST':
  *         self.water_source_list = []
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3600,26 +3600,26 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __pyx_t_5 = __pyx_v_econ_data; __Pyx_INCREF(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
       } else {
-        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 101, __pyx_L1_error)
       }
       for (;;) {
         if (likely(!__pyx_t_8)) {
           if (likely(PyList_CheckExact(__pyx_t_5))) {
             if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 102, __pyx_L1_error)
+            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 101, __pyx_L1_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           } else {
             if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 102, __pyx_L1_error)
+            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 101, __pyx_L1_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           }
@@ -3629,7 +3629,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 102, __pyx_L1_error)
+              else __PYX_ERR(0, 101, __pyx_L1_error)
             }
             break;
           }
@@ -3638,17 +3638,17 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __Pyx_XDECREF_SET(__pyx_v_source, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "calfews_src/crop_cy.pyx":103
+        /* "calfews_src/crop_cy.pyx":102
  *         self.water_source_list = []
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
  *             self.water_source_list.append(source)
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  */
-        __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+        __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 102, __pyx_L1_error)
         if (__pyx_t_6) {
 
-          /* "calfews_src/crop_cy.pyx":104
+          /* "calfews_src/crop_cy.pyx":103
  *         for source in econ_data:
  *           if source != 'DISTRICT':
  *             self.water_source_list.append(source)             # <<<<<<<<<<<<<<
@@ -3657,33 +3657,33 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
  */
           if (unlikely(__pyx_v_self->water_source_list == Py_None)) {
             PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-            __PYX_ERR(0, 104, __pyx_L1_error)
+            __PYX_ERR(0, 103, __pyx_L1_error)
           }
-          __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_self->water_source_list, __pyx_v_source); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_self->water_source_list, __pyx_v_source); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 103, __pyx_L1_error)
 
-          /* "calfews_src/crop_cy.pyx":105
+          /* "calfews_src/crop_cy.pyx":104
  *           if source != 'DISTRICT':
  *             self.water_source_list.append(source)
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]             # <<<<<<<<<<<<<<
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:
  */
-          __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_source); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_source); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 105, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 104, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 105, __pyx_L1_error)
+            __PYX_ERR(0, 104, __pyx_L1_error)
           }
-          __pyx_t_4 = PyNumber_Add(__pyx_v_source, __pyx_n_u_price); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)
+          __pyx_t_4 = PyNumber_Add(__pyx_v_source, __pyx_n_u_price); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_t_4, __pyx_t_10) < 0)) __PYX_ERR(0, 105, __pyx_L1_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_t_4, __pyx_t_10) < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-          /* "calfews_src/crop_cy.pyx":103
+          /* "calfews_src/crop_cy.pyx":102
  *         self.water_source_list = []
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
@@ -3692,7 +3692,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
  */
         }
 
-        /* "calfews_src/crop_cy.pyx":102
+        /* "calfews_src/crop_cy.pyx":101
  *       if parameter_name == 'WCST':
  *         self.water_source_list = []
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3702,7 +3702,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":100
+      /* "calfews_src/crop_cy.pyx":99
  *       district_list = list(econ_data['DISTRICT'])
  *       district_index = district_list.index(district)
  *       if parameter_name == 'WCST':             # <<<<<<<<<<<<<<
@@ -3712,17 +3712,17 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       goto __pyx_L5;
     }
 
-    /* "calfews_src/crop_cy.pyx":106
+    /* "calfews_src/crop_cy.pyx":105
  *             self.water_source_list.append(source)
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':             # <<<<<<<<<<<<<<
  *         for source in econ_data:
  *           if source != 'DISTRICT':
  */
-    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_WSOU, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_WSOU, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 105, __pyx_L1_error)
     if (__pyx_t_6) {
 
-      /* "calfews_src/crop_cy.pyx":107
+      /* "calfews_src/crop_cy.pyx":106
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3733,26 +3733,26 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __pyx_t_5 = __pyx_v_econ_data; __Pyx_INCREF(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
       } else {
-        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 107, __pyx_L1_error)
+        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 106, __pyx_L1_error)
       }
       for (;;) {
         if (likely(!__pyx_t_8)) {
           if (likely(PyList_CheckExact(__pyx_t_5))) {
             if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_10 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
+            __pyx_t_10 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 106, __pyx_L1_error)
             #else
-            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 107, __pyx_L1_error)
+            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 106, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             #endif
           } else {
             if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_10 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
+            __pyx_t_10 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 106, __pyx_L1_error)
             #else
-            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 107, __pyx_L1_error)
+            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 106, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             #endif
           }
@@ -3762,7 +3762,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 107, __pyx_L1_error)
+              else __PYX_ERR(0, 106, __pyx_L1_error)
             }
             break;
           }
@@ -3771,36 +3771,36 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __Pyx_XDECREF_SET(__pyx_v_source, __pyx_t_10);
         __pyx_t_10 = 0;
 
-        /* "calfews_src/crop_cy.pyx":108
+        /* "calfews_src/crop_cy.pyx":107
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
  *             self.econ_factors[source] = econ_data[source][district_index]
  * 
  */
-        __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
+        __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_source, __pyx_n_u_DISTRICT, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
         if (__pyx_t_6) {
 
-          /* "calfews_src/crop_cy.pyx":109
+          /* "calfews_src/crop_cy.pyx":108
  *         for source in econ_data:
  *           if source != 'DISTRICT':
  *             self.econ_factors[source] = econ_data[source][district_index]             # <<<<<<<<<<<<<<
  * 
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':
  */
-          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_source); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 109, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_source); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 108, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 109, __pyx_L1_error)
+            __PYX_ERR(0, 108, __pyx_L1_error)
           }
-          if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_source, __pyx_t_4) < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_source, __pyx_t_4) < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "calfews_src/crop_cy.pyx":108
+          /* "calfews_src/crop_cy.pyx":107
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:
  *           if source != 'DISTRICT':             # <<<<<<<<<<<<<<
@@ -3809,7 +3809,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
  */
         }
 
-        /* "calfews_src/crop_cy.pyx":107
+        /* "calfews_src/crop_cy.pyx":106
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':
  *         for source in econ_data:             # <<<<<<<<<<<<<<
@@ -3819,7 +3819,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":106
+      /* "calfews_src/crop_cy.pyx":105
  *             self.water_source_list.append(source)
  *             self.econ_factors[source + '_price'] = econ_data[source][district_index]
  *       elif parameter_name == 'WSOU':             # <<<<<<<<<<<<<<
@@ -3829,41 +3829,41 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       goto __pyx_L5;
     }
 
-    /* "calfews_src/crop_cy.pyx":111
+    /* "calfews_src/crop_cy.pyx":110
  *             self.econ_factors[source] = econ_data[source][district_index]
  * 
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':             # <<<<<<<<<<<<<<
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:
  */
-    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_LABOR, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_LABOR, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
     if (!__pyx_t_11) {
     } else {
       __pyx_t_6 = __pyx_t_11;
       goto __pyx_L12_bool_binop_done;
     }
-    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_SUPPL, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_SUPPL, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
     __pyx_t_6 = __pyx_t_11;
     __pyx_L12_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "calfews_src/crop_cy.pyx":112
+      /* "calfews_src/crop_cy.pyx":111
  * 
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':
  *         self.econ_factors[parameter_name] = {}             # <<<<<<<<<<<<<<
  *         for crop in econ_data:
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]
  */
-      __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 111, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 112, __pyx_L1_error)
+        __PYX_ERR(0, 111, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_t_5) < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_t_5) < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":113
+      /* "calfews_src/crop_cy.pyx":112
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -3874,26 +3874,26 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __pyx_t_5 = __pyx_v_econ_data; __Pyx_INCREF(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
       } else {
-        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 113, __pyx_L1_error)
+        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 113, __pyx_L1_error)
+        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 112, __pyx_L1_error)
       }
       for (;;) {
         if (likely(!__pyx_t_8)) {
           if (likely(PyList_CheckExact(__pyx_t_5))) {
             if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
+            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           } else {
             if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
+            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           }
@@ -3903,7 +3903,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 113, __pyx_L1_error)
+              else __PYX_ERR(0, 112, __pyx_L1_error)
             }
             break;
           }
@@ -3912,29 +3912,29 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "calfews_src/crop_cy.pyx":114
+        /* "calfews_src/crop_cy.pyx":113
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]             # <<<<<<<<<<<<<<
  *           self.econ_factors[parameter_name] = 1.0
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':
  */
-        __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_crop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_crop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 114, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_district_index); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         if (unlikely(__pyx_v_self->leontief == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 114, __pyx_L1_error)
+          __PYX_ERR(0, 113, __pyx_L1_error)
         }
-        __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_parameter_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_crop, __pyx_t_10) < 0)) __PYX_ERR(0, 114, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_crop, __pyx_t_10) < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-        /* "calfews_src/crop_cy.pyx":115
+        /* "calfews_src/crop_cy.pyx":114
  *         for crop in econ_data:
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]
  *           self.econ_factors[parameter_name] = 1.0             # <<<<<<<<<<<<<<
@@ -3943,11 +3943,11 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
  */
         if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 114, __pyx_L1_error)
         }
-        if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_float_1_0) < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_float_1_0) < 0)) __PYX_ERR(0, 114, __pyx_L1_error)
 
-        /* "calfews_src/crop_cy.pyx":113
+        /* "calfews_src/crop_cy.pyx":112
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -3957,7 +3957,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":111
+      /* "calfews_src/crop_cy.pyx":110
  *             self.econ_factors[source] = econ_data[source][district_index]
  * 
  *       elif parameter_name == 'LABOR' or parameter_name == 'SUPPL':             # <<<<<<<<<<<<<<
@@ -3967,41 +3967,41 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       goto __pyx_L5;
     }
 
-    /* "calfews_src/crop_cy.pyx":116
+    /* "calfews_src/crop_cy.pyx":115
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]
  *           self.econ_factors[parameter_name] = 1.0
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':             # <<<<<<<<<<<<<<
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:
  */
-    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_PRICE, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_PRICE, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
     if (!__pyx_t_11) {
     } else {
       __pyx_t_6 = __pyx_t_11;
       goto __pyx_L16_bool_binop_done;
     }
-    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_LANDCOST, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyUnicode_Equals(__pyx_v_parameter_name, __pyx_n_u_LANDCOST, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
     __pyx_t_6 = __pyx_t_11;
     __pyx_L16_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "calfews_src/crop_cy.pyx":117
+      /* "calfews_src/crop_cy.pyx":116
  *           self.econ_factors[parameter_name] = 1.0
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':
  *         self.econ_factors[parameter_name] = {}             # <<<<<<<<<<<<<<
  *         for crop in econ_data:
  *           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]
  */
-      __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 117, __pyx_L1_error)
+        __PYX_ERR(0, 116, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_t_5) < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name, __pyx_t_5) < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":118
+      /* "calfews_src/crop_cy.pyx":117
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -4012,26 +4012,26 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __pyx_t_5 = __pyx_v_econ_data; __Pyx_INCREF(__pyx_t_5); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
       } else {
-        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
+        __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_econ_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 118, __pyx_L1_error)
+        __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 117, __pyx_L1_error)
       }
       for (;;) {
         if (likely(!__pyx_t_8)) {
           if (likely(PyList_CheckExact(__pyx_t_5))) {
             if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_10 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
+            __pyx_t_10 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
             #else
-            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 118, __pyx_L1_error)
+            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 117, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             #endif
           } else {
             if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_10 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
+            __pyx_t_10 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_10); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
             #else
-            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 118, __pyx_L1_error)
+            __pyx_t_10 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 117, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_10);
             #endif
           }
@@ -4041,7 +4041,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 118, __pyx_L1_error)
+              else __PYX_ERR(0, 117, __pyx_L1_error)
             }
             break;
           }
@@ -4050,29 +4050,29 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
         __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_10);
         __pyx_t_10 = 0;
 
-        /* "calfews_src/crop_cy.pyx":119
+        /* "calfews_src/crop_cy.pyx":118
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:
  *           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]             # <<<<<<<<<<<<<<
  * 
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):
  */
-        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_crop); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 119, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_econ_data, __pyx_v_crop); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 118, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_10, __pyx_v_district_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 119, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
-        __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 119, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_v_parameter_name); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 118, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        if (unlikely(PyObject_SetItem(__pyx_t_10, __pyx_v_crop, __pyx_t_4) < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_t_10, __pyx_v_crop, __pyx_t_4) < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "calfews_src/crop_cy.pyx":118
+        /* "calfews_src/crop_cy.pyx":117
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':
  *         self.econ_factors[parameter_name] = {}
  *         for crop in econ_data:             # <<<<<<<<<<<<<<
@@ -4082,7 +4082,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "calfews_src/crop_cy.pyx":116
+      /* "calfews_src/crop_cy.pyx":115
  *           self.leontief[parameter_name][crop] = econ_data[crop][district_index]
  *           self.econ_factors[parameter_name] = 1.0
  *       elif parameter_name == 'PRICE' or parameter_name == 'LANDCOST':             # <<<<<<<<<<<<<<
@@ -4092,7 +4092,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
     }
     __pyx_L5:;
 
-    /* "calfews_src/crop_cy.pyx":96
+    /* "calfews_src/crop_cy.pyx":95
  * 
  *   def set_econ_parameters(self, econ_parameters, district):
  *     for parameter_name in econ_parameters:             # <<<<<<<<<<<<<<
@@ -4102,7 +4102,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":95
+  /* "calfews_src/crop_cy.pyx":94
  *           parameter_dict[district_crops[y]] = district_values[y]
  * 
  *   def set_econ_parameters(self, econ_parameters, district):             # <<<<<<<<<<<<<<
@@ -4133,7 +4133,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_10set_econ_parameters(str
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":121
+/* "calfews_src/crop_cy.pyx":120
  *           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]
  * 
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):             # <<<<<<<<<<<<<<
@@ -4178,17 +4178,17 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_13find_pmp_acreage(PyObje
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_land_constraint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_pmp_acreage", 1, 3, 3, 1); __PYX_ERR(0, 121, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_pmp_acreage", 1, 3, 3, 1); __PYX_ERR(0, 120, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_x0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_pmp_acreage", 1, 3, 3, 2); __PYX_ERR(0, 121, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_pmp_acreage", 1, 3, 3, 2); __PYX_ERR(0, 120, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_pmp_acreage") < 0)) __PYX_ERR(0, 121, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_pmp_acreage") < 0)) __PYX_ERR(0, 120, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4203,7 +4203,7 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_13find_pmp_acreage(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_pmp_acreage", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 121, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("find_pmp_acreage", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 120, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("calfews_src.crop_cy.Crop.find_pmp_acreage", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4244,16 +4244,16 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_pmp_acreage", 0);
-  __Pyx_TraceCall("find_pmp_acreage", __pyx_f[0], 121, 0, __PYX_ERR(0, 121, __pyx_L1_error));
+  __Pyx_TraceCall("find_pmp_acreage", __pyx_f[0], 120, 0, __PYX_ERR(0, 120, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":122
+  /* "calfews_src/crop_cy.pyx":121
  * 
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):
  *     bb = (0.0, land_constraint)             # <<<<<<<<<<<<<<
  *     bnds = []
  *     for crop in self.crop_list:
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_float_0_0);
   __Pyx_GIVEREF(__pyx_float_0_0);
@@ -4264,19 +4264,19 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __pyx_v_bb = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":123
+  /* "calfews_src/crop_cy.pyx":122
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):
  *     bb = (0.0, land_constraint)
  *     bnds = []             # <<<<<<<<<<<<<<
  *     for crop in self.crop_list:
  *       bnds.append(bb)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bnds = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":124
+  /* "calfews_src/crop_cy.pyx":123
  *     bb = (0.0, land_constraint)
  *     bnds = []
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4285,30 +4285,30 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
  */
   if (unlikely(__pyx_v_self->crop_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 124, __pyx_L1_error)
+    __PYX_ERR(0, 123, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->crop_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 123, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src/crop_cy.pyx":125
+    /* "calfews_src/crop_cy.pyx":124
  *     bnds = []
  *     for crop in self.crop_list:
  *       bnds.append(bb)             # <<<<<<<<<<<<<<
  *     water_constraint = 0.0
  *     water_cost = 0.0
  */
-    __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_bnds, __pyx_v_bb); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_bnds, __pyx_v_bb); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(0, 124, __pyx_L1_error)
 
-    /* "calfews_src/crop_cy.pyx":124
+    /* "calfews_src/crop_cy.pyx":123
  *     bb = (0.0, land_constraint)
  *     bnds = []
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4318,7 +4318,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":126
+  /* "calfews_src/crop_cy.pyx":125
  *     for crop in self.crop_list:
  *       bnds.append(bb)
  *     water_constraint = 0.0             # <<<<<<<<<<<<<<
@@ -4328,7 +4328,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_water_constraint = __pyx_float_0_0;
 
-  /* "calfews_src/crop_cy.pyx":127
+  /* "calfews_src/crop_cy.pyx":126
  *       bnds.append(bb)
  *     water_constraint = 0.0
  *     water_cost = 0.0             # <<<<<<<<<<<<<<
@@ -4338,23 +4338,23 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_water_cost = __pyx_float_0_0;
 
-  /* "calfews_src/crop_cy.pyx":128
+  /* "calfews_src/crop_cy.pyx":127
  *     water_constraint = 0.0
  *     water_cost = 0.0
  *     self.econ_factors['WATER'] = {}             # <<<<<<<<<<<<<<
  *     for source in water_source_constraint:
  *       water_constraint += water_source_constraint[source]
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 128, __pyx_L1_error)
+    __PYX_ERR(0, 127, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER, __pyx_t_1) < 0)) __PYX_ERR(0, 128, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER, __pyx_t_1) < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":129
+  /* "calfews_src/crop_cy.pyx":128
  *     water_cost = 0.0
  *     self.econ_factors['WATER'] = {}
  *     for source in water_source_constraint:             # <<<<<<<<<<<<<<
@@ -4365,26 +4365,26 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
     __pyx_t_1 = __pyx_v_water_source_constraint; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_water_source_constraint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_water_source_constraint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 128, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 129, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 128, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 129, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 128, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -4394,7 +4394,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 129, __pyx_L1_error)
+          else __PYX_ERR(0, 128, __pyx_L1_error)
         }
         break;
       }
@@ -4403,50 +4403,50 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
     __Pyx_XDECREF_SET(__pyx_v_source, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src/crop_cy.pyx":130
+    /* "calfews_src/crop_cy.pyx":129
  *     self.econ_factors['WATER'] = {}
  *     for source in water_source_constraint:
  *       water_constraint += water_source_constraint[source]             # <<<<<<<<<<<<<<
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:
  */
-    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_water_source_constraint, __pyx_v_source); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_water_source_constraint, __pyx_v_source); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_water_constraint, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_water_constraint, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_water_constraint, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "calfews_src/crop_cy.pyx":131
+    /* "calfews_src/crop_cy.pyx":130
  *     for source in water_source_constraint:
  *       water_constraint += water_source_constraint[source]
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']             # <<<<<<<<<<<<<<
  *     for crop in self.crop_list:
  *       if crop == 'ALFAL' or crop == 'PASTR':
  */
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_water_source_constraint, __pyx_v_source); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_water_source_constraint, __pyx_v_source); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 131, __pyx_L1_error)
+      __PYX_ERR(0, 130, __pyx_L1_error)
     }
-    __pyx_t_3 = PyNumber_Add(__pyx_v_source, __pyx_n_u_price); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_v_source, __pyx_n_u_price); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyNumber_Multiply(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_water_cost, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_water_cost, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_water_cost, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "calfews_src/crop_cy.pyx":129
+    /* "calfews_src/crop_cy.pyx":128
  *     water_cost = 0.0
  *     self.econ_factors['WATER'] = {}
  *     for source in water_source_constraint:             # <<<<<<<<<<<<<<
@@ -4456,7 +4456,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":132
+  /* "calfews_src/crop_cy.pyx":131
  *       water_constraint += water_source_constraint[source]
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4465,39 +4465,39 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
  */
   if (unlikely(__pyx_v_self->crop_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 132, __pyx_L1_error)
+    __PYX_ERR(0, 131, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->crop_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_7); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_7); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 131, __pyx_L1_error)
     #else
-    __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "calfews_src/crop_cy.pyx":133
+    /* "calfews_src/crop_cy.pyx":132
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:
  *       if crop == 'ALFAL' or crop == 'PASTR':             # <<<<<<<<<<<<<<
  *         self.econ_factors['WATER'][crop] = 50.0
  *       else:
  */
-    __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_crop, __pyx_n_u_ALFAL, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_crop, __pyx_n_u_ALFAL, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
     if (!__pyx_t_9) {
     } else {
       __pyx_t_8 = __pyx_t_9;
       goto __pyx_L10_bool_binop_done;
     }
-    __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_crop, __pyx_n_u_PASTR, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_crop, __pyx_n_u_PASTR, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
     __pyx_t_8 = __pyx_t_9;
     __pyx_L10_bool_binop_done:;
     if (__pyx_t_8) {
 
-      /* "calfews_src/crop_cy.pyx":134
+      /* "calfews_src/crop_cy.pyx":133
  *     for crop in self.crop_list:
  *       if crop == 'ALFAL' or crop == 'PASTR':
  *         self.econ_factors['WATER'][crop] = 50.0             # <<<<<<<<<<<<<<
@@ -4506,14 +4506,14 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
  */
       if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 133, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 134, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 133, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      if (unlikely(PyObject_SetItem(__pyx_t_7, __pyx_v_crop, __pyx_float_50_0) < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_7, __pyx_v_crop, __pyx_float_50_0) < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "calfews_src/crop_cy.pyx":133
+      /* "calfews_src/crop_cy.pyx":132
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:
  *       if crop == 'ALFAL' or crop == 'PASTR':             # <<<<<<<<<<<<<<
@@ -4523,7 +4523,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
       goto __pyx_L9;
     }
 
-    /* "calfews_src/crop_cy.pyx":136
+    /* "calfews_src/crop_cy.pyx":135
  *         self.econ_factors['WATER'][crop] = 50.0
  *       else:
  *         self.econ_factors['WATER'][crop] = water_cost/water_constraint             # <<<<<<<<<<<<<<
@@ -4531,21 +4531,21 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
  *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}
  */
     /*else*/ {
-      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_v_water_cost, __pyx_v_water_constraint); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_v_water_cost, __pyx_v_water_constraint); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 135, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 136, __pyx_L1_error)
+        __PYX_ERR(0, 135, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_crop, __pyx_t_7) < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_crop, __pyx_t_7) < 0)) __PYX_ERR(0, 135, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __pyx_L9:;
 
-    /* "calfews_src/crop_cy.pyx":132
+    /* "calfews_src/crop_cy.pyx":131
  *       water_constraint += water_source_constraint[source]
  *       water_cost += water_source_constraint[source]*self.econ_factors[source + '_price']
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4555,12 +4555,39 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":137
+  /* "calfews_src/crop_cy.pyx":136
  *       else:
  *         self.econ_factors['WATER'][crop] = water_cost/water_constraint
  *     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}             # <<<<<<<<<<<<<<
  *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}
  *     cons = [con1, con2]
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_type, __pyx_n_u_ineq) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_constrain_resource); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_fun, __pyx_t_7) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_INCREF(__pyx_v_land_constraint);
+  __Pyx_GIVEREF(__pyx_v_land_constraint);
+  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_land_constraint);
+  __Pyx_INCREF(__pyx_n_u_LAND);
+  __Pyx_GIVEREF(__pyx_n_u_LAND);
+  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_n_u_LAND);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_7) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_v_con1 = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "calfews_src/crop_cy.pyx":137
+ *         self.econ_factors['WATER'][crop] = water_cost/water_constraint
+ *     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}
+ *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}             # <<<<<<<<<<<<<<
+ *     cons = [con1, con2]
+ *     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4571,52 +4598,25 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_v_land_constraint);
-  __Pyx_GIVEREF(__pyx_v_land_constraint);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_land_constraint);
-  __Pyx_INCREF(__pyx_n_u_LAND);
-  __Pyx_GIVEREF(__pyx_n_u_LAND);
-  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_n_u_LAND);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_7) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_v_con1 = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "calfews_src/crop_cy.pyx":138
- *         self.econ_factors['WATER'][crop] = water_cost/water_constraint
- *     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}
- *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}             # <<<<<<<<<<<<<<
- *     cons = [con1, con2]
- *     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}
- */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_type, __pyx_n_u_ineq) < 0) __PYX_ERR(0, 138, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_constrain_resource); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 138, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_fun, __pyx_t_7) < 0) __PYX_ERR(0, 138, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 138, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF(__pyx_v_water_constraint);
   __Pyx_GIVEREF(__pyx_v_water_constraint);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_water_constraint);
   __Pyx_INCREF(__pyx_n_u_WATER);
   __Pyx_GIVEREF(__pyx_n_u_WATER);
   PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_n_u_WATER);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_7) < 0) __PYX_ERR(0, 138, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_7) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_con2 = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":139
+  /* "calfews_src/crop_cy.pyx":138
  *     con1 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (land_constraint, 'LAND')}
  *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}
  *     cons = [con1, con2]             # <<<<<<<<<<<<<<
  *     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}
  *     sol = scipy.optimize.basinhopping(self.calc_ag_profit,x0,minimizer_kwargs=minimizer_kwargs)
  */
-  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_con1);
   __Pyx_GIVEREF(__pyx_v_con1);
@@ -4627,39 +4627,39 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __pyx_v_cons = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":140
+  /* "calfews_src/crop_cy.pyx":139
  *     con2 = {'type': 'ineq', 'fun': self.constrain_resource, 'args' : (water_constraint, 'WATER')}
  *     cons = [con1, con2]
  *     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}             # <<<<<<<<<<<<<<
  *     sol = scipy.optimize.basinhopping(self.calc_ag_profit,x0,minimizer_kwargs=minimizer_kwargs)
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_method, __pyx_n_u_SLSQP) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_bounds, __pyx_v_bnds) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_constraints, __pyx_v_cons) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_method, __pyx_n_u_SLSQP) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_bounds, __pyx_v_bnds) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_constraints, __pyx_v_cons) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
   __pyx_v_minimizer_kwargs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":141
+  /* "calfews_src/crop_cy.pyx":140
  *     cons = [con1, con2]
  *     minimizer_kwargs = {"method":'SLSQP',"bounds": bnds, "constraints":cons}
  *     sol = scipy.optimize.basinhopping(self.calc_ag_profit,x0,minimizer_kwargs=minimizer_kwargs)             # <<<<<<<<<<<<<<
  * 
  *     return sol.x
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_scipy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_scipy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_optimize); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_optimize); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_basinhopping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_basinhopping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_ag_profit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_ag_profit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_7);
@@ -4667,10 +4667,10 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __Pyx_GIVEREF(__pyx_v_x0);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_x0);
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_minimizer_kwargs, __pyx_v_minimizer_kwargs) < 0) __PYX_ERR(0, 141, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 141, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_minimizer_kwargs, __pyx_v_minimizer_kwargs) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4678,7 +4678,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   __pyx_v_sol = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "calfews_src/crop_cy.pyx":143
+  /* "calfews_src/crop_cy.pyx":142
  *     sol = scipy.optimize.basinhopping(self.calc_ag_profit,x0,minimizer_kwargs=minimizer_kwargs)
  * 
  *     return sol.x             # <<<<<<<<<<<<<<
@@ -4686,13 +4686,13 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
  *   def constrain_resource(self, x, resource_constraint, resource_type):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_sol, __pyx_n_s_x); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_sol, __pyx_n_s_x); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_r = __pyx_t_6;
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "calfews_src/crop_cy.pyx":121
+  /* "calfews_src/crop_cy.pyx":120
  *           self.econ_factors[parameter_name][crop] = econ_data[crop][district_index]
  * 
  *   def find_pmp_acreage(self, water_source_constraint, land_constraint, x0):             # <<<<<<<<<<<<<<
@@ -4726,7 +4726,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_12find_pmp_acreage(struct
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":145
+/* "calfews_src/crop_cy.pyx":144
  *     return sol.x
  * 
  *   def constrain_resource(self, x, resource_constraint, resource_type):             # <<<<<<<<<<<<<<
@@ -4771,17 +4771,17 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_15constrain_resource(PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_resource_constraint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("constrain_resource", 1, 3, 3, 1); __PYX_ERR(0, 145, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("constrain_resource", 1, 3, 3, 1); __PYX_ERR(0, 144, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_resource_type)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("constrain_resource", 1, 3, 3, 2); __PYX_ERR(0, 145, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("constrain_resource", 1, 3, 3, 2); __PYX_ERR(0, 144, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "constrain_resource") < 0)) __PYX_ERR(0, 145, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "constrain_resource") < 0)) __PYX_ERR(0, 144, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4796,7 +4796,7 @@ static PyObject *__pyx_pw_11calfews_src_7crop_cy_4Crop_15constrain_resource(PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("constrain_resource", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 145, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("constrain_resource", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 144, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("calfews_src.crop_cy.Crop.constrain_resource", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4825,9 +4825,9 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("constrain_resource", 0);
-  __Pyx_TraceCall("constrain_resource", __pyx_f[0], 145, 0, __PYX_ERR(0, 145, __pyx_L1_error));
+  __Pyx_TraceCall("constrain_resource", __pyx_f[0], 144, 0, __PYX_ERR(0, 144, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":146
+  /* "calfews_src/crop_cy.pyx":145
  * 
  *   def constrain_resource(self, x, resource_constraint, resource_type):
  *     sum_resource = 0.0             # <<<<<<<<<<<<<<
@@ -4837,7 +4837,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_sum_resource = __pyx_float_0_0;
 
-  /* "calfews_src/crop_cy.pyx":147
+  /* "calfews_src/crop_cy.pyx":146
  *   def constrain_resource(self, x, resource_constraint, resource_type):
  *     sum_resource = 0.0
  *     i = 0             # <<<<<<<<<<<<<<
@@ -4847,7 +4847,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_i = __pyx_int_0;
 
-  /* "calfews_src/crop_cy.pyx":148
+  /* "calfews_src/crop_cy.pyx":147
  *     sum_resource = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4856,61 +4856,61 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
  */
   if (unlikely(__pyx_v_self->crop_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 148, __pyx_L1_error)
+    __PYX_ERR(0, 147, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->crop_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 147, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src/crop_cy.pyx":149
+    /* "calfews_src/crop_cy.pyx":148
  *     i = 0
  *     for crop in self.crop_list:
  *       sum_resource += x[i]*self.leontief[resource_type][crop]             # <<<<<<<<<<<<<<
  *       i += 1
  *     return resource_constraint - sum_resource
  */
-    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (unlikely(__pyx_v_self->leontief == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 149, __pyx_L1_error)
+      __PYX_ERR(0, 148, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_resource_type); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_resource_type); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_crop); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_crop); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_sum_resource, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_sum_resource, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF_SET(__pyx_v_sum_resource, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src/crop_cy.pyx":150
+    /* "calfews_src/crop_cy.pyx":149
  *     for crop in self.crop_list:
  *       sum_resource += x[i]*self.leontief[resource_type][crop]
  *       i += 1             # <<<<<<<<<<<<<<
  *     return resource_constraint - sum_resource
  * 
  */
-    __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 150, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF_SET(__pyx_v_i, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "calfews_src/crop_cy.pyx":148
+    /* "calfews_src/crop_cy.pyx":147
  *     sum_resource = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -4920,7 +4920,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":151
+  /* "calfews_src/crop_cy.pyx":150
  *       sum_resource += x[i]*self.leontief[resource_type][crop]
  *       i += 1
  *     return resource_constraint - sum_resource             # <<<<<<<<<<<<<<
@@ -4928,13 +4928,13 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
  *   def calc_ag_profit(self, x):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyNumber_Subtract(__pyx_v_resource_constraint, __pyx_v_sum_resource); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Subtract(__pyx_v_resource_constraint, __pyx_v_sum_resource); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "calfews_src/crop_cy.pyx":145
+  /* "calfews_src/crop_cy.pyx":144
  *     return sol.x
  * 
  *   def constrain_resource(self, x, resource_constraint, resource_type):             # <<<<<<<<<<<<<<
@@ -4960,7 +4960,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_14constrain_resource(stru
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":153
+/* "calfews_src/crop_cy.pyx":152
  *     return resource_constraint - sum_resource
  * 
  *   def calc_ag_profit(self, x):             # <<<<<<<<<<<<<<
@@ -5005,9 +5005,9 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_ag_profit", 0);
-  __Pyx_TraceCall("calc_ag_profit", __pyx_f[0], 153, 0, __PYX_ERR(0, 153, __pyx_L1_error));
+  __Pyx_TraceCall("calc_ag_profit", __pyx_f[0], 152, 0, __PYX_ERR(0, 152, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":154
+  /* "calfews_src/crop_cy.pyx":153
  * 
  *   def calc_ag_profit(self, x):
  *     total_revenue = 0.0             # <<<<<<<<<<<<<<
@@ -5017,7 +5017,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_total_revenue = __pyx_float_0_0;
 
-  /* "calfews_src/crop_cy.pyx":155
+  /* "calfews_src/crop_cy.pyx":154
  *   def calc_ag_profit(self, x):
  *     total_revenue = 0.0
  *     i = 0             # <<<<<<<<<<<<<<
@@ -5027,7 +5027,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_i = __pyx_int_0;
 
-  /* "calfews_src/crop_cy.pyx":156
+  /* "calfews_src/crop_cy.pyx":155
  *     total_revenue = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -5036,21 +5036,21 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
   if (unlikely(__pyx_v_self->crop_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 156, __pyx_L1_error)
+    __PYX_ERR(0, 155, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->crop_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 156, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_crop, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src/crop_cy.pyx":157
+    /* "calfews_src/crop_cy.pyx":156
  *     i = 0
  *     for crop in self.crop_list:
  *       total_factor_beta = 0.0             # <<<<<<<<<<<<<<
@@ -5060,22 +5060,22 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     __Pyx_INCREF(__pyx_float_0_0);
     __Pyx_XDECREF_SET(__pyx_v_total_factor_beta, __pyx_float_0_0);
 
-    /* "calfews_src/crop_cy.pyx":158
+    /* "calfews_src/crop_cy.pyx":157
  *     for crop in self.crop_list:
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:             # <<<<<<<<<<<<<<
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  */
-    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "calfews_src/crop_cy.pyx":159
+      /* "calfews_src/crop_cy.pyx":158
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:             # <<<<<<<<<<<<<<
@@ -5086,15 +5086,15 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       for (;;) {
         if (__pyx_t_6 >= 2) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
         __Pyx_XDECREF_SET(__pyx_v_factor, ((PyObject*)__pyx_t_3));
         __pyx_t_3 = 0;
 
-        /* "calfews_src/crop_cy.pyx":160
+        /* "calfews_src/crop_cy.pyx":159
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))             # <<<<<<<<<<<<<<
@@ -5103,50 +5103,50 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
         if (unlikely(__pyx_v_self->beta == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 160, __pyx_L1_error)
+          __PYX_ERR(0, 159, __pyx_L1_error)
         }
-        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->beta, __pyx_v_factor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->beta, __pyx_v_factor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_crop); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_crop); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         if (unlikely(__pyx_v_self->leontief == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 160, __pyx_L1_error)
+          __PYX_ERR(0, 159, __pyx_L1_error)
         }
-        __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_8 = PyNumber_Multiply(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_8 = PyNumber_Multiply(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_t_10 = (__pyx_v_self->sub - 1.0);
         if (unlikely(__pyx_v_self->sub == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 160, __pyx_L1_error)
+          __PYX_ERR(0, 159, __pyx_L1_error)
         }
-        __pyx_t_9 = PyFloat_FromDouble((__pyx_t_10 / __pyx_v_self->sub)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_9 = PyFloat_FromDouble((__pyx_t_10 / __pyx_v_self->sub)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_3 = PyNumber_Power(__pyx_t_8, __pyx_t_9, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Power(__pyx_t_8, __pyx_t_9, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Multiply(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_9 = PyNumber_Multiply(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_total_factor_beta, __pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_total_factor_beta, __pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF_SET(__pyx_v_total_factor_beta, __pyx_t_3);
         __pyx_t_3 = 0;
 
-        /* "calfews_src/crop_cy.pyx":159
+        /* "calfews_src/crop_cy.pyx":158
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:             # <<<<<<<<<<<<<<
@@ -5156,7 +5156,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "calfews_src/crop_cy.pyx":161
+      /* "calfews_src/crop_cy.pyx":160
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5167,15 +5167,15 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       for (;;) {
         if (__pyx_t_6 >= 2) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
         __Pyx_XDECREF_SET(__pyx_v_factor, ((PyObject*)__pyx_t_3));
         __pyx_t_3 = 0;
 
-        /* "calfews_src/crop_cy.pyx":162
+        /* "calfews_src/crop_cy.pyx":161
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:
  *           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration             # <<<<<<<<<<<<<<
@@ -5184,44 +5184,44 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
         if (unlikely(__pyx_v_self->beta == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 161, __pyx_L1_error)
         }
-        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->beta, __pyx_v_factor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->beta, __pyx_v_factor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         if (unlikely(__pyx_v_self->leontief == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 161, __pyx_L1_error)
         }
-        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_factor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_factor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_crop); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_crop); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_t_10 = (__pyx_v_self->sub - 1.0);
         if (unlikely(__pyx_v_self->sub == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 161, __pyx_L1_error)
         }
-        __pyx_t_3 = PyFloat_FromDouble((__pyx_t_10 / __pyx_v_self->sub)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble((__pyx_t_10 / __pyx_v_self->sub)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_8 = PyNumber_Power(__pyx_t_7, __pyx_t_3, Py_None); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_8 = PyNumber_Power(__pyx_t_7, __pyx_t_3, Py_None); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Multiply(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Multiply(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_v_total_factor_beta, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_v_total_factor_beta, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF_SET(__pyx_v_total_factor_beta, __pyx_t_8);
         __pyx_t_8 = 0;
 
-        /* "calfews_src/crop_cy.pyx":161
+        /* "calfews_src/crop_cy.pyx":160
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5231,7 +5231,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "calfews_src/crop_cy.pyx":158
+      /* "calfews_src/crop_cy.pyx":157
  *     for crop in self.crop_list:
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:             # <<<<<<<<<<<<<<
@@ -5240,19 +5240,19 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
     }
 
-    /* "calfews_src/crop_cy.pyx":164
+    /* "calfews_src/crop_cy.pyx":163
  *           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration
  * 
  *       if total_factor_beta > 0.0:             # <<<<<<<<<<<<<<
  *         total_factor_beta = total_factor_beta**(self.sub/(self.sub-1.0))
  *       else:
  */
-    __pyx_t_4 = PyObject_RichCompare(__pyx_v_total_factor_beta, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 164, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_v_total_factor_beta, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 163, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "calfews_src/crop_cy.pyx":165
+      /* "calfews_src/crop_cy.pyx":164
  * 
  *       if total_factor_beta > 0.0:
  *         total_factor_beta = total_factor_beta**(self.sub/(self.sub-1.0))             # <<<<<<<<<<<<<<
@@ -5262,17 +5262,17 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       __pyx_t_10 = (__pyx_v_self->sub - 1.0);
       if (unlikely(__pyx_t_10 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 165, __pyx_L1_error)
+        __PYX_ERR(0, 164, __pyx_L1_error)
       }
-      __pyx_t_4 = PyFloat_FromDouble((__pyx_v_self->sub / __pyx_t_10)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble((__pyx_v_self->sub / __pyx_t_10)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 164, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_8 = PyNumber_Power(__pyx_v_total_factor_beta, __pyx_t_4, Py_None); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 165, __pyx_L1_error)
+      __pyx_t_8 = PyNumber_Power(__pyx_v_total_factor_beta, __pyx_t_4, Py_None); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 164, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF_SET(__pyx_v_total_factor_beta, __pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "calfews_src/crop_cy.pyx":164
+      /* "calfews_src/crop_cy.pyx":163
  *           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration
  * 
  *       if total_factor_beta > 0.0:             # <<<<<<<<<<<<<<
@@ -5282,7 +5282,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
       goto __pyx_L10;
     }
 
-    /* "calfews_src/crop_cy.pyx":167
+    /* "calfews_src/crop_cy.pyx":166
  *         total_factor_beta = total_factor_beta**(self.sub/(self.sub-1.0))
  *       else:
  *         total_factor_beta = 0.0             # <<<<<<<<<<<<<<
@@ -5295,7 +5295,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     }
     __pyx_L10:;
 
-    /* "calfews_src/crop_cy.pyx":169
+    /* "calfews_src/crop_cy.pyx":168
  *         total_factor_beta = 0.0
  * 
  *       total_revenue -= self.econ_factors['PRICE'][crop]*self.tau[crop]*total_factor_beta             # <<<<<<<<<<<<<<
@@ -5304,33 +5304,33 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
     if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 169, __pyx_L1_error)
+      __PYX_ERR(0, 168, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_PRICE); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_PRICE); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (unlikely(__pyx_v_self->tau == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 169, __pyx_L1_error)
+      __PYX_ERR(0, 168, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->tau, __pyx_v_crop); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->tau, __pyx_v_crop); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyNumber_Multiply(__pyx_t_3, __pyx_v_total_factor_beta); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_8 = PyNumber_Multiply(__pyx_t_3, __pyx_v_total_factor_beta); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyNumber_InPlaceSubtract(__pyx_v_total_revenue, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_InPlaceSubtract(__pyx_v_total_revenue, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "calfews_src/crop_cy.pyx":170
+    /* "calfews_src/crop_cy.pyx":169
  * 
  *       total_revenue -= self.econ_factors['PRICE'][crop]*self.tau[crop]*total_factor_beta
  *       total_revenue += self.delta[crop]*np.exp(self.gamma[crop]*x[i])             # <<<<<<<<<<<<<<
@@ -5339,24 +5339,24 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
     if (unlikely(__pyx_v_self->delta == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 170, __pyx_L1_error)
+      __PYX_ERR(0, 169, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->delta, __pyx_v_crop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->delta, __pyx_v_crop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exp); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exp); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (unlikely(__pyx_v_self->gamma == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 170, __pyx_L1_error)
+      __PYX_ERR(0, 169, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->gamma, __pyx_v_crop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->gamma, __pyx_v_crop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_11 = PyNumber_Multiply(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_11 = PyNumber_Multiply(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -5373,20 +5373,20 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     __pyx_t_8 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_7, __pyx_t_11) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_11);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 170, __pyx_L1_error)
+    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = PyNumber_Multiply(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Multiply(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_v_total_revenue, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_v_total_revenue, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_8);
     __pyx_t_8 = 0;
 
-    /* "calfews_src/crop_cy.pyx":171
+    /* "calfews_src/crop_cy.pyx":170
  *       total_revenue -= self.econ_factors['PRICE'][crop]*self.tau[crop]*total_factor_beta
  *       total_revenue += self.delta[crop]*np.exp(self.gamma[crop]*x[i])
  *       total_revenue += self.econ_factors['WATER'][crop]*x[i]*self.leontief['WATER'][crop]             # <<<<<<<<<<<<<<
@@ -5395,39 +5395,39 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
     if (unlikely(__pyx_v_self->econ_factors == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 171, __pyx_L1_error)
+      __PYX_ERR(0, 170, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->econ_factors, __pyx_n_u_WATER); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_x, __pyx_v_i); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (unlikely(__pyx_v_self->leontief == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 171, __pyx_L1_error)
+      __PYX_ERR(0, 170, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_n_u_WATER); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_n_u_WATER); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyNumber_Multiply(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_8 = PyNumber_Multiply(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = PyNumber_InPlaceAdd(__pyx_v_total_revenue, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_InPlaceAdd(__pyx_v_total_revenue, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "calfews_src/crop_cy.pyx":173
+    /* "calfews_src/crop_cy.pyx":172
  *       total_revenue += self.econ_factors['WATER'][crop]*x[i]*self.leontief['WATER'][crop]
  * 
  *       for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5438,15 +5438,15 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     for (;;) {
       if (__pyx_t_6 >= 2) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_9, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 173, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_9, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
       #else
-      __pyx_t_8 = PySequence_ITEM(__pyx_t_9, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 173, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(__pyx_t_9, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 172, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       #endif
       __Pyx_XDECREF_SET(__pyx_v_factor, ((PyObject*)__pyx_t_8));
       __pyx_t_8 = 0;
 
-      /* "calfews_src/crop_cy.pyx":174
+      /* "calfews_src/crop_cy.pyx":173
  * 
  *       for factor in ['SUPPL', 'LABOR']:
  *         total_revenue += self.leontief[factor][crop]####needs to be fixed in PMP calibration             # <<<<<<<<<<<<<<
@@ -5455,20 +5455,20 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
  */
       if (unlikely(__pyx_v_self->leontief == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 174, __pyx_L1_error)
+        __PYX_ERR(0, 173, __pyx_L1_error)
       }
-      __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 174, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_self->leontief, __pyx_v_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_crop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_v_total_revenue, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 174, __pyx_L1_error)
+      __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_v_total_revenue, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF_SET(__pyx_v_total_revenue, __pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "calfews_src/crop_cy.pyx":173
+      /* "calfews_src/crop_cy.pyx":172
  *       total_revenue += self.econ_factors['WATER'][crop]*x[i]*self.leontief['WATER'][crop]
  * 
  *       for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
@@ -5478,19 +5478,19 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
     }
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "calfews_src/crop_cy.pyx":176
+    /* "calfews_src/crop_cy.pyx":175
  *         total_revenue += self.leontief[factor][crop]####needs to be fixed in PMP calibration
  * 
  *       i += 1             # <<<<<<<<<<<<<<
  * 
  *     return total_revenue
  */
-    __pyx_t_9 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 176, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF_SET(__pyx_v_i, __pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "calfews_src/crop_cy.pyx":156
+    /* "calfews_src/crop_cy.pyx":155
  *     total_revenue = 0.0
  *     i = 0
  *     for crop in self.crop_list:             # <<<<<<<<<<<<<<
@@ -5500,7 +5500,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":178
+  /* "calfews_src/crop_cy.pyx":177
  *       i += 1
  * 
  *     return total_revenue             # <<<<<<<<<<<<<<
@@ -5512,7 +5512,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   __pyx_r = __pyx_v_total_revenue;
   goto __pyx_L0;
 
-  /* "calfews_src/crop_cy.pyx":153
+  /* "calfews_src/crop_cy.pyx":152
  *     return resource_constraint - sum_resource
  * 
  *   def calc_ag_profit(self, x):             # <<<<<<<<<<<<<<
@@ -5543,7 +5543,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_16calc_ag_profit(struct _
   return __pyx_r;
 }
 
-/* "calfews_src/crop_cy.pyx":180
+/* "calfews_src/crop_cy.pyx":179
  *     return total_revenue
  * 
  *   def make_crop_list(self):             # <<<<<<<<<<<<<<
@@ -5580,16 +5580,16 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("make_crop_list", 0);
-  __Pyx_TraceCall("make_crop_list", __pyx_f[0], 180, 0, __PYX_ERR(0, 180, __pyx_L1_error));
+  __Pyx_TraceCall("make_crop_list", __pyx_f[0], 179, 0, __PYX_ERR(0, 179, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":181
+  /* "calfews_src/crop_cy.pyx":180
  * 
  *   def make_crop_list(self):
  *     self.crop_list = []             # <<<<<<<<<<<<<<
  *     for y in self.baseline_inputs['LAND']:
  *       if self.baseline_inputs['LAND'][y] > 50.0:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->crop_list);
@@ -5597,7 +5597,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
   __pyx_v_self->crop_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":182
+  /* "calfews_src/crop_cy.pyx":181
  *   def make_crop_list(self):
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:             # <<<<<<<<<<<<<<
@@ -5606,17 +5606,17 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
  */
   if (unlikely(__pyx_v_self->baseline_inputs == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 182, __pyx_L1_error)
+    __PYX_ERR(0, 181, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->baseline_inputs, __pyx_n_u_LAND); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->baseline_inputs, __pyx_n_u_LAND); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 181, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -5624,17 +5624,17 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -5644,7 +5644,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 182, __pyx_L1_error)
+          else __PYX_ERR(0, 181, __pyx_L1_error)
         }
         break;
       }
@@ -5653,7 +5653,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
     __Pyx_XDECREF_SET(__pyx_v_y, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "calfews_src/crop_cy.pyx":183
+    /* "calfews_src/crop_cy.pyx":182
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:
  *       if self.baseline_inputs['LAND'][y] > 50.0:             # <<<<<<<<<<<<<<
@@ -5661,31 +5661,31 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
  */
     if (unlikely(__pyx_v_self->baseline_inputs == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 183, __pyx_L1_error)
+      __PYX_ERR(0, 182, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->baseline_inputs, __pyx_n_u_LAND); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->baseline_inputs, __pyx_n_u_LAND); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_5, __pyx_float_50_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_5, __pyx_float_50_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_6) {
 
-      /* "calfews_src/crop_cy.pyx":184
+      /* "calfews_src/crop_cy.pyx":183
  *     for y in self.baseline_inputs['LAND']:
  *       if self.baseline_inputs['LAND'][y] > 50.0:
  *         self.crop_list.append(y)             # <<<<<<<<<<<<<<
  */
       if (unlikely(__pyx_v_self->crop_list == Py_None)) {
         PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 183, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_self->crop_list, __pyx_v_y); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 184, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_self->crop_list, __pyx_v_y); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 183, __pyx_L1_error)
 
-      /* "calfews_src/crop_cy.pyx":183
+      /* "calfews_src/crop_cy.pyx":182
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:
  *       if self.baseline_inputs['LAND'][y] > 50.0:             # <<<<<<<<<<<<<<
@@ -5693,7 +5693,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
  */
     }
 
-    /* "calfews_src/crop_cy.pyx":182
+    /* "calfews_src/crop_cy.pyx":181
  *   def make_crop_list(self):
  *     self.crop_list = []
  *     for y in self.baseline_inputs['LAND']:             # <<<<<<<<<<<<<<
@@ -5703,7 +5703,7 @@ static PyObject *__pyx_pf_11calfews_src_7crop_cy_4Crop_18make_crop_list(struct _
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src/crop_cy.pyx":180
+  /* "calfews_src/crop_cy.pyx":179
  *     return total_revenue
  * 
  *   def make_crop_list(self):             # <<<<<<<<<<<<<<
@@ -9608,8 +9608,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) __PYX_ERR(0, 22, __pyx_L1_error)
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 70, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -9619,25 +9619,25 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "calfews_src/crop_cy.pyx":159
+  /* "calfews_src/crop_cy.pyx":158
  *       total_factor_beta = 0.0
  *       if x[i] > 0.0:
  *         for factor in ['LAND', 'WATER']:             # <<<<<<<<<<<<<<
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_u_LAND, __pyx_n_u_WATER); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_u_LAND, __pyx_n_u_WATER); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "calfews_src/crop_cy.pyx":161
+  /* "calfews_src/crop_cy.pyx":160
  *         for factor in ['LAND', 'WATER']:
  *           total_factor_beta += self.beta[factor][crop]*((x[i]*self.leontief[factor][crop])**((self.sub-1.0)/self.sub))
  *         for factor in ['SUPPL', 'LABOR']:             # <<<<<<<<<<<<<<
  *           total_factor_beta += self.beta[factor][crop]*((self.leontief[factor][crop])**((self.sub-1.0)/self.sub))##needs to be fixed in PMP calibration
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_SUPPL, __pyx_n_u_LABOR); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_SUPPL, __pyx_n_u_LABOR); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 160, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -9710,15 +9710,15 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_11calfews_src_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_11calfews_src_7crop_cy_Crop) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_11calfews_src_7crop_cy_Crop.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_11calfews_src_7crop_cy_Crop.tp_dictoffset && __pyx_type_11calfews_src_7crop_cy_Crop.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_11calfews_src_7crop_cy_Crop.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Crop, (PyObject *)&__pyx_type_11calfews_src_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_11calfews_src_7crop_cy_Crop) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Crop, (PyObject *)&__pyx_type_11calfews_src_7crop_cy_Crop) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_11calfews_src_7crop_cy_Crop) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __pyx_ptype_11calfews_src_7crop_cy_Crop = &__pyx_type_11calfews_src_7crop_cy_Crop;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -9956,88 +9956,87 @@ if (!__Pyx_RefNanny) {
   #endif
   __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_crop_cy(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
-  /* "calfews_src/crop_cy.pyx":3
+  /* "calfews_src/crop_cy.pyx":2
  * # cython: profile=True
- * from __future__ import division
  * import numpy as np             # <<<<<<<<<<<<<<
  * import matplotlib.pyplot as plt
  * import scipy
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/crop_cy.pyx":4
- * from __future__ import division
+  /* "calfews_src/crop_cy.pyx":3
+ * # cython: profile=True
  * import numpy as np
  * import matplotlib.pyplot as plt             # <<<<<<<<<<<<<<
  * import scipy
  * import pandas as pd
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s__4);
   __Pyx_GIVEREF(__pyx_n_s__4);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__4);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_plt, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_plt, __pyx_t_2) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src/crop_cy.pyx":5
+  /* "calfews_src/crop_cy.pyx":4
  * import numpy as np
  * import matplotlib.pyplot as plt
  * import scipy             # <<<<<<<<<<<<<<
  * import pandas as pd
  * import json
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_scipy, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_scipy, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_scipy, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_scipy, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src/crop_cy.pyx":6
+  /* "calfews_src/crop_cy.pyx":5
  * import matplotlib.pyplot as plt
  * import scipy
  * import pandas as pd             # <<<<<<<<<<<<<<
  * import json
  * from .util import *
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pd, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pd, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src/crop_cy.pyx":7
+  /* "calfews_src/crop_cy.pyx":6
  * import scipy
  * import pandas as pd
  * import json             # <<<<<<<<<<<<<<
  * from .util import *
  * 
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_json, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_json, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src/crop_cy.pyx":8
+  /* "calfews_src/crop_cy.pyx":7
  * import pandas as pd
  * import json
  * from .util import *             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s__4);
   __Pyx_GIVEREF(__pyx_n_s__4);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__4);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_util, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_util, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error);
+  if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1
@@ -10052,8 +10051,8 @@ if (!__Pyx_RefNanny) {
 
   /* "calfews_src/crop_cy.pyx":1
  * # cython: profile=True             # <<<<<<<<<<<<<<
- * from __future__ import division
  * import numpy as np
+ * import matplotlib.pyplot as plt
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

@@ -1,5 +1,4 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np 
 import pandas as pd
 import json
@@ -70,8 +69,10 @@ cdef class Canal():
     return (differences == 0)
 
 
-  def check_flow_capacity(self, available_flow, canal_loc, flow_dir):
+  cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir):
     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal at the current node 
+    cdef double initial_capacity, excess_flow
+
     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]	
     if available_flow > initial_capacity:
       excess_flow = available_flow - initial_capacity
@@ -82,8 +83,12 @@ cdef class Canal():
     return available_flow, excess_flow
 
 
-  def find_priority_fractions(self, node_capacity, type_fractions, type_list, canal_loc, flow_dir):
+  cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir):
     #this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the total demand at that node 
+    cdef:
+      double  total_delivery_capacity
+      str zz
+
     total_delivery_capacity = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], node_capacity), 0.0)
     for zz in type_list:
       #find the fraction of each priority type that can be filled, based on canal capacity and downstream demands
@@ -97,8 +102,13 @@ cdef class Canal():
 
     return type_fractions
 	
-  def find_turnout_adjustment(self, demand_constraint, flow_dir, canal_loc, type_list):
+
+  cdef void find_turnout_adjustment(self, double demand_constraint, str flow_dir, int canal_loc, list type_list):
     #this function adjusts the total demand (by priority) at a node to reflect both the turnout capacity at that node, and the total demand possible (not by priority) at that node - priority demands are sometimes in excess of the total node demands because sometimes 'excess capacity' is shared between multiple districts - so we develop self.turnout_frac to pro-rate each member's share of that capacity so that individual requests do not exceed total capacity
+    cdef:
+      double max_turnout
+      str zz
+
     max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)
     for zz in type_list:
       if self.demand[zz][canal_loc] > max_turnout:
@@ -113,13 +123,18 @@ cdef class Canal():
       if max_turnout < 0.0:
         max_turnout = 0.0
 	  
-  def update_canal_use(self, available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list):
+
+  cdef (double, double, int, double) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list):
     #this function checks to see if the next canal node has the capacity to take the remaining flow - if not,
 	#the flow is 'turned back', removing the excess water from the canal.flow vector and reallocating it as 'turnback flows'
 	#these turnback flows will be run through the previous canal nodes again, to see if any of the prior nodes (where canal capacity
 	#is large enough to take the excess flow) have demand for more flow.  This runs until the current node, at which point any remaining
 	#flow is considered not delivered
     #at this node, record the total delivery as 'turnout' and the total flow as 'flow' for this canal object
+    cdef:
+      double evap_flows, turnback_flows
+      int next_step, turnback_end, removal_flow
+
     self.turnout_use[canal_loc] += location_delivery
     self.flow[canal_loc] += available_flow
     evap_flows = 0.0
@@ -133,7 +148,7 @@ cdef class Canal():
     #turnback flows are the remaining available flow in excess of the next node's capacity
     turnback_flows = max(available_flow - self.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + self.flow[canal_loc+next_step], 0.0)
     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
-	#if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
+	  #if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
     if turnback_flows > 0.005:
       available_flow -= turnback_flows
       if flow_dir == "normal":
@@ -165,7 +180,9 @@ cdef class Canal():
 
     return available_flow, turnback_flows, turnback_end, evap_flows
 	
-  def find_bi_directional(self, closed, direction_true, direction_false, flow_type, new_canal, adjust_flow_types, locked):
+
+  
+  cdef void find_bi_directional(self, double closed, str direction_true, str direction_false, str flow_type, str new_canal, int adjust_flow_types, int locked):
     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)
     if closed > 0.0 and locked == 0:
       if adjust_flow_types == 1:
@@ -177,84 +194,10 @@ cdef class Canal():
     elif locked == 0:
       self.flow_directions[flow_type][new_canal] = direction_false	  
 	  
-  def accounting(self, t, name, counter):
+
+  cdef void accounting(self, int t, str name, int counter):
     self.daily_turnout[name][t] = self.turnout_use[counter]
     self.daily_flow[name][t] = self.flow[counter]
 	
-  def accounting_as_df(self, index):
-    df = pd.DataFrame()
-    for n in self.daily_flow:    
-      df['%s_%s_flow' % (self.key,n)] = pd.Series(self.daily_flow[n], index = index)
-    for n in self.daily_turnout:
-      df['%s_%s_turnout' % (self.key, n)] = pd.Series(self.daily_turnout[n], index=index)
-    return df
-	
 
-      
 
-###########################################################################################################
-########################GRAVEYARD##########################################################################
-###########################################################################################################
-  #
-  # def capacity_adjust_demand(self, starting_point, canal_range, flow_dir, type_list):
-  #   #variable dictionaries have a key for each demand 'priority type'
-  #   type_demands = {}#new value at every canal location - total demand of all 'downstream' nodes
-  #   type_fractions = {}#new value at every canal location - ratio between canal cap @ location & tot 'downstream' demand
-  #   type_deliveries = {}#running tally - how much can be delivered in total on the canal for each priority demand type
-  #   type_unmet = {}#running tally - how much demand couldn't be met b/c of capacity constraints
-	#
-  #   #initialize canal capacity
-  #   available_capacity = canal.capacity[flow_dir][starting_point]*cfs_tafd - canal.flow[starting_point]
-  #   #start w/ zero for the 'running tally' variable dictionaries
-  #   for zz in type_list:
-  #     type_deliveries[zz] = 0.0
-  #     type_unmet[zz] = 0.0
-  #   #loop through all locations within the canal range
-  #   for canal_loc in canal_range:
-  #     #remaining range is all the canal nodes 'downstream' of current node
-  #     if flow_dir == "normal":
-  #       remaining_range = range(canal_loc, canal_size)
-  #     elif flow_dir == "reverse":
-  #       remaining_range = range(canal_loc, 0, -1)
-  #     #re-initialize demands at each canal node
-  #     for zz in type_list:
-  #       type_demands[zz] = 0.0
-  #     #sum of all demands 'downstream' of current canal node
-  #     for sum_point in remaining_range:
-  #       type_demands[zz] += canal.demand[zz][sum_point]
-  #     #find the fraction of the total downstream demand that can be filled
-	#   #based on the capacity at the current point
-  #     available_capacity_int = available_capacity
-  #     for zz in type_list:
-  #       if type_demands[zz] > 0.0:
-  #         type_fractions[zz] = min(available_capacity_int/type_demands[zz], 1.0)
-  #       else:
-  #         type_fractions[zz] = 0.0
-  #       #the fraction is applied to demands at this canal step, and added to the running total
-  #       type_deliveries[zz] += canal.demand[zz][canal_loc]*type_fractions[zz]
-  #       #available capacity is now whatever the capacity at this node was, minus what was delivered
-  #       available_capacity -= canal.demand[zz][canal_loc]*type_fractions[zz]
-  #       #unmet demands are also added to the running total
-  #       type_unmet[zz] += canal.demand[zz][canal_loc]*(1-type_fractions[zz])
-  #       #the intermediate available capacity measures how much flow is left for the remaining priority levels if all
-	# 	#demands of the current priority are met w/at the fraction specified
-  #       available_capacity_int -= type_demands[zz]*type_fractions[zz]
-  #     if flow_dir == "normal":
-  #       next_step = 1
-  #     elif flow_dir == "reverse":
-  #       next_step = -1
-  #     #check to see if the canal capacity at the next node is less the the available capacity at this node (minus the expected diversions)
-  #     turnback_flows = max(available_capacity - canal.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + canal.flow[canal_loc + next_step], 0.0)
-  #     available_capacity -= turnback_flows
-  #     #if the next step is a 'choke' point, then whatever flow can't make it past that point is redistributed 'upstream'
-  #     for zz in type_list:
-  #       extra_flow = min(type_unmet[zz], turnback_flows)
-  #       type_deliveries[zz] += extra_flow
-  #       type_unmet[zz] -= extra_flow
-	#
-  #   return type_deliveries
-  #
-	#
-  # def update_canal_demands(self, priorities, type_fractions, type_list, canal_loc):
-  #   for zz in type_list:
-  #     self.demand[zz][canal_loc] -= priorities[zz]*type_fractions[zz]

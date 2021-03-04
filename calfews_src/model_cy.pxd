@@ -5,6 +5,7 @@ from .district_cy cimport District
 from .private_cy cimport Private
 from .waterbank_cy cimport Waterbank
 from .contract_cy cimport Contract
+from .participant_cy cimport Participant
 
 
 cdef class Model():
@@ -63,3 +64,48 @@ cdef class Model():
   cdef void flood_operations(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, str wyt)
   
   cdef void find_node_demand_district(self, District district_node, Canal canal, int canal_loc, double demand_constraint, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list, int toggle_district_recharge)
+
+  cdef tuple set_canal_range(self, str flow_dir, str flow_type, Canal canal, str prev_canal, int canal_size)
+
+  cdef void update_carryover(self, double spill, str key, int wateryear)
+
+  cdef void set_canal_direction(self, str flow_type)
+
+  cdef (int, int, int, int, double, double) simulate_south(self, int t, double hro_pump, double trp_pump, double swp_alloc, double cvp_alloc, dict proj_surplus, dict max_pumping, double swp_forgone, double cvp_forgone, double swp_AF, double cvp_AF, double swp_AS, double cvp_AS, str wyt, str wytSC, dict max_tax_free, dict flood_release, dict flood_volume) except *
+
+  cdef tuple simulate_north(self, int t, int swp_release, int cvp_release, int swp_release2, int cvp_release2, double swp_pump, double cvp_pump)
+
+  cdef void agg_contract_demands(self, int year_index, int m)
+
+  cdef void appropriate_carryover(self, double forgone, str key, int wateryear)
+
+  cdef void find_recharge_bank(self, int m, str wyt)
+
+  cdef void find_leiu_exchange(self, int wateryear, int dowy)
+
+  cdef void find_recharge_leiu(self, int m, str wyt)
+
+  cdef void find_recharge_indistrict(self,int m, str wyt)
+
+  cdef void update_leiu_capacity(self)
+
+  cdef tuple proj_gains(self, int t, int dowy, int m, int year_index)
+
+  cdef (int, int, double, double, double) find_pumping_release(self, int m, int da, int year_index, int start_storage, dict month_demand, dict month_demand_must_fill, dict expected_pumping, double projected_carryover, double current_carryover, str wyt, int t, str key)
+
+######### init
+  cdef tuple northern_initialization_routine(self, scenario=*)
+
+  cdef void initialize_northern_res(self) except *
+
+  cdef void initialize_delta_ops(self)
+
+  cdef void southern_initialization_routine(self, scenario=*) except *
+
+  cdef void initialize_southern_res(self) except *
+
+  cdef void project_urban(self, str datafile, str datafile_cvp, str datafile_pumping) except *
+
+  cdef void predict_delta_gains(self)
+
+  cdef void initialize_water_districts(self, scenario=*)

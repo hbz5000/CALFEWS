@@ -15,3 +15,7 @@ save_address
 .venv*
 diff*
 Untitled.*
+*.html
+*/*.html
+profiling/*.stats
+profiling/*.txt

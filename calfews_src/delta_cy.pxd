@@ -1,3 +1,5 @@
+from .model_cy cimport Model
+
 cdef class Delta():
 
   cdef:
@@ -19,3 +21,14 @@ cdef class Delta():
                 vamp_flows, new_vamp_rule, san_joaquin_add, san_joaquin_export_ratio, d_1641_export, ec_target, model_params, \
                 x2constraint, target_allocation, remaining_tax_free_storage, omr_regression, x2_dict, max_tax_free, \
                 expected_outflow, pump_max
+
+  cdef (double, double) find_max_pumping(self, int d, int dowy, int t, str wyt)
+
+  cdef void step(self, int t, int d, int da, int m, int y, int wateryear, int dowy, double cvp_flows, double swp_flows, double swp_pump, double cvp_pump)
+
+  cdef void calc_project_allocation(self, int t, int m, int da, int wateryear)
+
+  cdef (double, double) meet_OMR_requirement(self, int t, int m, int y, int dowy, double cvp_m, double swp_m)
+
+  cdef void create_flow_shapes_omr(self, Model model)
+

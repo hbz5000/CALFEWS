@@ -1,11 +1,18 @@
 from calfews_src.model_cy cimport Model
+from calfews_src.inputter_cy import Inputter
 
 cdef class main_cy():
  
   cdef:
-
     public double progress
-    public int running_sim
+    public int running_sim, short_test, seed, total_sensitivity_factors
+    public bint print_log, clean_output, save_full
+    public str scenario_name, model_mode, flow_input_type, flow_input_source, results_folder, output_list
+    public dict objs
     public Model modelno, modelso
+    # public Inputter new_inputs
 
-  cdef void run(self, str results_folder, str model_mode, str flow_input_type, str flow_input_source)
+  cdef void initialize(self)
+
+  cdef void run_sim(self, start_time)
+

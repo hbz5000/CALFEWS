@@ -1,11 +1,11 @@
 # cython: profile=True
-from __future__ import division
 import numpy as np
 import calendar
 import matplotlib.pyplot as plt
 import pandas as pd
 import json
 from .util import *
+from .model_cy cimport Model
 
 cdef class Delta():
 
@@ -445,15 +445,18 @@ cdef class Delta():
  
     return shastaFrac, folsomFrac, orovilleFrac, yubaFrac
 	
-  def meet_OMR_requirement(self, t, m, y, dowy, cvp_m, swp_m):
+  cdef (double, double) meet_OMR_requirement(self, int t, int m, int y, int dowy, double cvp_m, double swp_m):
+    ####Old-Middle River Rule################################################################################################
+    #The delta pumps make the old-middle river run backwards - there are restrictions (starting in 2008) about how big the negative flows can
+    #become.  To model this, we use either a liner adjustment of flow at vernalis, or the observed flow (adding back in the pumping, to estimate
+    #the 'natural' flow on the Old-Middle Rivers).  Once we have a model of the Old-Middle River, we assume that this flow is reduced (can become negative)
+    # by 90% of the total pumping.  So, if the OMR limit is -5000CFS, & the natural flow is 1000CFS, pumping can be, maximum, 6000CFS/0.9
+    cdef:
+      double omrNat, pumping_coef, omr_condition, omr_condition_2, fish_trigger_adj, omrRequirement, maxTotPump
+      str wyt
+
     wyt = self.forecastSCWYT
 
-
-    ####Old-Middle River Rule################################################################################################
-	#The delta pumps make the old-middle river run backwards - there are restrictions (starting in 2008) about how big the negative flows can
-	#become.  To model this, we use either a liner adjustment of flow at vernalis, or the observed flow (adding back in the pumping, to estimate
-	#the 'natural' flow on the Old-Middle Rivers).  Once we have a model of the Old-Middle River, we assume that this flow is reduced (can become negative)
-	# by 90% of the total pumping.  So, if the OMR limit is -5000CFS, & the natural flow is 1000CFS, pumping can be, maximum, 6000CFS/0.9
     if t > self.omr_record_start:
       omrNat = self.hist_OMR[t] + (self.hist_TRP_pump[t] + self.hist_HRO_pump[t])*.94
       pumping_coef = 0.94
@@ -471,10 +474,10 @@ cdef class Delta():
     ## OMR max negative flows are only binding Jan-June, the rest of the year flow can be anything
     omr_condition = np.interp(dowy, self.omr_reqr['d'], self.omr_reqr['flow']) * cfs_tafd
     omr_condition_2 = np.interp(dowy, self.omr_addition['d'], self.omr_addition[wyt]) * cfs_tafd
-	##The OMR constraints are governed by fish-kill conditions at the pumps.  negative 5000 CFS is normal, but can also be reduced
-	##here we use the actual declaration - any forward-in-time projection runs will have to be either simulated probabilistically or just run under
-	##the normal condition (5000 cfs)
-	###Note: OMR Flow adjustments come from here: http://www.water.ca.gov/swp/operationscontrol/calfed/calfedwomt.cfm
+    ##The OMR constraints are governed by fish-kill conditions at the pumps.  negative 5000 CFS is normal, but can also be reduced
+    ##here we use the actual declaration - any forward-in-time projection runs will have to be either simulated probabilistically or just run under
+    ##the normal condition (5000 cfs)
+    ###Note: OMR Flow adjustments come from here: http://www.water.ca.gov/swp/operationscontrol/calfed/calfedwomt.cfm
     if self.model_mode == 'validation':
       fish_trigger_adj = np.interp(t, self.omr_reqr['t'], self.omr_reqr['adjustment']) * cfs_tafd
     elif dowy > 92 and dowy < 258:
@@ -660,10 +663,14 @@ cdef class Delta():
 
     return swp_forgone, cvp_forgone
 
+
 		  
-  def find_max_pumping(self, d, dowy, t, wyt):
+  cdef (double, double) find_max_pumping(self, int d, int dowy, int t, str wyt):
     ##Find max pumping uses the delta pumping rules (from delta_properties) to find the maximum the pumps can
-	##be run on a given day, from the D1641 and the BIOPS rules
+  	##be run on a given day, from the D1641 and the BIOPS rules
+    cdef:
+      double swp_intake_max, cvp_intake_max, san_joaquin_adj, san_joaquin_ie_amt, san_joaquin_ie_used, san_joaquin_ie, swp_max, cvp_max
+
     swp_intake_max = np.interp(d, self.pump_max['swp']['d'], self.pump_max['swp']['intake_limit']) * cfs_tafd
     swp_intake_max = max(swp_intake_max, np.interp(d, self.pump_max['swp']['d'], self.pump_max['swp']['vernalis_trigger'])*self.vernalis_gains/2.0, 0.0)
     cvp_intake_max = np.interp(d, self.pump_max['cvp']['d'],self.pump_max['cvp']['intake_limit']) * cfs_tafd
@@ -690,34 +697,7 @@ cdef class Delta():
 	
     return cvp_max, swp_max
    	  
-  # def find_release_flood_prep(self, m, dowy, proj_surplus, numdays, min_release, key):
-  #   dowy_md = [122, 150, 181, 211, 242, 272, 303, 334, 365, 31, 60, 91]
-  #   month_evaluate = m - 1
-  #   if numdays < 366.0:
-  #     numday_counter = numdays
-  #     this_month_days = dowy_md[month_evaluate] - dowy
-  #     total_gains = 0.0
-  #     gains_before_spill = proj_surplus[key][month_evaluate]*max(this_month_days,numdays)/days_in_month[month_evaluate]
-  #     numday_counter -= this_month_days
-  #     month_evaluate += 1
-  #     while numday_counter > 0:
-  #       if month_evaluate > 11:
-  #         month_evaluate -= 12
-  #       gains_before_spill = proj_surplus[key][month_evaluate]*min(numday_counter/days_in_month[month_evaluate], 1.0)
-  #       numday_counter -= days_in_month[month_evaluate]
-  #       month_evaluate += 1
-  #     if numdays < 7.0:
-  #       average_gains = self.pump_max[key]['intake_limit'][0]*cfs_tafd
-  #     else:
-  #       average_gains = proj_surplus[key][m-1]/days_in_month[m-1]
-  #     if average_gains + min_release > self.pump_max[key]['intake_limit'][0]*cfs_tafd:
-  #       flood_prep_release = 1.0
-  #     else:
-  #       flood_prep_release = 0.0
-  #   else:
-  #     flood_prep_release = 0.0
-  #
-  #   return flood_prep_release
+
 
   def find_release(self, t, m, y, year_index, dowy, days_in_month, dowy_eom, cvp_max, swp_max, cvpAS, swpAS, cvp_release, swp_release, proj_surplus, max_pumping):
   ###This function looks at how much water is available in storage & snowpack to be exported,
@@ -899,16 +879,22 @@ cdef class Delta():
     return cvp_max, swp_max
 
 
-  def step(self, t, d, da, m, y, wateryear, dowy, cvp_flows, swp_flows, swp_pump, cvp_pump, swp_AS, cvp_AS):
+
+  cdef void step(self, int t, int d, int da, int m, int y, int wateryear, int dowy, double cvp_flows, double swp_flows, double swp_pump, double cvp_pump):
     ##Takes releases (cvp_flows & swp_flows) and gains, and divides water between delta outflows, CVP exports, and SWP exports (and delta depletions)
-	##Basically runs through the operations of calc_flow_bounds, only w/actual reservoir releases
+	  ##Basically runs through the operations of calc_flow_bounds, only w/actual reservoir releases
+    cdef:
+      double cvp_frac, swp_frac, outflow_rule, x2outflow, salinity_rule, min_rule, unstored_flows, surplus, export_ratio, cvp_max, swp_max, tax_free_exports, \
+              cvp_surplus_inflow, swp_surplus_inflow, remaining_tax_free, swp_remaining, cvp_remaining
+      str wyt
+
     wyt = self.forecastSCWYT
     cvp_frac = 0.55
     swp_frac = 0.45
 
-	##Same outflow rule as in calc_flow_bounds
+	  ##Same outflow rule as in calc_flow_bounds
     outflow_rule = self.min_outflow[wyt][m-1] * cfs_tafd
-	##Same salinity rule as in calc_flow_bounds
+	  ##Same salinity rule as in calc_flow_bounds
     if self.x2[t] > self.x2constraint[wyt][dowy]:
       x2outflow = 10**((self.x2constraint[wyt][dowy] - 10.16 - 0.945*self.x2[t])/(-1.487))
     else:
@@ -919,9 +905,9 @@ cdef class Delta():
     unstored_flows = self.total_inflow
     surplus = unstored_flows + self.depletions[t] - min_rule	
     self.surplus[t] = surplus
-	#Same export ratio as in calc_weekly_storage_release
+	  #Same export ratio as in calc_weekly_storage_release
     export_ratio = self.export_ratio[wyt][m-1]
-	#Same max pumping rules as in calc_weekly_storage release
+	  #Same max pumping rules as in calc_weekly_storage release
     cvp_max, swp_max = self.find_max_pumping(d, dowy, t, wyt)
       
     tax_free_exports = ((1/(1-self.export_ratio[wyt][m-1])) - 1)*(min_rule - self.depletions[t])
@@ -994,10 +980,11 @@ cdef class Delta():
       else:
         self.OMR[t] = self.vernalis_gains*0.633 - 1644.0*cfs_tafd  - 0.94*(self.TRP_pump[t] + self.HRO_pump[t])
 
-    self.calc_project_allocation(t, m, da, wateryear, swp_AS, cvp_AS)
+    self.calc_project_allocation(t, m, da, wateryear)
     
   	
-  def calc_project_allocation(self,t, m, da, wateryear, SWP_AS, CVP_AS):
+
+  cdef void calc_project_allocation(self, int t, int m, int da, int wateryear):
     self.annual_HRO_pump[wateryear-1] += self.HRO_pump[t]
     self.annual_TRP_pump[wateryear-1] += self.TRP_pump[t]
 
@@ -1009,7 +996,12 @@ cdef class Delta():
 
 	
 	
-  def create_flow_shapes_omr(self, model):
+  cdef void create_flow_shapes_omr(self, Model model):
+    cdef:
+      double prev_fnf
+      int omr_short_record_start, startYear, endYear, numYears, t, m, dowy, wateryear, x, mm, yy
+      str fnf_keys
+    
     omr_series = model.df_short[0]['OMR'].values * cfs_tafd
     pump_series = model.df_short[0]['HRO_pump'].values * cfs_tafd
     pump_series2 = model.df_short[0]['TRP_pump'].values * cfs_tafd
