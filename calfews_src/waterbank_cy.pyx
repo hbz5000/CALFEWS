@@ -41,11 +41,11 @@ cdef class Waterbank():
     self.tot_current_storage = 0.0#total above-ground storage being used in water bank 
     self.loss_rate = 0.06#how much of banked deliveries is lost duing spreading
     
-	#dictionaries for individual member use of the bank
+	  #dictionaries for individual member use of the bank
     self.storage = {}#how much water delivered to bank this time step
     self.recovery_use = {}#how much recovery capacity is being used by a memeber this time step
     self.banked = {} #how much water is stored in the groundwater banking account of the member
-	#timeseries for export to csv
+	  #timeseries for export to csv
     self.bank_timeseries = {}#daily
     self.recharge_rate_series = [0.0 for _ in range(model.T)]#daily recharge rate
     for x in self.participant_list:
@@ -58,37 +58,6 @@ cdef class Waterbank():
     self.thismonthuse = 0
     self.monthusecounter = 0
     self.monthemptycounter = 0
-
-
-  def object_equals(self, other):
-    ##This function compares two instances of an object, returns True if all attributes are identical.
-    equality = {}
-    if (self.__dict__.keys() != other.__dict__.keys()):
-      return ('Different Attributes')
-    else:
-      differences = 0
-      for i in self.__dict__.keys():
-        if type(self.__getattribute__(i)) is dict:
-          equality[i] = True
-          for j in self.__getattribute__(i).keys():
-            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
-                equality[i] = False
-                differences += 1
-            else:
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
-                equality[i] = False
-                differences += 1
-        else:
-          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
-            if equality[i] == False:
-              differences += 1
-          else:
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
-            if equality[i] == False:
-              differences += 1
-    return (differences == 0)
 
 
 #####################################################################################################################

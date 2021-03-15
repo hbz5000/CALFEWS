@@ -50,7 +50,7 @@ cdef class Private():
     self.irrdemand = {}
     for x in self.district_list:
       self.irrdemand[x] = Crop(self.zone[x])
-	#initialize dictionary to hold different delivery types
+	  #initialize dictionary to hold different delivery types
     self.deliveries = {}
     self.contract_list_all = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern', 'kings']
     self.non_contract_delivery_list = ['inleiu','leiupumping','exchanged_GW','exchanged_SW', 'recover_banked']
@@ -60,12 +60,12 @@ cdef class Private():
       for x in self.contract_list_all:
         #normal contract deliveries
         self.deliveries[district][x] = np.zeros(model.number_years)
-	    #uncontrolled deliveries from contract
+	      #uncontrolled deliveries from contract
         self.deliveries[district][x + '_flood'] = np.zeros(model.number_years)
         self.deliveries[district][x + '_flood_irrigation'] = np.zeros(model.number_years)
         self.deliveries[district][x + '_recharged'] = np.zeros(model.number_years)
       for x in self.non_contract_delivery_list:
-	    #deliveries from a groundwater bank (reocrded by banking partner recieving recovery water)
+	      #deliveries from a groundwater bank (reocrded by banking partner recieving recovery water)
         self.deliveries[district][x] = np.zeros(model.number_years)
     self.deliveries['undelivered_trades'] = np.zeros(model.number_years)
 
@@ -101,7 +101,6 @@ cdef class Private():
         self.contract_carryover_list[z][y] = 0.0
         self.dynamic_recharge_cap[z][y] = 0.0
 	  
-
     # hold all output
     self.daily_supplies_full = {}
     self.demand_days = {}
@@ -172,37 +171,6 @@ cdef class Private():
     self.monthusecounter = 0
     self.monthemptycounter = 0
     self.current_recharge_storage = 0.0
-
-
-  def object_equals(self, other):
-    ##This function compares two instances of an object, returns True if all attributes are identical.
-    equality = {}
-    if (self.__dict__.keys() != other.__dict__.keys()):
-      return ('Different Attributes')
-    else:
-      differences = 0
-      for i in self.__dict__.keys():
-        if type(self.__getattribute__(i)) is dict:
-          equality[i] = True
-          for j in self.__getattribute__(i).keys():
-            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
-                equality[i] = False
-                differences += 1
-            else:
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
-                equality[i] = False
-                differences += 1
-        else:
-          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
-            if equality[i] == False:
-              differences += 1
-          else:
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
-            if equality[i] == False:
-              differences += 1
-    return (differences == 0)
 
 
 #####################################################################################################################

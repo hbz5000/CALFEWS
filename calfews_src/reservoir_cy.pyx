@@ -38,7 +38,7 @@ cdef class Reservoir():
     self.name = name
     self.forecastWYT = "AN"
 
-	##Reservoir Parameters
+	  ##Reservoir Parameters
     self.S = [0.0 for _ in range(self.T)]
     self.R = [0.0 for _ in range(self.T)]
     self.tocs = [0.0 for _ in range(self.T)]
@@ -71,7 +71,7 @@ cdef class Reservoir():
       self.Q = [_ * cfs_tafd for _ in model.df[0]['%s_inf'% key].values]
       self.E = [_ * cfs_tafd for _ in model.df[0]['%s_evap'% key].values]
       ####Note - Shasta FCI values are not right - the original calculation units are in AF, but it should be in CFS
-	  ####so the actual values are high.  Just recalculate here instead of changing input files
+	    ####so the actual values are high.  Just recalculate here instead of changing input files
       if self.key == "SHA":
         self.fci = [0.0 for _ in range(self.T)]
         self.fci[0] = 100000
@@ -121,7 +121,7 @@ cdef class Reservoir():
       self.aug_sept_min_release[wyt] = np.zeros(366)
     self.exceedence_level = 9
     
-	##Reservoir "decisions"
+	  ##Reservoir "decisions"
     self.din = 0.0
     self.dout = 0.0
     self.envmin = 0.0	
@@ -131,7 +131,7 @@ cdef class Reservoir():
     
     self.sjrr_release = 0.0
     self.eos_day = 0
-	##Vectors for flow projections
+	  ##Vectors for flow projections
     self.rainfnf_stds = [0.0 for _ in range(365)]
     self.snowfnf_stds = [0.0 for _ in range(365)]
     self.raininf_stds = [0.0 for _ in range(365)]
@@ -159,37 +159,6 @@ cdef class Reservoir():
     self.min_daily_overflow = 0.0
     self.reclaimed_carryover = [0.0 for _ in range(self.T)]
     self.contract_flooded = [0.0 for _ in range(self.T)]
-
-
-  def object_equals(self, other):
-    ##This function compares two instances of an object, returns True if all attributes are identical.
-    equality = {}
-    if (self.__dict__.keys() != other.__dict__.keys()):
-      return ('Different Attributes')
-    else:
-      differences = 0
-      for i in self.__dict__.keys():
-        if type(self.__getattribute__(i)) is dict:
-          equality[i] = True
-          for j in self.__getattribute__(i).keys():
-            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
-                equality[i] = False
-                differences += 1
-            else:
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
-                equality[i] = False
-                differences += 1
-        else:
-          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
-            if equality[i] == False:
-              differences += 1
-          else:
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
-            if equality[i] == False:
-              differences += 1
-    return (differences == 0)
 
 
   cdef void find_available_storage(self, int t, int m, int da, int dowy):

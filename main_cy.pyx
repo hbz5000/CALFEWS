@@ -116,9 +116,9 @@ cdef class main_cy():
     self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
     self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
     self.modelso.max_tax_free = {}
-    self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine()
+    self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine(scenario)
     self.modelso.forecastSRI = self.modelno.delta.forecastSRI
-    self.modelso.southern_initialization_routine()
+    self.modelso.southern_initialization_routine(scenario)
     gc.collect()    
 
 
@@ -212,10 +212,10 @@ cdef class main_cy():
     if (self.save_full):
       try:
         gc.collect()
-        pd.to_pickle(self.modelno, self.results_folder + '/modelno' + str(k) + '.pkl')
+        pd.to_pickle(self.modelno, self.results_folder + '/modelno.pkl')
         del self.modelno
         gc.collect()
-        pd.to_pickle(self.modelso, self.results_folder + '/modelso' + str(k) + '.pkl')
+        pd.to_pickle(self.modelso, self.results_folder + '/modelso.pkl')
         del self.modelso
         gc.collect()
       except Exception as e:

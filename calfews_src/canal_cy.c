@@ -825,8 +825,8 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "calfews_src\\canal_cy.pyx",
-  "calfews_src\\canal_cy.pxd",
+  "calfews_src/canal_cy.pyx",
+  "calfews_src/canal_cy.pxd",
   "stringsource",
 };
 
@@ -1404,6 +1404,17 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 /* PyObjectCall2Args.proto */
 static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
 
+/* DictGetItem.proto */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
+#define __Pyx_PyObject_Dict_GetItem(obj, name)\
+    (likely(PyDict_CheckExact(obj)) ?\
+     __Pyx_PyDict_GetItem(obj, name) : PyObject_GetItem(obj, name))
+#else
+#define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
+#define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
+#endif
+
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -1425,24 +1436,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
 static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
                                                      int is_list, int wraparound, int boundscheck);
-
-/* ObjectGetItem.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
-#else
-#define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
-#endif
-
-/* DictGetItem.proto */
-#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
-static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
-#define __Pyx_PyObject_Dict_GetItem(obj, name)\
-    (likely(PyDict_CheckExact(obj)) ?\
-     __Pyx_PyDict_GetItem(obj, name) : PyObject_GetItem(obj, name))
-#else
-#define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
-#define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
-#endif
 
 /* WriteUnraisableException.proto */
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
@@ -1595,12 +1588,10 @@ static PyObject *__pyx_builtin_range;
 static const char __pyx_k__2[] = "*";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_pd[] = "pd";
-static const char __pyx_k_all[] = "all";
 static const char __pyx_k_key[] = "key";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_json[] = "json";
-static const char __pyx_k_keys[] = "keys";
 static const char __pyx_k_load[] = "load";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "name";
@@ -1632,7 +1623,6 @@ static const char __pyx_k_iter_count[] = "iter_count";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_PickleError[] = "PickleError";
-static const char __pyx_k_getattribute[] = "__getattribute__";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_StopIteration[] = "StopIteration";
@@ -1642,31 +1632,26 @@ static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_pyx_unpickle_Canal[] = "__pyx_unpickle_Canal";
-static const char __pyx_k_Different_Attributes[] = "Different Attributes";
 static const char __pyx_k_calfews_src_canal_cy[] = "calfews_src.canal_cy";
 static const char __pyx_k_calfews_src_canals_s_properties[] = "calfews_src/canals/%s_properties.json";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x79[] = "Incompatible checksums (%s vs 0x79ccbe0 = (capacity, daily_flow, daily_turnout, demand, flow, flow_directions, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, key, locked, name, num_sites, recovery_feeder, recovery_flow_frac, turnout, turnout_frac, turnout_use))";
 static PyObject *__pyx_n_s_Canal;
-static PyObject *__pyx_kp_u_Different_Attributes;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x79;
 static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_n_s_StopIteration;
 static PyObject *__pyx_n_s__2;
-static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_u_baseline;
 static PyObject *__pyx_n_s_calfews_src_canal_cy;
 static PyObject *__pyx_kp_u_calfews_src_canals_s_properties;
 static PyObject *__pyx_n_s_cfs_tafd;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_dict;
-static PyObject *__pyx_n_s_getattribute;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_iter_count;
 static PyObject *__pyx_n_s_json;
 static PyObject *__pyx_n_s_key;
-static PyObject *__pyx_n_s_keys;
 static PyObject *__pyx_n_s_load;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_name;
@@ -1704,7 +1689,6 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal___iter__(struct __pyx_o
 static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_2__next__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
 static Py_ssize_t __pyx_pf_11calfews_src_8canal_cy_5Canal_4__len__(CYTHON_UNUSED struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_key, PyObject *__pyx_v_scenario_file); /* proto */
-static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v_other); /* proto */
 static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8is_Canal___get__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_8canal_cy_5Canal_8is_Canal_2__set__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_11is_District___get__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
@@ -1757,8 +1741,8 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_10daily_flow_4__del__(struct 
 static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_6demand___get__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6demand_2__set__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6demand_4__del__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10__reduce_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12__setstate_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8__reduce_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10__setstate_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_11calfews_src_8canal_cy___pyx_unpickle_Canal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_11calfews_src_8canal_cy_Canal(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float_0_0;
@@ -2397,856 +2381,9 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
 /* "calfews_src/canal_cy.pyx":40
  * 
  * 
- *   def object_equals(self, other):             # <<<<<<<<<<<<<<
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("object_equals (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(((struct __pyx_obj_11calfews_src_8canal_cy_Canal *)__pyx_v_self), ((PyObject *)__pyx_v_other));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8object_equals(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v_other) {
-  PyObject *__pyx_v_equality = NULL;
-  PyObject *__pyx_v_differences = NULL;
-  PyObject *__pyx_v_i = NULL;
-  PyObject *__pyx_v_j = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
-  Py_ssize_t __pyx_t_12;
-  PyObject *__pyx_t_13 = NULL;
-  int __pyx_t_14;
-  PyObject *__pyx_t_15 = NULL;
-  PyObject *__pyx_t_16 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("object_equals", 0);
-  __Pyx_TraceCall("object_equals", __pyx_f[0], 40, 0, __PYX_ERR(0, 40, __pyx_L1_error));
-
-  /* "calfews_src/canal_cy.pyx":42
- *   def object_equals(self, other):
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}             # <<<<<<<<<<<<<<
- *     if (self.__dict__.keys() != other.__dict__.keys()):
- *       return ('Different Attributes')
- */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_equality = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "calfews_src/canal_cy.pyx":43
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- *     if (self.__dict__.keys() != other.__dict__.keys()):             # <<<<<<<<<<<<<<
- *       return ('Different Attributes')
- *     else:
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_dict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__pyx_t_5) {
-
-    /* "calfews_src/canal_cy.pyx":44
- *     equality = {}
- *     if (self.__dict__.keys() != other.__dict__.keys()):
- *       return ('Different Attributes')             # <<<<<<<<<<<<<<
- *     else:
- *       differences = 0
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_kp_u_Different_Attributes);
-    __pyx_r = __pyx_kp_u_Different_Attributes;
-    goto __pyx_L0;
-
-    /* "calfews_src/canal_cy.pyx":43
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- *     if (self.__dict__.keys() != other.__dict__.keys()):             # <<<<<<<<<<<<<<
- *       return ('Different Attributes')
- *     else:
- */
-  }
-
-  /* "calfews_src/canal_cy.pyx":46
- *       return ('Different Attributes')
- *     else:
- *       differences = 0             # <<<<<<<<<<<<<<
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:
- */
-  /*else*/ {
-    __Pyx_INCREF(__pyx_int_0);
-    __pyx_v_differences = __pyx_int_0;
-
-    /* "calfews_src/canal_cy.pyx":47
- *     else:
- *       differences = 0
- *       for i in self.__dict__.keys():             # <<<<<<<<<<<<<<
- *         if type(self.__getattribute__(i)) is dict:
- *           equality[i] = True
- */
-    __pyx_t_6 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(__pyx_t_3 == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "keys");
-      __PYX_ERR(0, 47, __pyx_L1_error)
-    }
-    __pyx_t_1 = __Pyx_dict_iterator(__pyx_t_3, 0, __pyx_n_s_keys, (&__pyx_t_7), (&__pyx_t_8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_XDECREF(__pyx_t_4);
-    __pyx_t_4 = __pyx_t_1;
-    __pyx_t_1 = 0;
-    while (1) {
-      __pyx_t_9 = __Pyx_dict_iter_next(__pyx_t_4, __pyx_t_7, &__pyx_t_6, &__pyx_t_1, NULL, NULL, __pyx_t_8);
-      if (unlikely(__pyx_t_9 == 0)) break;
-      if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 47, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-      __pyx_t_1 = 0;
-
-      /* "calfews_src/canal_cy.pyx":48
- *       differences = 0
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:             # <<<<<<<<<<<<<<
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-        __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-        if (likely(__pyx_t_2)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-          __Pyx_INCREF(__pyx_t_2);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_3, function);
-        }
-      }
-      __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_i);
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_5 = (((PyObject *)Py_TYPE(__pyx_t_1)) == ((PyObject *)(&PyDict_Type)));
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_10 = (__pyx_t_5 != 0);
-      if (__pyx_t_10) {
-
-        /* "calfews_src/canal_cy.pyx":49
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:
- *           equality[i] = True             # <<<<<<<<<<<<<<
- *           for j in self.__getattribute__(i).keys():
- *             if ((type(j) == Canal) == False):
- */
-        if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, Py_True) < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
-
-        /* "calfews_src/canal_cy.pyx":50
- *         if type(self.__getattribute__(i)) is dict:
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():             # <<<<<<<<<<<<<<
- *             if ((type(j) == Canal) == False):
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- */
-        __pyx_t_11 = 0;
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_13 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_13)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_13);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-          }
-        }
-        __pyx_t_3 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_13, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_i);
-        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        if (unlikely(__pyx_t_3 == Py_None)) {
-          PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "keys");
-          __PYX_ERR(0, 50, __pyx_L1_error)
-        }
-        __pyx_t_2 = __Pyx_dict_iterator(__pyx_t_3, 0, __pyx_n_s_keys, (&__pyx_t_12), (&__pyx_t_9)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_XDECREF(__pyx_t_1);
-        __pyx_t_1 = __pyx_t_2;
-        __pyx_t_2 = 0;
-        while (1) {
-          __pyx_t_14 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_12, &__pyx_t_11, &__pyx_t_2, NULL, NULL, __pyx_t_9);
-          if (unlikely(__pyx_t_14 == 0)) break;
-          if (unlikely(__pyx_t_14 == -1)) __PYX_ERR(0, 50, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_2);
-          __pyx_t_2 = 0;
-
-          /* "calfews_src/canal_cy.pyx":51
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- *             if ((type(j) == Canal) == False):             # <<<<<<<<<<<<<<
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- */
-          __pyx_t_2 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_j)), ((PyObject *)__pyx_ptype_11calfews_src_8canal_cy_Canal), Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
-          __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (__pyx_t_10) {
-
-            /* "calfews_src/canal_cy.pyx":52
- *           for j in self.__getattribute__(i).keys():
- *             if ((type(j) == Canal) == False):
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):             # <<<<<<<<<<<<<<
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                   equality[i] = False
- */
-            __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_13 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-              __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_2);
-              if (likely(__pyx_t_13)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-                __Pyx_INCREF(__pyx_t_13);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_2, function);
-              }
-            }
-            __pyx_t_3 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_13, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_i);
-            __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-            if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 52, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_15 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-              __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_13);
-              if (likely(__pyx_t_15)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-                __Pyx_INCREF(__pyx_t_15);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_13, function);
-              }
-            }
-            __pyx_t_3 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_15, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_i);
-            __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-            if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 52, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_t_13, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_10 = (((PyObject *)Py_TYPE(__pyx_t_3)) == ((PyObject*)&PyBool_Type));
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_5 = (__pyx_t_10 != 0);
-            if (__pyx_t_5) {
-
-              /* "calfews_src/canal_cy.pyx":53
- *             if ((type(j) == Canal) == False):
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):             # <<<<<<<<<<<<<<
- *                   equality[i] = False
- *                   differences += 1
- */
-              __pyx_t_13 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_2 = NULL;
-              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-                __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_13);
-                if (likely(__pyx_t_2)) {
-                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-                  __Pyx_INCREF(__pyx_t_2);
-                  __Pyx_INCREF(function);
-                  __Pyx_DECREF_SET(__pyx_t_13, function);
-                }
-              }
-              __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_2, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_i);
-              __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-              if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-              __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __pyx_t_15 = NULL;
-              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-                __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_2);
-                if (likely(__pyx_t_15)) {
-                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-                  __Pyx_INCREF(__pyx_t_15);
-                  __Pyx_INCREF(function);
-                  __Pyx_DECREF_SET(__pyx_t_2, function);
-                }
-              }
-              __pyx_t_3 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_15, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_i);
-              __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-              if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-              __pyx_t_3 = PyObject_RichCompare(__pyx_t_13, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __pyx_t_2 = PyObject_RichCompare(__pyx_t_3, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-              __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              if (__pyx_t_5) {
-
-                /* "calfews_src/canal_cy.pyx":54
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                   equality[i] = False             # <<<<<<<<<<<<<<
- *                   differences += 1
- *               else:
- */
-                if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, Py_False) < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
-
-                /* "calfews_src/canal_cy.pyx":55
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                   equality[i] = False
- *                   differences += 1             # <<<<<<<<<<<<<<
- *               else:
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
- */
-                __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
-                __Pyx_GOTREF(__pyx_t_2);
-                __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_2);
-                __pyx_t_2 = 0;
-
-                /* "calfews_src/canal_cy.pyx":53
- *             if ((type(j) == Canal) == False):
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):             # <<<<<<<<<<<<<<
- *                   equality[i] = False
- *                   differences += 1
- */
-              }
-
-              /* "calfews_src/canal_cy.pyx":52
- *           for j in self.__getattribute__(i).keys():
- *             if ((type(j) == Canal) == False):
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):             # <<<<<<<<<<<<<<
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                   equality[i] = False
- */
-              goto __pyx_L10;
-            }
-
-            /* "calfews_src/canal_cy.pyx":57
- *                   differences += 1
- *               else:
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):             # <<<<<<<<<<<<<<
- *                   equality[i] = False
- *                   differences += 1
- */
-            /*else*/ {
-              __pyx_t_13 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_15 = NULL;
-              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-                __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_13);
-                if (likely(__pyx_t_15)) {
-                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-                  __Pyx_INCREF(__pyx_t_15);
-                  __Pyx_INCREF(function);
-                  __Pyx_DECREF_SET(__pyx_t_13, function);
-                }
-              }
-              __pyx_t_3 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_15, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_i);
-              __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-              if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-              __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __pyx_t_16 = NULL;
-              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-                __pyx_t_16 = PyMethod_GET_SELF(__pyx_t_15);
-                if (likely(__pyx_t_16)) {
-                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-                  __Pyx_INCREF(__pyx_t_16);
-                  __Pyx_INCREF(function);
-                  __Pyx_DECREF_SET(__pyx_t_15, function);
-                }
-              }
-              __pyx_t_3 = (__pyx_t_16) ? __Pyx_PyObject_Call2Args(__pyx_t_15, __pyx_t_16, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_v_i);
-              __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
-              if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-              __pyx_t_3 = PyObject_RichCompare(__pyx_t_13, __pyx_t_15, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_all); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-              __pyx_t_3 = NULL;
-              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-                __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_15);
-                if (likely(__pyx_t_3)) {
-                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-                  __Pyx_INCREF(__pyx_t_3);
-                  __Pyx_INCREF(function);
-                  __Pyx_DECREF_SET(__pyx_t_15, function);
-                }
-              }
-              __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_15);
-              __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-              if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = PyObject_RichCompare(__pyx_t_2, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              if (__pyx_t_5) {
-
-                /* "calfews_src/canal_cy.pyx":58
- *               else:
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
- *                   equality[i] = False             # <<<<<<<<<<<<<<
- *                   differences += 1
- *         else:
- */
-                if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, Py_False) < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
-
-                /* "calfews_src/canal_cy.pyx":59
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
- *                   equality[i] = False
- *                   differences += 1             # <<<<<<<<<<<<<<
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- */
-                __pyx_t_15 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 59, __pyx_L1_error)
-                __Pyx_GOTREF(__pyx_t_15);
-                __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_15);
-                __pyx_t_15 = 0;
-
-                /* "calfews_src/canal_cy.pyx":57
- *                   differences += 1
- *               else:
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):             # <<<<<<<<<<<<<<
- *                   equality[i] = False
- *                   differences += 1
- */
-              }
-            }
-            __pyx_L10:;
-
-            /* "calfews_src/canal_cy.pyx":51
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- *             if ((type(j) == Canal) == False):             # <<<<<<<<<<<<<<
- *               if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *                 if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- */
-          }
-        }
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-        /* "calfews_src/canal_cy.pyx":48
- *       differences = 0
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:             # <<<<<<<<<<<<<<
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- */
-        goto __pyx_L6;
-      }
-
-      /* "calfews_src/canal_cy.pyx":61
- *                   differences += 1
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):             # <<<<<<<<<<<<<<
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:
- */
-      /*else*/ {
-        __pyx_t_15 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 61, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_2 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-          __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_15);
-          if (likely(__pyx_t_2)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-            __Pyx_INCREF(__pyx_t_2);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_15, function);
-          }
-        }
-        __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_15, __pyx_t_2, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_v_i);
-        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_3 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_3)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_3);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-          }
-        }
-        __pyx_t_15 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_i);
-        __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 61, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_t_15, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_5 = (((PyObject *)Py_TYPE(__pyx_t_2)) == ((PyObject*)&PyBool_Type));
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_10 = (__pyx_t_5 != 0);
-        if (__pyx_t_10) {
-
-          /* "calfews_src/canal_cy.pyx":62
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))             # <<<<<<<<<<<<<<
- *             if equality[i] == False:
- *               differences += 1
- */
-          __pyx_t_15 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_1 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-            __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_15);
-            if (likely(__pyx_t_1)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-              __Pyx_INCREF(__pyx_t_1);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_15, function);
-            }
-          }
-          __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_15, __pyx_t_1, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_3 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-            __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_1);
-            if (likely(__pyx_t_3)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-              __Pyx_INCREF(__pyx_t_3);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_1, function);
-            }
-          }
-          __pyx_t_15 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_3, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_15, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, __pyx_t_1) < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-          /* "calfews_src/canal_cy.pyx":63
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *           else:
- */
-          __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_equality, __pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_15 = PyObject_RichCompare(__pyx_t_1, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 63, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (__pyx_t_10) {
-
-            /* "calfews_src/canal_cy.pyx":64
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:
- *               differences += 1             # <<<<<<<<<<<<<<
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- */
-            __pyx_t_15 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 64, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_15);
-            __pyx_t_15 = 0;
-
-            /* "calfews_src/canal_cy.pyx":63
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *           else:
- */
-          }
-
-          /* "calfews_src/canal_cy.pyx":61
- *                   differences += 1
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):             # <<<<<<<<<<<<<<
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:
- */
-          goto __pyx_L13;
-        }
-
-        /* "calfews_src/canal_cy.pyx":66
- *               differences += 1
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()             # <<<<<<<<<<<<<<
- *             if equality[i] == False:
- *               differences += 1
- */
-        /*else*/ {
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_3 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_3)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_3);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_2, function);
-            }
-          }
-          __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_13 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_13)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_13);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_3, function);
-            }
-          }
-          __pyx_t_2 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_13, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_all); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_3)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_3);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_2, function);
-            }
-          }
-          __pyx_t_15 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, __pyx_t_15) < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-
-          /* "calfews_src/canal_cy.pyx":67
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *     return (differences == 0)
- */
-          __pyx_t_15 = __Pyx_PyDict_GetItem(__pyx_v_equality, __pyx_v_i); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 67, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_2 = PyObject_RichCompare(__pyx_t_15, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (__pyx_t_10) {
-
-            /* "calfews_src/canal_cy.pyx":68
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- *             if equality[i] == False:
- *               differences += 1             # <<<<<<<<<<<<<<
- *     return (differences == 0)
- * 
- */
-            __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_2);
-            __pyx_t_2 = 0;
-
-            /* "calfews_src/canal_cy.pyx":67
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *     return (differences == 0)
- */
-          }
-        }
-        __pyx_L13:;
-      }
-      __pyx_L6:;
-    }
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  }
-
-  /* "calfews_src/canal_cy.pyx":69
- *             if equality[i] == False:
- *               differences += 1
- *     return (differences == 0)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_v_differences, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_r = __pyx_t_4;
-  __pyx_t_4 = 0;
-  goto __pyx_L0;
-
-  /* "calfews_src/canal_cy.pyx":40
- * 
- * 
- *   def object_equals(self, other):             # <<<<<<<<<<<<<<
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_15);
-  __Pyx_XDECREF(__pyx_t_16);
-  __Pyx_AddTraceback("calfews_src.canal_cy.Canal.object_equals", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_equality);
-  __Pyx_XDECREF(__pyx_v_differences);
-  __Pyx_XDECREF(__pyx_v_i);
-  __Pyx_XDECREF(__pyx_v_j);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "calfews_src/canal_cy.pyx":72
- * 
- * 
  *   cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir):             # <<<<<<<<<<<<<<
- *     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal at the current node
- *     cdef double initial_capacity, excess_flow
+ *     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal
+ *     #at the current node
  */
 
 static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_check_flow_capacity(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_available_flow, int __pyx_v_canal_loc, PyObject *__pyx_v_flow_dir) {
@@ -3265,9 +2402,9 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("check_flow_capacity", 0);
-  __Pyx_TraceCall("check_flow_capacity", __pyx_f[0], 72, 0, __PYX_ERR(0, 72, __pyx_L1_error));
+  __Pyx_TraceCall("check_flow_capacity", __pyx_f[0], 40, 0, __PYX_ERR(0, 40, __pyx_L1_error));
 
-  /* "calfews_src/canal_cy.pyx":76
+  /* "calfews_src/canal_cy.pyx":45
  *     cdef double initial_capacity, excess_flow
  * 
  *     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]             # <<<<<<<<<<<<<<
@@ -3276,34 +2413,34 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
  */
   if (unlikely(__pyx_v_self->capacity == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 76, __pyx_L1_error)
+    __PYX_ERR(0, 45, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->capacity, __pyx_v_flow_dir); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->capacity, __pyx_v_flow_dir); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyNumber_Multiply(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Multiply(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_self->flow == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 76, __pyx_L1_error)
+    __PYX_ERR(0, 45, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->flow, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->flow, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Subtract(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_initial_capacity = __pyx_t_4;
 
-  /* "calfews_src/canal_cy.pyx":77
+  /* "calfews_src/canal_cy.pyx":46
  * 
  *     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]
  *     if available_flow > initial_capacity:             # <<<<<<<<<<<<<<
@@ -3313,7 +2450,7 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
   __pyx_t_5 = ((__pyx_v_available_flow > __pyx_v_initial_capacity) != 0);
   if (__pyx_t_5) {
 
-    /* "calfews_src/canal_cy.pyx":78
+    /* "calfews_src/canal_cy.pyx":47
  *     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]
  *     if available_flow > initial_capacity:
  *       excess_flow = available_flow - initial_capacity             # <<<<<<<<<<<<<<
@@ -3322,7 +2459,7 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
  */
     __pyx_v_excess_flow = (__pyx_v_available_flow - __pyx_v_initial_capacity);
 
-    /* "calfews_src/canal_cy.pyx":79
+    /* "calfews_src/canal_cy.pyx":48
  *     if available_flow > initial_capacity:
  *       excess_flow = available_flow - initial_capacity
  *       available_flow = initial_capacity             # <<<<<<<<<<<<<<
@@ -3331,7 +2468,7 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
  */
     __pyx_v_available_flow = __pyx_v_initial_capacity;
 
-    /* "calfews_src/canal_cy.pyx":77
+    /* "calfews_src/canal_cy.pyx":46
  * 
  *     initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]
  *     if available_flow > initial_capacity:             # <<<<<<<<<<<<<<
@@ -3341,7 +2478,7 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
     goto __pyx_L3;
   }
 
-  /* "calfews_src/canal_cy.pyx":81
+  /* "calfews_src/canal_cy.pyx":50
  *       available_flow = initial_capacity
  *     else:
  *       excess_flow = 0.0             # <<<<<<<<<<<<<<
@@ -3353,7 +2490,7 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
   }
   __pyx_L3:;
 
-  /* "calfews_src/canal_cy.pyx":83
+  /* "calfews_src/canal_cy.pyx":52
  *       excess_flow = 0.0
  * 
  *     return available_flow, excess_flow             # <<<<<<<<<<<<<<
@@ -3365,12 +2502,12 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
   __pyx_r = __pyx_t_6;
   goto __pyx_L0;
 
-  /* "calfews_src/canal_cy.pyx":72
+  /* "calfews_src/canal_cy.pyx":40
  * 
  * 
  *   cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir):             # <<<<<<<<<<<<<<
- *     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal at the current node
- *     cdef double initial_capacity, excess_flow
+ *     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal
+ *     #at the current node
  */
 
   /* function exit code */
@@ -3386,12 +2523,12 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
   return __pyx_r;
 }
 
-/* "calfews_src/canal_cy.pyx":86
+/* "calfews_src/canal_cy.pyx":55
  * 
  * 
  *   cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir):             # <<<<<<<<<<<<<<
- *     #this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the total demand at that node
- *     cdef:
+ *     #this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the
+ *     #total demand at that node
  */
 
 static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_node_capacity, PyObject *__pyx_v_type_fractions, PyObject *__pyx_v_type_list, int __pyx_v_canal_loc, PyObject *__pyx_v_flow_dir) {
@@ -3413,9 +2550,9 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_priority_fractions", 0);
-  __Pyx_TraceCall("find_priority_fractions", __pyx_f[0], 86, 0, __PYX_ERR(0, 86, __pyx_L1_error));
+  __Pyx_TraceCall("find_priority_fractions", __pyx_f[0], 55, 0, __PYX_ERR(0, 55, __pyx_L1_error));
 
-  /* "calfews_src/canal_cy.pyx":92
+  /* "calfews_src/canal_cy.pyx":62
  *       str zz
  * 
  *     total_delivery_capacity = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], node_capacity), 0.0)             # <<<<<<<<<<<<<<
@@ -3426,37 +2563,37 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
   __pyx_t_2 = __pyx_v_node_capacity;
   if (unlikely(__pyx_v_self->turnout == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 92, __pyx_L1_error)
+    __PYX_ERR(0, 62, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout, __pyx_v_flow_dir); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout, __pyx_v_flow_dir); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_v_self->turnout_use == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 92, __pyx_L1_error)
+    __PYX_ERR(0, 62, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_self->turnout_use, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_self->turnout_use, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Subtract(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Subtract(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_t_5, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_5, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (__pyx_t_7) {
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_3 = __pyx_t_6;
     __pyx_t_6 = 0;
@@ -3468,14 +2605,14 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
   __Pyx_INCREF(__pyx_t_3);
   __pyx_t_4 = __pyx_t_3;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_6, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_6, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_7) {
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_3 = __pyx_t_5;
     __pyx_t_5 = 0;
@@ -3484,11 +2621,11 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
     __pyx_t_3 = __pyx_t_4;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_total_delivery_capacity = __pyx_t_1;
 
-  /* "calfews_src/canal_cy.pyx":93
+  /* "calfews_src/canal_cy.pyx":63
  * 
  *     total_delivery_capacity = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], node_capacity), 0.0)
  *     for zz in type_list:             # <<<<<<<<<<<<<<
@@ -3497,22 +2634,22 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
  */
   if (unlikely(__pyx_v_type_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 93, __pyx_L1_error)
+    __PYX_ERR(0, 63, __pyx_L1_error)
   }
   __pyx_t_3 = __pyx_v_type_list; __Pyx_INCREF(__pyx_t_3); __pyx_t_8 = 0;
   for (;;) {
     if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_3)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_4); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_4); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
-    if (!(likely(PyUnicode_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 93, __pyx_L1_error)
+    if (!(likely(PyUnicode_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 63, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_zz, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "calfews_src/canal_cy.pyx":95
+    /* "calfews_src/canal_cy.pyx":65
  *     for zz in type_list:
  *       #find the fraction of each priority type that can be filled, based on canal capacity and downstream demands
  *       if self.demand[zz][canal_loc]*type_fractions[zz] > total_delivery_capacity:             # <<<<<<<<<<<<<<
@@ -3521,33 +2658,33 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
  */
     if (unlikely(__pyx_v_self->demand == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 95, __pyx_L1_error)
+      __PYX_ERR(0, 65, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (unlikely(__pyx_v_type_fractions == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 95, __pyx_L1_error)
+      __PYX_ERR(0, 65, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_type_fractions, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_type_fractions, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_total_delivery_capacity); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_total_delivery_capacity); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_6, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_6, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_7) {
 
-      /* "calfews_src/canal_cy.pyx":96
+      /* "calfews_src/canal_cy.pyx":66
  *       #find the fraction of each priority type that can be filled, based on canal capacity and downstream demands
  *       if self.demand[zz][canal_loc]*type_fractions[zz] > total_delivery_capacity:
  *         if self.demand[zz][canal_loc] > 0.0:             # <<<<<<<<<<<<<<
@@ -3556,20 +2693,20 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
  */
       if (unlikely(__pyx_v_self->demand == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 96, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_7) {
 
-        /* "calfews_src/canal_cy.pyx":97
+        /* "calfews_src/canal_cy.pyx":67
  *       if self.demand[zz][canal_loc]*type_fractions[zz] > total_delivery_capacity:
  *         if self.demand[zz][canal_loc] > 0.0:
  *           type_fractions[zz] = min(total_delivery_capacity/self.demand[zz][canal_loc], 1.0)             # <<<<<<<<<<<<<<
@@ -3577,29 +2714,29 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
  *           type_fractions[zz] = 0.0
  */
         __pyx_t_1 = 1.0;
-        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_total_delivery_capacity); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_total_delivery_capacity); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         if (unlikely(__pyx_v_self->demand == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 97, __pyx_L1_error)
+          __PYX_ERR(0, 67, __pyx_L1_error)
         }
-        __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_5 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_9 = PyObject_RichCompare(__pyx_t_5, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_9 = PyObject_RichCompare(__pyx_t_5, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         if (__pyx_t_7) {
-          __pyx_t_9 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 97, __pyx_L1_error)
+          __pyx_t_9 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 67, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __pyx_t_6 = __pyx_t_9;
           __pyx_t_9 = 0;
@@ -3613,12 +2750,12 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         if (unlikely(__pyx_v_type_fractions == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 97, __pyx_L1_error)
+          __PYX_ERR(0, 67, __pyx_L1_error)
         }
-        if (unlikely(PyDict_SetItem(__pyx_v_type_fractions, __pyx_v_zz, __pyx_t_4) < 0)) __PYX_ERR(0, 97, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_type_fractions, __pyx_v_zz, __pyx_t_4) < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "calfews_src/canal_cy.pyx":96
+        /* "calfews_src/canal_cy.pyx":66
  *       #find the fraction of each priority type that can be filled, based on canal capacity and downstream demands
  *       if self.demand[zz][canal_loc]*type_fractions[zz] > total_delivery_capacity:
  *         if self.demand[zz][canal_loc] > 0.0:             # <<<<<<<<<<<<<<
@@ -3628,7 +2765,7 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
         goto __pyx_L6;
       }
 
-      /* "calfews_src/canal_cy.pyx":99
+      /* "calfews_src/canal_cy.pyx":69
  *           type_fractions[zz] = min(total_delivery_capacity/self.demand[zz][canal_loc], 1.0)
  *         else:
  *           type_fractions[zz] = 0.0             # <<<<<<<<<<<<<<
@@ -3638,13 +2775,13 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
       /*else*/ {
         if (unlikely(__pyx_v_type_fractions == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 69, __pyx_L1_error)
         }
-        if (unlikely(PyDict_SetItem(__pyx_v_type_fractions, __pyx_v_zz, __pyx_float_0_0) < 0)) __PYX_ERR(0, 99, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_type_fractions, __pyx_v_zz, __pyx_float_0_0) < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
       }
       __pyx_L6:;
 
-      /* "calfews_src/canal_cy.pyx":95
+      /* "calfews_src/canal_cy.pyx":65
  *     for zz in type_list:
  *       #find the fraction of each priority type that can be filled, based on canal capacity and downstream demands
  *       if self.demand[zz][canal_loc]*type_fractions[zz] > total_delivery_capacity:             # <<<<<<<<<<<<<<
@@ -3653,43 +2790,43 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
  */
     }
 
-    /* "calfews_src/canal_cy.pyx":101
+    /* "calfews_src/canal_cy.pyx":71
  *           type_fractions[zz] = 0.0
  *       #update the remaining capacity for remaining priority levels
  *       total_delivery_capacity -= self.demand[zz][canal_loc]*type_fractions[zz]             # <<<<<<<<<<<<<<
  * 
  *     return type_fractions
  */
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_total_delivery_capacity); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_total_delivery_capacity); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (unlikely(__pyx_v_self->demand == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 101, __pyx_L1_error)
+      __PYX_ERR(0, 71, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(__pyx_v_type_fractions == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 101, __pyx_L1_error)
+      __PYX_ERR(0, 71, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_type_fractions, __pyx_v_zz); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_type_fractions, __pyx_v_zz); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = PyNumber_Multiply(__pyx_t_9, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_9, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_InPlaceSubtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceSubtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_total_delivery_capacity = __pyx_t_1;
 
-    /* "calfews_src/canal_cy.pyx":93
+    /* "calfews_src/canal_cy.pyx":63
  * 
  *     total_delivery_capacity = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], node_capacity), 0.0)
  *     for zz in type_list:             # <<<<<<<<<<<<<<
@@ -3699,7 +2836,7 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "calfews_src/canal_cy.pyx":103
+  /* "calfews_src/canal_cy.pyx":73
  *       total_delivery_capacity -= self.demand[zz][canal_loc]*type_fractions[zz]
  * 
  *     return type_fractions             # <<<<<<<<<<<<<<
@@ -3711,12 +2848,12 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
   __pyx_r = __pyx_v_type_fractions;
   goto __pyx_L0;
 
-  /* "calfews_src/canal_cy.pyx":86
+  /* "calfews_src/canal_cy.pyx":55
  * 
  * 
  *   cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir):             # <<<<<<<<<<<<<<
- *     #this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the total demand at that node
- *     cdef:
+ *     #this function returns the % of each canal demand priority that can be filled, given the turnout capacity at the node and the
+ *     #total demand at that node
  */
 
   /* function exit code */
@@ -3736,12 +2873,12 @@ static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(
   return __pyx_r;
 }
 
-/* "calfews_src/canal_cy.pyx":106
+/* "calfews_src/canal_cy.pyx":76
  * 
  * 
  *   cdef void find_turnout_adjustment(self, double demand_constraint, str flow_dir, int canal_loc, list type_list):             # <<<<<<<<<<<<<<
- *     #this function adjusts the total demand (by priority) at a node to reflect both the turnout capacity at that node, and the total demand possible (not by priority) at that node - priority demands are sometimes in excess of the total node demands because sometimes 'excess capacity' is shared between multiple districts - so we develop self.turnout_frac to pro-rate each member's share of that capacity so that individual requests do not exceed total capacity
- *     cdef:
+ *     #this function adjusts the total demand (by priority) at a node to reflect both the turnout capacity at that node,
+ *     #and the total demand possible (not by priority) at that node - priority demands are sometimes in excess of the
  */
 
 static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_demand_constraint, PyObject *__pyx_v_flow_dir, int __pyx_v_canal_loc, PyObject *__pyx_v_type_list) {
@@ -3761,9 +2898,9 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_turnout_adjustment", 0);
-  __Pyx_TraceCall("find_turnout_adjustment", __pyx_f[0], 106, 0, __PYX_ERR(0, 106, __pyx_L1_error));
+  __Pyx_TraceCall("find_turnout_adjustment", __pyx_f[0], 76, 0, __PYX_ERR(0, 76, __pyx_L1_error));
 
-  /* "calfews_src/canal_cy.pyx":112
+  /* "calfews_src/canal_cy.pyx":85
  *       str zz
  * 
  *     max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)             # <<<<<<<<<<<<<<
@@ -3773,37 +2910,37 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
   __pyx_t_1 = __pyx_v_demand_constraint;
   if (unlikely(__pyx_v_self->turnout == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 112, __pyx_L1_error)
+    __PYX_ERR(0, 85, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout, __pyx_v_flow_dir); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout, __pyx_v_flow_dir); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (unlikely(__pyx_v_self->turnout_use == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 112, __pyx_L1_error)
+    __PYX_ERR(0, 85, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_self->turnout_use, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_self->turnout_use, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyNumber_Subtract(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Subtract(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_6) {
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = __pyx_t_5;
     __pyx_t_5 = 0;
@@ -3812,11 +2949,11 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
     __pyx_t_2 = __pyx_t_3;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_max_turnout = __pyx_t_1;
 
-  /* "calfews_src/canal_cy.pyx":113
+  /* "calfews_src/canal_cy.pyx":86
  * 
  *     max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)
  *     for zz in type_list:             # <<<<<<<<<<<<<<
@@ -3825,22 +2962,22 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
  */
   if (unlikely(__pyx_v_type_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 113, __pyx_L1_error)
+    __PYX_ERR(0, 86, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_v_type_list; __Pyx_INCREF(__pyx_t_2); __pyx_t_7 = 0;
   for (;;) {
     if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 113, __pyx_L1_error)
+    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_zz, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "calfews_src/canal_cy.pyx":114
+    /* "calfews_src/canal_cy.pyx":87
  *     max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)
  *     for zz in type_list:
  *       if self.demand[zz][canal_loc] > max_turnout:             # <<<<<<<<<<<<<<
@@ -3849,23 +2986,23 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
  */
     if (unlikely(__pyx_v_self->demand == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 114, __pyx_L1_error)
+      __PYX_ERR(0, 87, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_6) {
 
-      /* "calfews_src/canal_cy.pyx":115
+      /* "calfews_src/canal_cy.pyx":88
  *     for zz in type_list:
  *       if self.demand[zz][canal_loc] > max_turnout:
  *         if self.demand[zz][canal_loc] > 0.0:             # <<<<<<<<<<<<<<
@@ -3874,20 +3011,20 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
  */
       if (unlikely(__pyx_v_self->demand == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 115, __pyx_L1_error)
+        __PYX_ERR(0, 88, __pyx_L1_error)
       }
-      __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
 
-        /* "calfews_src/canal_cy.pyx":116
+        /* "calfews_src/canal_cy.pyx":89
  *       if self.demand[zz][canal_loc] > max_turnout:
  *         if self.demand[zz][canal_loc] > 0.0:
  *           self.turnout_frac[zz][canal_loc] = min(max_turnout/self.demand[zz][canal_loc], 1.0)             # <<<<<<<<<<<<<<
@@ -3895,29 +3032,29 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
  *           self.turnout_frac[zz][canal_loc] = 0.0
  */
         __pyx_t_1 = 1.0;
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         if (unlikely(__pyx_v_self->demand == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 116, __pyx_L1_error)
+          __PYX_ERR(0, 89, __pyx_L1_error)
         }
-        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_8 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_8 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         if (__pyx_t_6) {
-          __pyx_t_8 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 116, __pyx_L1_error)
+          __pyx_t_8 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __pyx_t_5 = __pyx_t_8;
           __pyx_t_8 = 0;
@@ -3931,15 +3068,15 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         if (unlikely(__pyx_v_self->turnout_frac == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 116, __pyx_L1_error)
+          __PYX_ERR(0, 89, __pyx_L1_error)
         }
-        __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout_frac, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout_frac, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_canal_loc, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_canal_loc, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "calfews_src/canal_cy.pyx":115
+        /* "calfews_src/canal_cy.pyx":88
  *     for zz in type_list:
  *       if self.demand[zz][canal_loc] > max_turnout:
  *         if self.demand[zz][canal_loc] > 0.0:             # <<<<<<<<<<<<<<
@@ -3949,7 +3086,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
         goto __pyx_L6;
       }
 
-      /* "calfews_src/canal_cy.pyx":118
+      /* "calfews_src/canal_cy.pyx":91
  *           self.turnout_frac[zz][canal_loc] = min(max_turnout/self.demand[zz][canal_loc], 1.0)
  *         else:
  *           self.turnout_frac[zz][canal_loc] = 0.0             # <<<<<<<<<<<<<<
@@ -3959,35 +3096,35 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
       /*else*/ {
         if (unlikely(__pyx_v_self->turnout_frac == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 118, __pyx_L1_error)
+          __PYX_ERR(0, 91, __pyx_L1_error)
         }
-        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout_frac, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 118, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout_frac, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_canal_loc, __pyx_float_0_0, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_canal_loc, __pyx_float_0_0, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
       __pyx_L6:;
 
-      /* "calfews_src/canal_cy.pyx":119
+      /* "calfews_src/canal_cy.pyx":92
  *         else:
  *           self.turnout_frac[zz][canal_loc] = 0.0
  *         self.demand[zz][canal_loc] = max_turnout             # <<<<<<<<<<<<<<
  *       else:
  *         self.turnout_frac[zz][canal_loc] = 1.0
  */
-      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       if (unlikely(__pyx_v_self->demand == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 119, __pyx_L1_error)
+        __PYX_ERR(0, 92, __pyx_L1_error)
       }
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_canal_loc, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_canal_loc, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "calfews_src/canal_cy.pyx":114
+      /* "calfews_src/canal_cy.pyx":87
  *     max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)
  *     for zz in type_list:
  *       if self.demand[zz][canal_loc] > max_turnout:             # <<<<<<<<<<<<<<
@@ -3997,7 +3134,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
       goto __pyx_L5;
     }
 
-    /* "calfews_src/canal_cy.pyx":121
+    /* "calfews_src/canal_cy.pyx":94
  *         self.demand[zz][canal_loc] = max_turnout
  *       else:
  *         self.turnout_frac[zz][canal_loc] = 1.0             # <<<<<<<<<<<<<<
@@ -4007,42 +3144,42 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
     /*else*/ {
       if (unlikely(__pyx_v_self->turnout_frac == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 121, __pyx_L1_error)
+        __PYX_ERR(0, 94, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout_frac, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->turnout_frac, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_canal_loc, __pyx_float_1_0, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 121, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_canal_loc, __pyx_float_1_0, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 94, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __pyx_L5:;
 
-    /* "calfews_src/canal_cy.pyx":122
+    /* "calfews_src/canal_cy.pyx":95
  *       else:
  *         self.turnout_frac[zz][canal_loc] = 1.0
  *       max_turnout -= self.demand[zz][canal_loc]             # <<<<<<<<<<<<<<
  *       if max_turnout < 0.0:
  *         max_turnout = 0.0
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_max_turnout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (unlikely(__pyx_v_self->demand == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 122, __pyx_L1_error)
+      __PYX_ERR(0, 95, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->demand, __pyx_v_zz); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_InPlaceSubtract(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_InPlaceSubtract(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_max_turnout = __pyx_t_1;
 
-    /* "calfews_src/canal_cy.pyx":123
+    /* "calfews_src/canal_cy.pyx":96
  *         self.turnout_frac[zz][canal_loc] = 1.0
  *       max_turnout -= self.demand[zz][canal_loc]
  *       if max_turnout < 0.0:             # <<<<<<<<<<<<<<
@@ -4052,7 +3189,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
     __pyx_t_6 = ((__pyx_v_max_turnout < 0.0) != 0);
     if (__pyx_t_6) {
 
-      /* "calfews_src/canal_cy.pyx":124
+      /* "calfews_src/canal_cy.pyx":97
  *       max_turnout -= self.demand[zz][canal_loc]
  *       if max_turnout < 0.0:
  *         max_turnout = 0.0             # <<<<<<<<<<<<<<
@@ -4061,7 +3198,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
  */
       __pyx_v_max_turnout = 0.0;
 
-      /* "calfews_src/canal_cy.pyx":123
+      /* "calfews_src/canal_cy.pyx":96
  *         self.turnout_frac[zz][canal_loc] = 1.0
  *       max_turnout -= self.demand[zz][canal_loc]
  *       if max_turnout < 0.0:             # <<<<<<<<<<<<<<
@@ -4070,7 +3207,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
  */
     }
 
-    /* "calfews_src/canal_cy.pyx":113
+    /* "calfews_src/canal_cy.pyx":86
  * 
  *     max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)
  *     for zz in type_list:             # <<<<<<<<<<<<<<
@@ -4080,12 +3217,12 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "calfews_src/canal_cy.pyx":106
+  /* "calfews_src/canal_cy.pyx":76
  * 
  * 
  *   cdef void find_turnout_adjustment(self, double demand_constraint, str flow_dir, int canal_loc, list type_list):             # <<<<<<<<<<<<<<
- *     #this function adjusts the total demand (by priority) at a node to reflect both the turnout capacity at that node, and the total demand possible (not by priority) at that node - priority demands are sometimes in excess of the total node demands because sometimes 'excess capacity' is shared between multiple districts - so we develop self.turnout_frac to pro-rate each member's share of that capacity so that individual requests do not exceed total capacity
- *     cdef:
+ *     #this function adjusts the total demand (by priority) at a node to reflect both the turnout capacity at that node,
+ *     #and the total demand possible (not by priority) at that node - priority demands are sometimes in excess of the
  */
 
   /* function exit code */
@@ -4103,12 +3240,12 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struc
   __Pyx_RefNannyFinishContext();
 }
 
-/* "calfews_src/canal_cy.pyx":127
+/* "calfews_src/canal_cy.pyx":100
  * 
  * 
  *   cdef (double, double, int, double) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list):             # <<<<<<<<<<<<<<
  *     #this function checks to see if the next canal node has the capacity to take the remaining flow - if not,
- * 	#the flow is 'turned back', removing the excess water from the canal.flow vector and reallocating it as 'turnback flows'
+ *     #the flow is 'turned back', removing the excess water from the canal.flow vector and reallocating it as 'turnback flows'
  */
 
 static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_update_canal_use(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_available_flow, double __pyx_v_location_delivery, PyObject *__pyx_v_flow_dir, int __pyx_v_canal_loc, int __pyx_v_starting_point, int __pyx_v_canal_size, CYTHON_UNUSED PyObject *__pyx_v_type_list) {
@@ -4137,9 +3274,9 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update_canal_use", 0);
-  __Pyx_TraceCall("update_canal_use", __pyx_f[0], 127, 0, __PYX_ERR(0, 127, __pyx_L1_error));
+  __Pyx_TraceCall("update_canal_use", __pyx_f[0], 100, 0, __PYX_ERR(0, 100, __pyx_L1_error));
 
-  /* "calfews_src/canal_cy.pyx":138
+  /* "calfews_src/canal_cy.pyx":111
  *       int next_step, turnback_end, removal_flow
  * 
  *     self.turnout_use[canal_loc] += location_delivery             # <<<<<<<<<<<<<<
@@ -4148,95 +3285,95 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  */
   if (unlikely(__pyx_v_self->turnout_use == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 138, __pyx_L1_error)
+    __PYX_ERR(0, 111, __pyx_L1_error)
   }
   __Pyx_INCREF(__pyx_v_self->turnout_use);
   __pyx_t_1 = __pyx_v_self->turnout_use;
   __pyx_t_2 = __pyx_v_canal_loc;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 138, __pyx_L1_error)
+    __PYX_ERR(0, 111, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_location_delivery); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_location_delivery); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 138, __pyx_L1_error)
+    __PYX_ERR(0, 111, __pyx_L1_error)
   }
-  if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_2, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
+  if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_2, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/canal_cy.pyx":139
+  /* "calfews_src/canal_cy.pyx":112
  * 
  *     self.turnout_use[canal_loc] += location_delivery
  *     self.flow[canal_loc] += available_flow             # <<<<<<<<<<<<<<
  *     evap_flows = 0.0
- * 	#remaning available flow after delivery is made at this node
+ * 	  #remaning available flow after delivery is made at this node
  */
   if (unlikely(__pyx_v_self->flow == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 139, __pyx_L1_error)
+    __PYX_ERR(0, 112, __pyx_L1_error)
   }
   __Pyx_INCREF(__pyx_v_self->flow);
   __pyx_t_1 = __pyx_v_self->flow;
   __pyx_t_2 = __pyx_v_canal_loc;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 139, __pyx_L1_error)
+    __PYX_ERR(0, 112, __pyx_L1_error)
   }
-  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_available_flow); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_available_flow); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 139, __pyx_L1_error)
+    __PYX_ERR(0, 112, __pyx_L1_error)
   }
-  if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_2, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
+  if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_2, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/canal_cy.pyx":140
+  /* "calfews_src/canal_cy.pyx":113
  *     self.turnout_use[canal_loc] += location_delivery
  *     self.flow[canal_loc] += available_flow
  *     evap_flows = 0.0             # <<<<<<<<<<<<<<
- * 	#remaning available flow after delivery is made at this node
+ * 	  #remaning available flow after delivery is made at this node
  *     available_flow -= location_delivery
  */
   __pyx_v_evap_flows = 0.0;
 
-  /* "calfews_src/canal_cy.pyx":142
+  /* "calfews_src/canal_cy.pyx":115
  *     evap_flows = 0.0
- * 	#remaning available flow after delivery is made at this node
+ * 	  #remaning available flow after delivery is made at this node
  *     available_flow -= location_delivery             # <<<<<<<<<<<<<<
  *     #direction of flow determines which node is next
  *     if flow_dir == "normal":
  */
   __pyx_v_available_flow = (__pyx_v_available_flow - __pyx_v_location_delivery);
 
-  /* "calfews_src/canal_cy.pyx":144
+  /* "calfews_src/canal_cy.pyx":117
  *     available_flow -= location_delivery
  *     #direction of flow determines which node is next
  *     if flow_dir == "normal":             # <<<<<<<<<<<<<<
  *        next_step = 1
  *     if flow_dir == "reverse":
  */
-  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
   __pyx_t_7 = (__pyx_t_6 != 0);
   if (__pyx_t_7) {
 
-    /* "calfews_src/canal_cy.pyx":145
+    /* "calfews_src/canal_cy.pyx":118
  *     #direction of flow determines which node is next
  *     if flow_dir == "normal":
  *        next_step = 1             # <<<<<<<<<<<<<<
@@ -4245,7 +3382,7 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  */
     __pyx_v_next_step = 1;
 
-    /* "calfews_src/canal_cy.pyx":144
+    /* "calfews_src/canal_cy.pyx":117
  *     available_flow -= location_delivery
  *     #direction of flow determines which node is next
  *     if flow_dir == "normal":             # <<<<<<<<<<<<<<
@@ -4254,18 +3391,18 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  */
   }
 
-  /* "calfews_src/canal_cy.pyx":146
+  /* "calfews_src/canal_cy.pyx":119
  *     if flow_dir == "normal":
  *        next_step = 1
  *     if flow_dir == "reverse":             # <<<<<<<<<<<<<<
  *       next_step = -1
  *     #turnback flows are the remaining available flow in excess of the next node's capacity
  */
-  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_t_6 = (__pyx_t_7 != 0);
   if (__pyx_t_6) {
 
-    /* "calfews_src/canal_cy.pyx":147
+    /* "calfews_src/canal_cy.pyx":120
  *        next_step = 1
  *     if flow_dir == "reverse":
  *       next_step = -1             # <<<<<<<<<<<<<<
@@ -4274,7 +3411,7 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  */
     __pyx_v_next_step = -1;
 
-    /* "calfews_src/canal_cy.pyx":146
+    /* "calfews_src/canal_cy.pyx":119
  *     if flow_dir == "normal":
  *        next_step = 1
  *     if flow_dir == "reverse":             # <<<<<<<<<<<<<<
@@ -4283,7 +3420,7 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  */
   }
 
-  /* "calfews_src/canal_cy.pyx":149
+  /* "calfews_src/canal_cy.pyx":122
  *       next_step = -1
  *     #turnback flows are the remaining available flow in excess of the next node's capacity
  *     turnback_flows = max(available_flow - self.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + self.flow[canal_loc+next_step], 0.0)             # <<<<<<<<<<<<<<
@@ -4291,47 +3428,47 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  * 	  #if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
  */
   __pyx_t_8 = 0.0;
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_available_flow); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_available_flow); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (unlikely(__pyx_v_self->capacity == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 149, __pyx_L1_error)
+    __PYX_ERR(0, 122, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->capacity, __pyx_v_flow_dir); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->capacity, __pyx_v_flow_dir); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_2 = (__pyx_v_canal_loc + __pyx_v_next_step);
-  __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_9 = PyNumber_Multiply(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_9 = PyNumber_Multiply(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Subtract(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Subtract(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   if (unlikely(__pyx_v_self->flow == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 149, __pyx_L1_error)
+    __PYX_ERR(0, 122, __pyx_L1_error)
   }
   __pyx_t_2 = (__pyx_v_canal_loc + __pyx_v_next_step);
-  __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_self->flow, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_self->flow, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_6) {
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_9 = __pyx_t_5;
     __pyx_t_5 = 0;
@@ -4340,372 +3477,218 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
     __pyx_t_9 = __pyx_t_3;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __pyx_v_turnback_flows = __pyx_t_8;
 
-  /* "calfews_src/canal_cy.pyx":152
+  /* "calfews_src/canal_cy.pyx":125
  *     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
  * 	  #if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
- *     if turnback_flows > 0.005:             # <<<<<<<<<<<<<<
- *       available_flow -= turnback_flows
- *       if flow_dir == "normal":
+ *     if flow_dir == "normal":             # <<<<<<<<<<<<<<
+ *       for removal_flow in range(starting_point, canal_loc + 1):
+ *         self.flow[removal_flow] -= turnback_flows
  */
-  __pyx_t_6 = ((__pyx_v_turnback_flows > 0.005) != 0);
-  if (__pyx_t_6) {
+  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_7 = (__pyx_t_6 != 0);
+  if (__pyx_t_7) {
 
-    /* "calfews_src/canal_cy.pyx":153
+    /* "calfews_src/canal_cy.pyx":126
  * 	  #if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
- *     if turnback_flows > 0.005:
- *       available_flow -= turnback_flows             # <<<<<<<<<<<<<<
- *       if flow_dir == "normal":
- *         turnback_end = canal_loc + 1
+ *     if flow_dir == "normal":
+ *       for removal_flow in range(starting_point, canal_loc + 1):             # <<<<<<<<<<<<<<
+ *         self.flow[removal_flow] -= turnback_flows
+ *     elif flow_dir == "reverse":
  */
-    __pyx_v_available_flow = (__pyx_v_available_flow - __pyx_v_turnback_flows);
+    __pyx_t_10 = (__pyx_v_canal_loc + 1);
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_2 = __pyx_v_starting_point; __pyx_t_2 < __pyx_t_11; __pyx_t_2+=1) {
+      __pyx_v_removal_flow = __pyx_t_2;
 
-    /* "calfews_src/canal_cy.pyx":154
- *     if turnback_flows > 0.005:
- *       available_flow -= turnback_flows
- *       if flow_dir == "normal":             # <<<<<<<<<<<<<<
- *         turnback_end = canal_loc + 1
- *         for removal_flow in range(starting_point,canal_loc+1):
+      /* "calfews_src/canal_cy.pyx":127
+ *     if flow_dir == "normal":
+ *       for removal_flow in range(starting_point, canal_loc + 1):
+ *         self.flow[removal_flow] -= turnback_flows             # <<<<<<<<<<<<<<
+ *     elif flow_dir == "reverse":
+ *       for removal_flow in range(starting_point, canal_loc-1, -1):
  */
-    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
-    __pyx_t_7 = (__pyx_t_6 != 0);
-    if (__pyx_t_7) {
-
-      /* "calfews_src/canal_cy.pyx":155
- *       available_flow -= turnback_flows
- *       if flow_dir == "normal":
- *         turnback_end = canal_loc + 1             # <<<<<<<<<<<<<<
- *         for removal_flow in range(starting_point,canal_loc+1):
- *           self.flow[removal_flow] -= turnback_flows
- */
-      __pyx_v_turnback_end = (__pyx_v_canal_loc + 1);
-
-      /* "calfews_src/canal_cy.pyx":156
- *       if flow_dir == "normal":
- *         turnback_end = canal_loc + 1
- *         for removal_flow in range(starting_point,canal_loc+1):             # <<<<<<<<<<<<<<
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":
- */
-      __pyx_t_10 = (__pyx_v_canal_loc + 1);
-      __pyx_t_11 = __pyx_t_10;
-      for (__pyx_t_2 = __pyx_v_starting_point; __pyx_t_2 < __pyx_t_11; __pyx_t_2+=1) {
-        __pyx_v_removal_flow = __pyx_t_2;
-
-        /* "calfews_src/canal_cy.pyx":157
- *         turnback_end = canal_loc + 1
- *         for removal_flow in range(starting_point,canal_loc+1):
- *           self.flow[removal_flow] -= turnback_flows             # <<<<<<<<<<<<<<
- *       elif flow_dir == "reverse":
- *         turnback_end = canal_size - canal_loc - 1
- */
-        if (unlikely(__pyx_v_self->flow == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 157, __pyx_L1_error)
-        }
-        __Pyx_INCREF(__pyx_v_self->flow);
-        __pyx_t_1 = __pyx_v_self->flow;
-        __pyx_t_12 = __pyx_v_removal_flow;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 157, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 157, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_turnback_flows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_5 = PyNumber_InPlaceSubtract(__pyx_t_9, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 157, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 157, __pyx_L1_error)
-        }
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_12, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 157, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (unlikely(__pyx_v_self->flow == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 127, __pyx_L1_error)
       }
-
-      /* "calfews_src/canal_cy.pyx":154
- *     if turnback_flows > 0.005:
- *       available_flow -= turnback_flows
- *       if flow_dir == "normal":             # <<<<<<<<<<<<<<
- *         turnback_end = canal_loc + 1
- *         for removal_flow in range(starting_point,canal_loc+1):
- */
-      goto __pyx_L6;
+      __Pyx_INCREF(__pyx_v_self->flow);
+      __pyx_t_1 = __pyx_v_self->flow;
+      __pyx_t_12 = __pyx_v_removal_flow;
+      if (unlikely(__pyx_t_1 == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 127, __pyx_L1_error)
+      }
+      __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_turnback_flows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_5 = PyNumber_InPlaceSubtract(__pyx_t_9, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (unlikely(__pyx_t_1 == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 127, __pyx_L1_error)
+      }
+      if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_12, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
 
-    /* "calfews_src/canal_cy.pyx":158
- *         for removal_flow in range(starting_point,canal_loc+1):
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
- *         turnback_end = canal_size - canal_loc - 1
- *         for removal_flow in range(starting_point,canal_loc-1,-1):
- */
-    __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
-    __pyx_t_6 = (__pyx_t_7 != 0);
-    if (__pyx_t_6) {
-
-      /* "calfews_src/canal_cy.pyx":159
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":
- *         turnback_end = canal_size - canal_loc - 1             # <<<<<<<<<<<<<<
- *         for removal_flow in range(starting_point,canal_loc-1,-1):
- *           self.flow[removal_flow] -= turnback_flows
- */
-      __pyx_v_turnback_end = ((__pyx_v_canal_size - __pyx_v_canal_loc) - 1);
-
-      /* "calfews_src/canal_cy.pyx":160
- *       elif flow_dir == "reverse":
- *         turnback_end = canal_size - canal_loc - 1
- *         for removal_flow in range(starting_point,canal_loc-1,-1):             # <<<<<<<<<<<<<<
- *           self.flow[removal_flow] -= turnback_flows
- *     else:
- */
-      __pyx_t_10 = (__pyx_v_canal_loc - 1);
-      __pyx_t_11 = __pyx_t_10;
-      for (__pyx_t_2 = __pyx_v_starting_point; __pyx_t_2 > __pyx_t_11; __pyx_t_2-=1) {
-        __pyx_v_removal_flow = __pyx_t_2;
-
-        /* "calfews_src/canal_cy.pyx":161
- *         turnback_end = canal_size - canal_loc - 1
- *         for removal_flow in range(starting_point,canal_loc-1,-1):
- *           self.flow[removal_flow] -= turnback_flows             # <<<<<<<<<<<<<<
- *     else:
- *       available_flow -= turnback_flows
- */
-        if (unlikely(__pyx_v_self->flow == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 161, __pyx_L1_error)
-        }
-        __Pyx_INCREF(__pyx_v_self->flow);
-        __pyx_t_1 = __pyx_v_self->flow;
-        __pyx_t_12 = __pyx_v_removal_flow;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 161, __pyx_L1_error)
-        }
-        __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 161, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_turnback_flows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_9 = PyNumber_InPlaceSubtract(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 161, __pyx_L1_error)
-        }
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_12, __pyx_t_9, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 161, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      }
-
-      /* "calfews_src/canal_cy.pyx":158
- *         for removal_flow in range(starting_point,canal_loc+1):
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
- *         turnback_end = canal_size - canal_loc - 1
- *         for removal_flow in range(starting_point,canal_loc-1,-1):
- */
-    }
-    __pyx_L6:;
-
-    /* "calfews_src/canal_cy.pyx":152
+    /* "calfews_src/canal_cy.pyx":125
  *     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
  * 	  #if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
- *     if turnback_flows > 0.005:             # <<<<<<<<<<<<<<
- *       available_flow -= turnback_flows
- *       if flow_dir == "normal":
+ *     if flow_dir == "normal":             # <<<<<<<<<<<<<<
+ *       for removal_flow in range(starting_point, canal_loc + 1):
+ *         self.flow[removal_flow] -= turnback_flows
  */
     goto __pyx_L5;
   }
 
-  /* "calfews_src/canal_cy.pyx":163
- *           self.flow[removal_flow] -= turnback_flows
+  /* "calfews_src/canal_cy.pyx":128
+ *       for removal_flow in range(starting_point, canal_loc + 1):
+ *         self.flow[removal_flow] -= turnback_flows
+ *     elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
+ *       for removal_flow in range(starting_point, canal_loc-1, -1):
+ *         self.flow[removal_flow] -= turnback_flows
+ */
+  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_6 = (__pyx_t_7 != 0);
+  if (__pyx_t_6) {
+
+    /* "calfews_src/canal_cy.pyx":129
+ *         self.flow[removal_flow] -= turnback_flows
+ *     elif flow_dir == "reverse":
+ *       for removal_flow in range(starting_point, canal_loc-1, -1):             # <<<<<<<<<<<<<<
+ *         self.flow[removal_flow] -= turnback_flows
+ * 
+ */
+    __pyx_t_10 = (__pyx_v_canal_loc - 1);
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_2 = __pyx_v_starting_point; __pyx_t_2 > __pyx_t_11; __pyx_t_2-=1) {
+      __pyx_v_removal_flow = __pyx_t_2;
+
+      /* "calfews_src/canal_cy.pyx":130
+ *     elif flow_dir == "reverse":
+ *       for removal_flow in range(starting_point, canal_loc-1, -1):
+ *         self.flow[removal_flow] -= turnback_flows             # <<<<<<<<<<<<<<
+ * 
+ *     if turnback_flows > 0.005:
+ */
+      if (unlikely(__pyx_v_self->flow == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 130, __pyx_L1_error)
+      }
+      __Pyx_INCREF(__pyx_v_self->flow);
+      __pyx_t_1 = __pyx_v_self->flow;
+      __pyx_t_12 = __pyx_v_removal_flow;
+      if (unlikely(__pyx_t_1 == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 130, __pyx_L1_error)
+      }
+      __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_turnback_flows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_9 = PyNumber_InPlaceSubtract(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (unlikely(__pyx_t_1 == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 130, __pyx_L1_error)
+      }
+      if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_12, __pyx_t_9, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    }
+
+    /* "calfews_src/canal_cy.pyx":128
+ *       for removal_flow in range(starting_point, canal_loc + 1):
+ *         self.flow[removal_flow] -= turnback_flows
+ *     elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
+ *       for removal_flow in range(starting_point, canal_loc-1, -1):
+ *         self.flow[removal_flow] -= turnback_flows
+ */
+  }
+  __pyx_L5:;
+
+  /* "calfews_src/canal_cy.pyx":132
+ *         self.flow[removal_flow] -= turnback_flows
+ * 
+ *     if turnback_flows > 0.005:             # <<<<<<<<<<<<<<
+ *       available_flow -= turnback_flows
+ *     else:
+ */
+  __pyx_t_6 = ((__pyx_v_turnback_flows > 0.005) != 0);
+  if (__pyx_t_6) {
+
+    /* "calfews_src/canal_cy.pyx":133
+ * 
+ *     if turnback_flows > 0.005:
+ *       available_flow -= turnback_flows             # <<<<<<<<<<<<<<
+ *     else:
+ *       available_flow -= turnback_flows
+ */
+    __pyx_v_available_flow = (__pyx_v_available_flow - __pyx_v_turnback_flows);
+
+    /* "calfews_src/canal_cy.pyx":132
+ *         self.flow[removal_flow] -= turnback_flows
+ * 
+ *     if turnback_flows > 0.005:             # <<<<<<<<<<<<<<
+ *       available_flow -= turnback_flows
+ *     else:
+ */
+    goto __pyx_L10;
+  }
+
+  /* "calfews_src/canal_cy.pyx":135
+ *       available_flow -= turnback_flows
  *     else:
  *       available_flow -= turnback_flows             # <<<<<<<<<<<<<<
  *       evap_flows += turnback_flows
- * 
+ *       turnback_flows = 0.0
  */
   /*else*/ {
     __pyx_v_available_flow = (__pyx_v_available_flow - __pyx_v_turnback_flows);
 
-    /* "calfews_src/canal_cy.pyx":164
+    /* "calfews_src/canal_cy.pyx":136
  *     else:
  *       available_flow -= turnback_flows
  *       evap_flows += turnback_flows             # <<<<<<<<<<<<<<
+ *       turnback_flows = 0.0
  * 
- *       if flow_dir == "normal":
  */
     __pyx_v_evap_flows = (__pyx_v_evap_flows + __pyx_v_turnback_flows);
 
-    /* "calfews_src/canal_cy.pyx":166
+    /* "calfews_src/canal_cy.pyx":137
+ *       available_flow -= turnback_flows
  *       evap_flows += turnback_flows
- * 
- *       if flow_dir == "normal":             # <<<<<<<<<<<<<<
- *         for removal_flow in range(starting_point, canal_loc + 1):
- *           self.flow[removal_flow] -= turnback_flows
- */
-    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 166, __pyx_L1_error)
-    __pyx_t_7 = (__pyx_t_6 != 0);
-    if (__pyx_t_7) {
-
-      /* "calfews_src/canal_cy.pyx":167
- * 
- *       if flow_dir == "normal":
- *         for removal_flow in range(starting_point, canal_loc + 1):             # <<<<<<<<<<<<<<
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":
- */
-      __pyx_t_10 = (__pyx_v_canal_loc + 1);
-      __pyx_t_11 = __pyx_t_10;
-      for (__pyx_t_2 = __pyx_v_starting_point; __pyx_t_2 < __pyx_t_11; __pyx_t_2+=1) {
-        __pyx_v_removal_flow = __pyx_t_2;
-
-        /* "calfews_src/canal_cy.pyx":168
- *       if flow_dir == "normal":
- *         for removal_flow in range(starting_point, canal_loc + 1):
- *           self.flow[removal_flow] -= turnback_flows             # <<<<<<<<<<<<<<
- *       elif flow_dir == "reverse":
- *         for removal_flow in range(starting_point, canal_loc-1, -1):
- */
-        if (unlikely(__pyx_v_self->flow == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 168, __pyx_L1_error)
-        }
-        __Pyx_INCREF(__pyx_v_self->flow);
-        __pyx_t_1 = __pyx_v_self->flow;
-        __pyx_t_12 = __pyx_v_removal_flow;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 168, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 168, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_turnback_flows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_5 = PyNumber_InPlaceSubtract(__pyx_t_9, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 168, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 168, __pyx_L1_error)
-        }
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_12, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 168, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      }
-
-      /* "calfews_src/canal_cy.pyx":166
- *       evap_flows += turnback_flows
- * 
- *       if flow_dir == "normal":             # <<<<<<<<<<<<<<
- *         for removal_flow in range(starting_point, canal_loc + 1):
- *           self.flow[removal_flow] -= turnback_flows
- */
-      goto __pyx_L11;
-    }
-
-    /* "calfews_src/canal_cy.pyx":169
- *         for removal_flow in range(starting_point, canal_loc + 1):
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
- *         for removal_flow in range(starting_point, canal_loc-1, -1):
- *           self.flow[removal_flow] -= turnback_flows
- */
-    __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 169, __pyx_L1_error)
-    __pyx_t_6 = (__pyx_t_7 != 0);
-    if (__pyx_t_6) {
-
-      /* "calfews_src/canal_cy.pyx":170
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":
- *         for removal_flow in range(starting_point, canal_loc-1, -1):             # <<<<<<<<<<<<<<
- *           self.flow[removal_flow] -= turnback_flows
- * 
- */
-      __pyx_t_10 = (__pyx_v_canal_loc - 1);
-      __pyx_t_11 = __pyx_t_10;
-      for (__pyx_t_2 = __pyx_v_starting_point; __pyx_t_2 > __pyx_t_11; __pyx_t_2-=1) {
-        __pyx_v_removal_flow = __pyx_t_2;
-
-        /* "calfews_src/canal_cy.pyx":171
- *       elif flow_dir == "reverse":
- *         for removal_flow in range(starting_point, canal_loc-1, -1):
- *           self.flow[removal_flow] -= turnback_flows             # <<<<<<<<<<<<<<
- * 
- *       turnback_flows = 0.0
- */
-        if (unlikely(__pyx_v_self->flow == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 171, __pyx_L1_error)
-        }
-        __Pyx_INCREF(__pyx_v_self->flow);
-        __pyx_t_1 = __pyx_v_self->flow;
-        __pyx_t_12 = __pyx_v_removal_flow;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 171, __pyx_L1_error)
-        }
-        __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_t_1, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_turnback_flows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_9 = PyNumber_InPlaceSubtract(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 171, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(__pyx_t_1 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 171, __pyx_L1_error)
-        }
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_1, __pyx_t_12, __pyx_t_9, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 171, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      }
-
-      /* "calfews_src/canal_cy.pyx":169
- *         for removal_flow in range(starting_point, canal_loc + 1):
- *           self.flow[removal_flow] -= turnback_flows
- *       elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
- *         for removal_flow in range(starting_point, canal_loc-1, -1):
- *           self.flow[removal_flow] -= turnback_flows
- */
-    }
-    __pyx_L11:;
-
-    /* "calfews_src/canal_cy.pyx":173
- *           self.flow[removal_flow] -= turnback_flows
- * 
  *       turnback_flows = 0.0             # <<<<<<<<<<<<<<
  * 
- *       #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
+ *     #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
  */
     __pyx_v_turnback_flows = 0.0;
   }
-  __pyx_L5:;
+  __pyx_L10:;
 
-  /* "calfews_src/canal_cy.pyx":176
+  /* "calfews_src/canal_cy.pyx":140
  * 
- *       #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
+ *     #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
  *     if flow_dir == "normal":             # <<<<<<<<<<<<<<
  *       turnback_end = canal_loc + 1
  *     elif flow_dir == "reverse":
  */
-  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_normal, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
   __pyx_t_7 = (__pyx_t_6 != 0);
   if (__pyx_t_7) {
 
-    /* "calfews_src/canal_cy.pyx":177
- *       #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
+    /* "calfews_src/canal_cy.pyx":141
+ *     #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
  *     if flow_dir == "normal":
  *       turnback_end = canal_loc + 1             # <<<<<<<<<<<<<<
  *     elif flow_dir == "reverse":
@@ -4713,28 +3696,28 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  */
     __pyx_v_turnback_end = (__pyx_v_canal_loc + 1);
 
-    /* "calfews_src/canal_cy.pyx":176
+    /* "calfews_src/canal_cy.pyx":140
  * 
- *       #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
+ *     #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
  *     if flow_dir == "normal":             # <<<<<<<<<<<<<<
  *       turnback_end = canal_loc + 1
  *     elif flow_dir == "reverse":
  */
-    goto __pyx_L16;
+    goto __pyx_L11;
   }
 
-  /* "calfews_src/canal_cy.pyx":178
+  /* "calfews_src/canal_cy.pyx":142
  *     if flow_dir == "normal":
  *       turnback_end = canal_loc + 1
  *     elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
  *       turnback_end = canal_size - canal_loc - 1
  * 
  */
-  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_v_flow_dir, __pyx_n_u_reverse, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
   __pyx_t_6 = (__pyx_t_7 != 0);
   if (__pyx_t_6) {
 
-    /* "calfews_src/canal_cy.pyx":179
+    /* "calfews_src/canal_cy.pyx":143
  *       turnback_end = canal_loc + 1
  *     elif flow_dir == "reverse":
  *       turnback_end = canal_size - canal_loc - 1             # <<<<<<<<<<<<<<
@@ -4743,7 +3726,7 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  */
     __pyx_v_turnback_end = ((__pyx_v_canal_size - __pyx_v_canal_loc) - 1);
 
-    /* "calfews_src/canal_cy.pyx":178
+    /* "calfews_src/canal_cy.pyx":142
  *     if flow_dir == "normal":
  *       turnback_end = canal_loc + 1
  *     elif flow_dir == "reverse":             # <<<<<<<<<<<<<<
@@ -4751,9 +3734,9 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
  * 
  */
   }
-  __pyx_L16:;
+  __pyx_L11:;
 
-  /* "calfews_src/canal_cy.pyx":181
+  /* "calfews_src/canal_cy.pyx":145
  *       turnback_end = canal_size - canal_loc - 1
  * 
  *     return available_flow, turnback_flows, turnback_end, evap_flows             # <<<<<<<<<<<<<<
@@ -4767,12 +3750,12 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
   __pyx_r = __pyx_t_13;
   goto __pyx_L0;
 
-  /* "calfews_src/canal_cy.pyx":127
+  /* "calfews_src/canal_cy.pyx":100
  * 
  * 
  *   cdef (double, double, int, double) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list):             # <<<<<<<<<<<<<<
  *     #this function checks to see if the next canal node has the capacity to take the remaining flow - if not,
- * 	#the flow is 'turned back', removing the excess water from the canal.flow vector and reallocating it as 'turnback flows'
+ *     #the flow is 'turned back', removing the excess water from the canal.flow vector and reallocating it as 'turnback flows'
  */
 
   /* function exit code */
@@ -4790,7 +3773,7 @@ static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_sr
   return __pyx_r;
 }
 
-/* "calfews_src/canal_cy.pyx":185
+/* "calfews_src/canal_cy.pyx":149
  * 
  * 
  *   cdef void find_bi_directional(self, double closed, str direction_true, str direction_false, str flow_type, str new_canal, int adjust_flow_types, int locked):             # <<<<<<<<<<<<<<
@@ -4808,9 +3791,9 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_bi_directional", 0);
-  __Pyx_TraceCall("find_bi_directional", __pyx_f[0], 185, 0, __PYX_ERR(0, 185, __pyx_L1_error));
+  __Pyx_TraceCall("find_bi_directional", __pyx_f[0], 149, 0, __PYX_ERR(0, 149, __pyx_L1_error));
 
-  /* "calfews_src/canal_cy.pyx":187
+  /* "calfews_src/canal_cy.pyx":151
  *   cdef void find_bi_directional(self, double closed, str direction_true, str direction_false, str flow_type, str new_canal, int adjust_flow_types, int locked):
  *     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)
  *     if closed > 0.0 and locked == 0:             # <<<<<<<<<<<<<<
@@ -4828,7 +3811,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "calfews_src/canal_cy.pyx":188
+    /* "calfews_src/canal_cy.pyx":152
  *     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)
  *     if closed > 0.0 and locked == 0:
  *       if adjust_flow_types == 1:             # <<<<<<<<<<<<<<
@@ -4838,7 +3821,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
     __pyx_t_1 = ((__pyx_v_adjust_flow_types == 1) != 0);
     if (__pyx_t_1) {
 
-      /* "calfews_src/canal_cy.pyx":189
+      /* "calfews_src/canal_cy.pyx":153
  *     if closed > 0.0 and locked == 0:
  *       if adjust_flow_types == 1:
  *         self.flow_directions['recharge'][new_canal] = direction_true             # <<<<<<<<<<<<<<
@@ -4847,14 +3830,14 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
  */
       if (unlikely(__pyx_v_self->flow_directions == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 189, __pyx_L1_error)
+        __PYX_ERR(0, 153, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_n_u_recharge); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_n_u_recharge); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_true) < 0)) __PYX_ERR(0, 189, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_true) < 0)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "calfews_src/canal_cy.pyx":190
+      /* "calfews_src/canal_cy.pyx":154
  *       if adjust_flow_types == 1:
  *         self.flow_directions['recharge'][new_canal] = direction_true
  *         self.flow_directions['recovery'][new_canal] = direction_true             # <<<<<<<<<<<<<<
@@ -4863,14 +3846,14 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
  */
       if (unlikely(__pyx_v_self->flow_directions == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 190, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_n_u_recovery); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 190, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_n_u_recovery); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_true) < 0)) __PYX_ERR(0, 190, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_true) < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "calfews_src/canal_cy.pyx":188
+      /* "calfews_src/canal_cy.pyx":152
  *     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)
  *     if closed > 0.0 and locked == 0:
  *       if adjust_flow_types == 1:             # <<<<<<<<<<<<<<
@@ -4880,7 +3863,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
       goto __pyx_L6;
     }
 
-    /* "calfews_src/canal_cy.pyx":192
+    /* "calfews_src/canal_cy.pyx":156
  *         self.flow_directions['recovery'][new_canal] = direction_true
  *       else:
  *         self.flow_directions[flow_type][new_canal] = direction_true             # <<<<<<<<<<<<<<
@@ -4890,16 +3873,16 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
     /*else*/ {
       if (unlikely(__pyx_v_self->flow_directions == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 156, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_v_flow_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_v_flow_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_true) < 0)) __PYX_ERR(0, 192, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_true) < 0)) __PYX_ERR(0, 156, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __pyx_L6:;
 
-    /* "calfews_src/canal_cy.pyx":187
+    /* "calfews_src/canal_cy.pyx":151
  *   cdef void find_bi_directional(self, double closed, str direction_true, str direction_false, str flow_type, str new_canal, int adjust_flow_types, int locked):
  *     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step (so that other sources can't 'change' the direction of flow after deliveries have already been made)
  *     if closed > 0.0 and locked == 0:             # <<<<<<<<<<<<<<
@@ -4909,7 +3892,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
     goto __pyx_L3;
   }
 
-  /* "calfews_src/canal_cy.pyx":194
+  /* "calfews_src/canal_cy.pyx":158
  *         self.flow_directions[flow_type][new_canal] = direction_true
  * 
  *     elif locked == 0:             # <<<<<<<<<<<<<<
@@ -4919,7 +3902,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
   __pyx_t_1 = ((__pyx_v_locked == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "calfews_src/canal_cy.pyx":195
+    /* "calfews_src/canal_cy.pyx":159
  * 
  *     elif locked == 0:
  *       self.flow_directions[flow_type][new_canal] = direction_false             # <<<<<<<<<<<<<<
@@ -4928,14 +3911,14 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
  */
     if (unlikely(__pyx_v_self->flow_directions == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 195, __pyx_L1_error)
+      __PYX_ERR(0, 159, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_v_flow_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 195, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->flow_directions, __pyx_v_flow_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_false) < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_canal, __pyx_v_direction_false) < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "calfews_src/canal_cy.pyx":194
+    /* "calfews_src/canal_cy.pyx":158
  *         self.flow_directions[flow_type][new_canal] = direction_true
  * 
  *     elif locked == 0:             # <<<<<<<<<<<<<<
@@ -4945,7 +3928,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
   }
   __pyx_L3:;
 
-  /* "calfews_src/canal_cy.pyx":185
+  /* "calfews_src/canal_cy.pyx":149
  * 
  * 
  *   cdef void find_bi_directional(self, double closed, str direction_true, str direction_false, str flow_type, str new_canal, int adjust_flow_types, int locked):             # <<<<<<<<<<<<<<
@@ -4963,7 +3946,7 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_bi_directional(struct __
   __Pyx_RefNannyFinishContext();
 }
 
-/* "calfews_src/canal_cy.pyx":198
+/* "calfews_src/canal_cy.pyx":162
  * 
  * 
  *   cdef void accounting(self, int t, str name, int counter):             # <<<<<<<<<<<<<<
@@ -4980,9 +3963,9 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_accounting(struct __pyx_obj_1
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("accounting", 0);
-  __Pyx_TraceCall("accounting", __pyx_f[0], 198, 0, __PYX_ERR(0, 198, __pyx_L1_error));
+  __Pyx_TraceCall("accounting", __pyx_f[0], 162, 0, __PYX_ERR(0, 162, __pyx_L1_error));
 
-  /* "calfews_src/canal_cy.pyx":199
+  /* "calfews_src/canal_cy.pyx":163
  * 
  *   cdef void accounting(self, int t, str name, int counter):
  *     self.daily_turnout[name][t] = self.turnout_use[counter]             # <<<<<<<<<<<<<<
@@ -4991,21 +3974,21 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_accounting(struct __pyx_obj_1
  */
   if (unlikely(__pyx_v_self->turnout_use == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 199, __pyx_L1_error)
+    __PYX_ERR(0, 163, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->turnout_use, __pyx_v_counter, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->turnout_use, __pyx_v_counter, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->daily_turnout == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 199, __pyx_L1_error)
+    __PYX_ERR(0, 163, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_self->daily_turnout, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_self->daily_turnout, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(__Pyx_SetItemInt(__pyx_t_2, __pyx_v_t, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 199, __pyx_L1_error)
+  if (unlikely(__Pyx_SetItemInt(__pyx_t_2, __pyx_v_t, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/canal_cy.pyx":200
+  /* "calfews_src/canal_cy.pyx":164
  *   cdef void accounting(self, int t, str name, int counter):
  *     self.daily_turnout[name][t] = self.turnout_use[counter]
  *     self.daily_flow[name][t] = self.flow[counter]             # <<<<<<<<<<<<<<
@@ -5014,21 +3997,21 @@ static void __pyx_f_11calfews_src_8canal_cy_5Canal_accounting(struct __pyx_obj_1
  */
   if (unlikely(__pyx_v_self->flow == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 200, __pyx_L1_error)
+    __PYX_ERR(0, 164, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->flow, __pyx_v_counter, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->flow, __pyx_v_counter, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->daily_flow == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 200, __pyx_L1_error)
+    __PYX_ERR(0, 164, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_self->daily_flow, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_self->daily_flow, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(__Pyx_SetItemInt(__pyx_t_2, __pyx_v_t, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (unlikely(__Pyx_SetItemInt(__pyx_t_2, __pyx_v_t, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/canal_cy.pyx":198
+  /* "calfews_src/canal_cy.pyx":162
  * 
  * 
  *   cdef void accounting(self, int t, str name, int counter):             # <<<<<<<<<<<<<<
@@ -7210,19 +6193,19 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6demand_4__del__(struct __pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_8canal_cy_5Canal_10__reduce_cython__(((struct __pyx_obj_11calfews_src_8canal_cy_Canal *)__pyx_v_self));
+  __pyx_r = __pyx_pf_11calfews_src_8canal_cy_5Canal_8__reduce_cython__(((struct __pyx_obj_11calfews_src_8canal_cy_Canal *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10__reduce_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self) {
+static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_8__reduce_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -7614,19 +6597,19 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10__reduce_cython__(str
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_8canal_cy_5Canal_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_8canal_cy_5Canal_12__setstate_cython__(((struct __pyx_obj_11calfews_src_8canal_cy_Canal *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_11calfews_src_8canal_cy_5Canal_10__setstate_cython__(((struct __pyx_obj_11calfews_src_8canal_cy_Canal *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_12__setstate_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10__setstate_cython__(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -8672,9 +7655,8 @@ static PyObject *__pyx_specialmethod___pyx_pw_11calfews_src_8canal_cy_5Canal_3__
 
 static PyMethodDef __pyx_methods_11calfews_src_8canal_cy_Canal[] = {
   {"__next__", (PyCFunction)__pyx_specialmethod___pyx_pw_11calfews_src_8canal_cy_5Canal_3__next__, METH_NOARGS|METH_COEXIST, 0},
-  {"object_equals", (PyCFunction)__pyx_pw_11calfews_src_8canal_cy_5Canal_9object_equals, METH_O, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_11calfews_src_8canal_cy_5Canal_11__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_11calfews_src_8canal_cy_5Canal_13__setstate_cython__, METH_O, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_11calfews_src_8canal_cy_5Canal_9__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_11calfews_src_8canal_cy_5Canal_11__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -8974,26 +7956,22 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Canal, __pyx_k_Canal, sizeof(__pyx_k_Canal), 0, 0, 1, 1},
-  {&__pyx_kp_u_Different_Attributes, __pyx_k_Different_Attributes, sizeof(__pyx_k_Different_Attributes), 0, 1, 0, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x79, __pyx_k_Incompatible_checksums_s_vs_0x79, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x79), 0, 0, 1, 0},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_StopIteration, __pyx_k_StopIteration, sizeof(__pyx_k_StopIteration), 0, 0, 1, 1},
   {&__pyx_n_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
-  {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_u_baseline, __pyx_k_baseline, sizeof(__pyx_k_baseline), 0, 1, 0, 1},
   {&__pyx_n_s_calfews_src_canal_cy, __pyx_k_calfews_src_canal_cy, sizeof(__pyx_k_calfews_src_canal_cy), 0, 0, 1, 1},
   {&__pyx_kp_u_calfews_src_canals_s_properties, __pyx_k_calfews_src_canals_s_properties, sizeof(__pyx_k_calfews_src_canals_s_properties), 0, 1, 0, 0},
   {&__pyx_n_s_cfs_tafd, __pyx_k_cfs_tafd, sizeof(__pyx_k_cfs_tafd), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
-  {&__pyx_n_s_getattribute, __pyx_k_getattribute, sizeof(__pyx_k_getattribute), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_iter_count, __pyx_k_iter_count, sizeof(__pyx_k_iter_count), 0, 0, 1, 1},
   {&__pyx_n_s_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 0, 1, 1},
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
-  {&__pyx_n_s_keys, __pyx_k_keys, sizeof(__pyx_k_keys), 0, 0, 1, 1},
   {&__pyx_n_s_load, __pyx_k_load, sizeof(__pyx_k_load), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
@@ -9032,7 +8010,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) __PYX_ERR(0, 18, __pyx_L1_error)
   __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 33, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 126, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -10818,6 +9796,30 @@ done:
     return result;
 }
 
+/* DictGetItem */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
+    PyObject *value;
+    value = PyDict_GetItemWithError(d, key);
+    if (unlikely(!value)) {
+        if (!PyErr_Occurred()) {
+            if (unlikely(PyTuple_Check(key))) {
+                PyObject* args = PyTuple_Pack(1, key);
+                if (likely(args)) {
+                    PyErr_SetObject(PyExc_KeyError, args);
+                    Py_DECREF(args);
+                }
+            } else {
+                PyErr_SetObject(PyExc_KeyError, key);
+            }
+        }
+        return NULL;
+    }
+    Py_INCREF(value);
+    return value;
+}
+#endif
+
 /* GetItemInt */
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
     PyObject *r;
@@ -10904,59 +9906,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, 
 #endif
     return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
 }
-
-/* ObjectGetItem */
-#if CYTHON_USE_TYPE_SLOTS
-static PyObject *__Pyx_PyObject_GetIndex(PyObject *obj, PyObject* index) {
-    PyObject *runerr;
-    Py_ssize_t key_value;
-    PySequenceMethods *m = Py_TYPE(obj)->tp_as_sequence;
-    if (unlikely(!(m && m->sq_item))) {
-        PyErr_Format(PyExc_TypeError, "'%.200s' object is not subscriptable", Py_TYPE(obj)->tp_name);
-        return NULL;
-    }
-    key_value = __Pyx_PyIndex_AsSsize_t(index);
-    if (likely(key_value != -1 || !(runerr = PyErr_Occurred()))) {
-        return __Pyx_GetItemInt_Fast(obj, key_value, 0, 1, 1);
-    }
-    if (PyErr_GivenExceptionMatches(runerr, PyExc_OverflowError)) {
-        PyErr_Clear();
-        PyErr_Format(PyExc_IndexError, "cannot fit '%.200s' into an index-sized integer", Py_TYPE(index)->tp_name);
-    }
-    return NULL;
-}
-static PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key) {
-    PyMappingMethods *m = Py_TYPE(obj)->tp_as_mapping;
-    if (likely(m && m->mp_subscript)) {
-        return m->mp_subscript(obj, key);
-    }
-    return __Pyx_PyObject_GetIndex(obj, key);
-}
-#endif
-
-/* DictGetItem */
-#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
-static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
-    PyObject *value;
-    value = PyDict_GetItemWithError(d, key);
-    if (unlikely(!value)) {
-        if (!PyErr_Occurred()) {
-            if (unlikely(PyTuple_Check(key))) {
-                PyObject* args = PyTuple_Pack(1, key);
-                if (likely(args)) {
-                    PyErr_SetObject(PyExc_KeyError, args);
-                    Py_DECREF(args);
-                }
-            } else {
-                PyErr_SetObject(PyExc_KeyError, key);
-            }
-        }
-        return NULL;
-    }
-    Py_INCREF(value);
-    return value;
-}
-#endif
 
 /* WriteUnraisableException */
 static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,

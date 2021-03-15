@@ -832,13 +832,10 @@ cdef class District():
       str xx, contract_key
       Contract contract_obj
     
-    # print('set_request_constraints', demand, search_type, contract_list, bank_space, bank_capacity, dowy, wateryear)
 
     self.projected_supply['tot'] = 0.0
-    # total_recharge = 0.0
     for contract_key in self.contract_list:
       self.projected_supply['tot'] += self.projected_supply[contract_key]
-      # total_recharge += self.recharge_carryover[y]
 
     #for banking, a district requests water if they have enough contract water currently in surface water storage and they have 'excess' water for banking (calculated in self.open_recharge)
     if search_type == "banking":
@@ -897,18 +894,9 @@ cdef class District():
 	  #flood water if they can't use all their contract water
     elif search_type == "flood":
       return demand
-      # if self.projected_supply['tot'] > self.annualdemand[0]:
-      #   return demand
-      # else:
-      #   return demand
-      #for y in contract_list:
-        #tot_recharge += self.delivery_carryover[y.name]
-      #if tot_recharge <= 0.0:
-      #return demand
-      #else:
-        #return 0.0
 
-    #for recovery, a district requests recovery water from a bank if they have contracts under the current contract being searched (i.e., so they aren't requesting water that will be sent to another district that can't make 'paper' trades with them) and if they have their 'recovery threshold' triggered (self.use_recovery, calculated in self.open_recovery)
+    #for recovery, a district requests recovery water from a bank if they have contracts under the current contract being searched (i.e., so they aren't requesting water that will be 
+    #sent to another district that can't make 'paper' trades with them) and if they have their 'recovery threshold' triggered (self.use_recovery, calculated in self.open_recovery)
     elif search_type == "recovery":
       member_trades = 0
       for contract_key in self.contract_list:
@@ -930,7 +918,7 @@ cdef class District():
 
   # def set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal):
   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal):
-    #this function takes a the calculated demand at each district node and classifies those demands by 'priority' - the priority classes and rules change for each delivery type
+    #this function takes the calculated demand at each district node and classifies those demands by 'priority' - the priority classes and rules change for each delivery type
     cdef:
       int contractor_toggle, priority_toggle
       str contract_key
@@ -939,7 +927,8 @@ cdef class District():
       Contract contract_obj
 
     demand_dict = {}
-    #for flood deliveries, the priority structure is based on if you have a contract with the reservoir that is being spilled, if you have a turnout on a canal that is a 'priority canal' for the spilling reservoir, and then finally if you are not on a priority canal for spilling
+    #for flood deliveries, the priority structure is based on if you have a contract with the reservoir that is being spilled, if you have a turnout on a canal that is a 'priority canal' 
+    #for the spilling reservoir, and then finally if you are not on a priority canal for spilling
     if search_type == 'flood':
       contractor_toggle = 0
       priority_toggle = 0
@@ -977,7 +966,7 @@ cdef class District():
           priority_toggle = 1
       if priority_toggle == 1:
         demand_dict['priority'] = max(min(demand,delivery), 0.0)
-        demand_dict['secondary'] = min(delivery - max(min(demand,delivery),0.0),demand_constraint-demand_dict['priority'])
+        demand_dict['secondary'] = min(delivery - max(min(demand,delivery),0.0), demand_constraint - demand_dict['priority'])
       else:
         demand_dict['priority'] = 0.0
         demand_dict['secondary'] = max(min(delivery, demand_constraint), 0.0)

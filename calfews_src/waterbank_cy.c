@@ -1517,42 +1517,14 @@ static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
 #define __Pyx_ListComp_Append(L,x) PyList_Append(L,x)
 #endif
 
-/* GetItemInt.proto */
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
+/* IncludeStringH.proto */
+#include <string.h>
 
-/* ObjectGetItem.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
-#else
-#define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
-#endif
+/* BytesEquals.proto */
+static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* PyIntBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
-#else
-#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
-    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
-#endif
+/* UnicodeEquals.proto */
+static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
 /* DictGetItem.proto */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
@@ -1564,18 +1536,6 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
 #define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
 #define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
 #endif
-
-/* PyIntCompare.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
-
-/* IncludeStringH.proto */
-#include <string.h>
-
-/* BytesEquals.proto */
-static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
-
-/* UnicodeEquals.proto */
-static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
 /* WriteUnraisableException.proto */
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
@@ -1604,6 +1564,28 @@ static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
 /* ImportFrom.proto */
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
+
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
 
 /* HasAttr.proto */
 static CYTHON_INLINE int __Pyx_HasAttr(PyObject *, PyObject *);
@@ -1736,13 +1718,11 @@ static const char __pyx_k__2[] = "*";
 static const char __pyx_k_cl[] = "cl";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_pd[] = "pd";
-static const char __pyx_k_all[] = "all";
 static const char __pyx_k_key[] = "key";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_plt[] = "plt";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_json[] = "json";
-static const char __pyx_k_keys[] = "keys";
 static const char __pyx_k_load[] = "load";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "name";
@@ -1782,7 +1762,6 @@ static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_collections[] = "collections";
-static const char __pyx_k_getattribute[] = "__getattribute__";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_supplemental[] = "supplemental";
@@ -1792,19 +1771,16 @@ static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_matplotlib_pyplot[] = "matplotlib.pyplot";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_Different_Attributes[] = "Different Attributes";
 static const char __pyx_k_pyx_unpickle_Waterbank[] = "__pyx_unpickle_Waterbank";
 static const char __pyx_k_calfews_src_waterbank_cy[] = "calfews_src.waterbank_cy";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xac[] = "Incompatible checksums (%s vs 0xac4e43b = (bank_cap, bank_timeseries, banked, canal_rights, current_requested, initial_recharge, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, key, loss_rate, monthemptycounter, monthusecounter, name, number_years, ownership, participant_list, participant_type, recharge_decline, recharge_rate, recharge_rate_series, recovery, recovery_use, storage, thismonthuse, tot_current_storage, tot_storage))";
 static const char __pyx_k_calfews_src_banks_s_properties_j[] = "calfews_src/banks/%s_properties.json";
-static PyObject *__pyx_kp_u_Different_Attributes;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xac;
 static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_n_s_StopIteration;
 static PyObject *__pyx_n_s_T;
 static PyObject *__pyx_n_s_Waterbank;
 static PyObject *__pyx_n_s__2;
-static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_u_alternate;
 static PyObject *__pyx_n_u_banking;
 static PyObject *__pyx_kp_u_calfews_src_banks_s_properties_j;
@@ -1818,14 +1794,12 @@ static PyObject *__pyx_n_u_delivery;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_u_excess;
 static PyObject *__pyx_n_u_flood;
-static PyObject *__pyx_n_s_getattribute;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_u_initial;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_json;
 static PyObject *__pyx_n_s_key;
-static PyObject *__pyx_n_s_keys;
 static PyObject *__pyx_n_s_load;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_matplotlib_pyplot;
@@ -1867,7 +1841,6 @@ static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank___iter__(struc
 static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_2__next__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
 static Py_ssize_t __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_4__len__(CYTHON_UNUSED struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v_model, PyObject *__pyx_v_name, PyObject *__pyx_v_key); /* proto */
-static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_8object_equals(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v_other); /* proto */
 static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_16initial_recharge___get__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_16initial_recharge_2__set__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_8recovery___get__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
@@ -1941,13 +1914,11 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6banked_4__del__(str
 static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_15bank_timeseries___get__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_15bank_timeseries_2__set__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_15bank_timeseries_4__del__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_10__reduce_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_12__setstate_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_8__reduce_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_10__setstate_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_11calfews_src_12waterbank_cy___pyx_unpickle_Waterbank(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_11calfews_src_12waterbank_cy_Waterbank(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float_0_0;
-static PyObject *__pyx_int_0;
-static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_180675643;
 static PyObject *__pyx_codeobj_;
 static PyObject *__pyx_tuple__3;
@@ -2471,13 +2442,13 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __p
  *     self.tot_current_storage = 0.0#total above-ground storage being used in water bank
  *     self.loss_rate = 0.06#how much of banked deliveries is lost duing spreading             # <<<<<<<<<<<<<<
  * 
- * 	#dictionaries for individual member use of the bank
+ * 	  #dictionaries for individual member use of the bank
  */
   __pyx_v_self->loss_rate = 0.06;
 
   /* "calfews_src/waterbank_cy.pyx":45
  * 
- * 	#dictionaries for individual member use of the bank
+ * 	  #dictionaries for individual member use of the bank
  *     self.storage = {}#how much water delivered to bank this time step             # <<<<<<<<<<<<<<
  *     self.recovery_use = {}#how much recovery capacity is being used by a memeber this time step
  *     self.banked = {} #how much water is stored in the groundwater banking account of the member
@@ -2491,11 +2462,11 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __p
   __pyx_t_7 = 0;
 
   /* "calfews_src/waterbank_cy.pyx":46
- * 	#dictionaries for individual member use of the bank
+ * 	  #dictionaries for individual member use of the bank
  *     self.storage = {}#how much water delivered to bank this time step
  *     self.recovery_use = {}#how much recovery capacity is being used by a memeber this time step             # <<<<<<<<<<<<<<
  *     self.banked = {} #how much water is stored in the groundwater banking account of the member
- * 	#timeseries for export to csv
+ * 	  #timeseries for export to csv
  */
   __pyx_t_7 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -2509,7 +2480,7 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __p
  *     self.storage = {}#how much water delivered to bank this time step
  *     self.recovery_use = {}#how much recovery capacity is being used by a memeber this time step
  *     self.banked = {} #how much water is stored in the groundwater banking account of the member             # <<<<<<<<<<<<<<
- * 	#timeseries for export to csv
+ * 	  #timeseries for export to csv
  *     self.bank_timeseries = {}#daily
  */
   __pyx_t_7 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 47, __pyx_L1_error)
@@ -2522,7 +2493,7 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __p
 
   /* "calfews_src/waterbank_cy.pyx":49
  *     self.banked = {} #how much water is stored in the groundwater banking account of the member
- * 	#timeseries for export to csv
+ * 	  #timeseries for export to csv
  *     self.bank_timeseries = {}#daily             # <<<<<<<<<<<<<<
  *     self.recharge_rate_series = [0.0 for _ in range(model.T)]#daily recharge rate
  *     for x in self.participant_list:
@@ -2536,7 +2507,7 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __p
   __pyx_t_7 = 0;
 
   /* "calfews_src/waterbank_cy.pyx":50
- * 	#timeseries for export to csv
+ * 	  #timeseries for export to csv
  *     self.bank_timeseries = {}#daily
  *     self.recharge_rate_series = [0.0 for _ in range(model.T)]#daily recharge rate             # <<<<<<<<<<<<<<
  *     for x in self.participant_list:
@@ -2773,831 +2744,7 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __p
   return __pyx_r;
 }
 
-/* "calfews_src/waterbank_cy.pyx":63
- * 
- * 
- *   def object_equals(self, other):             # <<<<<<<<<<<<<<
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_9object_equals(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("object_equals (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_8object_equals(((struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self), ((PyObject *)__pyx_v_other));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_8object_equals(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v_other) {
-  PyObject *__pyx_v_equality = NULL;
-  PyObject *__pyx_v_differences = NULL;
-  PyObject *__pyx_v_i = NULL;
-  PyObject *__pyx_v_j = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
-  Py_ssize_t __pyx_t_12;
-  PyObject *__pyx_t_13 = NULL;
-  int __pyx_t_14;
-  PyObject *__pyx_t_15 = NULL;
-  PyObject *__pyx_t_16 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("object_equals", 0);
-  __Pyx_TraceCall("object_equals", __pyx_f[0], 63, 0, __PYX_ERR(0, 63, __pyx_L1_error));
-
-  /* "calfews_src/waterbank_cy.pyx":65
- *   def object_equals(self, other):
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}             # <<<<<<<<<<<<<<
- *     if (self.__dict__.keys() != other.__dict__.keys()):
- *       return ('Different Attributes')
- */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_equality = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "calfews_src/waterbank_cy.pyx":66
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- *     if (self.__dict__.keys() != other.__dict__.keys()):             # <<<<<<<<<<<<<<
- *       return ('Different Attributes')
- *     else:
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_dict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__pyx_t_5) {
-
-    /* "calfews_src/waterbank_cy.pyx":67
- *     equality = {}
- *     if (self.__dict__.keys() != other.__dict__.keys()):
- *       return ('Different Attributes')             # <<<<<<<<<<<<<<
- *     else:
- *       differences = 0
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_kp_u_Different_Attributes);
-    __pyx_r = __pyx_kp_u_Different_Attributes;
-    goto __pyx_L0;
-
-    /* "calfews_src/waterbank_cy.pyx":66
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- *     if (self.__dict__.keys() != other.__dict__.keys()):             # <<<<<<<<<<<<<<
- *       return ('Different Attributes')
- *     else:
- */
-  }
-
-  /* "calfews_src/waterbank_cy.pyx":69
- *       return ('Different Attributes')
- *     else:
- *       differences = 0             # <<<<<<<<<<<<<<
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:
- */
-  /*else*/ {
-    __Pyx_INCREF(__pyx_int_0);
-    __pyx_v_differences = __pyx_int_0;
-
-    /* "calfews_src/waterbank_cy.pyx":70
- *     else:
- *       differences = 0
- *       for i in self.__dict__.keys():             # <<<<<<<<<<<<<<
- *         if type(self.__getattribute__(i)) is dict:
- *           equality[i] = True
- */
-    __pyx_t_6 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(__pyx_t_3 == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "keys");
-      __PYX_ERR(0, 70, __pyx_L1_error)
-    }
-    __pyx_t_1 = __Pyx_dict_iterator(__pyx_t_3, 0, __pyx_n_s_keys, (&__pyx_t_7), (&__pyx_t_8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_XDECREF(__pyx_t_4);
-    __pyx_t_4 = __pyx_t_1;
-    __pyx_t_1 = 0;
-    while (1) {
-      __pyx_t_9 = __Pyx_dict_iter_next(__pyx_t_4, __pyx_t_7, &__pyx_t_6, &__pyx_t_1, NULL, NULL, __pyx_t_8);
-      if (unlikely(__pyx_t_9 == 0)) break;
-      if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 70, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-      __pyx_t_1 = 0;
-
-      /* "calfews_src/waterbank_cy.pyx":71
- *       differences = 0
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:             # <<<<<<<<<<<<<<
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-        __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-        if (likely(__pyx_t_2)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-          __Pyx_INCREF(__pyx_t_2);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_3, function);
-        }
-      }
-      __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_i);
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_5 = (((PyObject *)Py_TYPE(__pyx_t_1)) == ((PyObject *)(&PyDict_Type)));
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_10 = (__pyx_t_5 != 0);
-      if (__pyx_t_10) {
-
-        /* "calfews_src/waterbank_cy.pyx":72
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:
- *           equality[i] = True             # <<<<<<<<<<<<<<
- *           for j in self.__getattribute__(i).keys():
- *             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- */
-        if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, Py_True) < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
-
-        /* "calfews_src/waterbank_cy.pyx":73
- *         if type(self.__getattribute__(i)) is dict:
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():             # <<<<<<<<<<<<<<
- *             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- */
-        __pyx_t_11 = 0;
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_13 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_13)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_13);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-          }
-        }
-        __pyx_t_3 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_13, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_i);
-        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        if (unlikely(__pyx_t_3 == Py_None)) {
-          PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "keys");
-          __PYX_ERR(0, 73, __pyx_L1_error)
-        }
-        __pyx_t_2 = __Pyx_dict_iterator(__pyx_t_3, 0, __pyx_n_s_keys, (&__pyx_t_12), (&__pyx_t_9)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_XDECREF(__pyx_t_1);
-        __pyx_t_1 = __pyx_t_2;
-        __pyx_t_2 = 0;
-        while (1) {
-          __pyx_t_14 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_12, &__pyx_t_11, &__pyx_t_2, NULL, NULL, __pyx_t_9);
-          if (unlikely(__pyx_t_14 == 0)) break;
-          if (unlikely(__pyx_t_14 == -1)) __PYX_ERR(0, 73, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_2);
-          __pyx_t_2 = 0;
-
-          /* "calfews_src/waterbank_cy.pyx":74
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- *             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):             # <<<<<<<<<<<<<<
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                 equality[i] = False
- */
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_13 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_13)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_13);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_3, function);
-            }
-          }
-          __pyx_t_2 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_13, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 74, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_15 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-            __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_13);
-            if (likely(__pyx_t_15)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-              __Pyx_INCREF(__pyx_t_15);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_13, function);
-            }
-          }
-          __pyx_t_2 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_15, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 74, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = PyObject_RichCompare(__pyx_t_3, __pyx_t_13, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __pyx_t_10 = (((PyObject *)Py_TYPE(__pyx_t_2)) == ((PyObject*)&PyBool_Type));
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_5 = (__pyx_t_10 != 0);
-          if (__pyx_t_5) {
-
-            /* "calfews_src/waterbank_cy.pyx":75
- *           for j in self.__getattribute__(i).keys():
- *             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):             # <<<<<<<<<<<<<<
- *                 equality[i] = False
- *                 differences += 1
- */
-            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_3 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-              __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_13);
-              if (likely(__pyx_t_3)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-                __Pyx_INCREF(__pyx_t_3);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_13, function);
-              }
-            }
-            __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_3, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_i);
-            __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_15 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-              __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_3);
-              if (likely(__pyx_t_15)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-                __Pyx_INCREF(__pyx_t_15);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_3, function);
-              }
-            }
-            __pyx_t_2 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_15, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_i);
-            __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyObject_RichCompare(__pyx_t_13, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            if (__pyx_t_5) {
-
-              /* "calfews_src/waterbank_cy.pyx":76
- *             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                 equality[i] = False             # <<<<<<<<<<<<<<
- *                 differences += 1
- *             else:
- */
-              if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, Py_False) < 0)) __PYX_ERR(0, 76, __pyx_L1_error)
-
-              /* "calfews_src/waterbank_cy.pyx":77
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                 equality[i] = False
- *                 differences += 1             # <<<<<<<<<<<<<<
- *             else:
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
- */
-              __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_3);
-              __pyx_t_3 = 0;
-
-              /* "calfews_src/waterbank_cy.pyx":75
- *           for j in self.__getattribute__(i).keys():
- *             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):             # <<<<<<<<<<<<<<
- *                 equality[i] = False
- *                 differences += 1
- */
-            }
-
-            /* "calfews_src/waterbank_cy.pyx":74
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- *             if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):             # <<<<<<<<<<<<<<
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
- *                 equality[i] = False
- */
-            goto __pyx_L9;
-          }
-
-          /* "calfews_src/waterbank_cy.pyx":79
- *                 differences += 1
- *             else:
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):             # <<<<<<<<<<<<<<
- *                 equality[i] = False
- *                 differences += 1
- */
-          /*else*/ {
-            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_15 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-              __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_13);
-              if (likely(__pyx_t_15)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-                __Pyx_INCREF(__pyx_t_15);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_13, function);
-              }
-            }
-            __pyx_t_2 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_15, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_i);
-            __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_16 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-              __pyx_t_16 = PyMethod_GET_SELF(__pyx_t_15);
-              if (likely(__pyx_t_16)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-                __Pyx_INCREF(__pyx_t_16);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_15, function);
-              }
-            }
-            __pyx_t_2 = (__pyx_t_16) ? __Pyx_PyObject_Call2Args(__pyx_t_15, __pyx_t_16, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_v_i);
-            __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
-            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_j); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyObject_RichCompare(__pyx_t_13, __pyx_t_15, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_all); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-              __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_15);
-              if (likely(__pyx_t_2)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-                __Pyx_INCREF(__pyx_t_2);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_15, function);
-              }
-            }
-            __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_15);
-            __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-            if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyObject_RichCompare(__pyx_t_3, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 79, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            if (__pyx_t_5) {
-
-              /* "calfews_src/waterbank_cy.pyx":80
- *             else:
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
- *                 equality[i] = False             # <<<<<<<<<<<<<<
- *                 differences += 1
- *         else:
- */
-              if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, Py_False) < 0)) __PYX_ERR(0, 80, __pyx_L1_error)
-
-              /* "calfews_src/waterbank_cy.pyx":81
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
- *                 equality[i] = False
- *                 differences += 1             # <<<<<<<<<<<<<<
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- */
-              __pyx_t_15 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 81, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_15);
-              __pyx_t_15 = 0;
-
-              /* "calfews_src/waterbank_cy.pyx":79
- *                 differences += 1
- *             else:
- *               if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):             # <<<<<<<<<<<<<<
- *                 equality[i] = False
- *                 differences += 1
- */
-            }
-          }
-          __pyx_L9:;
-        }
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-        /* "calfews_src/waterbank_cy.pyx":71
- *       differences = 0
- *       for i in self.__dict__.keys():
- *         if type(self.__getattribute__(i)) is dict:             # <<<<<<<<<<<<<<
- *           equality[i] = True
- *           for j in self.__getattribute__(i).keys():
- */
-        goto __pyx_L6;
-      }
-
-      /* "calfews_src/waterbank_cy.pyx":83
- *                 differences += 1
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):             # <<<<<<<<<<<<<<
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:
- */
-      /*else*/ {
-        __pyx_t_15 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 83, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_3 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-          __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_15);
-          if (likely(__pyx_t_3)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-            __Pyx_INCREF(__pyx_t_3);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_15, function);
-          }
-        }
-        __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_15, __pyx_t_3, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_v_i);
-        __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_2 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-          __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-          if (likely(__pyx_t_2)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-            __Pyx_INCREF(__pyx_t_2);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_3, function);
-          }
-        }
-        __pyx_t_15 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_i);
-        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 83, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_15, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_5 = (((PyObject *)Py_TYPE(__pyx_t_3)) == ((PyObject*)&PyBool_Type));
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_10 = (__pyx_t_5 != 0);
-        if (__pyx_t_10) {
-
-          /* "calfews_src/waterbank_cy.pyx":84
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))             # <<<<<<<<<<<<<<
- *             if equality[i] == False:
- *               differences += 1
- */
-          __pyx_t_15 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 84, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_1 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
-            __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_15);
-            if (likely(__pyx_t_1)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
-              __Pyx_INCREF(__pyx_t_1);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_15, function);
-            }
-          }
-          __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_15, __pyx_t_1, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-            if (likely(__pyx_t_2)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-              __Pyx_INCREF(__pyx_t_2);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_1, function);
-            }
-          }
-          __pyx_t_15 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 84, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_15, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, __pyx_t_1) < 0)) __PYX_ERR(0, 84, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-          /* "calfews_src/waterbank_cy.pyx":85
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *           else:
- */
-          __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_equality, __pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_15 = PyObject_RichCompare(__pyx_t_1, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 85, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (__pyx_t_10) {
-
-            /* "calfews_src/waterbank_cy.pyx":86
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:
- *               differences += 1             # <<<<<<<<<<<<<<
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- */
-            __pyx_t_15 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 86, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_15);
-            __pyx_t_15 = 0;
-
-            /* "calfews_src/waterbank_cy.pyx":85
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *           else:
- */
-          }
-
-          /* "calfews_src/waterbank_cy.pyx":83
- *                 differences += 1
- *         else:
- *           if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):             # <<<<<<<<<<<<<<
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
- *             if equality[i] == False:
- */
-          goto __pyx_L12;
-        }
-
-        /* "calfews_src/waterbank_cy.pyx":88
- *               differences += 1
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()             # <<<<<<<<<<<<<<
- *             if equality[i] == False:
- *               differences += 1
- */
-        /*else*/ {
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_2 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_2)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_2);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_3, function);
-            }
-          }
-          __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_getattribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_13 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_13)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_13);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_2, function);
-            }
-          }
-          __pyx_t_3 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_13, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_i);
-          __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_all); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_2)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_2);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_3, function);
-            }
-          }
-          __pyx_t_15 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(PyDict_SetItem(__pyx_v_equality, __pyx_v_i, __pyx_t_15) < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-
-          /* "calfews_src/waterbank_cy.pyx":89
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *     return (differences == 0)
- */
-          __pyx_t_15 = __Pyx_PyDict_GetItem(__pyx_v_equality, __pyx_v_i); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 89, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_3 = PyObject_RichCompare(__pyx_t_15, Py_False, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (__pyx_t_10) {
-
-            /* "calfews_src/waterbank_cy.pyx":90
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- *             if equality[i] == False:
- *               differences += 1             # <<<<<<<<<<<<<<
- *     return (differences == 0)
- * 
- */
-            __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_differences, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF_SET(__pyx_v_differences, __pyx_t_3);
-            __pyx_t_3 = 0;
-
-            /* "calfews_src/waterbank_cy.pyx":89
- *           else:
- *             equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
- *             if equality[i] == False:             # <<<<<<<<<<<<<<
- *               differences += 1
- *     return (differences == 0)
- */
-          }
-        }
-        __pyx_L12:;
-      }
-      __pyx_L6:;
-    }
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  }
-
-  /* "calfews_src/waterbank_cy.pyx":91
- *             if equality[i] == False:
- *               differences += 1
- *     return (differences == 0)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_v_differences, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_r = __pyx_t_4;
-  __pyx_t_4 = 0;
-  goto __pyx_L0;
-
-  /* "calfews_src/waterbank_cy.pyx":63
- * 
- * 
- *   def object_equals(self, other):             # <<<<<<<<<<<<<<
- *     ##This function compares two instances of an object, returns True if all attributes are identical.
- *     equality = {}
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_15);
-  __Pyx_XDECREF(__pyx_t_16);
-  __Pyx_AddTraceback("calfews_src.waterbank_cy.Waterbank.object_equals", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_equality);
-  __Pyx_XDECREF(__pyx_v_differences);
-  __Pyx_XDECREF(__pyx_v_i);
-  __Pyx_XDECREF(__pyx_v_j);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "calfews_src/waterbank_cy.pyx":103
+/* "calfews_src/waterbank_cy.pyx":72
  * 
  *   # def find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
  *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):             # <<<<<<<<<<<<<<
@@ -3632,20 +2779,20 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_node_demand", 0);
-  __Pyx_TraceCall("find_node_demand", __pyx_f[0], 103, 0, __PYX_ERR(0, 103, __pyx_L1_error));
+  __Pyx_TraceCall("find_node_demand", __pyx_f[0], 72, 0, __PYX_ERR(0, 72, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":111
+  /* "calfews_src/waterbank_cy.pyx":80
  * 	  #in recovery mode, max demand is the available recovery capacity
  * 	  #all other modes, max demand is the available recharge space
  *     if search_type == "recovery":             # <<<<<<<<<<<<<<
  *       #recovery mode - sum the (pumping) capacity use of each wb member
  *       current_recovery_use = 0.0
  */
-  __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_recovery, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_recovery, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 80, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "calfews_src/waterbank_cy.pyx":113
+    /* "calfews_src/waterbank_cy.pyx":82
  *     if search_type == "recovery":
  *       #recovery mode - sum the (pumping) capacity use of each wb member
  *       current_recovery_use = 0.0             # <<<<<<<<<<<<<<
@@ -3654,7 +2801,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
  */
     __pyx_v_current_recovery_use = 0.0;
 
-    /* "calfews_src/waterbank_cy.pyx":114
+    /* "calfews_src/waterbank_cy.pyx":83
  *       #recovery mode - sum the (pumping) capacity use of each wb member
  *       current_recovery_use = 0.0
  *       for recovery_use_key in self.recovery_use:             # <<<<<<<<<<<<<<
@@ -3664,9 +2811,9 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
     __pyx_t_4 = 0;
     if (unlikely(__pyx_v_self->recovery_use == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 114, __pyx_L1_error)
+      __PYX_ERR(0, 83, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_dict_iterator(__pyx_v_self->recovery_use, 1, ((PyObject *)NULL), (&__pyx_t_5), (&__pyx_t_6)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_dict_iterator(__pyx_v_self->recovery_use, 1, ((PyObject *)NULL), (&__pyx_t_5), (&__pyx_t_6)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_3);
     __pyx_t_3 = __pyx_t_7;
@@ -3674,38 +2821,38 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
     while (1) {
       __pyx_t_8 = __Pyx_dict_iter_next(__pyx_t_3, __pyx_t_5, &__pyx_t_4, &__pyx_t_7, NULL, NULL, __pyx_t_6);
       if (unlikely(__pyx_t_8 == 0)) break;
-      if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 114, __pyx_L1_error)
+      if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      if (!(likely(PyUnicode_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 114, __pyx_L1_error)
+      if (!(likely(PyUnicode_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_recovery_use_key, ((PyObject*)__pyx_t_7));
       __pyx_t_7 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":115
+      /* "calfews_src/waterbank_cy.pyx":84
  *       current_recovery_use = 0.0
  *       for recovery_use_key in self.recovery_use:
  *         current_recovery_use += self.recovery_use[recovery_use_key]             # <<<<<<<<<<<<<<
  *       demand_constraint = max(self.recovery - current_recovery_use, 0.0)
  *     else:
  */
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_current_recovery_use); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_current_recovery_use); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       if (unlikely(__pyx_v_self->recovery_use == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 115, __pyx_L1_error)
+        __PYX_ERR(0, 84, __pyx_L1_error)
       }
-      __pyx_t_9 = __Pyx_PyDict_GetItem(__pyx_v_self->recovery_use, __pyx_v_recovery_use_key); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyDict_GetItem(__pyx_v_self->recovery_use, __pyx_v_recovery_use_key); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_10 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_10 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 115, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_v_current_recovery_use = __pyx_t_11;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":116
+    /* "calfews_src/waterbank_cy.pyx":85
  *       for recovery_use_key in self.recovery_use:
  *         current_recovery_use += self.recovery_use[recovery_use_key]
  *       demand_constraint = max(self.recovery - current_recovery_use, 0.0)             # <<<<<<<<<<<<<<
@@ -3721,7 +2868,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
     }
     __pyx_v_demand_constraint = __pyx_t_13;
 
-    /* "calfews_src/waterbank_cy.pyx":111
+    /* "calfews_src/waterbank_cy.pyx":80
  * 	  #in recovery mode, max demand is the available recovery capacity
  * 	  #all other modes, max demand is the available recharge space
  *     if search_type == "recovery":             # <<<<<<<<<<<<<<
@@ -3731,7 +2878,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
     goto __pyx_L3;
   }
 
-  /* "calfews_src/waterbank_cy.pyx":119
+  /* "calfews_src/waterbank_cy.pyx":88
  *     else:
  *       #recharge mode - sum the (spreading basin) capacity use of each wb member
  *       current_storage = 0.0             # <<<<<<<<<<<<<<
@@ -3741,7 +2888,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
   /*else*/ {
     __pyx_v_current_storage = 0.0;
 
-    /* "calfews_src/waterbank_cy.pyx":120
+    /* "calfews_src/waterbank_cy.pyx":89
  *       #recharge mode - sum the (spreading basin) capacity use of each wb member
  *       current_storage = 0.0
  *       for participant_key in self.participant_list:             # <<<<<<<<<<<<<<
@@ -3750,22 +2897,22 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
  */
     if (unlikely(__pyx_v_self->participant_list == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 120, __pyx_L1_error)
+      __PYX_ERR(0, 89, __pyx_L1_error)
     }
     __pyx_t_3 = __pyx_v_self->participant_list; __Pyx_INCREF(__pyx_t_3); __pyx_t_5 = 0;
     for (;;) {
       if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_3)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_10 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_10); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
+      __pyx_t_10 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_10); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
       #else
-      __pyx_t_10 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 120, __pyx_L1_error)
+      __pyx_t_10 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 89, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       #endif
-      if (!(likely(PyUnicode_CheckExact(__pyx_t_10))||((__pyx_t_10) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_10)->tp_name), 0))) __PYX_ERR(0, 120, __pyx_L1_error)
+      if (!(likely(PyUnicode_CheckExact(__pyx_t_10))||((__pyx_t_10) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_10)->tp_name), 0))) __PYX_ERR(0, 89, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_participant_key, ((PyObject*)__pyx_t_10));
       __pyx_t_10 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":121
+      /* "calfews_src/waterbank_cy.pyx":90
  *       current_storage = 0.0
  *       for participant_key in self.participant_list:
  *         storage = self.storage[participant_key]             # <<<<<<<<<<<<<<
@@ -3774,15 +2921,15 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
  */
       if (unlikely(__pyx_v_self->storage == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 121, __pyx_L1_error)
+        __PYX_ERR(0, 90, __pyx_L1_error)
       }
-      __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_participant_key); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 121, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_participant_key); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 121, __pyx_L1_error)
+      __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_v_storage = __pyx_t_13;
 
-      /* "calfews_src/waterbank_cy.pyx":122
+      /* "calfews_src/waterbank_cy.pyx":91
  *       for participant_key in self.participant_list:
  *         storage = self.storage[participant_key]
  *         current_storage += storage             # <<<<<<<<<<<<<<
@@ -3791,7 +2938,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
  */
       __pyx_v_current_storage = (__pyx_v_current_storage + __pyx_v_storage);
 
-      /* "calfews_src/waterbank_cy.pyx":120
+      /* "calfews_src/waterbank_cy.pyx":89
  *       #recharge mode - sum the (spreading basin) capacity use of each wb member
  *       current_storage = 0.0
  *       for participant_key in self.participant_list:             # <<<<<<<<<<<<<<
@@ -3801,7 +2948,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":124
+    /* "calfews_src/waterbank_cy.pyx":93
  *         current_storage += storage
  * 
  *       demand_constraint = max(self.tot_storage - current_storage, 0.0)             # <<<<<<<<<<<<<<
@@ -3819,7 +2966,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
   }
   __pyx_L3:;
 
-  /* "calfews_src/waterbank_cy.pyx":126
+  /* "calfews_src/waterbank_cy.pyx":95
  *       demand_constraint = max(self.tot_storage - current_storage, 0.0)
  * 
  *     return demand_constraint             # <<<<<<<<<<<<<<
@@ -3829,7 +2976,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
   __pyx_r = __pyx_v_demand_constraint;
   goto __pyx_L0;
 
-  /* "calfews_src/waterbank_cy.pyx":103
+  /* "calfews_src/waterbank_cy.pyx":72
  * 
  *   # def find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
  *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):             # <<<<<<<<<<<<<<
@@ -3853,7 +3000,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
   return __pyx_r;
 }
 
-/* "calfews_src/waterbank_cy.pyx":130
+/* "calfews_src/waterbank_cy.pyx":99
  * 
  *   # def find_priority_space(self, int num_members, str xx, str search_type):
  *   cdef double find_priority_space(self, int num_members, str xx, str search_type):             # <<<<<<<<<<<<<<
@@ -3880,20 +3027,20 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_priority_space", 0);
-  __Pyx_TraceCall("find_priority_space", __pyx_f[0], 130, 0, __PYX_ERR(0, 130, __pyx_L1_error));
+  __Pyx_TraceCall("find_priority_space", __pyx_f[0], 99, 0, __PYX_ERR(0, 99, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":134
+  /* "calfews_src/waterbank_cy.pyx":103
  *     cdef double initial_capacity, available_banked
  * 
  *     if search_type == "recovery":             # <<<<<<<<<<<<<<
  *       initial_capacity =  max(self.recovery*self.ownership[xx]/num_members - self.recovery_use[xx], 0.0)
  *       available_banked = self.banked[xx]
  */
-  __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_recovery, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_recovery, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "calfews_src/waterbank_cy.pyx":135
+    /* "calfews_src/waterbank_cy.pyx":104
  * 
  *     if search_type == "recovery":
  *       initial_capacity =  max(self.recovery*self.ownership[xx]/num_members - self.recovery_use[xx], 0.0)             # <<<<<<<<<<<<<<
@@ -3901,42 +3048,42 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
  *       return min(initial_capacity, available_banked)
  */
     __pyx_t_3 = 0.0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->recovery); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->recovery); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (unlikely(__pyx_v_self->ownership == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 135, __pyx_L1_error)
+      __PYX_ERR(0, 104, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->ownership, __pyx_v_xx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->ownership, __pyx_v_xx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_num_members); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_num_members); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(__pyx_v_self->recovery_use == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 135, __pyx_L1_error)
+      __PYX_ERR(0, 104, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->recovery_use, __pyx_v_xx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->recovery_use, __pyx_v_xx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_4, __pyx_t_6, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_4, __pyx_t_6, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_2) {
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 135, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 104, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_5 = __pyx_t_7;
       __pyx_t_7 = 0;
@@ -3945,11 +3092,11 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
       __pyx_t_5 = __pyx_t_6;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_initial_capacity = __pyx_t_3;
 
-    /* "calfews_src/waterbank_cy.pyx":136
+    /* "calfews_src/waterbank_cy.pyx":105
  *     if search_type == "recovery":
  *       initial_capacity =  max(self.recovery*self.ownership[xx]/num_members - self.recovery_use[xx], 0.0)
  *       available_banked = self.banked[xx]             # <<<<<<<<<<<<<<
@@ -3958,15 +3105,15 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
  */
     if (unlikely(__pyx_v_self->banked == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 136, __pyx_L1_error)
+      __PYX_ERR(0, 105, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->banked, __pyx_v_xx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->banked, __pyx_v_xx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_available_banked = __pyx_t_3;
 
-    /* "calfews_src/waterbank_cy.pyx":137
+    /* "calfews_src/waterbank_cy.pyx":106
  *       initial_capacity =  max(self.recovery*self.ownership[xx]/num_members - self.recovery_use[xx], 0.0)
  *       available_banked = self.banked[xx]
  *       return min(initial_capacity, available_banked)             # <<<<<<<<<<<<<<
@@ -3983,7 +3130,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
     __pyx_r = __pyx_t_9;
     goto __pyx_L0;
 
-    /* "calfews_src/waterbank_cy.pyx":134
+    /* "calfews_src/waterbank_cy.pyx":103
  *     cdef double initial_capacity, available_banked
  * 
  *     if search_type == "recovery":             # <<<<<<<<<<<<<<
@@ -3992,7 +3139,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
  */
   }
 
-  /* "calfews_src/waterbank_cy.pyx":139
+  /* "calfews_src/waterbank_cy.pyx":108
  *       return min(initial_capacity, available_banked)
  *     else:
  *       initial_capacity = max(self.tot_storage*self.ownership[xx]/num_members - self.storage[xx], 0.0)             # <<<<<<<<<<<<<<
@@ -4001,42 +3148,42 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
  */
   /*else*/ {
     __pyx_t_9 = 0.0;
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->tot_storage); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->tot_storage); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (unlikely(__pyx_v_self->ownership == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 139, __pyx_L1_error)
+      __PYX_ERR(0, 108, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->ownership, __pyx_v_xx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->ownership, __pyx_v_xx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyNumber_Multiply(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Multiply(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_num_members); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_num_members); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(__pyx_v_self->storage == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 139, __pyx_L1_error)
+      __PYX_ERR(0, 108, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_xx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_xx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_2) {
-      __pyx_t_4 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_6 = __pyx_t_4;
       __pyx_t_4 = 0;
@@ -4045,11 +3192,11 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
       __pyx_t_6 = __pyx_t_7;
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_initial_capacity = __pyx_t_9;
 
-    /* "calfews_src/waterbank_cy.pyx":140
+    /* "calfews_src/waterbank_cy.pyx":109
  *     else:
  *       initial_capacity = max(self.tot_storage*self.ownership[xx]/num_members - self.storage[xx], 0.0)
  *       return initial_capacity             # <<<<<<<<<<<<<<
@@ -4060,7 +3207,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
     goto __pyx_L0;
   }
 
-  /* "calfews_src/waterbank_cy.pyx":130
+  /* "calfews_src/waterbank_cy.pyx":99
  * 
  *   # def find_priority_space(self, int num_members, str xx, str search_type):
  *   cdef double find_priority_space(self, int num_members, str xx, str search_type):             # <<<<<<<<<<<<<<
@@ -4082,7 +3229,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
   return __pyx_r;
 }
 
-/* "calfews_src/waterbank_cy.pyx":145
+/* "calfews_src/waterbank_cy.pyx":114
  * 
  *   # def set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
  *   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):             # <<<<<<<<<<<<<<
@@ -4119,32 +3266,32 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_demand_priority", 0);
-  __Pyx_TraceCall("set_demand_priority", __pyx_f[0], 145, 0, __PYX_ERR(0, 145, __pyx_L1_error));
+  __Pyx_TraceCall("set_demand_priority", __pyx_f[0], 114, 0, __PYX_ERR(0, 114, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":155
+  /* "calfews_src/waterbank_cy.pyx":124
  *       Contract contract_obj
  * 
  *     demand_dict = {}             # <<<<<<<<<<<<<<
  *     #for flood flows, determine if the wb members have contracts w/ the flooding reservoir - 1st priority
  * 	#if not, do they have turnouts on the 'priority' canals - 2nd priority
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_demand_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "calfews_src/waterbank_cy.pyx":159
+  /* "calfews_src/waterbank_cy.pyx":128
  * 	#if not, do they have turnouts on the 'priority' canals - 2nd priority
  * 	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
  *     if search_type == 'flood':             # <<<<<<<<<<<<<<
  *       priority_toggle = 0
  *       contractor_toggle = 0
  */
-  __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_flood, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_flood, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 128, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "calfews_src/waterbank_cy.pyx":160
+    /* "calfews_src/waterbank_cy.pyx":129
  * 	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
  *     if search_type == 'flood':
  *       priority_toggle = 0             # <<<<<<<<<<<<<<
@@ -4153,7 +3300,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
     __pyx_v_priority_toggle = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":161
+    /* "calfews_src/waterbank_cy.pyx":130
  *     if search_type == 'flood':
  *       priority_toggle = 0
  *       contractor_toggle = 0             # <<<<<<<<<<<<<<
@@ -4162,7 +3309,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
     __pyx_v_contractor_toggle = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":162
+    /* "calfews_src/waterbank_cy.pyx":131
  *       priority_toggle = 0
  *       contractor_toggle = 0
  *       canal_toggle = 0             # <<<<<<<<<<<<<<
@@ -4171,7 +3318,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
     __pyx_v_canal_toggle = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":163
+    /* "calfews_src/waterbank_cy.pyx":132
  *       contractor_toggle = 0
  *       canal_toggle = 0
  *       for canal_obj in priority_list:             # <<<<<<<<<<<<<<
@@ -4180,33 +3327,33 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
     if (unlikely(__pyx_v_priority_list == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 163, __pyx_L1_error)
+      __PYX_ERR(0, 132, __pyx_L1_error)
     }
     __pyx_t_1 = __pyx_v_priority_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     for (;;) {
       if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
+      __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
       #else
-      __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 163, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 132, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       #endif
-      if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_11calfews_src_8canal_cy_Canal))))) __PYX_ERR(0, 163, __pyx_L1_error)
+      if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_11calfews_src_8canal_cy_Canal))))) __PYX_ERR(0, 132, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_canal_obj, ((struct __pyx_obj_11calfews_src_8canal_cy_Canal *)__pyx_t_5));
       __pyx_t_5 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":164
+      /* "calfews_src/waterbank_cy.pyx":133
  *       canal_toggle = 0
  *       for canal_obj in priority_list:
  *         if canal_obj.name == contract_canal:             # <<<<<<<<<<<<<<
  *           priority_toggle = 1
  *       if priority_toggle == 1:
  */
-      __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_canal_obj->name, __pyx_v_contract_canal, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_canal_obj->name, __pyx_v_contract_canal, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
       __pyx_t_2 = (__pyx_t_3 != 0);
       if (__pyx_t_2) {
 
-        /* "calfews_src/waterbank_cy.pyx":165
+        /* "calfews_src/waterbank_cy.pyx":134
  *       for canal_obj in priority_list:
  *         if canal_obj.name == contract_canal:
  *           priority_toggle = 1             # <<<<<<<<<<<<<<
@@ -4215,7 +3362,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
         __pyx_v_priority_toggle = 1;
 
-        /* "calfews_src/waterbank_cy.pyx":164
+        /* "calfews_src/waterbank_cy.pyx":133
  *       canal_toggle = 0
  *       for canal_obj in priority_list:
  *         if canal_obj.name == contract_canal:             # <<<<<<<<<<<<<<
@@ -4224,7 +3371,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
       }
 
-      /* "calfews_src/waterbank_cy.pyx":163
+      /* "calfews_src/waterbank_cy.pyx":132
  *       contractor_toggle = 0
  *       canal_toggle = 0
  *       for canal_obj in priority_list:             # <<<<<<<<<<<<<<
@@ -4234,7 +3381,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":166
+    /* "calfews_src/waterbank_cy.pyx":135
  *         if canal_obj.name == contract_canal:
  *           priority_toggle = 1
  *       if priority_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4244,7 +3391,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     __pyx_t_2 = ((__pyx_v_priority_toggle == 1) != 0);
     if (__pyx_t_2) {
 
-      /* "calfews_src/waterbank_cy.pyx":167
+      /* "calfews_src/waterbank_cy.pyx":136
  *           priority_toggle = 1
  *       if priority_toggle == 1:
  *         for contract_obj in contract_list:             # <<<<<<<<<<<<<<
@@ -4253,22 +3400,22 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
       if (unlikely(__pyx_v_contract_list == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        __PYX_ERR(0, 167, __pyx_L1_error)
+        __PYX_ERR(0, 136, __pyx_L1_error)
       }
       __pyx_t_1 = __pyx_v_contract_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
       for (;;) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
-        if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_11calfews_src_11contract_cy_Contract))))) __PYX_ERR(0, 167, __pyx_L1_error)
+        if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_11calfews_src_11contract_cy_Contract))))) __PYX_ERR(0, 136, __pyx_L1_error)
         __Pyx_XDECREF_SET(__pyx_v_contract_obj, ((struct __pyx_obj_11calfews_src_11contract_cy_Contract *)__pyx_t_5));
         __pyx_t_5 = 0;
 
-        /* "calfews_src/waterbank_cy.pyx":168
+        /* "calfews_src/waterbank_cy.pyx":137
  *       if priority_toggle == 1:
  *         for contract_obj in contract_list:
  *           for contract_key in member_contracts:             # <<<<<<<<<<<<<<
@@ -4277,33 +3424,33 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
         if (unlikely(__pyx_v_member_contracts == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-          __PYX_ERR(0, 168, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_5 = __pyx_v_member_contracts; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
         for (;;) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_7); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 168, __pyx_L1_error)
+          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_7); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 137, __pyx_L1_error)
           #else
-          __pyx_t_7 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 168, __pyx_L1_error)
+          __pyx_t_7 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 137, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           #endif
-          if (!(likely(PyUnicode_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 168, __pyx_L1_error)
+          if (!(likely(PyUnicode_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 137, __pyx_L1_error)
           __Pyx_XDECREF_SET(__pyx_v_contract_key, ((PyObject*)__pyx_t_7));
           __pyx_t_7 = 0;
 
-          /* "calfews_src/waterbank_cy.pyx":169
+          /* "calfews_src/waterbank_cy.pyx":138
  *         for contract_obj in contract_list:
  *           for contract_key in member_contracts:
  *             if contract_obj.name == contract_key:             # <<<<<<<<<<<<<<
  *               contractor_toggle = 1
  *         for canal_key in self.canal_rights:
  */
-          __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_contract_obj->name, __pyx_v_contract_key, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 169, __pyx_L1_error)
+          __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_contract_obj->name, __pyx_v_contract_key, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
           __pyx_t_3 = (__pyx_t_2 != 0);
           if (__pyx_t_3) {
 
-            /* "calfews_src/waterbank_cy.pyx":170
+            /* "calfews_src/waterbank_cy.pyx":139
  *           for contract_key in member_contracts:
  *             if contract_obj.name == contract_key:
  *               contractor_toggle = 1             # <<<<<<<<<<<<<<
@@ -4312,7 +3459,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
             __pyx_v_contractor_toggle = 1;
 
-            /* "calfews_src/waterbank_cy.pyx":169
+            /* "calfews_src/waterbank_cy.pyx":138
  *         for contract_obj in contract_list:
  *           for contract_key in member_contracts:
  *             if contract_obj.name == contract_key:             # <<<<<<<<<<<<<<
@@ -4321,7 +3468,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
           }
 
-          /* "calfews_src/waterbank_cy.pyx":168
+          /* "calfews_src/waterbank_cy.pyx":137
  *       if priority_toggle == 1:
  *         for contract_obj in contract_list:
  *           for contract_key in member_contracts:             # <<<<<<<<<<<<<<
@@ -4331,7 +3478,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
         }
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "calfews_src/waterbank_cy.pyx":167
+        /* "calfews_src/waterbank_cy.pyx":136
  *           priority_toggle = 1
  *       if priority_toggle == 1:
  *         for contract_obj in contract_list:             # <<<<<<<<<<<<<<
@@ -4341,7 +3488,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       }
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":171
+      /* "calfews_src/waterbank_cy.pyx":140
  *             if contract_obj.name == contract_key:
  *               contractor_toggle = 1
  *         for canal_key in self.canal_rights:             # <<<<<<<<<<<<<<
@@ -4350,33 +3497,33 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
       if (unlikely(__pyx_v_self->canal_rights == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        __PYX_ERR(0, 171, __pyx_L1_error)
+        __PYX_ERR(0, 140, __pyx_L1_error)
       }
       __pyx_t_1 = __pyx_v_self->canal_rights; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
       for (;;) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
-        if (!(likely(PyUnicode_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 171, __pyx_L1_error)
+        if (!(likely(PyUnicode_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 140, __pyx_L1_error)
         __Pyx_XDECREF_SET(__pyx_v_canal_key, ((PyObject*)__pyx_t_5));
         __pyx_t_5 = 0;
 
-        /* "calfews_src/waterbank_cy.pyx":172
+        /* "calfews_src/waterbank_cy.pyx":141
  *               contractor_toggle = 1
  *         for canal_key in self.canal_rights:
  *           if canal_key == current_canal:             # <<<<<<<<<<<<<<
  *             canal_toggle = 1
  *         if contractor_toggle == 1 and canal_toggle == 1:
  */
-        __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_canal_key, __pyx_v_current_canal, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
+        __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_canal_key, __pyx_v_current_canal, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 141, __pyx_L1_error)
         __pyx_t_2 = (__pyx_t_3 != 0);
         if (__pyx_t_2) {
 
-          /* "calfews_src/waterbank_cy.pyx":173
+          /* "calfews_src/waterbank_cy.pyx":142
  *         for canal_key in self.canal_rights:
  *           if canal_key == current_canal:
  *             canal_toggle = 1             # <<<<<<<<<<<<<<
@@ -4385,7 +3532,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
           __pyx_v_canal_toggle = 1;
 
-          /* "calfews_src/waterbank_cy.pyx":172
+          /* "calfews_src/waterbank_cy.pyx":141
  *               contractor_toggle = 1
  *         for canal_key in self.canal_rights:
  *           if canal_key == current_canal:             # <<<<<<<<<<<<<<
@@ -4394,7 +3541,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
         }
 
-        /* "calfews_src/waterbank_cy.pyx":171
+        /* "calfews_src/waterbank_cy.pyx":140
  *             if contract_obj.name == contract_key:
  *               contractor_toggle = 1
  *         for canal_key in self.canal_rights:             # <<<<<<<<<<<<<<
@@ -4404,7 +3551,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       }
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":174
+      /* "calfews_src/waterbank_cy.pyx":143
  *           if canal_key == current_canal:
  *             canal_toggle = 1
  *         if contractor_toggle == 1 and canal_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4422,46 +3569,46 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       __pyx_L17_bool_binop_done:;
       if (__pyx_t_2) {
 
-        /* "calfews_src/waterbank_cy.pyx":175
+        /* "calfews_src/waterbank_cy.pyx":144
  *             canal_toggle = 1
  *         if contractor_toggle == 1 and canal_toggle == 1:
  *           demand_dict['contractor'] = demand             # <<<<<<<<<<<<<<
  *           demand_dict['alternate'] = 0.0
  *           demand_dict['turnout'] = 0.0
  */
-        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_t_1) < 0)) __PYX_ERR(0, 175, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_t_1) < 0)) __PYX_ERR(0, 144, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "calfews_src/waterbank_cy.pyx":176
+        /* "calfews_src/waterbank_cy.pyx":145
  *         if contractor_toggle == 1 and canal_toggle == 1:
  *           demand_dict['contractor'] = demand
  *           demand_dict['alternate'] = 0.0             # <<<<<<<<<<<<<<
  *           demand_dict['turnout'] = 0.0
  *           demand_dict['excess'] = 0.0
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_float_0_0) < 0)) __PYX_ERR(0, 176, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_float_0_0) < 0)) __PYX_ERR(0, 145, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":177
+        /* "calfews_src/waterbank_cy.pyx":146
  *           demand_dict['contractor'] = demand
  *           demand_dict['alternate'] = 0.0
  *           demand_dict['turnout'] = 0.0             # <<<<<<<<<<<<<<
  *           demand_dict['excess'] = 0.0
  *         elif contractor_toggle == 1:
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_float_0_0) < 0)) __PYX_ERR(0, 177, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_float_0_0) < 0)) __PYX_ERR(0, 146, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":178
+        /* "calfews_src/waterbank_cy.pyx":147
  *           demand_dict['alternate'] = 0.0
  *           demand_dict['turnout'] = 0.0
  *           demand_dict['excess'] = 0.0             # <<<<<<<<<<<<<<
  *         elif contractor_toggle == 1:
  *           demand_dict['contractor'] = 0.0
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_float_0_0) < 0)) __PYX_ERR(0, 178, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_float_0_0) < 0)) __PYX_ERR(0, 147, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":174
+        /* "calfews_src/waterbank_cy.pyx":143
  *           if canal_key == current_canal:
  *             canal_toggle = 1
  *         if contractor_toggle == 1 and canal_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4471,7 +3618,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
         goto __pyx_L16;
       }
 
-      /* "calfews_src/waterbank_cy.pyx":179
+      /* "calfews_src/waterbank_cy.pyx":148
  *           demand_dict['turnout'] = 0.0
  *           demand_dict['excess'] = 0.0
  *         elif contractor_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4481,46 +3628,46 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       __pyx_t_2 = ((__pyx_v_contractor_toggle == 1) != 0);
       if (__pyx_t_2) {
 
-        /* "calfews_src/waterbank_cy.pyx":180
+        /* "calfews_src/waterbank_cy.pyx":149
  *           demand_dict['excess'] = 0.0
  *         elif contractor_toggle == 1:
  *           demand_dict['contractor'] = 0.0             # <<<<<<<<<<<<<<
  *           demand_dict['alternate'] = demand
  *           demand_dict['turnout'] = 0.0
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_float_0_0) < 0)) __PYX_ERR(0, 180, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_float_0_0) < 0)) __PYX_ERR(0, 149, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":181
+        /* "calfews_src/waterbank_cy.pyx":150
  *         elif contractor_toggle == 1:
  *           demand_dict['contractor'] = 0.0
  *           demand_dict['alternate'] = demand             # <<<<<<<<<<<<<<
  *           demand_dict['turnout'] = 0.0
  *           demand_dict['excess'] = 0.0
  */
-        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 150, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_t_1) < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_t_1) < 0)) __PYX_ERR(0, 150, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "calfews_src/waterbank_cy.pyx":182
+        /* "calfews_src/waterbank_cy.pyx":151
  *           demand_dict['contractor'] = 0.0
  *           demand_dict['alternate'] = demand
  *           demand_dict['turnout'] = 0.0             # <<<<<<<<<<<<<<
  *           demand_dict['excess'] = 0.0
  *         else:
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_float_0_0) < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_float_0_0) < 0)) __PYX_ERR(0, 151, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":183
+        /* "calfews_src/waterbank_cy.pyx":152
  *           demand_dict['alternate'] = demand
  *           demand_dict['turnout'] = 0.0
  *           demand_dict['excess'] = 0.0             # <<<<<<<<<<<<<<
  *         else:
  *           demand_dict['contractor'] = 0.0
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_float_0_0) < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_float_0_0) < 0)) __PYX_ERR(0, 152, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":179
+        /* "calfews_src/waterbank_cy.pyx":148
  *           demand_dict['turnout'] = 0.0
  *           demand_dict['excess'] = 0.0
  *         elif contractor_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4530,7 +3677,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
         goto __pyx_L16;
       }
 
-      /* "calfews_src/waterbank_cy.pyx":185
+      /* "calfews_src/waterbank_cy.pyx":154
  *           demand_dict['excess'] = 0.0
  *         else:
  *           demand_dict['contractor'] = 0.0             # <<<<<<<<<<<<<<
@@ -4538,41 +3685,41 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  *           demand_dict['turnout'] = demand
  */
       /*else*/ {
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_float_0_0) < 0)) __PYX_ERR(0, 185, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_float_0_0) < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":186
+        /* "calfews_src/waterbank_cy.pyx":155
  *         else:
  *           demand_dict['contractor'] = 0.0
  *           demand_dict['alternate'] = 0.0             # <<<<<<<<<<<<<<
  *           demand_dict['turnout'] = demand
  *           demand_dict['excess'] = 0.0
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_float_0_0) < 0)) __PYX_ERR(0, 186, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_float_0_0) < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
 
-        /* "calfews_src/waterbank_cy.pyx":187
+        /* "calfews_src/waterbank_cy.pyx":156
  *           demand_dict['contractor'] = 0.0
  *           demand_dict['alternate'] = 0.0
  *           demand_dict['turnout'] = demand             # <<<<<<<<<<<<<<
  *           demand_dict['excess'] = 0.0
  *       else:
  */
-        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_t_1) < 0)) __PYX_ERR(0, 187, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_t_1) < 0)) __PYX_ERR(0, 156, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "calfews_src/waterbank_cy.pyx":188
+        /* "calfews_src/waterbank_cy.pyx":157
  *           demand_dict['alternate'] = 0.0
  *           demand_dict['turnout'] = demand
  *           demand_dict['excess'] = 0.0             # <<<<<<<<<<<<<<
  *       else:
  *         demand_dict['contractor'] = 0.0
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_float_0_0) < 0)) __PYX_ERR(0, 188, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_float_0_0) < 0)) __PYX_ERR(0, 157, __pyx_L1_error)
       }
       __pyx_L16:;
 
-      /* "calfews_src/waterbank_cy.pyx":166
+      /* "calfews_src/waterbank_cy.pyx":135
  *         if canal_obj.name == contract_canal:
  *           priority_toggle = 1
  *       if priority_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4582,7 +3729,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       goto __pyx_L7;
     }
 
-    /* "calfews_src/waterbank_cy.pyx":190
+    /* "calfews_src/waterbank_cy.pyx":159
  *           demand_dict['excess'] = 0.0
  *       else:
  *         demand_dict['contractor'] = 0.0             # <<<<<<<<<<<<<<
@@ -4590,41 +3737,41 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  *         demand_dict['turnout'] = 0.0
  */
     /*else*/ {
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_float_0_0) < 0)) __PYX_ERR(0, 190, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_contractor, __pyx_float_0_0) < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
 
-      /* "calfews_src/waterbank_cy.pyx":191
+      /* "calfews_src/waterbank_cy.pyx":160
  *       else:
  *         demand_dict['contractor'] = 0.0
  *         demand_dict['alternate'] = 0.0             # <<<<<<<<<<<<<<
  *         demand_dict['turnout'] = 0.0
  *         demand_dict['excess'] = demand
  */
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_float_0_0) < 0)) __PYX_ERR(0, 191, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_alternate, __pyx_float_0_0) < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
 
-      /* "calfews_src/waterbank_cy.pyx":192
+      /* "calfews_src/waterbank_cy.pyx":161
  *         demand_dict['contractor'] = 0.0
  *         demand_dict['alternate'] = 0.0
  *         demand_dict['turnout'] = 0.0             # <<<<<<<<<<<<<<
  *         demand_dict['excess'] = demand
  *     #if the flows are for delivery, the don't come to a water bank
  */
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_float_0_0) < 0)) __PYX_ERR(0, 192, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_turnout, __pyx_float_0_0) < 0)) __PYX_ERR(0, 161, __pyx_L1_error)
 
-      /* "calfews_src/waterbank_cy.pyx":193
+      /* "calfews_src/waterbank_cy.pyx":162
  *         demand_dict['alternate'] = 0.0
  *         demand_dict['turnout'] = 0.0
  *         demand_dict['excess'] = demand             # <<<<<<<<<<<<<<
  *     #if the flows are for delivery, the don't come to a water bank
  *     elif search_type == 'delivery':
  */
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_t_1) < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_excess, __pyx_t_1) < 0)) __PYX_ERR(0, 162, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
     __pyx_L7:;
 
-    /* "calfews_src/waterbank_cy.pyx":159
+    /* "calfews_src/waterbank_cy.pyx":128
  * 	#if not, do they have turnouts on the 'priority' canals - 2nd priority
  * 	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
  *     if search_type == 'flood':             # <<<<<<<<<<<<<<
@@ -4634,27 +3781,27 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     goto __pyx_L3;
   }
 
-  /* "calfews_src/waterbank_cy.pyx":195
+  /* "calfews_src/waterbank_cy.pyx":164
  *         demand_dict['excess'] = demand
  *     #if the flows are for delivery, the don't come to a water bank
  *     elif search_type == 'delivery':             # <<<<<<<<<<<<<<
  *       demand_dict[contract_canal] = 0.0
  *     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
  */
-  __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_delivery, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_delivery, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 164, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "calfews_src/waterbank_cy.pyx":196
+    /* "calfews_src/waterbank_cy.pyx":165
  *     #if the flows are for delivery, the don't come to a water bank
  *     elif search_type == 'delivery':
  *       demand_dict[contract_canal] = 0.0             # <<<<<<<<<<<<<<
  *     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
  * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  */
-    if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_v_contract_canal, __pyx_float_0_0) < 0)) __PYX_ERR(0, 196, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_v_contract_canal, __pyx_float_0_0) < 0)) __PYX_ERR(0, 165, __pyx_L1_error)
 
-    /* "calfews_src/waterbank_cy.pyx":195
+    /* "calfews_src/waterbank_cy.pyx":164
  *         demand_dict['excess'] = demand
  *     #if the flows are for delivery, the don't come to a water bank
  *     elif search_type == 'delivery':             # <<<<<<<<<<<<<<
@@ -4664,18 +3811,18 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     goto __pyx_L3;
   }
 
-  /* "calfews_src/waterbank_cy.pyx":199
+  /* "calfews_src/waterbank_cy.pyx":168
  *     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
  * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  *     elif search_type == 'banking':             # <<<<<<<<<<<<<<
  *       canal_toggle = 0
  *       for canal_key in self.canal_rights:
  */
-  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_banking, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_banking, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 168, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "calfews_src/waterbank_cy.pyx":200
+    /* "calfews_src/waterbank_cy.pyx":169
  * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  *     elif search_type == 'banking':
  *       canal_toggle = 0             # <<<<<<<<<<<<<<
@@ -4684,7 +3831,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
     __pyx_v_canal_toggle = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":201
+    /* "calfews_src/waterbank_cy.pyx":170
  *     elif search_type == 'banking':
  *       canal_toggle = 0
  *       for canal_key in self.canal_rights:             # <<<<<<<<<<<<<<
@@ -4693,33 +3840,33 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
     if (unlikely(__pyx_v_self->canal_rights == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 201, __pyx_L1_error)
+      __PYX_ERR(0, 170, __pyx_L1_error)
     }
     __pyx_t_1 = __pyx_v_self->canal_rights; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     for (;;) {
       if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 170, __pyx_L1_error)
       #else
-      __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 170, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       #endif
-      if (!(likely(PyUnicode_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 201, __pyx_L1_error)
+      if (!(likely(PyUnicode_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 170, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_canal_key, ((PyObject*)__pyx_t_5));
       __pyx_t_5 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":202
+      /* "calfews_src/waterbank_cy.pyx":171
  *       canal_toggle = 0
  *       for canal_key in self.canal_rights:
  *         if canal_key == current_canal:             # <<<<<<<<<<<<<<
  *           canal_toggle = 1
  *       if canal_toggle == 1:
  */
-      __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_canal_key, __pyx_v_current_canal, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
+      __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_canal_key, __pyx_v_current_canal, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 171, __pyx_L1_error)
       __pyx_t_3 = (__pyx_t_2 != 0);
       if (__pyx_t_3) {
 
-        /* "calfews_src/waterbank_cy.pyx":203
+        /* "calfews_src/waterbank_cy.pyx":172
  *       for canal_key in self.canal_rights:
  *         if canal_key == current_canal:
  *           canal_toggle = 1             # <<<<<<<<<<<<<<
@@ -4728,7 +3875,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
         __pyx_v_canal_toggle = 1;
 
-        /* "calfews_src/waterbank_cy.pyx":202
+        /* "calfews_src/waterbank_cy.pyx":171
  *       canal_toggle = 0
  *       for canal_key in self.canal_rights:
  *         if canal_key == current_canal:             # <<<<<<<<<<<<<<
@@ -4737,7 +3884,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  */
       }
 
-      /* "calfews_src/waterbank_cy.pyx":201
+      /* "calfews_src/waterbank_cy.pyx":170
  *     elif search_type == 'banking':
  *       canal_toggle = 0
  *       for canal_key in self.canal_rights:             # <<<<<<<<<<<<<<
@@ -4747,7 +3894,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":204
+    /* "calfews_src/waterbank_cy.pyx":173
  *         if canal_key == current_canal:
  *           canal_toggle = 1
  *       if canal_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4757,7 +3904,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     __pyx_t_3 = ((__pyx_v_canal_toggle == 1) != 0);
     if (__pyx_t_3) {
 
-      /* "calfews_src/waterbank_cy.pyx":205
+      /* "calfews_src/waterbank_cy.pyx":174
  *           canal_toggle = 1
  *       if canal_toggle == 1:
  *         demand_dict['priority'] = min(max(min(demand,delivery), 0.0), demand_constraint)             # <<<<<<<<<<<<<<
@@ -4785,23 +3932,23 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       } else {
         __pyx_t_12 = __pyx_t_9;
       }
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_priority, __pyx_t_1) < 0)) __PYX_ERR(0, 205, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_priority, __pyx_t_1) < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":206
+      /* "calfews_src/waterbank_cy.pyx":175
  *       if canal_toggle == 1:
  *         demand_dict['priority'] = min(max(min(demand,delivery), 0.0), demand_constraint)
  *         demand_dict['secondary'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint -  demand_dict['priority'])             # <<<<<<<<<<<<<<
  *       else:
  *         demand_dict['priority'] = 0.0
  */
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand_constraint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_demand_constraint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_demand_dict, __pyx_n_u_priority); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_demand_dict, __pyx_n_u_priority); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4820,17 +3967,17 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
         __pyx_t_10 = __pyx_t_8;
       }
       __pyx_t_12 = (__pyx_v_delivery - __pyx_t_10);
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_13 = PyObject_RichCompare(__pyx_t_7, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_13 = PyObject_RichCompare(__pyx_t_7, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       if (__pyx_t_3) {
         __Pyx_INCREF(__pyx_t_7);
         __pyx_t_5 = __pyx_t_7;
       } else {
-        __pyx_t_13 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 206, __pyx_L1_error)
+        __pyx_t_13 = PyFloat_FromDouble(__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 175, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         __pyx_t_5 = __pyx_t_13;
         __pyx_t_13 = 0;
@@ -4839,10 +3986,10 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       __pyx_t_7 = __pyx_t_5;
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_secondary, __pyx_t_7) < 0)) __PYX_ERR(0, 206, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_secondary, __pyx_t_7) < 0)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":204
+      /* "calfews_src/waterbank_cy.pyx":173
  *         if canal_key == current_canal:
  *           canal_toggle = 1
  *       if canal_toggle == 1:             # <<<<<<<<<<<<<<
@@ -4852,7 +3999,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       goto __pyx_L22;
     }
 
-    /* "calfews_src/waterbank_cy.pyx":208
+    /* "calfews_src/waterbank_cy.pyx":177
  *         demand_dict['secondary'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint -  demand_dict['priority'])
  *       else:
  *         demand_dict['priority'] = 0.0             # <<<<<<<<<<<<<<
@@ -4860,9 +4007,9 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  */
     /*else*/ {
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_priority, __pyx_float_0_0) < 0)) __PYX_ERR(0, 208, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_priority, __pyx_float_0_0) < 0)) __PYX_ERR(0, 177, __pyx_L1_error)
 
-      /* "calfews_src/waterbank_cy.pyx":209
+      /* "calfews_src/waterbank_cy.pyx":178
  *       else:
  *         demand_dict['priority'] = 0.0
  *         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)             # <<<<<<<<<<<<<<
@@ -4883,14 +4030,14 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       } else {
         __pyx_t_9 = __pyx_t_10;
       }
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 209, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 178, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_secondary, __pyx_t_7) < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_secondary, __pyx_t_7) < 0)) __PYX_ERR(0, 178, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __pyx_L22:;
 
-    /* "calfews_src/waterbank_cy.pyx":199
+    /* "calfews_src/waterbank_cy.pyx":168
  *     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
  * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  *     elif search_type == 'banking':             # <<<<<<<<<<<<<<
@@ -4900,18 +4047,18 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     goto __pyx_L3;
   }
 
-  /* "calfews_src/waterbank_cy.pyx":211
+  /* "calfews_src/waterbank_cy.pyx":180
  *         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
  * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  *     elif search_type == 'recovery':             # <<<<<<<<<<<<<<
  *       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
  *       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
  */
-  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_recovery, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_search_type, __pyx_n_u_recovery, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 180, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "calfews_src/waterbank_cy.pyx":212
+    /* "calfews_src/waterbank_cy.pyx":181
  * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  *     elif search_type == 'recovery':
  *       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)             # <<<<<<<<<<<<<<
@@ -4939,23 +4086,23 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     } else {
       __pyx_t_11 = __pyx_t_12;
     }
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_initial, __pyx_t_7) < 0)) __PYX_ERR(0, 212, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_initial, __pyx_t_7) < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":213
+    /* "calfews_src/waterbank_cy.pyx":182
  *     elif search_type == 'recovery':
  *       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
  *       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])             # <<<<<<<<<<<<<<
  * 
  *     return demand_dict
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_demand_constraint); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_demand_constraint); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_demand_dict, __pyx_n_u_initial); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_demand_dict, __pyx_n_u_initial); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_13 = PyNumber_Subtract(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __pyx_t_13 = PyNumber_Subtract(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4974,17 +4121,17 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
       __pyx_t_10 = __pyx_t_9;
     }
     __pyx_t_11 = (__pyx_v_delivery - __pyx_t_10);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_13, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_13, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_2) {
       __Pyx_INCREF(__pyx_t_13);
       __pyx_t_5 = __pyx_t_13;
     } else {
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_5 = __pyx_t_1;
       __pyx_t_1 = 0;
@@ -4993,10 +4140,10 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     __pyx_t_13 = __pyx_t_5;
     __Pyx_INCREF(__pyx_t_13);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_supplemental, __pyx_t_13) < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_supplemental, __pyx_t_13) < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":211
+    /* "calfews_src/waterbank_cy.pyx":180
  *         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
  * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  *     elif search_type == 'recovery':             # <<<<<<<<<<<<<<
@@ -5006,7 +4153,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   }
   __pyx_L3:;
 
-  /* "calfews_src/waterbank_cy.pyx":215
+  /* "calfews_src/waterbank_cy.pyx":184
  *       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
  * 
  *     return demand_dict             # <<<<<<<<<<<<<<
@@ -5018,7 +4165,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   __pyx_r = __pyx_v_demand_dict;
   goto __pyx_L0;
 
-  /* "calfews_src/waterbank_cy.pyx":145
+  /* "calfews_src/waterbank_cy.pyx":114
  * 
  *   # def set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
  *   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):             # <<<<<<<<<<<<<<
@@ -5046,7 +4193,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   return __pyx_r;
 }
 
-/* "calfews_src/waterbank_cy.pyx":218
+/* "calfews_src/waterbank_cy.pyx":187
  * 
  * 
  *   cdef double set_deliveries(self, dict priorities, dict type_fractions, list type_list, str member_name):             # <<<<<<<<<<<<<<
@@ -5073,9 +4220,9 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_deliveries", 0);
-  __Pyx_TraceCall("set_deliveries", __pyx_f[0], 218, 0, __PYX_ERR(0, 218, __pyx_L1_error));
+  __Pyx_TraceCall("set_deliveries", __pyx_f[0], 187, 0, __PYX_ERR(0, 187, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":223
+  /* "calfews_src/waterbank_cy.pyx":192
  *       str zz
  * 
  *     final_deliveries = 0.0             # <<<<<<<<<<<<<<
@@ -5084,7 +4231,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
  */
   __pyx_v_final_deliveries = 0.0;
 
-  /* "calfews_src/waterbank_cy.pyx":224
+  /* "calfews_src/waterbank_cy.pyx":193
  * 
  *     final_deliveries = 0.0
  *     for zz in type_list:             # <<<<<<<<<<<<<<
@@ -5093,22 +4240,22 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
  */
   if (unlikely(__pyx_v_type_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 224, __pyx_L1_error)
+    __PYX_ERR(0, 193, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_type_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 224, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 193, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 224, __pyx_L1_error)
+    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 193, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_zz, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":226
+    /* "calfews_src/waterbank_cy.pyx":195
  *     for zz in type_list:
  *       #deliveries at this priority level
  *       total_deliveries = priorities[zz]*type_fractions[zz]             # <<<<<<<<<<<<<<
@@ -5117,25 +4264,25 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
  */
     if (unlikely(__pyx_v_priorities == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 226, __pyx_L1_error)
+      __PYX_ERR(0, 195, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_priorities, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_priorities, __pyx_v_zz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (unlikely(__pyx_v_type_fractions == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 226, __pyx_L1_error)
+      __PYX_ERR(0, 195, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_type_fractions, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_type_fractions, __pyx_v_zz); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 195, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_total_deliveries = __pyx_t_6;
 
-    /* "calfews_src/waterbank_cy.pyx":228
+    /* "calfews_src/waterbank_cy.pyx":197
  *       total_deliveries = priorities[zz]*type_fractions[zz]
  *       #running total of all deliveries at this node
  *       final_deliveries += total_deliveries             # <<<<<<<<<<<<<<
@@ -5144,7 +4291,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
  */
     __pyx_v_final_deliveries = (__pyx_v_final_deliveries + __pyx_v_total_deliveries);
 
-    /* "calfews_src/waterbank_cy.pyx":231
+    /* "calfews_src/waterbank_cy.pyx":200
  *       #deliveries first go to direct irrigation, if demand remains
  *       #adjust demand/recharge space
  *       self.storage[member_name] += total_deliveries             # <<<<<<<<<<<<<<
@@ -5153,7 +4300,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
  */
     if (unlikely(__pyx_v_self->storage == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 231, __pyx_L1_error)
+      __PYX_ERR(0, 200, __pyx_L1_error)
     }
     __Pyx_INCREF(__pyx_v_self->storage);
     __pyx_t_7 = __pyx_v_self->storage;
@@ -5161,26 +4308,26 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
     __pyx_t_8 = __pyx_v_member_name;
     if (unlikely(__pyx_t_7 == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 231, __pyx_L1_error)
+      __PYX_ERR(0, 200, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_total_deliveries); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_total_deliveries); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (unlikely(__pyx_t_7 == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 231, __pyx_L1_error)
+      __PYX_ERR(0, 200, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__pyx_t_7, __pyx_t_8, __pyx_t_3) < 0)) __PYX_ERR(0, 231, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_t_7, __pyx_t_8, __pyx_t_3) < 0)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":224
+    /* "calfews_src/waterbank_cy.pyx":193
  * 
  *     final_deliveries = 0.0
  *     for zz in type_list:             # <<<<<<<<<<<<<<
@@ -5190,7 +4337,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/waterbank_cy.pyx":233
+  /* "calfews_src/waterbank_cy.pyx":202
  *       self.storage[member_name] += total_deliveries
  * 
  *     return final_deliveries             # <<<<<<<<<<<<<<
@@ -5200,7 +4347,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
   __pyx_r = __pyx_v_final_deliveries;
   goto __pyx_L0;
 
-  /* "calfews_src/waterbank_cy.pyx":218
+  /* "calfews_src/waterbank_cy.pyx":187
  * 
  * 
  *   cdef double set_deliveries(self, dict priorities, dict type_fractions, list type_list, str member_name):             # <<<<<<<<<<<<<<
@@ -5225,7 +4372,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_deliveries(str
   return __pyx_r;
 }
 
-/* "calfews_src/waterbank_cy.pyx":243
+/* "calfews_src/waterbank_cy.pyx":212
  * 
  * 
  *   cdef void adjust_recovery(self, double deliveries, str member_name):             # <<<<<<<<<<<<<<
@@ -5245,9 +4392,9 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_adjust_recovery(stru
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("adjust_recovery", 0);
-  __Pyx_TraceCall("adjust_recovery", __pyx_f[0], 243, 0, __PYX_ERR(0, 243, __pyx_L1_error));
+  __Pyx_TraceCall("adjust_recovery", __pyx_f[0], 212, 0, __PYX_ERR(0, 212, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":246
+  /* "calfews_src/waterbank_cy.pyx":215
  *     #this function adjusts the waterbank accounts & capacity usage after
  * 	#a wb member uses recovery
  *     self.banked[member_name] -= deliveries#bank account             # <<<<<<<<<<<<<<
@@ -5256,7 +4403,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_adjust_recovery(stru
  */
   if (unlikely(__pyx_v_self->banked == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 246, __pyx_L1_error)
+    __PYX_ERR(0, 215, __pyx_L1_error)
   }
   __Pyx_INCREF(__pyx_v_self->banked);
   __pyx_t_1 = __pyx_v_self->banked;
@@ -5264,26 +4411,26 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_adjust_recovery(stru
   __pyx_t_2 = __pyx_v_member_name;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 246, __pyx_L1_error)
+    __PYX_ERR(0, 215, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_deliveries); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_deliveries); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_InPlaceSubtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_InPlaceSubtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 246, __pyx_L1_error)
+    __PYX_ERR(0, 215, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_t_1, __pyx_t_2, __pyx_t_5) < 0)) __PYX_ERR(0, 246, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_t_1, __pyx_t_2, __pyx_t_5) < 0)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/waterbank_cy.pyx":247
+  /* "calfews_src/waterbank_cy.pyx":216
  * 	#a wb member uses recovery
  *     self.banked[member_name] -= deliveries#bank account
  *     self.recovery_use[member_name] += deliveries#capacity use             # <<<<<<<<<<<<<<
@@ -5292,7 +4439,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_adjust_recovery(stru
  */
   if (unlikely(__pyx_v_self->recovery_use == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 247, __pyx_L1_error)
+    __PYX_ERR(0, 216, __pyx_L1_error)
   }
   __Pyx_INCREF(__pyx_v_self->recovery_use);
   __pyx_t_1 = __pyx_v_self->recovery_use;
@@ -5300,26 +4447,26 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_adjust_recovery(stru
   __pyx_t_2 = __pyx_v_member_name;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 247, __pyx_L1_error)
+    __PYX_ERR(0, 216, __pyx_L1_error)
   }
-  __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_deliveries); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_deliveries); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 247, __pyx_L1_error)
+    __PYX_ERR(0, 216, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_t_1, __pyx_t_2, __pyx_t_3) < 0)) __PYX_ERR(0, 247, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_t_1, __pyx_t_2, __pyx_t_3) < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/waterbank_cy.pyx":243
+  /* "calfews_src/waterbank_cy.pyx":212
  * 
  * 
  *   cdef void adjust_recovery(self, double deliveries, str member_name):             # <<<<<<<<<<<<<<
@@ -5341,7 +4488,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_adjust_recovery(stru
   __Pyx_RefNannyFinishContext();
 }
 
-/* "calfews_src/waterbank_cy.pyx":249
+/* "calfews_src/waterbank_cy.pyx":218
  *     self.recovery_use[member_name] += deliveries#capacity use
  * 
  *   cdef void sum_storage(self):             # <<<<<<<<<<<<<<
@@ -5363,9 +4510,9 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_sum_storage(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sum_storage", 0);
-  __Pyx_TraceCall("sum_storage", __pyx_f[0], 249, 0, __PYX_ERR(0, 249, __pyx_L1_error));
+  __Pyx_TraceCall("sum_storage", __pyx_f[0], 218, 0, __PYX_ERR(0, 218, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":253
+  /* "calfews_src/waterbank_cy.pyx":222
  *     cdef str x
  * 
  *     self.tot_current_storage = 0.0             # <<<<<<<<<<<<<<
@@ -5374,7 +4521,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_sum_storage(struct _
  */
   __pyx_v_self->tot_current_storage = 0.0;
 
-  /* "calfews_src/waterbank_cy.pyx":254
+  /* "calfews_src/waterbank_cy.pyx":223
  * 
  *     self.tot_current_storage = 0.0
  *     for x in self.participant_list:             # <<<<<<<<<<<<<<
@@ -5383,45 +4530,45 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_sum_storage(struct _
  */
   if (unlikely(__pyx_v_self->participant_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 254, __pyx_L1_error)
+    __PYX_ERR(0, 223, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->participant_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 254, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 223, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 254, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 254, __pyx_L1_error)
+    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_x, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":255
+    /* "calfews_src/waterbank_cy.pyx":224
  *     self.tot_current_storage = 0.0
  *     for x in self.participant_list:
  *       self.tot_current_storage += self.storage[x]             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->tot_current_storage); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->tot_current_storage); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (unlikely(__pyx_v_self->storage == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 255, __pyx_L1_error)
+      __PYX_ERR(0, 224, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 255, __pyx_L1_error)
+    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 224, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_self->tot_current_storage = __pyx_t_6;
 
-    /* "calfews_src/waterbank_cy.pyx":254
+    /* "calfews_src/waterbank_cy.pyx":223
  * 
  *     self.tot_current_storage = 0.0
  *     for x in self.participant_list:             # <<<<<<<<<<<<<<
@@ -5431,7 +4578,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_sum_storage(struct _
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/waterbank_cy.pyx":249
+  /* "calfews_src/waterbank_cy.pyx":218
  *     self.recovery_use[member_name] += deliveries#capacity use
  * 
  *   cdef void sum_storage(self):             # <<<<<<<<<<<<<<
@@ -5453,7 +4600,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_sum_storage(struct _
   __Pyx_RefNannyFinishContext();
 }
 
-/* "calfews_src/waterbank_cy.pyx":258
+/* "calfews_src/waterbank_cy.pyx":227
  * 
  * 
  *   cdef void absorb_storage(self):             # <<<<<<<<<<<<<<
@@ -5482,9 +4629,9 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("absorb_storage", 0);
-  __Pyx_TraceCall("absorb_storage", __pyx_f[0], 258, 0, __PYX_ERR(0, 258, __pyx_L1_error));
+  __Pyx_TraceCall("absorb_storage", __pyx_f[0], 227, 0, __PYX_ERR(0, 227, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":266
+  /* "calfews_src/waterbank_cy.pyx":235
  *       str x
  * 
  *     if self.tot_current_storage > self.recharge_rate*0.75:             # <<<<<<<<<<<<<<
@@ -5494,7 +4641,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
   __pyx_t_1 = ((__pyx_v_self->tot_current_storage > (__pyx_v_self->recharge_rate * 0.75)) != 0);
   if (__pyx_t_1) {
 
-    /* "calfews_src/waterbank_cy.pyx":267
+    /* "calfews_src/waterbank_cy.pyx":236
  * 
  *     if self.tot_current_storage > self.recharge_rate*0.75:
  *       self.thismonthuse = 1             # <<<<<<<<<<<<<<
@@ -5503,7 +4650,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
  */
     __pyx_v_self->thismonthuse = 1;
 
-    /* "calfews_src/waterbank_cy.pyx":266
+    /* "calfews_src/waterbank_cy.pyx":235
  *       str x
  * 
  *     if self.tot_current_storage > self.recharge_rate*0.75:             # <<<<<<<<<<<<<<
@@ -5512,7 +4659,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
  */
   }
 
-  /* "calfews_src/waterbank_cy.pyx":268
+  /* "calfews_src/waterbank_cy.pyx":237
  *     if self.tot_current_storage > self.recharge_rate*0.75:
  *       self.thismonthuse = 1
  *     if self.tot_current_storage > 0.0:             # <<<<<<<<<<<<<<
@@ -5522,7 +4669,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
   __pyx_t_1 = ((__pyx_v_self->tot_current_storage > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "calfews_src/waterbank_cy.pyx":269
+    /* "calfews_src/waterbank_cy.pyx":238
  *       self.thismonthuse = 1
  *     if self.tot_current_storage > 0.0:
  *       absorb_fraction = min(self.recharge_rate/self.tot_current_storage,1.0)             # <<<<<<<<<<<<<<
@@ -5532,7 +4679,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
     __pyx_t_2 = 1.0;
     if (unlikely(__pyx_v_self->tot_current_storage == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 269, __pyx_L1_error)
+      __PYX_ERR(0, 238, __pyx_L1_error)
     }
     __pyx_t_3 = (__pyx_v_self->recharge_rate / __pyx_v_self->tot_current_storage);
     if (((__pyx_t_2 < __pyx_t_3) != 0)) {
@@ -5542,7 +4689,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
     }
     __pyx_v_absorb_fraction = __pyx_t_4;
 
-    /* "calfews_src/waterbank_cy.pyx":270
+    /* "calfews_src/waterbank_cy.pyx":239
  *     if self.tot_current_storage > 0.0:
  *       absorb_fraction = min(self.recharge_rate/self.tot_current_storage,1.0)
  *       self.tot_current_storage -= self.tot_current_storage*absorb_fraction             # <<<<<<<<<<<<<<
@@ -5551,7 +4698,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
  */
     __pyx_v_self->tot_current_storage = (__pyx_v_self->tot_current_storage - (__pyx_v_self->tot_current_storage * __pyx_v_absorb_fraction));
 
-    /* "calfews_src/waterbank_cy.pyx":271
+    /* "calfews_src/waterbank_cy.pyx":240
  *       absorb_fraction = min(self.recharge_rate/self.tot_current_storage,1.0)
  *       self.tot_current_storage -= self.tot_current_storage*absorb_fraction
  *       for x in self.participant_list:             # <<<<<<<<<<<<<<
@@ -5560,22 +4707,22 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
  */
     if (unlikely(__pyx_v_self->participant_list == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 271, __pyx_L1_error)
+      __PYX_ERR(0, 240, __pyx_L1_error)
     }
     __pyx_t_5 = __pyx_v_self->participant_list; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
     for (;;) {
       if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_7 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_7); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_7 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_7); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
       #else
-      __pyx_t_7 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 240, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       #endif
-      if (!(likely(PyUnicode_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 271, __pyx_L1_error)
+      if (!(likely(PyUnicode_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 240, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_x, ((PyObject*)__pyx_t_7));
       __pyx_t_7 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":272
+      /* "calfews_src/waterbank_cy.pyx":241
  *       self.tot_current_storage -= self.tot_current_storage*absorb_fraction
  *       for x in self.participant_list:
  *         self.banked[x] += self.storage[x]*absorb_fraction*(1.0-self.loss_rate)#bank account (only credit a portion of the recharge to the bank acct)             # <<<<<<<<<<<<<<
@@ -5584,7 +4731,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
  */
       if (unlikely(__pyx_v_self->banked == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 272, __pyx_L1_error)
+        __PYX_ERR(0, 241, __pyx_L1_error)
       }
       __Pyx_INCREF(__pyx_v_self->banked);
       __pyx_t_8 = __pyx_v_self->banked;
@@ -5592,42 +4739,42 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
       __pyx_t_9 = __pyx_v_x;
       if (unlikely(__pyx_t_8 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 272, __pyx_L1_error)
+        __PYX_ERR(0, 241, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       if (unlikely(__pyx_v_self->storage == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 272, __pyx_L1_error)
+        __PYX_ERR(0, 241, __pyx_L1_error)
       }
-      __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = PyFloat_FromDouble(__pyx_v_absorb_fraction); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_11 = PyFloat_FromDouble(__pyx_v_absorb_fraction); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_12 = PyNumber_Multiply(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_12 = PyNumber_Multiply(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __pyx_t_11 = PyFloat_FromDouble((1.0 - __pyx_v_self->loss_rate)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_11 = PyFloat_FromDouble((1.0 - __pyx_v_self->loss_rate)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_10 = PyNumber_Multiply(__pyx_t_12, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_10 = PyNumber_Multiply(__pyx_t_12, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __pyx_t_11 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_11 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       if (unlikely(__pyx_t_8 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 272, __pyx_L1_error)
+        __PYX_ERR(0, 241, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_t_8, __pyx_t_9, __pyx_t_11) < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_8, __pyx_t_9, __pyx_t_11) < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":273
+      /* "calfews_src/waterbank_cy.pyx":242
  *       for x in self.participant_list:
  *         self.banked[x] += self.storage[x]*absorb_fraction*(1.0-self.loss_rate)#bank account (only credit a portion of the recharge to the bank acct)
  *         self.storage[x] -= self.storage[x]*absorb_fraction#capacity use             # <<<<<<<<<<<<<<
@@ -5636,7 +4783,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
  */
       if (unlikely(__pyx_v_self->storage == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 273, __pyx_L1_error)
+        __PYX_ERR(0, 242, __pyx_L1_error)
       }
       __Pyx_INCREF(__pyx_v_self->storage);
       __pyx_t_8 = __pyx_v_self->storage;
@@ -5644,36 +4791,36 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
       __pyx_t_9 = __pyx_v_x;
       if (unlikely(__pyx_t_8 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 273, __pyx_L1_error)
+        __PYX_ERR(0, 242, __pyx_L1_error)
       }
-      __pyx_t_11 = __Pyx_PyDict_GetItem(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyDict_GetItem(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       if (unlikely(__pyx_v_self->storage == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 273, __pyx_L1_error)
+        __PYX_ERR(0, 242, __pyx_L1_error)
       }
-      __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_self->storage, __pyx_v_x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_absorb_fraction); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_absorb_fraction); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_12 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_12 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_t_11, __pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_t_11, __pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       if (unlikely(__pyx_t_8 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 273, __pyx_L1_error)
+        __PYX_ERR(0, 242, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_t_8, __pyx_t_9, __pyx_t_7) < 0)) __PYX_ERR(0, 273, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_8, __pyx_t_9, __pyx_t_7) < 0)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "calfews_src/waterbank_cy.pyx":271
+      /* "calfews_src/waterbank_cy.pyx":240
  *       absorb_fraction = min(self.recharge_rate/self.tot_current_storage,1.0)
  *       self.tot_current_storage -= self.tot_current_storage*absorb_fraction
  *       for x in self.participant_list:             # <<<<<<<<<<<<<<
@@ -5683,7 +4830,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":268
+    /* "calfews_src/waterbank_cy.pyx":237
  *     if self.tot_current_storage > self.recharge_rate*0.75:
  *       self.thismonthuse = 1
  *     if self.tot_current_storage > 0.0:             # <<<<<<<<<<<<<<
@@ -5692,7 +4839,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
  */
   }
 
-  /* "calfews_src/waterbank_cy.pyx":258
+  /* "calfews_src/waterbank_cy.pyx":227
  * 
  * 
  *   cdef void absorb_storage(self):             # <<<<<<<<<<<<<<
@@ -5717,7 +4864,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_absorb_storage(struc
   __Pyx_RefNannyFinishContext();
 }
 
-/* "calfews_src/waterbank_cy.pyx":276
+/* "calfews_src/waterbank_cy.pyx":245
  * 
  * 
  *   cdef void accounting(self, t):             # <<<<<<<<<<<<<<
@@ -5737,25 +4884,25 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_accounting(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("accounting", 0);
-  __Pyx_TraceCall("accounting", __pyx_f[0], 276, 0, __PYX_ERR(0, 276, __pyx_L1_error));
+  __Pyx_TraceCall("accounting", __pyx_f[0], 245, 0, __PYX_ERR(0, 245, __pyx_L1_error));
 
-  /* "calfews_src/waterbank_cy.pyx":280
+  /* "calfews_src/waterbank_cy.pyx":249
  *     cdef str x
  * 
  *     self.recharge_rate_series[t] = self.recharge_rate             # <<<<<<<<<<<<<<
  *     for x in self.participant_list:
  *       self.bank_timeseries[x][t] = self.banked[x]
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->recharge_rate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 280, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->recharge_rate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->recharge_rate_series == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 280, __pyx_L1_error)
+    __PYX_ERR(0, 249, __pyx_L1_error)
   }
-  if (unlikely(PyObject_SetItem(__pyx_v_self->recharge_rate_series, __pyx_v_t, __pyx_t_1) < 0)) __PYX_ERR(0, 280, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_self->recharge_rate_series, __pyx_v_t, __pyx_t_1) < 0)) __PYX_ERR(0, 249, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/waterbank_cy.pyx":281
+  /* "calfews_src/waterbank_cy.pyx":250
  * 
  *     self.recharge_rate_series[t] = self.recharge_rate
  *     for x in self.participant_list:             # <<<<<<<<<<<<<<
@@ -5763,43 +4910,43 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_accounting(struct __
  */
   if (unlikely(__pyx_v_self->participant_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 281, __pyx_L1_error)
+    __PYX_ERR(0, 250, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->participant_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 281, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 250, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 281, __pyx_L1_error)
+    if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_x, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":282
+    /* "calfews_src/waterbank_cy.pyx":251
  *     self.recharge_rate_series[t] = self.recharge_rate
  *     for x in self.participant_list:
  *       self.bank_timeseries[x][t] = self.banked[x]             # <<<<<<<<<<<<<<
  */
     if (unlikely(__pyx_v_self->banked == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 282, __pyx_L1_error)
+      __PYX_ERR(0, 251, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->banked, __pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 282, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->banked, __pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (unlikely(__pyx_v_self->bank_timeseries == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 282, __pyx_L1_error)
+      __PYX_ERR(0, 251, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->bank_timeseries, __pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 282, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->bank_timeseries, __pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_t, __pyx_t_3) < 0)) __PYX_ERR(0, 282, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_t, __pyx_t_3) < 0)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "calfews_src/waterbank_cy.pyx":281
+    /* "calfews_src/waterbank_cy.pyx":250
  * 
  *     self.recharge_rate_series[t] = self.recharge_rate
  *     for x in self.participant_list:             # <<<<<<<<<<<<<<
@@ -5808,7 +4955,7 @@ static void __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_accounting(struct __
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "calfews_src/waterbank_cy.pyx":276
+  /* "calfews_src/waterbank_cy.pyx":245
  * 
  * 
  *   cdef void accounting(self, t):             # <<<<<<<<<<<<<<
@@ -8843,19 +7990,19 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_15bank_timeseries_4_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_10__reduce_cython__(((struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self));
+  __pyx_r = __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_8__reduce_cython__(((struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_10__reduce_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self) {
+static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_8__reduce_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -9320,19 +8467,19 @@ static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_10__reduce_cyt
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_12__setstate_cython__(((struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_10__setstate_cython__(((struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_12__setstate_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_10__setstate_cython__(struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -10619,9 +9766,8 @@ static PyObject *__pyx_specialmethod___pyx_pw_11calfews_src_12waterbank_cy_9Wate
 
 static PyMethodDef __pyx_methods_11calfews_src_12waterbank_cy_Waterbank[] = {
   {"__next__", (PyCFunction)__pyx_specialmethod___pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_3__next__, METH_NOARGS|METH_COEXIST, 0},
-  {"object_equals", (PyCFunction)__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_9object_equals, METH_O, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_11__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_13__setstate_cython__, METH_O, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_9__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_11calfews_src_12waterbank_cy_9Waterbank_11__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -10924,14 +10070,12 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_u_Different_Attributes, __pyx_k_Different_Attributes, sizeof(__pyx_k_Different_Attributes), 0, 1, 0, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xac, __pyx_k_Incompatible_checksums_s_vs_0xac, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xac), 0, 0, 1, 0},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_StopIteration, __pyx_k_StopIteration, sizeof(__pyx_k_StopIteration), 0, 0, 1, 1},
   {&__pyx_n_s_T, __pyx_k_T, sizeof(__pyx_k_T), 0, 0, 1, 1},
   {&__pyx_n_s_Waterbank, __pyx_k_Waterbank, sizeof(__pyx_k_Waterbank), 0, 0, 1, 1},
   {&__pyx_n_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
-  {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_u_alternate, __pyx_k_alternate, sizeof(__pyx_k_alternate), 0, 1, 0, 1},
   {&__pyx_n_u_banking, __pyx_k_banking, sizeof(__pyx_k_banking), 0, 1, 0, 1},
   {&__pyx_kp_u_calfews_src_banks_s_properties_j, __pyx_k_calfews_src_banks_s_properties_j, sizeof(__pyx_k_calfews_src_banks_s_properties_j), 0, 1, 0, 0},
@@ -10945,14 +10089,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_u_excess, __pyx_k_excess, sizeof(__pyx_k_excess), 0, 1, 0, 1},
   {&__pyx_n_u_flood, __pyx_k_flood, sizeof(__pyx_k_flood), 0, 1, 0, 1},
-  {&__pyx_n_s_getattribute, __pyx_k_getattribute, sizeof(__pyx_k_getattribute), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_u_initial, __pyx_k_initial, sizeof(__pyx_k_initial), 0, 1, 0, 1},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 0, 1, 1},
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
-  {&__pyx_n_s_keys, __pyx_k_keys, sizeof(__pyx_k_keys), 0, 0, 1, 1},
   {&__pyx_n_s_load, __pyx_k_load, sizeof(__pyx_k_load), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_matplotlib_pyplot, __pyx_k_matplotlib_pyplot, sizeof(__pyx_k_matplotlib_pyplot), 0, 0, 1, 1},
@@ -11024,8 +10166,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_float_0_0 = PyFloat_FromDouble(0.0); if (unlikely(!__pyx_float_0_0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_180675643 = PyInt_FromLong(180675643L); if (unlikely(!__pyx_int_180675643)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -12627,337 +11767,6 @@ done:
     return result;
 }
 
-/* GetItemInt */
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyList_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyTuple_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
-/* ObjectGetItem */
-#if CYTHON_USE_TYPE_SLOTS
-static PyObject *__Pyx_PyObject_GetIndex(PyObject *obj, PyObject* index) {
-    PyObject *runerr;
-    Py_ssize_t key_value;
-    PySequenceMethods *m = Py_TYPE(obj)->tp_as_sequence;
-    if (unlikely(!(m && m->sq_item))) {
-        PyErr_Format(PyExc_TypeError, "'%.200s' object is not subscriptable", Py_TYPE(obj)->tp_name);
-        return NULL;
-    }
-    key_value = __Pyx_PyIndex_AsSsize_t(index);
-    if (likely(key_value != -1 || !(runerr = PyErr_Occurred()))) {
-        return __Pyx_GetItemInt_Fast(obj, key_value, 0, 1, 1);
-    }
-    if (PyErr_GivenExceptionMatches(runerr, PyExc_OverflowError)) {
-        PyErr_Clear();
-        PyErr_Format(PyExc_IndexError, "cannot fit '%.200s' into an index-sized integer", Py_TYPE(index)->tp_name);
-    }
-    return NULL;
-}
-static PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key) {
-    PyMappingMethods *m = Py_TYPE(obj)->tp_as_mapping;
-    if (likely(m && m->mp_subscript)) {
-        return m->mp_subscript(obj, key);
-    }
-    return __Pyx_PyObject_GetIndex(obj, key);
-}
-#endif
-
-/* PyIntBinop */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
-    (void)inplace;
-    (void)zerodivision_check;
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a + b);
-            if (likely((x^a) >= 0 || (x^b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_add(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-#ifdef HAVE_LONG_LONG
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-#endif
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
-            }
-        }
-                x = a + b;
-            return PyLong_FromLong(x);
-#ifdef HAVE_LONG_LONG
-        long_long:
-                llx = lla + llb;
-            return PyLong_FromLongLong(llx);
-#endif
-        
-        
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("add", return NULL)
-            result = ((double)a) + (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
-}
-#endif
-
-/* DictGetItem */
-#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
-static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
-    PyObject *value;
-    value = PyDict_GetItemWithError(d, key);
-    if (unlikely(!value)) {
-        if (!PyErr_Occurred()) {
-            if (unlikely(PyTuple_Check(key))) {
-                PyObject* args = PyTuple_Pack(1, key);
-                if (likely(args)) {
-                    PyErr_SetObject(PyExc_KeyError, args);
-                    Py_DECREF(args);
-                }
-            } else {
-                PyErr_SetObject(PyExc_KeyError, key);
-            }
-        }
-        return NULL;
-    }
-    Py_INCREF(value);
-    return value;
-}
-#endif
-
-/* PyIntCompare */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED long inplace) {
-    if (op1 == op2) {
-        Py_RETURN_TRUE;
-    }
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long a = PyInt_AS_LONG(op1);
-        if (a == b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        int unequal;
-        unsigned long uintval;
-        Py_ssize_t size = Py_SIZE(op1);
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        if (intval == 0) {
-            if (size == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-        } else if (intval < 0) {
-            if (size >= 0)
-                Py_RETURN_FALSE;
-            intval = -intval;
-            size = -size;
-        } else {
-            if (size <= 0)
-                Py_RETURN_FALSE;
-        }
-        uintval = (unsigned long) intval;
-#if PyLong_SHIFT * 4 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 4)) {
-            unequal = (size != 5) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[4] != ((uintval >> (4 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-#if PyLong_SHIFT * 3 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 3)) {
-            unequal = (size != 4) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-#if PyLong_SHIFT * 2 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 2)) {
-            unequal = (size != 3) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-#if PyLong_SHIFT * 1 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 1)) {
-            unequal = (size != 2) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-            unequal = (size != 1) || (((unsigned long) digits[0]) != (uintval & (unsigned long) PyLong_MASK));
-        if (unequal == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-        if ((double)a == (double)b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-    }
-    return (
-        PyObject_RichCompare(op1, op2, Py_EQ));
-}
-
 /* BytesEquals */
 static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals) {
 #if CYTHON_COMPILING_IN_PYPY
@@ -13106,6 +11915,30 @@ return_ne:
     return (equals == Py_NE);
 #endif
 }
+
+/* DictGetItem */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
+    PyObject *value;
+    value = PyDict_GetItemWithError(d, key);
+    if (unlikely(!value)) {
+        if (!PyErr_Occurred()) {
+            if (unlikely(PyTuple_Check(key))) {
+                PyObject* args = PyTuple_Pack(1, key);
+                if (likely(args)) {
+                    PyErr_SetObject(PyExc_KeyError, args);
+                    Py_DECREF(args);
+                }
+            } else {
+                PyErr_SetObject(PyExc_KeyError, key);
+            }
+        }
+        return NULL;
+    }
+    Py_INCREF(value);
+    return value;
+}
+#endif
 
 /* WriteUnraisableException */
 static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
@@ -13292,6 +12125,93 @@ static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
         #endif
     }
     return value;
+}
+
+/* GetItemInt */
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
 }
 
 /* HasAttr */
