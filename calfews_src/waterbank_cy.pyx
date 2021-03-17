@@ -68,7 +68,6 @@ cdef class Waterbank():
 #####################################################################################################################
 
 	  
-  # def find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
     cdef:
       double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
@@ -95,7 +94,6 @@ cdef class Waterbank():
     return demand_constraint
 
 
-  # def find_priority_space(self, int num_members, str xx, str search_type):
   cdef double find_priority_space(self, int num_members, str xx, str search_type):
     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given bank 
     cdef double initial_capacity, available_banked
@@ -110,7 +108,6 @@ cdef class Waterbank():
 
 	
 
-  # def set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
     #this function creates a dictionary (demand_dict) that has a key for each 'priority type' associated with the flow
   	#different types of flow (flood, delivery, banking, recovery) have different priority types

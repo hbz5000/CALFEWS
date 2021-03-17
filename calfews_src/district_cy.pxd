@@ -29,7 +29,7 @@ cdef class District():
                 bank_deliveries, direct_storage, bank_timeseries, leiu_ownership, private_acreage, reservoir_contract, monthlydemand, \
                 carryover_rights, private_demand, hist_demand_dict, acreage_by_year, private_delivery, acreage, annualdemand, \
                 delivery_percent_coefficient, pumping, annual_pumping, ytd_pumping, demand_auto_errors, demand_days, dailydemand, \
-                dailydemand_start
+                dailydemand_start, infrastructure_shares
                 
     public Crop irrdemand
 

@@ -1,14 +1,18 @@
 {
   "baseline_wy2017": {
-	"FKC":				"calfews_src/scenarios/FKC_properties__capacity_wy2017.json",
-	"LWT":				"baseline"
-    },
+    "FKC":				"calfews_src/scenarios/FKC_properties__capacity_wy2017.json",
+    "LWT":				"baseline"
+  },
   "FKC_capacity_rehab_full": {
-	"FKC":				"calfews_src/scenarios/FKC_properties__capacity_rehab_full.json",
-	"LWT":				"baseline"
-    },
+    "FKC":				"calfews_src/scenarios/FKC_properties__capacity_rehab_full.json",
+    "LWT":				"baseline"
+  },
   "LWT_inleiubank": {
-	"FKC":				"baseline",
-	"LWT":				"calfews_src/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json"
-    }
+    "FKC":				"baseline",
+    "LWT":				"calfews_src/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json"
+  }, 
+  "FKC_rehab_ownership": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership.json",
+    "LWT":				"calfews_src/scenarios/LWT_properties__infrastructure_shares.json"
+  }
 }

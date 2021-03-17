@@ -852,7 +852,7 @@ typedef struct __pyx_ctuple_double__and_double__and_int__and_double __pyx_ctuple
 /* "canal_cy.pxd":17
  *   cdef void find_turnout_adjustment(self, double demand_constraint, str flow_dir, int canal_loc, list type_list)
  * 
- *   cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir)             # <<<<<<<<<<<<<<
+ *   cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir, str search_type)             # <<<<<<<<<<<<<<
  * 
  *   cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir)
  */
@@ -864,7 +864,7 @@ struct __pyx_ctuple_double__and_double {
 /* "canal_cy.pxd":21
  *   cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir)
  * 
- *   cdef (double, double, int, double) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list)             # <<<<<<<<<<<<<<
+ *   cdef (double, double, int, double) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list, int dowy)             # <<<<<<<<<<<<<<
  * 
  *   cdef void find_bi_directional(self, double closed, str direction_true, str direction_false, str flow_type, str new_canal, int adjust_flow_types, int locked)
  */
@@ -972,6 +972,7 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   int is_Reservoir;
   int locked;
   int num_sites;
+  int has_expansion;
   int recovery_feeder;
   PyObject *key;
   PyObject *name;
@@ -1142,6 +1143,7 @@ struct __pyx_obj_11calfews_src_11district_cy_District {
   PyObject *demand_days;
   PyObject *dailydemand;
   PyObject *dailydemand_start;
+  PyObject *infrastructure_shares;
   struct __pyx_obj_11calfews_src_7crop_cy_Crop *irrdemand;
 };
 
@@ -1322,9 +1324,9 @@ struct __pyx_obj_11calfews_src_14participant_cy_Participant {
 
 struct __pyx_vtabstruct_11calfews_src_8canal_cy_Canal {
   void (*find_turnout_adjustment)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, PyObject *, int, PyObject *);
-  __pyx_ctuple_double__and_double (*check_flow_capacity)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, int, PyObject *);
+  __pyx_ctuple_double__and_double (*check_flow_capacity)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, int, PyObject *, PyObject *);
   PyObject *(*find_priority_fractions)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, PyObject *, PyObject *, int, PyObject *);
-  __pyx_ctuple_double__and_double__and_int__and_double (*update_canal_use)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, double, PyObject *, int, int, int, PyObject *);
+  __pyx_ctuple_double__and_double__and_int__and_double (*update_canal_use)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, double, PyObject *, int, int, int, PyObject *, int);
   void (*find_bi_directional)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, double, PyObject *, PyObject *, PyObject *, PyObject *, int, int);
   void (*accounting)(struct __pyx_obj_11calfews_src_8canal_cy_Canal *, int, PyObject *, int);
 };
