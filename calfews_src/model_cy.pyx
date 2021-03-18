@@ -2801,18 +2801,19 @@ cdef class Model():
         excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, canal_obj, self.millerton.key, canal_obj.name, available_flow, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'delivery')
       ## if canal has new expansion project, we have to search a few times to respect priorities over different sections of capacity
       else:
+        print('shouldnt be here 1')
         ## first fill up old canal capacity
         project_access = 'all_access'
-        total_canal_demand = self.search_canal_demand(dowy, canal_obj, self.millerton.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, 'b4_project', project_access)
+        total_canal_demand = self.search_canal_demand(dowy, canal_obj, self.millerton.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, project_access, 'b4_project')
         available_flow = 0.0
         for zz in total_canal_demand:
           available_flow += total_canal_demand[zz]
-        excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, canal_obj, self.millerton.key, canal_obj.name, available_flow, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'delivery', 'b4_project', project_access)
+        excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, canal_obj, self.millerton.key, canal_obj.name, available_flow, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'delivery', project_access, 'b4_project')
 
         if excess_water > 0.001:
           ## now allow project owners priority access to new expanded capacity
           project_access = 'share_restricted'
-          total_canal_demand = self.search_canal_demand(dowy, canal_obj, self.millerton.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, 'normal', project_access)
+          total_canal_demand = self.search_canal_demand(dowy, canal_obj, self.millerton.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, project_access, 'normal')
           available_flow = 0.0
           for zz in total_canal_demand:
             available_flow += total_canal_demand[zz]
@@ -2821,7 +2822,7 @@ cdef class Model():
 
           ## now allow anyone access to new expanded capacity
           project_access = 'all_access'
-          total_canal_demand = self.search_canal_demand(dowy, canal_obj, self.millerton.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, 'normal', project_access)
+          total_canal_demand = self.search_canal_demand(dowy, canal_obj, self.millerton.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, project_access, 'normal')
           available_flow = 0.0
           for zz in total_canal_demand:
             available_flow += total_canal_demand[zz]  
@@ -4050,7 +4051,7 @@ cdef class Model():
 #############################     Flood operations       ############################################################
 #####################################################################################################################
 
-  cdef (double, double) deliver_flood(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, double flood_available, double flood_available_overflow, double prior_flood_delivery, list canal_list, int call_type=-1, str capacity_key='', str project_access='all_access'):
+  cdef (double, double) deliver_flood(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, double flood_available, double flood_available_overflow, double prior_flood_delivery, list canal_list, str project_access='all_access', str capacity_key=''):
     cdef:
       double total_flood_deliveries, total_excess_flow, non_overflow_demand, priority_flows, flood_deliveries, priority_flows_tot, excess_flows
       int canal_counter, canal_counter2, xxx
@@ -4086,7 +4087,7 @@ cdef class Model():
     canal_counter = 0
     for canal_obj in canal_list:
       #total flood deliveries on each canal to each priority type
-      tot_canal_demand = self.search_canal_demand(dowy, canal_obj, begin_key, canal_obj.name, 'normal', flow_type, wateryear, 'flood', {}, capacity_key_list[canal_counter], project_access, call_type)
+      tot_canal_demand = self.search_canal_demand(dowy, canal_obj, begin_key, canal_obj.name, 'normal', flow_type, wateryear, 'flood', {}, project_access, capacity_key_list[canal_counter])
       for demand_type in tot_canal_demand:
         #sum priority deliveries over all canals
         flood_demand[demand_type][canal_counter] = tot_canal_demand[demand_type]
@@ -4151,9 +4152,9 @@ cdef class Model():
             priority_flows_tot += min(flood_demand[demand_type][canal_counter2], canal_cap[canal_counter2])
             canal_counter2 += 1
   
-      # print('calling flood distr', call_type, canal_obj.name, begin_key, self.canal_district_len[canal_obj.name], flow_type, capacity_key_list[canal_counter], flood_deliveries)
+      # print('calling flood distr', canal_obj.name, begin_key, self.canal_district_len[canal_obj.name], flow_type, capacity_key_list[canal_counter], flood_deliveries)
       if flood_deliveries > 0.001:
-        excess_flows, unmet_demands = self.distribute_canal_deliveries(dowy, canal_obj, begin_key, canal_obj.name, flood_deliveries, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'flood', capacity_key_list[canal_counter], project_access, call_type)
+        excess_flows, unmet_demands = self.distribute_canal_deliveries(dowy, canal_obj, begin_key, canal_obj.name, flood_deliveries, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'flood', project_access, capacity_key_list[canal_counter])
       else:
         excess_flows = 0.0
       canal_counter += 1
@@ -4193,18 +4194,19 @@ cdef class Model():
       ## check if any canals on this reservoir have expansion projects
       expansion_list = [canal for canal in self.reservoir_canal[reservoir.key] if canal.has_expansion == 1]
       if len(expansion_list) == 0:
-        total_flood_deliveries, total_excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, 0.0, self.reservoir_canal[reservoir.key], 0)
+        total_flood_deliveries, total_excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, 0.0, self.reservoir_canal[reservoir.key])
 
       else:
+        print('shouldnt be here 2')
         ## first fill old canal capacity, with all given access
-        total_flood_deliveries, total_excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, 0.0, self.reservoir_canal[reservoir.key], 1, 'b4_project', 'all_access')
+        total_flood_deliveries, total_excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, 0.0, self.reservoir_canal[reservoir.key], 'all_access', 'b4_project')
         ## if still extra flood flows, give project owners first access to extended capacity
         if total_excess_flow > 0.001:
-          flood_deliveries, excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, total_flood_deliveries, expansion_list, 2, 'normal', 'share_restricted')
+          flood_deliveries, excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, total_flood_deliveries, expansion_list, 'share_restricted', 'normal')
           total_flood_deliveries += flood_deliveries
           total_excess_flow += excess_flow
           ## finally, if still extra flood flows, give non-owners a chance to use extended capacity
-          flood_deliveries, excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, total_flood_deliveries, expansion_list, 3, 'normal', 'all_access')
+          flood_deliveries, excess_flow = self.deliver_flood(t, m, dowy, wateryear, reservoir, flow_type, overflow_toggle, flood_available, flood_available_overflow, total_flood_deliveries, expansion_list, 'all_access', 'normal')
           total_flood_deliveries += flood_deliveries
           total_excess_flow += excess_flow      
       
@@ -4338,7 +4340,7 @@ cdef class Model():
 	
 
 
-  cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str capacity_key='', str project_access='all_access', call_type=-1):
+  cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str project_access='all_access', str capacity_key=''):
     cdef:
       double private_demand_constraint, demand_constraint, excess_flow, unmet_demand, total_demand, turnback_flow, excess_flow_int, available_capacity_int, \
               location_delivery, current_storage, deliveries, priority_bank_space, actual_deliveries, direct_deliveries, recharge_deliveries, undelivered, \
@@ -4425,9 +4427,9 @@ cdef class Model():
       excess_flow += available_flow - total_demand
       available_flow = total_demand
 	  
-    if available_flow < -1e-6:
-      print('dist_can_del', canal.name, dowy, flow_dir, search_type, capacity_key, avf, total_demand, available_flow)
-      time.sleep(0.1)
+    # if available_flow < -1e-6:
+    #   print('dist_can_del', canal.name, dowy, flow_dir, search_type, capacity_key, avf, total_demand, available_flow)
+    #   time.sleep(0.1)
 
     #initial capacity check on flow available for delivery (i.e., canal capacity at starting node)
     avf2 = available_flow
@@ -4634,7 +4636,8 @@ cdef class Model():
         #if there is space & demand, 'jump' into new canal - outputs serve as turnouts from the current canal
         location_delivery = min(location_delivery, turnout_available)
         if turnout_available > 0.001 and location_delivery > 0.001:
-          new_excess_flow, canal_demands = self.distribute_canal_deliveries(dowy, canal_obj, canal.key, contract_canal, location_delivery, new_canal_size, wateryear, new_flow_dir, flow_type, search_type, flow_dir, project_access, call_type)
+          ### TODO: for now, don't pass on capacity_key to new canal, since different project status. should fix this and allow for non-project to pass to project & maintain ownership.
+          new_excess_flow, canal_demands = self.distribute_canal_deliveries(dowy, canal_obj, canal.key, contract_canal, location_delivery, new_canal_size, wateryear, new_flow_dir, flow_type, search_type, project_access)
           #update canal demands
           for zz in type_list:
             canal.demand[zz][canal_loc] = canal_demands[zz]
@@ -4651,9 +4654,9 @@ cdef class Model():
 
         canal.find_turnout_adjustment(turnout_available, flow_dir, canal_loc, type_list)
 
-      if (available_flow - location_delivery) < -1e-6:
-        print('update_can_use', canal.name, canal_loc, self.canal_district[canal.name][canal_loc].name, prev_canal, contract_canal, dum, search_type, flow_dir, capacity_key, call_type, avf, total_demand, avf2, available_flow, location_delivery)
-        time.sleep(0.1)
+      # if (available_flow - location_delivery) < -1e-6:
+      #   print('update_can_use', canal.name, canal_loc, self.canal_district[canal.name][canal_loc].name, prev_canal, contract_canal, dum, search_type, flow_dir, capacity_key, avf, total_demand, avf2, available_flow, location_delivery)
+      #   time.sleep(0.1)
 
       #record flow and turnout on each canal, check for capacity turnback at the next node
       available_flow, turnback_flow, turnback_end, remaining_excess_flow = canal.update_canal_use(available_flow, location_delivery, capacity_key, canal_loc, starting_point, canal_size, type_list, dowy)
@@ -4671,7 +4674,7 @@ cdef class Model():
           toggle_demand_count = 1  
 
       if turnback_flow > turnback_tolerance:
-        remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type, capacity_key, project_access, call_type)
+        remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type, project_access, capacity_key)
         excess_flow += remaining_excess_flow
         available_capacity_int = max(available_flow, 0.0)
         for zz in type_list:
@@ -4695,6 +4698,7 @@ cdef class Model():
     if project_access == 'all_access':
       return 1
     elif project_access == 'share_restricted':
+      print('shouldnt be here 3')
       try:
         if self.district_keys[district_key].infrastructure_shares[project_key] > 0.0:
           return 1
@@ -4706,7 +4710,7 @@ cdef class Model():
 
 
 
-  cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str capacity_key='', str project_access='all_access', call_type=-1):
+  cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str project_access='all_access', str capacity_key=''):
     cdef:
       double private_demand_constraint, demand_constraint, current_recovery, current_storage, total_demand, priority_bank_space, paper_amount, direct_amount, \
                 total_district_demand, total_available, existing_canal_space, total_exchange, paper_recovery, private_deliveries, direct_recovery, max_flow, \
@@ -4721,9 +4725,6 @@ cdef class Model():
       Canal canal_obj
       Contract contract_obj
       Participant participant_obj
-
-    # if call_type == 2:
-    #   print('search_can_dem', call_type, canal.name, contract_canal, flow_type, capacity_key, project_access)
 
     if capacity_key == '':
       capacity_key = flow_dir
@@ -4845,7 +4846,7 @@ cdef class Model():
             for zz in type_deliveries:
               available_to_canal[zz] = 0.0
 
-          canal_demands = self.search_canal_demand(dowy, canal_obj, canal.key, contract_canal, new_flow_dir,flow_type,wateryear,search_type, available_to_canal, capacity_key, project_access, call_type)
+          canal_demands = self.search_canal_demand(dowy, canal_obj, canal.key, contract_canal, new_flow_dir,flow_type,wateryear,search_type, available_to_canal, project_access, capacity_key)
 		      #check to see all demands can be met using the turnout space
           total_demand = 0.0
           for zz in type_list:

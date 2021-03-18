@@ -1568,7 +1568,7 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_check_flow_capacity(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_available_flow, int __pyx_v_canal_loc, PyObject *__pyx_v_capacity_key, PyObject *__pyx_v_search_type); /* proto*/
+static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_check_flow_capacity(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_available_flow, int __pyx_v_canal_loc, PyObject *__pyx_v_capacity_key, CYTHON_UNUSED PyObject *__pyx_v_search_type); /* proto*/
 static PyObject *__pyx_f_11calfews_src_8canal_cy_5Canal_find_priority_fractions(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_node_capacity, PyObject *__pyx_v_type_fractions, PyObject *__pyx_v_type_list, int __pyx_v_canal_loc, PyObject *__pyx_v_flow_dir); /* proto*/
 static void __pyx_f_11calfews_src_8canal_cy_5Canal_find_turnout_adjustment(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_demand_constraint, PyObject *__pyx_v_flow_dir, int __pyx_v_canal_loc, PyObject *__pyx_v_type_list); /* proto*/
 static __pyx_ctuple_double__and_double__and_int__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_update_canal_use(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_available_flow, double __pyx_v_location_delivery, PyObject *__pyx_v_capacity_key, int __pyx_v_canal_loc, int __pyx_v_starting_point, int __pyx_v_canal_size, CYTHON_UNUSED PyObject *__pyx_v_type_list, CYTHON_UNUSED int __pyx_v_dowy); /* proto*/
@@ -1585,7 +1585,6 @@ int __pyx_module_is_main_calfews_src__canal_cy = 0;
 /* Implementation of 'calfews_src.canal_cy' */
 static PyObject *__pyx_builtin_StopIteration;
 static PyObject *__pyx_builtin_open;
-static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_range;
 static const char __pyx_k__2[] = "*";
 static const char __pyx_k_np[] = "np";
@@ -1604,9 +1603,7 @@ static const char __pyx_k_util[] = "util";
 static const char __pyx_k_Canal[] = "Canal";
 static const char __pyx_k_items[] = "items";
 static const char __pyx_k_numpy[] = "numpy";
-static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
-static const char __pyx_k_sleep[] = "sleep";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_pandas[] = "pandas";
@@ -1632,7 +1629,6 @@ static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_StopIteration[] = "StopIteration";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_scenario_file[] = "scenario_file";
-static const char __pyx_k_check_flow_cap[] = "check_flow_cap";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -1649,7 +1645,6 @@ static PyObject *__pyx_n_u_baseline;
 static PyObject *__pyx_n_s_calfews_src_canal_cy;
 static PyObject *__pyx_kp_u_calfews_src_canals_s_properties;
 static PyObject *__pyx_n_s_cfs_tafd;
-static PyObject *__pyx_n_u_check_flow_cap;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_getstate;
@@ -1669,7 +1664,6 @@ static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_pandas;
 static PyObject *__pyx_n_s_pd;
 static PyObject *__pyx_n_s_pickle;
-static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_pyx_PickleError;
 static PyObject *__pyx_n_s_pyx_checksum;
 static PyObject *__pyx_n_s_pyx_result;
@@ -1687,7 +1681,6 @@ static PyObject *__pyx_n_u_reverse;
 static PyObject *__pyx_n_s_scenario_file;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
-static PyObject *__pyx_n_s_sleep;
 static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
@@ -1756,7 +1749,6 @@ static PyObject *__pyx_pf_11calfews_src_8canal_cy_5Canal_10__setstate_cython__(s
 static PyObject *__pyx_pf_11calfews_src_8canal_cy___pyx_unpickle_Canal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_11calfews_src_8canal_cy_Canal(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float_0_0;
-static PyObject *__pyx_float_0_1;
 static PyObject *__pyx_float_1_0;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -2397,10 +2389,10 @@ static int __pyx_pf_11calfews_src_8canal_cy_5Canal_6__init__(struct __pyx_obj_11
  *     #at the current node
  */
 
-static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_check_flow_capacity(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_available_flow, int __pyx_v_canal_loc, PyObject *__pyx_v_capacity_key, PyObject *__pyx_v_search_type) {
+static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_check_flow_capacity(struct __pyx_obj_11calfews_src_8canal_cy_Canal *__pyx_v_self, double __pyx_v_available_flow, int __pyx_v_canal_loc, PyObject *__pyx_v_capacity_key, CYTHON_UNUSED PyObject *__pyx_v_search_type) {
   double __pyx_v_initial_capacity;
   double __pyx_v_excess_flow;
-  double __pyx_v_avf;
+  CYTHON_UNUSED double __pyx_v_avf;
   __pyx_ctuple_double__and_double __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -2409,11 +2401,7 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
   PyObject *__pyx_t_3 = NULL;
   double __pyx_t_4;
   int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  __pyx_ctuple_double__and_double __pyx_t_10;
+  __pyx_ctuple_double__and_double __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2507,142 +2495,24 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
  *       available_flow = initial_capacity
  *     else:
  *       excess_flow = 0.0             # <<<<<<<<<<<<<<
- *     if available_flow < -1e-6:
- *       print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
+ *     # if available_flow < -1e-6:
+ *     #   print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
  */
   /*else*/ {
     __pyx_v_excess_flow = 0.0;
   }
   __pyx_L3:;
 
-  /* "calfews_src/canal_cy.pyx":52
- *     else:
- *       excess_flow = 0.0
- *     if available_flow < -1e-6:             # <<<<<<<<<<<<<<
- *       print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
- *       time.sleep(0.1)
- */
-  __pyx_t_5 = ((__pyx_v_available_flow < -1e-6) != 0);
-  if (__pyx_t_5) {
-
-    /* "calfews_src/canal_cy.pyx":53
- *       excess_flow = 0.0
- *     if available_flow < -1e-6:
- *       print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)             # <<<<<<<<<<<<<<
- *       time.sleep(0.1)
- * 
- */
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_avf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(__pyx_v_self->capacity == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 53, __pyx_L1_error)
-    }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->capacity, __pyx_v_capacity_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_cfs_tafd); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(__pyx_v_self->flow == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 53, __pyx_L1_error)
-    }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->flow, __pyx_v_canal_loc, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_initial_capacity); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_available_flow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_excess_flow); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyTuple_New(9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __Pyx_INCREF(__pyx_n_u_check_flow_cap);
-    __Pyx_GIVEREF(__pyx_n_u_check_flow_cap);
-    PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_u_check_flow_cap);
-    __Pyx_INCREF(__pyx_v_search_type);
-    __Pyx_GIVEREF(__pyx_v_search_type);
-    PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_v_search_type);
-    __Pyx_INCREF(__pyx_v_capacity_key);
-    __Pyx_GIVEREF(__pyx_v_capacity_key);
-    PyTuple_SET_ITEM(__pyx_t_9, 2, __pyx_v_capacity_key);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_9, 3, __pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_6);
-    PyTuple_SET_ITEM(__pyx_t_9, 4, __pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_9, 5, __pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_9, 6, __pyx_t_3);
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_9, 7, __pyx_t_7);
-    __Pyx_GIVEREF(__pyx_t_8);
-    PyTuple_SET_ITEM(__pyx_t_9, 8, __pyx_t_8);
-    __pyx_t_2 = 0;
-    __pyx_t_6 = 0;
-    __pyx_t_1 = 0;
-    __pyx_t_3 = 0;
-    __pyx_t_7 = 0;
-    __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-    /* "calfews_src/canal_cy.pyx":54
- *     if available_flow < -1e-6:
- *       print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
- *       time.sleep(0.1)             # <<<<<<<<<<<<<<
- * 
- *     return available_flow, excess_flow
- */
-    __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_time); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_sleep); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_9)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_9);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_7, function);
-      }
-    }
-    __pyx_t_8 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_9, __pyx_float_0_1) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_float_0_1);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-    /* "calfews_src/canal_cy.pyx":52
- *     else:
- *       excess_flow = 0.0
- *     if available_flow < -1e-6:             # <<<<<<<<<<<<<<
- *       print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
- *       time.sleep(0.1)
- */
-  }
-
   /* "calfews_src/canal_cy.pyx":56
- *       time.sleep(0.1)
+ *     #   time.sleep(0.1)
  * 
  *     return available_flow, excess_flow             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_10.f0 = __pyx_v_available_flow;
-  __pyx_t_10.f1 = __pyx_v_excess_flow;
-  __pyx_r = __pyx_t_10;
+  __pyx_t_6.f0 = __pyx_v_available_flow;
+  __pyx_t_6.f1 = __pyx_v_excess_flow;
+  __pyx_r = __pyx_t_6;
   goto __pyx_L0;
 
   /* "calfews_src/canal_cy.pyx":41
@@ -2658,10 +2528,6 @@ static __pyx_ctuple_double__and_double __pyx_f_11calfews_src_8canal_cy_5Canal_ch
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_WriteUnraisable("calfews_src.canal_cy.Canal.check_flow_capacity", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
@@ -7972,12 +7838,10 @@ static PyMethodDef __pyx_methods[] = {
 static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
   static const char* internal_type_names[] = {
     "Canal",
-    "__pyx_ctuple_double",
     "__pyx_ctuple_double__and_double",
     "__pyx_ctuple_double__and_double__and_int__and_double",
     "__pyx_ctuple_double__and_double__and_int__and_double_struct",
     "__pyx_ctuple_double__and_double_struct",
-    "__pyx_ctuple_double_struct",
     "__pyx_ctuple_int__and_long",
     "__pyx_ctuple_int__and_long__and_long",
     "__pyx_ctuple_int__and_long__and_long_struct",
@@ -8159,7 +8023,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_calfews_src_canal_cy, __pyx_k_calfews_src_canal_cy, sizeof(__pyx_k_calfews_src_canal_cy), 0, 0, 1, 1},
   {&__pyx_kp_u_calfews_src_canals_s_properties, __pyx_k_calfews_src_canals_s_properties, sizeof(__pyx_k_calfews_src_canals_s_properties), 0, 1, 0, 0},
   {&__pyx_n_s_cfs_tafd, __pyx_k_cfs_tafd, sizeof(__pyx_k_cfs_tafd), 0, 0, 1, 1},
-  {&__pyx_n_u_check_flow_cap, __pyx_k_check_flow_cap, sizeof(__pyx_k_check_flow_cap), 0, 1, 0, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
@@ -8179,7 +8042,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pandas, __pyx_k_pandas, sizeof(__pyx_k_pandas), 0, 0, 1, 1},
   {&__pyx_n_s_pd, __pyx_k_pd, sizeof(__pyx_k_pd), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_PickleError, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_checksum, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_result, __pyx_k_pyx_result, sizeof(__pyx_k_pyx_result), 0, 0, 1, 1},
@@ -8197,7 +8059,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_scenario_file, __pyx_k_scenario_file, sizeof(__pyx_k_scenario_file), 0, 0, 1, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
-  {&__pyx_n_s_sleep, __pyx_k_sleep, sizeof(__pyx_k_sleep), 0, 0, 1, 1},
   {&__pyx_kp_s_stringsource, __pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 0, 1, 0},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
@@ -8208,7 +8069,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) __PYX_ERR(0, 19, __pyx_L1_error)
   __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 34, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 53, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 132, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -8238,7 +8098,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_float_0_0 = PyFloat_FromDouble(0.0); if (unlikely(!__pyx_float_0_0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_float_0_1 = PyFloat_FromDouble(0.1); if (unlikely(!__pyx_float_0_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_1_0 = PyFloat_FromDouble(1.0); if (unlikely(!__pyx_float_1_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)

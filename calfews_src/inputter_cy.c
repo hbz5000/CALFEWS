@@ -1075,29 +1075,27 @@ struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_water_districts;
 /* "model_cy.pxd":56
  *     public Contract friant1, friant2, swpdelta, cvpdelta, cvpexchange, crossvalley, kernriver, tuleriver, kaweahriver, kingsriver
  * 
- *   cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str capacity_key=*, str project_access=*, call_type=*)             # <<<<<<<<<<<<<<
+ *   cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str project_access=*, str capacity_key=*)             # <<<<<<<<<<<<<<
  * 
- *   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str capacity_key=*, str project_access=*, call_type=*)
+ *   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str project_access=*, str capacity_key=*)
  */
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_search_canal_demand {
   int __pyx_n;
-  PyObject *capacity_key;
   PyObject *project_access;
-  PyObject *call_type;
+  PyObject *capacity_key;
 };
 
 /* "model_cy.pxd":58
- *   cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str capacity_key=*, str project_access=*, call_type=*)
+ *   cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str project_access=*, str capacity_key=*)
  * 
- *   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str capacity_key=*, str project_access=*, call_type=*)             # <<<<<<<<<<<<<<
+ *   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str project_access=*, str capacity_key=*)             # <<<<<<<<<<<<<<
  * 
  *   cdef void find_node_demand_bank(self, Waterbank bank_node, Canal canal, int canal_loc, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list)
  */
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_distribute_canal_deliveries {
   int __pyx_n;
-  PyObject *capacity_key;
   PyObject *project_access;
-  PyObject *call_type;
+  PyObject *capacity_key;
 };
 
 /* "model_cy.pxd":64
@@ -1105,7 +1103,7 @@ struct __pyx_opt_args_11calfews_src_8model_cy_5Model_distribute_canal_deliveries
  * 
  *   cdef (double, double) delivery_recovery(self, list contract_list, Canal canal, lookback_range, int starting_point, dict paper_fractions, double direct_recovery, str flow_dir, list type_list, list priority_list, str contract_canal, str delivery_loc_name, int dowy, int wateryear, str capacity_key=*)             # <<<<<<<<<<<<<<
  * 
- *   cdef (double, double) deliver_flood(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, double flood_available, double flood_available_overflow, double prior_flood_delivery, list canal_list, int call_type=*, str capacity_key=*, str project_access=*)
+ *   cdef (double, double) deliver_flood(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, double flood_available, double flood_available_overflow, double prior_flood_delivery, list canal_list, str project_access=*, str capacity_key=*)
  */
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_delivery_recovery {
   int __pyx_n;
@@ -1115,18 +1113,17 @@ struct __pyx_opt_args_11calfews_src_8model_cy_5Model_delivery_recovery {
 /* "model_cy.pxd":66
  *   cdef (double, double) delivery_recovery(self, list contract_list, Canal canal, lookback_range, int starting_point, dict paper_fractions, double direct_recovery, str flow_dir, list type_list, list priority_list, str contract_canal, str delivery_loc_name, int dowy, int wateryear, str capacity_key=*)
  * 
- *   cdef (double, double) deliver_flood(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, double flood_available, double flood_available_overflow, double prior_flood_delivery, list canal_list, int call_type=*, str capacity_key=*, str project_access=*)             # <<<<<<<<<<<<<<
- *   cdef void flood_operations(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, str wyt)
+ *   cdef (double, double) deliver_flood(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, double flood_available, double flood_available_overflow, double prior_flood_delivery, list canal_list, str project_access=*, str capacity_key=*)             # <<<<<<<<<<<<<<
  * 
+ *   cdef void flood_operations(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, str wyt)
  */
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_deliver_flood {
   int __pyx_n;
-  int call_type;
-  PyObject *capacity_key;
   PyObject *project_access;
+  PyObject *capacity_key;
 };
 
-/* "model_cy.pxd":77
+/* "model_cy.pxd":78
  *   cdef void set_canal_direction(self, str flow_type)
  * 
  *   cdef (int, int, int, int, double, double) simulate_south(self, int t, double hro_pump, double trp_pump, double swp_alloc, double cvp_alloc, dict proj_surplus, dict max_pumping, double swp_forgone, double cvp_forgone, double swp_AF, double cvp_AF, double swp_AS, double cvp_AS, str wyt, str wytSC, dict max_tax_free, dict flood_release, dict flood_volume) except *             # <<<<<<<<<<<<<<
@@ -1142,7 +1139,7 @@ struct __pyx_ctuple_int__and_int__and_int__and_int__and_double__and_double {
   double f5;
 };
 
-/* "model_cy.pxd":97
+/* "model_cy.pxd":98
  *   cdef tuple proj_gains(self, int t, int dowy, int m, int year_index)
  * 
  *   cdef (int, int, double, double, double) find_pumping_release(self, int m, int da, int year_index, int start_storage, dict month_demand, dict month_demand_must_fill, dict expected_pumping, double projected_carryover, double current_carryover, str wyt, int t, str key)             # <<<<<<<<<<<<<<
@@ -1157,7 +1154,7 @@ struct __pyx_ctuple_int__and_int__and_double__and_double__and_double {
   double f4;
 };
 
-/* "model_cy.pxd":100
+/* "model_cy.pxd":101
  * 
  * ######### init
  *   cdef tuple northern_initialization_routine(self, scenario=*)             # <<<<<<<<<<<<<<
@@ -1169,7 +1166,7 @@ struct __pyx_opt_args_11calfews_src_8model_cy_5Model_northern_initialization_rou
   PyObject *scenario;
 };
 
-/* "model_cy.pxd":106
+/* "model_cy.pxd":107
  *   cdef void initialize_delta_ops(self)
  * 
  *   cdef void southern_initialization_routine(self, scenario=*) except *             # <<<<<<<<<<<<<<
@@ -1181,7 +1178,7 @@ struct __pyx_opt_args_11calfews_src_8model_cy_5Model_southern_initialization_rou
   PyObject *scenario;
 };
 
-/* "model_cy.pxd":114
+/* "model_cy.pxd":115
  *   cdef void predict_delta_gains(self)
  * 
  *   cdef void initialize_water_districts(self, scenario=*)             # <<<<<<<<<<<<<<

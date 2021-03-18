@@ -49,9 +49,9 @@ cdef class Canal():
       available_flow = initial_capacity
     else:
       excess_flow = 0.0
-    if available_flow < -1e-6:
-      print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
-      time.sleep(0.1)
+    # if available_flow < -1e-6:
+    #   print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
+    #   time.sleep(0.1)
 
     return available_flow, excess_flow
 
