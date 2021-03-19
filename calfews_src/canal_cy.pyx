@@ -36,23 +36,29 @@ cdef class Canal():
     if ((scenario_file == 'baseline') == False):
       for k, v in json.load(open(scenario_file)).items():
         setattr(self, k, v)
+    # does "scenario" used have a canal expansion with special ownership?
+    if 'before_expansion' in self.capacity.keys():
+      self.has_expansion = 1
+      self.expansion_access = 'all'
+      self.set_canal_capacity('after_expansion')
+    else:
+      self.has_expansion = 0
+      self.expansion_access = 'all'
 
 
-  cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str capacity_key, str search_type):
+
+  cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir):
     #this function checks to make sure that the canal flow available for delivery is less than or equal to the capacity of the canal 
     #at the current node 
     cdef double initial_capacity, excess_flow
-    avf = available_flow
-    initial_capacity = self.capacity[capacity_key][canal_loc]*cfs_tafd - self.flow[canal_loc]	
+
+    initial_capacity = self.capacity[flow_dir][canal_loc]*cfs_tafd - self.flow[canal_loc]	
     if available_flow > initial_capacity:
       excess_flow = available_flow - initial_capacity
       available_flow = initial_capacity
     else:
       excess_flow = 0.0
-    # if available_flow < -1e-6:
-    #   print('check_flow_cap', search_type, capacity_key, avf, self.capacity[capacity_key][canal_loc]*cfs_tafd, self.flow[canal_loc], initial_capacity, available_flow, excess_flow)
-    #   time.sleep(0.1)
-
+   
     return available_flow, excess_flow
 
 
@@ -101,7 +107,7 @@ cdef class Canal():
         max_turnout = 0.0
 	  
 
-  cdef (double, double, int, double) update_canal_use(self, double available_flow, double location_delivery, str capacity_key, int canal_loc, int starting_point, int canal_size, list type_list, int dowy):
+  cdef (double, double, int) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list):
     #this function checks to see if the next canal node has the capacity to take the remaining flow - if not,
     #the flow is 'turned back', removing the excess water from the canal.flow vector and reallocating it as 'turnback flows'
     #these turnback flows will be run through the previous canal nodes again, to see if any of the prior nodes (where canal capacity
@@ -109,44 +115,39 @@ cdef class Canal():
     #flow is considered not delivered
     #at this node, record the total delivery as 'turnout' and the total flow as 'flow' for this canal object
     cdef:
-      double evap_flows, turnback_flows
+      double turnback_flows
       int next_step, turnback_end, removal_flow
 
     self.turnout_use[canal_loc] += location_delivery
-
     self.flow[canal_loc] += available_flow
     evap_flows = 0.0
 	  #remaning available flow after delivery is made at this node
     available_flow -= location_delivery
     #direction of flow determines which node is next
-    if capacity_key == "reverse":
-      next_step = -1
-    else:
+    if flow_dir == "normal":
       next_step = 1
-
+    if flow_dir == "reverse":
+      next_step = -1
     #turnback flows are the remaining available flow in excess of the next node's capacity
-    turnback_flows = max(available_flow - self.capacity[capacity_key][canal_loc+next_step]*cfs_tafd + self.flow[canal_loc+next_step], 0.0)
+    turnback_flows = max(available_flow - self.capacity[flow_dir][canal_loc+next_step]*cfs_tafd + self.flow[canal_loc+next_step], 0.0)
     #if there is turnback flow, we need to remove that flow from the available flow (and all recorded canal flows at previous nodes)
 	  #if the turnback flow can be accepted by other nodes, it will be recorded as 'flow' and 'turnout_use' then (not this function)
-    if capacity_key == "reverse":
-      for removal_flow in range(starting_point, canal_loc-1, -1):
-        self.flow[removal_flow] -= turnback_flows
-    else:
+    if flow_dir == "normal":
       for removal_flow in range(starting_point, canal_loc + 1):
+        self.flow[removal_flow] -= turnback_flows
+    elif flow_dir == "reverse":
+      for removal_flow in range(starting_point, canal_loc-1, -1):
         self.flow[removal_flow] -= turnback_flows
 
     available_flow -= turnback_flows
-    if turnback_flows < 0.005:
-      evap_flows += turnback_flows
-      turnback_flows = 0.0
 		
     #find the 'stopping point' for turnback flow deliveries (i.e., the last node)
-    if capacity_key == "reverse":
-      turnback_end = canal_size - canal_loc - 1
-    else:
+    if flow_dir == "normal":
       turnback_end = canal_loc + 1
-      
-    return available_flow, turnback_flows, turnback_end, evap_flows
+    elif flow_dir == "reverse":
+      turnback_end = canal_size - canal_loc - 1
+
+    return available_flow, turnback_flows, turnback_end
 	
 
   
@@ -171,3 +172,7 @@ cdef class Canal():
 	
 
 
+  cdef void set_canal_capacity(self, str capacity_key):
+    ## for canals with project
+    self.capacity['normal'] = self.capacity[capacity_key]
+    self.turnout['normal'] = self.turnout[capacity_key]

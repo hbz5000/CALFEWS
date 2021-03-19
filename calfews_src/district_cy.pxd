@@ -37,7 +37,7 @@ cdef class District():
   
   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)
   
-  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal)
+  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str message=*)
   
   cdef void get_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear)
 

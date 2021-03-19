@@ -339,6 +339,7 @@ cdef class District():
 ##################################PROJECT CONTRACTS#################################################################
 #####################################################################################################################
 
+  # def update_balance(self, int t, int wateryear, double water_available, double projected_allocation, double current_water, str key, double tot_carryover, str balance_type):		
   cdef (double, double) update_balance(self, int t, int wateryear, double water_available, double projected_allocation, double current_water, str key, double tot_carryover, str balance_type):
     ###This function takes input from the contract class (water_available, projected_allocation, tot_carryover) to determine how much of their allocation remains
     ##water_available is the current contract storage in the reservoir *plus* all deliveries from the given year.  The deliveries, paper trades, and turnback pool accounts for each district
@@ -383,9 +384,9 @@ cdef class District():
 	
 
 
+  # def calc_carryover(self, double existing_balance, int wateryear, str balance_type, str key):
   cdef (double, double) calc_carryover(self, double existing_balance, int wateryear, str balance_type, str key):
-    #at the end of each wateryear, we tally up the full allocation to the contract, how much was used (and moved around in other balances - carryover, 'paper balance' and turnback_pools) 
-    #to figure out how much each district can 'carryover' to the next year
+    #at the end of each wateryear, we tally up the full allocation to the contract, how much was used (and moved around in other balances - carryover, 'paper balance' and turnback_pools) to figure out how much each district can 'carryover' to the next year
     cdef:
       double frac_to_district, annual_allocation, max_carryover, reallocated_water, carryover
     
@@ -419,8 +420,10 @@ cdef class District():
 ##################################RECHARGE/RECOVERY TRIGGERS#########################################################
 #####################################################################################################################
 	
+  # def open_recovery(self, int t, int dowy, int wateryear, double target_eoy):
   cdef void open_recovery(self, int t, int dowy, int wateryear, double target_eoy):
-    #this function determines if a district wants to recover banked water based on their demands and existing supplies
+    #this function determines if a district wants to recover banked water
+	  #based on their demands and existing supplies
     cdef:
       double total_balance, total_recovery, existing_carryover, total_needs
       str contract_key
@@ -449,6 +452,7 @@ cdef class District():
 	  	  
 
 
+  # def open_recharge(self, int t, int m, int da, int wateryear, int year_index, list days_in_month, double numdays_fillup, double numdays_fillup2, str key, str wyt, list reachable_turnouts, double additional_carryover):
   cdef void open_recharge(self, int t, int m, int da, int wateryear, int year_index, list days_in_month, double numdays_fillup, double numdays_fillup2, str key, str wyt, list reachable_turnouts, double additional_carryover):
     #for a given contract owned by the district (key), how much recharge can they expect to be able to use
     #before the reservoir associated w/ that contract fills to the point where it needs to begin spilling water
@@ -581,6 +585,7 @@ cdef class District():
 	  
 
 
+  # def get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month):
   cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month):
     cdef:
       double max_pumping_shortfall, pumping_shortfall, frac_to_district
@@ -615,9 +620,11 @@ cdef class District():
 	  
 
 
+  # def set_turnback_pool(self, str key, int year_index, list days_in_month):
   cdef tuple set_turnback_pool(self, str key, int year_index, list days_in_month):
     ##This function creates the 'turnback pool' (note: only for SWP contracts now, can be used for others)
-    ##finding contractors with 'extra' contract water that they would like to sell, and contractors who would like to purchase that water.  
+    ##finding contractors with 'extra' contract water that they would like to sell, and contractors who would
+    ##like to purchase that water.  
     cdef:
       double total_projected_supply, total_recharge_ability, contract_fraction
       str contract_key
@@ -650,6 +657,7 @@ cdef class District():
       
 
 
+  # def make_turnback_purchases(self, double turnback_sellers, double turnback_buyers, str key):
   cdef void make_turnback_purchases(self, double turnback_sellers, double turnback_buyers, str key):
     #once we know how much water is in the 'selling' pool and the 'buying' pool, we can determine the total turnback pool - min(buying,selling), then
     #determine what % of each request is filled (i.e., if the selling pool is only 1/2 of the buying pool, then buyers only get 1/2 of their request, or visa versa	
@@ -683,12 +691,12 @@ cdef class District():
 
 			
   cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge):
-    #this function is used to calculate the current demand at each 'district' node
     cdef:
       double access_mult, total_projected_allocation, private_add, total_demand_met, annualdemand, dailydemand, dailydemand_start, demand_constraint, private_demand, private_delivery, projected_supply
       str private_key, contract_key
       Contract contract_obj
 
+    #this function is used to calculate the current demand at each 'district' node
     access_mult = self.surface_water_sa*self.seepage#this accounts for water seepage & the total district area that can be reached by SW canals (seepage is >= 1.0; surface_water_sa <= 1.0)
 	
     total_projected_allocation = 0.0
@@ -703,7 +711,7 @@ cdef class District():
       total_projected_allocation += max(projected_supply, 0.0)#projected allocation
 
     #percentage of demand filled in the day is equal to the total projected allocation as a percent of annual demand
-	#(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
+	  #(i.e., if allocations are projected to be 1/2 of annual demand, then they try to fill 50% of daily irrigation demands with surface water
     annualdemand = self.annualdemand[0]
     dailydemand_start = self.dailydemand_start[0]
     dailydemand = self.dailydemand[0]
@@ -718,8 +726,7 @@ cdef class District():
           total_demand_met = 0.0		
     else:
       total_demand_met = 1.0
-    #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, 
-    #or what remains of demand in self.dailydemand, whichever is smaller
+    #self.dailydemand_start is the initial daily district demand (self.dailydemand is updated as deliveries are made) - we try to fill the total_demand_met fraction of dailydemand_start, or what remains of demand in self.dailydemand, whichever is smaller
     if search_type == 'flood':
       if annualdemand > 0.0 and total_projected_allocation > 0.0:
         demand_constraint = (1.0 - min(total_projected_allocation/annualdemand, 1.0))*max(min(dailydemand_start*access_mult*total_demand_met, dailydemand*access_mult),0.0)
@@ -736,7 +743,8 @@ cdef class District():
 
 
   cdef double find_node_output(self):
-    #this function calculates the total recovery capacity that is contained in each district node (i.e. in leiu banks)
+    #this function calculates the total recovery capacity that is contained in each district node
+	  #(i.e. in leiu banks)
     cdef double current_recovery_use, output_constraint
 
     if self.in_leiu_banking:
@@ -869,7 +877,7 @@ cdef class District():
 		
     	  
 
-  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal):
+  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str message=''):
     #this function takes the calculated demand at each district node and classifies those demands by 'priority' - the priority classes and rules change for each delivery type
     cdef:
       int contractor_toggle, priority_toggle
@@ -894,7 +902,7 @@ cdef class District():
               contractor_toggle = 1
         if contractor_toggle == 1:
           demand_dict['contractor'] = max(min(demand,delivery), 0.0)
-          demand_dict['alternate'] = min(delivery - max(min(demand,delivery),0.0),demand_constraint-demand_dict['contractor'])
+          demand_dict['alternate'] = min(delivery - demand_dict['contractor'], demand_constraint-demand_dict['contractor'])
           demand_dict['turnout'] = 0.0
           demand_dict['excess'] = 0.0
         else:
@@ -918,7 +926,7 @@ cdef class District():
           priority_toggle = 1
       if priority_toggle == 1:
         demand_dict['priority'] = max(min(demand,delivery), 0.0)
-        demand_dict['secondary'] = min(delivery - max(min(demand,delivery),0.0), demand_constraint - demand_dict['priority'])
+        demand_dict['secondary'] = min(delivery - demand_dict['priority'], demand_constraint - demand_dict['priority'])
       else:
         demand_dict['priority'] = 0.0
         demand_dict['secondary'] = max(min(delivery, demand_constraint), 0.0)
@@ -927,14 +935,16 @@ cdef class District():
     elif search_type == 'recovery':
       if self.in_leiu_banking:
         demand_dict['initial'] = max(min(demand,delivery), 0.0)
-        demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
+        demand_dict['supplemental'] = min(delivery - demand_dict['initial'], demand_constraint - demand_dict['initial'])
       else:
         demand_dict['initial'] = 0.0
         demand_dict['supplemental'] = 0.0
+
     return demand_dict
 
 
 
+  # def find_leiu_priority_space(self, double demand_constraint, int num_members, str member_name, int toggle_recharge, str search_type):
   cdef double find_leiu_priority_space(self, double demand_constraint, int num_members, str member_name, int toggle_recharge, str search_type):
     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given in-leiu bank (i.e. this function is attached to the district that owns the bank - and the banking member is represented by 'member_name' input variable)
     cdef double priority_space, available_banked, initial_capacity
@@ -1027,8 +1037,8 @@ cdef class District():
 
   cdef void give_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear, str district_name):
     #this function accepts a delivery of recovered groundwater, and makes a 'paper'
-    #trade, giving up a surface water contract allocation (contract_list) to the district
-    #that owned the groundwater that was recovered
+	#trade, giving up a surface water contract allocation (contract_list) to the district
+	#that owned the groundwater that was recovered
     cdef:
       int contract_counter
       str contract_key
@@ -1040,6 +1050,7 @@ cdef class District():
     self.deliveries['exchanged_SW'][wateryear] += trade_amount
 	  
 
+  # def get_paper_trade(self, double trade_amount, list contract_list, int wateryear):
   cdef void get_paper_trade(self, double trade_amount, list contract_list, int wateryear):
     #this function takes a 'paper' credit on a contract and allocates it to a district
 	#the paper credit is in exchange for delivering recovered groundwater to another party (district)
@@ -1061,9 +1072,10 @@ cdef class District():
     self.deliveries['exchanged_GW'][wateryear] += trade_amount
 
 
+  # def get_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear):
   cdef void get_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear):
     #this function takes a 'paper' credit on a contract and allocates it to a district
-	  #the paper credit is in exchange for delivering recovered groundwater to another party (district)
+	#the paper credit is in exchange for delivering recovered groundwater to another party (district)
     cdef:
       double total_alloc, contract_frac
       int contract_counter
@@ -1089,9 +1101,10 @@ cdef class District():
 
 
 
+  # def direct_delivery_bank(self, double delivery, int wateryear):
   cdef double direct_delivery_bank(self, double delivery, int wateryear):
     #this function takes a delivery of recoverd groundwater and applies it to irrigation demand in a district
-	  #the recovered groundwater is delivered to the district that originally owned the water, so no 'paper' trade is needed
+	#the recovered groundwater is delivered to the district that originally owned the water, so no 'paper' trade is needed
     cdef double direct_delivery, actual_delivery
 
     direct_delivery = self.dailydemand[0]*self.seepage*self.surface_water_sa - self.direct_recovery_delivery
@@ -1102,9 +1115,10 @@ cdef class District():
     return actual_delivery
 	
 
+  # def adjust_accounts(self, direct_deliveries, recharge_deliveries, contract_list, search_type, wateryear, delivery_location):
   cdef dict adjust_accounts(self, double direct_deliveries, double recharge_deliveries, list contract_list, str search_type, int wateryear, str delivery_location):
     #this function accepts water under a specific condition (flood, irrigation delivery, banking), and 
-	  #adjusts the proper accounting balances
+	#adjusts the proper accounting balances
     cdef:
       double total_carryover_recharge, total_current_balance, contract_deliveries
       int flood_counter
@@ -1174,6 +1188,7 @@ cdef class District():
     self.inleiubanked[member_name] += (direct_deliveries + recharge_deliveries) * self.inleiuhaircut#this is the running account of the member's banking storage
 	
 
+  # def adjust_recovery(self, double deliveries, str member_name, int wateryear):
   cdef void adjust_recovery(self, double deliveries, str member_name, int wateryear):
     #if recovery deliveries are made, adjust the banking accounts and account for the recovery capacity use
     self.inleiubanked[member_name] -= deliveries#this is the running account of the member's banking storage
