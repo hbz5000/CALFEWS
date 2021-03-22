@@ -68,7 +68,7 @@ cdef class Waterbank():
 #####################################################################################################################
 
 	  
-  cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
+  cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type) except *:
     cdef:
       double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
       str recovery_use_key, participant_key
@@ -94,7 +94,7 @@ cdef class Waterbank():
     return demand_constraint
 
 
-  cdef double find_priority_space(self, int num_members, str xx, str search_type):
+  cdef double find_priority_space(self, int num_members, str xx, str search_type) except *:
     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given bank 
     cdef double initial_capacity, available_banked
 
@@ -120,8 +120,8 @@ cdef class Waterbank():
 
     demand_dict = {}
     #for flood flows, determine if the wb members have contracts w/ the flooding reservoir - 1st priority
-	#if not, do they have turnouts on the 'priority' canals - 2nd priority
-	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
+    #if not, do they have turnouts on the 'priority' canals - 2nd priority
+    #if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
     if search_type == 'flood':
       priority_toggle = 0
       contractor_toggle = 0
@@ -161,7 +161,7 @@ cdef class Waterbank():
     elif search_type == 'delivery':
       demand_dict[contract_canal] = 0.0
     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
-	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
+	  #secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
     elif search_type == 'banking':
       canal_toggle = 0
       for canal_key in self.canal_rights:
@@ -173,7 +173,7 @@ cdef class Waterbank():
       else:
         demand_dict['priority'] = 0.0
         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
-	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
+	  #recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
     elif search_type == 'recovery':
       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])

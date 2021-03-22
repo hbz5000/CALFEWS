@@ -2,15 +2,15 @@ cdef class Canal():
      
   cdef:
 
-    public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, locked, num_sites, has_expansion
+    public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, locked, num_sites, has_expansion, unrestricted_access, open_for_delivery
 
     public bint recovery_feeder
 
-    public str key, name, expansion_access
+    public str key, name
 
     public list turnout_use, flow
 
-    public dict capacity, turnout, flow_directions, daily_turnout, turnout_frac, recovery_flow_frac, daily_flow, demand
+    public dict capacity, turnout, flow_directions, daily_turnout, turnout_frac, recovery_flow_frac, daily_flow, demand, ownership_shares
 
   cdef void find_turnout_adjustment(self, double demand_constraint, str flow_dir, int canal_loc, list type_list)
 

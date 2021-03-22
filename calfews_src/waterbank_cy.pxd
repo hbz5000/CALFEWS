@@ -15,9 +15,9 @@ cdef class Waterbank():
 
     public dict ownership, bank_cap, storage, recovery_use, banked, bank_timeseries
 
-  cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type)
+  cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type) except *
 
-  cdef double find_priority_space(self, int num_members, str xx, str search_type)
+  cdef double find_priority_space(self, int num_members, str xx, str search_type) except *
 
   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts)
 

@@ -33,9 +33,9 @@ cdef class District():
                 
     public Crop irrdemand
 
-  cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge)
+  cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge) except *
   
-  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)
+  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *
   
   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str message=*)
   
@@ -61,7 +61,7 @@ cdef class District():
 
   cdef void open_recharge(self, int t, int m, int da, int wateryear, int year_index, list days_in_month, double numdays_fillup, double numdays_fillup2, str key, str wyt, list reachable_turnouts, double additional_carryover)
 
-  cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month)
+  cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month) except -1
 
   cdef tuple set_turnback_pool(self, str key, int year_index, list days_in_month)
 

@@ -24,6 +24,7 @@ import sys
 from configobj import ConfigObj
 import json
 from distutils.util import strtobool
+from cpython.exc cimport PyErr_CheckSignals
 from calfews_src.model_cy cimport Model
 from calfews_src.inputter_cy cimport Inputter
 from calfews_src.scenario import Scenario
@@ -61,8 +62,6 @@ cdef class main_cy():
       self.flow_input_source = flow_input_source
     self.results_folder = results_folder
 
-    ### Initialize northern & southern models
-    self.initialize()
 
     
 
@@ -70,7 +69,10 @@ cdef class main_cy():
 ################################################################################################################################
 ### Northern/southern model initialization
 ################################################################################################################################
-  cdef void initialize(self):  
+  def initialize_py(self):
+    return self.initialize()
+
+  cdef int initialize(self) except -1:  
     cdef:
       str expected_release_datafile, demand_type, base_data_file, input_data_file
     
@@ -100,9 +102,13 @@ cdef class main_cy():
       if new_inputs.has_full_inputs[self.flow_input_type][self.flow_input_source]:
         input_data_file = new_inputs.flow_input_source[self.flow_input_type][self.flow_input_source]
       else:
+        # run initialization routine
         new_inputs.run_initialization('XXX')
-        new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
-        input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
+        # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
+        PyErr_CheckSignals()
+        if True:
+          new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
+          input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
 
     elif self.model_mode == 'validation':
       demand_type = 'pesticide'
@@ -113,13 +119,23 @@ cdef class main_cy():
       np.random.seed(self.seed)
 
     ### setup northern & southern models & run initialization
-    self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
-    self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
-    self.modelso.max_tax_free = {}
-    self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine(scenario)
-    self.modelso.forecastSRI = self.modelno.delta.forecastSRI
-    self.modelso.southern_initialization_routine(scenario)
+    PyErr_CheckSignals()
+    if True:
+      self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+    PyErr_CheckSignals()
+    if True:
+      self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+    PyErr_CheckSignals()
+    if True:
+      self.modelso.max_tax_free = {}
+      self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine(scenario)
+    PyErr_CheckSignals()
+    if True:
+      self.modelso.forecastSRI = self.modelno.delta.forecastSRI
+      self.modelso.southern_initialization_routine(scenario)
     gc.collect()    
+
+    return 0
 
 
 
@@ -128,9 +144,9 @@ cdef class main_cy():
 # ################################################################################################################################
 
   def run_sim_py(self, start_time):
-    self.run_sim(start_time)
+    return self.run_sim(start_time)
     
-  cdef void run_sim(self, start_time):  
+  cdef int run_sim(self, start_time) except -1:  
     cdef:
       int timeseries_length, t, swp_release, cvp_release, swp_release2, cvp_release2
       double swp_pump, cvp_pump, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, 
@@ -161,6 +177,7 @@ cdef class main_cy():
     print(self.results_folder)
     
     ############################################
+    # while True:
     for t in range(0, timeseries_length):
       self.progress = (t + 1) / timeseries_length
       if (t % 365 == 364):
@@ -170,8 +187,13 @@ cdef class main_cy():
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = self.modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
 
       swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = self.modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, self.modelno.delta.forecastSJWYT, self.modelno.delta.forecastSCWYT, self.modelno.delta.max_tax_free, flood_release, flood_volume)
-        
+
+      # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
+      PyErr_CheckSignals()
+
     gc.collect()
+
+    return 0
 
 
 

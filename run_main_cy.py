@@ -23,7 +23,6 @@ except:
 if redo_init == 0:
   try:
     main_cy_obj = pd.read_pickle(save_init)
-    print(main_cy_obj)
   except:
     redo_init = 1
 
@@ -41,24 +40,30 @@ if redo_init == 1:
   
   ### setup new model
   main_cy_obj = main_cy.main_cy(results_folder)
+  a = main_cy_obj.initialize_py()
 
-  ### save initialized model
-  pd.to_pickle(main_cy_obj, save_init)
-  print('Initialization complete, ', datetime.now() - start_time)
-  sys.stdout.flush()
+  if a == 0:
+    ### save initialized model
+    pd.to_pickle(main_cy_obj, save_init)
+    print('Initialization complete, ', datetime.now() - start_time)
+    sys.stdout.flush()
+  else:
+    run_sim = 0
 
 if run_sim == 1:
   ### main simulation loop
-  main_cy_obj.run_sim_py(start_time)
+  a = main_cy_obj.run_sim_py(start_time)
   print ('Simulation complete,', datetime.now() - start_time)
   sys.stdout.flush()
 
-  ### calculate objectives
-  main_cy_obj.calc_objectives()
-  print ('Objective calculation complete,', datetime.now() - start_time)
+  if a == 0:
+    ### calculate objectives
+    main_cy_obj.calc_objectives()
+    print ('Objective calculation complete,', datetime.now() - start_time)
 
-  ### output results
-  main_cy_obj.output_results()
-  print ('Data output complete,', datetime.now() - start_time)
-  sys.stdout.flush()
+    ### output results
+    main_cy_obj.output_results()
+    print ('Data output complete,', datetime.now() - start_time)
+    sys.stdout.flush()
+
 

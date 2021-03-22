@@ -585,8 +585,7 @@ cdef class District():
 	  
 
 
-  # def get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month):
-  cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month):
+  cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month) except -1:
     cdef:
       double max_pumping_shortfall, pumping_shortfall, frac_to_district
       int monthcounter, daycounter, tot_days
@@ -690,7 +689,7 @@ cdef class District():
 #####################################################################################################################
 
 			
-  cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge):
+  cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge)  except *:
     cdef:
       double access_mult, total_projected_allocation, private_add, total_demand_met, annualdemand, dailydemand, dailydemand_start, demand_constraint, private_demand, private_delivery, projected_supply
       str private_key, contract_key
@@ -784,7 +783,7 @@ cdef class District():
     return member_constraint, total_contract
      
 	
-  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear):
+  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *:
     #this function is used to determine if a district node 'wants' to make a request
     #under the different usage types (flood, delievery, banking, or recovery) under a given contract (contract_list)
     cdef:
@@ -793,7 +792,6 @@ cdef class District():
       str xx, contract_key
       Contract contract_obj
     
-
     self.projected_supply['tot'] = 0.0
     for contract_key in self.contract_list:
       self.projected_supply['tot'] += self.projected_supply[contract_key]

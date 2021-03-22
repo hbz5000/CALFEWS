@@ -12,7 +12,7 @@ cdef class main_cy():
     public Model modelno, modelso
     # public Inputter new_inputs
 
-  cdef void initialize(self)
+  cdef int initialize(self) except -1
 
-  cdef void run_sim(self, start_time)
+  cdef int run_sim(self, start_time) except -1
 

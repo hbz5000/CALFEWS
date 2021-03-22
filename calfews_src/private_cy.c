@@ -946,10 +946,11 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   int locked;
   int num_sites;
   int has_expansion;
+  int unrestricted_access;
+  int open_for_delivery;
   int recovery_feeder;
   PyObject *key;
   PyObject *name;
-  PyObject *expansion_access;
   PyObject *turnout_use;
   PyObject *flow;
   PyObject *capacity;
@@ -960,6 +961,7 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   PyObject *recovery_flow_frac;
   PyObject *daily_flow;
   PyObject *demand;
+  PyObject *ownership_shares;
 };
 
 
@@ -18972,7 +18974,7 @@ static void __pyx_f_11calfews_src_10private_cy_7Private_make_turnback_purchases(
 /* "calfews_src/private_cy.pyx":879
  * 
  * 
- *   cdef double find_node_demand(self, list contract_list, str search_type, str district_name):             # <<<<<<<<<<<<<<
+ *   cdef double find_node_demand(self, list contract_list, str search_type, str district_name) except *:             # <<<<<<<<<<<<<<
  *     #this function is used to calculate the current demand at each 'district' node
  *     cdef:
  */
@@ -19320,7 +19322,7 @@ static double __pyx_f_11calfews_src_10private_cy_7Private_find_node_demand(struc
   /* "calfews_src/private_cy.pyx":879
  * 
  * 
- *   cdef double find_node_demand(self, list contract_list, str search_type, str district_name):             # <<<<<<<<<<<<<<
+ *   cdef double find_node_demand(self, list contract_list, str search_type, str district_name) except *:             # <<<<<<<<<<<<<<
  *     #this function is used to calculate the current demand at each 'district' node
  *     cdef:
  */
@@ -19333,7 +19335,7 @@ static double __pyx_f_11calfews_src_10private_cy_7Private_find_node_demand(struc
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_WriteUnraisable("calfews_src.private_cy.Private.find_node_demand", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("calfews_src.private_cy.Private.find_node_demand", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_contract_obj);
@@ -19784,7 +19786,7 @@ static double __pyx_f_11calfews_src_10private_cy_7Private_set_request_to_distric
 /* "calfews_src/private_cy.pyx":946
  * 
  * 
- *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear):             # <<<<<<<<<<<<<<
+ *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *:             # <<<<<<<<<<<<<<
  *     cdef:
  *       double total_carryover_recharge, total_current_balance, total_request
  */
@@ -20440,7 +20442,7 @@ static double __pyx_f_11calfews_src_10private_cy_7Private_set_request_constraint
   /* "calfews_src/private_cy.pyx":946
  * 
  * 
- *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear):             # <<<<<<<<<<<<<<
+ *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *:             # <<<<<<<<<<<<<<
  *     cdef:
  *       double total_carryover_recharge, total_current_balance, total_request
  */
@@ -20454,7 +20456,7 @@ static double __pyx_f_11calfews_src_10private_cy_7Private_set_request_constraint
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_WriteUnraisable("calfews_src.private_cy.Private.set_request_constraints", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("calfews_src.private_cy.Private.set_request_constraints", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_district_key);
@@ -38688,7 +38690,7 @@ static int __pyx_pf_11calfews_src_10private_cy_7Private_9irrdemand_4__del__(stru
  *                 seasonal_connection, k_close_wateryear, last_days_demand_regression_error, MDD, has_pesticide, irrdemand, \
  *                 urban_profile, contract_fraction, private_fraction, has_pmp, turnout_list, delivery_location_list, must_fill             # <<<<<<<<<<<<<<
  * 
- *   cdef double find_node_demand(self, list contract_list, str search_type, str district_name)
+ *   cdef double find_node_demand(self, list contract_list, str search_type, str district_name) except *
  */
 
 /* Python wrapper */

@@ -878,7 +878,7 @@ struct __pyx_ctuple_double__and_double__and_double;
 typedef struct __pyx_ctuple_double__and_double__and_double __pyx_ctuple_double__and_double__and_double;
 
 /* "district_cy.pxd":40
- *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)
+ *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *
  * 
  *   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str message=*)             # <<<<<<<<<<<<<<
  * 
@@ -985,10 +985,11 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   int locked;
   int num_sites;
   int has_expansion;
+  int unrestricted_access;
+  int open_for_delivery;
   int recovery_feeder;
   PyObject *key;
   PyObject *name;
-  PyObject *expansion_access;
   PyObject *turnout_use;
   PyObject *flow;
   PyObject *capacity;
@@ -999,6 +1000,7 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   PyObject *recovery_flow_frac;
   PyObject *daily_flow;
   PyObject *demand;
+  PyObject *ownership_shares;
 };
 
 
@@ -2562,6 +2564,7 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_set_request_c
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
+  double __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2585,7 +2588,8 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_set_request_c
  *     elif self.is_Private == 1:
  *       return self.private_obj.set_request_constraints(demand, search_type, contract_list, bank_space, bank_capacity, dowy, wateryear)
  */
-    __pyx_r = ((struct __pyx_vtabstruct_11calfews_src_11district_cy_District *)__pyx_v_self->district_obj->__pyx_vtab)->set_request_constraints(__pyx_v_self->district_obj, __pyx_v_demand, __pyx_v_search_type, __pyx_v_contract_list, __pyx_v_bank_space, __pyx_v_bank_capacity, __pyx_v_dowy, __pyx_v_wateryear);
+    __pyx_t_2 = ((struct __pyx_vtabstruct_11calfews_src_11district_cy_District *)__pyx_v_self->district_obj->__pyx_vtab)->set_request_constraints(__pyx_v_self->district_obj, __pyx_v_demand, __pyx_v_search_type, __pyx_v_contract_list, __pyx_v_bank_space, __pyx_v_bank_capacity, __pyx_v_dowy, __pyx_v_wateryear); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_r = __pyx_t_2;
     goto __pyx_L0;
 
     /* "calfews_src/participant_cy.pyx":36
@@ -2614,7 +2618,8 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_set_request_c
  * 
  *   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal=None, list member_contracts=None):
  */
-    __pyx_r = ((struct __pyx_vtabstruct_11calfews_src_10private_cy_Private *)__pyx_v_self->private_obj->__pyx_vtab)->set_request_constraints(__pyx_v_self->private_obj, __pyx_v_demand, __pyx_v_search_type, __pyx_v_contract_list, __pyx_v_bank_space, __pyx_v_bank_capacity, __pyx_v_dowy, __pyx_v_wateryear);
+    __pyx_t_2 = ((struct __pyx_vtabstruct_11calfews_src_10private_cy_Private *)__pyx_v_self->private_obj->__pyx_vtab)->set_request_constraints(__pyx_v_self->private_obj, __pyx_v_demand, __pyx_v_search_type, __pyx_v_contract_list, __pyx_v_bank_space, __pyx_v_bank_capacity, __pyx_v_dowy, __pyx_v_wateryear); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_r = __pyx_t_2;
     goto __pyx_L0;
 
     /* "calfews_src/participant_cy.pyx":38
@@ -3397,6 +3402,7 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_node_dem
   double __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3410,7 +3416,8 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_node_dem
  * 
  *   cdef double find_priority_space(self, int num_members, str xx, str search_type):
  */
-  __pyx_r = ((struct __pyx_vtabstruct_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self->waterbank_obj->__pyx_vtab)->find_node_demand(__pyx_v_self->waterbank_obj, __pyx_v_contract_list, __pyx_v_xx, __pyx_v_num_members, __pyx_v_search_type);
+  __pyx_t_1 = ((struct __pyx_vtabstruct_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self->waterbank_obj->__pyx_vtab)->find_node_demand(__pyx_v_self->waterbank_obj, __pyx_v_contract_list, __pyx_v_xx, __pyx_v_num_members, __pyx_v_search_type); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
   /* "calfews_src/participant_cy.pyx":87
@@ -3443,6 +3450,7 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_priority
   double __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3456,7 +3464,8 @@ static double __pyx_f_11calfews_src_14participant_cy_11Participant_find_priority
  * 
  * 
  */
-  __pyx_r = ((struct __pyx_vtabstruct_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self->waterbank_obj->__pyx_vtab)->find_priority_space(__pyx_v_self->waterbank_obj, __pyx_v_num_members, __pyx_v_xx, __pyx_v_search_type);
+  __pyx_t_1 = ((struct __pyx_vtabstruct_11calfews_src_12waterbank_cy_Waterbank *)__pyx_v_self->waterbank_obj->__pyx_vtab)->find_priority_space(__pyx_v_self->waterbank_obj, __pyx_v_num_members, __pyx_v_xx, __pyx_v_search_type); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
   /* "calfews_src/participant_cy.pyx":91

@@ -11,8 +11,68 @@
     "FKC":				"baseline",
     "LWT":				"calfews_src/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json"
   }, 
-  "FKC_rehab_ownership": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership.json",
-    "LWT":				"calfews_src/scenarios/LWT_properties__infrastructure_shares.json"
+  "FKC_rehab_ownership_LWT": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_PIX": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_PIX.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_DLE": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_DLE.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_SSJ": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_SSJ.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_SOC": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_SOC.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_LWT_PIX_DLE_SSJ": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT_PIX_DLE_SSJ.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_LWT_PIX_DLE_SSJ_SOC": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT_PIX_DLE_SSJ_SOC.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_none": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_none.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_grp1": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp1.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_grp2": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp2.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_grp3": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp3.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_grp12": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp12.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_grp13": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp13.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_grp23": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp23.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_grp123": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp123.json",
+    "LWT":				"baseline"
+  },
+  "FKC_rehab_ownership_bankees": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_bankees.json",
+    "LWT":				"baseline"
   }
 }

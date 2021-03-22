@@ -882,10 +882,11 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   int locked;
   int num_sites;
   int has_expansion;
+  int unrestricted_access;
+  int open_for_delivery;
   int recovery_feeder;
   PyObject *key;
   PyObject *name;
-  PyObject *expansion_access;
   PyObject *turnout_use;
   PyObject *flow;
   PyObject *capacity;
@@ -896,6 +897,7 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   PyObject *recovery_flow_frac;
   PyObject *daily_flow;
   PyObject *demand;
+  PyObject *ownership_shares;
 };
 
 
@@ -1539,13 +1541,13 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
 #define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
 #endif
 
+/* ExtTypeTest.proto */
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
+
 /* WriteUnraisableException.proto */
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
-
-/* ExtTypeTest.proto */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
 /* PyErrExceptionMatches.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -2749,7 +2751,7 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_6__init__(struct __p
 /* "calfews_src/waterbank_cy.pyx":71
  * 
  * 
- *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):             # <<<<<<<<<<<<<<
+ *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type) except *:             # <<<<<<<<<<<<<<
  *     cdef:
  *       double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
  */
@@ -2981,7 +2983,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
   /* "calfews_src/waterbank_cy.pyx":71
  * 
  * 
- *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):             # <<<<<<<<<<<<<<
+ *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type) except *:             # <<<<<<<<<<<<<<
  *     cdef:
  *       double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
  */
@@ -2992,7 +2994,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_WriteUnraisable("calfews_src.waterbank_cy.Waterbank.find_node_demand", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("calfews_src.waterbank_cy.Waterbank.find_node_demand", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_recovery_use_key);
@@ -3005,7 +3007,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_node_demand(s
 /* "calfews_src/waterbank_cy.pyx":97
  * 
  * 
- *   cdef double find_priority_space(self, int num_members, str xx, str search_type):             # <<<<<<<<<<<<<<
+ *   cdef double find_priority_space(self, int num_members, str xx, str search_type) except *:             # <<<<<<<<<<<<<<
  *     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given bank
  *     cdef double initial_capacity, available_banked
  */
@@ -3212,7 +3214,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
   /* "calfews_src/waterbank_cy.pyx":97
  * 
  * 
- *   cdef double find_priority_space(self, int num_members, str xx, str search_type):             # <<<<<<<<<<<<<<
+ *   cdef double find_priority_space(self, int num_members, str xx, str search_type) except *:             # <<<<<<<<<<<<<<
  *     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given bank
  *     cdef double initial_capacity, available_banked
  */
@@ -3223,7 +3225,7 @@ static double __pyx_f_11calfews_src_12waterbank_cy_9Waterbank_find_priority_spac
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_WriteUnraisable("calfews_src.waterbank_cy.Waterbank.find_priority_space", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("calfews_src.waterbank_cy.Waterbank.find_priority_space", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -3275,7 +3277,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  * 
  *     demand_dict = {}             # <<<<<<<<<<<<<<
  *     #for flood flows, determine if the wb members have contracts w/ the flooding reservoir - 1st priority
- * 	#if not, do they have turnouts on the 'priority' canals - 2nd priority
+ *     #if not, do they have turnouts on the 'priority' canals - 2nd priority
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3283,8 +3285,8 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   __pyx_t_1 = 0;
 
   /* "calfews_src/waterbank_cy.pyx":125
- * 	#if not, do they have turnouts on the 'priority' canals - 2nd priority
- * 	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
+ *     #if not, do they have turnouts on the 'priority' canals - 2nd priority
+ *     #if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
  *     if search_type == 'flood':             # <<<<<<<<<<<<<<
  *       priority_toggle = 0
  *       contractor_toggle = 0
@@ -3294,7 +3296,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   if (__pyx_t_3) {
 
     /* "calfews_src/waterbank_cy.pyx":126
- * 	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
+ *     #if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
  *     if search_type == 'flood':
  *       priority_toggle = 0             # <<<<<<<<<<<<<<
  *       contractor_toggle = 0
@@ -3774,8 +3776,8 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
     __pyx_L7:;
 
     /* "calfews_src/waterbank_cy.pyx":125
- * 	#if not, do they have turnouts on the 'priority' canals - 2nd priority
- * 	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
+ *     #if not, do they have turnouts on the 'priority' canals - 2nd priority
+ *     #if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
  *     if search_type == 'flood':             # <<<<<<<<<<<<<<
  *       priority_toggle = 0
  *       contractor_toggle = 0
@@ -3799,7 +3801,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  *     elif search_type == 'delivery':
  *       demand_dict[contract_canal] = 0.0             # <<<<<<<<<<<<<<
  *     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
- * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
+ * 	  #secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  */
     if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_v_contract_canal, __pyx_float_0_0) < 0)) __PYX_ERR(0, 162, __pyx_L1_error)
 
@@ -3815,7 +3817,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
 
   /* "calfews_src/waterbank_cy.pyx":165
  *     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
- * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
+ * 	  #secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  *     elif search_type == 'banking':             # <<<<<<<<<<<<<<
  *       canal_toggle = 0
  *       for canal_key in self.canal_rights:
@@ -3825,7 +3827,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   if (__pyx_t_2) {
 
     /* "calfews_src/waterbank_cy.pyx":166
- * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
+ * 	  #secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  *     elif search_type == 'banking':
  *       canal_toggle = 0             # <<<<<<<<<<<<<<
  *       for canal_key in self.canal_rights:
@@ -4006,7 +4008,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  *       else:
  *         demand_dict['priority'] = 0.0             # <<<<<<<<<<<<<<
  *         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
- * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
+ * 	  #recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  */
     /*else*/ {
       if (unlikely(PyDict_SetItem(__pyx_v_demand_dict, __pyx_n_u_priority, __pyx_float_0_0) < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
@@ -4015,7 +4017,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
  *       else:
  *         demand_dict['priority'] = 0.0
  *         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)             # <<<<<<<<<<<<<<
- * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
+ * 	  #recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  *     elif search_type == 'recovery':
  */
       __pyx_t_12 = __pyx_v_demand_constraint;
@@ -4041,7 +4043,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
 
     /* "calfews_src/waterbank_cy.pyx":165
  *     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
- * 	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
+ * 	  #secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
  *     elif search_type == 'banking':             # <<<<<<<<<<<<<<
  *       canal_toggle = 0
  *       for canal_key in self.canal_rights:
@@ -4051,7 +4053,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
 
   /* "calfews_src/waterbank_cy.pyx":177
  *         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
- * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
+ * 	  #recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  *     elif search_type == 'recovery':             # <<<<<<<<<<<<<<
  *       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
  *       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
@@ -4061,7 +4063,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
   if (__pyx_t_2) {
 
     /* "calfews_src/waterbank_cy.pyx":178
- * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
+ * 	  #recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  *     elif search_type == 'recovery':
  *       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)             # <<<<<<<<<<<<<<
  *       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
@@ -4147,7 +4149,7 @@ static PyObject *__pyx_f_11calfews_src_12waterbank_cy_9Waterbank_set_demand_prio
 
     /* "calfews_src/waterbank_cy.pyx":177
  *         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
- * 	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
+ * 	  #recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
  *     elif search_type == 'recovery':             # <<<<<<<<<<<<<<
  *       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
  *       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
@@ -7244,7 +7246,7 @@ static int __pyx_pf_11calfews_src_12waterbank_cy_9Waterbank_16recharge_decline_4
  * 
  *     public dict ownership, bank_cap, storage, recovery_use, banked, bank_timeseries             # <<<<<<<<<<<<<<
  * 
- *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type)
+ *   cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type) except *
  */
 
 /* Python wrapper */
@@ -11942,6 +11944,19 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
 }
 #endif
 
+/* ExtTypeTest */
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (likely(__Pyx_TypeCheck(obj, type)))
+        return 1;
+    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
+                 Py_TYPE(obj)->tp_name, type->tp_name);
+    return 0;
+}
+
 /* WriteUnraisableException */
 static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
                                   CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
@@ -11982,19 +11997,6 @@ static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
     if (nogil)
         PyGILState_Release(state);
 #endif
-}
-
-/* ExtTypeTest */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    if (likely(__Pyx_TypeCheck(obj, type)))
-        return 1;
-    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
-                 Py_TYPE(obj)->tp_name, type->tp_name);
-    return 0;
 }
 
 /* PyErrExceptionMatches */

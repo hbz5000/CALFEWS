@@ -39,11 +39,11 @@ cdef class Canal():
     # does "scenario" used have a canal expansion with special ownership?
     if 'before_expansion' in self.capacity.keys():
       self.has_expansion = 1
-      self.expansion_access = 'all'
       self.set_canal_capacity('after_expansion')
     else:
       self.has_expansion = 0
-      self.expansion_access = 'all'
+    self.unrestricted_access = 1  # set to 0 if access currently limited to expansion project owners
+    self.open_for_delivery = 1       # set to 1 if a canal is excluded from delivery operations at a reservoir (i.e. madera if we are doing secondary round on fkc for expansion project owners)
 
 
 
@@ -92,7 +92,7 @@ cdef class Canal():
       double max_turnout
       str zz
 
-    max_turnout = min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint)
+    max_turnout = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint), 0.0)
     for zz in type_list:
       if self.demand[zz][canal_loc] > max_turnout:
         if self.demand[zz][canal_loc] > 0.0:

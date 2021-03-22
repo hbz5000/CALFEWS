@@ -876,7 +876,7 @@ cdef class Private():
 #####################################################################################################################
 
 			
-  cdef double find_node_demand(self, list contract_list, str search_type, str district_name):
+  cdef double find_node_demand(self, list contract_list, str search_type, str district_name) except *:
     #this function is used to calculate the current demand at each 'district' node
     cdef:
       Contract contract_obj
@@ -943,7 +943,7 @@ cdef class Private():
 		
 
 
-  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear):		
+  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *:		
     cdef:
       double total_carryover_recharge, total_current_balance, total_request
       int member_trades
