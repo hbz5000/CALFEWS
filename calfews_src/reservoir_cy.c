@@ -947,8 +947,6 @@ struct __pyx_opt_args_11calfews_src_14participant_cy_11Participant_adjust_recove
   int __pyx_n;
   int wateryear;
 };
-struct __pyx_opt_args_11calfews_src_8model_cy_5Model_search_canal_demand;
-struct __pyx_opt_args_11calfews_src_8model_cy_5Model_distribute_canal_deliveries;
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_flood_operations;
 struct __pyx_ctuple_int__and_int__and_int__and_int__and_double__and_double;
 typedef struct __pyx_ctuple_int__and_int__and_int__and_int__and_double__and_double __pyx_ctuple_int__and_int__and_int__and_int__and_double__and_double;
@@ -958,32 +956,8 @@ struct __pyx_opt_args_11calfews_src_8model_cy_5Model_northern_initialization_rou
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_southern_initialization_routine;
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_water_districts;
 
-/* "model_cy.pxd":56
- *     public Contract friant1, friant2, swpdelta, cvpdelta, cvpexchange, crossvalley, kernriver, tuleriver, kaweahriver, kingsriver
- * 
- *   cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str message=*)             # <<<<<<<<<<<<<<
- * 
- *   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str message=*)
- */
-struct __pyx_opt_args_11calfews_src_8model_cy_5Model_search_canal_demand {
-  int __pyx_n;
-  PyObject *message;
-};
-
-/* "model_cy.pxd":58
- *   cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, str message=*)
- * 
- *   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, str message=*)             # <<<<<<<<<<<<<<
- * 
- *   cdef int check_district_access(self, str contract_canal, District district) except *
- */
-struct __pyx_opt_args_11calfews_src_8model_cy_5Model_distribute_canal_deliveries {
-  int __pyx_n;
-  PyObject *message;
-};
-
 /* "model_cy.pxd":66
- *   cdef (double, double) delivery_recovery(self, list contract_list, Canal canal, lookback_range, int starting_point, dict paper_fractions, double direct_recovery, str flow_dir, list type_list, list priority_list, str contract_canal, str delivery_loc_name, int dowy, int wateryear) except *
+ *   cdef (double, double) delivery_recovery(self, list contract_list, Canal canal, lookback_range, int starting_point, dict paper_fractions, double direct_recovery, str flow_dir, list type_list, list priority_list, str contract_canal, str delivery_loc_name, int dowy, int wateryear, list canals_passed_through) except *
  * 
  *   cdef (double, double) flood_operations(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, str wyt, double prev_flood_release, str message=*) except *             # <<<<<<<<<<<<<<
  * 
@@ -2067,14 +2041,14 @@ static struct __pyx_vtabstruct_11calfews_src_14participant_cy_Participant *__pyx
  */
 
 struct __pyx_vtabstruct_11calfews_src_8model_cy_Model {
-  PyObject *(*search_canal_demand)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, PyObject *, PyObject *, PyObject *, PyObject *, int, PyObject *, PyObject *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_search_canal_demand *__pyx_optional_args);
-  PyObject *(*distribute_canal_deliveries)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, PyObject *, PyObject *, double, int, int, PyObject *, PyObject *, PyObject *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_distribute_canal_deliveries *__pyx_optional_args);
+  PyObject *(*search_canal_demand)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, PyObject *, PyObject *, PyObject *, PyObject *, int, PyObject *, PyObject *, PyObject *);
+  PyObject *(*distribute_canal_deliveries)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, PyObject *, PyObject *, double, int, int, PyObject *, PyObject *, PyObject *, PyObject *);
   int (*check_district_access)(struct __pyx_obj_11calfews_src_8model_cy_Model *, PyObject *, struct __pyx_obj_11calfews_src_11district_cy_District *);
-  void (*find_node_demand_bank)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, int, PyObject *, PyObject *, PyObject *, int, int, PyObject *, PyObject *);
-  __pyx_ctuple_double__and_double (*delivery_recovery)(struct __pyx_obj_11calfews_src_8model_cy_Model *, PyObject *, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, PyObject *, int, PyObject *, double, PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int, int);
+  void (*find_node_demand_bank)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank *, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, int, PyObject *, PyObject *, PyObject *, int, int, PyObject *, PyObject *, PyObject *);
+  __pyx_ctuple_double__and_double (*delivery_recovery)(struct __pyx_obj_11calfews_src_8model_cy_Model *, PyObject *, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, PyObject *, int, PyObject *, double, PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int, int, PyObject *);
   __pyx_ctuple_double__and_double (*flood_operations)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, int, int, int, struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *, PyObject *, int, PyObject *, double, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_flood_operations *__pyx_optional_args);
   void (*spill_reservoir)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, int, struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *, double, double);
-  void (*find_node_demand_district)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_obj_11calfews_src_11district_cy_District *, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, int, double, PyObject *, PyObject *, PyObject *, int, int, PyObject *, PyObject *, int);
+  void (*find_node_demand_district)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_obj_11calfews_src_11district_cy_District *, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, int, double, PyObject *, PyObject *, PyObject *, int, int, PyObject *, PyObject *, int, PyObject *);
   PyObject *(*set_canal_range)(struct __pyx_obj_11calfews_src_8model_cy_Model *, PyObject *, PyObject *, struct __pyx_obj_11calfews_src_8canal_cy_Canal *, PyObject *, int);
   void (*update_carryover)(struct __pyx_obj_11calfews_src_8model_cy_Model *, double, PyObject *, int);
   void (*set_canal_direction)(struct __pyx_obj_11calfews_src_8model_cy_Model *, PyObject *);

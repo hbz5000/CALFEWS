@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for d in bankees #none grp1 grp2 grp3 grp12 grp13 grp23 grp123 
+for d in none grp1 #grp2 grp3 grp12 grp13 grp23 grp123 
 #for s in FKC_capacity_rehab_full baseline_wy2017
 do
 	s=FKC_rehab_ownership_$d
