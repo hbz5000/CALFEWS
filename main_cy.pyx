@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import gc
 import shutil
 import sys
+import os
 from configobj import ConfigObj
 import json
 from distutils.util import strtobool
@@ -42,7 +43,7 @@ cdef class main_cy():
 
     # get runtime params from config file
     config = ConfigObj('runtime_params.ini')
-    # self.parallel_mode = bool(strtobool(config['parallel_mode']))
+    self.parallel_mode = bool(strtobool(config['parallel_mode']))
     self.short_test = int(config['short_test'])
     self.print_log = bool(strtobool(config['print_log']))
     self.seed = int(config['seed'])
@@ -80,6 +81,11 @@ cdef class main_cy():
     with open('calfews_src/scenarios/scenarios_main.json') as f:
       scenarios = json.load(f)
     scenario = scenarios[self.scenario_name]
+
+    # new scenario file is created and saved to results folder for each experiment (FKC experiment)
+    for k, v in scenario.items():
+      if v == 'localfile':
+        scenario[k] = self.results_folder + '/' + k + '_scenario.json'
 
     if self.model_mode == 'validation':
       self.flow_input_source = 'CDEC'
@@ -133,6 +139,11 @@ cdef class main_cy():
     if True:
       self.modelso.forecastSRI = self.modelno.delta.forecastSRI
       self.modelso.southern_initialization_routine(scenario)
+      try:
+        #remove input data file (only if created for simulation), since data will be stored more efficiently in hdf5
+        os.remove(self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv")
+      except:
+        pass
     gc.collect()    
 
     return 0
@@ -245,8 +256,6 @@ cdef class main_cy():
     
     self.running_sim = False
 
-    if self.print_log:
-      sys.stdout = sys.__stdout__
 
 
 

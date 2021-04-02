@@ -35,7 +35,8 @@ cdef class Private():
 
     self.key = key
     self.name = name
-
+    self.epsilon = 1e-13 
+    
     # self.turnback_use = 1
     self.T = model.T
     for k,v in json.load(open('calfews_src/private/%s_properties.json' % key)).items():
@@ -191,7 +192,7 @@ cdef class Private():
             total_et = self.per_acre[x][v]['immature']*(self.acreage[x][v][ageloop])
           else:
             total_et = self.per_acre[x][v]['mature']*(self.acreage[x][v][ageloop])
-          if total_et > 0.0:
+          if total_et > self.epsilon:
             percent_filled[v][ageloop] = 1.0 - max(min(missing_demand/total_et, 1.0), 0.0)
           else:
             percent_filled[v][ageloop] = 0.0
@@ -260,7 +261,7 @@ cdef class Private():
     monthday = days_in_month[year_index][m-1]
     for x in self.district_list:
       self.dailydemand[x] = self.monthlydemand[x][wyt][m-1]*(monthday-da)/monthday + self.monthlydemand[x][wyt][m1-1]*da/monthday
-      if self.dailydemand[x] < 0.0:
+      if self.dailydemand[x] < -self.epsilon:
         self.dailydemand[x] = 0.0
     for x in self.district_list:
       crop_obj = self.irrdemand[x]
@@ -270,7 +271,7 @@ cdef class Private():
         
       #calculate that days 'starting' demand (b/c demand is filled @multiple times, and if we only want to fill a certain fraction of that demand (based on projections of supply & demand for the rest of the year), we want to base that fraction on that day's total demand, not the demand left after other deliveries are made
       self.dailydemand_start[x] = self.monthlydemand[x][wyt][m-1]*(monthday-da)/monthday + self.monthlydemand[x][wyt][m1-1]*da/monthday
-      if self.dailydemand_start[x] < 0.0:
+      if self.dailydemand_start[x] < -self.epsilon:
         self.dailydemand_start[x] = 0.0
 
 	    #pro-rate this month's demand based on the day of the month when calculating remaining annual demand
@@ -435,12 +436,12 @@ cdef class Private():
     for x in self.district_list:
       ytd_deliveries[x] = self.deliveries[x][key][wateryear] - self.deliveries[x][key + '_recharged'][wateryear]
       ind_paper_balance[x] = 0.0
-      if self.projected_supply[x][key] < 0.0:
+      if self.projected_supply[x][key] < -self.epsilon:
         ind_paper_balance[x] = min(self.projected_supply[x][key]*-1.0, remaining_paper)
         remaining_paper = max(self.projected_supply[x][key] + remaining_paper, 0.0)
       remaining_projected[x] = self.projected_supply[x][key] + ind_paper_balance[x]
     self.age_death = 25
-    if remaining_paper > 0.0:
+    if remaining_paper > self.epsilon:
       for ageloop in range(0,25):
         for x in self.district_list:
           if self.agedemand[x][wyt][ageloop] < ytd_deliveries[x]:
@@ -453,11 +454,11 @@ cdef class Private():
             remaining_paper -= (self.agedemand[x][wyt][ageloop] - ytd_deliveries[x] - remaining_projected[x])
             ytd_deliveries[x] = 0.0
             remaining_projected[x] = 0.0
-          elif remaining_paper > 0.0:
+          elif remaining_paper > self.epsilon:
             ind_paper_balance[x] += remaining_paper
             remaining_paper = 0.0
             self.age_death = ageloop
-      if remaining_paper > 0.0:
+      if remaining_paper > self.epsilon:
         for x in self.district_list:
           ind_paper_balance[x] += remaining_paper/self.district_list_len
     for x in self.district_list:
@@ -474,9 +475,9 @@ cdef class Private():
 
   def apply_paper_balance_urban(self, key, wyt, wateryear):
     total_used = 0.0
-    if self.paper_balance[key] > 0.0:
+    if self.paper_balance[key] > self.epsilon:
       for xx in self.district_list:
-        if self.projected_supply[xx][key] < 0.0:
+        if self.projected_supply[xx][key] < -self.epsilon:
           total_used_int = min(self.paper_balance[key] - total_used, self.projected_supply[xx][key]*(-1.0))
           self.projected_supply[xx][key] += total_used_int
           total_used += total_used_int
@@ -485,7 +486,7 @@ cdef class Private():
           self.projected_supply[xx][key] += (self.paper_balance[key] - total_used)/self.district_list_len
     else:
       for xx in self.district_list:
-        if self.projected_supply[xx][key] > 0.0:
+        if self.projected_supply[xx][key] > self.epsilon:
           total_used_int = min(total_used - self.paper_balance[key], self.projected_supply[xx][key])
           self.projected_supply[xx][key] -= total_used_int
           total_used += total_used_int
@@ -568,7 +569,7 @@ cdef class Private():
     total_needs += additional_carryover
 
     if (total_balance + total_recovery) < total_needs and (total_balance + total_deliveries) < (self.target_annual_demand[wateryear] - delivery_tolerance):
-      if total_needs > 0.0:
+      if total_needs > self.epsilon:
         self.use_recovery = min(max(total_recovery/total_needs, 0.0), 1.0)
       else:
         self.use_recovery = 0.0
@@ -634,7 +635,7 @@ cdef class Private():
       monthcounter = 0
       monthcounter_loop = 0
       next_year_counter = 0
-      while (monthcounter + monthcounter_loop) < 11 and days_left > 0.0:
+      while (monthcounter + monthcounter_loop) < 11 and days_left > self.epsilon:
         monthcounter += 1
         if (monthcounter + m) > 11:
           monthcounter -= 12
@@ -649,7 +650,7 @@ cdef class Private():
       monthcounter = 0
       monthcounter_loop = 0
       next_year_counter = 0
-      while (monthcounter + monthcounter_loop) < 11 and days_left2 > 0.0:
+      while (monthcounter + monthcounter_loop) < 11 and days_left2 > self.epsilon:
         monthcounter += 1
         if (monthcounter + m) > 11:
           monthcounter -= 12
@@ -689,7 +690,7 @@ cdef class Private():
             available_recharge += max(self.projected_supply[xx][y], 0.0)
           total_available_for_recharge += max(available_recharge - self.annualdemand[xx] - additional_carryover, 0.0)
           
-        if total_available_for_recharge > 0.0:		  
+        if total_available_for_recharge > self.epsilon:		  
           for xx in self.district_list:
             district_fracs[xx] = max(self.projected_supply[xx][key] - self.annualdemand[xx], 0.0)/total_available_for_recharge
             self.recharge_carryover[xx][key] = max(spill_release_carryover, 0.0)*district_fracs[xx]
@@ -704,7 +705,7 @@ cdef class Private():
         for xx in self.district_list:
           for y in self.contract_list:
             total_available_for_recharge += max(self.carryover[xx][y] - self.deliveries[xx][y][wateryear], 0.0)
-        if total_available_for_recharge > 0.0:		  
+        if total_available_for_recharge > self.epsilon:		  
           for xx in self.district_list:
             district_fracs[xx] = max(self.carryover[xx][key] - self.deliveries[xx][key][wateryear], 0.0)/total_available_for_recharge
             self.recharge_carryover[xx][key] = max(carryover_storage_proj, 0.0)*district_fracs[xx]
@@ -722,7 +723,7 @@ cdef class Private():
             total_available_for_recharge += max(self.carryover[xx][y] - self.deliveries[xx][y][wateryear], 0.0)
             available_recharge += max(self.projected_supply[xx][y], 0.0)
           total_available_for_recharge += max(available_recharge - self.annualdemand[xx] - additional_carryover, 0.0)
-        if total_available_for_recharge > 0.0:        
+        if total_available_for_recharge > self.epsilon:        
           for xx in self.district_list:
             district_fracs[xx] = (max(self.carryover[xx][key] - self.deliveries[xx][key][wateryear], 0.0) + max(self.projected_supply[xx][key] - self.annualdemand[xx], 0.0))/total_available_for_recharge        
             self.recharge_carryover[xx][key] = 0.0
@@ -735,7 +736,7 @@ cdef class Private():
         total_secondary_contract = 0.0        
         for xx in self.district_list:
           total_secondary_contract += self.projected_supply[xx][key]
-        if total_secondary_contract > 0.0:
+        if total_secondary_contract > self.epsilon:
           for xx in self.district_list:
             self.recharge_carryover[xx][key] = max(self.recharge_carryover[xx][key], (total_secondary_contract - total_recharge - self.demand_days['current'][key])*(self.projected_supply[xx][key]/total_secondary_contract), 0.0)
         
@@ -788,7 +789,7 @@ cdef class Private():
       total_recharge_ability += self.max_direct_recharge[month_count]*days_in_month[year_index][month_count +3] + self.max_leiu_recharge[month_count]*days_in_month[year_index][month_count +3]
     
     contract_fraction = 0.0
-    if total_projected_supply > 0.0:
+    if total_projected_supply > self.epsilon:
       for district_key in self.district_list:
         contract_fraction += max(min(self.projected_supply[district_key][key]/total_projected_supply, 1.0), 0.0)
     else:
@@ -818,13 +819,13 @@ cdef class Private():
       
     #once we know how much water is in the 'selling' pool and the 'buying' pool, we can determine the total turnback pool - min(buying,selling), then
     #determine what % of each request is filled (i.e., if the selling pool is only 1/2 of the buying pool, then buyers only get 1/2 of their request, or visa versa	
-    if min(turnback_sellers, turnback_buyers) > 0.0:
+    if min(turnback_sellers, turnback_buyers) > self.epsilon:
       sellers_frac = -1*min(turnback_sellers, turnback_buyers)/turnback_sellers
       buyers_frac = min(turnback_sellers, turnback_buyers)/turnback_buyers
       for district_key in self.district_list:
-        if self.turnback_sales[district_key] > 0.0:
+        if self.turnback_sales[district_key] > self.epsilon:
           self.turnback_pool[district_key][key] = max(self.turnback_sales[district_key], 0.0)*sellers_frac
-        elif self.turnback_purchases[district_key] > 0.0:
+        elif self.turnback_purchases[district_key] > self.epsilon:
           self.turnback_pool[district_key][key] = max(self.turnback_purchases[district_key], 0.0)*buyers_frac
 
 #####################################################################################################################
@@ -856,7 +857,7 @@ cdef class Private():
     dailydemand = self.dailydemand[district_name]
     if search_type == 'flood':
       annualdemand = self.annualdemand[district_name]
-      if annualdemand > 0.0 and total_projected_allocation > 0.0:
+      if annualdemand > self.epsilon and total_projected_allocation > self.epsilon:
         demand_constraint = (1.0 - min(total_projected_allocation/annualdemand, 1.0))*max(min(dailydemand_start*access_mult*total_demand_met, dailydemand*access_mult),0.0)	  
       else:
         demand_constraint = max(min(dailydemand_start*access_mult*total_demand_met, dailydemand*access_mult),0.0)
@@ -932,7 +933,7 @@ cdef class Private():
         if member_trades == 1:
           break
       if member_trades == 1:
-        if self.use_recovery > 0.0:
+        if self.use_recovery > self.epsilon:
           for x in self.district_list:
             total_request = min(max(self.dailydemand[x]*self.seepage[x]*self.use_recovery, 0.0), max(bank_space, 0.0))
         else:
@@ -1059,13 +1060,13 @@ cdef class Private():
     #this function accepts a delivery of recovered groundwater, and makes a 'paper'
 	  #trade, giving up a surface water contract allocation (contract_list) to the district
 	  #that owned the groundwater that was recovered
-    if self.seepage[district] > 0.0:
+    if self.seepage[district] > self.epsilon:
       total_alloc = 0.0
       for y in contract_list:
         total_alloc += self.projected_supply[district][y.name]
       actual_delivery = max(min(trade_amount, total_alloc, self.dailydemand[district]*self.seepage[district]), 0.0)
       self.dailydemand[district] -= actual_delivery/self.seepage[district]
-      if total_alloc > 0.0:
+      if total_alloc > self.epsilon:
         for y in contract_list:
           self.paper_balance[district][y.name] -= actual_delivery*self.projected_supply[district][y.name]/total_alloc
         self.deliveries[district]['exchanged_SW'][wateryear] += actual_delivery
@@ -1102,7 +1103,7 @@ cdef class Private():
       total_needs += self.annualdemand[district_key]*self.seepage[district_key]*self.recovery_fraction
       district_deficit += max(total_needs - total_balance, 0.0)
       
-    if district_deficit > 0.0:
+    if district_deficit > self.epsilon:
       for district_key in self.district_list:
         total_balance = 0.0
         for contract_key in self.contract_list:
@@ -1111,7 +1112,7 @@ cdef class Private():
         total_alloc = 0.0
         for contract_obj in contract_list:
           total_alloc += self.projected_supply[district_key][contract_obj.name]
-        if total_alloc > 0.0:
+        if total_alloc > self.epsilon:
           for contract_obj in contract_list:
             self.paper_balance[district_key][contract_obj.name] += trade_amount * district_portion * self.projected_supply[district_key][contract_obj.name] / total_alloc
         else:
@@ -1123,7 +1124,7 @@ cdef class Private():
         total_alloc = 0.0
         for contract_obj in contract_list:
           total_alloc += self.projected_supply[district_key][contract_obj.name]
-        if total_alloc > 0.0:
+        if total_alloc > self.epsilon:
           for contract_obj in contract_list:
             self.paper_balance[district_key][contract_obj.name] += trade_amount * district_portion * self.projected_supply[district_key][contract_obj.name] / total_alloc
         else:
@@ -1150,7 +1151,7 @@ cdef class Private():
       total_needs += self.annualdemand[district_key]*self.seepage[district_key]*self.recovery_fraction
       district_deficit += max(total_needs - total_balance, 0.0)
       
-    if district_deficit > 0.0:
+    if district_deficit > self.epsilon:
       for district_key in self.district_list:
         total_balance = 0.0
         for contract_key in self.contract_list:
@@ -1225,7 +1226,7 @@ cdef class Private():
             flood_counter = 1
           else:
             contract_deliveries = 0.0
-      elif total_current_balance > 0.0:
+      elif total_current_balance > self.epsilon:
         for district_key in self.district_list:
           if search_type == 'delivery':
             contract_deliveries += (direct_deliveries + recharge_deliveries)*max(self.current_balance[district_key][contract_key], 0.0)/total_current_balance
@@ -1240,7 +1241,7 @@ cdef class Private():
       #flood deliveries do not count against a district's contract allocation, so the deliveries are recorded as 'flood'
       if search_type == "flood":
         for district_key in self.district_list:
-          if contract_deliveries > 0.0:
+          if contract_deliveries > self.epsilon:
             self.deliveries[district_key][contract_key + '_flood'][wateryear] += recharge_deliveries/self.district_list_len
             self.deliveries[district_key][delivery_location + '_recharged'][wateryear] += recharge_deliveries/self.district_list_len
             self.deliveries[district_key][contract_key + '_flood_irrigation'][wateryear] += direct_deliveries/self.district_list_len
@@ -1249,7 +1250,7 @@ cdef class Private():
         #update the individual district accounts
         if search_type == 'banking':
           for x in self.district_list:
-            if total_current_balance > 0.0:
+            if total_current_balance > self.epsilon:
               self.deliveries[x][contract_key][wateryear] += (direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][contract_key], 0.0)/total_current_balance
               self.current_balance[x][contract_key] -= (direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][contract_key], 0.0)/total_current_balance
               self.deliveries[x][contract_key + '_recharged'][wateryear] += (direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][contract_key], 0.0)/total_current_balance
@@ -1257,7 +1258,7 @@ cdef class Private():
               self.recharge_carryover[x][contract_key] -= min((direct_deliveries + recharge_deliveries)*max(self.recharge_carryover[x][contract_key], 0.0)/total_current_balance, self.recharge_carryover[x][contract_key])
         else:
           for x in self.district_list:
-            if total_current_balance > 0.0:
+            if total_current_balance > self.epsilon:
               self.deliveries[x][contract_key][wateryear] += (direct_deliveries + recharge_deliveries)*max(self.current_balance[x][contract_key], 0.0)/total_current_balance
               self.current_balance[x][contract_key] -= (direct_deliveries + recharge_deliveries)*max(self.current_balance[x][contract_key], 0.0)/total_current_balance
     return delivery_by_contract
@@ -1286,7 +1287,7 @@ cdef class Private():
     flood_counter = 0
     for contract_obj in contract_list:
       #find the percentage of total deliveries that come from each contract
-      if total_current_balance > 0.0:
+      if total_current_balance > self.epsilon:
         if search_type == 'flood':
           if flood_counter == 0:
             contract_deliveries = actual_deliveries
@@ -1350,14 +1351,14 @@ cdef class Private():
     #water delivered to a bank as 'storage' (on the surface) is 'absorbed', clearing up storage space for the next timestep
     #also triggers self.thismonthuse, which keeps track of how many conecutive months a recharge bank is used (and the effect on the recharge rate of the spreading pool)
     if self.in_leiu_banking:
-      if self.current_recharge_storage > 0.0:
+      if self.current_recharge_storage > self.epsilon:
         self.thismonthuse = 1
         absorb_fraction = min(self.in_district_direct_recharge*cfs_tafd/self.current_recharge_storage,1.0)
         for x in self.participant_list:
           self.current_recharge_storage -= self.current_recharge_storage*absorb_fraction
     else:
       self.thismonthuse = 1
-      if self.current_recharge_storage > 0.0:
+      if self.current_recharge_storage > self.epsilon:
         absorb_fraction = min(self.recharge_rate/self.current_recharge_storage,1.0)
       self.current_recharge_storage -= self.current_recharge_storage*absorb_fraction
     self.current_recharge_storage = max(self.current_recharge_storage, 0.0)

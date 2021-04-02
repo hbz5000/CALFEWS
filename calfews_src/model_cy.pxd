@@ -12,6 +12,8 @@ cdef class Model():
  
   cdef:
 
+    public double epsilon
+    
     public int T, starting_year, ending_year, number_years, T_short, short_starting_year, short_ending_year, short_number_years, \
                 sensitivity_sample_number, omr_rule_start, non_leap_year
 
@@ -49,7 +51,7 @@ cdef class Model():
 
     public Private wonderful, metropolitan, castaic, coachella
 
-    public Waterbank stockdale, kernriverbed, poso, pioneer, kwb, berrendawb, b2800, wkwb, irvineranch, northkernwb, aewb
+    public Waterbank stockdale, kernriverbed, poso, pioneer, kwb, berrendawb, b2800, wkwb, irvineranch, northkernwb, aewb, northfriantwb
 
     public Contract friant1, friant2, swpdelta, cvpdelta, cvpexchange, crossvalley, kernriver, tuleriver, kaweahriver, kingsriver
 
@@ -57,7 +59,9 @@ cdef class Model():
 
   cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, list canals_passed_through)
   
-  cdef int check_district_access(self, list canals_passed_through, District district) except *
+  cdef double get_restricted_district_access(self, list canals_passed_through, District district) except * 
+
+  cdef double set_restricted_district_access(self, list canals_passed_through, District district, double deliveries) except *
   
   cdef void find_node_demand_bank(self, Waterbank bank_node, Canal canal, int canal_loc, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list, list canals_passed_through) except *
   

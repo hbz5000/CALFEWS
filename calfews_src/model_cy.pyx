@@ -58,6 +58,8 @@ cdef class Model():
     short_year_list = np.arange(min(self.short_year), max(self.short_year)+2)
     short_leap = leap(short_year_list)
     self.short_days_in_month = days_in_month(short_year_list, short_leap)
+
+    self.epsilon = 1e-13
     
 
     if sensitivity_sample_number == -1:
@@ -144,11 +146,12 @@ cdef class Model():
     # generates - water bank parameters (see calfews_src-combined/calfews_src/banks/readme.txt)
     # self.waterbank_list - list of waterbank objects
     # self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
-    self.initialize_water_banks()
+    self.initialize_water_banks(scenario)
     # initialize canals/waterways for southern model
     # generates - canal parameters (see calfews_src-combined/calfews_src/canals/readme.txt)
     # self.canal_list - list of canal objects
     self.initialize_canals(scenario)
+    
     if self.model_mode == 'validation':
       self.set_regulations_historical_south(scenario)
     else:
@@ -384,73 +387,68 @@ cdef class Model():
       Private private_obj
 
 	##Kern County Water Agency Member Units
-    self.berrenda = District(self, 'berrenda', 'BDM')
-    self.belridge = District(self, 'belridge', 'BLR')
-    self.buenavista = District(self, 'buenavista', 'BVA')
-    self.cawelo = District(self, 'cawelo', 'CWO')
-    self.henrymiller = District(self, 'henrymiller', 'HML')
-    self.ID4 = District(self, 'ID4', 'ID4')
-    self.kerndelta = District(self, 'kerndelta', 'KND')
-    self.losthills = District(self, 'losthills', 'LHL')
-    self.rosedale = District(self, 'rosedale', 'RRB')
-    self.semitropic = District(self, 'semitropic', 'SMI')
-    self.tehachapi = District(self, 'tehachapi', 'THC')
-    self.tejon = District(self, 'tejon', 'TJC')
-    self.westkern = District(self, 'westkern', 'WKN')
-    self.wheeler = District(self, 'wheeler', 'WRM')
-    self.kcwa = District(self, 'kcwa', 'KCWA')
+    self.berrenda = District(self, 'berrenda', 'BDM', scenario)
+    self.belridge = District(self, 'belridge', 'BLR', scenario)
+    self.buenavista = District(self, 'buenavista', 'BVA', scenario)
+    self.cawelo = District(self, 'cawelo', 'CWO', scenario)
+    self.henrymiller = District(self, 'henrymiller', 'HML', scenario)
+    self.ID4 = District(self, 'ID4', 'ID4', scenario)
+    self.kerndelta = District(self, 'kerndelta', 'KND', scenario)
+    self.losthills = District(self, 'losthills', 'LHL', scenario)
+    self.rosedale = District(self, 'rosedale', 'RRB', scenario)
+    self.semitropic = District(self, 'semitropic', 'SMI', scenario)
+    self.tehachapi = District(self, 'tehachapi', 'THC', scenario)
+    self.tejon = District(self, 'tejon', 'TJC', scenario)
+    self.westkern = District(self, 'westkern', 'WKN', scenario)
+    self.wheeler = District(self, 'wheeler', 'WRM', scenario)
+    self.kcwa = District(self, 'kcwa', 'KCWA', scenario)
 	##Other Kern County
-    self.bakersfield = District(self, 'bakersfield', 'COB')
-    self.northkern = District(self, 'northkern', 'NKN')
+    self.bakersfield = District(self, 'bakersfield', 'COB', scenario)
+    self.northkern = District(self, 'northkern', 'NKN', scenario)
     ##Friant Kern Contractors
-    self.arvin = District(self, 'arvin', 'ARV')
-    self.pixley = District(self, 'pixley', 'PIX')
-    self.delano = District(self, 'delano', 'DLE')
-    self.exeter = District(self, 'exeter', 'EXE')
-    self.kerntulare = District(self, 'kerntulare', 'KRT')
-    self.lindmore = District(self, 'lindmore', 'LND')
-    self.lindsay = District(self, 'lindsay', 'LDS')
-    if (scenario == 'baseline'):
-      self.lowertule = District(self, 'lowertule', 'LWT')
-    elif (scenario['LWT'] == 'baseline'):
-      self.lowertule = District(self, 'lowertule', 'LWT')
-    else:
-      self.lowertule = District(self, 'lowertule', 'LWT', scenario['LWT'])
-    self.porterville = District(self, 'porterville', 'PRT')
-    self.saucelito = District(self, 'saucelito', 'SAU')
-    self.shaffer = District(self, 'shaffer', 'SFW')
-    self.sosanjoaquin = District(self, 'sosanjoaquin', 'SSJ')
-    self.teapot = District(self, 'teapot', 'TPD')
-    self.terra = District(self, 'terra', 'TBA')
-    self.tulare = District(self, 'tulare', 'TUL')
-    self.fresno = District(self, 'fresno', 'COF')
-    self.fresnoid = District(self, 'fresnoid', 'FRS')
+    self.arvin = District(self, 'arvin', 'ARV', scenario)
+    self.pixley = District(self, 'pixley', 'PIX', scenario)
+    self.delano = District(self, 'delano', 'DLE', scenario)
+    self.exeter = District(self, 'exeter', 'EXE', scenario)
+    self.kerntulare = District(self, 'kerntulare', 'KRT', scenario)
+    self.lindmore = District(self, 'lindmore', 'LND', scenario)
+    self.lindsay = District(self, 'lindsay', 'LDS', scenario)
+    self.lowertule = District(self, 'lowertule', 'LWT', scenario)
+    self.porterville = District(self, 'porterville', 'PRT', scenario)
+    self.saucelito = District(self, 'saucelito', 'SAU', scenario)
+    self.shaffer = District(self, 'shaffer', 'SFW', scenario)
+    self.sosanjoaquin = District(self, 'sosanjoaquin', 'SSJ', scenario)
+    self.teapot = District(self, 'teapot', 'TPD', scenario)
+    self.terra = District(self, 'terra', 'TBA', scenario)
+    self.tulare = District(self, 'tulare', 'TUL', scenario)
+    self.fresno = District(self, 'fresno', 'COF', scenario)
+    self.fresnoid = District(self, 'fresnoid', 'FRS', scenario)
     ##Canal Boundaries
-    self.socal = District(self, 'socal', 'SOC')
-    self.southbay = District(self, 'southbay', 'SOB')
-    self.centralcoast = District(self, 'centralcoast', 'CCA')
+    self.socal = District(self, 'socal', 'SOC', scenario)
+    self.southbay = District(self, 'southbay', 'SOB', scenario)
+    self.centralcoast = District(self, 'centralcoast', 'CCA', scenario)
     ##demands at canal boundaries are taken from observed pumping into canal brannch
 
     ##Other Agencies
-    self.dudleyridge = District(self, 'dudleyridge', 'DLR')
-    self.tularelake = District(self, 'tularelake', 'TLB')
-    self.kaweahdelta = District(self, 'kaweahdelta', 'KWD')
-    self.westlands = District(self, 'westlands', 'WSL')
-    self.sanluiswater = District(self, 'sanluiswater', 'SNL')
-    self.panoche = District(self, 'panoche', 'PNC')
-    self.delpuerto = District(self, 'delpuerto', 'DLP')
-    self.chowchilla = District(self, 'chowchilla', 'CWC')
-    self.maderairr = District(self, 'maderairr', 'MAD')
-    self.othertule = District(self, 'othertule', 'OTL')
-    self.otherkaweah = District(self, 'otherkaweah', 'OKW')
-    self.otherfriant = District(self, 'otherfriant', 'OFK')
-    self.othercvp = District(self, 'othercvp', 'OCD')
-    self.otherexchange = District(self, 'otherexchange', 'OEX')
-    self.othercrossvalley = District(self, 'othercrossvalley', 'OXV')
-    self.otherswp = District(self, 'otherswp', 'OSW')
-    self.consolidated = District(self, 'consolidated', 'CNS')
-    self.alta = District(self, 'alta', 'ALT')
-    self.krwa = District(self, 'krwa', 'KRWA')
+    self.dudleyridge = District(self, 'dudleyridge', 'DLR', scenario)
+    self.tularelake = District(self, 'tularelake', 'TLB', scenario)
+    self.kaweahdelta = District(self, 'kaweahdelta', 'KWD', scenario)
+    self.westlands = District(self, 'westlands', 'WSL', scenario)
+    self.sanluiswater = District(self, 'sanluiswater', 'SNL', scenario)
+    self.panoche = District(self, 'panoche', 'PNC', scenario)
+    self.delpuerto = District(self, 'delpuerto', 'DLP', scenario)
+    self.chowchilla = District(self, 'chowchilla', 'CWC', scenario)
+    self.maderairr = District(self, 'maderairr', 'MAD', scenario)
+    self.othertule = District(self, 'othertule', 'OTL', scenario)
+    self.otherkaweah = District(self, 'otherkaweah', 'OKW', scenario)
+    self.otherfriant = District(self, 'otherfriant', 'OFK', scenario)
+    self.othercvp = District(self, 'othercvp', 'OCD', scenario)
+    self.otherexchange = District(self, 'otherexchange', 'OEX', scenario)
+    self.othercrossvalley = District(self, 'othercrossvalley', 'OXV', scenario)
+    self.otherswp = District(self, 'otherswp', 'OSW', scenario)
+    self.consolidated = District(self, 'consolidated', 'CNS', scenario)
+    self.alta = District(self, 'alta', 'ALT', scenario)
+    self.krwa = District(self, 'krwa', 'KRWA', scenario)
     # self.krwa.turnback_use = 0
 	
     ##Private water users
@@ -595,19 +593,20 @@ cdef class Model():
     cdef Private private_obj
 
 	##Water Banks
-    self.stockdale = Waterbank(self, 'stockdale', 'STOCK')
-    self.kernriverbed = Waterbank(self, 'kernriverbed', 'KRC')
-    self.poso = Waterbank(self, 'poso', 'POSO')
-    self.pioneer = Waterbank(self, 'pioneer', 'PIO')
-    self.kwb = Waterbank(self, 'kwb', 'KWB')
-    self.berrendawb = Waterbank(self, 'berrendawb', 'BRM')
-    self.b2800 = Waterbank(self, 'b2800', 'B2800')
-    self.aewb = Waterbank(self, 'aewb', 'AEMWD')
-    self.wkwb = Waterbank(self, 'wkwb', 'WKB')
-    self.irvineranch = Waterbank(self, 'irvineranch', 'IVR')
-    self.northkernwb = Waterbank(self, 'northkernwb', 'NKB')
+    self.stockdale = Waterbank(self, 'stockdale', 'STOCK', scenario)
+    self.kernriverbed = Waterbank(self, 'kernriverbed', 'KRC', scenario)
+    self.poso = Waterbank(self, 'poso', 'POSO', scenario)
+    self.pioneer = Waterbank(self, 'pioneer', 'PIO', scenario)
+    self.kwb = Waterbank(self, 'kwb', 'KWB', scenario)
+    self.berrendawb = Waterbank(self, 'berrendawb', 'BRM', scenario)
+    self.b2800 = Waterbank(self, 'b2800', 'B2800', scenario)
+    self.aewb = Waterbank(self, 'aewb', 'AEMWD', scenario)
+    self.wkwb = Waterbank(self, 'wkwb', 'WKB', scenario)
+    self.irvineranch = Waterbank(self, 'irvineranch', 'IVR', scenario)
+    self.northkernwb = Waterbank(self, 'northkernwb', 'NKB', scenario)
+    self.northfriantwb = Waterbank(self, 'northfriantwb', 'NFWB', scenario)
 	
-    self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb]
+    self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb, self.northfriantwb]
     self.leiu_list = []
 
     for district_obj in self.district_list:
@@ -686,26 +685,20 @@ cdef class Model():
     ###Canal Initialization
 	  ############################################################################
     #Waterways
-    if (scenario == 'baseline'):
-      self.fkc = Canal('fkc', 'FKC')
-    elif (scenario['FKC'] == 'baseline'):
-      self.fkc = Canal('fkc', 'FKC')
-    else:
-      self.fkc = Canal('fkc', 'FKC', scenario['FKC'])
-
-    self.xvc = Canal('xvc', 'XVC')
-    self.madera = Canal('madera', 'MDC')
-    self.calaqueduct = Canal('calaqueduct', 'CAA')
-    self.kwbcanal = Canal('kwbcanal', 'KBC')
-    self.aecanal = Canal('aecanal', 'AEC')
-    self.kerncanal = Canal('kerncanal', 'KNC')
-    self.calloway = Canal('calloway', 'CWY')
-    self.lerdo = Canal('lerdo', 'LRD')
-    self.beardsley = Canal('beardsley', 'BLY')
-    self.kernriverchannel = Canal('kernriverchannel', 'KNR')
-    self.kaweahriverchannel = Canal('kaweahriverchannel', 'KWR')
-    self.tuleriverchannel = Canal('tuleriverchannel', 'TLR')
-    self.kingsriverchannel = Canal('kingsriverchannel', 'KGR')
+    self.fkc = Canal('fkc', 'FKC', scenario)
+    self.xvc = Canal('xvc', 'XVC', scenario)
+    self.madera = Canal('madera', 'MDC', scenario)
+    self.calaqueduct = Canal('calaqueduct', 'CAA', scenario)
+    self.kwbcanal = Canal('kwbcanal', 'KBC', scenario)
+    self.aecanal = Canal('aecanal', 'AEC', scenario)
+    self.kerncanal = Canal('kerncanal', 'KNC', scenario)
+    self.calloway = Canal('calloway', 'CWY', scenario)
+    self.lerdo = Canal('lerdo', 'LRD', scenario)
+    self.beardsley = Canal('beardsley', 'BLY', scenario)
+    self.kernriverchannel = Canal('kernriverchannel', 'KNR', scenario)
+    self.kaweahriverchannel = Canal('kaweahriverchannel', 'KWR', scenario)
+    self.tuleriverchannel = Canal('tuleriverchannel', 'TLR', scenario)
+    self.kingsriverchannel = Canal('kingsriverchannel', 'KGR', scenario)
 	
     self.canal_list = [self.fkc, self.madera, self.xvc, self.calaqueduct, self.kwbcanal, self.aecanal, self.kerncanal, self.calloway, self.lerdo, self.beardsley, self.kernriverchannel, self.kaweahriverchannel, self.tuleriverchannel, self.kingsriverchannel]
 
@@ -741,10 +734,10 @@ cdef class Model():
 
     ##Canal Structure Dictionary
     #This is the dictionary that holds the structure of the canal system.  The dictionary is made up of lists, with the objects in the lists representing delivery nodes on the canal (canal is denoted by dictionary key)
-	#Objects can be districts, waterbanks, or other canals.  Canal objects show an intersection with the canal represented by the dictionary 'key' that holds the list.  Dictionary keys are all canal keys.  If a canal is located on a list, the canal associated with that list's key will also be on the list associated with the canal of the first key (i.e., if self.fkc is on the list with the key 'self.canal_district['xvc'], then the object self.xvc will be on the list with the key self.canal_district['fkc'] - these intersections help to organize these lists into a structure that models the interconnected canal structure
-	#The first object on each list is either a reservoir or another canal
+    #Objects can be districts, waterbanks, or other canals.  Canal objects show an intersection with the canal represented by the dictionary 'key' that holds the list.  Dictionary keys are all canal keys.  If a canal is located on a list, the canal associated with that list's key will also be on the list associated with the canal of the first key (i.e., if self.fkc is on the list with the key 'self.canal_district['xvc'], then the object self.xvc will be on the list with the key self.canal_district['fkc'] - these intersections help to organize these lists into a structure that models the interconnected canal structure
+    #The first object on each list is either a reservoir or another canal
     self.canal_district = {}
-    self.canal_district['fkc'] = [self.millerton, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherfriant, self.tulare, self.kaweahdelta, self.otherkaweah, self.kaweahriverchannel, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.teapot, self.saucelito, self.terra, self.othercrossvalley, self.pixley, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
+    self.canal_district['fkc'] = [self.millerton, self.northfriantwb, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherfriant, self.tulare, self.kaweahdelta, self.otherkaweah, self.kaweahriverchannel, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.teapot, self.saucelito, self.terra, self.othercrossvalley, self.pixley, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
     self.canal_district['mdc'] = [self.millerton, self.maderairr, self.chowchilla]
     self.canal_district['caa'] = [self.sanluis, self.southbay, self.sanluiswater, self.panoche, self.delpuerto, self.otherswp, self.othercvp, self.otherexchange, self.westlands, self.centralcoast, self.tularelake, self.dudleyridge, self.losthills, self.berrenda, self.belridge, self.semitropic, self.buenavista, self.wkwb, self.xvc, self.kwbcanal, self.kernriverchannel, self.henrymiller, self.wheeler, self.aecanal, self.tejon, self.tehachapi, self.socal]
     self.canal_district['xvc'] = [self.calaqueduct, self.buenavista, self.kwb, self.irvineranch, self.pioneer, self.b2800, self.berrendawb, self.rosedale, self.ID4, self.kernriverchannel, self.fkc, self.aecanal, self.beardsley]
@@ -1318,7 +1311,7 @@ cdef class Model():
       elif self.canal_district[canal.name][canal_loc].is_Canal == 1:
         canal_obj = self.canal_district[canal.name][canal_loc]
         new_loc_demand = 0.0
-        if canal.turnout[flow_dir][canal_loc] > 0.0:
+        if canal.turnout[flow_dir][canal_loc] > self.epsilon:
           new_flow_dir = canal.flow_directions[flow_type][canal_obj.name]
           new_loc_demand = self.find_flood_trigger(canal_obj, canal.key, contract_canal, new_flow_dir,flow_type)
           if new_loc_demand > canal.turnout[flow_dir][canal_loc]*cfs_tafd:
@@ -1357,12 +1350,12 @@ cdef class Model():
           secondary_allocation += contract_obj2.total
 
       if contract_obj.allocation_priority == 1:
-        if priority_allocation > 0.0:
+        if priority_allocation > self.epsilon:
           contract_obj.tot_new_alloc = (reservoir_obj.S[0] - reservoir_obj.dead_pool)*max(contract_obj.total/priority_allocation, 1.0)
         else:
           contract_obj.tot_new_alloc = 0.0
       else:
-        if secondary_allocation > 0.0:
+        if secondary_allocation > self.epsilon:
           contract_obj.tot_new_alloc = max(reservoir_obj.S[0] - reservoir_obj.dead_pool - priority_allocation, 0.0)*contract_obj.total/secondary_allocation
         else:
           contract_obj.tot_new_alloc = 0.0
@@ -1563,7 +1556,7 @@ cdef class Model():
         annual_balance = private_deliveries - private_obj.target_annual_demand[0]
         cumulative_balance += annual_balance
         cumulative_years += 1.0
-        if cumulative_balance > 0.0:
+        if cumulative_balance > self.epsilon:
           cumulative_balance = 0.0
           cumulative_years = 0.0
         private_obj.delivery_risk[hist_year] = cumulative_balance
@@ -1884,13 +1877,13 @@ cdef class Model():
         for pump_counter in range(0, len(private_obj.pumping[district_key])):
           wateryear = index_urban_water_year[pump_counter]
           district_obj.pumping[0][pump_counter] -= private_obj.pumping[district_key][pump_counter]
-          if district_obj.pumping[0][pump_counter] < 0.0:
+          if district_obj.pumping[0][pump_counter] < -self.epsilon:
             private_obj.pumping[district_key][pump_counter] += district_obj.pumping[0][pump_counter]
             district_obj.pumping[0][pump_counter] = 0.0
           recalc_pumping[wateryear] += private_obj.pumping[district_key][pump_counter]
         for year_counter in range(0, len(private_obj.annual_pumping[district_key])):
           district_obj.annual_pumping[0][year_counter] -= private_obj.annual_pumping[district_key][year_counter]
-          if district_obj.annual_pumping[0][year_counter] < 0.0:
+          if district_obj.annual_pumping[0][year_counter] < -self.epsilon:
             private_obj.annual_pumping[district_key][year_counter] += district_obj.annual_pumping[0][year_counter]
             district_obj.annual_pumping[0][year_counter] = 0.0
 		  
@@ -2112,7 +2105,7 @@ cdef class Model():
         if wateryear >= urban_start_regression:
           for district_obj in urban_list:
             predicted_annual_demand = 1000.0 * self.observed_hro_pred[t] * ((self.observed_hro_pred[t] * district_obj.delivery_percent_coefficient[0][dowy][0] + district_obj.delivery_percent_coefficient[0][dowy][1])*max(240.0 - dowy, 0.0)/240.0 + regression_percent[district_obj][dowy][wateryear]*min(dowy, 240.0)/240.0)
-            if predicted_annual_demand - ytd_pumping_int[district_obj][wateryear] > 0.0:
+            if predicted_annual_demand - ytd_pumping_int[district_obj][wateryear] > self.epsilon:
               district_obj.hist_demand_dict['daily_fractions'][wateryear - urban_start_regression][dowy] = (district_obj.pumping[0][t])/(predicted_annual_demand - ytd_pumping_int[district_obj][wateryear])
             else:
               district_obj.hist_demand_dict['daily_fractions'][wateryear - urban_start_regression][dowy] = 0.0/365.0
@@ -2121,7 +2114,7 @@ cdef class Model():
           for private_obj in self.city_list:
             for district_key in private_obj.district_list:
               predicted_annual_demand = 1000.0 * self.observed_hro_pred[t] * ((self.observed_hro_pred[t] * private_obj.delivery_percent_coefficient[district_key][dowy][0] + private_obj.delivery_percent_coefficient[district_key][dowy][1])*max(240.0 - dowy, 0.0)/240.0 + regression_percent[private_obj][district_key][dowy][wateryear]*min(dowy, 240.0)/240.0)
-              if predicted_annual_demand - ytd_pumping_int[private_obj][district_key][wateryear] > 0.0:
+              if predicted_annual_demand - ytd_pumping_int[private_obj][district_key][wateryear] > self.epsilon:
                 private_obj.hist_demand_dict[district_key]['daily_fractions'][wateryear - urban_start_regression][dowy] = (private_obj.pumping[district_key][t])/(predicted_annual_demand - ytd_pumping_int[private_obj][district_key][wateryear])
               else:
                 private_obj.hist_demand_dict[district_key]['daily_fractions'][wateryear - urban_start_regression][dowy] = 0.0/365.0
@@ -2702,13 +2695,7 @@ cdef class Model():
         contract_obj.projected_carryover += next_year_carryover
         contract_obj.running_carryover += this_year_carryover
 
-    for private_obj in self.private_list:
-      for contract_obj in self.contract_list:
-        for district_key in private_obj.district_list:
-          next_year_carryover, this_year_carryover = private_obj.update_balance(t, wateryear, contract_obj.storage_pool[t], contract_obj.allocation[t], contract_obj.available_water[t], contract_obj.name, contract_obj.tot_carryover, contract_obj.type, district_key, self.district_keys[district_key].project_contract, self.district_keys[district_key].rights)
-          contract_obj.running_carryover += this_year_carryover
-
-    for private_obj in self.city_list:
+    for private_obj in self.private_list + self.city_list:
       for contract_obj in self.contract_list:
         for district_key in private_obj.district_list:
           next_year_carryover, this_year_carryover = private_obj.update_balance(t, wateryear, contract_obj.storage_pool[t], contract_obj.allocation[t], contract_obj.available_water[t], contract_obj.name, contract_obj.tot_carryover, contract_obj.type, district_key, self.district_keys[district_key].project_contract, self.district_keys[district_key].rights)
@@ -2751,13 +2738,13 @@ cdef class Model():
     
     #recover banked groundwater
     #only looking at GW exchanges for a few contracts
-    if self.metropolitan.use_recovery > 0.0:
+    if self.metropolitan.use_recovery > self.epsilon:
       exchanger_list = [self.kerntulare, self.pixley, self.lowertule]
       exchange_max = min(self.arvin.inleiubanked['MET'], self.metropolitan.dailydemand_start['SOC']*self.metropolitan.use_recovery)
       exchange_request = 0.0
       for district_obj in exchanger_list:
         exchange_request += max(district_obj.projected_supply['cvc'], 0.0)
-      if exchange_request > 0.0:
+      if exchange_request > self.epsilon:
         delivered_exchange = min(exchange_max, exchange_request)
         self.arvin.inleiubanked['MET'] -= delivered_exchange
         self.metropolitan.paper_balance['SOC']['cvc'] += delivered_exchange
@@ -2770,7 +2757,7 @@ cdef class Model():
     self.canal_contract['caa'] = [self.swpdelta]#only want to 'paper' exchange swp contracts
     for canal_obj in [self.calaqueduct, self.fkc, self.kernriverchannel]:
       for reservoir_obj in self.canal_reservoir[canal_obj.name]:
-        if reservoir_obj.min_daily_uncontrolled < reservoir_obj.flood_flow_min or reservoir_obj.fcr > 0.0:
+        if reservoir_obj.min_daily_uncontrolled < reservoir_obj.flood_flow_min or reservoir_obj.fcr > self.epsilon:
           for contract_obj in self.canal_contract[canal_obj.name]:
             exchange_contract = contract_obj.name
             delivery_key = exchange_contract + "_banked"
@@ -2788,7 +2775,7 @@ cdef class Model():
     total_request = 0.0
     for district_obj in requester_list:
       total_request += max(min(district_obj.dailydemand_start[0] + district_obj.recharge_carryover['tableA'], district_obj.dailydemand[0] + district_obj.recharge_carryover['tableA'], district_obj.current_balance['tableA'], district_obj.projected_supply['tableA']),0.0)
-    if (available_exchange_kern > 0.0) and (total_request > 0.0):
+    if (available_exchange_kern > self.epsilon) and (total_request > self.epsilon):
       request_fraction = min(available_exchange_kern/total_request, 1.0)
     else:
       request_fraction = 0.0
@@ -3056,13 +3043,21 @@ cdef class Model():
 	
 
 
+    ###################################################################################################
+    ### second round through FKC if expansion present. districts have allocated portions.
+    ###################################################################################################
     ### if current scenario includes FKC expansion, then we want to now run millerton/pineflat/kaweah/success/isabella delivery loops over again,
     ###    using the expanded capacity with only project owners allowed to use it
     if self.fkc.has_expansion == 1:
       self.fkc.set_canal_capacity('after_expansion')
       self.fkc.unrestricted_access = 0
       self.madera.open_for_delivery = 0
-      
+
+      # get open capacity after expansion, & assign fraction of space to each district with ownership shares
+      self.fkc.restricted_capacity_available = {}
+      for district_key, district_share in self.fkc.ownership_shares.items():
+        self.fkc.restricted_capacity_available[district_key] = max(self.fkc.capacity['normal'][1]*cfs_tafd - self.fkc.flow[1], 0.0) * district_share
+
       #redo millerton contract deliveries
       # canals_expansion = [c for c in self.reservoir_canal[self.millerton.key] if c.open_for_delivery == 1]
       flow_type = "recharge"
@@ -3148,17 +3143,106 @@ cdef class Model():
       self.set_canal_direction(flow_type)
 
 
-      # ### finally, run through millerton/pineflat/etc again, opening whole expanded capacity to all districts
-      # self.fkc.set_canal_capacity('after_expansion')
-      # self.fkc.unrestricted_access = 1
-      # self.madera.open_for_delivery = 0
+
+      ###################################################################################################
+      ### finally, run through millerton/pineflat/etc a thrid time, giving all districts with ownership shares equal access
+      ###################################################################################################
+      # fir third round, set each restricted capacity very high so that constraint wont be binding
+      self.fkc.restricted_capacity_available = {}
+      for district_key, district_share in self.fkc.ownership_shares.items():
+        self.fkc.restricted_capacity_available[district_key] = 1e8 if district_share > self.epsilon else 0.0
+
+      #redo millerton contract deliveries
+      # canals_expansion = [c for c in self.reservoir_canal[self.millerton.key] if c.open_for_delivery == 1]
+      flow_type = "recharge"
+      canals_used = [c for c in self.reservoir_canal[self.millerton.key] if c.open_for_delivery == 1]
+      for canal_obj in canals_used:
+        self.set_canal_direction(flow_type)
+        total_canal_demand = self.search_canal_demand(dowy, canal_obj, self.millerton.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, [])
+        available_flow = 0.0
+        for zz in total_canal_demand:
+          available_flow += total_canal_demand[zz]
+        excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, canal_obj, self.millerton.key, canal_obj.name, available_flow, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'delivery', [])
+        self.set_canal_direction(flow_type)
+
+      ##Flood Deliveries - 4 flood sources - Pineflat, Isabella, Success, and Kaweah
+      ##What is the priority for reservoirs getting to use the canals to route flood releases?
+      ##Note: most of the contracts have provisions that flood flows 'cannot displace' scheduled 
+      ##deliveries (i.e. you can't use flood releases to fill demand that would be met by your contract
+      ##schedule), so might want to put this AFTER regular delivery routing
+      flood_order_list = [self.pineflat, self.success, self.kaweah, self.isabella]
+      #toggle to enable flood releases to go to districts/banks that don't have a contract w/the reservoir
+      #only san luis restricts flood releases to contractors only (b/c otherwise they just dont pump)
+      overflow_deliveries = 1
+      flow_type = "recharge"
+      self.set_canal_direction(flow_type)	
+      for reservoir_obj in flood_order_list:
+        #if flow is already on a bi-directional canal, it becomes closed to canals going the other direction
+        #checks the calaqueduct turnout to xvc is used, if not, xvc is open to fkc and kern river
+        self.set_canal_direction(flow_type)
+        #release flood flows to canals
+        flood_deliveries, excess_flow = self.flood_operations(t, m, dowy, wateryear, reservoir_obj, flow_type, overflow_deliveries, wyt, total_flood_deliveries[reservoir_obj.key])
+        total_flood_deliveries[reservoir_obj.key] += flood_deliveries
+        total_excess_flow[reservoir_obj.key] += excess_flow
+      self.set_canal_direction(flow_type)	
+      
+      #Direct deliveries from surface water sources
+      flow_type = "recharge"
+      for reservoir_obj in [self.pineflat, self.success, self.kaweah, self.isabella]:
+        for canal_obj in self.reservoir_canal[reservoir_obj.key]:
+          self.set_canal_direction(flow_type)
+          total_canal_demand = self.search_canal_demand(dowy, canal_obj, reservoir_obj.key, canal_obj.name, 'normal', flow_type, wateryear,'delivery', {}, [])
+          available_flow = 0.0
+          for zz in total_canal_demand:
+            available_flow += total_canal_demand[zz]     
+          excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, canal_obj, reservoir_obj.key, canal_obj.name, available_flow, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'delivery', [])
+
+      #Deliveries for banking
+      flow_type = "recharge"
+      for reservoir_obj in [self.isabella, self.pineflat, self.success, self.kaweah]:
+        for canal_obj in self.reservoir_canal[reservoir_obj.key]:
+          self.set_canal_direction(flow_type)
+          total_canal_demand = self.search_canal_demand(dowy, canal_obj, reservoir_obj.key, canal_obj.name, 'normal',flow_type,wateryear,'banking', {}, [])
+          available_flow = 0.0
+          for zz in total_canal_demand:
+            available_flow += total_canal_demand[zz]           
+          excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, canal_obj, reservoir_obj.key, canal_obj.name, available_flow, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'banking', [])
+      self.set_canal_direction(flow_type)
+	
+      #flood deliveries - millerton
+      #toggle to enable flood releases to go to districts/banks that don't have a contract w/the reservoir
+      #only san luis restricts flood releases to contractors only (b/c otherwise they just dont pump)
+      overflow_deliveries = 1
+      flow_type = "recharge"
+      #if flow is already on a bi-directional canal, it becomes closed to canals going the other direction
+      #checks the calaqueduct turnout to xvc is used, if not, xvc is open to fkc and kern river
+      self.set_canal_direction(flow_type)
+      #release flood flows to canals
+      reservoir_obj = self.millerton
+      flood_deliveries, excess_flow = self.flood_operations(t, m, dowy, wateryear, reservoir_obj, flow_type, overflow_deliveries, wyt, total_flood_deliveries[reservoir_obj.key], message='test')    
+      total_flood_deliveries[reservoir_obj.key] += flood_deliveries
+      total_excess_flow[reservoir_obj.key] += excess_flow
+      self.set_canal_direction(flow_type)
+
+      ##Deliveries for banking - millerton
+      flow_type = "recharge"
+      for reservoir_obj in [self.millerton]:
+        for canal_obj in canals_used:
+          self.set_canal_direction(flow_type)
+          total_canal_demand = self.search_canal_demand(dowy, canal_obj, reservoir_obj.key, canal_obj.name, 'normal',flow_type,wateryear,'banking', {}, [])
+          available_flow = 0.0
+          for zz in total_canal_demand:
+            available_flow += total_canal_demand[zz]            
+          excess_water, unmet_demand = self.distribute_canal_deliveries(dowy, canal_obj, reservoir_obj.key, canal_obj.name, available_flow, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'banking', [])
+      self.set_canal_direction(flow_type)
+
       
 
       ## for rest of time step, fkc will be open to all.
       self.fkc.set_canal_capacity('after_expansion')
       self.fkc.unrestricted_access = 1
       self.madera.open_for_delivery = 1
-###########################################
+      ###########################################
 
     #update reservoir & carryover contracts with spilled water from flood operations
     for reservoir_obj in [self.millerton, self.pineflat, self.success, self.kaweah, self.isabella]:
@@ -3177,7 +3261,7 @@ cdef class Model():
     for leiu_obj in self.leiu_list:#at in-leiu district banks (some also have direct recharge capacity, in addition to in-leiu)
       leiu_obj.absorb_storage()
     for district_obj in self.district_list:#at in-district recharge facilities
-      if district_obj.current_recharge_storage > 0.0:
+      if district_obj.current_recharge_storage > self.epsilon:
         district_obj.absorb_storage()
 
     requester_list = [self.cawelo, self.ID4, self.rosedale]
@@ -3355,11 +3439,11 @@ cdef class Model():
       #extra_space_f = 0.0
       extra_space_f = 1021.0 - self.sanluisfederal.S[t+1]
       extra_storage_f = 0.0
-    if extra_storage_s > 0.0:
+    if extra_storage_s > self.epsilon:
       self.sanluisstate.fcr = max(extra_storage_s - extra_space_f,0.0)
     else:
       self.sanluisstate.fcr = 0.0
-    if extra_storage_f > 0.0:
+    if extra_storage_f > self.epsilon:
       self.sanluisfederal.fcr = max(extra_storage_f - extra_space_s,0.0)
     else:
       self.sanluisfederal.fcr = 0.0
@@ -3502,7 +3586,7 @@ cdef class Model():
       #estimate storage at the end of this month by adding monthly change to the running storage tally
       next_month_storage += net_monthly
 
-      if net_monthly > 0.0:
+      if net_monthly > self.epsilon:
         partial_month_remaining = max(1 - max(next_month_storage - 1020.0, 0.0)/net_monthly, 0.0)*self.days_in_month[year_index+cross_counter_y][month_evaluate]
       else:
         next_month_storage = min(1020.0 + net_monthly, next_month_storage)
@@ -3520,7 +3604,7 @@ cdef class Model():
         article21 = max(0.0, article21)
         #if expected storage is less than 0 in any month, pump at max, no article 21
         if (next_month_storage + expected_untaxed) > 1020.0:
-          if net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate]) > 0.0:
+          if net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate]) > self.epsilon:
             partial_month_remaining = max(1 - max(next_month_storage + expected_untaxed - 1020.0, 0.0)/(net_monthly+(expected_pumping['untaxed'][month_evaluate] - expected_pumping['gains'][month_evaluate])), 0.0)*self.days_in_month[year_index+cross_counter_y][month_evaluate]
 
           numdays_fillup = min(numdays_fillup,total_days_remaining + partial_month_remaining)
@@ -3560,7 +3644,7 @@ cdef class Model():
       if month_evaluate == m-1:
         end_counter = 1
      		
-      if next_month_storage < 0.0 and cross_counter_y == 0:
+      if next_month_storage < -self.epsilon and cross_counter_y == 0:
         tax_free_toggle_override = 1
       if m == 7 or m == 8 or m == 9:
         tax_free_toggle_override = 1
@@ -3722,17 +3806,17 @@ cdef class Model():
           total_alloc = 0.0
           for i in range(len(self.reservoir_contract[reservoir_obj.key])):
             if reservoir_obj.key == "MIL":
-              if district_obj.annualdemand[0] > 0.0:
+              if district_obj.annualdemand[0] > self.epsilon:
                 total_frac = min(max(district_obj.project_contract['friant1']*self.friant1.total,0.0)/district_obj.annualdemand[0], 1.0)
               else:
                 total_frac = 0.0
             elif reservoir_obj.key == 'PFT':
-              if district_obj.annualdemand[0] > 0.0:
+              if district_obj.annualdemand[0] > self.epsilon:
                 total_frac = min(max(district_obj.projected_supply['kings']/district_obj.annualdemand[0],0.0), 1.0)
               else:
                 total_frac = 0.0	
             elif reservoir_obj.key == 'KWH':
-              if district_obj.annualdemand[0] > 0.0:
+              if district_obj.annualdemand[0] > self.epsilon:
                 total_frac = min(max(district_obj.projected_supply['kaweah']/district_obj.annualdemand[0],0.0), 1.0)
               else:
                 total_frac = 0.0			  
@@ -3756,7 +3840,7 @@ cdef class Model():
           # for district_key in private_obj.district_list:
           #   for contract_key in (_.name for _ in self.reservoir_contract[reservoir_obj.key]):
           #     total_alloc += private_obj.projected_supply[district_key][contract_key]
-          #   if private_obj.annualdemand[district_key] > 0.0:
+          #   if private_obj.annualdemand[district_key] > self.epsilon:
           #     total_frac[district_key] = min(total_alloc/private_obj.annualdemand[district_key], 1.0)
           #   else:
           #     total_frac[district_key] = 0.0
@@ -3776,7 +3860,7 @@ cdef class Model():
           # for district_key in private_obj.district_list:
           #   for contract_key in (_.name for _ in self.reservoir_contract[reservoir_obj.key]):
           #     total_alloc += private_obj.projected_supply[district_key][contract_key]
-          #   if private_obj.annualdemand[district_key] > 0.0:
+          #   if private_obj.annualdemand[district_key] > self.epsilon:
           #     total_frac[district_key] = min(total_alloc/private_obj.annualdemand[district_key], 1.0)
           #   else:
           #     total_frac[district_key] = 0.0
@@ -3835,7 +3919,7 @@ cdef class Model():
     for contract_key in remaining_carryover:
       #total the carryover for each contract at that reservoir
       total_remaining += remaining_carryover[contract_key]
-    if total_remaining > 0.0:
+    if total_remaining > self.epsilon:
       #what % of carryover needs to be taken
       carryover_fraction = min(forgone/total_remaining, 1.0)
       for contract_key in remaining_carryover:
@@ -3895,7 +3979,7 @@ cdef class Model():
       total_remaining += remaining_carryover[contract_key]
 	  
     #if there is carryover - what % needs to be taken to make up for spillage
-    if total_remaining > 0.0:
+    if total_remaining > self.epsilon:
       carryover_fraction = min(spill/total_remaining, 1.0)
 	  
       #if there is more spill than remaining carryover, need to add to the contract adjustment (this amount is subtracted from total contract allocation)
@@ -4102,7 +4186,7 @@ cdef class Model():
       Reservoir reservoir_obj
 
     for district_obj in self.district_list:
-      if district_obj.in_district_storage > 0.0 and not district_obj.in_leiu_banking:
+      if district_obj.in_district_storage > self.epsilon and not district_obj.in_leiu_banking:
         if district_obj.thismonthuse == 1:
           district_obj.monthusecounter += 1
           district_obj.monthemptycounter = 0
@@ -4118,7 +4202,7 @@ cdef class Model():
         district_obj.thismonthuse = 0
         if m == 10:
           district_obj.recharge_rate = district_obj.in_district_direct_recharge*cfs_tafd
-      if district_obj.recharge_rate > 0.0:
+      if district_obj.recharge_rate > self.epsilon:
         district_obj.max_direct_recharge[0] += district_obj.recharge_rate
         for reservoir_obj in self.reservoir_list:
           if district_obj.reservoir_contract[reservoir_obj.key] == 1:
@@ -4205,12 +4289,12 @@ cdef class Model():
       for canal_obj in canals_used:
         existing_flow += canal_obj.flow[1]
       flood_available = max(reservoir.fcr - prev_flood_release, reservoir.min_daily_uncontrolled + (reservoir.monthly_demand[wyt][m-1] + reservoir.monthly_demand_must_fill[wyt][m-1])/31.0 - existing_flow, 0.0)    #if reservoir.fcr < reservoir.flood_flow_min:
-      if reservoir.min_daily_overflow > 0.0:
+      if reservoir.min_daily_overflow > self.epsilon:
         flood_available_overflow = reservoir.min_daily_overflow + max((reservoir.monthly_demand_full[wyt][m-1] + reservoir.monthly_demand_must_fill[wyt][m-1])/31.0 - existing_flow, 0.0)    #if reservoir.fcr < reservoir.flood_flow_min:
       else:
         flood_available_overflow = 0.0
 
-    if flood_available > 0.0:
+    if flood_available > self.epsilon:
       delivery_key = reservoir.key + "_flood"		
 	    #3 priority levels for flood flows
       #contractor - 1st priority, has contract at the reservoir being spilled
@@ -4257,9 +4341,9 @@ cdef class Model():
         else:
           type_list = ['contractor', 'alternate']
         for demand_type in type_list:
-          if flood_demand['tot_' + demand_type] > 0.0:
+          if flood_demand['tot_' + demand_type] > self.epsilon:
             if (flood_demand[demand_type][canal_counter] + priority_flows) > canal_cap[canal_counter] and ((flood_available-priority_flows_tot)*(flood_demand[demand_type][canal_counter]/flood_demand['tot_' + demand_type])+priority_flows) > canal_cap[canal_counter]:
-              if flood_demand[demand_type][canal_counter] > 0.0:
+              if flood_demand[demand_type][canal_counter] > self.epsilon:
                 flood_demand[demand_type + '_frac'] = min(max(canal_cap[canal_counter]-priority_flows, 0.0)/flood_demand[demand_type][canal_counter], 1.0)# the percent of demand that can be fufilled, adjusting for priority priority deliveries
               else:           
                 flood_demand[demand_type + '_frac'] = 0.0# the percent of demand that can be fufilled, adjusting for priority priority deliveries
@@ -4288,7 +4372,7 @@ cdef class Model():
               priority_flows_tot += min(flood_demand[demand_type][canal_counter2], canal_cap[canal_counter2])
               canal_counter2 += 1
     
-        if flood_deliveries > 0.0:
+        if flood_deliveries > self.epsilon:
           excess_flows, unmet_demands = self.distribute_canal_deliveries(dowy, canal_obj, begin_key, canal_obj.name, flood_deliveries, self.canal_district_len[canal_obj.name], wateryear, 'normal', flow_type, 'flood', [])
           
         else:
@@ -4339,28 +4423,28 @@ cdef class Model():
     adjust_one_type = 0
     if flow_type == "recharge":
       self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[18], "normal", "normal", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
-      if self.calaqueduct.turnout_use[18] > 0.0:
+      if self.calaqueduct.turnout_use[18] > self.epsilon:
         self.xvc.locked = 1
 
       self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[19], "normal", "normal", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
       self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[19], "closed", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      if self.calaqueduct.turnout_use[19] > 0.0:
+      if self.calaqueduct.turnout_use[19] > self.epsilon:
         self.kwbcanal.locked = 1
 
     elif flow_type == "recovery":
       self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[18], "reverse", "reverse", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
       self.kernriverchannel.find_bi_directional(self.calaqueduct.turnout_use[18], "reverse", "reverse", flow_type, 'xvc', adjust_one_type, self.xvc.locked)
-      if self.calaqueduct.turnout_use[18] > 0.0:
+      if self.calaqueduct.turnout_use[18] > self.epsilon:
         self.xvc.locked = 1
 
       self.calaqueduct.find_bi_directional(self.kernriverchannel.turnout_use[4], "reverse", "reverse", flow_type, 'xvc', adjust_both_types, self.xvc.locked)
       self.kernriverchannel.find_bi_directional(self.kernriverchannel.turnout_use[4], "reverse", "normal", flow_type, 'xvc', adjust_one_type, self.xvc.locked)
-      if self.kernriverchannel.turnout_use[4] > 0.0:
+      if self.kernriverchannel.turnout_use[4] > self.epsilon:
         self.xvc.locked = 1
 	  
       self.calaqueduct.find_bi_directional(self.calaqueduct.turnout_use[19], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
       self.kerncanal.find_bi_directional(self.calaqueduct.turnout_use[19], "reverse", "reverse", flow_type, 'kbc', adjust_both_types, self.kwbcanal.locked)
-      if self.calaqueduct.turnout_use[19] > 0.0:
+      if self.calaqueduct.turnout_use[19] > self.epsilon:
         self.kwbcanal.locked = 1
 
 
@@ -4438,7 +4522,7 @@ cdef class Model():
     cdef:
       double private_demand_constraint, demand_constraint, excess_flow, unmet_demand, total_demand, turnback_flow, excess_flow_int, available_capacity_int, \
               location_delivery, current_storage, deliveries, priority_bank_space, actual_deliveries, direct_deliveries, recharge_deliveries, undelivered, \
-              private_delivery_constraint, delivery_to_private, turnout_available, new_excess_flow, remaining_excess_flow, turnback_tolerance
+              private_delivery_constraint, delivery_to_private, turnout_available, new_excess_flow, remaining_excess_flow
       int toggle_partial_delivery, toggle_district_recharge, starting_point, canal_loc, num_members, new_canal_size, turnback_end, toggle_demand_count, \
               canal_loc_int
       str list_member, zz, district_key, participant_key, district2_key, contract_key, new_flow_dir
@@ -4453,8 +4537,6 @@ cdef class Model():
       Contract contract_obj
 
     canals_passed_through = canals_passed_through + [canal.name]
-
-    turnback_tolerance = 0.003 ### old default 0.001
 
     if search_type == 'delivery':
       #for regular deliveries, we need to distinguish between demands from each contract
@@ -4519,15 +4601,13 @@ cdef class Model():
       excess_flow += available_flow - total_demand
       available_flow = total_demand
 	  
-    avf2 = available_flow
-
     #initial capacity check on flow available for delivery (i.e., canal capacity at starting node)
     available_flow, excess_flow_int = canal.check_flow_capacity(available_flow, starting_point, flow_dir)
     excess_flow += excess_flow_int
  
     available_capacity_int = max(available_flow, 0.0)
     for zz in type_list:
-      if type_demands[zz] > 0.0:
+      if type_demands[zz] > self.epsilon:
         type_fractions[zz] = max(min(available_capacity_int/type_demands[zz], 1.0), 0.0)
       else:
         type_fractions[zz] = 0.0
@@ -4545,9 +4625,9 @@ cdef class Model():
       district_obj.private_delivery = {}
     for private_obj in (self.private_list + self.city_list):
       for district_key in private_obj.district_list:
-        district_access = self.check_district_access(canals_passed_through, self.district_keys[district_key])
-        if district_access == 1:
-          private_demand_constraint = private_obj.find_node_demand(contract_list, search_type, district_key)
+        district_access = self.get_restricted_district_access(canals_passed_through, self.district_keys[district_key])
+        if district_access > self.epsilon:
+          private_demand_constraint = min(district_access, private_obj.find_node_demand(contract_list, search_type, district_key))
         else:
           private_demand_constraint = 0.0
         self.district_keys[district_key].private_demand[private_obj.key] = private_demand_constraint
@@ -4569,25 +4649,25 @@ cdef class Model():
           if self.district_keys[participant_key].is_District == 1:
             participant_obj.is_District = 1
             participant_obj.district_obj = self.district_keys[participant_key]
-            district_access = self.check_district_access(canals_passed_through, participant_obj.district_obj)
+            participant_access = self.get_restricted_district_access(canals_passed_through, participant_obj.district_obj)
           elif self.district_keys[participant_key].is_Private:
             participant_obj.is_Private = 1
             participant_obj.private_obj = self.district_keys[participant_key]   
-            district_access = 0
+            participant_access = 0.0
           #find waterbank partner demand (i.e., recharge capacity of their ownership share)
-          if district_access == 1:
-            demand_constraint = waterbank_obj.find_node_demand(contract_list, participant_key, num_members, search_type)
+          if participant_access > self.epsilon:
+            demand_constraint = min(participant_access, waterbank_obj.find_node_demand(contract_list, participant_key, num_members, search_type))
           else:
             demand_constraint = 0.0
           #find how much water is allocated to each priority demand based on the total space and turnout at this node
           current_storage = sum((waterbank_obj.storage[_] for _ in waterbank_obj.participant_list))
           canal_fractions = canal.find_priority_fractions(waterbank_obj.tot_storage - current_storage, type_fractions, type_list, canal_loc, flow_dir)
-          #does this partner want to bank water?
           #find if banking partner wants to bank water
-          if district_access == 1:
-            deliveries =  participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, waterbank_obj.banked[participant_key], waterbank_obj.bank_cap[participant_key], dowy, wateryear)
-            #flood deliveries to bank
-            #deliveries = waterbank_obj.set_request_constraints(demand_constraint, search_type, contract_list)
+          if participant_access > self.epsilon:
+            deliveries = min(participant_access, participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, waterbank_obj.banked[participant_key], waterbank_obj.bank_cap[participant_key], dowy, wateryear))
+          else:
+            deliveries = 0.0
+            
           #what priority does their banked water have (can be both)
           priority_bank_space = waterbank_obj.find_priority_space(num_members, participant_key, search_type)
           priorities = waterbank_obj.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal, canal.name, participant_obj.contract_list)
@@ -4601,6 +4681,10 @@ cdef class Model():
           location_delivery += actual_deliveries
           #adjust accounts for overall contracts and invididual districts
           delivery_by_contract = participant_obj.adjust_accounts(0.0, actual_deliveries,contract_list, search_type, wateryear, waterbank_obj.key)
+
+          # if currently using restricted canal, adjust district's remaining capacity
+          if participant_access > self.epsilon:
+            self.set_restricted_district_access(canals_passed_through, participant_obj.district_obj, actual_deliveries)
 
           for contract_key in delivery_by_contract:
             #update the accounting for deliveries made by each contract (overall contract accounting - not ind. district)
@@ -4621,17 +4705,14 @@ cdef class Model():
       
         #find demand at the node
         #partial delivery is used if the district recieves less than full daily demand due to projected contract allocations being lower than expected remaining annual demand
-        #find district demand at the node
-        
-        district_access = self.check_district_access(canals_passed_through, district_obj)
-        if district_access == 1:
+        district_access = self.get_restricted_district_access(canals_passed_through, district_obj)
+        if district_access > self.epsilon:
           if search_type == "recovery":
-            demand_constraint = district_obj.find_node_output()
+            demand_constraint = min(district_access, district_obj.find_node_output())
           else:
-            demand_constraint = district_obj.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge)
+            demand_constraint = min(district_access, district_obj.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge))
         else:
           demand_constraint = 0.0
-        dc1 = demand_constraint
           
         #update the fractions based on turnout capacity/use capacity at the current node
         canal_fractions = canal.find_priority_fractions(demand_constraint, type_fractions, type_list, canal_loc, flow_dir)
@@ -4643,14 +4724,14 @@ cdef class Model():
             if self.district_keys[participant_key].is_District == 1:
               participant_obj.is_District = 1
               participant_obj.district_obj = self.district_keys[participant_key]
-              district_access = self.check_district_access(canals_passed_through, participant_obj.district_obj)
+              participant_access = self.get_restricted_district_access(canals_passed_through, participant_obj.district_obj)
             elif self.district_keys[participant_key].is_Private:
               participant_obj.is_Private = 1
               participant_obj.private_obj = self.district_keys[participant_key]   
-              district_access = 0
+              participant_access = 0.0
             #find if the banking partner wants to bank
-            if district_access == 1:
-              deliveries = participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, district_obj.inleiubanked[participant_key], district_obj.inleiucap[participant_key], dowy, wateryear)
+            if participant_access > self.epsilon:
+              deliveries = min(participant_access, participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, district_obj.inleiubanked[participant_key], district_obj.inleiucap[participant_key], dowy, wateryear))
             else:
               deliveries = 0.0
             #determine the priorities of the banking
@@ -4668,14 +4749,17 @@ cdef class Model():
             #adjust accounts for overall contracts and invididual districts
             delivery_by_contract = participant_obj.adjust_accounts(direct_deliveries, recharge_deliveries,contract_list, search_type, wateryear, district_obj.key)
             district_obj.adjust_bank_accounts(participant_key, direct_deliveries, recharge_deliveries, wateryear)
+            #if using restricted canal, subtract deliveries from participant's capacity
+            if participant_access > self.epsilon:
+              self.set_restricted_district_access(canals_passed_through, participant_obj.district_obj, actual_deliveries)
+
             for contract_key in delivery_by_contract:
               contract_obj = self.contract_keys[contract_key]
               contract_obj.adjust_accounts(delivery_by_contract[contract_key], search_type, wateryear)
         else:
           #find if district wants to purchase this type of flow
-          district_access = self.check_district_access(canals_passed_through, district_obj)
-          if district_access == 1:
-            deliveries =  district_obj.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)
+          if district_access > self.epsilon:
+            deliveries =  min(district_access, district_obj.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear))
           else:
             deliveries = 0.0
           #find what priority district has for flow purchases
@@ -4703,15 +4787,19 @@ cdef class Model():
                     location_delivery += private_deliveries[contract_key]
 					
           delivery_by_contract = district_obj.adjust_accounts(direct_deliveries, recharge_deliveries,contract_list, search_type, wateryear, district_obj.key)
+          #if using restricted canal, subtract deliveries from participant's capacity
+          if participant_access > self.epsilon:
+            self.set_restricted_district_access(canals_passed_through, district_obj, direct_deliveries + recharge_deliveries + delivery_to_private)
+          
           for contract_key in delivery_by_contract:
             contract_obj = self.contract_keys[contract_key]
             contract_obj.adjust_accounts(delivery_by_contract[contract_key], search_type, wateryear)
             location_delivery += delivery_by_contract[contract_key]
         #record flow and turnout on each canal, check for capacity turnback at the next node				
         #find new district demand at the node
-        district_access = self.check_district_access(canals_passed_through, district_obj)
-        if district_access == 1:
-          demand_constraint = district_obj.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge)
+        district_access = self.get_restricted_district_access(canals_passed_through, district_obj)
+        if district_access > self.epsilon:
+          demand_constraint = min(district_access, district_obj.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge))
         else:
           demand_constraint = 0.0
         self.find_node_demand_district(district_obj, canal, canal_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge, canals_passed_through)
@@ -4737,7 +4825,7 @@ cdef class Model():
           #update canal demands
           for zz in type_list:
             canal.demand[zz][canal_loc] = canal_demands[zz]
-          if new_excess_flow > 0.0:
+          if new_excess_flow > self.epsilon:
             for zz in type_list:
               canal.demand[zz][canal_loc] = 0.0
           #record deliveries
@@ -4750,7 +4838,6 @@ cdef class Model():
 
         canal.find_turnout_adjustment(turnout_available, flow_dir, canal_loc, type_list)
 
-      avf3 = available_flow
       #record flow and turnout on each canal, check for capacity turnback at the next node
       available_flow, turnback_flow, turnback_end = canal.update_canal_use(available_flow, location_delivery, flow_dir, canal_loc, starting_point, canal_size, type_list)
 
@@ -4766,12 +4853,12 @@ cdef class Model():
         if canal_loc_int == canal_loc:
           toggle_demand_count = 1  
 
-      if turnback_flow > turnback_tolerance:
+      if turnback_flow > 0.003:
         remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type, canals_passed_through)
         excess_flow += remaining_excess_flow
         available_capacity_int = max(available_flow, 0.0)
         for zz in type_list:
-          if type_demands[zz] > 0.0:
+          if type_demands[zz] > self.epsilon:
             type_fractions[zz] = max(min(available_capacity_int/type_demands[zz], 1.0), 0.0)
           else:
             type_fractions[zz] = 0.0
@@ -4786,8 +4873,33 @@ cdef class Model():
 
 
 
-  cdef int check_district_access(self, list canals_passed_through, District district) except *:
-    ## check if delivery passes through any restricted canals, and if so, if district has access
+  cdef double get_restricted_district_access(self, list canals_passed_through, District district) except *:
+    ## check if delivery passes through any restricted canals, and if so, get max allowable delivery through canal
+    cdef:
+      double max_delivery
+      str canal_key
+      Canal canal_obj
+
+    max_delivery = 1e8
+    for canal_key in canals_passed_through:
+      canal_obj = self.canal_by_name[canal_key]
+      if canal_obj.unrestricted_access == 0:
+        try:
+          # if district doesn't have shares, then no access to this water
+          if district.infrastructure_shares[canal_key] <= 0.0:
+            return 0.0
+          else:
+            max_delivery = min(canal_obj.restricted_capacity_available[district.key], max_delivery)
+        except:
+          # if try above failed, that means district doesn't have shares
+          return 0.0
+    
+    # if we survived to here, district has access
+    return max_delivery
+
+
+  cdef double set_restricted_district_access(self, list canals_passed_through, District district, double deliveries) except *:
+    ## check if delivery passes through any restricted canals, and if so, subtract current deliveries from districts available capacity
     cdef:
       str canal_key
       Canal canal_obj
@@ -4796,15 +4908,11 @@ cdef class Model():
       canal_obj = self.canal_by_name[canal_key]
       if canal_obj.unrestricted_access == 0:
         try:
-          # if district doesn't have shares, then no access to this water
-          if district.infrastructure_shares[canal_key] <= 0.0:
-            return 0
+          if deliveries > self.epsilon:
+            canal_obj.restricted_capacity_available[district.key] -= deliveries
         except:
-          # if try above failed, that means district doesn't have shares
-          return 0
+          print('shouldnt be here', canals_passed_through, district.key, deliveries)
     
-    # if we survived to here, district has access
-    return 1
     
   
 
@@ -4881,9 +4989,9 @@ cdef class Model():
       district_obj.private_delivery = {}
     for private_obj in (self.private_list + self.city_list):
       for district_key in private_obj.district_list:
-        district_access = self.check_district_access(canals_passed_through, self.district_keys[district_key])
-        if district_access == 1:
-          private_demand_constraint = private_obj.find_node_demand(contract_list,search_type, district_key)
+        district_access = self.get_restricted_district_access(canals_passed_through, self.district_keys[district_key])
+        if district_access > self.epsilon:
+          private_demand_constraint = min(district_access, private_obj.find_node_demand(contract_list,search_type, district_key))
         else:
           private_demand_constraint = 0.0
         self.district_keys[district_key].private_demand[private_obj.key] = private_demand_constraint
@@ -4899,12 +5007,12 @@ cdef class Model():
         #find demand at the node
         #partial delivery is used if the district recieves less than full daily demand due to projected contract allocations being lower than expected remaining annual demand
         #find district demand at the node
-        district_access = self.check_district_access(canals_passed_through, district_obj)
-        if district_access == 1:
+        district_access = self.get_restricted_district_access(canals_passed_through, district_obj)
+        if district_access > self.epsilon:
           if search_type == "recovery":
-            demand_constraint = district_obj.find_node_output()
+            demand_constraint = min(district_access, district_obj.find_node_output())
           else:        
-            demand_constraint = district_obj.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge)
+            demand_constraint = min(district_access, district_obj.find_node_demand(contract_list, search_type, toggle_partial_delivery, toggle_district_recharge))
         else:
           demand_constraint = 0.0
         self.find_node_demand_district(district_obj, canal, canal_loc, demand_constraint, contract_list, priority_list, contract_canal, dowy, wateryear, search_type, type_list, toggle_district_recharge, canals_passed_through)
@@ -4931,7 +5039,7 @@ cdef class Model():
       elif self.canal_district[canal.name][canal_loc].is_Canal == 1:
         canal_obj = self.canal_district[canal.name][canal_loc]
         demand_constraint = 0.0        #find if the new canal can be accessed from the current canal
-        if canal.turnout[flow_dir][canal_loc] > 0.0:
+        if canal.turnout[flow_dir][canal_loc] > self.epsilon:
           #if it can, which way does the water flow onto the new canal
           new_flow_dir = canal.flow_directions[flow_type][canal_obj.name]
           #calculate the demands for this whole canal by recursively calling this function again, but with the new canal input parameters
@@ -5030,14 +5138,14 @@ cdef class Model():
           paper_fractions = {}
           committed = 0.0
           for zz in type_list:
-            if type_deliveries[zz] > 0.0:
+            if type_deliveries[zz] > self.epsilon:
               paper_fractions[zz] = min((paper_recovery - committed)/type_deliveries[zz], 1.0)
               committed += min(paper_recovery - committed, type_deliveries[zz])
             else:
               paper_fractions[zz] = 0.0
               committed += min(paper_recovery - committed, type_deliveries[zz])
           location_delivery = 0.0
-          if committed > 0.0:
+          if committed > self.epsilon:
             if flow_dir == "normal":
               lookback_range = range(starting_point, canal_loc + 1)
             elif flow_dir == "reverse":
@@ -5277,6 +5385,7 @@ cdef class Model():
 
 
   cdef void find_node_demand_district(self, District district_node, Canal canal, int canal_loc, double demand_constraint, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list, int toggle_district_recharge, list canals_passed_through) except *:
+    #this function classifies the demand at a district node - 2 parts (i) find how much water district(s) want to apply and (ii) give each water request a priority
     cdef:
       double priority_bank_space, deliveries
       int num_members
@@ -5287,7 +5396,6 @@ cdef class Model():
       Private private_obj
       Participant participant_obj
 
-    #this function classifies the demand at a district node - 2 parts (i) find how much water district(s) want to apply and (ii) give each water request a priority
     for zz in type_list:
       canal.demand[zz][canal_loc] = 0.0
     #if a district is an in-leiu bank, partners can send water to this district for banking recharge
@@ -5298,14 +5406,14 @@ cdef class Model():
         if self.district_keys[participant_key].is_District == 1:
           participant_obj.is_District = 1
           participant_obj.district_obj = self.district_keys[participant_key]
-          district_access = self.check_district_access(canals_passed_through, participant_obj.district_obj)
+          district_access = self.get_restricted_district_access(canals_passed_through, participant_obj.district_obj)
         elif self.district_keys[participant_key].is_Private:
           participant_obj.is_Private = 1
           participant_obj.private_obj = self.district_keys[participant_key]     
-          district_access = 0
+          district_access = 0.0
         #find if the banking partner wants to bank
-        if district_access == 1:
-          deliveries = participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, district_node.inleiubanked[participant_key], district_node.inleiucap[participant_key], dowy, wateryear)
+        if district_access > self.epsilon:
+          deliveries = min(district_access, participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, district_node.inleiubanked[participant_key], district_node.inleiucap[participant_key], dowy, wateryear))
         else:
           deliveries = 0.0
         #determine the priorities of the banking
@@ -5316,9 +5424,9 @@ cdef class Model():
         #can't purchase more than the turnout capacity
 
     else:
-      district_access = self.check_district_access(canals_passed_through, district_node)
-      if district_access == 1:    
-        deliveries =  district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)      
+      district_access = self.get_restricted_district_access(canals_passed_through, district_node)
+      if district_access > self.epsilon:    
+        deliveries = min(district_access, district_node.set_request_constraints(demand_constraint, search_type, contract_list, 0.0, 999.0, dowy, wateryear)      )
       else:
         deliveries = 0.0
       #find what priority district has for flow purchases
@@ -5350,27 +5458,27 @@ cdef class Model():
       if self.district_keys[participant_key].is_District == 1:
         participant_obj.is_District = 1
         participant_obj.district_obj = self.district_keys[participant_key]
-        district_access = self.check_district_access(canals_passed_through, participant_obj.district_obj)
+        district_access = self.get_restricted_district_access(canals_passed_through, participant_obj.district_obj)
       elif self.district_keys[participant_key].is_Private:
         participant_obj.is_Private = 1
         participant_obj.private_obj = self.district_keys[participant_key]   
-        district_access = 0
+        district_access = 0.0
 
       #find waterbank partner demand (i.e., recharge capacity of their ownership share)
-      if district_access == 1:
-        demand_constraint = bank_node.find_node_demand(contract_list, participant_key, num_members, search_type) 
+      if district_access > self.epsilon:
+        demand_constraint = min(district_access, bank_node.find_node_demand(contract_list, participant_key, num_members, search_type) )
       else:
         demand_constraint = 0.0
       #does this partner want to bank water?
       
-      if district_access == 1:
-        deliveries =  participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, bank_node.banked[participant_key], bank_node.bank_cap[participant_key], dowy, wateryear)
+      if district_access > self.epsilon:
+        deliveries =  min(district_access, participant_obj.set_request_constraints(demand_constraint, search_type, contract_list, bank_node.banked[participant_key], bank_node.bank_cap[participant_key], dowy, wateryear))
       else:
         deliveries = 0.0
 
       #what is their priority over the water/canal space?
-      if district_access == 1:
-        priority_bank_space = bank_node.find_priority_space(num_members, participant_key, search_type)
+      if district_access > self.epsilon:
+        priority_bank_space = min(district_access, bank_node.find_priority_space(num_members, participant_key, search_type))
       else:
         priority_bank_space = 0.0
       priorities = bank_node.set_demand_priority(priority_list, contract_list, priority_bank_space, deliveries, demand_constraint, search_type, contract_canal, canal.name, participant_obj.contract_list)

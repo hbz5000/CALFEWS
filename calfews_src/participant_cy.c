@@ -849,7 +849,7 @@ typedef struct __pyx_ctuple_double__and_double __pyx_ctuple_double__and_double;
 struct __pyx_ctuple_double__and_double__and_int;
 typedef struct __pyx_ctuple_double__and_double__and_int __pyx_ctuple_double__and_double__and_int;
 
-/* "canal_cy.pxd":17
+/* "canal_cy.pxd":19
  *   cdef void find_turnout_adjustment(self, double demand_constraint, str flow_dir, int canal_loc, list type_list)
  * 
  *   cdef (double, double) check_flow_capacity(self, double available_flow, int canal_loc, str flow_dir)             # <<<<<<<<<<<<<<
@@ -861,7 +861,7 @@ struct __pyx_ctuple_double__and_double {
   double f1;
 };
 
-/* "canal_cy.pxd":21
+/* "canal_cy.pxd":23
  *   cdef dict find_priority_fractions(self, double node_capacity, dict type_fractions, list type_list, int canal_loc, str flow_dir)
  * 
  *   cdef (double, double, int) update_canal_use(self, double available_flow, double location_delivery, str flow_dir, int canal_loc, int starting_point, int canal_size, list type_list)             # <<<<<<<<<<<<<<
@@ -977,6 +977,7 @@ struct __pyx_obj_11calfews_src_7crop_cy_Crop {
 struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   PyObject_HEAD
   struct __pyx_vtabstruct_11calfews_src_8canal_cy_Canal *__pyx_vtab;
+  double epsilon;
   int is_Canal;
   int is_District;
   int is_Private;
@@ -1001,6 +1002,7 @@ struct __pyx_obj_11calfews_src_8canal_cy_Canal {
   PyObject *daily_flow;
   PyObject *demand;
   PyObject *ownership_shares;
+  PyObject *restricted_capacity_available;
 };
 
 
@@ -1022,6 +1024,7 @@ struct __pyx_obj_11calfews_src_11contract_cy_Contract {
   double max_allocation;
   double tot_new_alloc;
   double lastYearForecast;
+  double epsilon;
   int allocation_priority;
   int storage_priority;
   int iter_count;
@@ -1080,6 +1083,7 @@ struct __pyx_obj_11calfews_src_11district_cy_District {
   double table_a_request;
   double current_recharge_storage;
   double current_requested;
+  double epsilon;
   int is_Canal;
   int is_District;
   int is_Private;
@@ -1186,6 +1190,7 @@ struct __pyx_obj_11calfews_src_10private_cy_Private {
   double current_recharge_storage;
   double banking_risk_level;
   double total_acreage;
+  double epsilon;
   int is_Canal;
   int is_District;
   int is_Private;
@@ -1282,6 +1287,7 @@ struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank {
   double tot_current_storage;
   double current_requested;
   double loss_rate;
+  double epsilon;
   int thismonthuse;
   int monthusecounter;
   int monthemptycounter;

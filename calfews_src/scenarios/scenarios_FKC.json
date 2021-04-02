@@ -1,3 +1,4 @@
+// Note: this is never used, just keeping these here in case we want to use these different rehab scenarios in future
 {
 	"FKC_capacity_normal": {
 		"node":				  	    	 			["MIL", "FRS",  "COF",   "KGR",  "OFK",  "TUL",	"KWD",  "OKW",	"KWR",   "EXE", "LDS", "LND",	"PRT",   "LWT", "OTL",  "TLR", "TPD",	"SAU", "TBA",   "OXV",    "PIX", 	"DLE",	 "KRT",   "SSJ",   "SFW",  "NKN", "NKB",   "XVC", "KNR",  "AEC", "none"],

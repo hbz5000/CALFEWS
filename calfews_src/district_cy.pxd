@@ -10,7 +10,7 @@ cdef class District():
                 direct_recovery_delivery, pre_flood_demand, tot_leiu_recovery_use, leiu_trade_cap, loss_rate, initial_table_a, \
                 total_banked_storage, min_direct_recovery, turnback_sales, turnback_purchases, annual_private_pumping, \
                 irrseasondemand, recharge_rate, last_days_demand_regression_error, recovery_capacity_remain, table_a_request, \
-                current_recharge_storage, current_requested
+                current_recharge_storage, current_requested, epsilon
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, T, turnback_use, must_fill, seasonal_connection, \
                 thismonthuse, monthusecounter, monthemptycounter, has_private, has_pesticide, has_pmp, k_close_wateryear, iter_count, \

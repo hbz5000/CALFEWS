@@ -25,7 +25,7 @@ cdef class Waterbank():
   def __len__(self):
     return 1
 
-  def __init__(self, model, name, key):
+  def __init__(self, model, name, key, scenario='baseline'):
     self.is_Canal = 0
     self.is_District = 0
     self.is_Private = 0
@@ -34,9 +34,22 @@ cdef class Waterbank():
 
     self.key = key
     self.name = name
+    self.epsilon = 1e-13
+    
     for k,v in json.load(open('calfews_src/banks/%s_properties.json' % key)).items():
       setattr(self,k,v)
+    # check if using special scenario for this wb
+    try:
+      scenario_file = scenario[key]
+      if ((scenario_file == 'baseline') == False):
+        for k, v in json.load(open(scenario_file)).items():
+          setattr(self, k, v)
+    except:
+      pass
 		
+    #make sure total waterbank ownership sums to 1
+    self.normalize_ownership_shares()
+    
     self.recharge_rate = self.initial_recharge*cfs_tafd
     self.tot_current_storage = 0.0#total above-ground storage being used in water bank 
     self.loss_rate = 0.06#how much of banked deliveries is lost duing spreading
@@ -59,6 +72,13 @@ cdef class Waterbank():
     self.monthusecounter = 0
     self.monthemptycounter = 0
 
+
+  def normalize_ownership_shares(self):
+    # normalize total shares to 1
+    total_shares = sum(self.ownership.values())
+    if (total_shares > self.epsilon) and (total_shares != 1.0):
+      for k in self.ownership:
+        self.ownership[k] /= total_shares
 
 #####################################################################################################################
 #####################################################################################################################
@@ -195,7 +215,7 @@ cdef class Waterbank():
       #deliveries first go to direct irrigation, if demand remains
       #adjust demand/recharge space
       self.storage[member_name] += total_deliveries
-		
+    
     return final_deliveries
 	
 #####################################################################################################################
@@ -231,7 +251,7 @@ cdef class Waterbank():
 
     if self.tot_current_storage > self.recharge_rate*0.75:
       self.thismonthuse = 1
-    if self.tot_current_storage > 0.0:
+    if self.tot_current_storage > self.epsilon:
       absorb_fraction = min(self.recharge_rate/self.tot_current_storage,1.0)
       self.tot_current_storage -= self.tot_current_storage*absorb_fraction
       for x in self.participant_list:

@@ -31,6 +31,7 @@ cdef class Delta():
     self.forecastSCWYT = "AN"
     self.forecastSJWYT = "AN"
     self.last_year_vamp = 5.0
+    self.epsilon = 1e-13
 
     for k,v in json.load(open('calfews_src/delta/Delta_properties.json')).items():
       setattr(self,k,v)
@@ -235,10 +236,10 @@ cdef class Delta():
     if din > (cvp_stored_release + swp_stored_release):
       swp_din = 0.25*din - swp_stored_release
       cvp_din = 0.75*din - cvp_stored_release
-      if swp_din < 0.0:
+      if swp_din > self.epsilon:
         cvp_din += swp_din
         swp_din = 0.0
-      if cvp_din < 0.0:
+      if cvp_din > self.epsilon:
         swp_din += cvp_din
         cvp_din = 0.0
     else:
@@ -359,10 +360,10 @@ cdef class Delta():
     if dout > (cvp_stored_release + swp_stored_release):
       swp_dout = 0.25*dout - swp_stored_release
       cvp_dout = 0.75*dout - cvp_stored_release
-      if swp_dout < 0.0:
+      if swp_dout > self.epsilon:
         cvp_dout += swp_dout
         swp_dout = 0.0
-      if cvp_dout < 0.0:
+      if cvp_dout > self.epsilon:
         swp_dout += cvp_dout
         cvp_dout = 0.0
     else:
@@ -379,28 +380,28 @@ cdef class Delta():
     swp_ODP = max(yubaODP,0.0) + max(orovilleODP,0.0)
     total_ODP = cvp_ODP + swp_ODP
 
-    if cvp_AS + swp_AS > 0.0:
+    if cvp_AS + swp_AS > self.epsilon:
       release_fraction_cvp = cvp_AS/(cvp_AS + swp_AS)
       release_fraction_swp = swp_AS/(cvp_AS + swp_AS)
-      if swp_AS > 0.0:
+      if swp_AS > self.epsilon:
         orovilleFrac = release_fraction_swp*max(orovilleAS, 0.0)/swp_AS
         yubaFrac = release_fraction_swp*max(yubaAS, 0.0)/swp_AS
-      elif swp_ODP > 0.0:
+      elif swp_ODP > self.epsilon:
         orovilleFrac = release_fraction_swp*max(orovilleODP, 0.0)/swp_ODP
         yubaFrac = release_fraction_swp*max(yubaODP, 0.0)/swp_ODP
       else:
         orovilleFrac = 0.0
         yubaFrac = 0.0
-      if cvp_AS > 0.0:
+      if cvp_AS > self.epsilon:
         shastaFrac = release_fraction_cvp*max(shastaAS, 0.0)/cvp_AS
         folsomFrac = release_fraction_cvp*max(folsomAS, 0.0)/cvp_AS
-      elif cvp_ODP > 0.0:
+      elif cvp_ODP > self.epsilon:
         shastaFrac = release_fraction_cvp*max(shastaODP, 0.0)/cvp_ODP
         folsomFrac = release_fraction_cvp*max(folsomODP, 0.0)/cvp_ODP
       else:
         shastaFrac = 0.0
         folsomFrac = 0.0
-    elif total_ODP > 0.0:
+    elif total_ODP > self.epsilon:
       shastaFrac = max(shastaODP, 0.0)/total_ODP
       folsomFrac = max(folsomODP, 0.0)/total_ODP
       orovilleFrac = max(orovilleODP, 0.0)/total_ODP
@@ -489,7 +490,7 @@ cdef class Delta():
   def hypothetical_pumping(self, t, m, capacity_max, supply_max, pump_trigger, fraction):
     wyt = self.forecastSCWYT
     if pump_trigger == 0:
-      if supply_max > 0.0:
+      if supply_max > self.epsilon:
         ##if we have the supply to maximize pumping, then the forgone pumping is equal 
         ##to the maximum pumping
         pumping_forgone = supply_max
@@ -507,14 +508,14 @@ cdef class Delta():
   def distribute_export_releases(self, t, pump_max, sodd_tot, flood_storage_1, flood_storage_2, available_storage_1, available_storage_2):
     total_flood_storage = max(flood_storage_1, 0.0) + max(flood_storage_2, 0.0)
     total_available_storage = max(available_storage_1, 0.0) + max(available_storage_2, 0.0)
-    if total_available_storage > 0.0:
+    if total_available_storage > self.epsilon:
       if total_flood_storage > total_available_storage:
         main_sodd = sodd_tot*max(flood_storage_1, 0.0)/total_flood_storage
         secondary_sodd = sodd_tot*max(flood_storage_2, 0.0)/total_flood_storage
       else:
         main_sodd = sodd_tot*max(available_storage_1,0.0)/total_available_storage
         secondary_sodd = sodd_tot*max(available_storage_2,0.0)/total_available_storage
-    elif total_flood_storage > 0.0:
+    elif total_flood_storage > self.epsilon:
       main_sodd = sodd_tot*max(flood_storage_1, 0.0)/total_flood_storage
       secondary_sodd = sodd_tot*max(flood_storage_2, 0.0)/total_flood_storage
     else:
@@ -657,7 +658,7 @@ cdef class Delta():
       san_joaquin_ie_used = np.interp(dowy, self.san_joaquin_export_ratio['d'], self.san_joaquin_export_ratio['on_off'])
 	  
     san_joaquin_ie = san_joaquin_ie_amt * san_joaquin_ie_used
-    if san_joaquin_ie_used > 0.0:
+    if san_joaquin_ie_used > self.epsilon:
       swp_max = min(san_joaquin_ie * 0.5, np.interp(d, self.pump_max['swp']['d'], self.pump_max['swp']['pmax']) * cfs_tafd)
       cvp_max = min(san_joaquin_ie * 0.5, np.interp(d, self.pump_max['cvp']['d'], self.pump_max['cvp']['pmax']) * cfs_tafd)
     else:
@@ -794,7 +795,7 @@ cdef class Delta():
           self.uncontrolled_swp[t] += total_uncontrolled
         elif project == 'cvp':
           self.uncontrolled_cvp[t] += total_uncontrolled  
-      if running_storage > 0.0:
+      if running_storage > self.epsilon:
         if project == 'swp':
           #self.forecastSWPPUMP = untaxed + max(min(taxable_space, running_storage*self.export_ratio[wyt][0]), 0.0) + max(min(taxable_space2, (running_storage - taxable_space/self.export_ratio[wyt][0])*self.export_ratio[wyt][1]), 0.0)
           self.forecastSWPPUMP = untaxed
@@ -919,10 +920,10 @@ cdef class Delta():
       self.HRO_pump[t] = swp_max
       self.TRP_pump[t] = max(min(cvp_flows + swp_flows + surplus - self.HRO_pump[t], (cvp_flows + swp_flows + unstored_flows)*export_ratio - self.HRO_pump[t],cvp_max),0.0)
 
-    if self.TRP_pump[t] < 0.0:
+    if self.TRP_pump[t] > self.epsilon:
       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)
       self.TRP_pump[t] = 0.0
-    elif self.HRO_pump[t] < 0.0:
+    elif self.HRO_pump[t] > self.epsilon:
       self.TRP_pump[t] = max(self.TRP_pump[t] + self.HRO_pump[t],0.0)
       self.HRO_pump[t] = 0.0
 
@@ -932,7 +933,7 @@ cdef class Delta():
 
     self.outflow[t] = cvp_flows + swp_flows + unstored_flows - self.TRP_pump[t] - self.HRO_pump[t] + self.depletions[t]
     if t < (self.T-1):
-      if self.outflow[t] > 0.0:
+      if self.outflow[t] > self.epsilon:
         self.x2[t+1] = 10.16 + 0.945*self.x2[t] - 1.487*np.log10(self.outflow[t]*tafd_cfs)
       else:
         self.x2[t+1] = 10.16 + 0.945*self.x2[t] - 1.487*np.log10(50.0)

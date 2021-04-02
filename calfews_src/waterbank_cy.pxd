@@ -4,7 +4,7 @@ from .contract_cy cimport Contract
 cdef class Waterbank():
 
   cdef:
-    public double initial_recharge, recovery, tot_storage, recharge_rate, tot_current_storage, current_requested, loss_rate
+    public double initial_recharge, recovery, tot_storage, recharge_rate, tot_current_storage, current_requested, loss_rate, epsilon
 
     public int thismonthuse, monthusecounter, monthemptycounter, iter_count, number_years, is_Canal, is_District, is_Private, \
                 is_Waterbank, is_Reservoir

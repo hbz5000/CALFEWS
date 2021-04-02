@@ -6,7 +6,7 @@ cdef class Private():
   cdef:
     public double in_district_direct_recharge, recovery_fraction, use_recharge, use_recovery, extra_leiu_recovery, \
                 max_recovery, max_leiu_exchange, total_banked_storage, recharge_rate, recovery_capacity_remain, \
-                current_recharge_storage, banking_risk_level, total_acreage
+                current_recharge_storage, banking_risk_level, total_acreage, epsilon
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, turnback_use, thismonthuse, monthusecounter, \
                 monthemptycounter, iter_count, age_death, T, district_list_len

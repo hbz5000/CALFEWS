@@ -37,7 +37,8 @@ cdef class Reservoir():
     self.key = key
     self.name = name
     self.forecastWYT = "AN"
-
+    self.epsilon = 1e-13
+    
 	  ##Reservoir Parameters
     self.S = [0.0 for _ in range(self.T)]
     self.R = [0.0 for _ in range(self.T)]
@@ -226,11 +227,11 @@ cdef class Reservoir():
       self.rainflood_forecast[t] = min(self.lastYearRainflood, self.rainflood_inf[t] + self.raininf_stds[dowy]*z_table_transform[self.exceedence_level])
       self.snowflood_forecast[t] = (self.snowflood_inf[t] + self.snowinf_stds[dowy]*z_table_transform[self.exceedence_level])
       self.baseline_forecast[t] = self.baseline_inf[t] + self.baseinf_stds[dowy]*z_table_transform[self.exceedence_level]
-      if self.rainflood_forecast[t] < 0.0:
+      if self.rainflood_forecast[t] < -self.epsilon:
         self.rainflood_forecast[t] = 0.0
-      if self.snowflood_forecast[t] < 0.0:
+      if self.snowflood_forecast[t] < -self.epsilon:
         self.snowflood_forecast[t] = 0.0
-      if self.baseline_forecast[t] < 0.0:
+      if self.baseline_forecast[t] < -self.epsilon:
         self.baseline_forecast[t] = 0.0
     elif dowy < 304:
       self.rainflood_forecast[t] = 0.0##no oct-mar forecasts are made after march (already observed) 
@@ -238,9 +239,9 @@ cdef class Reservoir():
       self.snowflood_forecast[t] = (self.snowflood_inf[t] + self.snowinf_stds[dowy]*z_table_transform[self.exceedence_level])
 
       self.baseline_forecast[t] = self.baseline_inf[t] + self.baseinf_stds[dowy]*z_table_transform[self.exceedence_level]
-      if self.snowflood_forecast[t] < 0.0:
+      if self.snowflood_forecast[t] < -self.epsilon:
         self.snowflood_forecast[t] = 0.0	
-      if self.baseline_forecast[t] < 0.0:
+      if self.baseline_forecast[t] < -self.epsilon:
         self.baseline_forecast[t] = 0.0	  
     else:
       self.rainflood_forecast[t] = 0.0
@@ -431,7 +432,7 @@ cdef class Reservoir():
         month_flow_int = max(month_flow_int, np.mean(self.Q[(t-min(t,4)):t]))
       reservoir_change_rate = month_flow_int - total_mandatory_releases
 	  
-      if reservoir_change_rate < 0.0:
+      if reservoir_change_rate < -self.epsilon:
         drawdown_toggle = 1
         numdays_fillup_cap = 999.9
 
@@ -465,7 +466,7 @@ cdef class Reservoir():
           crossover_date = (storage_cap_start - running_storage)/differential_storage_change
         else:
           crossover_date = 0.0
-          if (block_start + cross_counter_wy*365 - dowy) > 0.0:
+          if (block_start + cross_counter_wy*365 - dowy) > self.epsilon:
             if self.key == 'MIL' or self.key == 'KWH':
               this_month_min_release = max((running_storage - storage_cap_start)/min((block_start + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), (eom_storage - storage_cap_end) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
               total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
@@ -546,14 +547,14 @@ cdef class Reservoir():
 
   def rights_call(self,downstream_flow, reset = 0):
     if reset == 0:
-      if downstream_flow < 0.0:
+      if downstream_flow < -self.epsilon:
         self.consumed_releases = downstream_flow*-1.0
         self.gains_to_delta = 0.0
       else:
         self.consumed_releases = 0.0
         self.gains_to_delta = downstream_flow
     else:
-      if downstream_flow < 0.0:
+      if downstream_flow < -self.epsilon:
         self.consumed_releases -= downstream_flow
       else:
         self.gains_to_delta += downstream_flow
@@ -593,12 +594,12 @@ cdef class Reservoir():
   def find_emergency_supply(self, t, m, dowy):
     
     if t < 30:
-      if np.sum(self.fnf[0:t])*30.0/(t+1) > 0.0:
+      if np.sum(self.fnf[0:t])*30.0/(t+1) > self.epsilon:
         running_fnf = np.log(np.sum(self.fnf[0:t])*30.0/(t+1))
       else:
         running_fnf = -6.0
     else:
-      if np.sum(self.fnf[(t-30):(t-1)]) > 0.0:
+      if np.sum(self.fnf[(t-30):(t-1)]) > self.epsilon:
         running_fnf = np.log(np.sum(self.fnf[(t-30):(t-1)]))
       else:
         running_fnf = -6.0
@@ -788,7 +789,7 @@ cdef class Reservoir():
             one_year_runfnf = running_fnf[x]
           monthly_flow_predict = np.zeros(numYears)
           for yy in range(0,numYears):
-            if monthly_flow[mm][yy] > 0.0:
+            if monthly_flow[mm][yy] > self.epsilon:
               monthly_flow_predict[yy] = np.log(monthly_flow[mm][yy])
             else:
               monthly_flow_predict = -3.0
@@ -796,7 +797,7 @@ cdef class Reservoir():
           monthly_flow_predict = np.zeros(numYears-1)
           one_year_runfnf = np.zeros(numYears-1)
           for yy in range(1,numYears):
-            if monthly_flow[mm][yy] > 0.0:
+            if monthly_flow[mm][yy] > self.epsilon:
               monthly_flow_predict[yy-1] = np.log(monthly_flow[mm][yy])
             else:
               monthly_flow_predict[yy-1] = -3.0

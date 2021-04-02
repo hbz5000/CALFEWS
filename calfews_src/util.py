@@ -169,10 +169,10 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       except:
         pass
       
-  for b in output_list['south']['waterbanks'].keys():
-    for o in output_list['south']['waterbanks'][b].keys():
+  for waterbank_obj in modelso.waterbank_list:
+    for partner_key, partner_series in waterbank_obj.bank_timeseries.items():
       try:
-        att, name = model_attribute_nonzero(modelso.__getattribute__(b).bank_timeseries[o], np.string_(b + '_' + o), clean_output)
+        att, name = model_attribute_nonzero(partner_series, np.string_(waterbank_obj.name + '_' + partner_key), clean_output)
         if list(att):
           yield list(att), name              
       except:

@@ -21,7 +21,7 @@ cdef class Canal():
   def __len__(self):
     return 1
 
-  def __init__(self, name, key, scenario_file = 'baseline'):
+  def __init__(self, name, key, scenario = 'baseline'):
     self.is_Canal = 1
     self.is_District = 0
     self.is_Private = 0
@@ -31,19 +31,38 @@ cdef class Canal():
     self.key = key
     self.name = name
     self.locked = 0 #toggle used to 'lock' the direction of canal flow for the entire time-step (in bi-directional canals)
+    self.epsilon = 1e-13
+
     for k,v in json.load(open('calfews_src/canals/%s_properties.json' % key)).items():
       setattr(self,k,v)
-    if ((scenario_file == 'baseline') == False):
-      for k, v in json.load(open(scenario_file)).items():
-        setattr(self, k, v)
+    # check if using infrastructure scenario for this canal
+    try:
+      scenario_file = scenario[key]
+      if ((scenario_file == 'baseline') == False):
+        for k, v in json.load(open(scenario_file)).items():
+          setattr(self, k, v)
+    except:
+      pass
+      
     # does "scenario" used have a canal expansion with special ownership?
     if 'before_expansion' in self.capacity.keys():
       self.has_expansion = 1
       self.set_canal_capacity('after_expansion')
+      self.normalize_ownership_shares()
     else:
       self.has_expansion = 0
     self.unrestricted_access = 1  # set to 0 if access currently limited to expansion project owners
     self.open_for_delivery = 1       # set to 1 if a canal is excluded from delivery operations at a reservoir (i.e. madera if we are doing secondary round on fkc for expansion project owners)
+
+
+
+  def normalize_ownership_shares(self):
+    if self.has_expansion == 1:
+      # normalize total shares to 1
+      total_shares = sum(self.ownership_shares.values())
+      if (total_shares > self.epsilon) and (total_shares != 1.0):
+        for k in self.ownership_shares:
+          self.ownership_shares[k] /= total_shares
 
 
 
@@ -73,7 +92,7 @@ cdef class Canal():
     for zz in type_list:
       #find the fraction of each priority type that can be filled, based on canal capacity and downstream demands
       if self.demand[zz][canal_loc]*type_fractions[zz] > total_delivery_capacity:
-        if self.demand[zz][canal_loc] > 0.0:
+        if self.demand[zz][canal_loc] > self.epsilon:
           type_fractions[zz] = min(total_delivery_capacity/self.demand[zz][canal_loc], 1.0)
         else:
           type_fractions[zz] = 0.0
@@ -95,7 +114,7 @@ cdef class Canal():
     max_turnout = max(min(self.turnout[flow_dir][canal_loc]*cfs_tafd - self.turnout_use[canal_loc], demand_constraint), 0.0)
     for zz in type_list:
       if self.demand[zz][canal_loc] > max_turnout:
-        if self.demand[zz][canal_loc] > 0.0:
+        if self.demand[zz][canal_loc] > self.epsilon:
           self.turnout_frac[zz][canal_loc] = min(max_turnout/self.demand[zz][canal_loc], 1.0)
         else:
           self.turnout_frac[zz][canal_loc] = 0.0
@@ -103,7 +122,7 @@ cdef class Canal():
       else:
         self.turnout_frac[zz][canal_loc] = 1.0
       max_turnout -= self.demand[zz][canal_loc]
-      if max_turnout < 0.0:
+      if max_turnout < -self.epsilon:
         max_turnout = 0.0
 	  
 
@@ -155,7 +174,7 @@ cdef class Canal():
     #this function determines the direction of flow in a bi-directional canal.  The first time (based on the order of different delivery types) water is turned out onto that canal, 
     #the direction is set (based on the direction of flow of the turnout) and then locked for the rest of the time-step 
     #(so that other sources can't 'change' the direction of flow after deliveries have already been made)
-    if closed > 0.0 and locked == 0:
+    if closed > self.epsilon and locked == 0:
       if adjust_flow_types == 1:
         self.flow_directions['recharge'][new_canal] = direction_true
         self.flow_directions['recovery'][new_canal] = direction_true

@@ -3,7 +3,7 @@ cdef class Contract():
   cdef:
 
     public double total, maxForecastValue, carryover, daily_deliveries, tot_carryover, running_carryover, projected_carryover, \
-                max_allocation, tot_new_alloc, lastYearForecast
+                max_allocation, tot_new_alloc, lastYearForecast, epsilon
 
     public int allocation_priority, storage_priority, iter_count
 

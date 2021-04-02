@@ -23,6 +23,7 @@ cdef class Contract():
   def __init__(self, model, name, key):
     self.key = key
     self.name = name
+    self.epsilon = 1e-13
 
     for k,v in json.load(open('calfews_src/contracts/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -103,7 +104,7 @@ cdef class Contract():
       #what is the fraction of the allocation that is available to the contract right now
 	  #all contracts with priority storage share the 'total_water' - i.e. if 1/2 of the priority storage
 	  #has already come into the reservoir, then 1/2 of the contract's allocation is 'currently available'
-      if priority_storage > 0.0:
+      if priority_storage > self.epsilon:
         self.storage_pool[t] = min(1.0, total_water/priority_storage)*(self.allocation[t])
         self.available_water[t] = reservoir_storage * (self.allocation[t])/priority_storage
       else:
