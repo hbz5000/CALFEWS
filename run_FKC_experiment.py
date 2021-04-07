@@ -68,7 +68,9 @@ def run_sim(results_folder, start_time):
 
 
 rerun_baselines = int(sys.argv[1]) ### 1 if we want to rerun zero-ownership & full-ownership cases
-nscenarios = int(sys.argv[2])  ### number of random ownership configs to run
+start_scenarios = int(sys.argv[2])  ### number of random ownership configs to run
+end_scenarios = int(sys.argv[3])
+nscenarios = end_scenarios - start_scenarios
 
 try:
   os.remove('results/FKC_experiment_zerodistricts.txt')
@@ -81,6 +83,7 @@ except:
 config = ConfigObj('runtime_params.ini')
 parallel_mode = bool(strtobool(config['parallel_mode']))
 print_log = bool(strtobool(config['print_log']))
+flow_input_source = config['flow_input_source']
 
 if parallel_mode:
   from mpi4py import MPI
@@ -96,92 +99,93 @@ if parallel_mode:
   remainder = nscenarios % nprocs
   # Use the processor rank to determine the chunk of work each processor will do
   if rank < remainder:
-    start = rank*(count+1)
-    stop = start + count + 1
+    start = rank*(count+1) + start_scenarios
+    stop = start + count + 1 
   else:
-    start = remainder*(count+1) + (rank-remainder)*count
-    stop = start + count
+    start = remainder*(count+1) + (rank-remainder)*count + start_scenarios
+    stop = start + count 
 else: # non-parallel mode
-  start = 0
-  stop = nscenarios
+  start = start_scenarios
+  stop = end_scenarios
   rank = 0
-
+  nprocs = 1
 
 
 
 for s in range(start, stop):
-  start_time = datetime.now()
 
   np.random.seed(s)
 
   ### first run with both FKC expansion and NFWB
-  results_folder = 'results/FKC_experiment_' + str(s) + '_FKC_NFWB'
-  
-  # try:
-  prep_sim(str(s) + ', FKC + NFWB', results_folder, print_log)
-
-  ### get prior choices for district ownership (list will be district positions with zero shares)
+  start_time = datetime.now()
+  results_folder = 'results/FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC_NFWB'
+ 
   try:
-    with open('results/FKC_experiment_zerodistricts.txt', 'r') as f:
+    prep_sim(str(s) + ', FKC + NFWB', results_folder, print_log)
+
+    ### get prior choices for district ownership (list will be district positions with zero shares)
+    try:
+      with open('results/FKC_experiment_zerodistricts.txt', 'r') as f:
+        list_zerodistricts = []
+        for line in f: # read rest of lines
+            list_zerodistricts.append([int(x) for x in line.split()])
+    except:
       list_zerodistricts = []
-      for line in f: # read rest of lines
-          list_zerodistricts.append([int(x) for x in line.split()])
+
+    ### randomly choose new ownership fractions for FKC expansion & NFWB, plus capacity params for NFWB
+    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+    ndistricts = len(scenario['ownership_shares'])
+    shares = np.random.uniform(size=ndistricts)
+    newchoice = True
+    while newchoice == True:
+      nnonzero = max(np.random.poisson(8), 1)
+      zerodistricts = np.random.choice(np.arange(ndistricts), ndistricts - nnonzero, replace=False)
+      zerodistricts.sort()
+      zerodistricts = zerodistricts.tolist()
+      if zerodistricts not in list_zerodistricts:
+        with open('results/FKC_experiment_zerodistricts.txt', 'a') as f:
+          zd = ''
+          for d in zerodistricts:
+            zd += str(d) + ' '
+          zd += '\n'
+          f.write(zd)      
+        newchoice = False
+    shares[zerodistricts] = 0.0
+    shares /= shares.sum()
+    for i, k in enumerate(scenario['ownership_shares'].keys()):
+      scenario['ownership_shares'][k] = shares[i]
+    ### save new scenario to results folder
+    with open(results_folder + '/FKC_scenario.json', 'w') as o:
+      json.dump(scenario, o)
+
+    ### now do similar to choose random params for NFWB. Use same ownership fractions from FKC.
+    scenario = json.load(open('calfews_src/scenarios/NFWB_properties__large_all.json'))
+    removeddistricts = []
+    for i, k in enumerate(scenario['ownership'].keys()):
+      if shares[i] > 0.0:
+        scenario['ownership'][k] = shares[i]
+      else:  
+        removeddistricts.append(k)
+    for k in removeddistricts:
+      scenario['participant_list'].remove(k)    
+      del scenario['ownership'][k]
+      del scenario['bank_cap'][k]
+    scenario['initial_recharge'] = np.random.uniform(0.0, 600.0)
+    scenario['tot_storage'] = np.random.uniform(0.0, 1.2)
+    scenario['recovery'] = np.random.uniform(0.0, 0.7)
+    with open(results_folder + '/NFWB_scenario.json', 'w') as o:
+      json.dump(scenario, o)
+
+    run_sim(results_folder, start_time)
+
   except:
-    list_zerodistricts = []
-
-  ### randomly choose new ownership fractions for FKC expansion & NFWB, plus capacity params for NFWB
-  scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
-  ndistricts = len(scenario['ownership_shares'])
-  shares = np.random.uniform(size=ndistricts)
-  newchoice = True
-  while newchoice == True:
-    nnonzero = max(np.random.poisson(8), 1)
-    zerodistricts = np.random.choice(np.arange(ndistricts), ndistricts - nnonzero, replace=False)
-    zerodistricts.sort()
-    zerodistricts = zerodistricts.tolist()
-    if zerodistricts not in list_zerodistricts:
-      with open('results/FKC_experiment_zerodistricts.txt', 'a') as f:
-        zd = ''
-        for d in zerodistricts:
-          zd += str(d) + ' '
-        zd += '\n'
-        f.write(zd)      
-      newchoice = False
-  shares[zerodistricts] = 0.0
-  shares /= shares.sum()
-  for i, k in enumerate(scenario['ownership_shares'].keys()):
-    scenario['ownership_shares'][k] = shares[i]
-  ### save new scenario to results folder
-  with open(results_folder + '/FKC_scenario.json', 'w') as o:
-    json.dump(scenario, o)
-
-  ### now do similar to choose random params for NFWB. Use same ownership fractions from FKC.
-  scenario = json.load(open('calfews_src/scenarios/NFWB_properties__large_all.json'))
-  removeddistricts = []
-  for i, k in enumerate(scenario['ownership'].keys()):
-    if shares[i] > 0.0:
-      scenario['ownership'][k] = shares[i]
-    else:  
-      removeddistricts.append(k)
-  for k in removeddistricts:
-    scenario['participant_list'].remove(k)    
-    del scenario['ownership'][k]
-    del scenario['bank_cap'][k]
-  scenario['initial_recharge'] = np.random.uniform(0.0, 1000.0)
-  scenario['tot_storage'] = np.random.uniform(0.0, 2.0)
-  scenario['recovery'] = np.random.uniform(0.0, 1.0)
-  with open(results_folder + '/NFWB_scenario.json', 'w') as o:
-    json.dump(scenario, o)
-
-  run_sim(results_folder, start_time)
-
-  # except:
-  #   print('EXPERIMENT FAIL: ', results_folder)
+    print('EXPERIMENT FAIL: ', results_folder)
 
   # ################
   # ### now rerun with only FKC expansion
   # results_folder_both = results_folder
   # results_folder = 'results/FKC_experiment_' + str(s) + '_FKC'
+  # start_time = datetime.now()
 
   # try:
   #   prep_sim(str(s) + ', FKC only', results_folder, print_log)
@@ -207,6 +211,7 @@ for s in range(start, stop):
   # ################
   # ### now rerun with only NFWB
   # results_folder = 'results/FKC_experiment_' + str(s) + '_NFWB'
+  # start_time = datetime.now()
 
   # try:
   #   prep_sim(str(s) + ', NFWB only', results_folder, print_log)
@@ -225,7 +230,35 @@ for s in range(start, stop):
 
 
 
+### run basline without FKC or NFWB, if argv1 == 1 and processor rank == last
+if rerun_baselines == 1 and rank == (nprocs - 1):
 
+  results_folder = 'results/FKC_experiment_none'
+  start_time = datetime.now()
+
+  try:
+    prep_sim('None', results_folder, print_log)
+
+    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+    for i, k in enumerate(scenario['ownership_shares'].keys()):
+      scenario['ownership_shares'][k] = 0.0
+    with open(results_folder + '/FKC_scenario.json', 'w') as o:
+      json.dump(scenario, o)
+
+    scenario = json.load(open('calfews_src/scenarios/NFWB_properties__large_all.json'))
+    scenario['participant_list'] = []
+    scenario['ownership'] = {}
+    scenario['bank_cap'] = {}
+    scenario['initial_recharge'] = 0.0
+    scenario['tot_storage'] = 0.0
+    scenario['recovery'] = 0.0
+    with open(results_folder + '/NFWB_scenario.json', 'w') as o:
+      results_folder + '/NFWB_scenario.json'
+      json.dump(scenario, o)
+      
+    run_sim(results_folder, start_time)
+  except:
+    print('EXPERIMENT FAIL: ', results_folder)
 
 
 ##### GRAVEYARD ####################################

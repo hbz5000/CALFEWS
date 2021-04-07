@@ -731,7 +731,7 @@ cdef class Reservoir():
 	
 
 
-  cdef void create_flow_shapes(self, Model model):
+  cdef void create_flow_shapes(self, Model model) except *:
     cdef:
       double prev_fnf
       int startYear, endYear, numYears, t, m, dowy, wateryear, x, mm, yy
@@ -891,7 +891,7 @@ cdef class Reservoir():
     #scatterplot_values.to_csv('manuscript_figures/Figure3/' + self.key + '_flow_forecast_scatter.csv')
 
 			
-  cdef void find_release_func(self, Model model):
+  cdef void find_release_func(self, Model model) except *:
     ##this function is used to make forecasts when calculating available storage for export releases from reservoir
     ##using data from 1996 to 2016 (b/c data is available for all inputs needed), calculate total flows in oct-mar period and apr-jul period
     ##based on linear regression w/snowpack (apr-jul) and w/inflow (oct-mar)

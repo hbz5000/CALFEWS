@@ -18535,7 +18535,7 @@ static void __pyx_f_11calfews_src_12reservoir_cy_9Reservoir_calc_expected_min_re
 /* "calfews_src/reservoir_cy.pyx":734
  * 
  * 
- *   cdef void create_flow_shapes(self, Model model):             # <<<<<<<<<<<<<<
+ *   cdef void create_flow_shapes(self, Model model) except *:             # <<<<<<<<<<<<<<
  *     cdef:
  *       double prev_fnf
  */
@@ -21612,7 +21612,7 @@ static void __pyx_f_11calfews_src_12reservoir_cy_9Reservoir_create_flow_shapes(s
   /* "calfews_src/reservoir_cy.pyx":734
  * 
  * 
- *   cdef void create_flow_shapes(self, Model model):             # <<<<<<<<<<<<<<
+ *   cdef void create_flow_shapes(self, Model model) except *:             # <<<<<<<<<<<<<<
  *     cdef:
  *       double prev_fnf
  */
@@ -21626,7 +21626,7 @@ static void __pyx_f_11calfews_src_12reservoir_cy_9Reservoir_create_flow_shapes(s
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_14);
   __Pyx_XDECREF(__pyx_t_16);
-  __Pyx_WriteUnraisable("calfews_src.reservoir_cy.Reservoir.create_flow_shapes", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.create_flow_shapes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_flow_series);
   __Pyx_XDECREF(__pyx_v_snow_series);
@@ -21649,7 +21649,7 @@ static void __pyx_f_11calfews_src_12reservoir_cy_9Reservoir_create_flow_shapes(s
 /* "calfews_src/reservoir_cy.pyx":894
  * 
  * 
- *   cdef void find_release_func(self, Model model):             # <<<<<<<<<<<<<<
+ *   cdef void find_release_func(self, Model model) except *:             # <<<<<<<<<<<<<<
  *     ##this function is used to make forecasts when calculating available storage for export releases from reservoir
  *     ##using data from 1996 to 2016 (b/c data is available for all inputs needed), calculate total flows in oct-mar period and apr-jul period
  */
@@ -26142,7 +26142,7 @@ static void __pyx_f_11calfews_src_12reservoir_cy_9Reservoir_find_release_func(st
   /* "calfews_src/reservoir_cy.pyx":894
  * 
  * 
- *   cdef void find_release_func(self, Model model):             # <<<<<<<<<<<<<<
+ *   cdef void find_release_func(self, Model model) except *:             # <<<<<<<<<<<<<<
  *     ##this function is used to make forecasts when calculating available storage for export releases from reservoir
  *     ##using data from 1996 to 2016 (b/c data is available for all inputs needed), calculate total flows in oct-mar period and apr-jul period
  */
@@ -26156,7 +26156,7 @@ static void __pyx_f_11calfews_src_12reservoir_cy_9Reservoir_find_release_func(st
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_WriteUnraisable("calfews_src.reservoir_cy.Reservoir.find_release_func", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.find_release_func", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_Q_predict);
   __Pyx_XDECREF(__pyx_v_fnf_predict);

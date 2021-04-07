@@ -186,6 +186,8 @@ cdef class main_cy():
     proj_surplus = 0.0
     print('Begin simulation, ', datetime.now() - start_time)
     print(self.results_folder)
+    sys.stdout.flush()
+
     
     ############################################
     # while True:
@@ -193,6 +195,7 @@ cdef class main_cy():
       self.progress = (t + 1) / timeseries_length
       if (t % 365 == 364):
         print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
+        sys.stdout.flush()
 
       # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = self.modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
