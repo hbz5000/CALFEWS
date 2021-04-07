@@ -48,8 +48,6 @@ cdef class main_cy():
     self.print_log = bool(strtobool(config['print_log']))
     self.seed = int(config['seed'])
     self.scenario_name = config['scenario_name'] #scenarios provide information on infrastructural plans
-    # self.total_sensitivity_factors = int(config['total_sensitivity_factors'])
-    # self.sensitivity_sample_file = config['sensitivity_sample_file']
     self.output_list = config['output_list']
     self.clean_output = bool(strtobool(config['clean_output']))
     self.save_full = bool(strtobool(config['save_full']))

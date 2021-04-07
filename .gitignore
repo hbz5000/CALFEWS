@@ -19,3 +19,4 @@ Untitled.*
 */*.html
 profiling/*.stats
 profiling/*.txt
+out*.txt
