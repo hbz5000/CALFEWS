@@ -51,7 +51,7 @@ cdef class Model():
 
     public Private wonderful, metropolitan, castaic, coachella
 
-    public Waterbank stockdale, kernriverbed, poso, pioneer, kwb, berrendawb, b2800, wkwb, irvineranch, northkernwb, aewb, northfriantwb
+    public Waterbank stockdale, kernriverbed, poso, pioneer, kwb, berrendawb, b2800, wkwb, irvineranch, northkernwb, aewb, northfriantwb, centralfriantwb
 
     public Contract friant1, friant2, swpdelta, cvpdelta, cvpexchange, crossvalley, kernriver, tuleriver, kaweahriver, kingsriver
 

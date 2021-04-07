@@ -100,5 +100,9 @@
   "FKC_NFWB_experiment": {
     "FKC":				"localfile",
     "NFWB":       "localfile"
+  }, 
+  "FKC_CFWB_experiment": {
+    "FKC":				"localfile",
+    "CFWB":       "localfile"
   }
 }

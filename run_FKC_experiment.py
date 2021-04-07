@@ -120,12 +120,12 @@ for s in range(start, stop):
 
   np.random.seed(s)
 
-  ### first run with both FKC expansion and NFWB
+  ### first run with both FKC expansion and CFWB
   start_time = datetime.now()
-  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC_NFWB'
+  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC_CFWB'
  
   try:
-    prep_sim(str(s) + ', FKC + NFWB', results_folder, print_log)
+    prep_sim(str(s) + ', FKC + CFWB', results_folder, print_log)
 
     ### get prior choices for district ownership (list will be district positions with zero shares)
     try:
@@ -136,7 +136,7 @@ for s in range(start, stop):
     except:
       list_zerodistricts = []
 
-    ### randomly choose new ownership fractions for FKC expansion & NFWB, plus capacity params for NFWB
+    ### randomly choose new ownership fractions for FKC expansion & CFWB, plus capacity params for CFWB
     scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
     ndistricts = len(scenario['ownership_shares'])
     shares = np.random.uniform(size=ndistricts)
@@ -162,8 +162,8 @@ for s in range(start, stop):
     with open(results_folder + '/FKC_scenario.json', 'w') as o:
       json.dump(scenario, o)
 
-    ### now do similar to choose random params for NFWB. Use same ownership fractions from FKC.
-    scenario = json.load(open('calfews_src/scenarios/NFWB_properties__large_all.json'))
+    ### now do similar to choose random params for CFWB. Use same ownership fractions from FKC.
+    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
     removeddistricts = []
     for i, k in enumerate(scenario['ownership'].keys()):
       if shares[i] > 0.0:
@@ -177,7 +177,7 @@ for s in range(start, stop):
     scenario['initial_recharge'] = np.random.uniform(0.0, 600.0)
     scenario['tot_storage'] = np.random.uniform(0.0, 1.2)
     scenario['recovery'] = np.random.uniform(0.0, 0.7)
-    with open(results_folder + '/NFWB_scenario.json', 'w') as o:
+    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
       json.dump(scenario, o)
 
     run_sim(results_folder, start_time)
@@ -185,56 +185,56 @@ for s in range(start, stop):
   except:
     print('EXPERIMENT FAIL: ', results_folder)
 
-  # ################
-  # ### now rerun with only FKC expansion
-  # results_folder_both = results_folder
-  # results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC'
-  # start_time = datetime.now()
+  ################
+  ### now rerun with only FKC expansion
+  results_folder_both = results_folder
+  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC'
+  start_time = datetime.now()
 
-  # try:
-  #   prep_sim(str(s) + ', FKC only', results_folder, print_log)
+  try:
+    prep_sim(str(s) + ', FKC only', results_folder, print_log)
 
-  #   shutil.copy(results_folder_both + '/FKC_scenario.json', results_folder)
+    shutil.copy(results_folder_both + '/FKC_scenario.json', results_folder)
 
-  #   scenario = json.load(open('calfews_src/scenarios/NFWB_properties__large_all.json'))
-  #   scenario['participant_list'] = []
-  #   scenario['ownership'] = {}
-  #   scenario['bank_cap'] = {}
-  #   scenario['initial_recharge'] = 0.0
-  #   scenario['tot_storage'] = 0.0
-  #   scenario['recovery'] = 0.0
-  #   with open(results_folder + '/NFWB_scenario.json', 'w') as o:
-  #     results_folder + '/NFWB_scenario.json'
-  #     json.dump(scenario, o)
+    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
+    scenario['participant_list'] = []
+    scenario['ownership'] = {}
+    scenario['bank_cap'] = {}
+    scenario['initial_recharge'] = 0.0
+    scenario['tot_storage'] = 0.0
+    scenario['recovery'] = 0.0
+    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
+      results_folder + '/CFWB_scenario.json'
+      json.dump(scenario, o)
 
-  #   run_sim(results_folder, start_time)
+    run_sim(results_folder, start_time)
 
-  # except:
-  #   print('EXPERIMENT FAIL: ', results_folder)    
+  except:
+    print('EXPERIMENT FAIL: ', results_folder)    
 
-  # ################
-  # ### now rerun with only NFWB
-  # results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_NFWB'
-  # start_time = datetime.now()
+  ################
+  ### now rerun with only CFWB
+  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_CFWB'
+  start_time = datetime.now()
 
-  # try:
-  #   prep_sim(str(s) + ', NFWB only', results_folder, print_log)
+  try:
+    prep_sim(str(s) + ', CFWB only', results_folder, print_log)
 
-  #   shutil.copy(results_folder_both + '/NFWB_scenario.json', results_folder)
+    shutil.copy(results_folder_both + '/CFWB_scenario.json', results_folder)
 
-  #   scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
-  #   for i, k in enumerate(scenario['ownership_shares'].keys()):
-  #     scenario['ownership_shares'][k] = 0.0
-  #   with open(results_folder + '/FKC_scenario.json', 'w') as o:
-  #     json.dump(scenario, o)
+    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+    for i, k in enumerate(scenario['ownership_shares'].keys()):
+      scenario['ownership_shares'][k] = 0.0
+    with open(results_folder + '/FKC_scenario.json', 'w') as o:
+      json.dump(scenario, o)
 
-  #   run_sim(results_folder, start_time)
-  # except:
-  #   print('EXPERIMENT FAIL: ', results_folder)
+    run_sim(results_folder, start_time)
+  except:
+    print('EXPERIMENT FAIL: ', results_folder)
 
 
 
-### run basline without FKC or NFWB, if argv1 == 1 and processor rank == last
+### run basline without FKC or CFWB, if argv1 == 1 and processor rank == last
 if rerun_baselines == 1 and rank == (nprocs - 1):
 
   results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_none'
@@ -249,15 +249,15 @@ if rerun_baselines == 1 and rank == (nprocs - 1):
     with open(results_folder + '/FKC_scenario.json', 'w') as o:
       json.dump(scenario, o)
 
-    scenario = json.load(open('calfews_src/scenarios/NFWB_properties__large_all.json'))
+    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
     scenario['participant_list'] = []
     scenario['ownership'] = {}
     scenario['bank_cap'] = {}
     scenario['initial_recharge'] = 0.0
     scenario['tot_storage'] = 0.0
     scenario['recovery'] = 0.0
-    with open(results_folder + '/NFWB_scenario.json', 'w') as o:
-      results_folder + '/NFWB_scenario.json'
+    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
+      results_folder + '/CFWB_scenario.json'
       json.dump(scenario, o)
       
     run_sim(results_folder, start_time)

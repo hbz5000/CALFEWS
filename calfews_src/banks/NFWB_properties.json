@@ -1,16 +1,10 @@
 {
-  "participant_list": ["LWT", "PIX"],
+  "participant_list": [],
   "canal_rights": ["fkc"],
   "initial_recharge" : 0.0,
   "tot_storage": 0.0,
   "recovery": 0.0,
   "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.88, 0.88, 0.94, 0.94, 0.94, 0.94, 0.99],
-  "ownership": {
-    "LWT":0.5,
-    "PIX":0.5
-  },
-  "bank_cap": {
-    "LWT":99999.9,
-    "PIX":99999.9
-  }
+  "ownership": {},
+  "bank_cap": {}
 }

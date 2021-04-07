@@ -605,8 +605,9 @@ cdef class Model():
     self.irvineranch = Waterbank(self, 'irvineranch', 'IVR', scenario)
     self.northkernwb = Waterbank(self, 'northkernwb', 'NKB', scenario)
     self.northfriantwb = Waterbank(self, 'northfriantwb', 'NFWB', scenario)
+    self.centralfriantwb = Waterbank(self, 'centralfriantwb', 'CFWB', scenario)
 	
-    self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb, self.northfriantwb]
+    self.waterbank_list = [self.stockdale, self.kernriverbed, self.poso, self.pioneer, self.kwb, self.berrendawb, self.b2800, self.wkwb, self.irvineranch, self.northkernwb, self.northfriantwb, self.centralfriantwb]
     self.leiu_list = []
 
     for district_obj in self.district_list:
@@ -737,7 +738,7 @@ cdef class Model():
     #Objects can be districts, waterbanks, or other canals.  Canal objects show an intersection with the canal represented by the dictionary 'key' that holds the list.  Dictionary keys are all canal keys.  If a canal is located on a list, the canal associated with that list's key will also be on the list associated with the canal of the first key (i.e., if self.fkc is on the list with the key 'self.canal_district['xvc'], then the object self.xvc will be on the list with the key self.canal_district['fkc'] - these intersections help to organize these lists into a structure that models the interconnected canal structure
     #The first object on each list is either a reservoir or another canal
     self.canal_district = {}
-    self.canal_district['fkc'] = [self.millerton, self.northfriantwb, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherfriant, self.tulare, self.kaweahdelta, self.otherkaweah, self.kaweahriverchannel, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.teapot, self.saucelito, self.terra, self.othercrossvalley, self.pixley, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
+    self.canal_district['fkc'] = [self.millerton, self.northfriantwb, self.fresno, self.fresnoid, self.kingsriverchannel, self.otherfriant, self.tulare, self.kaweahdelta, self.otherkaweah, self.kaweahriverchannel, self.exeter, self.lindsay, self.lindmore, self.porterville, self.lowertule, self.othertule, self.tuleriverchannel, self.centralfriantwb, self.teapot, self.saucelito, self.terra, self.othercrossvalley, self.pixley, self.delano, self.kerntulare, self.sosanjoaquin, self.shaffer, self.northkern, self.northkernwb, self.xvc, self.kernriverchannel, self.aecanal]
     self.canal_district['mdc'] = [self.millerton, self.maderairr, self.chowchilla]
     self.canal_district['caa'] = [self.sanluis, self.southbay, self.sanluiswater, self.panoche, self.delpuerto, self.otherswp, self.othercvp, self.otherexchange, self.westlands, self.centralcoast, self.tularelake, self.dudleyridge, self.losthills, self.berrenda, self.belridge, self.semitropic, self.buenavista, self.wkwb, self.xvc, self.kwbcanal, self.kernriverchannel, self.henrymiller, self.wheeler, self.aecanal, self.tejon, self.tehachapi, self.socal]
     self.canal_district['xvc'] = [self.calaqueduct, self.buenavista, self.kwb, self.irvineranch, self.pioneer, self.b2800, self.berrendawb, self.rosedale, self.ID4, self.kernriverchannel, self.fkc, self.aecanal, self.beardsley]
