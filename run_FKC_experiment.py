@@ -2,7 +2,7 @@ import sys
 import os
 import shutil
 import json
-import time
+import math
 import numpy as np
 import pandas as pd
 from configobj import ConfigObj
@@ -66,55 +66,36 @@ def run_sim(results_folder, start_time):
 ### main experiment
 ########################################################################
 
-
 rerun_baselines = int(sys.argv[1]) ### 1 if we want to rerun zero-ownership & full-ownership cases
 start_scenarios = int(sys.argv[2])  ### number of random ownership configs to run
 end_scenarios = int(sys.argv[3])
 nscenarios = end_scenarios - start_scenarios
 
+rank = int(sys.argv[4])
+nprocs = int(sys.argv[5])
+count = int(math.floor(nscenarios/nprocs))
+remainder = nscenarios % nprocs
+# Use the processor rank to determine the chunk of work each processor will do
+if rank < remainder:
+  start = rank*(count+1) + start_scenarios
+  stop = start + count + 1 
+else:
+  start = remainder*(count+1) + (rank-remainder)*count + start_scenarios
+  stop = start + count 
 
-### setup mpi if using parallel mode
+print('Hello from processor ',rank, ' out of ', nprocs, ', running samples ', start, '-', stop-1)
+
 # get runtime params from config file
 config = ConfigObj('runtime_params.ini')
-parallel_mode = bool(strtobool(config['parallel_mode']))
+# parallel_mode = bool(strtobool(config['parallel_mode']))
 cluster_mode = bool(strtobool(config['cluster_mode']))
 print_log = bool(strtobool(config['print_log']))
 flow_input_source = config['flow_input_source']
-
-if parallel_mode:
-  from mpi4py import MPI
-  import math
-  import time
-  # Parallel simulation
-  comm = MPI.COMM_WORLD
-  # Number of processors and the rank of processors
-  rank = comm.Get_rank()
-  nprocs = comm.Get_size()
-  # Determine the chunk which each processor will neeed to do
-  count = int(math.floor(nscenarios/nprocs))
-  remainder = nscenarios % nprocs
-  # Use the processor rank to determine the chunk of work each processor will do
-  if rank < remainder:
-    start = rank*(count+1) + start_scenarios
-    stop = start + count + 1 
-  else:
-    start = remainder*(count+1) + (rank-remainder)*count + start_scenarios
-    stop = start + count 
-else: # non-parallel mode
-  start = start_scenarios
-  stop = end_scenarios
-  rank = 0
-  nprocs = 1
 
 if cluster_mode:
   results_base = '/scratch/spec823/CALFEWS_results/FKC_experiment/'
 else:
   results_base = 'results/'
-
-try:
-  os.remove(results_base + 'FKC_experiment_' + flow_input_source + '_zerodistricts.txt')
-except:
-  pass
 
 for s in range(start, stop):
 
@@ -123,37 +104,22 @@ for s in range(start, stop):
   ### first run with both FKC expansion and CFWB
   start_time = datetime.now()
   results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC_CFWB'
- 
+
   try:
     prep_sim(str(s) + ', FKC + CFWB', results_folder, print_log)
 
     ### get prior choices for district ownership (list will be district positions with zero shares)
-    try:
-      with open(results_base + 'FKC_experiment_' + flow_input_source + '_zerodistricts.txt', 'r') as f:
-        list_zerodistricts = []
-        for line in f: # read rest of lines
-            list_zerodistricts.append([int(x) for x in line.split()])
-    except:
-      list_zerodistricts = []
-
+    with open(results_base + 'FKC_experiment_zerodistricts.txt', 'r') as f:
+      count = 0
+      for line in f: # read rest of lines
+        if count == s:
+          zerodistricts = [int(x) for x in line.split()]
+        count += 1
+    
     ### randomly choose new ownership fractions for FKC expansion & CFWB, plus capacity params for CFWB
     scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
     ndistricts = len(scenario['ownership_shares'])
     shares = np.random.uniform(size=ndistricts)
-    newchoice = True
-    while newchoice == True:
-      nnonzero = max(np.random.poisson(8), 1)
-      zerodistricts = np.random.choice(np.arange(ndistricts), ndistricts - nnonzero, replace=False)
-      zerodistricts.sort()
-      zerodistricts = zerodistricts.tolist()
-      if zerodistricts not in list_zerodistricts:
-        with open(results_base + 'FKC_experiment_' + flow_input_source + '_zerodistricts.txt', 'a') as f:
-          zd = ''
-          for d in zerodistricts:
-            zd += str(d) + ' '
-          zd += '\n'
-          f.write(zd)      
-        newchoice = False
     shares[zerodistricts] = 0.0
     shares /= shares.sum()
     for i, k in enumerate(scenario['ownership_shares'].keys()):
@@ -263,6 +229,8 @@ if rerun_baselines == 1 and rank == (nprocs - 1):
     run_sim(results_folder, start_time)
   except:
     print('EXPERIMENT FAIL: ', results_folder)
+
+
 
 
 
