@@ -20,9 +20,10 @@ nscenarios = end_scenarios - start_scenarios
 # get runtime params from config file
 config = ConfigObj('runtime_params.ini')
 cluster_mode = bool(strtobool(config['cluster_mode']))
+scratch_dir = config['scratch_dir']
 
 if cluster_mode:
-  results_base = '/scratch/spec823/CALFEWS_results/FKC_experiment/'
+  results_base = scratch_dir + 'FKC_experiment/'
 else:
   results_base = 'results/'
 samples_file = results_base + 'FKC_experiment_zerodistricts.txt'
@@ -38,19 +39,6 @@ np.random.seed(end_scenarios)
 list_zerodistricts = []
 
 for s in range(start_scenarios, end_scenarios):
-
-    # ### get prior choices for district ownership (list will be district positions with zero shares)
-    # try:
-    #   with open(samples_file, 'r') as f:
-    #     list_zerodistricts = []
-    #     for line in f: # read rest of lines
-    #         list_zerodistricts.append([int(x) for x in line.split()])
-    # except:
-    #   list_zerodistricts = []
-
-    ### randomly choose new ownership fractions for FKC expansion & CFWB, plus capacity params for CFWB
-    # scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
-    # ndistricts = len(scenario['ownership_shares'])
     newchoice = True
     while newchoice == True:
       nnonzero = max(np.random.poisson(8), 1)
@@ -59,12 +47,6 @@ for s in range(start_scenarios, end_scenarios):
       zerodistricts = zerodistricts.tolist()
       if zerodistricts not in list_zerodistricts:
         list_zerodistricts.append(zerodistricts)
-        # with open(samples_file, 'a') as f:
-        #   zd = ''
-        #   for d in zerodistricts:
-        #     zd += str(d) + ' '
-        #   zd += '\n'
-        #   f.write(zd)      
         newchoice = False
 
 with open(samples_file, 'w') as f:

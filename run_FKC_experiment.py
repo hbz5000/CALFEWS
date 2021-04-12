@@ -17,10 +17,10 @@ def prep_sim(exp_name, results_folder, print_log):
   sys.stdout.flush()
 
   ### remove any old results
-  try:
-    shutil.rmtree(results_folder)
-  except:
-    pass
+#  try:
+#    shutil.rmtree(results_folder)
+#  except:
+#    pass
   try:
     os.mkdir(results_folder)  
   except:
@@ -37,9 +37,9 @@ def prep_sim(exp_name, results_folder, print_log):
 
 
 
-def run_sim(results_folder, start_time):
+def run_sim(results_folder, runtime_file, start_time):
   ### setup new model
-  main_cy_obj = main_cy.main_cy(results_folder)
+  main_cy_obj = main_cy.main_cy(results_folder, runtime_file)
   a = main_cy_obj.initialize_py()
 
   if a == 0:
@@ -71,32 +71,79 @@ start_scenarios = int(sys.argv[2])  ### number of random ownership configs to ru
 end_scenarios = int(sys.argv[3])
 nscenarios = end_scenarios - start_scenarios
 
-rank = int(sys.argv[4])
-nprocs = int(sys.argv[5])
-count = int(math.floor(nscenarios/nprocs))
-remainder = nscenarios % nprocs
-# Use the processor rank to determine the chunk of work each processor will do
-if rank < remainder:
-  start = rank*(count+1) + start_scenarios
-  stop = start + count + 1 
-else:
-  start = remainder*(count+1) + (rank-remainder)*count + start_scenarios
-  stop = start + count 
+#rank = int(sys.argv[4])
+#nprocs = int(sys.argv[5])
+#count = int(math.floor(nscenarios/nprocs))
+#remainder = nscenarios % nprocs
+## Use the processor rank to determine the chunk of work each processor will do
+#if rank < remainder:
+#  start = rank*(count+1) + start_scenarios
+#  stop = start + count + 1 
+#else:
+#  start = remainder*(count+1) + (rank-remainder)*count + start_scenarios
+#  stop = start + count 
+start = start_scenarios
+stop = end_scenarios
 
-print('Hello from processor ',rank, ' out of ', nprocs, ', running samples ', start, '-', stop-1)
+#print('Hello from processor ',rank, ' out of ', nprocs, ', running samples ', start, '-', stop-1)
 
 # get runtime params from config file
-config = ConfigObj('runtime_params.ini')
+try:
+  runtime_file = sys.argv[4]
+except:
+  runtime_file = 'runtime_params.ini'
+
+config = ConfigObj(runtime_file)
 # parallel_mode = bool(strtobool(config['parallel_mode']))
 cluster_mode = bool(strtobool(config['cluster_mode']))
 print_log = bool(strtobool(config['print_log']))
 flow_input_source = config['flow_input_source']
+scratch_dir = config['scratch_dir']
 
 if cluster_mode:
-  results_base = '/scratch/spec823/CALFEWS_results/FKC_experiment/'
+  results_base = scratch_dir + '/FKC_experiment/'
 else:
   results_base = 'results/'
 
+
+
+### run basline without FKC or CFWB, if argv1 == 1 and processor rank == last
+#if rerun_baselines == 1 and rank == (nprocs - 1):
+if rerun_baselines == 1:
+
+  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_none'
+  start_time = datetime.now()
+
+  if not os.path.exists(results_folder):
+
+#    try:
+    prep_sim('None', results_folder, print_log)
+
+    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+    for i, k in enumerate(scenario['ownership_shares'].keys()):
+      scenario['ownership_shares'][k] = 0.0
+    with open(results_folder + '/FKC_scenario.json', 'w') as o:
+      json.dump(scenario, o)
+
+    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
+    scenario['participant_list'] = []
+    scenario['ownership'] = {}
+    scenario['bank_cap'] = {}
+    scenario['initial_recharge'] = 0.0
+    scenario['tot_storage'] = 0.0
+    scenario['recovery'] = 0.0
+    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
+      results_folder + '/CFWB_scenario.json'
+      json.dump(scenario, o)
+
+    run_sim(results_folder, runtime_file, start_time)
+#    except:
+#      print('EXPERIMENT FAIL: ', results_folder)
+
+
+
+
+### now loop through rest of infrastructure scenarios
 for s in range(start, stop):
 
   np.random.seed(s)
@@ -105,7 +152,9 @@ for s in range(start, stop):
   start_time = datetime.now()
   results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC_CFWB'
 
-  try:
+  if not os.path.exists(results_folder):
+
+#    try:
     prep_sim(str(s) + ', FKC + CFWB', results_folder, print_log)
 
     ### get prior choices for district ownership (list will be district positions with zero shares)
@@ -146,10 +195,10 @@ for s in range(start, stop):
     with open(results_folder + '/CFWB_scenario.json', 'w') as o:
       json.dump(scenario, o)
 
-    run_sim(results_folder, start_time)
+    run_sim(results_folder, runtime_file, start_time)
 
-  except:
-    print('EXPERIMENT FAIL: ', results_folder)
+#    except:
+#      print('EXPERIMENT FAIL: ', results_folder)
 
   ################
   ### now rerun with only FKC expansion
@@ -157,78 +206,51 @@ for s in range(start, stop):
   results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_FKC'
   start_time = datetime.now()
 
-  try:
-    prep_sim(str(s) + ', FKC only', results_folder, print_log)
+  if not os.path.exists(results_folder):
 
-    shutil.copy(results_folder_both + '/FKC_scenario.json', results_folder)
+    try:
+      prep_sim(str(s) + ', FKC only', results_folder, print_log)
 
-    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
-    scenario['participant_list'] = []
-    scenario['ownership'] = {}
-    scenario['bank_cap'] = {}
-    scenario['initial_recharge'] = 0.0
-    scenario['tot_storage'] = 0.0
-    scenario['recovery'] = 0.0
-    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
-      results_folder + '/CFWB_scenario.json'
-      json.dump(scenario, o)
+      shutil.copy(results_folder_both + '/FKC_scenario.json', results_folder)
 
-    run_sim(results_folder, start_time)
+      scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
+      scenario['participant_list'] = []
+      scenario['ownership'] = {}
+      scenario['bank_cap'] = {}
+      scenario['initial_recharge'] = 0.0
+      scenario['tot_storage'] = 0.0
+      scenario['recovery'] = 0.0
+      with open(results_folder + '/CFWB_scenario.json', 'w') as o:
+        results_folder + '/CFWB_scenario.json'
+        json.dump(scenario, o)
 
-  except:
-    print('EXPERIMENT FAIL: ', results_folder)    
+      run_sim(results_folder, runtime_file, start_time)
+
+    except:
+      print('EXPERIMENT FAIL: ', results_folder)    
 
   ################
   ### now rerun with only CFWB
   results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_' + str(s) + '_CFWB'
   start_time = datetime.now()
 
-  try:
-    prep_sim(str(s) + ', CFWB only', results_folder, print_log)
+  if not os.path.exists(results_folder):
+    try:
+      prep_sim(str(s) + ', CFWB only', results_folder, print_log)
 
-    shutil.copy(results_folder_both + '/CFWB_scenario.json', results_folder)
+      shutil.copy(results_folder_both + '/CFWB_scenario.json', results_folder)
 
-    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
-    for i, k in enumerate(scenario['ownership_shares'].keys()):
-      scenario['ownership_shares'][k] = 0.0
-    with open(results_folder + '/FKC_scenario.json', 'w') as o:
-      json.dump(scenario, o)
+      scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+      for i, k in enumerate(scenario['ownership_shares'].keys()):
+        scenario['ownership_shares'][k] = 0.0
+      with open(results_folder + '/FKC_scenario.json', 'w') as o:
+        json.dump(scenario, o)
 
-    run_sim(results_folder, start_time)
-  except:
-    print('EXPERIMENT FAIL: ', results_folder)
+      run_sim(results_folder, runtime_file, start_time)
+    except:
+      print('EXPERIMENT FAIL: ', results_folder)
 
 
-
-### run basline without FKC or CFWB, if argv1 == 1 and processor rank == last
-if rerun_baselines == 1 and rank == (nprocs - 1):
-
-  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_none'
-  start_time = datetime.now()
-
-  try:
-    prep_sim('None', results_folder, print_log)
-
-    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
-    for i, k in enumerate(scenario['ownership_shares'].keys()):
-      scenario['ownership_shares'][k] = 0.0
-    with open(results_folder + '/FKC_scenario.json', 'w') as o:
-      json.dump(scenario, o)
-
-    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
-    scenario['participant_list'] = []
-    scenario['ownership'] = {}
-    scenario['bank_cap'] = {}
-    scenario['initial_recharge'] = 0.0
-    scenario['tot_storage'] = 0.0
-    scenario['recovery'] = 0.0
-    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
-      results_folder + '/CFWB_scenario.json'
-      json.dump(scenario, o)
-      
-    run_sim(results_folder, start_time)
-  except:
-    print('EXPERIMENT FAIL: ', results_folder)
 
 
 

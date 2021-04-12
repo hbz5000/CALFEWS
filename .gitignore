@@ -20,3 +20,5 @@ Untitled.*
 profiling/*.stats
 profiling/*.txt
 out*.txt
+slurm*
+FKC_experiment/slurm*

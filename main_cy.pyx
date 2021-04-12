@@ -37,12 +37,16 @@ cdef class main_cy():
 ################################################################################################################################
 ### Initial model setup
 ################################################################################################################################
-  def __init__(self, str results_folder, str model_mode='', str flow_input_type='', str flow_input_source=''):
+  def __init__(self, str results_folder, str runtime_file='', str model_mode='', str flow_input_type='', str flow_input_source=''):
     self.progress = 0.0
     self.running_sim = 1
 
     # get runtime params from config file
-    config = ConfigObj('runtime_params.ini')
+    if runtime_file == '':
+      self.runtime_file = 'runtime_params.ini'
+    else:
+      self.runtime_file = runtime_file
+    config = ConfigObj(self.runtime_file)
     self.parallel_mode = bool(strtobool(config['parallel_mode']))
     self.short_test = int(config['short_test'])
     self.print_log = bool(strtobool(config['print_log']))
@@ -89,7 +93,7 @@ cdef class main_cy():
       self.flow_input_source = 'CDEC'
 
     ### copy runtime file for future use
-    shutil.copy('runtime_params.ini', self.results_folder + '/runtime_params.ini')
+    shutil.copy(self.runtime_file, self.results_folder + '/' + self.runtime_file)
 
     # set random seed
     if (self.seed > 0):
@@ -256,6 +260,7 @@ cdef class main_cy():
         print(e)
     
     self.running_sim = False
+
 
 
 
