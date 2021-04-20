@@ -29,18 +29,6 @@ objs.sort_values(['samp','project','hydro'], inplace=True)
 objs.reset_index(inplace=True, drop=True)
 print(objs.shape)
 print(objs.head())
-### FKC-only experiments don't have correct ownership shares in objs_all.csv
-#objs_FKC = objs.loc[objs.project == 'FKC']
-#for i in range(objs_FKC.shape[0]):
-#    samp = objs_FKC.iloc[i].samp
-#    hydro = objs_FKC.iloc[i].hydro
-#    b1 = np.logical_and(np.logical_and(objs.samp == samp, objs.hydro == hydro), objs.project == 'FKC')
-#    b2 = np.logical_and(np.logical_and(objs.samp == samp, objs.hydro == hydro), objs.project == 'FKC_CFWB')
-#    objs.loc[b1, objs.columns[12:-3]] = objs.loc[b2, objs.columns[12:-3]].values
-
-### if gini coef >1 or <0, indicates weirdness with negative returns. set to 1.
-#objs.ginicoef = np.minimum(objs.ginicoef, 1.0)
-#objs.ginicoef = [1.0 if g < 0.0 else g for g in objs.ginicoef]
 
 ### get avg price of water gains per year
 principle = {'FKC': 300e6, 'CFWB': 50e6, 'FKC_CFWB': 350e6}
@@ -48,9 +36,6 @@ payments_per_yr = 1
 interest_rt = 0.05 / payments_per_yr
 num_payments = 50 * payments_per_yr
 annual_payment = {k: principle[k] / (((1 + interest_rt) ** num_payments - 1) / (interest_rt * (1 + interest_rt) ** num_payments)) for k in principle}
-#objs['total_partner_avg_gain'] = objs['avg_partner_avg_gain'] * objs['num_partners']
-#objs['total_other_avg_gain'] = objs['avg_other_avg_gain'] * (41 - objs['num_partners'])
-#objs['total_total_avg_gain'] = objs['total_partner_avg_gain'] + objs['total_other_avg_gain']
 objs['avg_price_gain_dolAF'] = [annual_payment[objs.project.iloc[i]] / objs['total_partner_avg_gain'].iloc[i] / 1000 for i in range(objs.shape[0])]
 
 # negative prices indicate negative benefits. set these, plus those over $3000/AF, to $3000/AF

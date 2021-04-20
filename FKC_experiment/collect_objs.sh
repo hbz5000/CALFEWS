@@ -2,7 +2,7 @@
 
 dir='/pine/scr/a/l/alh91/CALFEWS_results/FKC_experiment/'
 
-#grep scenario $dir/FKC_experiment_capow_50yr_wet_0_FKC_CFWB/objs.csv > $dir/objs_all.csv
+grep scenario $dir/FKC_experiment_capow_50yr_wet_0_FKC_CFWB/objs.csv > $dir/objs_all.csv
 
 for h in wet dry median
 do

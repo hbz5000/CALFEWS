@@ -5,96 +5,14 @@
   "FKC_capacity_rehab_full": {
     "FKC":				"calfews_src/scenarios/FKC_properties__capacity_rehab_full.json"
   },
-  "LWT_inleiubank": {
-    "LWT":				"calfews_src/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json"
-  }, 
-  "FKC_rehab_ownership_LWT": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT.json"
-  },
-  "FKC_rehab_ownership_PIX": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_PIX.json"
-  },
-  "FKC_rehab_ownership_DLE": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_DLE.json"
-  },
-  "FKC_rehab_ownership_SSJ": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_SSJ.json"
-  },
-  "FKC_rehab_ownership_SOC": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_SOC.json"
-  },
-  "FKC_rehab_ownership_LWT_PIX_DLE_SSJ": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT_PIX_DLE_SSJ.json"
-  },
-  "FKC_rehab_ownership_LWT_PIX_DLE_SSJ_SOC": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT_PIX_DLE_SSJ_SOC.json"
-  },
-  "FKC_rehab_ownership_none": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_none.json"
-  },
-  "FKC_rehab_ownership_grp1": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp1.json"
-  },
-  "FKC_rehab_ownership_grp2": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp2.json"
-  },
-  "FKC_rehab_ownership_grp3": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp3.json"
-  },
-  "FKC_rehab_ownership_grp12": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp12.json"
-  },
-  "FKC_rehab_ownership_grp13": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp13.json"
-  },
-  "FKC_rehab_ownership_grp23": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp23.json"
-  },
-  "FKC_rehab_ownership_grp123": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_grp123.json"
-  },
-  "FKC_rehab_ownership_bankees": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_bankees.json"
-  },   
-  "FKC_rehab_ownership_LWT10_PIX90": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT10_PIX90.json"
-  },
-  "FKC_rehab_ownership_LWT90_PIX10": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT90_PIX10.json"
-  },
-  "FKC_rehab_ownership_LWT00_PIX00": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT00_PIX00.json"
-  },
   "FKC_rehab_ownership_all": {
     "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_all.json"
   },
   "FKC_experiment": {
     "FKC":				"localfile"
   },
-  "FKC_rehab_NFWB_large_ownership_LWT90_PIX10": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT90_PIX10_withbanks.json",
-    "NFWB":       "calfews_src/scenarios/NFWB_properties__large_LWT90_PIX10.json"
-  },
-  "FKC_rehab_NFWB_small_ownership_LWT90_PIX10": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT90_PIX10_withbanks.json",
-    "NFWB":       "calfews_src/scenarios/NFWB_properties__small_LWT90_PIX10.json"
-  },
-  "FKC_rehab_NFWB_zero_ownership_LWT90_PIX10": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_LWT90_PIX10_withbanks.json"  
-  },
-  "NFWB_large_ownership_LWT90_PIX10": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__baseline_wy2017_withbanks.json",
-    "NFWB":       "calfews_src/scenarios/NFWB_properties__large_LWT90_PIX10.json"
-  },
-  "NFWB_small_ownership_LWT90_PIX10": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__baseline_wy2017_withbanks.json",
-    "NFWB":       "calfews_src/scenarios/NFWB_properties__small_LWT90_PIX10.json"
-  },
-  "NFWB_zero_ownership_LWT90_PIX10": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__baseline_wy2017_withbanks.json"  
-  },
   "FKC_rehab_NFWB_large_ownership_all": {
-    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json",
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_all.json",
     "NFWB":       "calfews_src/scenarios/NFWB_properties__large_all.json"
   },
   "FKC_NFWB_experiment": {

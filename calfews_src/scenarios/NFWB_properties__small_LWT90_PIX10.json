@@ -1,9 +1,0 @@
-{
-  "initial_recharge" : 50.0,
-  "tot_storage": 0.1,
-  "recovery": 0.05,
-  "ownership": {
-    "LWT":0.9,
-    "PIX":0.1
-  }
-}

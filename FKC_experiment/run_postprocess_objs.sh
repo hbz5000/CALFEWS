@@ -2,7 +2,7 @@
 
 dir='/pine/scr/a/l/alh91/CALFEWS_results/FKC_experiment/'
 
-#sh collect_objs.sh
+sh collect_objs.sh
 
 python3 clean_objs.py $dir
 
