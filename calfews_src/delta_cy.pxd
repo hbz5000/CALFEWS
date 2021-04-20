@@ -5,7 +5,7 @@ cdef class Delta():
   cdef:
     public double last_year_vamp, cvp_aval_stor, swp_aval_stor, cvp_delta_outflow_pct, swp_delta_outflow_pct, \
                 final_allocation_swp, final_allocation_cvp, rio_gains, forecastSWPPUMP, vernalis_gains, \
-                delta_uncontrolled_remaining, forecastCVPPUMP, total_inflow
+                delta_uncontrolled_remaining, forecastCVPPUMP, total_inflow, epsilon
 
     public int T, omr_record_start, omr_rule_start, vamp_rule_start, first_empty_day_SWP, first_empty_day_CVP, \
                 iter_count

@@ -21,9 +21,11 @@ import matplotlib.pyplot as plt
 import gc
 import shutil
 import sys
+import os
 from configobj import ConfigObj
 import json
 from distutils.util import strtobool
+from cpython.exc cimport PyErr_CheckSignals
 from calfews_src.model_cy cimport Model
 from calfews_src.inputter_cy cimport Inputter
 from calfews_src.scenario import Scenario
@@ -35,19 +37,21 @@ cdef class main_cy():
 ################################################################################################################################
 ### Initial model setup
 ################################################################################################################################
-  def __init__(self, str results_folder, str model_mode='', str flow_input_type='', str flow_input_source=''):
+  def __init__(self, str results_folder, str runtime_file='', str model_mode='', str flow_input_type='', str flow_input_source=''):
     self.progress = 0.0
     self.running_sim = 1
 
     # get runtime params from config file
-    config = ConfigObj('runtime_params.ini')
-    # self.parallel_mode = bool(strtobool(config['parallel_mode']))
+    if runtime_file == '':
+      self.runtime_file = 'runtime_params.ini'
+    else:
+      self.runtime_file = runtime_file
+    config = ConfigObj(self.runtime_file)
+    self.parallel_mode = bool(strtobool(config['parallel_mode']))
     self.short_test = int(config['short_test'])
     self.print_log = bool(strtobool(config['print_log']))
     self.seed = int(config['seed'])
     self.scenario_name = config['scenario_name'] #scenarios provide information on infrastructural plans
-    # self.total_sensitivity_factors = int(config['total_sensitivity_factors'])
-    # self.sensitivity_sample_file = config['sensitivity_sample_file']
     self.output_list = config['output_list']
     self.clean_output = bool(strtobool(config['clean_output']))
     self.save_full = bool(strtobool(config['save_full']))
@@ -61,8 +65,6 @@ cdef class main_cy():
       self.flow_input_source = flow_input_source
     self.results_folder = results_folder
 
-    ### Initialize northern & southern models
-    self.initialize()
 
     
 
@@ -70,7 +72,10 @@ cdef class main_cy():
 ################################################################################################################################
 ### Northern/southern model initialization
 ################################################################################################################################
-  cdef void initialize(self):  
+  def initialize_py(self):
+    return self.initialize()
+
+  cdef int initialize(self) except -1:  
     cdef:
       str expected_release_datafile, demand_type, base_data_file, input_data_file
     
@@ -79,11 +84,16 @@ cdef class main_cy():
       scenarios = json.load(f)
     scenario = scenarios[self.scenario_name]
 
+    # new scenario file is created and saved to results folder for each experiment (FKC experiment)
+    for k, v in scenario.items():
+      if v == 'localfile':
+        scenario[k] = self.results_folder + '/' + k + '_scenario.json'
+
     if self.model_mode == 'validation':
       self.flow_input_source = 'CDEC'
 
     ### copy runtime file for future use
-    shutil.copy('runtime_params.ini', self.results_folder + '/runtime_params.ini')
+    shutil.copy(self.runtime_file, self.results_folder + '/' + self.runtime_file)
 
     # set random seed
     if (self.seed > 0):
@@ -100,9 +110,13 @@ cdef class main_cy():
       if new_inputs.has_full_inputs[self.flow_input_type][self.flow_input_source]:
         input_data_file = new_inputs.flow_input_source[self.flow_input_type][self.flow_input_source]
       else:
+        # run initialization routine
         new_inputs.run_initialization('XXX')
-        new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
-        input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
+        # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
+        PyErr_CheckSignals()
+        if True:
+          new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
+          input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
 
     elif self.model_mode == 'validation':
       demand_type = 'pesticide'
@@ -113,13 +127,28 @@ cdef class main_cy():
       np.random.seed(self.seed)
 
     ### setup northern & southern models & run initialization
-    self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
-    self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
-    self.modelso.max_tax_free = {}
-    self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine()
-    self.modelso.forecastSRI = self.modelno.delta.forecastSRI
-    self.modelso.southern_initialization_routine()
+    PyErr_CheckSignals()
+    if True:
+      self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+    PyErr_CheckSignals()
+    if True:
+      self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+    PyErr_CheckSignals()
+    if True:
+      self.modelso.max_tax_free = {}
+      self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine(scenario)
+    PyErr_CheckSignals()
+    if True:
+      self.modelso.forecastSRI = self.modelno.delta.forecastSRI
+      self.modelso.southern_initialization_routine(scenario)
+      try:
+        #remove input data file (only if created for simulation), since data will be stored more efficiently in hdf5
+        os.remove(self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv")
+      except:
+        pass
     gc.collect()    
+
+    return 0
 
 
 
@@ -128,9 +157,9 @@ cdef class main_cy():
 # ################################################################################################################################
 
   def run_sim_py(self, start_time):
-    self.run_sim(start_time)
+    return self.run_sim(start_time)
     
-  cdef void run_sim(self, start_time):  
+  cdef int run_sim(self, start_time) except -1:  
     cdef:
       int timeseries_length, t, swp_release, cvp_release, swp_release2, cvp_release2
       double swp_pump, cvp_pump, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, 
@@ -159,19 +188,28 @@ cdef class main_cy():
     proj_surplus = 0.0
     print('Begin simulation, ', datetime.now() - start_time)
     print(self.results_folder)
+    sys.stdout.flush()
+
     
     ############################################
+    # while True:
     for t in range(0, timeseries_length):
       self.progress = (t + 1) / timeseries_length
       if (t % 365 == 364):
         print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
+        sys.stdout.flush()
 
       # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = self.modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
 
       swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = self.modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, self.modelno.delta.forecastSJWYT, self.modelno.delta.forecastSCWYT, self.modelno.delta.max_tax_free, flood_release, flood_volume)
-        
+
+      # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
+      PyErr_CheckSignals()
+
     gc.collect()
+
+    return 0
 
 
 
@@ -212,10 +250,10 @@ cdef class main_cy():
     if (self.save_full):
       try:
         gc.collect()
-        pd.to_pickle(self.modelno, self.results_folder + '/modelno' + str(k) + '.pkl')
+        pd.to_pickle(self.modelno, self.results_folder + '/modelno.pkl')
         del self.modelno
         gc.collect()
-        pd.to_pickle(self.modelso, self.results_folder + '/modelso' + str(k) + '.pkl')
+        pd.to_pickle(self.modelso, self.results_folder + '/modelso.pkl')
         del self.modelso
         gc.collect()
       except Exception as e:
@@ -223,8 +261,7 @@ cdef class main_cy():
     
     self.running_sim = False
 
-    if self.print_log:
-      sys.stdout = sys.__stdout__
+
 
 
 

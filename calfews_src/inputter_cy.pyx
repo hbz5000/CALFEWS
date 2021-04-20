@@ -13,6 +13,7 @@ from matplotlib.lines import Line2D
 import seaborn as sns
 import json
 from datetime import datetime
+from cpython.exc cimport PyErr_CheckSignals
 from .reservoir_cy cimport Reservoir
 from calfews_src.util import *
 
@@ -62,16 +63,17 @@ cdef class Inputter():
     sns.set()
 
 
-  cdef void run_initialization(self, str plot_key):
+  cdef void run_initialization(self, str plot_key) except *:
     self.initialize_reservoirs()
     self.generate_relationships(plot_key)
     self.autocorrelate_residuals(plot_key)
     self.fill_snowpack(plot_key)
     self.generate_relationships_delta(plot_key)
     self.autocorrelate_residuals_delta(plot_key)
+
    
 
-  cdef void run_routine(self, str flow_input_type, str flow_input_source):
+  cdef void run_routine(self, str flow_input_type, str flow_input_source) except *:
     cdef:
       int start_month, end_month, start_year, number_years, first_leap
     start_month = 10
@@ -95,7 +97,7 @@ cdef class Inputter():
     self.make_daily_timeseries(flow_input_type, flow_input_source, number_years, start_year, start_month, end_month, first_leap, 'N')
 
 
-  cdef void initialize_reservoirs(self):
+  cdef void initialize_reservoirs(self) except *:
     cdef:
       int monthcounter
       str data_type, monthname, deltaname
@@ -193,7 +195,7 @@ cdef class Inputter():
 
 
 
-  cdef void generate_relationships(self, str plot_key):
+  cdef void generate_relationships(self, str plot_key) except *:
     cdef:
       int t, m, da, wateryear, year, monthcounter, wateryearnum, daynum, yearcounter, y, negative_counter, yy
       str data_type, monthname
@@ -389,7 +391,7 @@ cdef class Inputter():
         ############
 
 
-  cdef void generate_relationships_delta(self, str plot_key):
+  cdef void generate_relationships_delta(self, str plot_key) except *:
     cdef:
       int t, m, da, wateryear, monthcounter, wateryearnum, yearcounter, negative_counter, yy, y
       str deltaname, monthname
@@ -696,7 +698,7 @@ cdef class Inputter():
 
 
 
-  cdef void fill_snowpack(self, str plot_key):
+  cdef void fill_snowpack(self, str plot_key) except *:
     cdef:
       int t, dowy, wateryear, yearcounter, daycount, y, snowmelt
       Reservoir reservoir_obj
@@ -1217,7 +1219,7 @@ cdef class Inputter():
         plt.show()
         plt.close()
 
-  cdef void make_daily_timeseries(self, str flow_input_type, str flow_input_source, int numYears, int start_year, int start_month, int end_month, int first_leap, str plot_key):
+  cdef void make_daily_timeseries(self, str flow_input_type, str flow_input_source, int numYears, int start_year, int start_month, int end_month, int first_leap, str plot_key) except *:
     cdef:
       double this_year_fnf_melt, multiplier
       int numdays_output, last_step_month, t, monthcounter, yearcounter, daycounter, dowy, is_leap, year_leap_non_leap, sorted_search, \

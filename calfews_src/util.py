@@ -169,14 +169,30 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       except:
         pass
       
-  for b in output_list['south']['waterbanks'].keys():
-    for o in output_list['south']['waterbanks'][b].keys():
+  for waterbank_obj in modelso.waterbank_list:
+    for partner_key, partner_series in waterbank_obj.bank_timeseries.items():
       try:
-        att, name = model_attribute_nonzero(modelso.__getattribute__(b).bank_timeseries[o], np.string_(b + '_' + o), clean_output)
+        att, name = model_attribute_nonzero(partner_series, np.string_(waterbank_obj.name + '_' + partner_key), clean_output)
         if list(att):
           yield list(att), name              
       except:
         pass
+
+  for canal_obj in modelso.canal_list:
+    for node_key, node_series in canal_obj.daily_flow.items():
+      try:
+        att, name = model_attribute_nonzero(node_series, np.string_(canal_obj.name + '_' + node_key + '_flow'), clean_output)
+        if list(att):
+          yield list(att), name              
+      except:
+        pass
+    for node_key, node_series in canal_obj.daily_turnout.items():
+      try:
+        att, name = model_attribute_nonzero(node_series, np.string_(canal_obj.name + '_' + node_key + '_turnout'), clean_output)
+        if list(att):
+          yield list(att), name              
+      except:
+        pass      
   
   ### signify end of dataset
   yield (False, False)
@@ -196,14 +212,16 @@ def data_output(output_list_loc, results_folder, clean_output, sensitivity_facto
     dat = np.zeros((nt, chunk))
     names = []
     col = 0
+    chunknum = 0
     initial_write = 0
     for (att, name) in model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       if name:  ### end of dataset not yet reached
-        names.append(name)
         if col < chunk:
+          names.append(name)
           dat[:, col] = att
           col += 1
         else:
+          ### save current chunk and start new one 
           if initial_write == 0:
             ### write first set of data
             d[:] = dat[:, :]
@@ -212,33 +230,41 @@ def data_output(output_list_loc, results_folder, clean_output, sensitivity_facto
             ### resize and add new data
             d.resize((nt, d.shape[1] + chunk))
             d[:, -chunk:] = dat[:, :]
+          ### start new chunk with current data
           dat[:, 0] = att
           col = 1
           gc.collect()
+
+          ### save chunk of column names & start new chunk
+          d.attrs['columns' + str(chunknum)] = names
+          names = [name]
+          chunknum += 1
+          
       else: ### end of dataset reached
         if col > 0:
           ### resize and add new data
           d.resize((nt, d.shape[1] + col))
           d[:, -col:] = dat[:, :col]
+          d.attrs['columns' + str(chunknum)] = names
+
 
     ### add attribute names as columns 
-    d.attrs['columns'] = names
     d.attrs['start_date'] = str(modelno.year[0]) + '-' + str(modelno.month[0]) + '-' + str(modelno.day_month[0])
-
-    # get sensitivity factors (note: defunct except in sensitivity mode, but leave hear so as not to break post-process scripts)
-    sensitivity_value = []
-    sensitivity_name = []
-    for k in sensitivity_factors.keys():
-      if isinstance(sensitivity_factors[k], dict):
-        sensitivity_value.append(sensitivity_factors[k]['realization'])
-        sensitivity_name.append(np.string_(k))
-
-    d.attrs['sensitivity_factors'] = sensitivity_name
-    d.attrs['sensitivity_factor_values'] = sensitivity_value
 
     ### add objectives
     for k, v in objs.items():
       d.attrs[k] = v
+
+    # get sensitivity factors (note: defunct except in sensitivity mode, but leave hear so as not to break post-process scripts)
+    # sensitivity_value = []
+    # sensitivity_name = []
+    # for k in sensitivity_factors.keys():
+    #   if isinstance(sensitivity_factors[k], dict):
+    #     sensitivity_value.append(sensitivity_factors[k]['realization'])
+    #     sensitivity_name.append(np.string_(k))
+    # d.attrs['sensitivity_factors'] = sensitivity_name
+    # d.attrs['sensitivity_factor_values'] = sensitivity_value
+
 
 
 
@@ -321,9 +347,20 @@ def get_results_sensitivity_number_outside_model(results_file, sensitivity_numbe
     values = {}
     numdays_index = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     with h5py.File(results_file, 'r') as f:
+      ### time series of model output
       data = f['s' + sensitivity_number]
-      names = data.attrs['columns']
-#       print(names)
+      ### get column names for data
+      c = 0
+      names = []
+      read_data = True
+      while read_data:
+        try:
+          colnames = data.attrs['columns' + str(c)]
+          for k in colnames:
+            names.append(k)
+          c += 1
+        except:
+          read_data = False
       names = list(map(lambda x: str(x).split("'")[1], names))
       df_data = pd.DataFrame(data[:], columns=names)
       start_date = pd.to_datetime(data.attrs['start_date'])
@@ -331,8 +368,6 @@ def get_results_sensitivity_number_outside_model(results_file, sensitivity_numbe
       start_month = start_date.month
       start_day = start_date.day
 
-        
-#     print(values['pineflat_PIO_recharged'])
     datetime_index = []
     monthcount = start_month
     yearcount = start_year

@@ -1,0 +1,10 @@
+{
+  "participant_list": [],
+  "canal_rights": ["fkc"],
+  "initial_recharge" : 0.0,
+  "tot_storage": 0.0,
+  "recovery": 0.0,
+  "recharge_decline": [1.0, 0.94, 0.88, 0.88, 0.88, 0.88, 0.88, 0.88, 0.94, 0.94, 0.94, 0.94, 0.99],
+  "ownership": {},
+  "bank_cap": {}
+}

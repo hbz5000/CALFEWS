@@ -25,7 +25,7 @@ cdef class Waterbank():
   def __len__(self):
     return 1
 
-  def __init__(self, model, name, key):
+  def __init__(self, model, name, key, scenario='baseline'):
     self.is_Canal = 0
     self.is_District = 0
     self.is_Private = 0
@@ -34,18 +34,31 @@ cdef class Waterbank():
 
     self.key = key
     self.name = name
+    self.epsilon = 1e-13
+    
     for k,v in json.load(open('calfews_src/banks/%s_properties.json' % key)).items():
       setattr(self,k,v)
+    # check if using special scenario for this wb
+    try:
+      scenario_file = scenario[key]
+      if ((scenario_file == 'baseline') == False):
+        for k, v in json.load(open(scenario_file)).items():
+          setattr(self, k, v)
+    except:
+      pass
 		
+    #make sure total waterbank ownership sums to 1
+    self.normalize_ownership_shares()
+    
     self.recharge_rate = self.initial_recharge*cfs_tafd
     self.tot_current_storage = 0.0#total above-ground storage being used in water bank 
     self.loss_rate = 0.06#how much of banked deliveries is lost duing spreading
     
-	#dictionaries for individual member use of the bank
+	  #dictionaries for individual member use of the bank
     self.storage = {}#how much water delivered to bank this time step
     self.recovery_use = {}#how much recovery capacity is being used by a memeber this time step
     self.banked = {} #how much water is stored in the groundwater banking account of the member
-	#timeseries for export to csv
+	  #timeseries for export to csv
     self.bank_timeseries = {}#daily
     self.recharge_rate_series = [0.0 for _ in range(model.T)]#daily recharge rate
     for x in self.participant_list:
@@ -60,36 +73,12 @@ cdef class Waterbank():
     self.monthemptycounter = 0
 
 
-  def object_equals(self, other):
-    ##This function compares two instances of an object, returns True if all attributes are identical.
-    equality = {}
-    if (self.__dict__.keys() != other.__dict__.keys()):
-      return ('Different Attributes')
-    else:
-      differences = 0
-      for i in self.__dict__.keys():
-        if type(self.__getattribute__(i)) is dict:
-          equality[i] = True
-          for j in self.__getattribute__(i).keys():
-            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
-                equality[i] = False
-                differences += 1
-            else:
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
-                equality[i] = False
-                differences += 1
-        else:
-          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
-            if equality[i] == False:
-              differences += 1
-          else:
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
-            if equality[i] == False:
-              differences += 1
-    return (differences == 0)
-
+  def normalize_ownership_shares(self):
+    # normalize total shares to 1
+    total_shares = sum(self.ownership.values())
+    if (total_shares > self.epsilon) and (total_shares != 1.0):
+      for k in self.ownership:
+        self.ownership[k] /= total_shares
 
 #####################################################################################################################
 #####################################################################################################################
@@ -99,8 +88,7 @@ cdef class Waterbank():
 #####################################################################################################################
 
 	  
-  # def find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
-  cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type):
+  cdef double find_node_demand(self, list contract_list, str xx, int num_members, str search_type) except *:
     cdef:
       double current_recovery_use, recovery_use, demand_constraint, current_storage, storage
       str recovery_use_key, participant_key
@@ -126,8 +114,7 @@ cdef class Waterbank():
     return demand_constraint
 
 
-  # def find_priority_space(self, int num_members, str xx, str search_type):
-  cdef double find_priority_space(self, int num_members, str xx, str search_type):
+  cdef double find_priority_space(self, int num_members, str xx, str search_type) except *:
     #this function finds how much 'priority' space in the recharge/recovery capacity is owned by a member (member_name) in a given bank 
     cdef double initial_capacity, available_banked
 
@@ -141,7 +128,6 @@ cdef class Waterbank():
 
 	
 
-  # def set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str current_canal, list member_contracts):
     #this function creates a dictionary (demand_dict) that has a key for each 'priority type' associated with the flow
   	#different types of flow (flood, delivery, banking, recovery) have different priority types
@@ -154,8 +140,8 @@ cdef class Waterbank():
 
     demand_dict = {}
     #for flood flows, determine if the wb members have contracts w/ the flooding reservoir - 1st priority
-	#if not, do they have turnouts on the 'priority' canals - 2nd priority
-	#if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
+    #if not, do they have turnouts on the 'priority' canals - 2nd priority
+    #if not, the demand is 'excess' - 3rd priority (so that flood waters only use certain canals unless the flood releases are big enough)
     if search_type == 'flood':
       priority_toggle = 0
       contractor_toggle = 0
@@ -195,7 +181,7 @@ cdef class Waterbank():
     elif search_type == 'delivery':
       demand_dict[contract_canal] = 0.0
     #banking flows are priority for flows that can be taken by a wb member under their 'owned' capacity
-	#secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
+	  #secondary priority is assigned to districts that are usuing 'excess' space in the wb that they do not own (but the owner does not want to use)
     elif search_type == 'banking':
       canal_toggle = 0
       for canal_key in self.canal_rights:
@@ -207,7 +193,7 @@ cdef class Waterbank():
       else:
         demand_dict['priority'] = 0.0
         demand_dict['secondary'] = min(max(delivery, 0.0), demand_constraint)
-	#recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
+	  #recovery flows are similar to banking flows - first priority for wb members that are using capacity they own, second priority for wb members using 'excess' capacity
     elif search_type == 'recovery':
       demand_dict['initial'] = min(max(min(demand,delivery), 0.0), demand_constraint)
       demand_dict['supplemental'] = min(delivery - max(min(demand,delivery), 0.0), demand_constraint - demand_dict['initial'])
@@ -229,7 +215,7 @@ cdef class Waterbank():
       #deliveries first go to direct irrigation, if demand remains
       #adjust demand/recharge space
       self.storage[member_name] += total_deliveries
-		
+    
     return final_deliveries
 	
 #####################################################################################################################
@@ -265,7 +251,7 @@ cdef class Waterbank():
 
     if self.tot_current_storage > self.recharge_rate*0.75:
       self.thismonthuse = 1
-    if self.tot_current_storage > 0.0:
+    if self.tot_current_storage > self.epsilon:
       absorb_fraction = min(self.recharge_rate/self.tot_current_storage,1.0)
       self.tot_current_storage -= self.tot_current_storage*absorb_fraction
       for x in self.participant_list:

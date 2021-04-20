@@ -37,8 +37,9 @@ cdef class Reservoir():
     self.key = key
     self.name = name
     self.forecastWYT = "AN"
-
-	##Reservoir Parameters
+    self.epsilon = 1e-13
+    
+	  ##Reservoir Parameters
     self.S = [0.0 for _ in range(self.T)]
     self.R = [0.0 for _ in range(self.T)]
     self.tocs = [0.0 for _ in range(self.T)]
@@ -71,7 +72,7 @@ cdef class Reservoir():
       self.Q = [_ * cfs_tafd for _ in model.df[0]['%s_inf'% key].values]
       self.E = [_ * cfs_tafd for _ in model.df[0]['%s_evap'% key].values]
       ####Note - Shasta FCI values are not right - the original calculation units are in AF, but it should be in CFS
-	  ####so the actual values are high.  Just recalculate here instead of changing input files
+	    ####so the actual values are high.  Just recalculate here instead of changing input files
       if self.key == "SHA":
         self.fci = [0.0 for _ in range(self.T)]
         self.fci[0] = 100000
@@ -121,7 +122,7 @@ cdef class Reservoir():
       self.aug_sept_min_release[wyt] = np.zeros(366)
     self.exceedence_level = 9
     
-	##Reservoir "decisions"
+	  ##Reservoir "decisions"
     self.din = 0.0
     self.dout = 0.0
     self.envmin = 0.0	
@@ -131,7 +132,7 @@ cdef class Reservoir():
     
     self.sjrr_release = 0.0
     self.eos_day = 0
-	##Vectors for flow projections
+	  ##Vectors for flow projections
     self.rainfnf_stds = [0.0 for _ in range(365)]
     self.snowfnf_stds = [0.0 for _ in range(365)]
     self.raininf_stds = [0.0 for _ in range(365)]
@@ -159,37 +160,6 @@ cdef class Reservoir():
     self.min_daily_overflow = 0.0
     self.reclaimed_carryover = [0.0 for _ in range(self.T)]
     self.contract_flooded = [0.0 for _ in range(self.T)]
-
-
-  def object_equals(self, other):
-    ##This function compares two instances of an object, returns True if all attributes are identical.
-    equality = {}
-    if (self.__dict__.keys() != other.__dict__.keys()):
-      return ('Different Attributes')
-    else:
-      differences = 0
-      for i in self.__dict__.keys():
-        if type(self.__getattribute__(i)) is dict:
-          equality[i] = True
-          for j in self.__getattribute__(i).keys():
-            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
-                equality[i] = False
-                differences += 1
-            else:
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
-                equality[i] = False
-                differences += 1
-        else:
-          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
-            if equality[i] == False:
-              differences += 1
-          else:
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
-            if equality[i] == False:
-              differences += 1
-    return (differences == 0)
 
 
   cdef void find_available_storage(self, int t, int m, int da, int dowy):
@@ -257,11 +227,11 @@ cdef class Reservoir():
       self.rainflood_forecast[t] = min(self.lastYearRainflood, self.rainflood_inf[t] + self.raininf_stds[dowy]*z_table_transform[self.exceedence_level])
       self.snowflood_forecast[t] = (self.snowflood_inf[t] + self.snowinf_stds[dowy]*z_table_transform[self.exceedence_level])
       self.baseline_forecast[t] = self.baseline_inf[t] + self.baseinf_stds[dowy]*z_table_transform[self.exceedence_level]
-      if self.rainflood_forecast[t] < 0.0:
+      if self.rainflood_forecast[t] < -self.epsilon:
         self.rainflood_forecast[t] = 0.0
-      if self.snowflood_forecast[t] < 0.0:
+      if self.snowflood_forecast[t] < -self.epsilon:
         self.snowflood_forecast[t] = 0.0
-      if self.baseline_forecast[t] < 0.0:
+      if self.baseline_forecast[t] < -self.epsilon:
         self.baseline_forecast[t] = 0.0
     elif dowy < 304:
       self.rainflood_forecast[t] = 0.0##no oct-mar forecasts are made after march (already observed) 
@@ -269,9 +239,9 @@ cdef class Reservoir():
       self.snowflood_forecast[t] = (self.snowflood_inf[t] + self.snowinf_stds[dowy]*z_table_transform[self.exceedence_level])
 
       self.baseline_forecast[t] = self.baseline_inf[t] + self.baseinf_stds[dowy]*z_table_transform[self.exceedence_level]
-      if self.snowflood_forecast[t] < 0.0:
+      if self.snowflood_forecast[t] < -self.epsilon:
         self.snowflood_forecast[t] = 0.0	
-      if self.baseline_forecast[t] < 0.0:
+      if self.baseline_forecast[t] < -self.epsilon:
         self.baseline_forecast[t] = 0.0	  
     else:
       self.rainflood_forecast[t] = 0.0
@@ -462,7 +432,7 @@ cdef class Reservoir():
         month_flow_int = max(month_flow_int, np.mean(self.Q[(t-min(t,4)):t]))
       reservoir_change_rate = month_flow_int - total_mandatory_releases
 	  
-      if reservoir_change_rate < 0.0:
+      if reservoir_change_rate < -self.epsilon:
         drawdown_toggle = 1
         numdays_fillup_cap = 999.9
 
@@ -496,7 +466,7 @@ cdef class Reservoir():
           crossover_date = (storage_cap_start - running_storage)/differential_storage_change
         else:
           crossover_date = 0.0
-          if (block_start + cross_counter_wy*365 - dowy) > 0.0:
+          if (block_start + cross_counter_wy*365 - dowy) > self.epsilon:
             if self.key == 'MIL' or self.key == 'KWH':
               this_month_min_release = max((running_storage - storage_cap_start)/min((block_start + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), (eom_storage - storage_cap_end) / min((block_end + 1 + cross_counter_wy*365 - dowy), self.numdays_fillup[release]), 0.0)
               total_min_release = max(running_storage - storage_cap_start, eom_storage - storage_cap_end)
@@ -577,14 +547,14 @@ cdef class Reservoir():
 
   def rights_call(self,downstream_flow, reset = 0):
     if reset == 0:
-      if downstream_flow < 0.0:
+      if downstream_flow < -self.epsilon:
         self.consumed_releases = downstream_flow*-1.0
         self.gains_to_delta = 0.0
       else:
         self.consumed_releases = 0.0
         self.gains_to_delta = downstream_flow
     else:
-      if downstream_flow < 0.0:
+      if downstream_flow < -self.epsilon:
         self.consumed_releases -= downstream_flow
       else:
         self.gains_to_delta += downstream_flow
@@ -624,12 +594,12 @@ cdef class Reservoir():
   def find_emergency_supply(self, t, m, dowy):
     
     if t < 30:
-      if np.sum(self.fnf[0:t])*30.0/(t+1) > 0.0:
+      if np.sum(self.fnf[0:t])*30.0/(t+1) > self.epsilon:
         running_fnf = np.log(np.sum(self.fnf[0:t])*30.0/(t+1))
       else:
         running_fnf = -6.0
     else:
-      if np.sum(self.fnf[(t-30):(t-1)]) > 0.0:
+      if np.sum(self.fnf[(t-30):(t-1)]) > self.epsilon:
         running_fnf = np.log(np.sum(self.fnf[(t-30):(t-1)]))
       else:
         running_fnf = -6.0
@@ -761,7 +731,7 @@ cdef class Reservoir():
 	
 
 
-  cdef void create_flow_shapes(self, Model model):
+  cdef void create_flow_shapes(self, Model model) except *:
     cdef:
       double prev_fnf
       int startYear, endYear, numYears, t, m, dowy, wateryear, x, mm, yy
@@ -819,7 +789,7 @@ cdef class Reservoir():
             one_year_runfnf = running_fnf[x]
           monthly_flow_predict = np.zeros(numYears)
           for yy in range(0,numYears):
-            if monthly_flow[mm][yy] > 0.0:
+            if monthly_flow[mm][yy] > self.epsilon:
               monthly_flow_predict[yy] = np.log(monthly_flow[mm][yy])
             else:
               monthly_flow_predict = -3.0
@@ -827,7 +797,7 @@ cdef class Reservoir():
           monthly_flow_predict = np.zeros(numYears-1)
           one_year_runfnf = np.zeros(numYears-1)
           for yy in range(1,numYears):
-            if monthly_flow[mm][yy] > 0.0:
+            if monthly_flow[mm][yy] > self.epsilon:
               monthly_flow_predict[yy-1] = np.log(monthly_flow[mm][yy])
             else:
               monthly_flow_predict[yy-1] = -3.0
@@ -921,7 +891,7 @@ cdef class Reservoir():
     #scatterplot_values.to_csv('manuscript_figures/Figure3/' + self.key + '_flow_forecast_scatter.csv')
 
 			
-  cdef void find_release_func(self, Model model):
+  cdef void find_release_func(self, Model model) except *:
     ##this function is used to make forecasts when calculating available storage for export releases from reservoir
     ##using data from 1996 to 2016 (b/c data is available for all inputs needed), calculate total flows in oct-mar period and apr-jul period
     ##based on linear regression w/snowpack (apr-jul) and w/inflow (oct-mar)

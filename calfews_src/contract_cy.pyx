@@ -23,6 +23,7 @@ cdef class Contract():
   def __init__(self, model, name, key):
     self.key = key
     self.name = name
+    self.epsilon = 1e-13
 
     for k,v in json.load(open('calfews_src/contracts/%s_properties.json' % key)).items():
         setattr(self,k,v)
@@ -49,36 +50,6 @@ cdef class Contract():
     supply_types = ['contract', 'carryover', 'turnback', 'flood', 'total_carryover']
     for x in supply_types:
       self.daily_supplies[x] = np.zeros(model.T)
-
-  def object_equals(self, other):
-    ##This function compares two instances of an object, returns True if all attributes are identical.
-    equality = {}
-    if (self.__dict__.keys() != other.__dict__.keys()):
-      return ('Different Attributes')
-    else:
-      differences = 0
-      for i in self.__dict__.keys():
-        if type(self.__getattribute__(i)) is dict:
-          equality[i] = True
-          for j in self.__getattribute__(i).keys():
-            if (type(self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) is bool):
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]) == False):
-                equality[i] = False
-                differences += 1
-            else:
-              if ((self.__getattribute__(i)[j] == other.__getattribute__(i)[j]).all() == False):
-                equality[i] = False
-                differences += 1
-        else:
-          if (type(self.__getattribute__(i) == other.__getattribute__(i)) is bool):
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i))
-            if equality[i] == False:
-              differences += 1
-          else:
-            equality[i] = (self.__getattribute__(i) == other.__getattribute__(i)).all()
-            if equality[i] == False:
-              differences += 1
-    return (differences == 0)
 
 
   cdef void calc_allocation(self, int t, int dowy, double forecast_available, double priority_contract, double secondary_contract, str wyt):
@@ -133,7 +104,7 @@ cdef class Contract():
       #what is the fraction of the allocation that is available to the contract right now
 	  #all contracts with priority storage share the 'total_water' - i.e. if 1/2 of the priority storage
 	  #has already come into the reservoir, then 1/2 of the contract's allocation is 'currently available'
-      if priority_storage > 0.0:
+      if priority_storage > self.epsilon:
         self.storage_pool[t] = min(1.0, total_water/priority_storage)*(self.allocation[t])
         self.available_water[t] = reservoir_storage * (self.allocation[t])/priority_storage
       else:

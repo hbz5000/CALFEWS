@@ -7,7 +7,7 @@ cdef class Reservoir():
                 EOS_target, lastYearEOS_target, din, dout, envmin, sodd, basinuse, consumed_releases, sjrr_release, \
                 evap_forecast, lastYearRainflood, variable_min_flow, min_daily_overflow, min_daily_uncontrolled, fcr, max_fcr, \
                 gains_to_delta, rainflood_flows, baseline_flows, max_daily_uncontrolled, uncontrolled_available, force_spill, \
-                snowflood_flows, saved_water, total_capacity, flood_flow_min
+                snowflood_flows, saved_water, total_capacity, flood_flow_min, epsilon
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, T, T_short, melt_start, exceedence_level, \
                 iter_count, eos_day
@@ -38,9 +38,9 @@ cdef class Reservoir():
 
   cdef void find_available_storage(self, int t, int m, int da, int dowy)
 
-  cdef void create_flow_shapes(self, Model model)
+  cdef void create_flow_shapes(self, Model model) except *
 
-  cdef void find_release_func(self, Model model)
+  cdef void find_release_func(self, Model model) except *
 
   cdef void calc_expected_min_release(self, Model model, dict delta_req, depletions, int sjrr_toggle)
 

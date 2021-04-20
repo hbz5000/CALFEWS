@@ -6,7 +6,7 @@ cdef class Private():
   cdef:
     public double in_district_direct_recharge, recovery_fraction, use_recharge, use_recovery, extra_leiu_recovery, \
                 max_recovery, max_leiu_exchange, total_banked_storage, recharge_rate, recovery_capacity_remain, \
-                current_recharge_storage, banking_risk_level, total_acreage
+                current_recharge_storage, banking_risk_level, total_acreage, epsilon
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, turnback_use, thismonthuse, monthusecounter, \
                 monthemptycounter, iter_count, age_death, T, district_list_len
@@ -25,9 +25,9 @@ cdef class Private():
                 seasonal_connection, k_close_wateryear, last_days_demand_regression_error, MDD, has_pesticide, irrdemand, \
                 urban_profile, contract_fraction, private_fraction, has_pmp, turnout_list, delivery_location_list, must_fill
 
-  cdef double find_node_demand(self, list contract_list, str search_type, str district_name)
+  cdef double find_node_demand(self, list contract_list, str search_type, str district_name) except *
   
-  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)
+  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *
   
   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal)
   

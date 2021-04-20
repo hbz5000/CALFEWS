@@ -1,14 +1,26 @@
 {
   "baseline_wy2017": {
-	"FKC":				"calfews_src/scenarios/FKC_properties__capacity_wy2017.json",
-	"LWT":				"baseline"
-    },
+    "FKC":				"calfews_src/scenarios/FKC_properties__capacity_wy2017.json"
+  },
   "FKC_capacity_rehab_full": {
-	"FKC":				"calfews_src/scenarios/FKC_properties__capacity_rehab_full.json",
-	"LWT":				"baseline"
-    },
-  "LWT_inleiubank": {
-	"FKC":				"baseline",
-	"LWT":				"calfews_src/scenarios/LWT_properties__inleiubank_DLEKRTSSJSFW_0.json"
-    }
+    "FKC":				"calfews_src/scenarios/FKC_properties__capacity_rehab_full.json"
+  },
+  "FKC_rehab_ownership_all": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_all.json"
+  },
+  "FKC_experiment": {
+    "FKC":				"localfile"
+  },
+  "FKC_rehab_NFWB_large_ownership_all": {
+    "FKC":				"calfews_src/scenarios/FKC_properties__rehab_ownership_all.json",
+    "NFWB":       "calfews_src/scenarios/NFWB_properties__large_all.json"
+  },
+  "FKC_NFWB_experiment": {
+    "FKC":				"localfile",
+    "NFWB":       "localfile"
+  }, 
+  "FKC_CFWB_experiment": {
+    "FKC":				"localfile",
+    "CFWB":       "localfile"
+  }
 }

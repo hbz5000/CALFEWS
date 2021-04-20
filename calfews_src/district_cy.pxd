@@ -10,7 +10,7 @@ cdef class District():
                 direct_recovery_delivery, pre_flood_demand, tot_leiu_recovery_use, leiu_trade_cap, loss_rate, initial_table_a, \
                 total_banked_storage, min_direct_recovery, turnback_sales, turnback_purchases, annual_private_pumping, \
                 irrseasondemand, recharge_rate, last_days_demand_regression_error, recovery_capacity_remain, table_a_request, \
-                current_recharge_storage, current_requested
+                current_recharge_storage, current_requested, epsilon
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, T, turnback_use, must_fill, seasonal_connection, \
                 thismonthuse, monthusecounter, monthemptycounter, has_private, has_pesticide, has_pmp, k_close_wateryear, iter_count, \
@@ -29,15 +29,15 @@ cdef class District():
                 bank_deliveries, direct_storage, bank_timeseries, leiu_ownership, private_acreage, reservoir_contract, monthlydemand, \
                 carryover_rights, private_demand, hist_demand_dict, acreage_by_year, private_delivery, acreage, annualdemand, \
                 delivery_percent_coefficient, pumping, annual_pumping, ytd_pumping, demand_auto_errors, demand_days, dailydemand, \
-                dailydemand_start
+                dailydemand_start, infrastructure_shares
                 
     public Crop irrdemand
 
-  cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge)
+  cdef double find_node_demand(self, list contract_list, str search_type, int partial_demand_toggle, int toggle_recharge) except *
   
-  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear)
+  cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *
   
-  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal)
+  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str message=*)
   
   cdef void get_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear)
 
@@ -61,7 +61,7 @@ cdef class District():
 
   cdef void open_recharge(self, int t, int m, int da, int wateryear, int year_index, list days_in_month, double numdays_fillup, double numdays_fillup2, str key, str wyt, list reachable_turnouts, double additional_carryover)
 
-  cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month)
+  cdef double get_urban_recovery_target(self, int t, int dowy, int wateryear, str wyt, dict pumping, double project_contract, int demand_days, int start_month) except -1
 
   cdef tuple set_turnback_pool(self, str key, int year_index, list days_in_month)
 

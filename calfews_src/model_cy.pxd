@@ -12,6 +12,8 @@ cdef class Model():
  
   cdef:
 
+    public double epsilon
+    
     public int T, starting_year, ending_year, number_years, T_short, short_starting_year, short_ending_year, short_number_years, \
                 sensitivity_sample_number, omr_rule_start, non_leap_year
 
@@ -29,7 +31,7 @@ cdef class Model():
 
     public dict delta_gains_regression, canal_reservoir, canal_contract, canal_priority, reservoir_contract, contract_turnouts, \
                 contract_reservoir, reservoir_canal, canal_district, pumping_turnback, max_tax_free, district_keys, \
-                contract_keys, allocation_losses, district_keys_len, canal_district_len
+                contract_keys, allocation_losses, district_keys_len, canal_district_len, canal_by_name
 
 
     public Reservoir shasta, oroville, folsom, yuba, newmelones, donpedro, exchequer, millerton, sanluisstate, sanluisfederal, \
@@ -49,21 +51,27 @@ cdef class Model():
 
     public Private wonderful, metropolitan, castaic, coachella
 
-    public Waterbank stockdale, kernriverbed, poso, pioneer, kwb, berrendawb, b2800, wkwb, irvineranch, northkernwb, aewb
+    public Waterbank stockdale, kernriverbed, poso, pioneer, kwb, berrendawb, b2800, wkwb, irvineranch, northkernwb, aewb, northfriantwb, centralfriantwb
 
     public Contract friant1, friant2, swpdelta, cvpdelta, cvpexchange, crossvalley, kernriver, tuleriver, kaweahriver, kingsriver
 
-  cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries)
+  cdef dict search_canal_demand(self, int dowy, Canal canal, str prev_canal, str contract_canal, str flow_dir, str flow_type, int wateryear, str search_type, dict existing_deliveries, list canals_passed_through)   
+
+  cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type, list canals_passed_through)
   
-  cdef tuple distribute_canal_deliveries(self, int dowy, Canal canal, str prev_canal, str contract_canal, double available_flow, int canal_size, int wateryear, str flow_dir, str flow_type, str search_type)
+  cdef double get_restricted_district_access(self, list canals_passed_through, District district) except * 
+
+  cdef double set_restricted_district_access(self, list canals_passed_through, District district, double deliveries) except *
   
-  cdef void find_node_demand_bank(self, Waterbank bank_node, Canal canal, int canal_loc, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list)
+  cdef void find_node_demand_bank(self, Waterbank bank_node, Canal canal, int canal_loc, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list, list canals_passed_through) except *
   
-  cdef (double, double) delivery_recovery(self, list contract_list, Canal canal, lookback_range, int starting_point, dict paper_fractions, double direct_recovery, str flow_dir, list type_list, list priority_list, str contract_canal, str delivery_loc_name, int dowy, int wateryear)
+  cdef (double, double) delivery_recovery(self, list contract_list, Canal canal, lookback_range, int starting_point, dict paper_fractions, double direct_recovery, str flow_dir, list type_list, list priority_list, str contract_canal, str delivery_loc_name, int dowy, int wateryear, list canals_passed_through) except *
   
-  cdef void flood_operations(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, str wyt)
+  cdef (double, double) flood_operations(self, int t, int m, int dowy, int wateryear, Reservoir reservoir, str flow_type, int overflow_toggle, str wyt, double prev_flood_release, str message=*) except *
+
+  cdef void spill_reservoir(self, int t, int wateryear, Reservoir reservoir, double total_flood_deliveries, double total_excess_flow) except *
   
-  cdef void find_node_demand_district(self, District district_node, Canal canal, int canal_loc, double demand_constraint, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list, int toggle_district_recharge)
+  cdef void find_node_demand_district(self, District district_node, Canal canal, int canal_loc, double demand_constraint, list contract_list, list priority_list, str contract_canal, int dowy, int wateryear, str search_type, list type_list, int toggle_district_recharge, list canals_passed_through) except *
 
   cdef tuple set_canal_range(self, str flow_dir, str flow_type, Canal canal, str prev_canal, int canal_size)
 
@@ -98,7 +106,7 @@ cdef class Model():
 
   cdef void initialize_northern_res(self) except *
 
-  cdef void initialize_delta_ops(self)
+  cdef void initialize_delta_ops(self) except *
 
   cdef void southern_initialization_routine(self, scenario=*) except *
 
@@ -106,6 +114,6 @@ cdef class Model():
 
   cdef void project_urban(self, str datafile, str datafile_cvp, str datafile_pumping) except *
 
-  cdef void predict_delta_gains(self)
+  cdef void predict_delta_gains(self) except *
 
-  cdef void initialize_water_districts(self, scenario=*)
+  cdef void initialize_water_districts(self, scenario=*) except *

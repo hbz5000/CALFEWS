@@ -62,9 +62,12 @@
       "miroc5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp85_r1i1p1.csv"
       },
     "synthetic":{
-      "capow_23yr": "calfews_src/data/input/ORCA_forecast_flows.csv"
+      "capow_22yr": "calfews_src/data/capow_synthetic/capow_synthetic_22yr.csv",
+      "capow_50yr_wet": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_wet.csv",
+      "capow_50yr_dry": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_dry.csv",
+      "capow_50yr_median": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_median.csv"
     }
-    },
+  },
 
   "export_series":{
     "observations":{
@@ -127,7 +130,10 @@
       "miroc5_rcp85": "calfews_src-data-CA_FNF_miroc5_rcp85_r1i1p1"
       },
       "synthetic":{
-        "capow_23yr": "calfews_src-data-synth_capow"
+        "capow_22yr": "calfews_src-data-synth_capow",
+        "capow_50yr_wet": "calfews_src-data-synth_capow_50wet",
+        "capow_50yr_dry": "calfews_src-data-synth_capow_50dry",
+        "capow_50yr_median": "calfews_src-data-synth_capow_50median"
       }
     },
   
@@ -192,7 +198,10 @@
       "miroc5_rcp85": 1950
     },
     "synthetic":{
-      "capow_23yr": 1901
+      "capow_22yr": 1901,
+      "capow_50yr_wet": 1901,
+      "capow_50yr_dry": 1901,
+      "capow_50yr_median": 1901
     }
   },
   
@@ -257,7 +266,10 @@
       "miroc5_rcp85": 2099
     },
     "synthetic":{
-      "capow_23yr": 1923
+      "capow_22yr": 1923,
+      "capow_50yr_wet": 1951,
+      "capow_50yr_dry": 1951,
+      "capow_50yr_median": 1951
     }
   },
   
@@ -322,7 +334,10 @@
       "miroc5_rcp85": "1/1/1950"
     },
     "synthetic":{
-      "capow_23yr": "1/1/1901"
+      "capow_22yr": "1/1/1901",
+      "capow_50yr_wet": "1/1/1901",
+      "capow_50yr_dry": "1/1/1901",
+      "capow_50yr_median": "1/1/1901"
     }
   },
   
@@ -387,7 +402,10 @@
       "miroc5_rcp85": "12/31/2099"
     },
     "synthetic":{
-      "capow_23yr": "12/31/1923"
+      "capow_22yr": "12/31/1923",
+      "capow_50yr_wet": "12/31/1951",
+      "capow_50yr_dry": "12/31/1951",
+      "capow_50yr_median": "12/31/1951"
     }
   },
   "has_full_inputs":{
@@ -451,7 +469,10 @@
       "miroc5_rcp85": false
     },
     "synthetic":{
-      "capow_23yr": false
+      "capow_22yr": false,
+      "capow_50yr_wet": false,
+      "capow_50yr_dry": false,
+      "capow_50yr_median": false
     }
   },
   
@@ -516,7 +537,10 @@
       "miroc5_rcp85": true
     },
     "synthetic":{
-      "capow_23yr": true
+      "capow_22yr": true,
+      "capow_50yr_wet": true,
+      "capow_50yr_dry": true,
+      "capow_50yr_median": true
     }
   },
 
@@ -581,7 +605,10 @@
       "miroc5_rcp85": "cfs"
     },
     "synthetic":{
-      "capow_23yr": "af"
+      "capow_22yr": "af",
+      "capow_50yr_wet": "af",
+      "capow_50yr_dry": "af",
+      "capow_50yr_median": "af"
     }
   },
 
