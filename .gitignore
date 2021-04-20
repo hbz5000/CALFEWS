@@ -22,3 +22,4 @@ profiling/*.txt
 out*.txt
 slurm*
 FKC_experiment/slurm*
+*_tmp.sh
