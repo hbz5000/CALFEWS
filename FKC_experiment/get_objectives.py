@@ -10,8 +10,8 @@ hydrology = sys.argv[1] #wet,dry, or median
 sample = sys.argv[2]  #0-2999
 project = sys.argv[3] #FKC_CFWB, FKC, CFWB
 
-#scenario = 'FKC_experiment_capow_50yr_' + hydrology + '_all'
-scenario = 'FKC_experiment_capow_50yr_'+ hydrology + '_' + sample + '_' + project
+scenario = 'FKC_experiment_capow_50yr_' + hydrology + '_friant'
+#scenario = 'FKC_experiment_capow_50yr_'+ hydrology + '_' + sample + '_' + project
 baseline = 'FKC_experiment_capow_50yr_' + hydrology + '_none'
 
 ### get ownership shares for each scenario

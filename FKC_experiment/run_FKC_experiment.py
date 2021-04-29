@@ -111,48 +111,88 @@ else:
 #if rerun_baselines == 1 and rank == (nprocs - 1):
 if rerun_baselines == 1:
 
-  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_none'
-  start_time = datetime.now()
+#  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_none'
+#  start_time = datetime.now()
 
-  if not os.path.exists(results_folder):
+#  if not os.path.exists(results_folder):
 
-    try:
-    prep_sim('None', results_folder, print_log)
+#    try:
+#    prep_sim('None', results_folder, print_log)
 
-    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
-    for i, k in enumerate(scenario['ownership_shares'].keys()):
-      scenario['ownership_shares'][k] = 0.0
-    with open(results_folder + '/FKC_scenario.json', 'w') as o:
-      json.dump(scenario, o)
+#    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
+#    for i, k in enumerate(scenario['ownership_shares'].keys()):
+#      scenario['ownership_shares'][k] = 0.0
+#    with open(results_folder + '/FKC_scenario.json', 'w') as o:
+#      json.dump(scenario, o)
 
-    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
-    scenario['participant_list'] = []
-    scenario['ownership'] = {}
-    scenario['bank_cap'] = {}
-    scenario['initial_recharge'] = 0.0
-    scenario['tot_storage'] = 0.0
-    scenario['recovery'] = 0.0
-    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
-      results_folder + '/CFWB_scenario.json'
-      json.dump(scenario, o)
+#    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
+#    scenario['participant_list'] = []
+#    scenario['ownership'] = {}
+#    scenario['bank_cap'] = {}
+#    scenario['initial_recharge'] = 0.0
+#    scenario['tot_storage'] = 0.0
+#    scenario['recovery'] = 0.0
+#    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
+#      results_folder + '/CFWB_scenario.json'
+#      json.dump(scenario, o)
 
-    run_sim(results_folder, runtime_file, start_time)
-    except:
-      print('EXPERIMENT FAIL: ', results_folder)
+#    run_sim(results_folder, runtime_file, start_time)
+#    except:
+#      print('EXPERIMENT FAIL: ', results_folder)
 
 
-  ### now get baseline with all districts given ownership to FKC
-  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_all'
+  ### now get baseline with all districts given access to FKC
+#  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_all'
+#  start_time = datetime.now()
+#
+#  if not os.path.exists(results_folder):
+
+#    try:
+#    prep_sim('All', results_folder, print_log)
+
+#    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
+#    for i, k in enumerate(scenario['ownership_shares'].keys()):
+#      scenario['ownership_shares'][k] = 1.0
+#    with open(results_folder + '/FKC_scenario.json', 'w') as o:
+#      json.dump(scenario, o)
+
+#    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
+#    scenario['participant_list'] = []
+#    scenario['ownership'] = {}
+#    scenario['bank_cap'] = {}
+#    scenario['initial_recharge'] = 0.0
+#    scenario['tot_storage'] = 0.0
+#    scenario['recovery'] = 0.0
+#    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
+#      results_folder + '/CFWB_scenario.json'
+#      json.dump(scenario, o)
+
+#    run_sim(results_folder, runtime_file, start_time)
+
+  ### last baseline - equal ownership across friant contractors
+  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_friant'
   start_time = datetime.now()
 
   if not os.path.exists(results_folder):
 
 #    try:
-    prep_sim('All', results_folder, print_log)
+    prep_sim('Friant', results_folder, print_log)
 
-    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
+    is_friant = {'BDM':False, 'BLR':False, 'BVA':False, 'CWO':False, 'HML':False, 'ID4':False, 'KND':False, 'LHL':False, 
+                 'RRB':False, 'SMI':False, 'THC':False, 'TJC':False, 'WKN':False, 'WRM':False, 'KCWA':False, 'COB':False, 
+                 'NKN':False, 'ARV':True, 'PIX':False, 'DLE':True, 'EXE':True, 'OKW':False, 'KRT':True, 'LND':True, 
+                 'LDS':True, 'LWT':True, 'PRT':True, 'SAU':True, 'SFW':True, 'SSJ':True, 'TPD':True, 'TBA':True, 
+                 'TUL':True, 'COF':True, 'FRS':True, 'SOC':False, 'SOB':False, 'CCA':False, 'DLR':False, 'TLB':False, 
+                 'KWD':True, 'WSL':False, 'SNL':False, 'PNC':False, 'DLP':False, 'CWC':False, 'MAD':False, 'OTL':False, 
+                 'OFK':True, 'OCD':False, 'OEX':False, 'OXV':True, 'OSW':False, 'CNS':False, 'ALT':False, 'KRWA':False}
+
+    num_friant = sum(is_friant.values())
+    shares_updated = {d: 1 / num_friant if is_friant[d] else 0.0 for d in scenario['ownership_shares']}
+
     for i, k in enumerate(scenario['ownership_shares'].keys()):
-      scenario['ownership_shares'][k] = 1.0
+      scenario['ownership_shares'][k] = shares_updated[k]
+
     with open(results_folder + '/FKC_scenario.json', 'w') as o:
       json.dump(scenario, o)
 
@@ -168,6 +208,9 @@ if rerun_baselines == 1:
       json.dump(scenario, o)
 
     run_sim(results_folder, runtime_file, start_time)
+
+
+
 
 ### now loop through rest of infrastructure scenarios
 for s in range(start, stop):
@@ -192,7 +235,7 @@ for s in range(start, stop):
         count += 1
     
     ### randomly choose new ownership fractions for FKC expansion & CFWB, plus capacity params for CFWB
-    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
     ndistricts = len(scenario['ownership_shares'])
     shares = np.random.uniform(size=ndistricts)
     shares[zerodistricts] = 0.0
@@ -266,7 +309,7 @@ for s in range(start, stop):
 
       shutil.copy(results_folder_both + '/CFWB_scenario.json', results_folder)
 
-      scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all_withbanks.json'))
+      scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
       for i, k in enumerate(scenario['ownership_shares'].keys()):
         scenario['ownership_shares'][k] = 0.0
       with open(results_folder + '/FKC_scenario.json', 'w') as o:

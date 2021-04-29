@@ -31,10 +31,18 @@ print(objs.shape)
 print(objs.head())
 
 ### get avg price of water gains per year
-principle = {'FKC': 300e6, 'CFWB': 50e6, 'FKC_CFWB': 350e6}
+FKC_cost = 500e6
+FKC_fed_payment = 200e6
+FKC_east_tule_payment = 125e6
+FKC_participant_payment = FKC_cost - FKC_fed_payment - FKC_east_tule_payment
+CFWB_cost = 100e6
+interest_annual = 0.03
+time_horizon = 50
+
+principle = {'FKC': FKC_participant_payment, 'CFWB': CFWB_cost, 'FKC_CFWB': FKC_participant_payment + CFWB_cost}
 payments_per_yr = 1
-interest_rt = 0.05 / payments_per_yr
-num_payments = 50 * payments_per_yr
+interest_rt = interest_annual / payments_per_yr
+num_payments = time_horizon * payments_per_yr
 annual_payment = {k: principle[k] / (((1 + interest_rt) ** num_payments - 1) / (interest_rt * (1 + interest_rt) ** num_payments)) for k in principle}
 objs['avg_price_gain_dolAF'] = [annual_payment[objs.project.iloc[i]] / objs['total_partner_avg_gain'].iloc[i] / 1000 for i in range(objs.shape[0])]
 
@@ -45,7 +53,13 @@ objs.avg_price_gain_dolAF.loc[objs.avg_price_gain_dolAF > 3000.0] = 3000.
 ## output
 objs.to_csv(results + 'objs_clean.csv', index=False)
 
-## aggregate across hydrology, taking worst case for each project/sample combo
+
+### get median-hydrology only set
+objs_medHydro = objs.loc[objs.hydro == 'median', :]
+## output
+objs_medHydro.to_csv(results + 'objs_medHydro.csv', index=False)
+
+### aggregate across hydrology, taking worst case for each project/sample combo
 objs_aggHydro = objs.groupby(['samp','project']).min().reset_index()
 for o in ['ginicoef', 'avg_price_gain_dolAF']:
     objs_aggHydro.loc[:, o] = objs.groupby(['samp','project']).max().reset_index().loc[:, o]

@@ -15,12 +15,12 @@ do
   sed -i 's/errhere/err_'$s'_none.txt/' sbatch_single_longleaf_tmp.sh
   sbatch sbatch_single_longleaf_tmp.sh 1 0 0 $runtime_file
 
-  for i in $(seq $start_samples $end_samples )
-  do
-    i2=$(expr $i + 1)
-    sed 's/namehere/'$s'_'$i'/' sbatch_single_longleaf.sh > sbatch_single_longleaf_tmp.sh
-    sed -i 's/outhere/out_'$s'_'$i'.txt/' sbatch_single_longleaf_tmp.sh
-    sed -i 's/errhere/err_'$s'_'$i'.txt/' sbatch_single_longleaf_tmp.sh
-    sbatch sbatch_single_longleaf_tmp.sh 0 $i $i2 $runtime_file
-  done
+#  for i in $(seq $start_samples $end_samples )
+#  do
+#    i2=$(expr $i + 1)
+#    sed 's/namehere/'$s'_'$i'/' sbatch_single_longleaf.sh > sbatch_single_longleaf_tmp.sh
+#    sed -i 's/outhere/out_'$s'_'$i'.txt/' sbatch_single_longleaf_tmp.sh
+#    sed -i 's/errhere/err_'$s'_'$i'.txt/' sbatch_single_longleaf_tmp.sh
+#    sbatch sbatch_single_longleaf_tmp.sh 0 $i $i2 $runtime_file
+#  done
 done
