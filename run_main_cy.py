@@ -2,6 +2,8 @@ import sys
 import os
 import shutil
 import pandas as pd
+from configobj import ConfigObj
+from distutils.util import strtobool
 from datetime import datetime
 import main_cy
 
@@ -11,14 +13,26 @@ results_folder = sys.argv[1]  ### folder directory to store results, relative to
 redo_init = int(sys.argv[2])   ### this should be 0 if we want to use saved initialized model, else 1
 run_sim = int(sys.argv[3])   ### this should be 1 if we want to run sim, else 0 to just do init
 
+config = ConfigObj('runtime_params.ini')
+cluster_mode = bool(strtobool(config['cluster_mode']))
+scratch_dir = config['scratch_dir']
+
+if cluster_mode:
+  results_folder = scratch_dir + results_folder + '/'
+else:
+  results_base = 'results/' + results_folder + '/'
+
 ### if initialized main_cy object given, load it in
 save_init = results_folder + '/main_cy_init.pkl'
 
-### remove old results
+### create results directory or remove old results
 try:
-  os.remove(results_folder + '/results.hdf5')
+  os.mkdir(results_folder)
 except:
-  pass
+  try:
+    os.remove(results_folder + '/results.hdf5')
+  except:
+    pass
 
 if redo_init == 0:
   try:
