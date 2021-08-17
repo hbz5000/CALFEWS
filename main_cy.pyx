@@ -222,7 +222,7 @@ cdef class main_cy():
     with open(self.output_list, 'r') as f:
       output_list = json.load(f)
 
-    self.objs = {}
+    objs = {}
     total_delivery = np.zeros(self.modelno.T)
     for c in ['friant1', 'friant2']:
       for cc in ['contract', 'flood']:
@@ -233,9 +233,11 @@ cdef class main_cy():
 
     total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})
     total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
-    self.objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
-    self.objs['min_friant_delivery'] = np.min(total_wy_delivery)
+    objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
+    objs['min_friant_delivery'] = np.min(total_wy_delivery)
+    objs['timeseries_wys'] = len(total_wy_delivery)
 
+    return objs
 
 
 
