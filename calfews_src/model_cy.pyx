@@ -20,10 +20,13 @@ from .participant_cy cimport Participant
 
 cdef class Model():
  
-  def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
+  def __init__(self, input_data_file, expected_release_datafile, model_mode, demand_type, new_inputs_df='', sensitivity_sample_number=-1, sensitivity_sample_names=[], sensitivity_sample=[], sensitivity_factors = None):
     ##Set model dataset & index length
     self.df = []
-    self.df.append(pd.read_csv(input_data_file, index_col=0, parse_dates=True))
+    if new_inputs_df is '':
+      self.df.append(pd.read_csv(input_data_file, index_col=0, parse_dates=True))
+    else:
+      self.df.append(new_inputs_df)
     self.model_mode = model_mode
     self.demand_type = demand_type
     self.T = len(self.df[0])

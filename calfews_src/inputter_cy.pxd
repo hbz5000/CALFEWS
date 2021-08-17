@@ -18,9 +18,9 @@ cdef class Inputter():
 
   cdef void initialize_reservoirs(self) except *
 
-  cdef void run_routine(self, str flow_input_type, str flow_input_source) except *
+  # cdef void run_routine(self, str flow_input_type, str flow_input_source) except *
 
-  cdef void make_daily_timeseries(self, str flow_input_type, str flow_input_source, int numYears, int start_year, int start_month, int end_month, int first_leap, str plot_key) except *
+  # cdef void make_daily_timeseries(self, str flow_input_type, str flow_input_source, int numYears, int start_year, int start_month, int end_month, int first_leap, str plot_key) except *
 
   cdef void fill_snowpack(self, str plot_key) except *
 

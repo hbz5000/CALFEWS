@@ -109,18 +109,21 @@ cdef class main_cy():
       new_inputs = Inputter(base_data_file, expected_release_datafile, self.model_mode, self.results_folder)
       if new_inputs.has_full_inputs[self.flow_input_type][self.flow_input_source]:
         input_data_file = new_inputs.flow_input_source[self.flow_input_type][self.flow_input_source]
+        new_inputs_df = ''
       else:
         # run initialization routine
         new_inputs.run_initialization('XXX')
         # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
         PyErr_CheckSignals()
         if True:
-          new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
-          input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
+          new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
+          input_data_file = ''
+          # input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
 
     elif self.model_mode == 'validation':
       demand_type = 'pesticide'
       input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
+      new_inputs_df = ''
 
     ### reset seed again to match old code
     if (self.seed > 0):
@@ -129,10 +132,11 @@ cdef class main_cy():
     ### setup northern & southern models & run initialization
     PyErr_CheckSignals()
     if True:
-      self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+      self.modelno = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type, new_inputs_df)
     PyErr_CheckSignals()
     if True:
-      self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type)
+      self.modelso = Model(input_data_file, expected_release_datafile, self.model_mode, demand_type, new_inputs_df)
+    del new_inputs_df
     PyErr_CheckSignals()
     if True:
       self.modelso.max_tax_free = {}

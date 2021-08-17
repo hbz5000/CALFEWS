@@ -73,7 +73,7 @@ cdef class Inputter():
 
    
 
-  cdef void run_routine(self, str flow_input_type, str flow_input_source) except *:
+  def run_routine(self, str flow_input_type, str flow_input_source):
     cdef:
       int start_month, end_month, start_year, number_years, first_leap
     start_month = 10
@@ -94,8 +94,9 @@ cdef class Inputter():
     self.find_residuals_delta(start_month, number_years, 'XXX')
     self.add_error(number_years, 'XXX')
     self.add_error_delta(number_years, 'XXX')
-    self.make_daily_timeseries(flow_input_type, flow_input_source, number_years, start_year, start_month, end_month, first_leap, 'N')
-
+    df_for_output = self.make_daily_timeseries(flow_input_type, flow_input_source, number_years, start_year, start_month, end_month, first_leap, 'N')
+    
+    return df_for_output
 
   cdef void initialize_reservoirs(self) except *:
     cdef:
@@ -1219,7 +1220,7 @@ cdef class Inputter():
         plt.show()
         plt.close()
 
-  cdef void make_daily_timeseries(self, str flow_input_type, str flow_input_source, int numYears, int start_year, int start_month, int end_month, int first_leap, str plot_key) except *:
+  def make_daily_timeseries(self, str flow_input_type, str flow_input_source, int numYears, int start_year, int start_month, int end_month, int first_leap, str plot_key):
     cdef:
       double this_year_fnf_melt, multiplier
       int numdays_output, last_step_month, t, monthcounter, yearcounter, daycounter, dowy, is_leap, year_leap_non_leap, sorted_search, \
@@ -1353,7 +1354,7 @@ cdef class Inputter():
       else:
         df_for_output['%s_pump' % deltaname] = pd.Series(self.daily_df_data[deltaname] * multiplier,
                                  index=df_for_output.index)
-    df_for_output.to_csv(self.results_folder + '/' + self.export_series[flow_input_type][flow_input_source] + "_"  + str(self.sensitivity_sample_number) + ".csv", index=True, index_label='datetime')
+    # df_for_output.to_csv(self.results_folder + '/' + self.export_series[flow_input_type][flow_input_source] + "_"  + str(self.sensitivity_sample_number) + ".csv", index=True, index_label='datetime')
 
     for data_type in self.data_type_list:
       if plot_key == 'Y' and (data_type == 'fnf' or data_type == 'inf'):
@@ -1440,6 +1441,7 @@ cdef class Inputter():
         plt.show()
         plt.close()
 
+    return df_for_output
 
   def get_flow_ratios(self, inf, fnf):
     ratios = np.zeros(self.number_years)
