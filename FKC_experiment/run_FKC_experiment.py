@@ -169,23 +169,22 @@ if rerun_baselines == 1:
 
 #    run_sim(results_folder, runtime_file, start_time)
 
-  ### last baseline - equal ownership across friant contractors
-  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_friant'
+  ### baseline - equal ownership across friant contractors
+  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_friantEqual'
   start_time = datetime.now()
 
   if not os.path.exists(results_folder):
 
-#    try:
     prep_sim('Friant', results_folder, print_log)
 
     scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
     is_friant = {'BDM':False, 'BLR':False, 'BVA':False, 'CWO':False, 'HML':False, 'ID4':False, 'KND':False, 'LHL':False, 
                  'RRB':False, 'SMI':False, 'THC':False, 'TJC':False, 'WKN':False, 'WRM':False, 'KCWA':False, 'COB':False, 
-                 'NKN':False, 'ARV':True, 'PIX':False, 'DLE':True, 'EXE':True, 'OKW':False, 'KRT':True, 'LND':True, 
+                 'NKN':False, 'ARV':True, 'PIX':False, 'DLE':True, 'EXE':True, 'OKW':False, 'KRT':False, 'LND':True, 
                  'LDS':True, 'LWT':True, 'PRT':True, 'SAU':True, 'SFW':True, 'SSJ':True, 'TPD':True, 'TBA':True, 
                  'TUL':True, 'COF':True, 'FRS':True, 'SOC':False, 'SOB':False, 'CCA':False, 'DLR':False, 'TLB':False, 
-                 'KWD':True, 'WSL':False, 'SNL':False, 'PNC':False, 'DLP':False, 'CWC':False, 'MAD':False, 'OTL':False, 
-                 'OFK':True, 'OCD':False, 'OEX':False, 'OXV':True, 'OSW':False, 'CNS':False, 'ALT':False, 'KRWA':False}
+                 'KWD':False, 'WSL':False, 'SNL':False, 'PNC':False, 'DLP':False, 'CWC':False, 'MAD':False, 'OTL':False, 
+                 'OFK':True, 'OCD':False, 'OEX':False, 'OXV':False, 'OSW':False, 'CNS':False, 'ALT':False, 'KRWA':False}
 
     num_friant = sum(is_friant.values())
     shares_updated = {d: 1 / num_friant if is_friant[d] else 0.0 for d in scenario['ownership_shares']}
@@ -209,6 +208,44 @@ if rerun_baselines == 1:
 
     run_sim(results_folder, runtime_file, start_time)
 
+
+
+  ### baseline - ownership based on friant allocations
+#  results_folder = results_base + 'FKC_experiment_' + flow_input_source + '_friantHistorical'
+#  start_time = datetime.now()
+
+#  if not os.path.exists(results_folder):
+
+#    try:
+#    prep_sim('Friant', results_folder, print_log)
+
+#    scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
+#    hist_deliveries = {'BDM':0, 'BLR':0, 'BVA':0, 'CWO':0, 'HML':0, 'ID4':0, 'KND':0, 'LHL':0,
+#                 'RRB':0, 'SMI':0, 'THC':0, 'TJC':0, 'WKN':0, 'WRM':0, 'KCWA':0, 'COB':0,
+#                 'NKN':0, 'ARV':0.136207165, 'PIX':0, 'DLE':0.134481079, 'EXE':0.017610656, 'OKW':0, 'KRT':0, 'LND':0.040607704,
+#                 'LDS':0.028243958, 'LWT':0.135494501, 'PRT':0.025589446, 'SAU':0.031784396, 'SFW':0.063438028, 'SSJ':0.114883898, 'TPD':0.007703096, 'TBA':0.029784795,
+#                 'TUL':0.073845762, 'COF':0.061622586, 'FRS':0.022890257, 'SOC':0, 'SOB':0, 'CCA':0, 'DLR':0, 'TLB':0,
+#                 'KWD':0, 'WSL':0, 'SNL':0, 'PNC':0, 'DLP':0, 'CWC':0, 'MAD':0, 'OTL':0,
+#                 'OFK':0.075812672, 'OCD':0, 'OEX':0, 'OXV':0, 'OSW':0, 'CNS':0, 'ALT':0, 'KRWA':0}
+
+#    for i, k in enumerate(scenario['ownership_shares'].keys()):
+#      scenario['ownership_shares'][k] = hist_deliveries[k]
+
+#    with open(results_folder + '/FKC_scenario.json', 'w') as o:
+#      json.dump(scenario, o)
+
+#    scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
+#    scenario['participant_list'] = []
+#    scenario['ownership'] = {}
+#    scenario['bank_cap'] = {}
+#    scenario['initial_recharge'] = 0.0
+#    scenario['tot_storage'] = 0.0
+#    scenario['recovery'] = 0.0
+#    with open(results_folder + '/CFWB_scenario.json', 'w') as o:
+#      results_folder + '/CFWB_scenario.json'
+#      json.dump(scenario, o)
+
+#    run_sim(results_folder, runtime_file, start_time)
 
 
 

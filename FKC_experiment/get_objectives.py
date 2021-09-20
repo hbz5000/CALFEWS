@@ -3,6 +3,7 @@ import pandas as pd
 # import h5py
 import json
 import sys
+import os
 import matplotlib.pyplot as plt
 from calfews_src.util import get_results_sensitivity_number_outside_model
 
@@ -10,15 +11,30 @@ hydrology = sys.argv[1] #wet,dry, or median
 sample = sys.argv[2]  #0-2999
 project = sys.argv[3] #FKC_CFWB, FKC, CFWB
 
-scenario = 'FKC_experiment_capow_50yr_' + hydrology + '_friant'
-#scenario = 'FKC_experiment_capow_50yr_'+ hydrology + '_' + sample + '_' + project
+if project == '0':
+  scenario = 'FKC_experiment_capow_50yr_' + hydrology + '_friantEqual'
+elif project == '1':
+  scenario = 'FKC_experiment_capow_50yr_' + hydrology + '_friantHistorical'
+else:
+  scenario = 'FKC_experiment_capow_50yr_'+ hydrology + '_' + sample + '_' + project
+
 baseline = 'FKC_experiment_capow_50yr_' + hydrology + '_none'
 
 ### get ownership shares for each scenario
 base_dir = '/pine/scr/a/l/alh91/CALFEWS_results/FKC_experiment/'
+
+sub_dirs = os.listdir(base_dir)#[d for d in os.listdir(base_dir) if os.path.isdir(base_dir + '/' + d + '/' + scenario)]
+
 shares = {}
-shares['ownership'] = json.load(open(base_dir + scenario + '/FKC_scenario.json'))['ownership_shares']
-shares_CFWB = json.load(open(base_dir + scenario + '/CFWB_scenario.json'))
+for d in sub_dirs:
+  try:
+    shares['ownership'] = json.load(open(base_dir + d + '/' + scenario + '/FKC_scenario.json'))['ownership_shares']
+    shares_CFWB = json.load(open(base_dir + d + '/' + scenario + '/CFWB_scenario.json'))
+    scenario_sub_dir = base_dir + d + '/' + scenario + '/'
+    print(scenario_sub_dir)
+  except:
+    pass
+
 
 for k in shares['ownership']:
   try:
@@ -54,7 +70,7 @@ def get_district_data(datafile):
   districts = {}
   for d, v in district_lookup.items():
     b = [k for k in keys if (((d in k.split('_')) or (v in k.split('_'))) and (('delivery' in k.split('_')) or ('flood' in k.split('_')) or ('recharged' in k.split('_')) or \
-                                                                                ('exchanged' in k.split('_')) or ('inleiu' in k.split('_')) or ('peiupumping' in k.split('_')) or \
+                                                                                ('exchanged' in k.split('_')) or ('inleiu' in k.split('_')) or ('leiupumping' in k.split('_')) or \
                                                                                   ('banked' in k.split('_'))))]
     df = dat.loc[:, b]
     ## undo summation over years
@@ -62,21 +78,50 @@ def get_district_data(datafile):
       maxprevious = df.loc[wy < y, :].iloc[-1, :]
       df.loc[wy == y, :] += maxprevious
     df.iloc[1:, :] = df.diff().iloc[1:, :]
-    ## get total water deliveries across categories
-    df['total_deliveries'] = 0.0
-    for (wtype, position) in [('delivery', 2), ('flood', 2), ('recover', 1)]:
+    ## get total new surface water deliveries = *district*_*contract*_delivery + *district*_*contract*_flood + *district*_*contract*_flood_irrigation - *district*_exchanged_GW + *district*_exchanged_SW
+    df['new_deliveries'] = 0.0
+    for (wtype, position) in [('delivery', 2), ('flood', 2), ('SW', 2)]:
       for c in df.columns:
         try:
           if c.split('_')[position] == wtype:
-            df['total_deliveries'] += df[c]
+            df['new_deliveries'] += df[c]
         except:
           pass    
+    for (wtype, position) in [('GW', 2)]:
+      for c in df.columns:
+        try:
+          if c.split('_')[position] == wtype:
+            df['new_deliveries'] -= df[c]
+        except:
+          pass
+    ## get irrigation deliveries for drought year metric = *district*_*contract*_delivery - *district*_*contract*_recharged + *district*_*contract*_flood_irrigation + *district*_recover_banked + *district*_exchanged_SW + *district*_inleiu_irrigation
+    df['irrig_deliveries'] = 0.0
+    for (wtype, position) in [('delivery', 2), ('irrigation', 3), ('recover', 1), ('SW', 2), ('irrigation', 2)]:
+      for c in df.columns:
+        try:
+          if c.split('_')[position] == wtype:
+            df['irrig_deliveries'] += df[c]
+        except:
+          pass
+    for (wtype, position) in [('recharged', 2)]:
+      for c in df.columns:
+        try:
+          if c.split('_')[position] == wtype:
+            df['irrig_deliveries'] -= df[c]
+        except:
+          pass
+
     districts[d] = df
 
   return districts, wy
 
-districts_scenario, wy = get_district_data(base_dir + scenario + '/results.hdf5')
-districts_baseline, wy = get_district_data(base_dir + baseline + '/results.hdf5')
+districts_scenario, wy = get_district_data(scenario_sub_dir + '/results.hdf5')
+for d in sub_dirs:
+  try:
+    districts_baseline, wy = get_district_data(base_dir + d + '/' + baseline + '/results.hdf5')
+    baseline_sub_dir = base_dir + d + '/' + baseline + '/'
+  except:
+    pass
 
 ### aggregate over time for each district
 districts_scenario_wy = {}
@@ -91,7 +136,7 @@ objs_districts = {}
 for d in district_lookup:
   objs_districts[d] = {}
   try:
-    objs_districts[d]['exp_del'] = districts_scenario_wy[d]['total_deliveries'].mean()
+    objs_districts[d]['exp_del'] = districts_scenario_wy[d]['new_deliveries'].mean()
   except:
     objs_districts[d]['exp_del'] = 0.0
 #  try:
@@ -99,28 +144,28 @@ for d in district_lookup:
 #  except:
 #    objs_districts[d]['std_del'] = 0.0
   try:
-    objs_districts[d]['w5yr_del'] = districts_scenario_wy[d]['total_deliveries'].rolling(5).mean().min()
+    objs_districts[d]['w5yr_del'] = districts_scenario_wy[d]['irrig_deliveries'].rolling(5).mean().min()
   except:
     objs_districts[d]['w5yr_del'] = 0.0
   try:
-    objs_districts[d]['exp_gain'] = (districts_scenario_wy[d]['total_deliveries'] - districts_baseline_wy[d]['total_deliveries']).mean()
+    objs_districts[d]['exp_gain'] = (districts_scenario_wy[d]['new_deliveries'] - districts_baseline_wy[d]['new_deliveries']).mean()
   except:
     try:
-      objs_districts[d]['exp_gain'] = (districts_scenario_wy[d]['total_deliveries']).mean()
+      objs_districts[d]['exp_gain'] = (districts_scenario_wy[d]['new_deliveries']).mean()
     except:
       try:
-        objs_districts[d]['exp_gain'] = (-districts_baseline_wy[d]['total_deliveries']).mean()
+        objs_districts[d]['exp_gain'] = (-districts_baseline_wy[d]['new_deliveries']).mean()
       except:
         objs_districts[d]['exp_gain'] = 0.0
 #  objs_districts[d]['std_gain'] = (districts_scenario_wy[d]['total_deliveries'] - districts_baseline_wy[d]['total_deliveries']).std()    
   try:
-    objs_districts[d]['w5yr_gain'] = districts_scenario_wy[d]['total_deliveries'].rolling(5).mean().min() - districts_baseline_wy[d]['total_deliveries'].rolling(5).mean().min()
+    objs_districts[d]['w5yr_gain'] = districts_scenario_wy[d]['irrig_deliveries'].rolling(5).mean().min() - districts_baseline_wy[d]['irrig_deliveries'].rolling(5).mean().min()
   except:
     try:
-      objs_districts[d]['w5yr_gain'] = districts_scenario_wy[d]['total_deliveries'].rolling(5).mean().min()
+      objs_districts[d]['w5yr_gain'] = districts_scenario_wy[d]['irrig_deliveries'].rolling(5).mean().min()
     except:
       try:
-        objs_districts[d]['w5yr_gain'] = -districts_baseline_wy[d]['total_deliveries'].rolling(5).mean().min()
+        objs_districts[d]['w5yr_gain'] = -districts_baseline_wy[d]['irrig_deliveries'].rolling(5).mean().min()
       except:
         objs_districts[d]['w5yr_gain'] = 0.0
 
@@ -143,14 +188,19 @@ total_other_avg_gain = sum(others)
 min_other_avg_gain = min(others)
 
 partners = []
+others = []
 for k in district_lookup:
   try:
     if shares['ownership'][k] > 0.0:
       partners.append(objs_districts[k]['w5yr_gain'])
+    else:
+      others.append(objs_districts[k]['w5yr_gain'])
   except:
     pass  
 total_partner_w5yr_gain = sum(partners)
 min_partner_w5yr_gain = min(partners)
+total_other_w5yr_gain = sum(others)
+min_other_w5yr_gain = min(others)
 
 ### gini coef
 gains = []
@@ -189,8 +239,8 @@ ginicoef = min(ginicoef, 1.0)
 ginicoef = 1.0 if ginicoef < 0.0 else ginicoef
 
 ### put together strings for data output, scenario-wide objectives
-header1 = 'scenario, num_partners, initial_recharge, tot_storage, recovery, total_partner_avg_gain, min_partner_avg_gain, total_other_avg_gain, min_other_avg_gain, total_partner_w5yr_gain, min_partner_w5yr_gain, ginicoef'
-data1 = f"{scenario}, {num_partners}, {shares['initial_recharge']}, {shares['tot_storage']}, {shares['recovery']}, {total_partner_avg_gain}, {min_partner_avg_gain}, {total_other_avg_gain}, {min_other_avg_gain}, {total_partner_w5yr_gain}, {min_partner_w5yr_gain},  {ginicoef}"
+header1 = 'scenario, num_partners, initial_recharge, tot_storage, recovery, total_partner_avg_gain, min_partner_avg_gain, total_other_avg_gain, min_other_avg_gain, total_partner_w5yr_gain, min_partner_w5yr_gain, total_other_w5yr_gain, min_other_w5yr_gain, ginicoef'
+data1 = f"{scenario}, {num_partners}, {shares['initial_recharge']}, {shares['tot_storage']}, {shares['recovery']}, {total_partner_avg_gain}, {min_partner_avg_gain}, {total_other_avg_gain}, {min_other_avg_gain}, {total_partner_w5yr_gain}, {min_partner_w5yr_gain}, {total_other_w5yr_gain}, {min_other_w5yr_gain}, {ginicoef}"
 
 ### now do district-level data output
 header2 = ''
@@ -217,7 +267,7 @@ for d in district_lookup:
 
 
 ## save results
-with open(base_dir + scenario + '/objs.csv', 'w') as f:
+with open(scenario_sub_dir + '/objs.csv', 'w') as f:
   f.write(header1 + header2 + header3 + header4 + '\n')
   f.write(data1 + data2 + data3 + data4 + '\n')
 
