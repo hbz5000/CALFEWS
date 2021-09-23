@@ -54,7 +54,7 @@ def get_district_data(datafile):
   districts = {}
   for d, v in district_lookup.items():
     b = [k for k in keys if (((d in k.split('_')) or (v in k.split('_'))) and (('delivery' in k.split('_')) or ('flood' in k.split('_')) or ('recharged' in k.split('_')) or \
-                                                                                ('exchanged' in k.split('_')) or ('inleiu' in k.split('_')) or ('peiupumping' in k.split('_')) or \
+                                                                                ('exchanged' in k.split('_')) or ('inleiu' in k.split('_')) or ('leiupumping' in k.split('_')) or \
                                                                                   ('banked' in k.split('_'))))]
     df = dat.loc[:, b]
     ## undo summation over years

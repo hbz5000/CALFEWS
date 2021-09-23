@@ -48,10 +48,10 @@ cdef class District():
     if 'MDD_multiplier' in uncertainty_dict:
       self.MDD *= uncertainty_dict['MDD_multiplier']
 
-    # ### scale crop acreages based on multiplier
-    # if 'acreage_multiplier' in uncertainty_dict:
-    #   for wyt, acreage_list in self.acreage.items():
-    #     self.acreage[wyt] = [acreage * uncertainty_dict['acreage_multiplier'] for acreage in acreage_list]
+    ### scale crop acreages based on multiplier - note: probably better to just use ag_demand_multiplier
+    if 'acreage_multiplier' in uncertainty_dict:
+      for wyt, acreage_list in self.acreage.items():
+        self.acreage[wyt] = [acreage * uncertainty_dict['acreage_multiplier'] for acreage in acreage_list]
 
     ### scale crop demand based on multiplier
     if 'ag_demand_multiplier' in uncertainty_dict:
@@ -76,8 +76,6 @@ cdef class District():
         if self.project_contract['friant1'] > 0. or self.project_contract['friant2'] > 0.:
           for wyt, acreage_list in self.acreage.items():
             self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['friant'] for acreage in acreage_list]
-            print(self.key)
-
         else:
           for wyt, acreage_list in self.acreage.items():
             self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['non_friant'] for acreage in acreage_list]

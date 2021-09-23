@@ -69,7 +69,7 @@ cdef class Crop():
     ### get etM for each crop
     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():
       setattr(self,k,v)
-    ### scale etM based on multiplier
+    ### scale etM based on multiplier  - note: probably better to just use ag_demand_multiplier
     if 'etM_multiplier' in uncertainty_dict:
       for crop, cropdict in self.etM.items():
         if crop != 'precip':

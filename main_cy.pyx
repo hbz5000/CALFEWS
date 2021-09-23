@@ -217,35 +217,6 @@ cdef class main_cy():
 
 
 
-# ################################################################################################################################
-# ### Data output
-# ################################################################################################################################
-  def calc_objectives(self):
-    ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
-    nt = len(self.modelno.shasta.baseline_inf)
-    with open(self.output_list, 'r') as f:
-      output_list = json.load(f)
-
-    objs = {}
-    total_delivery = np.zeros(self.modelno.T)
-    for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
-      for cc in ['contract', 'flood']:
-        # try:
-        print(c,cc)
-        total_delivery += self.modelso.__getattribute__(c).daily_supplies[cc]                  
-        # except:
-          # pass    
-
-    total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})
-    total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
-    objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
-    objs['min_friant_delivery'] = np.min(total_wy_delivery)
-    objs['timeseries_wys'] = len(total_wy_delivery)
-    print(objs)
-
-    return objs
-
-
 
 # ################################################################################################################################
 # ### Data output
@@ -271,5 +242,75 @@ cdef class main_cy():
 
 
 
+# ################################################################################################################################
+# ### MORDM-specific functions for infrastructure experiment
+# ################################################################################################################################
+  # ### generator to loop through important model attributes and return non-zero data that corresponds to deliveries for particular district
+  # def district_delivery_loop_generator(output_list, clean_output, modelno, modelso, dkey, dname):
+            
+  #   for d in output_list['south']['districts'].keys():
+  #     for o in output_list['south']['districts'][d].keys():
+  #       try:
+  #         att, name = model_attribute_nonzero(modelso.__getattribute__(d).daily_supplies_full[o], np.string_(d + '_' + o), clean_output)       
+  #         if list(att):
+  #           if (((dkey in name.split('_')) or (dname in name.split('_'))) and (('delivery' in name.split('_')) or ('flood' in name.split('_')) or ('recharged' in name.split('_')) or \
+  #                                                                                 ('exchanged' in name.split('_')) or ('inleiu' in name.split('_')) or ('leiupumping' in name.split('_')) or \
+  #                                                                                   ('banked' in name.split('_')))):
+  #             yield list(att), name                  
+  #       except:
+  #         pass
+        
+  #   for waterbank_obj in modelso.waterbank_list:
+  #     for partner_key, partner_series in waterbank_obj.bank_timeseries.items():
+  #       try:
+  #         att, name = model_attribute_nonzero(partner_series, np.string_(waterbank_obj.name + '_' + partner_key), clean_output)
+  #         if (((dkey in name.split('_')) or (dname in name.split('_'))) and (('delivery' in name.split('_')) or ('flood' in name.split('_')) or ('recharged' in name.split('_')) or \
+  #                                                                               ('exchanged' in name.split('_')) or ('inleiu' in name.split('_')) or ('leiupumping' in name.split('_')) or \
+  #                                                                                 ('banked' in name.split('_')))):
+  #           yield list(att), name              
+  #       except:
+  #         pass
+  
+  #   ### signify end of dataset
+  #   yield (False, False)
 
+
+  def store_baseline_results(self, MC_label):
+    ### store district-level results from baseline scenario with no new infrastructure. this will be used to calc objectives of infrastructure scenarios.
+    delivery_dict = {}
+    ### outer loop over districts
+    for d in self.modelso.district_list[0]:
+      ### first get deliveries directly to this district
+      print(d, d.key)
+      keys = d.daily_supplies_full.keys()
+      key_sub = [k for k in keys if (((d in k.split('_'))) and (('delivery' in k.split('_')) or ('flood' in k.split('_'))))]
+      print(keys)
+      print(key_sub)
+
+  
+  
+  def calc_objectives(self):
+    ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
+    nt = len(self.modelno.shasta.baseline_inf)
+    with open(self.output_list, 'r') as f:
+      output_list = json.load(f)
+
+    objs = {}
+    total_delivery = np.zeros(self.modelno.T)
+    for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
+      for cc in ['contract', 'flood']:
+        # try:
+        print(c,cc)
+        total_delivery += self.modelso.__getattribute__(c).daily_supplies[cc]                  
+        # except:
+          # pass    
+
+    total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})
+    total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
+    objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
+    objs['min_friant_delivery'] = np.min(total_wy_delivery)
+    objs['timeseries_wys'] = len(total_wy_delivery)
+    print(objs)
+
+    return objs
 

@@ -67,7 +67,7 @@ def setup_problem(results_folder, print_log, dvs):
 
 
 
-def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, uncertainty_dict, start_time):
+def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, start_time, is_baseline):
   print('#######################################################')
   print('Initializing simulation...') 
   # try:
@@ -84,12 +84,18 @@ def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, unce
     if a == 0:
       print ('Simulation complete,', datetime.now() - start_time)
       sys.stdout.flush()
-      ### calculate objectives
-      objs = main_cy_obj.calc_objectives()
-      print(objs)
-      print ('Objective calculation complete,', datetime.now() - start_time)
+      if is_baseline:
+        ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison
+        main_cy_obj.store_baseline_results(MC_label)
+        return 0
 
-      return objs
+      else:
+        ### for non-baseline, we calculate objectives by comparison to baseline
+        objs = main_cy_obj.calc_objectives(MC_label)
+        print(MC_label, objs)
+        return objs
+
+      print ('Objective calculation complete,', datetime.now() - start_time)
 
   # except:
   #   return {}
@@ -97,15 +103,15 @@ def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, unce
 
 
 ### run a single MC instance and fill in slot in objective dictionary
-def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, uncertainty_dict, shared_output, proc, start, stop):
+def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, shared_output, proc, start, stop, is_baseline):
   for n in range(start, stop):
     print('### beginning MC run ', n, ', proc ', proc)
-    shared_output[n] = run_sim(results_folder, model_modes[n], flow_input_types[n], flow_input_sources[n], uncertainty_dict, start_time)
+    shared_output[n] = run_sim(results_folder, model_modes[n], flow_input_types[n], flow_input_sources[n], MC_labels[n], uncertainty_dict, start_time, is_baseline)
 
 
 
 ### run actual problem, with decision variables as inputs
-def problem_infra(dvs, num_MC, num_procs, uncertainty_dict):
+def problem_infra(dvs, num_MC, num_procs, uncertainty_dict, is_baseline=False):
 
   start_time = datetime.now()
 
@@ -131,6 +137,7 @@ def problem_infra(dvs, num_MC, num_procs, uncertainty_dict):
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['observations'] * num_MC
   flow_input_sources = ['CDEC_wet_dry'] * num_MC
+  MC_labels = ['MC0','MC1']
   # flow_input_source_l = ['capow_50yr_wet', 'capow_50yr_median', 'capow_50yr_dry']
 
   # Create node-local processes
@@ -145,8 +152,8 @@ def problem_infra(dvs, num_MC, num_procs, uncertainty_dict):
   for proc in range(num_procs):
     num_trials = nbase if proc >= remainder else nbase + 1
     stop = start + num_trials
-    p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, uncertainty_dict,
-                                                    shared_output, proc, start, stop))
+    p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels,
+                                                    uncertainty_dict, shared_output, proc, start, stop, is_baseline))
     shared_processes.append(p)
     start = stop
   

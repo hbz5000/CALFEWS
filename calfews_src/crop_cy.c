@@ -2843,7 +2843,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  *     ### get etM for each crop
  *     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():             # <<<<<<<<<<<<<<
  *       setattr(self,k,v)
- *     ### scale etM based on multiplier
+ *     ### scale etM based on multiplier  - note: probably better to just use ag_demand_multiplier
  */
   __pyx_t_2 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_json); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
@@ -2897,7 +2897,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
  *     ### get etM for each crop
  *     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():
  *       setattr(self,k,v)             # <<<<<<<<<<<<<<
- *     ### scale etM based on multiplier
+ *     ### scale etM based on multiplier  - note: probably better to just use ag_demand_multiplier
  *     if 'etM_multiplier' in uncertainty_dict:
  */
     __pyx_t_10 = PyObject_SetAttr(((PyObject *)__pyx_v_self), __pyx_v_k, __pyx_v_v); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 71, __pyx_L1_error)
@@ -2906,7 +2906,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
 
   /* "calfews_src/crop_cy.pyx":73
  *       setattr(self,k,v)
- *     ### scale etM based on multiplier
+ *     ### scale etM based on multiplier  - note: probably better to just use ag_demand_multiplier
  *     if 'etM_multiplier' in uncertainty_dict:             # <<<<<<<<<<<<<<
  *       for crop, cropdict in self.etM.items():
  *         if crop != 'precip':
@@ -2916,7 +2916,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
   if (__pyx_t_12) {
 
     /* "calfews_src/crop_cy.pyx":74
- *     ### scale etM based on multiplier
+ *     ### scale etM based on multiplier  - note: probably better to just use ag_demand_multiplier
  *     if 'etM_multiplier' in uncertainty_dict:
  *       for crop, cropdict in self.etM.items():             # <<<<<<<<<<<<<<
  *         if crop != 'precip':
@@ -3073,7 +3073,7 @@ static int __pyx_pf_11calfews_src_7crop_cy_4Crop_6__init__(struct __pyx_obj_11ca
 
     /* "calfews_src/crop_cy.pyx":73
  *       setattr(self,k,v)
- *     ### scale etM based on multiplier
+ *     ### scale etM based on multiplier  - note: probably better to just use ag_demand_multiplier
  *     if 'etM_multiplier' in uncertainty_dict:             # <<<<<<<<<<<<<<
  *       for crop, cropdict in self.etM.items():
  *         if crop != 'precip':
