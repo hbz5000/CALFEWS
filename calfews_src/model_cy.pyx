@@ -65,22 +65,22 @@ cdef class Model():
     self.epsilon = 1e-13
     
 
-    if sensitivity_sample_number == -1:
-      self.use_sensitivity = False
-    else:
-      self.use_sensitivity = True
-      self.sensitivity_sample_number = sensitivity_sample_number
-      self.sensitivity_sample_names = sensitivity_sample_names
-      self.sensitivity_sample = sensitivity_sample
-      self.sensitivity_factors = sensitivity_factors
-      self.set_sensitivity_factors()
+    # if sensitivity_sample_number == -1:
+    #   self.use_sensitivity = False
+    # else:
+    #   self.use_sensitivity = True
+    #   self.sensitivity_sample_number = sensitivity_sample_number
+    #   self.sensitivity_sample_names = sensitivity_sample_names
+    #   self.sensitivity_sample = sensitivity_sample
+    #   self.sensitivity_factors = sensitivity_factors
+    #   self.set_sensitivity_factors()
 
 
 
   #####################################################################################################################
   #############################     Object Creation     ###############################################################
   #####################################################################################################################
-  cdef tuple northern_initialization_routine(self, scenario='baseline'):
+  cdef tuple northern_initialization_routine(self, scenario='baseline', dict uncertainty_dict={}):
     ######################################################################################
     ######################################################################################
     # preprocessing for the northern system
@@ -93,11 +93,11 @@ cdef class Model():
     # self.res.rainfnf_stds; self.res.snowfnf_stds
     # self.res.raininf_stds; self.res.snowinf_stds; self.res.baseinf_stds
     # self.res.flow_shape - monthly fractions of total period flow
-    self.initialize_northern_res()
+    self.initialize_northern_res(uncertainty_dict)
     # initialize delta rules, calcluate expected environmental releases at each reservoir
     # generates - cumulative environmental/delta releases remaining (at each reservoir)
     # self.res.cum_min_release; self.res.aug_sept_min_release; self.res.oct_nov_min_release
-    self.initialize_delta_ops()
+    self.initialize_delta_ops(uncertainty_dict)
 
     ######
     # calculate projection-based flow year indicies using flow & snow inputs
@@ -125,7 +125,7 @@ cdef class Model():
 
 
 
-  cdef void southern_initialization_routine(self, scenario='baseline') except *:
+  cdef void southern_initialization_routine(self, scenario='baseline', dict uncertainty_dict={}) except *:
     ######################################################################################
     # preprocessing for the southern system
     ######################################################################################
@@ -133,12 +133,12 @@ cdef class Model():
 
     # initialize the southern reservoirs -
     # generates - same values as initialize_northern_res(), but for southern reservoirs
-    self.initialize_southern_res()
+    self.initialize_southern_res(uncertainty_dict)
     # initialize water districts for southern model
     # generates - water district parameters (see calfews_src-combined/calfews_src/districts/readme.txt)
     # self.district_list - list of district objects
     # self.district_keys - dictionary pairing district keys w/district class objects
-    self.initialize_water_districts(scenario)
+    self.initialize_water_districts(scenario, uncertainty_dict)
     # initialize water contracts for southern model
     # generates - water contract parameters (see calfews_src-combined/calfews_src/contracts/readme.txt)
     # self.contract_list - list of contract objects
@@ -193,7 +193,7 @@ cdef class Model():
 
 
 
-  cdef void initialize_northern_res(self) except *:
+  cdef void initialize_northern_res(self, dict uncertainty_dict={}) except *:
     #########################################################################################
 	#reservoir initialization for the northern delta system
     #########################################################################################
@@ -202,21 +202,21 @@ cdef class Model():
       Reservoir reservoir_obj
 
     #4 Sacramento River Reservoirs (CVP & SWP)
-    self.shasta = Reservoir(self, 'shasta', 'SHA', self.model_mode)
-    self.folsom = Reservoir(self, 'folsom', 'FOL', self.model_mode)
-    self.oroville = Reservoir(self, 'oroville', 'ORO', self.model_mode)
-    self.yuba = Reservoir(self, 'yuba', 'YRS', self.model_mode)
+    self.shasta = Reservoir(self, 'shasta', 'SHA', self.model_mode, uncertainty_dict)
+    self.folsom = Reservoir(self, 'folsom', 'FOL', self.model_mode, uncertainty_dict)
+    self.oroville = Reservoir(self, 'oroville', 'ORO', self.model_mode, uncertainty_dict)
+    self.yuba = Reservoir(self, 'yuba', 'YRS', self.model_mode, uncertainty_dict)
 
     #3 San Joaquin River Reservoirs (to meet Vernalis flow targets)
-    self.newmelones = Reservoir(self, 'newmelones', 'NML', self.model_mode)
-    self.donpedro = Reservoir(self, 'donpedro', 'DNP', self.model_mode)
-    self.exchequer = Reservoir(self, 'exchequer', 'EXC', self.model_mode)
+    self.newmelones = Reservoir(self, 'newmelones', 'NML', self.model_mode, uncertainty_dict)
+    self.donpedro = Reservoir(self, 'donpedro', 'DNP', self.model_mode, uncertainty_dict)
+    self.exchequer = Reservoir(self, 'exchequer', 'EXC', self.model_mode, uncertainty_dict)
 
     self.reservoir_list = [self.shasta, self.oroville, self.yuba, self.folsom, self.newmelones, self.donpedro,
                            self.exchequer]
 
     #Millerton Reservoir (flows used to calculate San Joaquin River index, not in northern simulation)
-    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode)
+    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode, uncertainty_dict)
     reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro, self.exchequer, self.millerton]
     ##Regression flow & standard deviations read from file
     #### Find regression information for all 8 reservoirs
@@ -243,15 +243,15 @@ cdef class Model():
       for reservoir_obj in reservoir_list:
         reservoir_obj.find_release_func(self)
 	  
-	  ###Flow shapes are regressions that determine % of remaining flow in a period (Oct-Mar; Apr-Jul; Aug-Sept)
-	  ###that is expected to come, regressed against the total flow already observed in that period
-	  ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
+      ###Flow shapes are regressions that determine % of remaining flow in a period (Oct-Mar; Apr-Jul; Aug-Sept)
+      ###that is expected to come, regressed against the total flow already observed in that period
+      ###regressions are done for each reservoir, and values are calculated for each month (i.e., 33% of remaining Apr-Jul flow comes in May)
       for reservoir_obj in reservoir_list:
         reservoir_obj.create_flow_shapes(self)
 
 
 
-  cdef void initialize_delta_ops(self) except *:
+  cdef void initialize_delta_ops(self, dict uncertainty_dict={}) except *:
 	#########################################################################################
     ##initialization of the delta rules
     #########################################################################################
@@ -260,10 +260,10 @@ cdef class Model():
       dict expected_outflow_req
       Reservoir reservoir_obj
 
-    self.delta = Delta(self, 'delta', 'DEL', self.model_mode)
+    self.delta = Delta(self, 'delta', 'DEL', self.model_mode, uncertainty_dict)
     
-    if self.use_sensitivity:
-      self.delta.set_sensitivity_factors(self.sensitivity_factors['delta_outflow_multiplier']['realization'], self.sensitivity_factors['omr_flow']['realization'], self.sensitivity_factors['omr_probability']['realization'])
+    # if self.use_sensitivity:
+    #   self.delta.set_sensitivity_factors(self.sensitivity_factors['delta_outflow_multiplier']['realization'], self.sensitivity_factors['omr_flow']['realization'], self.sensitivity_factors['omr_probability']['realization'])
 
 	  ###Find expected reservoir releases to meet delta requirements - used in flow forecasting
     ###these use the flow 'gains' on each tributary stretch to find the expected extra releases required to meet env & delta mins
@@ -277,9 +277,9 @@ cdef class Model():
       reservoir_obj.downstream_short = [_ * cfs_tafd for _ in self.df_short[0]['%s_gains'% reservoir_obj.key].values]
  
     ##in addition to output variables, this generates:
-	#self.max_tax_free (5x2x365) - using delta outflow min, calculate how much pumping can occur without paying any additional I/E 'tax' (b/c some inflow is already used for delta outflow requirements)
+	  #self.max_tax_free (5x2x365) - using delta outflow min, calculate how much pumping can occur without paying any additional I/E 'tax' (b/c some inflow is already used for delta outflow requirements)
     expected_outflow_req, expected_depletion = self.delta.calc_expected_delta_outflow(self,self.shasta.downstream_short,self.oroville.downstream_short,self.yuba.downstream_short,self.folsom.downstream_short, self.shasta.temp_releases, self.oroville.temp_releases, self.yuba.temp_releases, self.folsom.temp_releases, gains_sac_short, gains_sj_short, depletions_short, eastside_streams_short)
-	#these requirements are then passed back to the reservoirs so that they know how much water to hold on to
+	  #these requirements are then passed back to the reservoirs so that they know how much water to hold on to
     #Calculated the expected releases for environmental flows & delta outflow requirements
     #pre-processed to help with forecasts of available storage for export
     ##Yuba has an extra flow catagorization for environmental minimum flows,
@@ -297,10 +297,10 @@ cdef class Model():
 
 
 
-  cdef void initialize_southern_res(self) except *:
+  cdef void initialize_southern_res(self, dict uncertainty_dict={}) except *:
     ############################################################################
     ###Reservoir Initialization
-	############################################################################
+	  ############################################################################
     cdef:
       int sjrr_toggle_value
       str wyt
@@ -308,11 +308,11 @@ cdef class Model():
       dict expected_outflow_releases
       Reservoir reservoir_obj
 
-    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode)
-    self.pineflat = Reservoir(self, 'pineflat', 'PFT', self.model_mode)
-    self.kaweah = Reservoir(self, 'kaweah', 'KWH', self.model_mode)
-    self.success = Reservoir(self, 'success', 'SUC', self.model_mode)
-    self.isabella = Reservoir(self, 'isabella', 'ISB', self.model_mode)
+    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode, uncertainty_dict)
+    self.pineflat = Reservoir(self, 'pineflat', 'PFT', self.model_mode, uncertainty_dict)
+    self.kaweah = Reservoir(self, 'kaweah', 'KWH', self.model_mode, uncertainty_dict)
+    self.success = Reservoir(self, 'success', 'SUC', self.model_mode, uncertainty_dict)
+    self.isabella = Reservoir(self, 'isabella', 'ISB', self.model_mode, uncertainty_dict)
     ###San Luis is initialized as a Reservoir, but
     ###has none of the watershed data that goes along with the other reservoirs
     self.sanluis = Reservoir(self, 'sanluis', 'SNL', self.model_mode)
@@ -380,52 +380,52 @@ cdef class Model():
 
 	
 
-  cdef void initialize_water_districts(self, scenario = 'baseline') except *:
+  cdef void initialize_water_districts(self, scenario = 'baseline', dict uncertainty_dict={}) except *:
     ############################################################################
     ###District Initialization
-	############################################################################
+	  ############################################################################
     cdef:
       str district_key
       District district_obj
       Private private_obj
 
-	##Kern County Water Agency Member Units
-    self.berrenda = District(self, 'berrenda', 'BDM', scenario)
-    self.belridge = District(self, 'belridge', 'BLR', scenario)
-    self.buenavista = District(self, 'buenavista', 'BVA', scenario)
-    self.cawelo = District(self, 'cawelo', 'CWO', scenario)
-    self.henrymiller = District(self, 'henrymiller', 'HML', scenario)
-    self.ID4 = District(self, 'ID4', 'ID4', scenario)
-    self.kerndelta = District(self, 'kerndelta', 'KND', scenario)
-    self.losthills = District(self, 'losthills', 'LHL', scenario)
-    self.rosedale = District(self, 'rosedale', 'RRB', scenario)
-    self.semitropic = District(self, 'semitropic', 'SMI', scenario)
-    self.tehachapi = District(self, 'tehachapi', 'THC', scenario)
-    self.tejon = District(self, 'tejon', 'TJC', scenario)
-    self.westkern = District(self, 'westkern', 'WKN', scenario)
-    self.wheeler = District(self, 'wheeler', 'WRM', scenario)
-    self.kcwa = District(self, 'kcwa', 'KCWA', scenario)
+	  ##Kern County Water Agency Member Units
+    self.berrenda = District(self, 'berrenda', 'BDM', scenario, uncertainty_dict)
+    self.belridge = District(self, 'belridge', 'BLR', scenario, uncertainty_dict)
+    self.buenavista = District(self, 'buenavista', 'BVA', scenario, uncertainty_dict)
+    self.cawelo = District(self, 'cawelo', 'CWO', scenario, uncertainty_dict)
+    self.henrymiller = District(self, 'henrymiller', 'HML', scenario, uncertainty_dict)
+    self.ID4 = District(self, 'ID4', 'ID4', scenario, uncertainty_dict)
+    self.kerndelta = District(self, 'kerndelta', 'KND', scenario, uncertainty_dict)
+    self.losthills = District(self, 'losthills', 'LHL', scenario, uncertainty_dict)
+    self.rosedale = District(self, 'rosedale', 'RRB', scenario, uncertainty_dict)
+    self.semitropic = District(self, 'semitropic', 'SMI', scenario, uncertainty_dict)
+    self.tehachapi = District(self, 'tehachapi', 'THC', scenario, uncertainty_dict)
+    self.tejon = District(self, 'tejon', 'TJC', scenario, uncertainty_dict)
+    self.westkern = District(self, 'westkern', 'WKN', scenario, uncertainty_dict)
+    self.wheeler = District(self, 'wheeler', 'WRM', scenario, uncertainty_dict)
+    self.kcwa = District(self, 'kcwa', 'KCWA', scenario, uncertainty_dict)
 	##Other Kern County
-    self.bakersfield = District(self, 'bakersfield', 'COB', scenario)
-    self.northkern = District(self, 'northkern', 'NKN', scenario)
+    self.bakersfield = District(self, 'bakersfield', 'COB', scenario, uncertainty_dict)
+    self.northkern = District(self, 'northkern', 'NKN', scenario, uncertainty_dict)
     ##Friant Kern Contractors
-    self.arvin = District(self, 'arvin', 'ARV', scenario)
-    self.pixley = District(self, 'pixley', 'PIX', scenario)
-    self.delano = District(self, 'delano', 'DLE', scenario)
-    self.exeter = District(self, 'exeter', 'EXE', scenario)
-    self.kerntulare = District(self, 'kerntulare', 'KRT', scenario)
-    self.lindmore = District(self, 'lindmore', 'LND', scenario)
-    self.lindsay = District(self, 'lindsay', 'LDS', scenario)
-    self.lowertule = District(self, 'lowertule', 'LWT', scenario)
-    self.porterville = District(self, 'porterville', 'PRT', scenario)
-    self.saucelito = District(self, 'saucelito', 'SAU', scenario)
-    self.shaffer = District(self, 'shaffer', 'SFW', scenario)
-    self.sosanjoaquin = District(self, 'sosanjoaquin', 'SSJ', scenario)
-    self.teapot = District(self, 'teapot', 'TPD', scenario)
-    self.terra = District(self, 'terra', 'TBA', scenario)
-    self.tulare = District(self, 'tulare', 'TUL', scenario)
-    self.fresno = District(self, 'fresno', 'COF', scenario)
-    self.fresnoid = District(self, 'fresnoid', 'FRS', scenario)
+    self.arvin = District(self, 'arvin', 'ARV', scenario, uncertainty_dict)
+    self.pixley = District(self, 'pixley', 'PIX', scenario, uncertainty_dict)
+    self.delano = District(self, 'delano', 'DLE', scenario, uncertainty_dict)
+    self.exeter = District(self, 'exeter', 'EXE', scenario, uncertainty_dict)
+    self.kerntulare = District(self, 'kerntulare', 'KRT', scenario, uncertainty_dict)
+    self.lindmore = District(self, 'lindmore', 'LND', scenario, uncertainty_dict)
+    self.lindsay = District(self, 'lindsay', 'LDS', scenario, uncertainty_dict)
+    self.lowertule = District(self, 'lowertule', 'LWT', scenario, uncertainty_dict)
+    self.porterville = District(self, 'porterville', 'PRT', scenario, uncertainty_dict)
+    self.saucelito = District(self, 'saucelito', 'SAU', scenario, uncertainty_dict)
+    self.shaffer = District(self, 'shaffer', 'SFW', scenario, uncertainty_dict)
+    self.sosanjoaquin = District(self, 'sosanjoaquin', 'SSJ', scenario, uncertainty_dict)
+    self.teapot = District(self, 'teapot', 'TPD', scenario, uncertainty_dict)
+    self.terra = District(self, 'terra', 'TBA', scenario, uncertainty_dict)
+    self.tulare = District(self, 'tulare', 'TUL', scenario, uncertainty_dict)
+    self.fresno = District(self, 'fresno', 'COF', scenario, uncertainty_dict)
+    self.fresnoid = District(self, 'fresnoid', 'FRS', scenario, uncertainty_dict)
     ##Canal Boundaries
     self.socal = District(self, 'socal', 'SOC', scenario)
     self.southbay = District(self, 'southbay', 'SOB', scenario)
@@ -433,25 +433,25 @@ cdef class Model():
     ##demands at canal boundaries are taken from observed pumping into canal brannch
 
     ##Other Agencies
-    self.dudleyridge = District(self, 'dudleyridge', 'DLR', scenario)
-    self.tularelake = District(self, 'tularelake', 'TLB', scenario)
-    self.kaweahdelta = District(self, 'kaweahdelta', 'KWD', scenario)
-    self.westlands = District(self, 'westlands', 'WSL', scenario)
-    self.sanluiswater = District(self, 'sanluiswater', 'SNL', scenario)
-    self.panoche = District(self, 'panoche', 'PNC', scenario)
-    self.delpuerto = District(self, 'delpuerto', 'DLP', scenario)
-    self.chowchilla = District(self, 'chowchilla', 'CWC', scenario)
-    self.maderairr = District(self, 'maderairr', 'MAD', scenario)
-    self.othertule = District(self, 'othertule', 'OTL', scenario)
-    self.otherkaweah = District(self, 'otherkaweah', 'OKW', scenario)
-    self.otherfriant = District(self, 'otherfriant', 'OFK', scenario)
-    self.othercvp = District(self, 'othercvp', 'OCD', scenario)
-    self.otherexchange = District(self, 'otherexchange', 'OEX', scenario)
-    self.othercrossvalley = District(self, 'othercrossvalley', 'OXV', scenario)
-    self.otherswp = District(self, 'otherswp', 'OSW', scenario)
-    self.consolidated = District(self, 'consolidated', 'CNS', scenario)
-    self.alta = District(self, 'alta', 'ALT', scenario)
-    self.krwa = District(self, 'krwa', 'KRWA', scenario)
+    self.dudleyridge = District(self, 'dudleyridge', 'DLR', scenario, uncertainty_dict)
+    self.tularelake = District(self, 'tularelake', 'TLB', scenario, uncertainty_dict)
+    self.kaweahdelta = District(self, 'kaweahdelta', 'KWD', scenario, uncertainty_dict)
+    self.westlands = District(self, 'westlands', 'WSL', scenario, uncertainty_dict)
+    self.sanluiswater = District(self, 'sanluiswater', 'SNL', scenario, uncertainty_dict)
+    self.panoche = District(self, 'panoche', 'PNC', scenario, uncertainty_dict)
+    self.delpuerto = District(self, 'delpuerto', 'DLP', scenario, uncertainty_dict)
+    self.chowchilla = District(self, 'chowchilla', 'CWC', scenario, uncertainty_dict)
+    self.maderairr = District(self, 'maderairr', 'MAD', scenario, uncertainty_dict)
+    self.othertule = District(self, 'othertule', 'OTL', scenario, uncertainty_dict)
+    self.otherkaweah = District(self, 'otherkaweah', 'OKW', scenario, uncertainty_dict)
+    self.otherfriant = District(self, 'otherfriant', 'OFK', scenario, uncertainty_dict)
+    self.othercvp = District(self, 'othercvp', 'OCD', scenario, uncertainty_dict)
+    self.otherexchange = District(self, 'otherexchange', 'OEX', scenario, uncertainty_dict)
+    self.othercrossvalley = District(self, 'othercrossvalley', 'OXV', scenario, uncertainty_dict)
+    self.otherswp = District(self, 'otherswp', 'OSW', scenario, uncertainty_dict)
+    self.consolidated = District(self, 'consolidated', 'CNS', scenario, uncertainty_dict)
+    self.alta = District(self, 'alta', 'ALT', scenario, uncertainty_dict)
+    self.krwa = District(self, 'krwa', 'KRWA', scenario, uncertainty_dict)
     # self.krwa.turnback_use = 0
 	
     ##Private water users
@@ -991,12 +991,12 @@ cdef class Model():
 #############################     Pre processing functions    #######################################################
 #####################################################################################################################
 
-  def set_sensitivity_factors(self):
-    for sensitivity_factor in self.sensitivity_factors['district_factor_list']:
-      # set model sensitivity factors equal to sample values from input file
-      index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
-      index = np.where(index)[0][0]
-      self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_sample[index]
+  # def set_sensitivity_factors(self):
+  #   for sensitivity_factor in self.sensitivity_factors['district_factor_list']:
+  #     # set model sensitivity factors equal to sample values from input file
+  #     index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
+  #     index = np.where(index)[0][0]
+  #     self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_sample[index]
 
 
   def find_running_WYI(self):
@@ -5547,12 +5547,12 @@ cdef class Model():
     self.kwb.tot_storage = 2.4
     tot_contract = 0.0
 
-    if self.use_sensitivity:
-      for district_obj in self.district_list:
-        district_obj.set_sensitivity_factors(self.sensitivity_factors['et_multiplier']['realization'], self.sensitivity_factors['acreage_multiplier']['realization'], self.sensitivity_factors['irrigation_efficiency']['realization'], self.sensitivity_factors['recharge_decline']['realization'])
-      for waterbank_obj in self.waterbank_list:
-        for x in range(0, len(waterbank_obj.recharge_decline)):
-          waterbank_obj.recharge_decline[x] = 1.0 - self.sensitivity_factors['recharge_decline']['realization']*(1.0 - waterbank_obj.recharge_decline[x])		
+    # if self.use_sensitivity:
+    #   for district_obj in self.district_list:
+    #     district_obj.set_sensitivity_factors(self.sensitivity_factors['et_multiplier']['realization'], self.sensitivity_factors['acreage_multiplier']['realization'], self.sensitivity_factors['irrigation_efficiency']['realization'], self.sensitivity_factors['recharge_decline']['realization'])
+    #   for waterbank_obj in self.waterbank_list:
+    #     for x in range(0, len(waterbank_obj.recharge_decline)):
+    #       waterbank_obj.recharge_decline[x] = 1.0 - self.sensitivity_factors['recharge_decline']['realization']*(1.0 - waterbank_obj.recharge_decline[x])		
 
 	
   def set_regulations_historical_north(self):
@@ -5951,7 +5951,7 @@ cdef class Model():
         self.delta.x2constraint['AN'][x] = 81.0
 		
     #tucp orders during the drought can be found here:
-	#https://www.waterboards.ca.gov/waterrights/water_issues/programs/drought/tucp/index.html
+	  #https://www.waterboards.ca.gov/waterrights/water_issues/programs/drought/tucp/index.html
     if y == 2014 and dowy == 123:
       self.delta.min_outflow['C'][1] = 3000
       self.delta.min_outflow['C'][2] = 3000

@@ -28,7 +28,7 @@ cdef class District():
   def __len__(self):
     return 1
 
-  def __init__(self, model, name, key, scenario):
+  def __init__(self, model, name, key, scenario, uncertainty_dict={}):
     self.is_Canal = 0
     self.is_District = 1
     self.is_Private = 0
@@ -40,8 +40,48 @@ cdef class District():
     self.name = name
     self.epsilon = 1e-13
     
+    ### get district parameters
     for k, v in json.load(open('calfews_src/districts/%s_properties.json' % key)).items():
       setattr(self, k, v)
+
+    ### scale district municipal demands based on multiplier (crop demand multiplier done in crop class)
+    if 'MDD_multiplier' in uncertainty_dict:
+      self.MDD *= uncertainty_dict['MDD_multiplier']
+
+    # ### scale crop acreages based on multiplier
+    # if 'acreage_multiplier' in uncertainty_dict:
+    #   for wyt, acreage_list in self.acreage.items():
+    #     self.acreage[wyt] = [acreage * uncertainty_dict['acreage_multiplier'] for acreage in acreage_list]
+
+    ### scale crop demand based on multiplier
+    if 'ag_demand_multiplier' in uncertainty_dict:
+      ### first scale based on factor depending on whether orchards/vineyards are majority of district ("BN" year)
+      if 'crop' in uncertainty_dict['ag_demand_multiplier']:
+        acreage_perr = 0.
+        acreage_ann = 0.
+        for ci, crop in enumerate(self.crop_list):
+          if crop in ['apple','apple_immature','apple_cover','peach','peach_immature','almond','almond_cover','almond_immature','walnut','walnut_immature',
+                      'pistachio','pistachio_cover','pistachio_immature','citrus','citrus_immature','avacado','avocado','grape','grape_cover','grape_immature']:
+            acreage_perr += self.acreage['BN'][ci]
+          elif crop not in ['idle', 'precip']:
+            acreage_ann += self.acreage['BN'][ci]
+        if acreage_perr > acreage_ann:
+          for wyt, acreage_list in self.acreage.items():
+            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['crop']['maj_orchardvineyard'] for acreage in acreage_list]
+        else:
+          for wyt, acreage_list in self.acreage.items():
+            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['crop']['maj_other'] for acreage in acreage_list]
+      ### now scale based on whether friant contractor
+      if 'friant' in uncertainty_dict['ag_demand_multiplier']:
+        if self.project_contract['friant1'] > 0. or self.project_contract['friant2'] > 0.:
+          for wyt, acreage_list in self.acreage.items():
+            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['friant'] for acreage in acreage_list]
+            print(self.key)
+
+        else:
+          for wyt, acreage_list in self.acreage.items():
+            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['non_friant'] for acreage in acreage_list]
+
     # check if using infrastructure scenario for this district
     try:
       scenario_file = scenario[key]
@@ -57,7 +97,7 @@ cdef class District():
       self.normalize_ownership_shares()
       
     #intialize crop acreages and et demands for crops
-    self.irrdemand = Crop(self.zone)
+    self.irrdemand = Crop(self.zone, uncertainty_dict)
 	  #initialize dictionary to hold different delivery types
     self.deliveries = {}
     self.contract_list_all = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern','kings']
@@ -884,7 +924,7 @@ cdef class District():
 		
     	  
 
-  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str message=''):
+  cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal):
     #this function takes the calculated demand at each district node and classifies those demands by 'priority' - the priority classes and rules change for each delivery type
     cdef:
       int contractor_toggle, priority_toggle

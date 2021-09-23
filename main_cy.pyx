@@ -72,10 +72,10 @@ cdef class main_cy():
 ################################################################################################################################
 ### Northern/southern model initialization
 ################################################################################################################################
-  def initialize_py(self):
-    return self.initialize()
+  def initialize_py(self, uncertainty_dict={}):
+    return self.initialize(uncertainty_dict)
 
-  cdef int initialize(self) except -1:  
+  cdef int initialize(self, dict uncertainty_dict) except -1:  
     cdef:
       str expected_release_datafile, demand_type, base_data_file, input_data_file
     
@@ -140,11 +140,11 @@ cdef class main_cy():
     PyErr_CheckSignals()
     if True:
       self.modelso.max_tax_free = {}
-      self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine(scenario)
+      self.modelso.omr_rule_start, self.modelso.max_tax_free = self.modelno.northern_initialization_routine(scenario, uncertainty_dict)
     PyErr_CheckSignals()
     if True:
       self.modelso.forecastSRI = self.modelno.delta.forecastSRI
-      self.modelso.southern_initialization_routine(scenario)
+      self.modelso.southern_initialization_routine(scenario, uncertainty_dict)
       try:
         #remove input data file (only if created for simulation), since data will be stored more efficiently in hdf5
         os.remove(self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv")
@@ -228,18 +228,20 @@ cdef class main_cy():
 
     objs = {}
     total_delivery = np.zeros(self.modelno.T)
-    for c in ['friant1', 'friant2']:
+    for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
       for cc in ['contract', 'flood']:
-        try:
-          total_delivery += self.modelso.__getattribute__(c).daily_supplies[cc]                  
-        except:
-          pass    
+        # try:
+        print(c,cc)
+        total_delivery += self.modelso.__getattribute__(c).daily_supplies[cc]                  
+        # except:
+          # pass    
 
     total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})
     total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
     objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
     objs['min_friant_delivery'] = np.min(total_wy_delivery)
     objs['timeseries_wys'] = len(total_wy_delivery)
+    print(objs)
 
     return objs
 

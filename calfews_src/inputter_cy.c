@@ -1006,21 +1006,8 @@ struct __pyx_ctuple_double__and_double__and_int {
   double f1;
   int f2;
 };
-struct __pyx_opt_args_11calfews_src_11district_cy_8District_set_demand_priority;
 struct __pyx_ctuple_double__and_double__and_double;
 typedef struct __pyx_ctuple_double__and_double__and_double __pyx_ctuple_double__and_double__and_double;
-
-/* "district_cy.pxd":40
- *   cdef double set_request_constraints(self, double demand, str search_type, list contract_list, double bank_space, double bank_capacity, int dowy, int wateryear) except *
- * 
- *   cdef dict set_demand_priority(self, list priority_list, list contract_list, double demand, double delivery, double demand_constraint, str search_type, str contract_canal, str message=*)             # <<<<<<<<<<<<<<
- * 
- *   cdef void get_paper_exchange(self, double trade_amount, list contract_list, list trade_frac, int wateryear)
- */
-struct __pyx_opt_args_11calfews_src_11district_cy_8District_set_demand_priority {
-  int __pyx_n;
-  PyObject *message;
-};
 
 /* "district_cy.pxd":80
  *   cdef double record_direct_delivery(self, double delivery, int wateryear)
@@ -1080,7 +1067,10 @@ typedef struct __pyx_ctuple_int__and_int__and_int__and_int__and_double__and_doub
 struct __pyx_ctuple_int__and_int__and_double__and_double__and_double;
 typedef struct __pyx_ctuple_int__and_int__and_double__and_double__and_double __pyx_ctuple_int__and_int__and_double__and_double__and_double;
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_northern_initialization_routine;
+struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_northern_res;
+struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_delta_ops;
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_southern_initialization_routine;
+struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_southern_res;
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_water_districts;
 
 /* "model_cy.pxd":70
@@ -1129,35 +1119,74 @@ struct __pyx_ctuple_int__and_int__and_double__and_double__and_double {
 /* "model_cy.pxd":105
  * 
  * ######### init
- *   cdef tuple northern_initialization_routine(self, scenario=*)             # <<<<<<<<<<<<<<
+ *   cdef tuple northern_initialization_routine(self, scenario=*, dict uncertainty_dict=*)             # <<<<<<<<<<<<<<
  * 
- *   cdef void initialize_northern_res(self) except *
+ *   cdef void initialize_northern_res(self, dict uncertainty_dict=*) except *
  */
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_northern_initialization_routine {
   int __pyx_n;
   PyObject *scenario;
+  PyObject *uncertainty_dict;
+};
+
+/* "model_cy.pxd":107
+ *   cdef tuple northern_initialization_routine(self, scenario=*, dict uncertainty_dict=*)
+ * 
+ *   cdef void initialize_northern_res(self, dict uncertainty_dict=*) except *             # <<<<<<<<<<<<<<
+ * 
+ *   cdef void initialize_delta_ops(self, dict uncertainty_dict=*) except *
+ */
+struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_northern_res {
+  int __pyx_n;
+  PyObject *uncertainty_dict;
+};
+
+/* "model_cy.pxd":109
+ *   cdef void initialize_northern_res(self, dict uncertainty_dict=*) except *
+ * 
+ *   cdef void initialize_delta_ops(self, dict uncertainty_dict=*) except *             # <<<<<<<<<<<<<<
+ * 
+ *   cdef void southern_initialization_routine(self, scenario=*, dict uncertainty_dict=*) except *
+ */
+struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_delta_ops {
+  int __pyx_n;
+  PyObject *uncertainty_dict;
 };
 
 /* "model_cy.pxd":111
- *   cdef void initialize_delta_ops(self) except *
+ *   cdef void initialize_delta_ops(self, dict uncertainty_dict=*) except *
  * 
- *   cdef void southern_initialization_routine(self, scenario=*) except *             # <<<<<<<<<<<<<<
+ *   cdef void southern_initialization_routine(self, scenario=*, dict uncertainty_dict=*) except *             # <<<<<<<<<<<<<<
  * 
- *   cdef void initialize_southern_res(self) except *
+ *   cdef void initialize_southern_res(self, dict uncertainty_dict=*) except *
  */
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_southern_initialization_routine {
   int __pyx_n;
   PyObject *scenario;
+  PyObject *uncertainty_dict;
+};
+
+/* "model_cy.pxd":113
+ *   cdef void southern_initialization_routine(self, scenario=*, dict uncertainty_dict=*) except *
+ * 
+ *   cdef void initialize_southern_res(self, dict uncertainty_dict=*) except *             # <<<<<<<<<<<<<<
+ * 
+ *   cdef void project_urban(self, str datafile, str datafile_cvp, str datafile_pumping) except *
+ */
+struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_southern_res {
+  int __pyx_n;
+  PyObject *uncertainty_dict;
 };
 
 /* "model_cy.pxd":119
  *   cdef void predict_delta_gains(self) except *
  * 
- *   cdef void initialize_water_districts(self, scenario=*) except *             # <<<<<<<<<<<<<<
+ *   cdef void initialize_water_districts(self, scenario=*, dict uncertainty_dict=*) except *             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_water_districts {
   int __pyx_n;
   PyObject *scenario;
+  PyObject *uncertainty_dict;
 };
 struct __pyx_opt_args_11calfews_src_12reservoir_cy_9Reservoir_sj_riv_res_flows;
 
@@ -2253,7 +2282,7 @@ static struct __pyx_vtabstruct_11calfews_src_11contract_cy_Contract *__pyx_vtabp
 struct __pyx_vtabstruct_11calfews_src_11district_cy_District {
   double (*find_node_demand)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *, PyObject *, int, int);
   double (*set_request_constraints)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, PyObject *, PyObject *, double, double, int, int);
-  PyObject *(*set_demand_priority)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *, PyObject *, double, double, double, PyObject *, PyObject *, struct __pyx_opt_args_11calfews_src_11district_cy_8District_set_demand_priority *__pyx_optional_args);
+  PyObject *(*set_demand_priority)(struct __pyx_obj_11calfews_src_11district_cy_District *, PyObject *, PyObject *, double, double, double, PyObject *, PyObject *);
   void (*get_paper_exchange)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, PyObject *, PyObject *, int);
   void (*get_paper_trade)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, PyObject *, int);
   double (*direct_delivery_bank)(struct __pyx_obj_11calfews_src_11district_cy_District *, double, int);
@@ -2398,10 +2427,10 @@ struct __pyx_vtabstruct_11calfews_src_8model_cy_Model {
   PyObject *(*proj_gains)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, int, int, int);
   __pyx_ctuple_int__and_int__and_double__and_double__and_double (*find_pumping_release)(struct __pyx_obj_11calfews_src_8model_cy_Model *, int, int, int, int, PyObject *, PyObject *, PyObject *, double, double, PyObject *, int, PyObject *);
   PyObject *(*northern_initialization_routine)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_northern_initialization_routine *__pyx_optional_args);
-  void (*initialize_northern_res)(struct __pyx_obj_11calfews_src_8model_cy_Model *);
-  void (*initialize_delta_ops)(struct __pyx_obj_11calfews_src_8model_cy_Model *);
+  void (*initialize_northern_res)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_northern_res *__pyx_optional_args);
+  void (*initialize_delta_ops)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_delta_ops *__pyx_optional_args);
   void (*southern_initialization_routine)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_southern_initialization_routine *__pyx_optional_args);
-  void (*initialize_southern_res)(struct __pyx_obj_11calfews_src_8model_cy_Model *);
+  void (*initialize_southern_res)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_southern_res *__pyx_optional_args);
   void (*project_urban)(struct __pyx_obj_11calfews_src_8model_cy_Model *, PyObject *, PyObject *, PyObject *);
   void (*predict_delta_gains)(struct __pyx_obj_11calfews_src_8model_cy_Model *);
   void (*initialize_water_districts)(struct __pyx_obj_11calfews_src_8model_cy_Model *, struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_water_districts *__pyx_optional_args);

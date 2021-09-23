@@ -23,7 +23,7 @@ cdef class Crop():
   def __len__(self):
     return 1
     
-  def __init__(self, key):
+  def __init__(self, key, uncertainty_dict):
     self.key = key
     self.tau = {}
     self.beta = {}
@@ -66,9 +66,15 @@ cdef class Crop():
     self.crop_keys['VINE'] = 'grape'
     self.sub = 0.17
 
-	
+    ### get etM for each crop
     for k,v in json.load(open('calfews_src/crop/%s_properties.json' % key)).items():
-        setattr(self,k,v)
+      setattr(self,k,v)
+    ### scale etM based on multiplier
+    if 'etM_multiplier' in uncertainty_dict:
+      for crop, cropdict in self.etM.items():
+        if crop != 'precip':
+          for wyt, etM_list in cropdict.items():
+            self.etM[crop][wyt] = [etM * uncertainty_dict['etM_multiplier'] for etM in etM_list]
 		
   def set_pmp_parameters(self, all_parameters, district):
     for parameter_name in all_parameters:

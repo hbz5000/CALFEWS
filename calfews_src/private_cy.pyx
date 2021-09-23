@@ -26,7 +26,7 @@ cdef class Private():
   def __len__(self):
     return 1
                        
-  def __init__(self, model, name, key, land_fraction):
+  def __init__(self, model, name, key, land_fraction, uncertainty_dict={}):
     self.is_Canal = 0
     self.is_District = 0
     self.is_Private = 1
@@ -42,6 +42,15 @@ cdef class Private():
     for k,v in json.load(open('calfews_src/private/%s_properties.json' % key)).items():
         setattr(self,k,v)
 		
+    ### scale district municipal demands based on multiplier (crop demand multiplier done in crop class)
+    if 'MDD_multiplier' in uncertainty_dict:
+      self.MDD *= uncertainty_dict['MDD_multiplier']
+
+    ### scale crop acreages based on multiplier
+    if 'acreage_multiplier' in uncertainty_dict:
+      for wyt, acreage_list in self.acreage.items():
+        self.acreage[wyt] = [acreage * uncertainty_dict['acreage_multiplier'] for acreage in acreage_list]    
+
     self.district_list_len = len(self.district_list)
     self.contract_fractions = {}
     for x in self.district_list:
@@ -50,7 +59,7 @@ cdef class Private():
     #intialize crop acreages and et demands for crops
     self.irrdemand = {}
     for x in self.district_list:
-      self.irrdemand[x] = Crop(self.zone[x])
+      self.irrdemand[x] = Crop(self.zone[x], uncertainty_dict)
 	  #initialize dictionary to hold different delivery types
     self.deliveries = {}
     self.contract_list_all = ['tableA', 'cvpdelta', 'exchange', 'cvc', 'friant1', 'friant2','kaweah', 'tule', 'kern', 'kings']

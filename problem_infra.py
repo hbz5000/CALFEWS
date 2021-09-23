@@ -13,6 +13,8 @@ import main_cy
 
 
 
+
+
 def setup_problem(results_folder, print_log, dvs):
   ### setup/initialize model
   sys.stdout.flush()
@@ -65,13 +67,13 @@ def setup_problem(results_folder, print_log, dvs):
 
 
 
-def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, start_time):
+def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, uncertainty_dict, start_time):
   print('#######################################################')
   print('Initializing simulation...') 
   # try:
   ### setup new model
   main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source)
-  a = main_cy_obj.initialize_py()
+  a = main_cy_obj.initialize_py(uncertainty_dict)
 
   if a == 0:
     print('Initialization complete, ', datetime.now() - start_time)
@@ -95,21 +97,17 @@ def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, star
 
 
 ### run a single MC instance and fill in slot in objective dictionary
-def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, shared_output, proc, start, stop):
+def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, uncertainty_dict, shared_output, proc, start, stop):
   for n in range(start, stop):
     print('### beginning MC run ', n, ', proc ', proc)
-    shared_output[n] = run_sim(results_folder, model_modes[n], flow_input_types[n], flow_input_sources[n], start_time)
+    shared_output[n] = run_sim(results_folder, model_modes[n], flow_input_types[n], flow_input_sources[n], uncertainty_dict, start_time)
 
 
 
 ### run actual problem, with decision variables as inputs
-def problem_infra(dvs, num_MC, num_procs):
+def problem_infra(dvs, num_MC, num_procs, uncertainty_dict):
 
   start_time = datetime.now()
-
-  # results_folder = 'test' #sys.argv[1]  ### folder directory to store results, relative to base calfews directory
-  #redo_init = int(sys.argv[2])   ### this should be 0 if we want to use saved initialized model, else 1
-  #run_sim = int(sys.argv[3])   ### this should be 1 if we want to run sim, else 0 to just do init
 
   config = ConfigObj('runtime_params.ini')
   cluster_mode = bool(strtobool(config['cluster_mode']))
@@ -147,7 +145,7 @@ def problem_infra(dvs, num_MC, num_procs):
   for proc in range(num_procs):
     num_trials = nbase if proc >= remainder else nbase + 1
     stop = start + num_trials
-    p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types, flow_input_sources,
+    p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, uncertainty_dict,
                                                     shared_output, proc, start, stop))
     shared_processes.append(p)
     start = stop

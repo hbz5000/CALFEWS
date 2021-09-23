@@ -11,7 +11,7 @@ cdef class main_cy():
     public dict objs
     public Model modelno, modelso
 
-  cdef int initialize(self) except -1
+  cdef int initialize(self, dict uncertainty_dict) except -1
 
   cdef int run_sim(self, start_time) except -1
 

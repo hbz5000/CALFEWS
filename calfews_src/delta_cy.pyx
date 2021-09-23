@@ -23,7 +23,7 @@ cdef class Delta():
   def __len__(self):
     return 1
                        
-  def __init__(self, model, name, key, model_mode):
+  def __init__(self, model, name, key, model_mode, uncertainty_dict):
     self.model_mode = model_mode
     self.T = model.T
 
@@ -35,6 +35,21 @@ cdef class Delta():
 
     for k,v in json.load(open('calfews_src/delta/Delta_properties.json')).items():
       setattr(self,k,v)
+
+    ### alter min outflows?
+    if 'delta_min_outflow_base' in uncertainty_dict:
+      new_minflow = uncertainty_dict['delta_min_outflow_base']
+      minflow = min([min(l) for l in self.min_outflow.values()])
+      for wyt, flow_list in self.min_outflow.items():
+        self.min_outflow[wyt] = [flow * new_minflow / minflow for flow in flow_list]
+
+    if 'delta_min_outflow_peak_multiplier' in uncertainty_dict:
+      peak_multiplier = uncertainty_dict['delta_min_outflow_peak_multiplier']
+      minflow = min([min(l) for l in self.min_outflow.values()])
+      for wyt, flow_list in self.min_outflow.items():
+        self.min_outflow[wyt] = [minflow + (flow - minflow) * peak_multiplier for flow in flow_list]
+
+
     # Vectors for delta Inflows
     self.gains = [0.0 for _ in range(self.T)]
     self.gains_sac = [_ * cfs_tafd for _ in model.df[0].SAC_gains]
@@ -46,7 +61,7 @@ cdef class Delta():
     self.ccc = [_ * cfs_tafd for _ in model.df[0].CCC_pump]
     self.barkerslough = [_ * cfs_tafd for _ in model.df[0].BRK_pump]
 
-	##Vectors for delta outflows/exports
+	  ##Vectors for delta outflows/exports
     self.dmin = [0.0 for _ in range(self.T)]
     self.sodd_cvp = [0.0 for _ in range(self.T)]
     self.sodd_swp = [0.0 for _ in range(self.T)]
@@ -63,12 +78,12 @@ cdef class Delta():
     self.x2constraint['D'] = [0.0 for _ in range(366)]
     self.x2constraint['C'] = [0.0 for _ in range(366)]
 
-	##River Indicies
+	  ##River Indicies
     self.eri = [0.0 for _ in range(self.T)]	
     self.forecastSRI = [0.0 for _ in range(self.T)]
     self.forecastSJI = [0.0 for _ in range(self.T)]
     self.sac_fnf = [0.0 for _ in range(model.number_years)]
-	##Old/Middle River Calculations
+	  ##Old/Middle River Calculations
     if self.model_mode == 'validation':
       if 'OMR' in model.df[0]:
         self.hist_OMR = [_ * cfs_tafd for _ in model.df[0].OMR]
@@ -87,7 +102,7 @@ cdef class Delta():
       self.fish_condition = [_ for _ in np.random.random_sample((self.T,))]
     self.OMR = [0.0 for _ in range(self.T)]
 	
-	##Variables for determining releases for export (initialize)
+	  ##Variables for determining releases for export (initialize)
     self.cvp_aval_stor = 0.5
     self.swp_aval_stor = 0.5
     self.cvp_delta_outflow_pct = 0.75
@@ -113,13 +128,13 @@ cdef class Delta():
     self.final_allocation_swp = 0.0
     self.final_allocation_cvp = 0.0
 
-  def set_sensitivity_factors(self, delta_outflow_factor, omr_flow_factor, omr_prob_factor):
-    for wyt in ['W', 'AN', 'BN', 'D', 'C']:
-      for monthcount in range(0,12):
-        self.min_outflow[wyt][monthcount] = self.min_outflow[wyt][monthcount]*delta_outflow_factor
-    for omr_threshold in range(0, 4):
-      self.omr_reqr['probability'][omr_threshold] = omr_prob_factor*(omr_threshold+1.0)
-      self.omr_reqr['shortage_flow'][omr_threshold] = omr_flow_factor - (5000.0 + omr_flow_factor)*omr_threshold/4.0
+  # def set_sensitivity_factors(self, delta_outflow_factor, omr_flow_factor, omr_prob_factor):
+  #   for wyt in ['W', 'AN', 'BN', 'D', 'C']:
+  #     for monthcount in range(0,12):
+  #       self.min_outflow[wyt][monthcount] = self.min_outflow[wyt][monthcount]*delta_outflow_factor
+  #   for omr_threshold in range(0, 4):
+  #     self.omr_reqr['probability'][omr_threshold] = omr_prob_factor*(omr_threshold+1.0)
+  #     self.omr_reqr['shortage_flow'][omr_threshold] = omr_flow_factor - (5000.0 + omr_flow_factor)*omr_threshold/4.0
 
 
   def calc_expected_delta_outflow(self,model,shastaD,orovilleD,yubaD,folsomD,shastaMIN,orovilleMIN,yubaMIN,folsomMIN, gains_sac_short, gains_sj_short, depletions_short, eastside_short):
@@ -149,9 +164,9 @@ cdef class Delta():
       num_obs_m[m-1] += 1
       num_obs[dowy] += 1.0
       for wyt in ['W', 'AN', 'BN', 'D', 'C']:
-	    ##Calc delta outflow requirements
+	      ##Calc delta outflow requirements
         outflow_rule = self.min_outflow[wyt][m-1] * cfs_tafd
-	    #Calc expected unstored flows
+	      #Calc expected unstored flows
         vernalis_flows = max(gains_sj_short[t],self.san_joaquin_min_flow[wyt][zone-1]* cfs_tafd)
         trib_flow = max(shastaMIN[wyt][m-1]*cfs_tafd,shastaD[t]) + max(orovilleMIN[wyt][m-1]*cfs_tafd,orovilleD[t]) + max(yubaMIN[wyt][m-1]*cfs_tafd,yubaD[t]) + max(folsomMIN[wyt][m-1]*cfs_tafd,folsomD[t])
         #Calc releases needed to meet outflow req.
@@ -526,17 +541,17 @@ cdef class Delta():
 	
   def calc_flow_bounds(self, t, m, y, year_index, d, dowy, dowy_eom, cvp_max, swp_max, cvp_max_alt, swp_max_alt, cvp_release, swp_release, cvp_AS, swp_AS, cvp_flood, swp_flood, swp_over_dead_pool, cvp_over_dead_pool, swp_flood_volume, cvp_flood_volume, swp_fillup, cvp_fillup):
     ### stored and unstored flow agreement between SWP & CVP
-	### project releases for pumping must consider the I/E 'tax'
-	### releases already made (environmental flows, delta outflows) and downstream gains can be credited against this tax, but
-	### we first have to determine how much of each is assigned to the delta outflow.
-    
-	##the first step is applying all 'unstored' flows to the delta outflows
-	##note: unstored_flows should be strictly positive, but available_unstored can be negative (need outflow/environmental releases to meet delta outflow requirements)
+    ### project releases for pumping must consider the I/E 'tax'
+    ### releases already made (environmental flows, delta outflows) and downstream gains can be credited against this tax, but
+    ### we first have to determine how much of each is assigned to the delta outflow.
+      
+    ##the first step is applying all 'unstored' flows to the delta outflows
+    ##note: unstored_flows should be strictly positive, but available_unstored can be negative (need outflow/environmental releases to meet delta outflow requirements)
     wyt = self.forecastSCWYT
     outflow_rule = self.min_outflow[wyt][m-1] * cfs_tafd
     cvp_frac = 0.55
     swp_frac = 0.45
-	##Same salinity rule as in calc_flow_bounds
+	  ##Same salinity rule as in calc_flow_bounds
 	  
     if self.x2[t] > self.x2constraint[wyt][dowy]:
       x2outflow = 10**((self.x2constraint[wyt][dowy] - 10.16 - 0.945*self.x2[t])/(-1.487))

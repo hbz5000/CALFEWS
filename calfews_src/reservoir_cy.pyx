@@ -23,7 +23,7 @@ cdef class Reservoir():
   def __len__(self):
     return 1
 
-  def __init__(self, model, name, key, model_mode):
+  def __init__(self, model, name, key, model_mode, uncertainty_dict={}):
     self.is_Canal = 0
     self.is_District = 0
     self.is_Private = 0
@@ -68,6 +68,41 @@ cdef class Reservoir():
       #for remaining reservoirs, load parameters from KEY_properties.json file (see reservoir\readme.txt
       for k,v in json.load(open('calfews_src/reservoir/%s_properties.json' % key)).items():
           setattr(self,k,v)
+
+      ### alter environmental flows?
+      if 'env_min_flow_base' in uncertainty_dict:
+        if self.key in uncertainty_dict['env_min_flow_base']:
+          new_minflow = uncertainty_dict['env_min_flow_base'][self.key]
+          if self.key == 'MIL':  
+            minflow = min([min(l) for l in self.sj_restoration_proj['release']])
+            self.sj_restoration_proj['release'] = [[flow * new_minflow / minflow for flow in self.sj_restoration_proj['release'][i]] for i in range(len(self.sj_restoration_proj['release']))]
+          elif self.key in ['PFT', 'ISB']:
+            minflow = min([min(l) for l in self.env_min_flow.values()])
+            for wyt, flow_list in self.env_min_flow.items():
+              self.env_min_flow[wyt] = [flow * new_minflow / minflow for flow in flow_list]
+          elif self.key in ['SUC', 'KWH']:
+            ### SUC&KWH don't have min flow requirements, so borrow seasonal/interannual ratios from PFT
+            env_min_flow_PFT = {"W": [255,255,255,100,100,100,100,100,100,255,255,255],
+                                "AN": [135,135,135,100,100,100,100,100,100,135,135,135],
+                                 "BN": [100,100,100,100,100,100,100,100,100,100,100,100],
+                                  "D":  [100,100,100,100,100,100,100,100,100,100,100,100],
+                                 "C":  [100,100,100,100,100,100,100,100,100,100,100,100]}
+            minflow = min([min(l) for l in env_min_flow_PFT.values()])
+            for wyt, flow_list in env_min_flow_PFT.items():
+              self.env_min_flow[wyt] = [flow * new_minflow / minflow for flow in flow_list]
+
+      if 'env_min_flow_peak_multiplier' in uncertainty_dict:
+        if self.key in uncertainty_dict['env_min_flow_peak_multiplier']:
+          peak_multiplier = uncertainty_dict['env_min_flow_peak_multiplier'][self.key]
+          if self.key == 'MIL':  
+            minflow = min([min(l) for l in self.sj_restoration_proj['release']])
+            self.sj_restoration_proj['release'] = [[minflow + (flow - minflow) * peak_multiplier for flow in self.sj_restoration_proj['release'][i]] for i in range(len(self.sj_restoration_proj['release']))]
+          else:
+            minflow = min([min(l) for l in self.env_min_flow.values()])
+            for wyt, flow_list in self.env_min_flow.items():
+              self.env_min_flow[wyt] = [minflow + (flow - minflow) * peak_multiplier for flow in flow_list]
+
+
       #load timeseries inputs from calfews_src-data.csv input file
       self.Q = [_ * cfs_tafd for _ in model.df[0]['%s_inf'% key].values]
       self.E = [_ * cfs_tafd for _ in model.df[0]['%s_evap'% key].values]
@@ -294,8 +329,8 @@ cdef class Reservoir():
 
     wyt = self.forecastWYT
     	
-	####ENVIRONMENTAL FLOWS
-	##What releases are needed directly downstream of reservoir
+    ####ENVIRONMENTAL FLOWS
+    ##What releases are needed directly downstream of reservoir
     self.basinuse = np.interp(d, first_d_of_month, self.nodd)
     self.gains_to_delta += self.basinuse
 	
