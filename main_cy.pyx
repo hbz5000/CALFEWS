@@ -245,47 +245,77 @@ cdef class main_cy():
 # ################################################################################################################################
 # ### MORDM-specific functions for infrastructure experiment
 # ################################################################################################################################
-  # ### generator to loop through important model attributes and return non-zero data that corresponds to deliveries for particular district
-  # def district_delivery_loop_generator(output_list, clean_output, modelno, modelso, dkey, dname):
-            
-  #   for d in output_list['south']['districts'].keys():
-  #     for o in output_list['south']['districts'][d].keys():
-  #       try:
-  #         att, name = model_attribute_nonzero(modelso.__getattribute__(d).daily_supplies_full[o], np.string_(d + '_' + o), clean_output)       
-  #         if list(att):
-  #           if (((dkey in name.split('_')) or (dname in name.split('_'))) and (('delivery' in name.split('_')) or ('flood' in name.split('_')) or ('recharged' in name.split('_')) or \
-  #                                                                                 ('exchanged' in name.split('_')) or ('inleiu' in name.split('_')) or ('leiupumping' in name.split('_')) or \
-  #                                                                                   ('banked' in name.split('_')))):
-  #             yield list(att), name                  
-  #       except:
-  #         pass
-        
-  #   for waterbank_obj in modelso.waterbank_list:
-  #     for partner_key, partner_series in waterbank_obj.bank_timeseries.items():
-  #       try:
-  #         att, name = model_attribute_nonzero(partner_series, np.string_(waterbank_obj.name + '_' + partner_key), clean_output)
-  #         if (((dkey in name.split('_')) or (dname in name.split('_'))) and (('delivery' in name.split('_')) or ('flood' in name.split('_')) or ('recharged' in name.split('_')) or \
-  #                                                                               ('exchanged' in name.split('_')) or ('inleiu' in name.split('_')) or ('leiupumping' in name.split('_')) or \
-  #                                                                                 ('banked' in name.split('_')))):
-  #           yield list(att), name              
-  #       except:
-  #         pass
-  
-  #   ### signify end of dataset
-  #   yield (False, False)
 
-
-  def store_baseline_results(self, MC_label):
+  def get_district_results(self, MC_label):
     ### store district-level results from baseline scenario with no new infrastructure. this will be used to calc objectives of infrastructure scenarios.
-    delivery_dict = {}
-    ### outer loop over districts
-    for d in self.modelso.district_list[0]:
-      ### first get deliveries directly to this district
-      print(d, d.key)
-      keys = d.daily_supplies_full.keys()
-      key_sub = [k for k in keys if (((d in k.split('_'))) and (('delivery' in k.split('_')) or ('flood' in k.split('_'))))]
-      print(keys)
-      print(key_sub)
+    district_results = {}
+    wy = np.array(self.modelso.water_year)
+    ny = self.modelno.number_years
+
+    print(self.modelso.cawelo.daily_supplies_full['tableA_recharged'])
+    
+    for dobj in self.modelso.district_list:
+      d = dobj.key
+      df = pd.DataFrame(index=wy)
+      ### get relevant data
+      for k, timeseries in dobj.daily_supplies_full.items():
+        if ('delivery' in k.split('_')) or ('flood' in k.split('_')) or ('recharged' in k.split('_')) or ('exchanged' in k.split('_')) \
+              or ('inleiu' in k.split('_')) or ('leiupumping' in k.split('_')) or ('banked' in k.split('_')):
+          df[k] = timeseries 
+
+      ## undo summation over years
+      for y in range(wy.min() + 1, wy.max() + 1):
+        maxprevious = df.loc[wy < y, :].iloc[-1, :]
+        df.loc[wy == y, :] += maxprevious
+      df.iloc[1:, :] = df.diff().iloc[1:, :]
+
+      ### also add data that doesnt sum over years (pumping)
+      keys = ['pumping']
+      for k in keys:
+        try:
+          df[k] = dobj.daily_supplies_full[k]
+        except:
+          df[k] = np.zeros(len(wy))
+
+      ## get total new surface water deliveries = *district*_*contract*_delivery + *district*_*contract*_flood + *district*_*contract*_flood_irrigation - *district*_exchanged_GW + *district*_exchanged_SW
+      df['new_deliveries'] = 0.0
+      for (wtype, position) in [('delivery', 1), ('flood', 1), ('SW', 1)]:
+        for c in df.columns:
+          try:
+            if c.split('_')[position] == wtype:
+              df['new_deliveries'] += df[c]
+          except:
+            pass    
+      for (wtype, position) in [('GW', 1)]:
+        for c in df.columns:
+          try:
+            if c.split('_')[position] == wtype:
+              df['new_deliveries'] -= df[c]
+          except:
+            pass
+      ## get irrigation deliveries for drought year metric = *district*_*contract*_delivery - *district*_*contract*_recharged + *district*_*contract*_flood_irrigation + *district*_recover_banked + *district*_exchanged_SW + *district*_inleiu_irrigation
+      df['irrig_deliveries'] = 0.0
+      for (wtype, position) in [('delivery', 1), ('irrigation', 2), ('recover', 0), ('SW', 1), ('irrigation', 1)]:
+        for c in df.columns:
+          try:
+            if c.split('_')[position] == wtype:
+              df['irrig_deliveries'] += df[c]
+          except:
+            pass
+      for (wtype, position) in [('recharged', 1)]:
+        for c in df.columns:
+          try:
+            if c.split('_')[position] == wtype:
+              df['irrig_deliveries'] -= df[c]
+          except:
+            pass
+
+      district_results[d] = df.sum(axis=0)
+      # {'avg_new_deliveries': df['new_deliveries'].sum()/ny,
+      #                         'avg_irrig_deliveries': df['irrig_deliveries'].sum()/ny,
+      #                         'avg_pumping': df['pumping'].sum()/ny}
+      print(self.modelso.cawelo.daily_supplies_full.keys())
+    return district_results['CWO']
 
   
   

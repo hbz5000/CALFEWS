@@ -86,17 +86,17 @@ def run_sim(results_folder, model_mode, flow_input_type, flow_input_source, MC_l
       sys.stdout.flush()
       if is_baseline:
         ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison
-        main_cy_obj.store_baseline_results(MC_label)
+        print(main_cy_obj.get_district_results(MC_label))
         return 0
 
       else:
         ### for non-baseline, we calculate objectives by comparison to baseline
-        objs = main_cy_obj.calc_objectives(MC_label)
+        objs = main_cy_obj.get_district_results(MC_label)
         print(MC_label, objs)
         return objs
 
       print ('Objective calculation complete,', datetime.now() - start_time)
-
+      main_cy_obj.output_results()
   # except:
   #   return {}
 

@@ -76,9 +76,9 @@ if run_sim == 1:
     main_cy_obj.calc_objectives()
     print ('Objective calculation complete,', datetime.now() - start_time)
 
-    # ### output results
-    # main_cy_obj.output_results()
-    # print ('Data output complete,', datetime.now() - start_time)
-    # sys.stdout.flush()
+    ### output results
+    main_cy_obj.output_results()
+    print ('Data output complete,', datetime.now() - start_time)
+    sys.stdout.flush()
 
 

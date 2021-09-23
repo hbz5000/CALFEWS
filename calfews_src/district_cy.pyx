@@ -1211,7 +1211,7 @@ cdef class District():
         self.current_balance[contract_obj.name] -= contract_deliveries
         if search_type == 'banking':
           #if deliveries ar for banking, update banking accounts
-          self.deliveries[delivery_location + '_recharged'][wateryear] += recharge_deliveries
+          self.deliveries[delivery_location + '_recharged'][wateryear] += contract_deliveries
           self.deliveries[contract_obj.name + '_recharged'][wateryear] += contract_deliveries
           self.recharge_carryover[contract_obj.name] -= min(contract_deliveries, self.recharge_carryover[contract_obj.name])
     int_sum = 0.0
