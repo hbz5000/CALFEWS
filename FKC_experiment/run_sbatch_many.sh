@@ -4,7 +4,7 @@ start_samples=0
 end_samples=3034
 runtime_base='runtime_params_FKC_experiment_'
 
-python3 get_FKC_participants.py 0 3035
+#python3 get_FKC_participants.py 0 3035
 
 for s in 'dry' 'median' 'wet'
 do
