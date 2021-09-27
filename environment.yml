@@ -18,4 +18,5 @@ dependencies:
   - jupyter
   - ipywidgets
   - bqplot
+  - cython
 prefix: C:\Users\Andrew\anaconda3\envs\.venv_conda_calfews
