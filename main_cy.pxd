@@ -7,7 +7,7 @@ cdef class main_cy():
     public double progress
     public int running_sim, short_test, seed, total_sensitivity_factors
     public bint print_log, clean_output, save_full, parallel_mode
-    public str scenario_name, model_mode, flow_input_type, flow_input_source, results_folder, output_list, runtime_file
+    public str scenario_name, model_mode, flow_input_type, flow_input_source, results_folder, output_list, runtime_file, flow_input_addition
     public dict objs
     public Model modelno, modelso
 

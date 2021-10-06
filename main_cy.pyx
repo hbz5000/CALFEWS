@@ -37,7 +37,7 @@ cdef class main_cy():
 ################################################################################################################################
 ### Initial model setup
 ################################################################################################################################
-  def __init__(self, str results_folder, str runtime_file='', str model_mode='', str flow_input_type='', str flow_input_source=''):
+  def __init__(self, str results_folder, str runtime_file='', str model_mode='', str flow_input_type='', str flow_input_source='', str flow_input_addition=''):
     self.progress = 0.0
     self.running_sim = 1
 
@@ -64,6 +64,8 @@ cdef class main_cy():
       self.flow_input_type = flow_input_type
       self.flow_input_source = flow_input_source
     self.results_folder = results_folder
+    # extra string for adding to flow_input_source to get input file for similarly-named MC samples
+    self.flow_input_addition = flow_input_addition
 
 
     
@@ -109,6 +111,8 @@ cdef class main_cy():
       new_inputs = Inputter(base_data_file, expected_release_datafile, self.model_mode, self.results_folder)
       if new_inputs.has_full_inputs[self.flow_input_type][self.flow_input_source]:
         input_data_file = new_inputs.flow_input_source[self.flow_input_type][self.flow_input_source]
+        if 'generic' in self.flow_input_source.split('_'):
+          input_data_file += self.flow_input_addition + '.csv'
         new_inputs_df = ''
       else:
         # run initialization routine
@@ -116,7 +120,7 @@ cdef class main_cy():
         # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
         PyErr_CheckSignals()
         if True:
-          new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source)
+          new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition)
           input_data_file = ''
           # input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
 
@@ -246,13 +250,13 @@ cdef class main_cy():
 # ### MORDM-specific functions for infrastructure experiment
 # ################################################################################################################################
 
-  def get_district_results(self, MC_label):
-    ### store district-level results from baseline scenario with no new infrastructure. this will be used to calc objectives of infrastructure scenarios.
+  def get_district_results(self, results_folder, MC_label, shared_objs_array, MC_count, is_baseline):
+    ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
+    ### get district-level results 
     district_results = {}
+    other_results = {}
     wy = np.array(self.modelso.water_year)
     ny = self.modelno.number_years
-
-    print(self.modelso.cawelo.daily_supplies_full['tableA_recharged'])
     
     for dobj in self.modelso.district_list:
       d = dobj.key
@@ -277,45 +281,114 @@ cdef class main_cy():
         except:
           df[k] = np.zeros(len(wy))
 
-      ## get total new surface water deliveries = *district*_*contract*_delivery + *district*_*contract*_flood + *district*_*contract*_flood_irrigation - *district*_exchanged_GW + *district*_exchanged_SW
-      df['new_deliveries'] = 0.0
+      ## get total captured water = *district*_*contract*_delivery + *district*_*contract*_flood + *district*_*contract*_flood_irrigation - *district*_exchanged_GW + *district*_exchanged_SW
+      df['captured_water'] = 0.0
       for (wtype, position) in [('delivery', 1), ('flood', 1), ('SW', 1)]:
         for c in df.columns:
           try:
             if c.split('_')[position] == wtype:
-              df['new_deliveries'] += df[c]
+              df['captured_water'] += df[c]
           except:
             pass    
       for (wtype, position) in [('GW', 1)]:
         for c in df.columns:
           try:
             if c.split('_')[position] == wtype:
-              df['new_deliveries'] -= df[c]
-          except:
-            pass
-      ## get irrigation deliveries for drought year metric = *district*_*contract*_delivery - *district*_*contract*_recharged + *district*_*contract*_flood_irrigation + *district*_recover_banked + *district*_exchanged_SW + *district*_inleiu_irrigation
-      df['irrig_deliveries'] = 0.0
-      for (wtype, position) in [('delivery', 1), ('irrigation', 2), ('recover', 0), ('SW', 1), ('irrigation', 1)]:
-        for c in df.columns:
-          try:
-            if c.split('_')[position] == wtype:
-              df['irrig_deliveries'] += df[c]
-          except:
-            pass
-      for (wtype, position) in [('recharged', 1)]:
-        for c in df.columns:
-          try:
-            if c.split('_')[position] == wtype:
-              df['irrig_deliveries'] -= df[c]
+              df['captured_water'] -= df[c]
           except:
             pass
 
-      district_results[d] = df.sum(axis=0)
-      # {'avg_new_deliveries': df['new_deliveries'].sum()/ny,
-      #                         'avg_irrig_deliveries': df['irrig_deliveries'].sum()/ny,
-      #                         'avg_pumping': df['pumping'].sum()/ny}
-      print(self.modelso.cawelo.daily_supplies_full.keys())
-    return district_results['CWO']
+      results_dict = {'avg_captured_water': df['captured_water'].groupby(wy).sum().mean(), 'min_captured_water': df['captured_water'].groupby(wy).sum().min(),
+                                'std_captured_water': df['captured_water'].groupby(wy).sum().std(),
+                              'avg_pumping': df['pumping'].groupby(wy).sum().mean(), 'max_pumping': df['pumping'].groupby(wy).sum().max(),
+                              'std_pumping': df['pumping'].groupby(wy).sum().std()}
+      if is_baseline or \
+            ((d in self.modelso.fkc.ownership_shares) and (self.modelso.fkc.ownership_shares[d] > 0)) or \
+            ((d in self.modelso.centralfriantwb.participant_list) and (self.modelso.centralfriantwb.participant_list[d] > 0)):
+        district_results[d] = results_dict
+      else:
+        other_results[d] = results_dict
+      
+    ### for baseline, write results as json
+    if is_baseline:
+      with open(results_folder + '/' + MC_label + '_baseline.json', 'w') as o:
+        json.dump(district_results, o)
+      return []
+    ### for infra scenario, compare results to baseline
+    else:
+      # ### first write infra results as themselves
+      # with open(results_folder + '/' + MC_label + '_infra_partners.json', 'w') as o:
+      #   json.dump(district_results, o)
+      ### read baseline results for same MC sample w/ no infra
+      baseline_results = json.load(open(results_folder + '/' + MC_label + '_baseline.json'))
+      ### get gains for each district
+      district_gains = {}
+      for d in district_results.keys():
+        district_gains[d] = {}
+        for k,v in district_results[d].items():
+          district_gains[d][k] = v - baseline_results[d][k]
+      # ### write gains to json
+      # with open(results_folder + '/' + MC_label + '_infra_gains.json', 'w') as o:
+      #   json.dump(district_gains, o)
+      ### get gains for each non-partner
+      other_gains = {}
+      for d in other_results.keys():
+        other_gains[d] = {}
+        for k,v in other_results[d].items():
+          other_gains[d][k] = v - baseline_results[d][k]
+
+      ### now aggregate objs over districts 
+      annual_debt_payment_dict = {'FKC': 6801461.52729321,'CFWB': 3886549.444167549}
+      # total captured water gains for partnership (kAF/year)
+      total_captured_water_gain = sum([v['avg_captured_water'] for v in district_gains.values()])
+      # total pumping reduction for partnership (kAF/year)
+      total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()])
+      # total captured water gains for non-partners (kAF/year)
+      total_nonpartner_captured_water_gain = sum([v['avg_captured_water'] for v in other_gains.values()])
+
+      annual_debt_payment = 0.
+      if len(self.modelso.centralfriantwb.participant_list) > 0:
+        annual_debt_payment += annual_debt_payment_dict['CFWB']
+      if sum(self.modelso.fkc.ownership_shares.values()) > 0:
+        annual_debt_payment += annual_debt_payment_dict['FKC']
+      print('payment: ', annual_debt_payment)
+      # cost of water gains for partnership ($/AF)
+      cost_water_gains_pship = annual_debt_payment / total_captured_water_gain / 1000
+      # cost of pumping reductions for partnership ($/AF)
+      cost_pump_red_pship = annual_debt_payment / total_pump_red / 1000
+      
+      # worst-off partner costs
+      cost_water_gains_worst = -1.
+      cost_pump_red_worst = -1.
+      for d,v in district_gains.items():
+        try:
+          partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]
+        except:
+          partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]
+        cost_water_gains_partner = partner_debt_payment / v['avg_captured_water'] / 1000
+        cost_pump_red_partner = partner_debt_payment / v['avg_pumping'] / 1000
+        if cost_water_gains_partner > cost_water_gains_worst:
+          cost_water_gains_worst = cost_water_gains_partner
+        if cost_pump_red_partner > cost_pump_red_worst:
+          cost_pump_red_worst = cost_pump_red_partner
+
+      
+      ###& store in shared memory array
+      objs_MC = [total_captured_water_gain,
+                  total_pump_red,
+                  total_nonpartner_captured_water_gain,
+                  cost_water_gains_worst,
+                  len(district_gains)]
+      print(MC_label, objs_MC)
+      shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC
+
+      ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
+      ###       max(1) pumping reduction - mean over years - sum over partners - mean over MC
+      ###       max(2) CWG - mean over years - sum over non-partners - mean over MC
+      ###       min(3) cost CWG - mean over years - max over partners - max over MC
+      ###       max(4) number partners - no agg needed
+      ### cons: (1) obj 3 < 2000
+
 
   
   

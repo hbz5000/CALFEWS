@@ -73,7 +73,7 @@ cdef class Inputter():
 
    
 
-  def run_routine(self, str flow_input_type, str flow_input_source):
+  def run_routine(self, str flow_input_type, str flow_input_source, str flow_input_addition=''):
     cdef:
       int start_month, end_month, start_year, number_years, first_leap
     start_month = 10
@@ -85,7 +85,7 @@ cdef class Inputter():
         break
     if self.use_sensitivity:
       self.set_sensitivity_factors()
-    self.read_new_fnf_data(flow_input_type, flow_input_source, start_month, first_leap, number_years)
+    self.read_new_fnf_data(flow_input_type, flow_input_source, flow_input_addition, start_month, first_leap, number_years)
     self.whiten_by_historical_moments(number_years, 'XXX')
     self.whiten_by_historical_moments_delta(number_years, 'XXX')
     self.make_fnf_prediction(number_years, 'XXX')
@@ -812,7 +812,7 @@ cdef class Inputter():
 
         reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
 
-  def read_new_fnf_data(self, flow_input_type, flow_input_source, start_month, first_leap_year, numYears):
+  def read_new_fnf_data(self, str flow_input_type, str flow_input_source, str flow_input_addition, int start_month, int first_leap_year, int numYears):
     monthcount = start_month - 1
     daycount = 0
     yearcount = 0
@@ -821,6 +821,9 @@ cdef class Inputter():
     leapcount = 0
 		
     filename = self.flow_input_source[flow_input_type][flow_input_source]
+    if 'generic' in flow_input_source.split('_'):
+      filename += flow_input_addition + '.csv'
+
     self.fnf_df = pd.read_csv(filename)
     if 'datetime' in self.fnf_df:
       dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])
