@@ -24,6 +24,7 @@ import sys
 import os
 from configobj import ConfigObj
 import json
+from csv import writer
 from distutils.util import strtobool
 from cpython.exc cimport PyErr_CheckSignals
 from calfews_src.model_cy cimport Model
@@ -253,6 +254,7 @@ cdef class main_cy():
   def get_district_results(self, results_folder, MC_label, shared_objs_array, MC_count, is_baseline):
     ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
     ### get district-level results 
+
     district_results = {}
     other_results = {}
     wy = np.array(self.modelso.water_year)
@@ -303,15 +305,15 @@ cdef class main_cy():
                               'avg_pumping': df['pumping'].groupby(wy).sum().mean(), 'max_pumping': df['pumping'].groupby(wy).sum().max(),
                               'std_pumping': df['pumping'].groupby(wy).sum().std()}
       if is_baseline or \
-            ((d in self.modelso.fkc.ownership_shares) and (self.modelso.fkc.ownership_shares[d] > 0)) or \
-            ((d in self.modelso.centralfriantwb.participant_list) and (self.modelso.centralfriantwb.participant_list[d] > 0)):
+            ((type(self.modelso.fkc.ownership_shares) is dict) and (d in self.modelso.fkc.ownership_shares) and (self.modelso.fkc.ownership_shares[d] > 0)) or \
+            ((type(self.modelso.centralfriantwb.ownership) is dict) and (d in self.modelso.centralfriantwb.ownership) and (self.modelso.centralfriantwb.ownership[d] > 0)):
         district_results[d] = results_dict
       else:
         other_results[d] = results_dict
-      
+  
     ### for baseline, write results as json
     if is_baseline:
-      with open(results_folder + '/' + MC_label + '_baseline.json', 'w') as o:
+      with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
         json.dump(district_results, o)
       return []
     ### for infra scenario, compare results to baseline
@@ -320,7 +322,8 @@ cdef class main_cy():
       # with open(results_folder + '/' + MC_label + '_infra_partners.json', 'w') as o:
       #   json.dump(district_results, o)
       ### read baseline results for same MC sample w/ no infra
-      baseline_results = json.load(open(results_folder + '/' + MC_label + '_baseline.json'))
+      baseline_results = json.load(open(results_folder + '/../' + MC_label + '_baseline.json'))
+
       ### get gains for each district
       district_gains = {}
       for d in district_results.keys():
@@ -346,16 +349,31 @@ cdef class main_cy():
       # total captured water gains for non-partners (kAF/year)
       total_nonpartner_captured_water_gain = sum([v['avg_captured_water'] for v in other_gains.values()])
 
+      print(district_gains)
+      print(total_captured_water_gain, total_pump_red, total_nonpartner_captured_water_gain)
+
       annual_debt_payment = 0.
-      if len(self.modelso.centralfriantwb.participant_list) > 0:
-        annual_debt_payment += annual_debt_payment_dict['CFWB']
-      if sum(self.modelso.fkc.ownership_shares.values()) > 0:
-        annual_debt_payment += annual_debt_payment_dict['FKC']
+      try:
+        if len(self.modelso.centralfriantwb.participant_list) > 0:
+          annual_debt_payment += annual_debt_payment_dict['CFWB']
+      except:
+        pass
+      try:
+        if sum(self.modelso.fkc.ownership_shares.values()) > 0:
+          annual_debt_payment += annual_debt_payment_dict['FKC']
+      except:
+        pass
       print('payment: ', annual_debt_payment)
       # cost of water gains for partnership ($/AF)
-      cost_water_gains_pship = annual_debt_payment / total_captured_water_gain / 1000
+      try:
+        cost_water_gains_pship = annual_debt_payment / total_captured_water_gain / 1000
+      except ZeroDivisionError:
+        cost_water_gains_pship = 1e7
       # cost of pumping reductions for partnership ($/AF)
-      cost_pump_red_pship = annual_debt_payment / total_pump_red / 1000
+      try:
+        cost_pump_red_pship = annual_debt_payment / total_pump_red / 1000
+      except ZeroDivisionError:
+        cost_pump_red_pship = 1e7
       
       # worst-off partner costs
       cost_water_gains_worst = -1.
@@ -365,8 +383,14 @@ cdef class main_cy():
           partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]
         except:
           partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]
-        cost_water_gains_partner = partner_debt_payment / v['avg_captured_water'] / 1000
-        cost_pump_red_partner = partner_debt_payment / v['avg_pumping'] / 1000
+        try:
+          cost_water_gains_partner = partner_debt_payment / v['avg_captured_water'] / 1000
+        except ZeroDivisionError:
+          cost_water_gains_partner = 1e7
+        try:
+          cost_pump_red_partner = partner_debt_payment / v['avg_pumping'] / 1000
+        except ZeroDivisionError:
+          cost_pump_red_partner = 1e7
         if cost_water_gains_partner > cost_water_gains_worst:
           cost_water_gains_worst = cost_water_gains_partner
         if cost_pump_red_partner > cost_pump_red_worst:
@@ -377,7 +401,7 @@ cdef class main_cy():
       objs_MC = [total_captured_water_gain,
                   total_pump_red,
                   total_nonpartner_captured_water_gain,
-                  cost_water_gains_worst,
+                  min(cost_water_gains_worst,1e7),
                   len(district_gains)]
       print(MC_label, objs_MC)
       shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC
@@ -388,7 +412,11 @@ cdef class main_cy():
       ###       min(3) cost CWG - mean over years - max over partners - max over MC
       ###       max(4) number partners - no agg needed
       ### cons: (1) obj 3 < 2000
-
+      print('end district results', results_folder, [MC_label] + objs_MC)      
+      with open(results_folder + '/objs.csv', 'a') as f:
+        w = writer(f)
+        w.writerow([MC_label] + objs_MC)
+        
 
   
   

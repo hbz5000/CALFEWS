@@ -24,3 +24,5 @@ slurm*
 FKC_experiment/slurm*
 *_tmp.sh
 gmon.out
+borg*
+libborg*
