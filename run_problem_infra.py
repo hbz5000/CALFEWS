@@ -25,8 +25,8 @@ import problem_infra
 
 ### first run baseline version
 ### decision variables for problem
-#dvs = np.zeros(42)
-#problem_infra.problem_infra(*dvs, is_baseline=True)
+dvs = np.zeros(42)
+problem_infra.problem_infra(*dvs, is_baseline=True)
 
 
 

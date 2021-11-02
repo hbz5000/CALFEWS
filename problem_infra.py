@@ -115,13 +115,12 @@ def problem_infra(*dvs, is_baseline=False):
 
 
   ### define MC sampling problem/parallelization
-  num_MC = 3
-  num_procs = 3
+  num_MC = 100
+  num_procs = 16
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['synthetic'] * num_MC
-  flow_input_sources = ['capow_50yr_wet', 'capow_50yr_median', 'capow_50yr_dry']
-#  MC_labels = [str(i) for i in range(num_MC)]     #['wet','dry']
-  MC_labels = ['wet','median','dry']
+  flow_input_sources = ['mghmm_30yr_generic'] * num_MC
+  MC_labels = [str(i) for i in range(num_MC)]     #['wet','dry']
 
   ### uncertainties
   uncertainty_dict = {}

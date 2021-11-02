@@ -66,7 +66,8 @@
       "capow_50yr_wet": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_wet.csv",
       "capow_50yr_dry": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_dry.csv",
       "capow_50yr_median": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_median.csv",
-      "capow_50yr_generic": "calfews_src/data/capow_synthetic/ORCA_forecast_flows"
+      "capow_50yr_generic": "calfews_src/data/capow_synthetic/ORCA_forecast_flows",
+      "mghmm_30yr_generic": "calfews_src/data/MGHMM_synthetic/DailyQ_s"
     }
   },
 
@@ -135,7 +136,8 @@
         "capow_50yr_wet": "calfews_src-data-synth_capow_50_wet",
         "capow_50yr_dry": "calfews_src-data-synth_capow_50_dry",
         "capow_50yr_median": "calfews_src-data-synth_capow_50_median",
-        "capow_50yr_generic": "calfews_src-data-synth_capow_50_"
+        "capow_50yr_generic": "calfews_src-data-synth_capow_50_",
+        "mghmm_30yr_generic": "calfews_src-data-synth_mghmm_30yr_"
       }
     },
   
@@ -204,7 +206,8 @@
       "capow_50yr_wet": 1901,
       "capow_50yr_dry": 1901,
       "capow_50yr_median": 1901,
-      "capow_50yr_generic": 1901
+      "capow_50yr_generic": 1901,
+      "mghmm_30yr_generic": 1906
     }
   },
   
@@ -273,7 +276,8 @@
       "capow_50yr_wet": 1951,
       "capow_50yr_dry": 1951,
       "capow_50yr_median": 1951,
-      "capow_50yr_generic": 1951
+      "capow_50yr_generic": 1951,
+      "mghmm_30yr_generic": 1936
     }
   },
   
@@ -342,7 +346,8 @@
       "capow_50yr_wet": "1/1/1901",
       "capow_50yr_dry": "1/1/1901",
       "capow_50yr_median": "1/1/1901",
-      "capow_50yr_generic": "1/1/1901"
+      "capow_50yr_generic": "1/1/1901",
+      "mghmm_30yr_generic": "1/1/1906"
     }
   },
   
@@ -411,7 +416,8 @@
       "capow_50yr_wet": "12/31/1951",
       "capow_50yr_dry": "12/31/1951",
       "capow_50yr_median": "12/31/1951",
-      "capow_50yr_generic": "12/31/1951"
+      "capow_50yr_generic": "12/31/1951",
+      "mghmm_30yr_generic": "12/31/1936"
     }
   },
   "has_full_inputs":{
@@ -479,7 +485,8 @@
       "capow_50yr_wet": false,
       "capow_50yr_dry": false,
       "capow_50yr_median": false,
-      "capow_50yr_generic": false
+      "capow_50yr_generic": false,
+      "mghmm_30yr_generic": false
     }
   },
   
@@ -548,7 +555,8 @@
       "capow_50yr_wet": true,
       "capow_50yr_dry": true,
       "capow_50yr_median": true,
-      "capow_50yr_generic": true
+      "capow_50yr_generic": true,
+      "mghmm_30yr_generic": true
     }
   },
 
@@ -617,7 +625,8 @@
       "capow_50yr_wet": "af",
       "capow_50yr_dry": "af",
       "capow_50yr_median": "af",
-      "capow_50yr_generic": "af"
+      "capow_50yr_generic": "af",
+      "mghmm_30yr_generic": "af"
     }
   },
 
