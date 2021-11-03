@@ -115,8 +115,8 @@ def problem_infra(*dvs, is_baseline=False):
 
 
   ### define MC sampling problem/parallelization
-  num_MC = 100
-  num_procs = 16
+  num_MC = 4
+  num_procs = 4
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['synthetic'] * num_MC
   flow_input_sources = ['mghmm_30yr_generic'] * num_MC
@@ -183,14 +183,16 @@ def problem_infra(*dvs, is_baseline=False):
       ###       min(3) cost CWG - mean over years - max over partners - max over MC
       ###       max(4) number partners - no agg needed
       ### cons: (1) obj 3 < 2000
-  cost_constraint = 2000
+      ###       (2) obj 4 > 0
+  cost_constraint = 2e7 #2000
   objs_allMC = np.array(shared_objs_array).reshape(num_MC, num_objs)
   objs_MCagg = [-objs_allMC[:,0].mean(),
                 -objs_allMC[:,1].mean(),
                 -objs_allMC[:,2].mean(),
                 objs_allMC[:,3].max(),
                 -objs_allMC[0,4]]
-  constrs_MCagg = [max(0.0, objs_MCagg[3] - cost_constraint)]
+  constrs_MCagg = [max(0.0, objs_MCagg[3] - cost_constraint),
+                   0. if objs_MCagg[-1] < 0 else 1.]
   print(objs_MCagg)
   print('Finished all processes', datetime.now() - start_time)
   print(objs_MCagg, constrs_MCagg)

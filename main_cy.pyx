@@ -364,38 +364,19 @@ cdef class main_cy():
       except:
         pass
       print('payment: ', annual_debt_payment)
-      # cost of water gains for partnership ($/AF)
-      try:
-        cost_water_gains_pship = annual_debt_payment / total_captured_water_gain / 1000
-      except ZeroDivisionError:
-        cost_water_gains_pship = 1e7
-      # cost of pumping reductions for partnership ($/AF)
-      try:
-        cost_pump_red_pship = annual_debt_payment / total_pump_red / 1000
-      except ZeroDivisionError:
-        cost_pump_red_pship = 1e7
+      ### cost of water gains for partnership ($/AF)
+      #cost_water_gains_pship = (annual_debt_payment / total_captured_water_gain / 1000) if (total_captured_water_gain > 0) else 1e7
       
-      # worst-off partner costs
+      ### worst-off partner costs
       cost_water_gains_worst = -1.
-      cost_pump_red_worst = -1.
       for d,v in district_gains.items():
         try:
           partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]
         except:
           partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]
-        try:
-          cost_water_gains_partner = partner_debt_payment / v['avg_captured_water'] / 1000
-        except ZeroDivisionError:
-          cost_water_gains_partner = 1e7
-        try:
-          cost_pump_red_partner = partner_debt_payment / v['avg_pumping'] / 1000
-        except ZeroDivisionError:
-          cost_pump_red_partner = 1e7
+        cost_water_gains_partner = (partner_debt_payment / v['avg_captured_water'] / 1000) if (v['avg_captured_water'] > 0) else 1e7
         if cost_water_gains_partner > cost_water_gains_worst:
           cost_water_gains_worst = cost_water_gains_partner
-        if cost_pump_red_partner > cost_pump_red_worst:
-          cost_pump_red_worst = cost_pump_red_partner
-
       
       ###& store in shared memory array
       objs_MC = [total_captured_water_gain,
@@ -412,6 +393,7 @@ cdef class main_cy():
       ###       min(3) cost CWG - mean over years - max over partners - max over MC
       ###       max(4) number partners - no agg needed
       ### cons: (1) obj 3 < 2000
+      ###       (2) obj 4 > 0
       print('end district results', results_folder, [MC_label] + objs_MC)      
       with open(results_folder + '/objs.csv', 'a') as f:
         w = writer(f)
