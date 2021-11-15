@@ -96,7 +96,7 @@ cdef class main_cy():
       self.flow_input_source = 'CDEC'
 
     ### copy runtime file for future use
-    shutil.copy(self.runtime_file, self.results_folder + '/' + self.runtime_file)
+    #shutil.copy(self.runtime_file, self.results_folder + '/' + self.runtime_file)
 
     # set random seed
     if (self.seed > 0):
@@ -340,8 +340,19 @@ cdef class main_cy():
         for k,v in other_results[d].items():
           other_gains[d][k] = v - baseline_results[d][k]
 
+      #### get annual paymetns for infrastructure
+      FKC_participant_payment = 50e6
+      CFWB_cost = 50e6
+      interest_annual = 0.03
+      time_horizon = 30
+      cap = 1000
+      principle = {'FKC': FKC_participant_payment, 'CFWB': CFWB_cost, 'FKC_CFWB': FKC_participant_payment + CFWB_cost}
+      payments_per_yr = 1
+      interest_rt = interest_annual / payments_per_yr
+      num_payments = time_horizon * payments_per_yr
+      annual_debt_payment_dict = {k: principle[k] / (((1 + interest_rt) ** num_payments - 1) / (interest_rt * (1 + interest_rt) ** num_payments)) for k in principle}
+
       ### now aggregate objs over districts 
-      annual_debt_payment_dict = {'FKC': 6801461.52729321,'CFWB': 3886549.444167549}
       # total captured water gains for partnership (kAF/year)
       total_captured_water_gain = sum([v['avg_captured_water'] for v in district_gains.values()])
       # total pumping reduction for partnership (kAF/year)
