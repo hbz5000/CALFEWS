@@ -4,8 +4,8 @@ from borg import *
 from problem_infra import *
 
 nSeeds = 2
-maxEvals = 5000
-maxEvalsPrevious = 0
+maxEvals = 6000
+maxEvalsPrevious = 5000
 runtimeFreq = 25
 createCheckpt = 1
 
