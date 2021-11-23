@@ -3777,6 +3777,7 @@ static const char __pyx_k_results_folder[] = "results_folder";
 static const char __pyx_k_timeseries_wys[] = "timeseries_wys";
 static const char __pyx_k_View_MemoryView[] = "View.MemoryView";
 static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
+static const char __pyx_k_baseline_folder[] = "baseline_folder";
 static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_flow_input_type[] = "flow_input_type";
 static const char __pyx_k_has_full_inputs[] = "has_full_inputs";
@@ -3882,6 +3883,7 @@ static PyObject *__pyx_n_u_avg_pumping;
 static PyObject *__pyx_n_u_banked;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_u_baseline;
+static PyObject *__pyx_n_s_baseline_folder;
 static PyObject *__pyx_kp_u_baseline_json;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_u_c;
@@ -4066,7 +4068,7 @@ static int __pyx_pf_7main_cy_7main_cy___init__(struct __pyx_obj_7main_cy_main_cy
 static PyObject *__pyx_pf_7main_cy_7main_cy_2initialize_py(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self, PyObject *__pyx_v_uncertainty_dict); /* proto */
 static PyObject *__pyx_pf_7main_cy_7main_cy_4run_sim_py(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self, PyObject *__pyx_v_start_time); /* proto */
 static PyObject *__pyx_pf_7main_cy_7main_cy_6output_results(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self, PyObject *__pyx_v_results_folder, PyObject *__pyx_v_MC_label, PyObject *__pyx_v_shared_objs_array, PyObject *__pyx_v_MC_count, PyObject *__pyx_v_is_baseline); /* proto */
+static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self, PyObject *__pyx_v_results_folder, PyObject *__pyx_v_baseline_folder, PyObject *__pyx_v_MC_label, PyObject *__pyx_v_shared_objs_array, PyObject *__pyx_v_MC_count, PyObject *__pyx_v_is_baseline); /* proto */
 static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_7main_cy_7main_cy_8progress___get__(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self); /* proto */
 static int __pyx_pf_7main_cy_7main_cy_8progress_2__set__(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
@@ -7320,7 +7322,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_6output_results(struct __pyx_obj_7ma
 /* "main_cy.pyx":254
  * # ################################################################################################################################
  * 
- *   def get_district_results(self, results_folder, MC_label, shared_objs_array, MC_count, is_baseline):             # <<<<<<<<<<<<<<
+ *   def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline):             # <<<<<<<<<<<<<<
  *     ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
  *     ### get district-level results
  */
@@ -7329,6 +7331,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_6output_results(struct __pyx_obj_7ma
 static PyObject *__pyx_pw_7main_cy_7main_cy_9get_district_results(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_7main_cy_7main_cy_9get_district_results(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_results_folder = 0;
+  PyObject *__pyx_v_baseline_folder = 0;
   PyObject *__pyx_v_MC_label = 0;
   PyObject *__pyx_v_shared_objs_array = 0;
   PyObject *__pyx_v_MC_count = 0;
@@ -7340,12 +7343,14 @@ static PyObject *__pyx_pw_7main_cy_7main_cy_9get_district_results(PyObject *__py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_district_results (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_results_folder,&__pyx_n_s_MC_label,&__pyx_n_s_shared_objs_array,&__pyx_n_s_MC_count,&__pyx_n_s_is_baseline,0};
-    PyObject* values[5] = {0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_results_folder,&__pyx_n_s_baseline_folder,&__pyx_n_s_MC_label,&__pyx_n_s_shared_objs_array,&__pyx_n_s_MC_count,&__pyx_n_s_is_baseline,0};
+    PyObject* values[6] = {0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
         case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         CYTHON_FALLTHROUGH;
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
@@ -7366,33 +7371,39 @@ static PyObject *__pyx_pw_7main_cy_7main_cy_9get_district_results(PyObject *__py
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_MC_label)) != 0)) kw_args--;
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_baseline_folder)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 5, 5, 1); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 6, 6, 1); __PYX_ERR(0, 254, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_shared_objs_array)) != 0)) kw_args--;
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_MC_label)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 5, 5, 2); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 6, 6, 2); __PYX_ERR(0, 254, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_MC_count)) != 0)) kw_args--;
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_shared_objs_array)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 5, 5, 3); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 6, 6, 3); __PYX_ERR(0, 254, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_is_baseline)) != 0)) kw_args--;
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_MC_count)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 5, 5, 4); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 6, 6, 4); __PYX_ERR(0, 254, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_is_baseline)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 6, 6, 5); __PYX_ERR(0, 254, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_district_results") < 0)) __PYX_ERR(0, 254, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -7400,29 +7411,31 @@ static PyObject *__pyx_pw_7main_cy_7main_cy_9get_district_results(PyObject *__py
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
       values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
     }
     __pyx_v_results_folder = values[0];
-    __pyx_v_MC_label = values[1];
-    __pyx_v_shared_objs_array = values[2];
-    __pyx_v_MC_count = values[3];
-    __pyx_v_is_baseline = values[4];
+    __pyx_v_baseline_folder = values[1];
+    __pyx_v_MC_label = values[2];
+    __pyx_v_shared_objs_array = values[3];
+    __pyx_v_MC_count = values[4];
+    __pyx_v_is_baseline = values[5];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 254, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_district_results", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 254, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("main_cy.main_cy.get_district_results", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7main_cy_7main_cy_8get_district_results(((struct __pyx_obj_7main_cy_main_cy *)__pyx_v_self), __pyx_v_results_folder, __pyx_v_MC_label, __pyx_v_shared_objs_array, __pyx_v_MC_count, __pyx_v_is_baseline);
+  __pyx_r = __pyx_pf_7main_cy_7main_cy_8get_district_results(((struct __pyx_obj_7main_cy_main_cy *)__pyx_v_self), __pyx_v_results_folder, __pyx_v_baseline_folder, __pyx_v_MC_label, __pyx_v_shared_objs_array, __pyx_v_MC_count, __pyx_v_is_baseline);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self, PyObject *__pyx_v_results_folder, PyObject *__pyx_v_MC_label, PyObject *__pyx_v_shared_objs_array, PyObject *__pyx_v_MC_count, PyObject *__pyx_v_is_baseline) {
+static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_obj_7main_cy_main_cy *__pyx_v_self, PyObject *__pyx_v_results_folder, PyObject *__pyx_v_baseline_folder, PyObject *__pyx_v_MC_label, PyObject *__pyx_v_shared_objs_array, PyObject *__pyx_v_MC_count, PyObject *__pyx_v_is_baseline) {
   PyObject *__pyx_v_district_results = NULL;
   PyObject *__pyx_v_other_results = NULL;
   PyObject *__pyx_v_wy = NULL;
@@ -9271,7 +9284,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  * 
  *     ### for baseline, write results as json
  *     if is_baseline:             # <<<<<<<<<<<<<<
- *       with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
+ *       with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
  *         json.dump(district_results, o)
  */
   __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_is_baseline); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 315, __pyx_L1_error)
@@ -9280,12 +9293,12 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     /* "main_cy.pyx":316
  *     ### for baseline, write results as json
  *     if is_baseline:
- *       with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:             # <<<<<<<<<<<<<<
+ *       with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:             # <<<<<<<<<<<<<<
  *         json.dump(district_results, o)
  *       return []
  */
     /*with:*/ {
-      __pyx_t_1 = PyNumber_Add(__pyx_v_results_folder, __pyx_kp_u__18); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Add(__pyx_v_baseline_folder, __pyx_kp_u__18); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_6 = PyNumber_Add(__pyx_t_1, __pyx_v_MC_label); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 316, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
@@ -9340,7 +9353,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
 
             /* "main_cy.pyx":317
  *     if is_baseline:
- *       with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
+ *       with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
  *         json.dump(district_results, o)             # <<<<<<<<<<<<<<
  *       return []
  *     ### for infra scenario, compare results to baseline
@@ -9400,7 +9413,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
             /* "main_cy.pyx":316
  *     ### for baseline, write results as json
  *     if is_baseline:
- *       with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:             # <<<<<<<<<<<<<<
+ *       with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:             # <<<<<<<<<<<<<<
  *         json.dump(district_results, o)
  *       return []
  */
@@ -9485,7 +9498,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     }
 
     /* "main_cy.pyx":318
- *       with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
+ *       with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
  *         json.dump(district_results, o)
  *       return []             # <<<<<<<<<<<<<<
  *     ### for infra scenario, compare results to baseline
@@ -9502,7 +9515,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  * 
  *     ### for baseline, write results as json
  *     if is_baseline:             # <<<<<<<<<<<<<<
- *       with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
+ *       with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
  *         json.dump(district_results, o)
  */
   }
@@ -9510,7 +9523,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
   /* "main_cy.pyx":325
  *       #   json.dump(district_results, o)
  *       ### read baseline results for same MC sample w/ no infra
- *       baseline_results = json.load(open(results_folder + '/../' + MC_label + '_baseline.json'))             # <<<<<<<<<<<<<<
+ *       baseline_results = json.load(open(baseline_folder + '/' + MC_label + '_baseline.json'))             # <<<<<<<<<<<<<<
  * 
  *       ### get gains for each district
  */
@@ -9520,7 +9533,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_load); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 325, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_Add(__pyx_v_results_folder, __pyx_kp_u__18); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 325, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Add(__pyx_v_baseline_folder, __pyx_kp_u__5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 325, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_1 = PyNumber_Add(__pyx_t_6, __pyx_v_MC_label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 325, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -10895,7 +10908,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
   /* "main_cy.pyx":254
  * # ################################################################################################################################
  * 
- *   def get_district_results(self, results_folder, MC_label, shared_objs_array, MC_count, is_baseline):             # <<<<<<<<<<<<<<
+ *   def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline):             # <<<<<<<<<<<<<<
  *     ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
  *     ### get district-level results
  */
@@ -29645,6 +29658,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_banked, __pyx_k_banked, sizeof(__pyx_k_banked), 0, 1, 0, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_u_baseline, __pyx_k_baseline, sizeof(__pyx_k_baseline), 0, 1, 0, 1},
+  {&__pyx_n_s_baseline_folder, __pyx_k_baseline_folder, sizeof(__pyx_k_baseline_folder), 0, 0, 1, 1},
   {&__pyx_kp_u_baseline_json, __pyx_k_baseline_json, sizeof(__pyx_k_baseline_json), 0, 1, 0, 0},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},

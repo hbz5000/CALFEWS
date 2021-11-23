@@ -31,6 +31,7 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
 
   print('#######################################################')
   print('Setup problem...')   
+  sys.stdout.flush()
 
   ### set project type to integer
   dv_project = int(dvs[0])
@@ -89,7 +90,7 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
     w.writerow(['sample','j1','j2','j3','j4','j5'])
 
 
-def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, shared_objs_array, MC_count, is_baseline):
+def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, shared_objs_array, MC_count, is_baseline):
   print('#######################################################')
   print('Initializing simulation...', MC_label, is_baseline) 
   # try:
@@ -108,7 +109,7 @@ def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_
       sys.stdout.flush()
       ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison. 
       ### for non-baseline, we will compare performance to baseline and output deltas, then aggregate over districts, and store MC results in shared_objs_array
-      main_cy_obj.get_district_results(results_folder, MC_label, shared_objs_array, MC_count, is_baseline)
+      main_cy_obj.get_district_results(results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline)
       print(MC_label)
       print('Objectives complete,', MC_label, is_baseline, datetime.now() - start_time)
 
@@ -116,10 +117,10 @@ def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_
 
 
 ### run a single MC instance and fill in slot in objective dictionary
-def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, shared_objs_array, proc, start, stop, is_baseline):
+def dispatch_MC_to_procs(results_folder, baseline_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, shared_objs_array, proc, start, stop, is_baseline):
   for MC_count in range(start, stop):
     print('### beginning MC run ', MC_count, ', proc ', proc)
-    run_sim(results_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count], MC_labels[MC_count], uncertainty_dict, shared_objs_array, MC_count, is_baseline)
+    run_sim(results_folder, baseline_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count], MC_labels[MC_count], uncertainty_dict, shared_objs_array, MC_count, is_baseline)
 
 
 
@@ -129,8 +130,8 @@ def problem_infra(*dvs, is_baseline=False):
 
 
   ### define MC sampling problem/parallelization
-  num_MC = 2
-  num_procs = 2
+  num_MC = 24
+  num_procs = 12
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['synthetic'] * num_MC
   flow_input_sources = ['mghmm_30yr_generic'] * num_MC
@@ -160,15 +161,20 @@ def problem_infra(*dvs, is_baseline=False):
   results_base = 'results/'
 
   ### create infrastructure scenario
-  results_folder = results_base + 'infra_borg/dvhash' + str(hash(frozenset(dvs))) + '/'
+  baseline_folder = results_base + 'infra_baseline/'
+  sub_folder = '4task_2node/'
+  results_folder = results_base + 'infra_scaling/' + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
   # if is_baseline and os.path.exists(results_folder):
   #   shutil.rmtree(results_folder)
 
   print(results_folder, dvs)
+#  sys.stdout.flush()
 
   ### disable printing (make sure disable_print is True in runtime_params.ini too)
-  with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
-
+#  with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
+  ### use this instead if don't want to disable printing (make sure disable_print is False in runtime_params.ini too. 
+  ### probably better way to do this, but good enough for now
+  with contextlib.nullcontext():
     setup_problem(results_folder, print_log, disable_print, dvs)
   
     # Create node-local processes
@@ -183,7 +189,7 @@ def problem_infra(*dvs, is_baseline=False):
     for proc in range(num_procs):
       num_trials = nbase if proc >= remainder else nbase + 1
       stop = start + num_trials
-      p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels,
+      p = Process(target=dispatch_MC_to_procs, args=(results_folder, baseline_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels,
                                                       uncertainty_dict, shared_objs_array, proc, start, stop, is_baseline))
       shared_processes.append(p)
       start = stop

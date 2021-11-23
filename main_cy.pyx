@@ -251,7 +251,7 @@ cdef class main_cy():
 # ### MORDM-specific functions for infrastructure experiment
 # ################################################################################################################################
 
-  def get_district_results(self, results_folder, MC_label, shared_objs_array, MC_count, is_baseline):
+  def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline):
     ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
     ### get district-level results 
 
@@ -313,7 +313,7 @@ cdef class main_cy():
   
     ### for baseline, write results as json
     if is_baseline:
-      with open(results_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
+      with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
         json.dump(district_results, o)
       return []
     ### for infra scenario, compare results to baseline
@@ -322,7 +322,7 @@ cdef class main_cy():
       # with open(results_folder + '/' + MC_label + '_infra_partners.json', 'w') as o:
       #   json.dump(district_results, o)
       ### read baseline results for same MC sample w/ no infra
-      baseline_results = json.load(open(results_folder + '/../' + MC_label + '_baseline.json'))
+      baseline_results = json.load(open(baseline_folder + '/' + MC_label + '_baseline.json'))
 
       ### get gains for each district
       district_gains = {}

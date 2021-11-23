@@ -3,9 +3,10 @@
 #SBATCH -J b_infra
 #SBATCH -o results/infra_borg/infra.out
 #SBATCH -e results/infra_borg/infra.err
-#SBATCH -t 120:00:00
-#SBATCH --nodes 12
-#SBATCH --ntasks-per-node 8
+#SBATCH -p skx-dev
+#SBATCH -t 2:00:00
+#SBATCH --nodes 1
+#SBATCH --ntasks-per-node 12
 #SBATCH --exclusive
 
-time mpirun python3 -W ignore wrapborg_infra.py
+time ibrun python -W ignore wrapborg_infra.py

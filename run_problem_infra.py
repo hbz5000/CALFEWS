@@ -7,8 +7,8 @@ ndistricts = 37
 
 ### first run baseline version
 ### decision variables for problem
-#dvs = np.zeros(ndistricts + 2)
-#problem_infra.problem_infra(*dvs, is_baseline=True)
+dvs = np.zeros(ndistricts + 2)
+problem_infra.problem_infra(*dvs, is_baseline=True)
 
 
 
@@ -68,50 +68,50 @@ ndistricts = 37
 #dvs[14] = 0.2985623628556568
 #dvs[22] = 0.3632764114896976
 #objs_MCagg, constrs_MCagg = problem_infra.problem_infra(*dvs, is_baseline=False)
-print(objs_MCagg, constrs_MCagg)
+#print(objs_MCagg, constrs_MCagg)
 
 
 ### decision variables for problem - alt8
 ###14983 :  ['LHL', 'KRT', 'OTL', 'KND', 'SOC', 'NKN', 'ARV', 'TUL'] :  [0.2042886185766813, 0.1794291485898997, 0.1492737685922382, 0.1427780807519122, 0.1230885688261011, 0.0897598541362769, 0.0890444390183038, 0.0223375215085865]
-dvs = np.zeros(ndistricts+2)
-dvs[0] = 3
-dvs[1] = 6
-dvs[26] = 0.2042886185766813
-dvs[16] = 0.1794291485898997
+#dvs = np.zeros(ndistricts+2)
+#dvs[0] = 3
+#dvs[1] = 6
+#dvs[26] = 0.2042886185766813
+#dvs[16] = 0.1794291485898997
 ####dvs[12] = 0.1492737685922382
-dvs[39] = 0.1427780807519122
+#dvs[39] = 0.1427780807519122
 ####dvs[33] = 0.1230885688261011
-dvs[19] = 0.0897598541362769
-dvs[20] = 0.0890444390183038
-dvs[4] = 0.0223375215085865
-objs_MCagg, constrs_MCagg = problem_infra.problem_infra(*dvs, is_baseline=False)
-print(objs_MCagg, constrs_MCagg)
+#dvs[19] = 0.0897598541362769
+#dvs[20] = 0.0890444390183038
+#dvs[4] = 0.0223375215085865
+#objs_MCagg, constrs_MCagg = problem_infra.problem_infra(*dvs, is_baseline=False)
+#print(objs_MCagg, constrs_MCagg)
 
 
 
 ### decision variables for problem - friant16
 ###27283 :  ['ARV', 'LWT', 'DLE', 'SSJ', 'OFK', 'TUL', 'SFW', 'COF', 'LND', 'SAU', 'TBA', 'LDS', 'PRT', 'FRS', 'EXE', 'TPD'] :  [0.136207165, 0.135494501, 0.134481079, 0.11488389800000001, 0.075812672, 0.073845762, 0.063438028, 0.06162258599999999, 0.040607704, 0.031784396, 0.029784795, 0.028243958, 0.025589446000000002, 0.022890257, 0.017610656000000002, 0.0077030959999999996]
-dvs = np.zeros(ndistricts+2)
-dvs[0] = 1
-dvs[1] = 15
-dvs[20] = 0.136207165
-dvs[10] = 0.135494501
-dvs[15] = 0.134481079
-dvs[17] = 0.11488389800000001
+#dvs = np.zeros(ndistricts+2)
+#dvs[0] = 1
+#dvs[1] = 15
+#dvs[20] = 0.136207165
+#dvs[10] = 0.135494501
+#dvs[15] = 0.134481079
+#dvs[17] = 0.11488389800000001
 ####dvs[3] = 0.075812672
-dvs[4] = 0.073845762
-dvs[18] = 0.063438028
-dvs[3] = 0.06162258599999999
-dvs[8] = 0.040607704
-dvs[12] = 0.031784396
-dvs[13] = 0.029784795
-dvs[7] =  0.028243958
-dvs[9] =  0.025589446000000002
-dvs[2] = 0.022890257
-dvs[6] =  0.017610656000000002
-dvs[11] = 0.0077030959999999996
-objs_MCagg, constrs_MCagg = problem_infra.problem_infra(*dvs, is_baseline=False)
-print(objs_MCagg, constrs_MCagg)
+#dvs[4] = 0.073845762
+#dvs[18] = 0.063438028
+#dvs[3] = 0.06162258599999999
+#dvs[8] = 0.040607704
+#dvs[12] = 0.031784396
+#dvs[13] = 0.029784795
+#dvs[7] =  0.028243958
+#dvs[9] =  0.025589446000000002
+#dvs[2] = 0.022890257
+#dvs[6] =  0.017610656000000002
+#dvs[11] = 0.0077030959999999996
+#objs_MCagg, constrs_MCagg = problem_infra.problem_infra(*dvs, is_baseline=False)
+#print(objs_MCagg, constrs_MCagg)
 
 
 
