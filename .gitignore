@@ -25,4 +25,10 @@ FKC_experiment/slurm*
 *_tmp.sh
 gmon.out
 borg*
+*/borg*
 libborg*
+*/libborg*
+pareto.py
+*/pareto.py
+MOEAFramework*
+moeaframework*
