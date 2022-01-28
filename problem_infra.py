@@ -161,9 +161,12 @@ def problem_infra(*dvs, is_baseline=False):
   results_base = 'results/'
 
   ### create infrastructure scenario
-  baseline_folder = results_base + 'infra_baseline/'
-  sub_folder = '4task_2node/'
-  results_folder = results_base + 'infra_scaling/' + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
+  baseline_folder = results_base + 'infra_MC/'
+  if is_baseline:
+    results_folder = baseline_folder
+  else:
+    sub_folder = '4task_2node/'
+    results_folder = results_base + 'infra_scaling/' + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
   # if is_baseline and os.path.exists(results_folder):
   #   shutil.rmtree(results_folder)
 
@@ -186,6 +189,10 @@ def problem_infra(*dvs, is_baseline=False):
     nbase = int(num_MC / num_procs)
     remainder = num_MC - num_procs * nbase
     start = 0
+
+    ### try context for multiprocessing with spawn (https://pythonspeed.com/articles/python-multiprocessing/)
+    #with get_context('spawn').Process() as spawn_Process:
+
     for proc in range(num_procs):
       num_trials = nbase if proc >= remainder else nbase + 1
       stop = start + num_trials

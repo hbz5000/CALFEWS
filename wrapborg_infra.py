@@ -4,8 +4,8 @@
 print(__name__)
 
 def main():
-    from multiprocessing import set_start_method
-    set_start_method("spawn")
+#    from multiprocessing import set_start_method
+#    set_start_method("spawn")
     
     from borg import Configuration, Borg
     from problem_infra import problem_infra
@@ -17,7 +17,7 @@ def main():
     maxEvalsPrevious = int(sys.argv[3])
     nSeeds = int(sys.argv[4])
 
-    runtimeFreq = 25
+    runtimeFreq = 1
     createCheckpt = 1
 
     ndistricts = 37
@@ -77,4 +77,7 @@ def main():
 
 
 if __name__ == '__main__':
+    #from multiprocessing import set_start_method
+    #set_start_method("spawn")
+
     main()

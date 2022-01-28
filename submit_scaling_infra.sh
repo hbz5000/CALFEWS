@@ -42,7 +42,7 @@ cp problem_infra.py $dir \n\
 for trial in $(seq 1 $numTrials) \n\
 do \n\
 	echo 'Begin trial '${trial}\n\
-	time ibrun python -W ignore wrapborg_infra.py $dir $numFE $numFEPrevious $numSeedsPerTrial\n\
+	time ibrun python3 -W ignore wrapborg_infra.py $dir $numFE $numFEPrevious $numSeedsPerTrial\n\
 	cp results/infra_scaling/infra.* $dir \n\
 done \n\ "
 

@@ -313,7 +313,8 @@ cdef class main_cy():
   
     ### for baseline, write results as json
     if is_baseline:
-      with open(baseline_folder + '/../' + MC_label + '_baseline.json', 'w') as o:
+      print('here', baseline_folder)
+      with open(baseline_folder + MC_label + '_baseline.json', 'w') as o:
         json.dump(district_results, o)
       return []
     ### for infra scenario, compare results to baseline
