@@ -4,12 +4,15 @@ import os
 import contextlib
 import shutil
 import json
+import time
 from csv import writer
 import numpy as np
 import pandas as pd
 from configobj import ConfigObj
 from distutils.util import strtobool
-from multiprocessing import Process, Array
+#from multiprocessing import Process, Array
+#from mpi4py import MPI
+import subprocess
 from datetime import datetime
 import main_cy
 
@@ -17,7 +20,7 @@ import main_cy
 
 
 
-def setup_problem(results_folder, print_log, disable_print, dvs):
+def setup_problem(results_folder, print_log, disable_print, dvs, uncertainty_dict):
   ### setup/initialize model
   sys.stdout.flush()
 
@@ -89,38 +92,12 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
     w = writer(f)
     w.writerow(['sample','j1','j2','j3','j4','j5'])
 
-
-def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, shared_objs_array, MC_count, is_baseline):
-  print('#######################################################')
-  print('Initializing simulation...', MC_label, is_baseline) 
-  # try:
-  ### setup new model
-  main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
-  a = main_cy_obj.initialize_py(uncertainty_dict)
-
-  if a == 0:
-    print('Initialization complete, ', datetime.now() - start_time)
-    sys.stdout.flush()
-    ### main simulation loop
-    a = main_cy_obj.run_sim_py(start_time)
-
-    if a == 0:
-      print ('Simulation complete,', datetime.now() - start_time)
-      sys.stdout.flush()
-      ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison. 
-      ### for non-baseline, we will compare performance to baseline and output deltas, then aggregate over districts, and store MC results in shared_objs_array
-      main_cy_obj.get_district_results(results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline)
-      print(MC_label)
-      print('Objectives complete,', MC_label, is_baseline, datetime.now() - start_time)
+  ### also write uncertainty dict to json
+  with open(results_folder + '/uncertainty_dict.json', 'w') as o:
+    json.dump(uncertainty_dict, o)
 
 
 
-
-### run a single MC instance and fill in slot in objective dictionary
-def dispatch_MC_to_procs(results_folder, baseline_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, shared_objs_array, proc, start, stop, is_baseline):
-  for MC_count in range(start, stop):
-    print('### beginning MC run ', MC_count, ', proc ', proc)
-    run_sim(results_folder, baseline_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count], MC_labels[MC_count], uncertainty_dict, shared_objs_array, MC_count, is_baseline)
 
 
 
@@ -128,15 +105,16 @@ def dispatch_MC_to_procs(results_folder, baseline_folder, start_time, model_mode
 def problem_infra(*dvs, is_baseline=False):
   start_time = datetime.now()
 
-
-  ### define MC sampling problem/parallelization
-  num_MC = 24
-  num_procs = 12
+  ### define MC sampling problem/parallelization (note: this gets overwritten from submit_scaling.sh)
+  num_MC = 10
+  num_procs_FE = 5
+  
+  num_objs = 5
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['synthetic'] * num_MC
   flow_input_sources = ['mghmm_30yr_generic'] * num_MC
   MC_labels = [str(i) for i in range(num_MC)]     #['wet','dry']
-
+  
   ### uncertainties
   uncertainty_dict = {}
   # uncertainty_dict['MDD_multiplier'] = 1.1
@@ -154,10 +132,6 @@ def problem_infra(*dvs, is_baseline=False):
   disable_print = bool(strtobool(config['disable_print']))
   # flow_input_source = config['flow_input_source']
 
-  #if cluster_mode:
-  #  scratch_dir = config['scratch_dir']
-  #  results_base = scratch_dir + '/FKC_experiment/'
-  #else:
   results_base = 'results/'
 
   ### create infrastructure scenario
@@ -165,50 +139,61 @@ def problem_infra(*dvs, is_baseline=False):
   if is_baseline:
     results_folder = baseline_folder
   else:
-    sub_folder = '4task_2node/'
+    sub_folder = '16task_10node/'
     results_folder = results_base + 'infra_scaling/' + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
-  # if is_baseline and os.path.exists(results_folder):
-  #   shutil.rmtree(results_folder)
 
-  print(results_folder, dvs)
-#  sys.stdout.flush()
 
   ### disable printing (make sure disable_print is True in runtime_params.ini too)
 #  with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
   ### use this instead if don't want to disable printing (make sure disable_print is False in runtime_params.ini too. 
   ### probably better way to do this, but good enough for now
   with contextlib.nullcontext():
-    setup_problem(results_folder, print_log, disable_print, dvs)
-  
-    # Create node-local processes
-    shared_processes = []
-    num_objs = 5
-    shared_objs_array = Array('d', num_MC*num_objs)
+    from mpi4py import MPI
+  #  from single_MC import single_MC_mainProc
+    comm = MPI.COMM_WORLD
+    size = comm.Get_size()
+    rank = comm.Get_rank()
+    universe_size = comm.Get_attr(MPI.UNIVERSE_SIZE)
 
-    ### assign MC trials to processors
-    nbase = int(num_MC / num_procs)
-    remainder = num_MC - num_procs * nbase
-    start = 0
+    ### setup problem from FE master proc
+    setup_problem(results_folder, print_log, disable_print, dvs, uncertainty_dict)    
 
-    ### try context for multiprocessing with spawn (https://pythonspeed.com/articles/python-multiprocessing/)
-    #with get_context('spawn').Process() as spawn_Process:
+    ### run MC trials (make sure num_MC % num_procs_FE == 0)
+    MC_run = 0
+    while MC_run < num_MC:
+      ### due to comm bottlenecks, occasionally MPI proc may not have opened back up yet. Loop until it does (within reason, otherwise something else may have gone wrong)
+      failed_spawns = 0
+      while failed_spawns < 50:
+        try: 
+          ### first dispatch (num_procs_FE) to new spawned processes
+          args = [['-W ignore', 'problem_infra.py', results_folder, baseline_folder, datetime.strftime(start_time, '%c'), model_modes[i], flow_input_types[i], flow_input_sources[i], MC_labels[i], str(i), str(is_baseline)] for i in range(MC_run, MC_run + num_procs_FE - 1)]
+          innercomm = MPI.COMM_SELF.Spawn_multiple([sys.executable]*(num_procs_FE-1), args=args, maxprocs=[1]*(num_procs_FE-1))
+          break
+        except:
+          time.sleep(3)
+          failed_spawns += 1
 
-    for proc in range(num_procs):
-      num_trials = nbase if proc >= remainder else nbase + 1
-      stop = start + num_trials
-      p = Process(target=dispatch_MC_to_procs, args=(results_folder, baseline_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels,
-                                                      uncertainty_dict, shared_objs_array, proc, start, stop, is_baseline))
-      shared_processes.append(p)
-      start = stop
-  
-    # Start processes
-    for sp in shared_processes:
-      sp.start()
-  
-    # Wait for all processes to finish
-    for sp in shared_processes:
-      sp.join()
-    print('end join procs')
+      ### now run one more on this main processor
+      i = MC_run + num_procs_FE - 1
+      objs_mainProc = run_sim(results_folder, baseline_folder, start_time, model_modes[i], flow_input_types[i], flow_input_sources[i], MC_labels[i], i, is_baseline)
+
+      objs_spawns = innercomm.gather(None, root=MPI.ROOT)
+   
+      innercomm.Barrier()
+      innercomm.Disconnect()
+      time.sleep(3)
+ 
+      ### join data
+      if MC_run == 0:
+        objs_allMC = objs_mainProc
+      else:
+        objs_allMC = np.concatenate((objs_allMC, objs_mainProc))
+      for objs_spawn in objs_spawns:
+        objs_allMC = np.concatenate((objs_allMC, objs_spawn))
+#      print(MC_run, objs_allMC)
+      MC_run += num_procs_FE
+
+    objs_allMC = np.reshape(objs_allMC, (int(len(objs_allMC)/num_objs), num_objs))
 
     ### aggregate over MC trials
         ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
@@ -219,7 +204,6 @@ def problem_infra(*dvs, is_baseline=False):
         ### cons: (1) obj 3 < 2000
         ###       (2) obj 4 > 0
     cost_constraint = 2000
-    objs_allMC = np.array(shared_objs_array).reshape(num_MC, num_objs)
     objs_MCagg = [-objs_allMC[:,0].mean(),
                   -objs_allMC[:,1].mean(),
                   -objs_allMC[:,2].mean(),
@@ -230,10 +214,95 @@ def problem_infra(*dvs, is_baseline=False):
 
     ### if it's all 0.0, that means there was an error somewhere. reset to less desirable values
     if sum(np.abs(objs_MCagg)) == 0.:
-      objs_MCagg = [1e9, 1e9, 1e9, 1e9, 1e9]
+      objs_MCagg = [1e6, 1e6, 1e6, 1e6, 1e6]
+
 
     print(objs_MCagg)
     print('Finished all processes', datetime.now() - start_time)
     print(objs_MCagg, constrs_MCagg)
 
-  return objs_MCagg, constrs_MCagg
+    return objs_MCagg, constrs_MCagg
+
+
+
+
+### run simulation MC sample. THis version runs as a function in same program as problem_infra(), as opposed to spawn version below which is run from terminal.
+def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, MC_count, is_baseline, spawn_rank=-1):
+  print('#######################################################')
+  print('Initializing simulation...', MC_label, is_baseline, spawn_rank)
+  ### setup new model
+  try:
+    main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
+    uncertainty_dict = json.load(open(results_folder + '/uncertainty_dict.json'))
+    a = main_cy_obj.initialize_py(uncertainty_dict)
+
+    print('Initialization complete, ', datetime.now() - start_time)
+    sys.stdout.flush()
+    ### main simulation loop
+    a = main_cy_obj.run_sim_py(start_time)
+
+    print ('Simulation complete,', datetime.now() - start_time)
+    sys.stdout.flush()
+    ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison.
+    ### for non-baseline, we will compare performance to baseline and output deltas, then aggregate over districts, and output MC results
+    objs = main_cy_obj.get_district_results(results_folder, baseline_folder, MC_label, MC_count, is_baseline)
+    ### if objs all 0's, something went wrong. reset to high (bad) values so doesn't mess with Pareto set
+    if np.sum(objs) == 0.0:
+      objs = np.array([-1e6, -1e6, -1e6, 1e6, -1e6])
+
+    print('Objectives complete,', MC_label, is_baseline, datetime.now() - start_time)
+    return objs
+
+  except:
+    print('fail in run sim', MC_label, spawn_rank)
+    return np.array([-1e6, -1e6, -1e6, 1e6, -1e6])
+
+
+
+
+
+
+
+### if this file is run directly by MPI spawned process, get args from argv, run sim, and send results back to parent
+if __name__ == '__main__':
+  ### args from 
+  results_folder = sys.argv[1]
+  baseline_folder = sys.argv[2]
+  start_time = datetime.strptime(sys.argv[3], '%c')
+  model_mode = sys.argv[4]
+  flow_input_type = sys.argv[5]
+  flow_input_source = sys.argv[6]
+  MC_label = sys.argv[7]
+  MC_count = int(sys.argv[8])
+  from distutils.util import strtobool
+  is_baseline = bool(strtobool(sys.argv[9]))
+
+  ### get MPI rank within spawned children of parent
+  from mpi4py import MPI
+  innercomm = MPI.COMM_WORLD.Get_parent() 
+  rank = innercomm.Get_rank()
+
+  ### get sim, get objectives
+  try:
+    objs = run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, MC_count, is_baseline, rank)
+  except:
+    objs = np.array([-1e6, -1e6, -1e6, 1e6, -1e6])
+
+  ### now send results back to MPI parent
+  objs = innercomm.gather(objs, root=0)
+
+  innercomm.Barrier()
+  innercomm.Disconnect()
+
+
+
+
+
+
+
+
+
+
+
+
+

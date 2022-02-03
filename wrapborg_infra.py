@@ -1,8 +1,6 @@
 # Master-worker Borg run with Python wrapper
 # ensure libborgms.so or libborgms.so is compiled and in this directory
 
-print(__name__)
-
 def main():
 #    from multiprocessing import set_start_method
 #    set_start_method("spawn")
@@ -10,7 +8,6 @@ def main():
     from borg import Configuration, Borg
     from problem_infra import problem_infra
     import sys
-    print('inside main')
 
     results_dir = sys.argv[1]
     maxEvals = int(sys.argv[2])
