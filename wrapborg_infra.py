@@ -22,7 +22,6 @@ def main():
     nobjs = 5
     nconstrs = 2
 
-
     ### need to start up MPI first
     Configuration.startMPI()
     for seed in range(nSeeds):
@@ -39,7 +38,6 @@ def main():
         borg.setBounds([1.0, 4.0 - 1e-13], [1.0, ndistricts - 1e-13], *[[0.0, 1.0]]*ndistricts)
         ### set epsilons - units for objs 0,1,2 are kAF/year, 3 is $/AF, and 4 is number of partners
         borg.setEpsilons(2., 2., 2., 5., 0.999)
-
 
         # perform the optimization
         if createCheckpt == 0:
@@ -78,3 +76,5 @@ if __name__ == '__main__':
     #set_start_method("spawn")
 
     main()
+
+

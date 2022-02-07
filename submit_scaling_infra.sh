@@ -1,19 +1,19 @@
 #!/bin/bash
 
 dependency=0
-numNodes=10
-numProcsPerNode=16
-numTasksPerNode=16
-numConcurrentFE=31
-numProcsBorg=32
+numNodes=1
+numProcsPerNode=48
+numTasksPerNode=$numProcsPerNode
+numConcurrentFE=9
+numProcsBorg=10
 numProcsPerFE=5
 numMCPerFE=10
-numFE=62
+numFE=18
 numFEPrevious=0
 numSeedsPerTrial=1
 numTrials=1
-t=24:00:00
-partition=normal
+t=02:00:00
+partition=skx-dev
 
 subdir=${numTasksPerNode}task_${numNodes}node/
 dir=results/infra_scaling/$subdir 
@@ -42,10 +42,13 @@ sed -i \"s:sub_folder = .*:sub_folder = '$subdir':g\" problem_infra.py \n\
 cp submit_scaling_infra.sh $dir \n\
 cp problem_infra.py $dir \n\
 \n\
+
+export FI_MLX_ENABLE_SPAWN=yes \n\
 for trial in $(seq 1 $numTrials) \n\
 do \n\
 	echo 'Begin trial '${trial}\n\
-	time mpirun -np ${numProcsBorg} python3 -W ignore -m mpi4py wrapborg_infra.py $dir $numFE $numFEPrevious $numSeedsPerTrial\n\
+	MY_MPIRUN_OPTIONS=\"-usize ${numProcsPerNode}\"
+	ibrun -np ${numProcsBorg} python3 -W ignore -m mpi4py wrapborg_infra.py $dir $numFE $numFEPrevious $numSeedsPerTrial\n\
 	cp results/infra_scaling/infra.* $dir \n\
 done \n\ "
 

@@ -139,9 +139,8 @@ def problem_infra(*dvs, is_baseline=False):
   if is_baseline:
     results_folder = baseline_folder
   else:
-    sub_folder = '16task_10node/'
+    sub_folder = '48task_1node/'
     results_folder = results_base + 'infra_scaling/' + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
-
 
   ### disable printing (make sure disable_print is True in runtime_params.ini too)
 #  with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
@@ -149,11 +148,12 @@ def problem_infra(*dvs, is_baseline=False):
   ### probably better way to do this, but good enough for now
   with contextlib.nullcontext():
     from mpi4py import MPI
-  #  from single_MC import single_MC_mainProc
     comm = MPI.COMM_WORLD
     size = comm.Get_size()
     rank = comm.Get_rank()
     universe_size = comm.Get_attr(MPI.UNIVERSE_SIZE)
+#    mpi_info = MPI.Info.Create()
+#    mpi_info.Set('host', MPI.Get_processor_name())
 
     ### setup problem from FE master proc
     setup_problem(results_folder, print_log, disable_print, dvs, uncertainty_dict)    
@@ -162,27 +162,42 @@ def problem_infra(*dvs, is_baseline=False):
     MC_run = 0
     while MC_run < num_MC:
       ### due to comm bottlenecks, occasionally MPI proc may not have opened back up yet. Loop until it does (within reason, otherwise something else may have gone wrong)
-      failed_spawns = 0
-      while failed_spawns < 50:
-        try: 
+#      failed_spawns = 0
+#      while failed_spawns < 50:
+#        try: 
           ### first dispatch (num_procs_FE) to new spawned processes
-          args = [['-W ignore', 'problem_infra.py', results_folder, baseline_folder, datetime.strftime(start_time, '%c'), model_modes[i], flow_input_types[i], flow_input_sources[i], MC_labels[i], str(i), str(is_baseline)] for i in range(MC_run, MC_run + num_procs_FE - 1)]
-          innercomm = MPI.COMM_SELF.Spawn_multiple([sys.executable]*(num_procs_FE-1), args=args, maxprocs=[1]*(num_procs_FE-1))
-          break
-        except:
-          time.sleep(3)
-          failed_spawns += 1
+      print('here before spawn, ', rank)
+      sys.stdout.flush()
+      sys.stderr.flush()
+
+      args = [['-W ignore', 'problem_infra.py', results_folder, baseline_folder, datetime.strftime(start_time, '%c'), model_modes[i], flow_input_types[i], flow_input_sources[i], MC_labels[i], str(i), str(is_baseline)] for i in range(MC_run, MC_run + num_procs_FE - 1)]
+#      try:
+      innercomm = MPI.COMM_SELF.Spawn_multiple([sys.executable]*(num_procs_FE-1), args=args, maxprocs=[1]*(num_procs_FE-1))#, info=mpi_info)
+ #     except:
+ #       print('failed spawn', rank)
+      print('innercomm size ', innercomm.Get_size(), ' rank ', rank)
+      sys.stdout.flush()
+      sys.stderr.flush() 
+#          break
+#        except:
+#          time.sleep(3)
+#          failed_spawns += 1
 
       ### now run one more on this main processor
       i = MC_run + num_procs_FE - 1
       objs_mainProc = run_sim(results_folder, baseline_folder, start_time, model_modes[i], flow_input_types[i], flow_input_sources[i], MC_labels[i], i, is_baseline)
-
+      #objs_mainProc = np.zeros(5)
+      innercomm.Barrier()
+      print('main here 1, rank', rank)
+      sys.stdout.flush()
       objs_spawns = innercomm.gather(None, root=MPI.ROOT)
-   
+      print('main here 2, rank ', rank) 
+      sys.stdout.flush()
       innercomm.Barrier()
       innercomm.Disconnect()
-      time.sleep(3)
- 
+      print('main here 3, rank ', rank)
+      sys.stdout.flush()
+      time.sleep(5)
       ### join data
       if MC_run == 0:
         objs_allMC = objs_mainProc
@@ -230,6 +245,8 @@ def problem_infra(*dvs, is_baseline=False):
 def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, MC_count, is_baseline, spawn_rank=-1):
   print('#######################################################')
   print('Initializing simulation...', MC_label, is_baseline, spawn_rank)
+  sys.stdout.flush()
+  sys.stderr.flush()
   ### setup new model
   try:
     main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
@@ -251,10 +268,12 @@ def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_
       objs = np.array([-1e6, -1e6, -1e6, 1e6, -1e6])
 
     print('Objectives complete,', MC_label, is_baseline, datetime.now() - start_time)
+    sys.stdout.flush()
     return objs
 
   except:
     print('fail in run sim', MC_label, spawn_rank)
+    sys.stdout.flush()
     return np.array([-1e6, -1e6, -1e6, 1e6, -1e6])
 
 
@@ -276,25 +295,33 @@ if __name__ == '__main__':
   MC_count = int(sys.argv[8])
   from distutils.util import strtobool
   is_baseline = bool(strtobool(sys.argv[9]))
-
+#  print('inside spawn pre import')
+  
   ### get MPI rank within spawned children of parent
   from mpi4py import MPI
   innercomm = MPI.COMM_WORLD.Get_parent() 
   rank = innercomm.Get_rank()
-
+#  print('inside spawn, ', rank)
+  sys.stdout.flush()
+  sys.stderr.flush()
   ### get sim, get objectives
   try:
     objs = run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, MC_count, is_baseline, rank)
   except:
     objs = np.array([-1e6, -1e6, -1e6, 1e6, -1e6])
-
+  innercomm.Barrier()
+#  print('spawn after sim')
+#  sys.stdout.flush()
   ### now send results back to MPI parent
   objs = innercomm.gather(objs, root=0)
 
+#  print('end innercomm b4 barrier')
+#  sys.stdout.flush()
+#  time.sleep(3)
   innercomm.Barrier()
   innercomm.Disconnect()
-
-
+#  print('end innercomm after barrier')
+#  sys.stdout.flush()
 
 
 
