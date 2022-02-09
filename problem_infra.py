@@ -29,9 +29,9 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
   if print_log and not disable_print:
     sys.stdout = open(results_folder + '/log.txt', 'w')
 
-  print('#######################################################')
-  print('Setup problem...')   
-  sys.stdout.flush()
+#  print('#######################################################')
+#  print('Setup problem...')   
+#  sys.stdout.flush()
 
   ### set project type to integer
   dv_project = int(dvs[0])
@@ -91,35 +91,35 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
 
 
 def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, shared_objs_array, MC_count, is_baseline):
-  print('#######################################################')
-  print('Initializing simulation...', MC_label, is_baseline) 
-  # try:
-  ### setup new model
+#  print('#######################################################')
+#  print('Initializing simulation...', MC_label, is_baseline) 
+#  try:
   main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
   a = main_cy_obj.initialize_py(uncertainty_dict)
 
-  if a == 0:
-    print('Initialization complete, ', datetime.now() - start_time)
-    sys.stdout.flush()
+#    print('Initialization complete, ', datetime.now() - start_time)
+#    sys.stdout.flush()
     ### main simulation loop
-    a = main_cy_obj.run_sim_py(start_time)
+  a = main_cy_obj.run_sim_py(start_time)
 
-    if a == 0:
-      print ('Simulation complete,', datetime.now() - start_time)
-      sys.stdout.flush()
-      ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison. 
-      ### for non-baseline, we will compare performance to baseline and output deltas, then aggregate over districts, and store MC results in shared_objs_array
-      main_cy_obj.get_district_results(results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline)
-      print(MC_label)
-      print('Objectives complete,', MC_label, is_baseline, datetime.now() - start_time)
-
+#    print ('Simulation complete,', datetime.now() - start_time)
+#    sys.stdout.flush()
+    ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison. 
+    ### for non-baseline, we will compare performance to baseline and output deltas, then aggregate over districts, and store MC results in shared_objs_array
+  main_cy_obj.get_district_results(results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline)
+#      print(MC_label)
+#    print('Objectives complete,', MC_label, is_baseline, datetime.now() - start_time)
+ # except:
+ #   print('fail in run sim', results_folder, MC_label)
+ #   objs_MC = np.array([-1e6, -1e6, -1e6, 1e6, -1e6])
+ #   shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC
 
 
 
 ### run a single MC instance and fill in slot in objective dictionary
 def dispatch_MC_to_procs(results_folder, baseline_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, shared_objs_array, proc, start, stop, is_baseline):
   for MC_count in range(start, stop):
-    print('### beginning MC run ', MC_count, ', proc ', proc)
+#    print('### beginning MC run ', MC_count, ', proc ', proc)
     run_sim(results_folder, baseline_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count], MC_labels[MC_count], uncertainty_dict, shared_objs_array, MC_count, is_baseline)
 
 
@@ -130,8 +130,8 @@ def problem_infra(*dvs, is_baseline=False):
 
 
   ### define MC sampling problem/parallelization
-  num_MC = 24
-  num_procs = 12
+  num_MC = 32
+  num_procs = 8
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['synthetic'] * num_MC
   flow_input_sources = ['mghmm_30yr_generic'] * num_MC
@@ -165,13 +165,13 @@ def problem_infra(*dvs, is_baseline=False):
   if is_baseline:
     results_folder = baseline_folder
   else:
-    sub_folder = '4task_2node/'
+    sub_folder = '8ppt_8node/'
     results_folder = results_base + 'infra_scaling/' + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
   # if is_baseline and os.path.exists(results_folder):
   #   shutil.rmtree(results_folder)
 
   print(results_folder, dvs)
-#  sys.stdout.flush()
+  sys.stdout.flush()
 
   ### disable printing (make sure disable_print is True in runtime_params.ini too)
 #  with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
@@ -208,7 +208,7 @@ def problem_infra(*dvs, is_baseline=False):
     # Wait for all processes to finish
     for sp in shared_processes:
       sp.join()
-    print('end join procs')
+#    print('end join procs')
 
     ### aggregate over MC trials
         ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
@@ -230,10 +230,10 @@ def problem_infra(*dvs, is_baseline=False):
 
     ### if it's all 0.0, that means there was an error somewhere. reset to less desirable values
     if sum(np.abs(objs_MCagg)) == 0.:
-      objs_MCagg = [1e9, 1e9, 1e9, 1e9, 1e9]
+      objs_MCagg = [1e6, 1e6, 1e6, 1e6, 1e6]
 
-    print(objs_MCagg)
-    print('Finished all processes', datetime.now() - start_time)
-    print(objs_MCagg, constrs_MCagg)
+  #  print(objs_MCagg)
+ #   print('Finished all processes', datetime.now() - start_time)
+  #  print(objs_MCagg, constrs_MCagg)
 
   return objs_MCagg, constrs_MCagg

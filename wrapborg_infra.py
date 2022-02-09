@@ -1,7 +1,7 @@
 # Master-worker Borg run with Python wrapper
 # ensure libborgms.so or libborgms.so is compiled and in this directory
 
-print(__name__)
+#print(__name__)
 
 def main():
 #    from multiprocessing import set_start_method
@@ -10,7 +10,6 @@ def main():
     from borg import Configuration, Borg
     from problem_infra import problem_infra
     import sys
-    print('inside main')
 
     results_dir = sys.argv[1]
     maxEvals = int(sys.argv[2])
@@ -33,8 +32,8 @@ def main():
         borg = Borg(nvars, nobjs, nconstrs, problem_infra)
         Configuration.seed(seed)
 
-        runtimeFile = results_dir + '/runtime/s' + str(seed) + '_fe' + str(maxEvals) + '.runtime'
-        set1File = results_dir + '/sets/s' + str(seed) + '_fe' + str(maxEvals) + '.set'
+        runtimeFile = results_dir + '/runtime/s' + str(seed) + '_nfe' + str(maxEvals) + '.runtime'
+        set1File = results_dir + '/sets/s' + str(seed) + '_nfe' + str(maxEvals) + '.set'
 
         ### set bounds - dvs[0] is between [1.0, 4.0), and will be rounded down to get int in (1,2,3) representing project type.
         ###              dvs[1] is between [1.0, ndistricts+1), and will be rounded down to get int in (1,2,...,ndistricts) representing number of partners 
@@ -48,11 +47,11 @@ def main():
         if createCheckpt == 0:
             result = borg.solveMPI(maxEvaluations=maxEvals, runtime=runtimeFile, frequency=runtimeFreq)
         else:
-            newCheckptFile = results_dir + '/checkpts/s' + str(seed) + '_fe' + str(maxEvals) + '.checkpoint'
+            newCheckptFile = results_dir + '/checkpts/s' + str(seed)  # This is just base - will have "_NFE#.checkpt" appended, where # is number of function evals. Will print checkpt each time we write to runtime file, as well as end
             if maxEvalsPrevious <= 0:
                 result = borg.solveMPI(maxEvaluations=maxEvals, runtime=runtimeFile, frequency=runtimeFreq, newCheckptFile=newCheckptFile)
             else:
-                oldCheckptFile = results_dir + '/checkpts/s' + str(seed) + '_fe' + str(maxEvalsPrevious) + '.checkpoint'
+                oldCheckptFile = results_dir + '/checkpts/s' + str(seed) + '_nfe' + str(maxEvalsPrevious) + '.checkpnt'
                 result = borg.solveMPI(maxEvaluations=maxEvals, runtime=runtimeFile, frequency=runtimeFreq, newCheckptFile=newCheckptFile, oldCheckptFile=oldCheckptFile)
 
 
@@ -77,7 +76,7 @@ def main():
 
 
 if __name__ == '__main__':
-    #from multiprocessing import set_start_method
-    #set_start_method("spawn")
+    from multiprocessing import set_start_method
+    set_start_method("spawn")
 
     main()

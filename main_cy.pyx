@@ -195,15 +195,15 @@ cdef class main_cy():
     swp_pump = 999.0
     cvp_pump = 999.0
     proj_surplus = 0.0
-    print('Begin simulation, ', datetime.now() - start_time)
-    print(self.results_folder)
-    sys.stdout.flush()
+#    print('Begin simulation, ', datetime.now() - start_time)
+#    print(self.results_folder)
+#    sys.stdout.flush()
 
     
     ############################################
     # while True:
     for t in range(0, timeseries_length):
-      self.progress = (t + 1) / timeseries_length
+#      self.progress = (t + 1) / timeseries_length
       if (t % 365 == 364):
         print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
         sys.stdout.flush()
@@ -213,7 +213,7 @@ cdef class main_cy():
 
       swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump = self.modelso.simulate_south(t, swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, self.modelno.delta.forecastSJWYT, self.modelno.delta.forecastSCWYT, self.modelno.delta.max_tax_free, flood_release, flood_volume)
 
-      # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
+      # end simulation if error has been thrown within inner cython/c code (i.e. keyboard interrupt)
       PyErr_CheckSignals()
 
     gc.collect()
@@ -313,7 +313,7 @@ cdef class main_cy():
   
     ### for baseline, write results as json
     if is_baseline:
-      print('here', baseline_folder)
+#      print('here', baseline_folder)
       with open(baseline_folder + MC_label + '_baseline.json', 'w') as o:
         json.dump(district_results, o)
       return []
@@ -361,8 +361,8 @@ cdef class main_cy():
       # total captured water gains for non-partners (kAF/year)
       total_nonpartner_captured_water_gain = sum([v['avg_captured_water'] for v in other_gains.values()])
 
-      print(district_gains)
-      print(total_captured_water_gain, total_pump_red, total_nonpartner_captured_water_gain)
+#      print(district_gains)
+#      print(total_captured_water_gain, total_pump_red, total_nonpartner_captured_water_gain)
 
       annual_debt_payment = 0.
       try:
@@ -375,7 +375,7 @@ cdef class main_cy():
           annual_debt_payment += annual_debt_payment_dict['FKC']
       except:
         pass
-      print('payment: ', annual_debt_payment)
+#      print('payment: ', annual_debt_payment)
       ### cost of water gains for partnership ($/AF)
       #cost_water_gains_pship = (annual_debt_payment / total_captured_water_gain / 1000) if (total_captured_water_gain > 0) else 1e7
       
@@ -396,7 +396,7 @@ cdef class main_cy():
                   total_nonpartner_captured_water_gain,
                   min(cost_water_gains_worst,1e7),
                   len(district_gains)]
-      print(MC_label, objs_MC)
+#      print(MC_label, objs_MC)
       shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC
 
       ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
@@ -406,14 +406,14 @@ cdef class main_cy():
       ###       max(4) number partners - no agg needed
       ### cons: (1) obj 3 < 2000
       ###       (2) obj 4 > 0
-      print('end district results', results_folder, [MC_label] + objs_MC)      
+#      print('end district results', results_folder, [MC_label] + objs_MC)      
       with open(results_folder + '/objs.csv', 'a') as f:
         w = writer(f)
         w.writerow([MC_label] + objs_MC)
         
 
   
-  
+  ### Note: this is now defunct, replaced with get_district_results for FKC infrastructure problem. But leaving this here as more general example.
   def calc_objectives(self):
     ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
     nt = len(self.modelno.shasta.baseline_inf)

@@ -1,25 +1,26 @@
 #!/bin/bash
 
-dependency=0
-numNodes=2
+dependency=9121219
+numNodes=128
 numProcsPerNode=48
-numTasksPerNode=4
-numProcsPerTask=12
-numMCPerFE=24
-numFE=7
+numTasksPerNode=6
+numProcsPerTask=8
+numMCPerFE=32
+numFE=100000
 numFEPrevious=0
 numSeedsPerTrial=1
-numTrials=4
-t=2:00:00
-partition=skx-dev
+numTrials=1
+t=1:00:00
+partition=skx-normal
 
-subdir=${numTasksPerNode}task_${numNodes}node/
+subdir=${numProcsPerTask}ppt_${numNodes}node/
 dir=results/infra_scaling/$subdir 
+mkdir $dir
 
 SLURM="#!/bin/bash\n\
-#SBATCH -J ${numNodes}node\n\
-#SBATCH -o results/infra_scaling/infra.out\n\
-#SBATCH -e results/infra_scaling/infra.err\n\
+#SBATCH -J ${numNodes}n\n\
+#SBATCH -o ${dir}infra.out\n\
+#SBATCH -e ${dir}infra.err\n\
 #SBATCH -p ${partition}\n\
 #SBATCH -t ${t}\n\
 #SBATCH --nodes $numNodes\n\
@@ -27,7 +28,6 @@ SLURM="#!/bin/bash\n\
 #SBATCH --cpus-per-task $numProcsPerTask\n\
 #SBATCH --exclusive\n\
 \n\
-mkdir $dir \n\
 mkdir $dir/sets \n\
 mkdir $dir/runtime \n\
 mkdir $dir/checkpts \n\
@@ -43,7 +43,6 @@ for trial in $(seq 1 $numTrials) \n\
 do \n\
 	echo 'Begin trial '${trial}\n\
 	time ibrun python3 -W ignore wrapborg_infra.py $dir $numFE $numFEPrevious $numSeedsPerTrial\n\
-	cp results/infra_scaling/infra.* $dir \n\
 done \n\ "
 
 if [ $dependency -eq 0 ]
