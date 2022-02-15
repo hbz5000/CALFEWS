@@ -1,6 +1,7 @@
 {
   "participant_list": ["FRS","COF","TUL","KWD","EXE","LDS", "LND","PRT","LWT","TPD","SAU","TBA","PIX","DLE","KRT","SSJ",
-                        "SFW","NKN","ARV", "DLR","ID4","SMI","TJC","BLR","LHL","BDM","WRM","COB","BVA","CWO","HML","KND","RRB","CNS","ALT","CWC","MAD"],
+                        "SFW","NKN","ARV", "DLR","ID4","SMI","TJC","BLR","LHL","BDM","WRM","COB","BVA","CWO","HML",
+                        "KND","RRB","CNS","ALT","CWC","MAD","SOC","SOB","CCA"],
   "initial_recharge" : 500.0,
   "tot_storage": 1.0,
   "recovery": 0.5,
@@ -41,7 +42,10 @@
     "CNS": 1.0,
     "ALT": 1.0,
     "CWC": 1.0,
-    "MAD": 1.0
+    "MAD": 1.0,
+    "SOC": 1.0,
+    "SOB": 1.0,
+    "CCA": 1.0
   },
   "bank_cap": {
     "FRS": 99999.9,
@@ -80,6 +84,9 @@
     "CNS": 99999.9,
     "ALT": 99999.9,
     "CWC": 99999.9,
-    "MAD": 99999.9
+    "MAD": 99999.9,
+    "SOC": 99999.9,
+    "SOB": 99999.9,
+    "CCA": 99999.9
   }
 }

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-dependency=9121219
-numNodes=128
+dependency=0
+numNodes=2
 numProcsPerNode=48
-numTasksPerNode=6
-numProcsPerTask=8
+numTasksPerNode=12
+numProcsPerTask=4
 numMCPerFE=32
 numFE=100000
 numFEPrevious=0
@@ -14,7 +14,7 @@ t=1:00:00
 partition=skx-normal
 
 subdir=${numProcsPerTask}ppt_${numNodes}node/
-dir=results/infra_scaling/$subdir 
+dir=results/infra_moo/$subdir 
 mkdir $dir
 
 SLURM="#!/bin/bash\n\

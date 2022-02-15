@@ -1,7 +1,7 @@
 import numpy as np
 import problem_infra
 
-ndistricts = 37
+ndistricts = 40
 
 
 

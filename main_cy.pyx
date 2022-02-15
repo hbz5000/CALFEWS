@@ -204,9 +204,9 @@ cdef class main_cy():
     # while True:
     for t in range(0, timeseries_length):
 #      self.progress = (t + 1) / timeseries_length
-      if (t % 365 == 364):
-        print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
-        sys.stdout.flush()
+#      if (t % 365 == 364):
+#        print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
+#        sys.stdout.flush()
 
       # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = self.modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
@@ -346,7 +346,7 @@ cdef class main_cy():
       CFWB_cost = 50e6
       interest_annual = 0.03
       time_horizon = 30
-      cap = 1000
+#      cap = 1000
       principle = {'FKC': FKC_participant_payment, 'CFWB': CFWB_cost, 'FKC_CFWB': FKC_participant_payment + CFWB_cost}
       payments_per_yr = 1
       interest_rt = interest_annual / payments_per_yr
@@ -356,10 +356,11 @@ cdef class main_cy():
       ### now aggregate objs over districts 
       # total captured water gains for partnership (kAF/year)
       total_captured_water_gain = sum([v['avg_captured_water'] for v in district_gains.values()])
+      total_captured_water_gain *= 1.23  ## convert kAF/year to million cubic meters (gigaliters)
       # total pumping reduction for partnership (kAF/year)
-      total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()])
+      total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()]) *1.23
       # total captured water gains for non-partners (kAF/year)
-      total_nonpartner_captured_water_gain = sum([v['avg_captured_water'] for v in other_gains.values()])
+      total_nonpartner_captured_water_gain = sum([v['avg_captured_water'] for v in other_gains.values()]) *1.23
 
 #      print(district_gains)
 #      print(total_captured_water_gain, total_pump_red, total_nonpartner_captured_water_gain)
@@ -377,7 +378,7 @@ cdef class main_cy():
         pass
 #      print('payment: ', annual_debt_payment)
       ### cost of water gains for partnership ($/AF)
-      #cost_water_gains_pship = (annual_debt_payment / total_captured_water_gain / 1000) if (total_captured_water_gain > 0) else 1e7
+      #cost_water_gains_pship = (annual_debt_payment / total_captured_water_gain /1.23/ 1000) if (total_captured_water_gain > 0) else 1e6
       
       ### worst-off partner costs
       cost_water_gains_worst = -1.
@@ -386,7 +387,7 @@ cdef class main_cy():
           partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]
         except:
           partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]
-        cost_water_gains_partner = (partner_debt_payment / v['avg_captured_water'] / 1000) if (v['avg_captured_water'] > 0) else 1e7
+        cost_water_gains_partner = (partner_debt_payment / v['avg_captured_water'] /1.23/ 1000) if (v['avg_captured_water'] > 0) else 1e6   ## units = $/megaliter
         if cost_water_gains_partner > cost_water_gains_worst:
           cost_water_gains_worst = cost_water_gains_partner
       
@@ -394,7 +395,7 @@ cdef class main_cy():
       objs_MC = [total_captured_water_gain,
                   total_pump_red,
                   total_nonpartner_captured_water_gain,
-                  min(cost_water_gains_worst,1e7),
+                  min(cost_water_gains_worst,1e6),
                   len(district_gains)]
 #      print(MC_label, objs_MC)
       shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC

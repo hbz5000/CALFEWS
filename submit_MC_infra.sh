@@ -9,4 +9,7 @@
 #SBATCH --ntasks-per-node 1
 #SBATCH --exclusive
 
+sed -i "s:num_MC = .*:num_MC = 32:g" problem_infra.py 
+sed -i "s:num_procs = .*:num_procs = 32:g" problem_infra.py 
+
 time python -W ignore run_problem_infra.py
