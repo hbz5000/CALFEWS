@@ -10,15 +10,16 @@ numFE=1000000
 numFEPrevious=0
 runtimeFrequency=100
 seed=0
-t=48:00:00
+dv_formulation=1
+t=24:00:00
 partition=skx-normal
 
-subdir=seed${seed}/
+subdir=dv${dv_formulation}_seed${seed}/
 dir=results/infra_moo/$subdir 
 mkdir $dir
 
 SLURM="#!/bin/bash\n\
-#SBATCH -J s${seed}_e${numFEPrevious}\n\
+#SBATCH -J d${dv_formulation}s${seed}e${numFEPrevious}\n\
 #SBATCH -o ${dir}s${seed}_nfe${numFEPrevious}.out\n\
 #SBATCH -e ${dir}s${seed}_nfe${numFEPrevious}.err\n\
 #SBATCH -p ${partition}\n\
@@ -39,11 +40,12 @@ sed -i \"s:num_MC = .*:num_MC = $numMCPerFE:g\" problem_infra.py \n\
 sed -i \"s:num_procs = .*:num_procs = $numProcsPerTask:g\" problem_infra.py \n\
 sed -i \"s:sub_folder = .*:sub_folder = '$subdir':g\" problem_infra.py \n\
 sed -i \"s:seed = .*:seed = ${seed}:g\" problem_infra.py \n\
+sed -i \"s:dv_formulation = .*:dv_formulation = ${dv_formulation}:g\" problem_infra.py \n\
 \n\
 cp submit_moo_infra.sh $dir \n\
 cp problem_infra.py $dir \n\
 \n\
-time ibrun python3 -W ignore wrapborg_infra.py $dir $numFE $numFEPrevious $seed $runtimeFrequency \n\
+time ibrun python3 -W ignore wrapborg_infra.py $dir $numFE $numFEPrevious $seed $runtimeFrequency $dv_formulation \n\
 \n\ "
 
 if [ $dependency -eq 0 ]

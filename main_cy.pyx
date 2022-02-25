@@ -408,9 +408,9 @@ cdef class main_cy():
       ### cons: (1) obj 3 < 2000
       ###       (2) obj 4 > 0
 #      print('end district results', results_folder, [MC_label] + objs_MC)      
-      with open(results_folder + '/objs.csv', 'a') as f:
-        w = writer(f)
-        w.writerow([MC_label] + objs_MC)
+#      with open(results_folder + '/objs.csv', 'a') as f:
+#        w = writer(f)
+#        w.writerow([MC_label] + objs_MC)
         
 
   

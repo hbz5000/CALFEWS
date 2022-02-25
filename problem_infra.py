@@ -1,12 +1,15 @@
 ### this script will create & run the "problem" for MORDM for FKC/banking infrastructure 
 import sys
 import os
+import shutil
 import contextlib
 import shutil
+import time
 import json
 from csv import writer
 import numpy as np
 import pandas as pd
+from statistics import quantiles
 from configobj import ConfigObj
 from distutils.util import strtobool
 from multiprocessing import Process, Array
@@ -15,42 +18,70 @@ import main_cy
 
 
 ### get effective decision variables after enforcing number of districts and min share size
-def get_effective_dvs(dvs, min_share):
-  ### set project type to integer
+def get_effective_dvs(dvs, min_share, dv_formulation):
+  ### try several dv formulations, since not sure which will learn fastest with borg loop
+  ### first dv is always project type -> set to integer
   dv_project = int(dvs[0])
-  ### get number of partners, renormalize shares
-  npartners = int(dvs[1])
-  shares = np.array(dvs[2:])
-  # get indices of npartners largest shares
-  partners = np.argpartition(shares, -npartners)[-npartners:]
-  nonpartners = np.argpartition(shares, -npartners)[:-npartners]
-  shares[nonpartners] = 0.
-  # normalize to sum to 1
+
+  ### dv_formulation == 0: set shares directly as dv
+  if dv_formulation == 0:
+    shares = np.array(dvs[1:])
+  
+  ### dv_formulation == 1: set number of partners P, and district shares. Set all except largest P to 0
+  elif dv_formulation == 1:
+    ### get number of partners & shares
+    npartners = int(dvs[1])
+    shares = np.array(dvs[2:])
+    # get indices of npartners largest shares
+    partners = np.argpartition(shares, -npartners)[-npartners:]
+    nonpartners = np.argpartition(shares, -npartners)[:-npartners]
+    shares[nonpartners] = 0.
+
+  ### dv_formulation == 2: for each district, have binary switch turning on/off, as well as share.
+  elif dv_formulation == 2:
+    ndistricts = int((len(dvs) - 1) / 2)
+    ### get switch. This will be in [0.0, 2.0).
+    switches = np.array(dvs[1:ndistricts+1])
+    ### get shares
+    shares = np.array(dvs[ndistricts+1:])
+    ### Only districts with switch >=1 should have non-zero shares.
+    shares[switches < 1.] = 0.
+
+  ### for all dv_formulations, normalize shares to sum to 1, then set all districts below min_share to 0, then renormalize.
   shares = shares / shares.sum()
-  # set lower bound of 1% ownership. renormalize others so that total sum is 1.
-  min_share = 0.01
-  shares[(shares < min_share) & (shares > 0.)] = min_share
-  shares[shares > min_share] *= (1 - shares[shares == min_share].sum()) / shares[shares > min_share].sum()
+  loop = 0
+  while (loop < 5) and (np.any(np.logical_and(shares < min_share, shares > 0))):
+    shares[shares < min_share] = 0.
+    shares /= shares.sum()
+    loop += 1
 
   return dv_project, shares
 
 
 
+
 ### compare effective dvs for the current eval to all past evals. If within epsilon, return objs/constrs from past eval rather than running again.
-def get_prev_eval(dv_project_current, shares_current, evaluationFile, epsilon):
-  ndv = len(shares_current) + 2
+def get_prev_eval(dv_project_current, shares_current, evaluationFile, epsilon, min_share, dv_formulation):
+  ### see get_effective_dvs() definition for explanation of dv_formulation
+  if dv_formulation == 0:
+    ndv = len(shares_current) + 1
+  elif dv_formulation == 1:
+    ndv = len(shares_current) + 2
+  elif dv_formulation == 2:
+    ndv = len(shares_current) * 2 + 1
   ### get past evals from text file
-  prev = np.genfromtxt(evaluationFile, dtype=np.double)
-  
+  try:
+    prev = np.genfromtxt(evaluationFile, dtype=np.double, invalid_raise=False)
+  except:
+    return 0,0
   ### loop over lines in prev eval file, test if all dv's within epsilon.
   for i in range(prev.shape[0]):
-    dv_project_prev, shares_prev = get_effective_dvs(prev[i,:ndv])
+    dv_project_prev, shares_prev = get_effective_dvs(prev[i,:ndv], min_share, dv_formulation)
     if dv_project_prev == dv_project_current:
       shares_maxDiff = np.max(np.abs(shares_prev - shares_current))
       if shares_maxDiff < epsilon:
         objs = prev[i, ndv:-2]
         constrs = prev[i, -2:]
-#        print(i, objs, constrs)
         return objs, constrs
  
   ## if no matches, return 0
@@ -74,14 +105,15 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
 #  sys.stdout.flush()
 
   ### get effective project shares/type after enforcing max number of districts, min share size, & normalization
-  min_share = 0.1
-  dv_project, shares = get_effective_dvs(dvs, min_share)
+  min_share = 0.01
+  dv_formulation = 0
+  dv_project, shares = get_effective_dvs(dvs, min_share, dv_formulation)
 
   ### check if we've already evaluated a very similar solution, if so then just return previous objs/constrs
-  seed = 1
+  seed = 0
   evaluationFile = results_folder + '../evaluations/s' + str(seed) + '.evaluations'
   dv_epsilon = 0.0025
-  objs_prev, constrs_prev = get_prev_eval(dv_project, shares, evaluationFile, 0.0025)
+  objs_prev, constrs_prev = get_prev_eval(dv_project, shares, evaluationFile, dv_epsilon, min_share, dv_formulation)
 
   ### apply ownership fractions for FKC expansion based on dvs
   scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
@@ -117,10 +149,10 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
   with open(results_folder + '/CFWB_scenario.json', 'w') as o:
     json.dump(scenario, o) 
 
-  ### create objective file headers
-  with open(results_folder + '/objs.csv', 'w') as f:
-    w = writer(f)
-    w.writerow(['sample','j1','j2','j3','j4','j5'])
+#  ### create objective file headers
+#  with open(results_folder + '/objs.csv', 'w') as f:
+#    w = writer(f)
+#    w.writerow(['sample','j1','j2','j3','j4','j5'])
 
   ### return objs, constrs. these will generally be 0 if no previous match found. 
   return objs_prev, constrs_prev
@@ -202,7 +234,7 @@ def problem_infra(*dvs, is_baseline=False):
   if is_baseline:
     results_folder = baseline_folder
   else:
-    sub_folder = 'seed1/'
+    sub_folder = 'dv0_seed0/'
     results_folder = results_base + 'infra_moo/' + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
   # if is_baseline and os.path.exists(results_folder):
   #   shutil.rmtree(results_folder)
@@ -255,16 +287,16 @@ def problem_infra(*dvs, is_baseline=False):
         ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
         ###       max(1) pumping reduction - mean over years - sum over partners - mean over MC
         ###       max(2) CWG - mean over years - sum over non-partners - mean over MC
-        ###       min(3) cost CWG - mean over years - max over partners - max over MC
+        ###       min(3) cost CWG - mean over years -> max over partners -> 90th percentile over MC
         ###       max(4) number partners - no agg needed
-        ### cons: (1) obj 3 < 2000
+        ### cons: (1) obj 3 < 5000  (larger than EF paper to allow more borg learning and explore wider tradeoffs)
         ###       (2) obj 4 > 0
-      cost_constraint = 1000
+      cost_constraint = 5000
       objs_allMC = np.array(shared_objs_array).reshape(num_MC, num_objs)
       objs_MCagg = [-objs_allMC[:,0].mean(),
                     -objs_allMC[:,1].mean(),
                     -objs_allMC[:,2].mean(),
-                    objs_allMC[:,3].max(),
+                    quantiles(objs_allMC[:,3], n=10)[-1],  
                     -objs_allMC[0,4]]
       constrs_MCagg = [max(0.0, objs_MCagg[3] - cost_constraint),
                        0. if objs_MCagg[-1] < 0 else 1.]
@@ -277,10 +309,16 @@ def problem_infra(*dvs, is_baseline=False):
  #   print('Finished all processes', datetime.now() - start_time)
   #  print(objs_MCagg, constrs_MCagg)
 
+      ### remove subdirectory for this FE
+      shutil.rmtree(results_folder)
+
       #print(type(objs_MCagg), objs_MCagg, type(constrs_MCagg), constrs_MCagg)  
       return objs_MCagg, constrs_MCagg
 
     ### else if previous eval has very similar effective decision vector, just return those values instead of rerunning
     else:
       #print(type(objs_prev), objs_prev, type(constrs_prev), constrs_prev)
+
+      ### remove subdirectory for this FE
+      shutil.rmtree(results_folder)
       return objs_prev.tolist(), constrs_prev.tolist()
