@@ -12,6 +12,7 @@ then
   done
 fi
 
+### get objs for all simulations. Each will have its own objs.csv in its subdirectory.
 for s in $(seq $1 $2)
 do
   for h in wet dry median

@@ -1,10 +1,8 @@
 import numpy as np
 import pandas as pd
-# import h5py
 import json
 import sys
 import os
-import matplotlib.pyplot as plt
 from calfews_src.util import get_results_sensitivity_number_outside_model
 
 hydrology = sys.argv[1] #wet,dry, or median
@@ -62,9 +60,6 @@ def get_district_data(datafile):
   index = dat.index
   year = index.year
   month = index.month
-  # dom = index.day
-  # doy = index.dayofyear
-  # dowy = (doy + (365-274)) % 365
   wy = np.array([year[i] if month[i] < 10 else year[i] + 1 for i in range(len(year))])
   ### get relevant results for each district
   districts = {}
@@ -95,6 +90,7 @@ def get_district_data(datafile):
         except:
           pass
     ## get irrigation deliveries for drought year metric = *district*_*contract*_delivery - *district*_*contract*_recharged + *district*_*contract*_flood_irrigation + *district*_recover_banked + *district*_exchanged_SW + *district*_inleiu_irrigation
+    ### note: this metric turned out to be incorrectly constructed, so we don't actually use it in the results in paper.
     df['irrig_deliveries'] = 0.0
     for (wtype, position) in [('delivery', 2), ('irrigation', 3), ('recover', 1), ('SW', 2), ('irrigation', 2)]:
       for c in df.columns:
@@ -139,10 +135,6 @@ for d in district_lookup:
     objs_districts[d]['exp_del'] = districts_scenario_wy[d]['new_deliveries'].mean()
   except:
     objs_districts[d]['exp_del'] = 0.0
-#  try:
-#    objs_districts[d]['std_del'] = districts_scenario_wy[d]['total_deliveries'].std()       
-#  except:
-#    objs_districts[d]['std_del'] = 0.0
   try:
     objs_districts[d]['w5yr_del'] = districts_scenario_wy[d]['irrig_deliveries'].rolling(5).mean().min()
   except:
@@ -157,7 +149,6 @@ for d in district_lookup:
         objs_districts[d]['exp_gain'] = (-districts_baseline_wy[d]['new_deliveries']).mean()
       except:
         objs_districts[d]['exp_gain'] = 0.0
-#  objs_districts[d]['std_gain'] = (districts_scenario_wy[d]['total_deliveries'] - districts_baseline_wy[d]['total_deliveries']).std()    
   try:
     objs_districts[d]['w5yr_gain'] = districts_scenario_wy[d]['irrig_deliveries'].rolling(5).mean().min() - districts_baseline_wy[d]['irrig_deliveries'].rolling(5).mean().min()
   except:
@@ -203,6 +194,7 @@ total_other_w5yr_gain = sum(others)
 min_other_w5yr_gain = min(others)
 
 ### gini coef
+### note: didn't end up using gini coef metric in paper either, it is difficult to interpret in practice.
 gains = []
 ds = []
 owns = []

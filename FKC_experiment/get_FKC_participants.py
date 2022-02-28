@@ -8,15 +8,11 @@ from distutils.util import strtobool
 
 
 
-########################################################################
-### main experiment
-########################################################################
 
-start_scenarios = int(sys.argv[1])  ### number of random ownership configs to run
+start_scenarios = int(sys.argv[1])  ### random ownership configs to run
 end_scenarios = int(sys.argv[2])
 nscenarios = end_scenarios - start_scenarios
 
-### setup mpi if using parallel mode
 # get runtime params from config file
 config = ConfigObj('runtime_params.ini')
 cluster_mode = bool(strtobool(config['cluster_mode']))
@@ -38,6 +34,7 @@ ndistricts = len(scenario['ownership_shares'])
 np.random.seed(end_scenarios)
 list_zerodistricts = []
 
+### for each scenario, randomly sample a set of districts to exclude from partnership (zero ownership)
 for s in range(start_scenarios, end_scenarios):
     newchoice = True
     while newchoice == True:
@@ -49,6 +46,7 @@ for s in range(start_scenarios, end_scenarios):
         list_zerodistricts.append(zerodistricts)
         newchoice = False
 
+### write to file, to be input for simulations
 with open(samples_file, 'w') as f:
   for zerodistricts in list_zerodistricts:
     zd = ''

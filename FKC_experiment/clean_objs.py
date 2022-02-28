@@ -31,6 +31,8 @@ print(objs.shape)
 print(objs.head())
 
 ### get avg price of water gains per year
+### note: we ended up changing these cost parameters due to new agreement that was announced, and alternative units
+# ##-> this is corrected in later analysis scripts used to create figures.
 FKC_cost = 500e6
 FKC_fed_payment = 200e6
 FKC_east_tule_payment = 125e6
@@ -64,28 +66,4 @@ objs['worst_price_avg_gain'] = objs.loc[:, cost_cols].max(axis=1)
 
 ## output
 objs.to_csv(results + 'objs_clean.csv', index=False)
-
-
-### get median-hydrology only set
-objs_medHydro = objs.loc[objs.hydro == 'median', :]
-## output
-objs_medHydro.to_csv(results + 'objs_medHydro.csv', index=False)
-
-### get FKC-only set
-objs_FKC = objs.loc[objs.project == 'FKC', :]
-## output
-objs_FKC.to_csv(results + 'objs_FKC.csv', index=False)
-
-### get FKC-only/median-hydro set
-objs_medHydro_FKC = objs.loc[np.logical_and(objs.hydro == 'median', objs.project == 'FKC'), :]
-## output
-objs_medHydro_FKC.to_csv(results + 'objs_medHydro_FKC.csv', index=False)
-
-### aggregate across hydrology, taking worst case for each project/sample combo
-objs_aggHydro = objs.groupby(['samp','project']).min().reset_index()
-for o in ['ginicoef', 'avg_price_gain_dolAF']:
-    objs_aggHydro.loc[:, o] = objs.groupby(['samp','project']).max().reset_index().loc[:, o]
-
-## output
-objs_aggHydro.to_csv(results + 'objs_aggHydro.csv', index=False)
 
