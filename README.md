@@ -1,30 +1,30 @@
 # California Food-Energy-Water System (CALFEWS)
-This repository contains all code and data for the California Food-Energy-Water System (CALFEWS), an open-sourced, Python-based model for simulating the integrated, multi-sector dynamics of water supply in the Central Valley of California.  CALFEWS captures system dynamics across multiple scales, from coordinated management of inter-basin water supply projects at the state and regional scale, to agent-based representation of conjunctive surface water and groundwater supplies at the scale of irrigation and water storage districts. Its flexible, adaptive, rules-based representation allows CALFEWS to explore alternative climate, infrastructure, and regulation scenarios, and it is also interoperable with power dispatch and agricultural production models. This tool can provide decision-makers and analysts with a platform to generate a wide range of internally consistent scenarios for the integrated management of water supply, energy generation, and food production.
-
-More information on the CALFEWS model, and comparison of model output to historical data, can be found in the following manuscript:
+For general information on the California Food-Energy-Water System (CALFEWS) simulation model, please switch to the "main" branch of this repository, where you will find information on installing, compiling, running, and analyzing the base model. Interested readers can also refer to the following paper to learn more about the performance and conceptual underpinnings of the model:
 
 Zeff, H.B., Hamilton, A.L., Malek, K., Herman, J.D., Cohen, J.S., Medellin-Azuara, J., Reed, P.M., and G.W. Characklis. (2021). California's Food-Energy-Water System: An Open Source Simulation Model of Adaptive Surface and Groundwater Management in the Central Valley. *Environmental Modelling & Software, 141*: 105052. [https://doi.org/10.1016/j.envsoft.2021.105052](https://doi.org/10.1016/j.envsoft.2021.105052) 
 
+Licensed under the MIT License, 2017-2022.
+
+## Infrastructure partnership design experiment
+This "FKC_experiment_longleaf" branch of the repository contains all code and data for the following paper:
+
+Hamilton, A.L., Zeff, H.B., Characklis, G.W., & P.M. Reed. (2022). Resilient California water portfolios require infrastructure investment partnerships that are viable for all partners. (In review, [pre-print available](https://www.essoar.org/doi/10.1002/essoar.10508968.2)).
+
 Download the exact version used to produce the paper at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4091708.svg)](https://doi.org/10.5281/zenodo.4091708).
 
-Licensed under the MIT License, 2017.
+**Abstract**
+> Water scarcity is a growing problem around the world, and regions such as California are working to develop diversified, interconnected, and flexible water supply portfolios. To meet their resilient water portfolio goals, water utilities and irrigation districts will need to cooperate across scales to finance, build, and operate shared water supply infrastructure. However, planning studies to date have generally focused on partnership-level outcomes (i.e., highly aggregated mean cost-benefit analyses), while ignoring the heterogeneity of benefits, costs, and risks across the individual investing partners. This study contributes an exploratory modeling analysis that tests thousands of alternative water supply investment partnerships in the Central Valley of California, using a high-resolution simulation model to evaluate the effects of new infrastructure on individual water providers. The viability of conveyance and groundwater banking investments are as strongly shaped by partnership design choices (i.e., which water providers are participating, and how do they distribute the project’s debt obligation?) as by extreme hydrologic conditions (i.e., floods and droughts). Importantly, most of the analyzed partnership structures yield highly unequal distributions of water supply and financial risks across the partners, limiting the viability of cooperative partnerships. Partnership viability is especially rare in the absence of groundwater banking facilities, or under dry hydrologic conditions, even under explicitly optimistic assumptions regarding climate change. These results emphasize the importance of high-resolution simulation models and careful partnership structure design when developing resilient water supply portfolios for institutionally complex regions confronting scarcity.
+
 
 ## Installation and setup
-1. Clone this repository to your local machine.
-1. If you use Anaconda:
-    1. Create a new environment using the yml file: ``conda env create -f environment.yml``
-    1. Activate environment: ``conda activate .venv_conda_calfews``
-1. If you don't use Anaconda:
-    1. Manually install the packages listed in ``environment.yml`` into a new virtual environment named ``.venv_conda_calfews``, and activate the environment.
-1. From the base CALFEWS directory, run model with ``python -W ignore run_main_cy.py <results_folder>``, where ``<results_folder>`` is the location you would like to store the results, relative to base directory. (Note: the command for Python 3 may be python3, not python, depending on your machine).
-1. If this doesn't work (or you want to make any changes to source files), you will need to recreate the C files & binaries from Cython. 
-    1. If you are running on Linux or MacOS, you should already have gcc installed. If you are running on Windows, you will need to install Visual Studio 2019 Community Edition. When it asks which programs to install, choose "Desktop development with C++".
-    1. Cythonize and recompile with the command: ``python setup_cy.py build_ext --inplace``.
-1. Three different Jupyter notebooks are available to improve usability. To use them, you will need to run the following commands in the terminal or Anaconda Prompt.
-    1. Add your virtual environment to Jupyter: ``python -m ipykernel install --user --name=.venv_conda_calfews``
-    1. Tell Jupyter to allow ipywidgets: ``jupyter nbextension enable --py widgetsnbextension`` (this step may or may not be necessary depending on your Jupyter version)
-    1. Tell Jupyter to allow bqplot: ``jupyter nbextension enable --py bqplot``
-1. The three helper notebooks are:
-    1. ``CALFEWS_GUI.ipynb``: This graphical user interface (GUI) allows the user to run different inflow scenarios and visualize results interactively (run the notebook and scroll down to the bottom for the GUI.
-    1. ``CALFEWS_intro_tutorial.ipynb``: This notebook gives more details on model parameters, input files, and output files, for users who want to go deeper than the GUI.
-    1. ``modeling_paper_notebook.ipynb``: This notebook can be run to automatically run run all simulations and reproduce all figures from Zeff et al. 2020 (see citation above).
+1. First, switch to the "main" branch of this repository and follow instructions to clone, compile, and run the base CALFEWS model. If you only want to recreate the data analysis and figures (step 5), you can just setup CALFEWS on a local desktop/laptop. If you also want to recreate the full exploratory experiment (step 4), then you will need to access to a larger computing cluster, and should set up CALFEWS there as well.
+2. Then switch back to this "FKC_experiment_longleaf" branch and rerun the cythonization command, ``python3 setup_cy.py build_ext --inplace``, on all machines. 
+4. Run the exploratory experiment on your computing cluster. I used the [Longleaf Cluster](https://its.unc.edu/research-computing/longleaf-cluster/) at the University of North Carolina at Chapel Hill, which allowed me to run up to 800 cores simultaneously. 
+    1. Move all \*.sh and \*.py files from the "FKC_experiment" directory into the base directory, and move to the base directory from the command line. Note: depending on your cluster, you may need to copy everything to the "scratch" drive to run, rather than your home directory.
+    2. **runtime** - set flow_input_source, scratch_dir
+    3. **sbatch_single_longleaf.sh** - change output/error location, module load, venv source, partition, etc. note about slurm
+    4. Launch experiment: ``sh run_sbatch_many.sh``. This will submit ~27,000 individual jobs to the slurm scheduler, each of which requests a single core to run a single simulation. If your cluster has a limit on the number of jobs you can have in the queue at once, you may need to split this up into smaller batches. Each simulation takes ~20-50 minutes, so at full utilization of the 800 cores this would take about 17 hours. However, in practice it took several days due to queueing time. Note: this will create a very large amount of data (~2.3 TB), broken into ~27,000 individual directories, so make sure you have sufficient space to handle this.
+    5. Once all simulations have completed, postprocess to get objectives from each simulation: ``sh run_batch_objectives.sh``. This will launch 800 jobs to the slurm scheduler, each of which will calculate objectives for a subset of the simulations. You can change the 800 at the top to change how many chunks to break the processing into.
+    6. Once all jobs have completed, run additional postprocessing: ``sh run_postprocess_objs.sh``. You will need to change the directory address at the top to match the location where your results are stored. This script will gather all the individual simulations' objectives into a single file, and calculate additional objective values.
+5. **Copy data to folder**
+
