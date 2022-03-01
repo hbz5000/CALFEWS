@@ -1,12 +1,8 @@
-from osgeo import gdal
-import numpy as np
 import pandas as pd
 from shapely.geometry import Point, Polygon, LineString, MultiLineString
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
-from matplotlib import cm
 import geopandas as gpd
-import seaborn as sns
 
 def create_shape_lists(map_type, use_type):
   #enables multiple figure types to be generated from maps_main.py script

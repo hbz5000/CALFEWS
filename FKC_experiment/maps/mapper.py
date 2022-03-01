@@ -1,11 +1,9 @@
 import numpy as np 
 import matplotlib.pyplot as plt
-import pandas as pd
 from osgeo import gdal
 import rasterio
 from shapely.geometry import Point, Polygon, LineString
 import geopandas as gpd
-import fiona
 from matplotlib.colors import ListedColormap
 import matplotlib.pylab as pl
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes

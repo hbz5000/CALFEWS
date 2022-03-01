@@ -29,4 +29,9 @@ Download the exact version used to produce the paper at [![DOI](https://zenodo.o
 5. Run the data analysis and create figures from paper. This can be done either on local machine or cluster.
     1. Copy "objs_clean.csv" to "FKC_experiment/output_data" directory, then move to the "FKC_experiment/analysis_and_figures_scripts" directory from the command line.
     2. Run Python script to make all figures other than the maps: ``python3 -W ignore make_figs.py``. All figures will be created in the "FKC_experiment/figures" directory.
-
+6. To recreate the map figures, you will need to follow a few steps.
+    1. Beyond the Python modules needed for the base CALFEWS installation (see "main" branch), you will also need to install geospatial libraries. This can be a bit tricky, and it is recommended to work in a fresh virtual environment. The following should be installed after first installing the gdal library outside of Python: geopandas, contextily, shapely, rasterio. If you experience any problems, there are many tutorials online for installing Python geospatial modules for different operating systems.
+    2. To recreate Figure S2, which shows groundwater recharge potential across the basin, you will need to download the SAGBI data (https://casoilresource.lawr.ucdavis.edu/sagbi/). At the time of writing, it is necessary to contact the authors for this data. Place the "sagbi_mod.shp" and related files in a new folder titled "sagbi_mod" in the "FKC_experiment/maps" directory.
+    3. Go to the "maps" directory from the command line and run the mapping pre-processing script: ``python3 make_maps_pt1.py``
+    4. Create Figure 1: ``python3 make_maps_pt2.py boxplot_combined``
+    5. Create Figure S2: ``python3 make_maps_pt2.py sagbi``

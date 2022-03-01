@@ -1,22 +1,7 @@
-from osgeo import gdal
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from shapely.geometry import Point, Polygon, LineString
 import geopandas as gpd
-import fiona
-from matplotlib.colors import ListedColormap
-import matplotlib.pylab as pl
-import rasterio
-import rasterio.plot
-import pyproj
-import os 
-from adding_comtrs_functions import add_comtrs_pre_1990
-from adding_comtrs_functions import add_comtrs_1990_2004
-from adding_comtrs_functions import add_comtrs_2005_2016
-from fix_pur_data_step1 import replace_bad_characters
-from compile_normalize_data_by_comtrs import compile_data_by_comtrs
-from compile_normalize_data_by_comtrs import normalize_data
+import os
 from crop import Crop
 
 def find_crop_keys():
