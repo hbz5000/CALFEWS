@@ -28,5 +28,5 @@ Download the exact version used to produce the paper at [![DOI](https://zenodo.o
     6. If you are working on a scratch directory subject to purge policies, make sure to move all results to a longer-term storage location.
 5. Run the data analysis and create figures from paper. This can be done either on local machine or cluster.
     1. Copy "objs_clean.csv" to "FKC_experiment/output_data" directory, then move to the "FKC_experiment/analysis_and_figures_scripts" directory from the command line.
-    2. 
+    2. Run Python script to make all figures other than the maps: ``python3 -W ignore make_figs.py``. All figures will be created in the "FKC_experiment/figures" directory.
 

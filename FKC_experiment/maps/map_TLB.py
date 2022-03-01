@@ -3,20 +3,20 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 import numpy as np
 import pandas as pd
-from shapely.geometry import Point, Polygon, LineString, MultiLineString
-from shapely.ops import split, linemerge
+# from shapely.geometry import Point, Polygon, LineString, MultiLineString
+# from shapely.ops import split, linemerge
 import geopandas as gpd
-import fiona
+# import fiona
 from matplotlib.colors import ListedColormap
 from matplotlib.colors import Normalize
 import matplotlib.pylab as pl
 from matplotlib import cm, rcParams
-import rasterio
-import rasterio.plot
-from osgeo import gdal, osr, ogr, gdalnumeric
+# import rasterio
+# import rasterio.plot
+# from osgeo import gdal, osr, ogr, gdalnumeric
 from mapper import Mapper
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-import seaborn as sns
+# import seaborn as sns
 import cropping_main
 from preprocessor import create_shape_lists, create_reservoir_file, divide_districts, get_raster_list, get_watershed_list, get_base_order
 from platform import uname
