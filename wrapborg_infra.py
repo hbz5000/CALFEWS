@@ -65,7 +65,7 @@ def main():
         if maxEvalsPrevious <= 0:
             result = borg.solveMPI(maxEvaluations=maxEvals, runtime=runtimeFile, frequency=runtimeFreq, newCheckptFile=newCheckptFile, evaluationFile=evaluationFile)
         else:
-            oldCheckptFile = results_dir + '/checkpts/s' + str(seed) + '_nfe' + str(maxEvalsPrevious) + '.checkpnt'
+            oldCheckptFile = results_dir + '/checkpts/s' + str(seed) + '_nfe' + str(maxEvalsPrevious) + '.checkpt'
             result = borg.solveMPI(maxEvaluations=maxEvals, runtime=runtimeFile, frequency=runtimeFreq, newCheckptFile=newCheckptFile, oldCheckptFile=oldCheckptFile, evaluationFile=evaluationFile)
 
 
