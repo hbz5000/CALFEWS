@@ -320,19 +320,21 @@ cdef class main_cy():
 
 
     ### also write to json for WCU/DU reevaluation, but more compactly as lists
-    if is_reeval:
-      with h5py.File(results_folder + '../results.hdf5', 'a') as f:
-        d = f[f'soln{soln}']
-        results_list = []
-        for k,v in district_results.items():
-          results_list.extend(v.values())
-        d[:len(results_list), MC_count] = np.array(results_list)
-        ### only need to store rownames once
-        if MC_count == 0:
-          objs_list = []
-          for k, v in district_results.items():
-            objs_list.extend([k + '_' + vk for vk in v.keys()])
-          d.attrs['rownames'] = objs_list
+    if is_reeval:  
+#      d = open_hdf5[f'soln{soln}']
+#      results_list = []
+#      for k,v in district_results.items():
+#        results_list.extend(v.values())
+#      d[:len(results_list), MC_count] = np.array(results_list)
+#      ### only need to store rownames once
+#      if MC_count == 0:
+#        objs_list = []
+#        for k, v in district_results.items():
+#          objs_list.extend([k + '_' + vk for vk in v.keys()])
+#        d.attrs['rownames'] = objs_list
+        ### write to json instead, since parallel hdf5 not working. will clean up & save to single hdf5 in main process after MCs have finished.
+        with open(f'/tmp/soln{soln}_mc{MC_label}.json', 'w') as o:
+            json.dump(district_results, o)
 
 
 

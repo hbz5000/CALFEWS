@@ -2,16 +2,8 @@ from mpi4py import MPI
 import sys
 import os
 import shutil
-import contextlib
-import shutil
-import time
 import json
-from csv import writer
 import numpy as np
-import pandas as pd
-from statistics import quantiles
-from configobj import ConfigObj
-from distutils.util import strtobool
 from multiprocessing import Process, Array
 import h5py
 from datetime import datetime
@@ -30,7 +22,7 @@ def setup_problem(results_folder, rank, size, soln):
     except:
         pass
 
-    resultsfile = 'results/MOO_results_s2/overall_ref/overall_clean.csv'
+    resultsfile = 'results_arx/infra_moo/overall_ref/overall_clean.csv'
     linenum = soln + 1
 
     with open(resultsfile, 'r') as f:
@@ -96,8 +88,9 @@ def setup_problem(results_folder, rank, size, soln):
         json.dump(scenario, o, indent=4)
 
     ### create new sheet in results hdf5 file, and save dvs
-    with h5py.File(results_folder + '../results.hdf5', 'a') as f:
-        d = f.create_dataset(f'soln{soln}', (336, num_MC), dtype='float', compression='gzip')
+    #with h5py.File(results_folder + '../results_rank' + str(rank) + '.hdf5', 'a') as f:
+    with h5py.File(results_folder + '../results_rank' + str(rank) + '.hdf5', 'a') as open_hdf5:
+        d = open_hdf5.create_dataset(f'soln{soln}', (336, num_MC), dtype='float', compression='gzip')
         dvs = [dv_project]
         dv_names = ['proj']
         for k,v in dv_share_dict.items():
@@ -107,6 +100,7 @@ def setup_problem(results_folder, rank, size, soln):
         d.attrs['dv_names'] = dv_names
         d.attrs['colnames'] = MC_labels
 
+#    return open_hdf5
 
 
 ### function to run a single MC trial
@@ -118,7 +112,7 @@ def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_
         main_cy_obj.get_district_results(results_folder=results_folder, baseline_folder='', MC_label=MC_label, shared_objs_array=[], MC_count=MC_count, is_baseline=False, is_reeval=True, soln=soln)
 
     except:
-        print('fail in run sim', results_folder, MC_label)
+        print('fail in run sim', results_folder, soln, MC_label)
 
 
 ### run a single MC instance and fill in slot in objective dictionary
@@ -130,12 +124,15 @@ def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_typ
 
 ### main body
 if __name__ == "__main__":
-    tasks_total = int(sys.argv[1])
-    num_solns_total = int(sys.argv[2])
-    start_solns_total = int(sys.argv[3])
-    num_MC = int(sys.argv[4])
-    start_MC = int(sys.argv[5])
-    num_procs = int(sys.argv[6])
+    overall_start_time = datetime.now()
+
+    base_results_folder = sys.argv[1]
+    tasks_total = int(sys.argv[2])
+    num_procs = int(sys.argv[3])
+    num_solns_total = int(sys.argv[4])
+    start_solns_total = int(sys.argv[5])
+    num_MC = int(sys.argv[6])
+    start_MC = int(sys.argv[7])
 
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -165,7 +162,7 @@ if __name__ == "__main__":
         uncertainty_dict = {}
 
         ### setup problem for this soln
-        results_folder = f'results/infra_WCU/soln{soln}/'
+        results_folder = f'{base_results_folder}/soln{soln}/'
         setup_problem(results_folder, rank, size, soln)
 
         ### assign MC trials to processors
@@ -188,6 +185,23 @@ if __name__ == "__main__":
         for sp in shared_processes:
             sp.join()
 
+        ### after all MC have finished, go back and write all results for this soln to hdf5
+        with h5py.File(results_folder + '../results_rank' + str(rank) + '.hdf5', 'a') as open_hdf5:
+            d = open_hdf5[f'soln{soln}']
+            for MC_count, MC_label in enumerate(MC_labels):
+                district_results = json.load(open(f'/tmp/soln{soln}_mc{MC_label}.json'))           
+                results_list = []
+                for k,v in district_results.items():
+                    results_list.extend(v.values())
+                d[:len(results_list), MC_count] = np.array(results_list)
+                ### only need to store rownames once
+                if MC_count == 0:
+                    objs_list = []
+                    for k, v in district_results.items():
+                        objs_list.extend([k + '_' + vk for vk in v.keys()])
+                    d.attrs['rownames'] = objs_list
+
         ### remove directory for this MC trial, since results recorded in main hdf5
-        # shutil.rmtree(results_folder)
+        shutil.rmtree(results_folder)
+        print(f'solution {soln} finished, rank {rank}, time {datetime.now() - overall_start_time}')
 
