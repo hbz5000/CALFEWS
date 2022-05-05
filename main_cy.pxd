@@ -13,5 +13,5 @@ cdef class main_cy():
 
   cdef int initialize(self, dict uncertainty_dict) except -1
 
-  cdef int run_sim(self, start_time) except -1
+  cdef int run_sim(self, start_time, printtag) except -1
 

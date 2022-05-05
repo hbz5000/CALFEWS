@@ -6,6 +6,7 @@ import json
 import numpy as np
 from multiprocessing import Process, Array
 import h5py
+import time
 from datetime import datetime
 import main_cy
 
@@ -88,37 +89,39 @@ def setup_problem(results_folder, rank, size, soln):
         json.dump(scenario, o, indent=4)
 
     ### create new sheet in results hdf5 file, and save dvs
-    #with h5py.File(results_folder + '../results_rank' + str(rank) + '.hdf5', 'a') as f:
-    with h5py.File(results_folder + '../results_rank' + str(rank) + '.hdf5', 'a') as open_hdf5:
-        d = open_hdf5.create_dataset(f'soln{soln}', (336, num_MC), dtype='float', compression='gzip')
-        dvs = [dv_project]
-        dv_names = ['proj']
-        for k,v in dv_share_dict.items():
-            dvs.append(v)
-            dv_names.append(k)
-        d.attrs['dvs'] = dvs
-        d.attrs['dv_names'] = dv_names
-        d.attrs['colnames'] = MC_labels
+    with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
+        if f'soln{soln}' not in list(open_hdf5.keys()):
+            d = open_hdf5.create_dataset(f'soln{soln}', (336, num_MC), dtype='float', compression='gzip')
+            dvs = [dv_project]
+            dv_names = ['proj']
+            for k,v in dv_share_dict.items():
+                dvs.append(v)
+                dv_names.append(k)
+            d.attrs['dvs'] = dvs
+            d.attrs['dv_names'] = dv_names
+            d.attrs['colnames'] = MC_labels
 
-#    return open_hdf5
 
 
 ### function to run a single MC trial
-def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, MC_count, soln):
-    try:
-        main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
-        a = main_cy_obj.initialize_py(uncertainty_dict)
-        a = main_cy_obj.run_sim_py(start_time)
-        main_cy_obj.get_district_results(results_folder=results_folder, baseline_folder='', MC_label=MC_label, shared_objs_array=[], MC_count=MC_count, is_baseline=False, is_reeval=True, soln=soln)
-
-    except:
-        print('fail in run sim', results_folder, soln, MC_label)
+def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, MC_count, soln, MC_to_be_run):
+#    try:
+        if MC_to_be_run[MC_count]:
+            main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
+            a = main_cy_obj.initialize_py(uncertainty_dict)
+            a = main_cy_obj.run_sim_py(start_time)
+            main_cy_obj.get_district_results(results_folder=results_folder, baseline_folder='', MC_label=MC_label, shared_objs_array=[], MC_count=MC_count, is_baseline=False, is_reeval=True, soln=soln)
+ #   except:
+ #       print('fail in run sim', results_folder, soln, MC_label)
 
 
 ### run a single MC instance and fill in slot in objective dictionary
-def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, proc, start, stop, soln):
-    for MC_count in range(start, stop):
-        run_sim(results_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count], MC_labels[MC_count], uncertainty_dict, MC_count, soln)
+def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, proc, start, stop, soln, MC_to_be_run):
+    if stop > start:
+        idxs = [i for i in range(len(MC_to_be_run)) if MC_to_be_run[i]]
+        for i in range(start, stop):
+            MC_count = idxs[i]
+            run_sim(results_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count], MC_labels[MC_count], uncertainty_dict, MC_count, soln, MC_to_be_run)
 
 
 
@@ -165,15 +168,27 @@ if __name__ == "__main__":
         results_folder = f'{base_results_folder}/soln{soln}/'
         setup_problem(results_folder, rank, size, soln)
 
+        ### figure out which MC samps still need to be run
+        MC_to_be_run = []
+        with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
+            d = open_hdf5[f'soln{soln}']
+            for MC_count,MC_label in enumerate(MC_labels):
+                has_hdf5_results = np.sum(np.abs(d[:, MC_count])) > 1e-9
+                json_exists = os.path.exists(f'{results_folder}/soln{soln}_mc{MC_label}.json')
+                if not has_hdf5_results and not json_exists:
+                    MC_to_be_run.append(True)
+                else:
+                    MC_to_be_run.append(False)
+
         ### assign MC trials to processors
         shared_processes = []
-        nbase = int(num_MC / num_procs)
-        remainder = num_MC - num_procs * nbase
+        nbase = int(sum(MC_to_be_run) / num_procs)
+        remainder = sum(MC_to_be_run) - num_procs * nbase
         start = 0
         for proc in range(num_procs):
             num_trials = nbase if proc >= remainder else nbase + 1
             stop = start + num_trials
-            p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, proc, start, stop, soln))
+            p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, proc, start, stop, soln, MC_to_be_run))
             shared_processes.append(p)
             start = stop
 
@@ -186,20 +201,22 @@ if __name__ == "__main__":
             sp.join()
 
         ### after all MC have finished, go back and write all results for this soln to hdf5
-        with h5py.File(results_folder + '../results_rank' + str(rank) + '.hdf5', 'a') as open_hdf5:
+        with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
             d = open_hdf5[f'soln{soln}']
             for MC_count, MC_label in enumerate(MC_labels):
-                district_results = json.load(open(f'/tmp/soln{soln}_mc{MC_label}.json'))           
-                results_list = []
-                for k,v in district_results.items():
-                    results_list.extend(v.values())
-                d[:len(results_list), MC_count] = np.array(results_list)
-                ### only need to store rownames once
-                if MC_count == 0:
-                    objs_list = []
-                    for k, v in district_results.items():
-                        objs_list.extend([k + '_' + vk for vk in v.keys()])
-                    d.attrs['rownames'] = objs_list
+                has_hdf5_results = np.sum(np.abs(d[:, MC_count])) > 1e-9
+                if not has_hdf5_results:
+                    district_results = json.load(open(f'{results_folder}/soln{soln}_mc{MC_label}.json'))           
+                    results_list = []
+                    for k,v in district_results.items():
+                        results_list.extend(v.values())
+                    d[:len(results_list), MC_count] = np.array(results_list)
+                    ### only need to store rownames once
+                    if MC_count == 0:
+                        objs_list = []
+                        for k, v in district_results.items():
+                            objs_list.extend([k + '_' + vk for vk in v.keys()])
+                        d.attrs['rownames'] = objs_list
 
         ### remove directory for this MC trial, since results recorded in main hdf5
         shutil.rmtree(results_folder)

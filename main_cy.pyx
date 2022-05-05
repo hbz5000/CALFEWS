@@ -165,10 +165,10 @@ cdef class main_cy():
 # ### Main simulation
 # ################################################################################################################################
 
-  def run_sim_py(self, start_time):
-    return self.run_sim(start_time)
+  def run_sim_py(self, start_time, printtag=''):
+    return self.run_sim(start_time, printtag)
     
-  cdef int run_sim(self, start_time) except -1:  
+  cdef int run_sim(self, start_time, printtag) except -1:  
     cdef:
       int timeseries_length, t, swp_release, cvp_release, swp_release2, cvp_release2
       double swp_pump, cvp_pump, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, 
@@ -204,9 +204,9 @@ cdef class main_cy():
     # while True:
     for t in range(0, timeseries_length):
 #      self.progress = (t + 1) / timeseries_length
-#      if (t % 365 == 364):
-#        print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
-#        sys.stdout.flush()
+      if (t % 365 == 364) and printtag != '':
+        print(printtag, 'Year ', (t+1)/365, ', ', datetime.now() - start_time)
+        sys.stdout.flush()
 
       # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = self.modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
@@ -333,7 +333,7 @@ cdef class main_cy():
 #          objs_list.extend([k + '_' + vk for vk in v.keys()])
 #        d.attrs['rownames'] = objs_list
         ### write to json instead, since parallel hdf5 not working. will clean up & save to single hdf5 in main process after MCs have finished.
-        with open(f'/tmp/soln{soln}_mc{MC_label}.json', 'w') as o:
+        with open(f'{results_folder}/soln{soln}_mc{MC_label}.json', 'w') as o:
             json.dump(district_results, o)
 
 

@@ -9,7 +9,7 @@ numSolnsTotal=1295
 startSolnsTotal=0
 numMC=64
 startMC=33
-t=48:00:00
+t=32:00:00
 partition=skx-normal
 
 dir=results/infra_wcu/
@@ -21,6 +21,7 @@ SLURM="#!/bin/bash\n\
 #SBATCH -e ${dir}wcu.err\n\
 #SBATCH -p ${partition}\n\
 #SBATCH -t ${t}\n\
+#SBATCH -A TG-EAR090013 \n\
 #SBATCH --nodes $numNodes\n\
 #SBATCH --ntasks-per-node $numTasksPerNode\n\
 #SBATCH --cpus-per-task $numProcsPerTask\n\
