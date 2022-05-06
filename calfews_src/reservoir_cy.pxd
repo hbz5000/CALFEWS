@@ -10,7 +10,7 @@ cdef class Reservoir():
                 snowflood_flows, saved_water, total_capacity, flood_flow_min, epsilon
 
     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, T, T_short, melt_start, exceedence_level, \
-                iter_count, eos_day
+                iter_count, eos_day, has_snow_new
 
     public bint nodd_meets_envmin, has_downstream_target_flow, has_delta_target
 
@@ -21,7 +21,7 @@ cdef class Reservoir():
                 raininf_stds, snowinf_stds, baseinf_stds, rainflood_fnf, snowflood_fnf, short_rainflood_fnf, short_snowflood_fnf, \
                 rainflood_inf, snowflood_inf, baseline_inf, rainflood_forecast, snowflood_forecast, baseline_forecast, \
                 max_direct_recharge, downstream_short, fnf_short, fnf_new, total_available_storage, outflow_release, \
-                reclaimed_carryover, contract_flooded
+                reclaimed_carryover, contract_flooded, snow_new
 
     public dict env_min_flow, temp_releases, tocs_rule, sj_restoration_proj, carryover_target, sodd_curtail_pct, exceedence, \
                 cum_min_release, oct_nov_min_release, aug_sept_min_release, monthly_demand, monthly_demand_full, \
