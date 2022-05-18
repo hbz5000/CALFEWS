@@ -165,10 +165,10 @@ cdef class main_cy():
 # ### Main simulation
 # ################################################################################################################################
 
-  def run_sim_py(self, start_time):
-    return self.run_sim(start_time)
+  def run_sim_py(self, start_time, printtag=''):
+    return self.run_sim(start_time, printtag)
     
-  cdef int run_sim(self, start_time) except -1:  
+  cdef int run_sim(self, start_time, printtag) except -1:  
     cdef:
       int timeseries_length, t, swp_release, cvp_release, swp_release2, cvp_release2
       double swp_pump, cvp_pump, swp_forgone, cvp_forgone, swp_AF, cvp_AF, swp_AS, cvp_AS, 
@@ -204,9 +204,9 @@ cdef class main_cy():
     # while True:
     for t in range(0, timeseries_length):
 #      self.progress = (t + 1) / timeseries_length
-#      if (t % 365 == 364):
-#        print('Year ', (t+1)/365, ', ', datetime.now() - start_time)
-#        sys.stdout.flush()
+      if (t % 365 == 364) and printtag != '':
+        print(printtag, 'Year ', (t+1)/365, ', ', datetime.now() - start_time)
+        sys.stdout.flush()
 
       # the northern model takes variables from the southern model as inputs (initialized above), & outputs are used as input variables in the southern model
       swp_pumping, cvp_pumping, swp_alloc, cvp_alloc, proj_surplus, max_pumping, swp_forgo, cvp_forgo, swp_AF, cvp_AF, swp_AS, cvp_AS, flood_release, flood_volume = self.modelno.simulate_north(t, swp_release, cvp_release, swp_release2, cvp_release2, swp_pump, cvp_pump)
@@ -251,7 +251,7 @@ cdef class main_cy():
 # ### MORDM-specific functions for infrastructure experiment
 # ################################################################################################################################
 
-  def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline):
+  def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline, is_reeval=False, soln=-1):
     ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
     ### get district-level results 
 
@@ -304,20 +304,41 @@ cdef class main_cy():
                                 'std_captured_water': df['captured_water'].groupby(wy).sum().std(),
                               'avg_pumping': df['pumping'].groupby(wy).sum().mean(), 'max_pumping': df['pumping'].groupby(wy).sum().max(),
                               'std_pumping': df['pumping'].groupby(wy).sum().std()}
-      if is_baseline or \
+      if is_baseline or is_reeval or \
             ((type(self.modelso.fkc.ownership_shares) is dict) and (d in self.modelso.fkc.ownership_shares) and (self.modelso.fkc.ownership_shares[d] > 0)) or \
             ((type(self.modelso.centralfriantwb.ownership) is dict) and (d in self.modelso.centralfriantwb.ownership) and (self.modelso.centralfriantwb.ownership[d] > 0)):
         district_results[d] = results_dict
       else:
         other_results[d] = results_dict
-  
+
+
     ### for baseline, write results as json
     if is_baseline:
-#      print('here', baseline_folder)
       with open(baseline_folder + MC_label + '_baseline.json', 'w') as o:
-        json.dump(district_results, o)
+        json.dump(district_results, o, indent=4)
       return []
-    ### for infra scenario, compare results to baseline
+
+
+    ### also write to json for WCU/DU reevaluation, but more compactly as lists
+    if is_reeval:  
+#      d = open_hdf5[f'soln{soln}']
+#      results_list = []
+#      for k,v in district_results.items():
+#        results_list.extend(v.values())
+#      d[:len(results_list), MC_count] = np.array(results_list)
+#      ### only need to store rownames once
+#      if MC_count == 0:
+#        objs_list = []
+#        for k, v in district_results.items():
+#          objs_list.extend([k + '_' + vk for vk in v.keys()])
+#        d.attrs['rownames'] = objs_list
+        ### write to json instead, since parallel hdf5 not working. will clean up & save to single hdf5 in main process after MCs have finished.
+        with open(f'{results_folder}/soln{soln}_mc{MC_label}.json', 'w') as o:
+            json.dump(district_results, o)
+
+
+
+    ### for MOO, compare infra scenario results to baseline
     else:
       # ### first write infra results as themselves
       # with open(results_folder + '/' + MC_label + '_infra_partners.json', 'w') as o:

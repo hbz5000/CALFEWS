@@ -4528,7 +4528,7 @@ cdef class Model():
               location_delivery, current_storage, deliveries, priority_bank_space, actual_deliveries, direct_deliveries, recharge_deliveries, undelivered, \
               private_delivery_constraint, delivery_to_private, turnout_available, new_excess_flow, remaining_excess_flow
       int toggle_partial_delivery, toggle_district_recharge, starting_point, canal_loc, num_members, new_canal_size, turnback_end, toggle_demand_count, \
-              canal_loc_int
+              canal_loc_int, max_turnback_loops, repeat_turnback
       str list_member, zz, district_key, participant_key, district2_key, contract_key, new_flow_dir
       list type_list, priority_list, contract_list
       dict empty_demands, type_deliveries, type_demands, type_fractions, canal_fractions, priorities, priority_turnout_adjusted, delivery_by_contract, \
@@ -4857,18 +4857,26 @@ cdef class Model():
         if canal_loc_int == canal_loc:
           toggle_demand_count = 1  
 
+      ### if there is still flow left to distribute, run through the loop again recursively. 
+      ### was having issue with infinite loops due to accumulated errors - make sure we don't distribute same canal more than 1000 times in a row
       if turnback_flow > 0.003:
-        remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type, canals_passed_through)
-        excess_flow += remaining_excess_flow
-        available_capacity_int = max(available_flow, 0.0)
-        for zz in type_list:
-          if type_demands[zz] > self.epsilon:
-            type_fractions[zz] = max(min(available_capacity_int/type_demands[zz], 1.0), 0.0)
-          else:
-            type_fractions[zz] = 0.0
-          available_capacity_int -= type_demands[zz]*type_fractions[zz]
+        max_turnback_loops = 1000
+        repeat_turnback = 1
+        if len(canals_passed_through) > max_turnback_loops:
+          if len(set(canals_passed_through[-max_turnback_loops:])) == 1:
+            repeat_turnback = 0
+        if repeat_turnback == 1:
+          remaining_excess_flow, unmet_canal_demands = self.distribute_canal_deliveries(dowy, canal, prev_canal, contract_canal, turnback_flow, turnback_end, wateryear, flow_dir, flow_type, search_type, canals_passed_through)
+          excess_flow += remaining_excess_flow
+          available_capacity_int = max(available_flow, 0.0)
+          for zz in type_list:
+            if type_demands[zz] > self.epsilon:
+              type_fractions[zz] = max(min(available_capacity_int/type_demands[zz], 1.0), 0.0)
+            else:
+              type_fractions[zz] = 0.0
+            available_capacity_int -= type_demands[zz]*type_fractions[zz]
 
-	  #sum remaining demand after all deliveries have been madw
+    #sum remaining demand after all deliveries have been madw
     unmet_demands = {}
     for zz in type_list:
       unmet_demands[zz] = sum((canal.demand[zz][_] for _ in canal_range))
