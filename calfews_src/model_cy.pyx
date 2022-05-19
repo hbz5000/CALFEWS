@@ -1926,10 +1926,11 @@ cdef class Model():
 
       for wateryear_day in range(0,365):
         coef = np.polyfit(pumping_forecast_dowy[wateryear_day][urban_start_regression:], regression_percent[district_obj][wateryear_day][urban_start_regression:],1)
-        if self.use_sensitivity:
-          district_obj.delivery_percent_coefficient[0][wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
-        else:
-          district_obj.delivery_percent_coefficient[0][wateryear_day][0] = coef[0]
+        # if self.use_sensitivity:
+        #   district_obj.delivery_percent_coefficient[0][wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
+        # else:
+        #   district_obj.delivery_percent_coefficient[0][wateryear_day][0] = coef[0]
+        district_obj.delivery_percent_coefficient[0][wateryear_day][0] = coef[0]
         district_obj.delivery_percent_coefficient[0][wateryear_day][1] = coef[1]
 
         if district_obj.key == 'xxx':
@@ -2008,11 +2009,12 @@ cdef class Model():
         counter1 = 1
         for wateryear_day in range(0,365):
           coef = np.polyfit(pumping_forecast_dowy[wateryear_day][urban_start_regression:], regression_percent[private_obj][district_key][wateryear_day][urban_start_regression:],1)
-          if self.use_sensitivity:
-            private_obj.delivery_percent_coefficient[district_key][wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
-          else:
-            private_obj.delivery_percent_coefficient[district_key][wateryear_day][0] = coef[0]
-		  
+          # if self.use_sensitivity:
+          #   private_obj.delivery_percent_coefficient[district_key][wateryear_day][0] = self.sensitivity_factors['urban_wet_year_demand_reduction']['realization']*coef[0]
+          # else:
+          #   private_obj.delivery_percent_coefficient[district_key][wateryear_day][0] = coef[0]
+          private_obj.delivery_percent_coefficient[district_key][wateryear_day][0] = coef[0]
+
           private_obj.delivery_percent_coefficient[district_key][wateryear_day][1] = coef[1]
           for wateryear_count in range(urban_start_regression,numYears_urban):
             regression_errors[private_obj][district_key][wateryear_day][wateryear_count-urban_start_regression] = pumping_forecast_dowy[wateryear_day][wateryear_count]*private_obj.delivery_percent_coefficient[district_key][wateryear_day][0] + private_obj.delivery_percent_coefficient[district_key][wateryear_day][1] - regression_percent[private_obj][district_key][wateryear_day][wateryear_count]

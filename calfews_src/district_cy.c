@@ -1904,22 +1904,6 @@ static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
 static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
                                                int is_list, int wraparound, int boundscheck);
 
-/* PyFloatBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyFloat_AddCObj(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check);
-#else
-#define __Pyx_PyFloat_AddCObj(op1, op2, floatval, inplace, zerodivision_check)\
-    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
-#endif
-
-/* PyFloatBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyFloat_SubtractCObj(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check);
-#else
-#define __Pyx_PyFloat_SubtractCObj(op1, op2, floatval, inplace, zerodivision_check)\
-    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
-#endif
-
 /* WriteUnraisableException.proto */
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
@@ -1946,6 +1930,14 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
 #else
 #define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
 #define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
+#endif
+
+/* PyFloatBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyFloat_SubtractCObj(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyFloat_SubtractCObj(op1, op2, floatval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
 #endif
 
 /* ExtTypeTest.proto */
@@ -2155,8 +2147,8 @@ static PyObject *__pyx_builtin_StopIteration;
 static PyObject *__pyx_builtin_open;
 static PyObject *__pyx_builtin_enumerate;
 static PyObject *__pyx_builtin_sum;
-static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_zip;
+static PyObject *__pyx_builtin_range;
 static const char __pyx_k_C[] = "C";
 static const char __pyx_k_D[] = "D";
 static const char __pyx_k_T[] = "T";
@@ -2248,7 +2240,6 @@ static const char __pyx_k_turnback[] = "_turnback";
 static const char __pyx_k_alternate[] = "alternate";
 static const char __pyx_k_carryover[] = "_carryover";
 static const char __pyx_k_enumerate[] = "enumerate";
-static const char __pyx_k_et_factor[] = "et_factor";
 static const char __pyx_k_maj_other[] = "maj_other";
 static const char __pyx_k_pistachio[] = "pistachio";
 static const char __pyx_k_projected[] = "_projected";
@@ -2285,10 +2276,8 @@ static const char __pyx_k_days_in_month[] = "days_in_month";
 static const char __pyx_k_non_leap_year[] = "non_leap_year";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_MDD_multiplier[] = "MDD_multiplier";
-static const char __pyx_k_acreage_factor[] = "acreage_factor";
 static const char __pyx_k_apple_immature[] = "apple_immature";
 static const char __pyx_k_grape_immature[] = "grape_immature";
-static const char __pyx_k_irr_eff_factor[] = "irr_eff_factor";
 static const char __pyx_k_peach_immature[] = "peach_immature";
 static const char __pyx_k_recover_banked[] = "recover_banked";
 static const char __pyx_k_almond_immature[] = "almond_immature";
@@ -2315,7 +2304,6 @@ static const char __pyx_k_dynamic_recharge_cap[] = "_dynamic_recharge_cap";
 static const char __pyx_k_dynamic_recovery_cap[] = "dynamic_recovery_cap";
 static const char __pyx_k_pyx_unpickle_District[] = "__pyx_unpickle_District";
 static const char __pyx_k_calfews_src_district_cy[] = "calfews_src.district_cy";
-static const char __pyx_k_recharge_decline_factor[] = "recharge_decline_factor";
 static const char __pyx_k_acreage_by_pmp_crop_type[] = "acreage_by_pmp_crop_type";
 static const char __pyx_k_normalize_ownership_shares[] = "normalize_ownership_shares";
 static const char __pyx_k_water_constraint_by_source[] = "water_constraint_by_source";
@@ -2335,7 +2323,6 @@ static PyObject *__pyx_n_s_T;
 static PyObject *__pyx_n_u_W;
 static PyObject *__pyx_n_s__4;
 static PyObject *__pyx_n_s_acreage_by_pmp_crop_type;
-static PyObject *__pyx_n_s_acreage_factor;
 static PyObject *__pyx_n_u_acreage_multiplier;
 static PyObject *__pyx_n_u_ag_demand_multiplier;
 static PyObject *__pyx_n_u_almond;
@@ -2373,7 +2360,6 @@ static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_u_dynamic_recharge_cap;
 static PyObject *__pyx_n_u_dynamic_recovery_cap;
 static PyObject *__pyx_n_s_enumerate;
-static PyObject *__pyx_n_s_et_factor;
 static PyObject *__pyx_n_u_excess;
 static PyObject *__pyx_n_u_exchange;
 static PyObject *__pyx_n_u_exchanged_GW;
@@ -2396,7 +2382,6 @@ static PyObject *__pyx_n_u_initial;
 static PyObject *__pyx_n_u_inleiu_irrigation;
 static PyObject *__pyx_n_u_inleiu_recharge;
 static PyObject *__pyx_n_u_irr_demand;
-static PyObject *__pyx_n_s_irr_eff_factor;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_json;
 static PyObject *__pyx_n_u_kaweah;
@@ -2447,7 +2432,6 @@ static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_randint;
 static PyObject *__pyx_n_s_random;
 static PyObject *__pyx_n_s_range;
-static PyObject *__pyx_n_s_recharge_decline_factor;
 static PyObject *__pyx_n_u_recharged;
 static PyObject *__pyx_n_u_recover_banked;
 static PyObject *__pyx_n_u_recovery;
@@ -2490,12 +2474,11 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_2__next__(struct
 static Py_ssize_t __pyx_pf_11calfews_src_11district_cy_8District_4__len__(CYTHON_UNUSED struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_11district_cy_8District_6__init__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_model, PyObject *__pyx_v_name, PyObject *__pyx_v_key, PyObject *__pyx_v_scenario, PyObject *__pyx_v_uncertainty_dict); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_8normalize_ownership_shares(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_10set_sensitivity_factors(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_et_factor, PyObject *__pyx_v_acreage_factor, PyObject *__pyx_v_irr_eff_factor, PyObject *__pyx_v_recharge_decline_factor); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_12find_baseline_demands(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_non_leap_year, PyObject *__pyx_v_days_in_month); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_14find_pre_flood_demand(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_wyt); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_16set_pmp_acreage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_water_constraint_by_source, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_18absorb_storage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_20reset_recharge_recovery(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_10find_baseline_demands(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_non_leap_year, PyObject *__pyx_v_days_in_month); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_12find_pre_flood_demand(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_wyt); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_14set_pmp_acreage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_water_constraint_by_source, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_16absorb_storage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_18reset_recharge_recovery(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_13leiu_recovery___get__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_11district_cy_8District_13leiu_recovery_2__set__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_27in_district_direct_recharge___get__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
@@ -2780,8 +2763,8 @@ static int __pyx_pf_11calfews_src_11district_cy_8District_21infrastructure_share
 static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_9irrdemand___get__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_11district_cy_8District_9irrdemand_2__set__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_11calfews_src_11district_cy_8District_9irrdemand_4__del__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_22__reduce_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_24__setstate_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_20__reduce_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_22__setstate_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_11calfews_src_11district_cy___pyx_unpickle_District(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_11calfews_src_11district_cy_District(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values = {0, &__pyx_n_s_values, 0, 0, 0};
@@ -6334,390 +6317,6 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_8normalize_owner
   return __pyx_r;
 }
 
-/* "calfews_src/district_cy.pyx":235
- * 
- * ##################################SENSITIVITY ANALYSIS#################################################################
- *   def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):             # <<<<<<<<<<<<<<
- *     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
- *     for wyt in wyt_list:
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_11set_sensitivity_factors(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_11set_sensitivity_factors(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_et_factor = 0;
-  PyObject *__pyx_v_acreage_factor = 0;
-  PyObject *__pyx_v_irr_eff_factor = 0;
-  PyObject *__pyx_v_recharge_decline_factor = 0;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("set_sensitivity_factors (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_et_factor,&__pyx_n_s_acreage_factor,&__pyx_n_s_irr_eff_factor,&__pyx_n_s_recharge_decline_factor,0};
-    PyObject* values[4] = {0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_et_factor)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_acreage_factor)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("set_sensitivity_factors", 1, 4, 4, 1); __PYX_ERR(0, 235, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_irr_eff_factor)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("set_sensitivity_factors", 1, 4, 4, 2); __PYX_ERR(0, 235, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_recharge_decline_factor)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("set_sensitivity_factors", 1, 4, 4, 3); __PYX_ERR(0, 235, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_sensitivity_factors") < 0)) __PYX_ERR(0, 235, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-    }
-    __pyx_v_et_factor = values[0];
-    __pyx_v_acreage_factor = values[1];
-    __pyx_v_irr_eff_factor = values[2];
-    __pyx_v_recharge_decline_factor = values[3];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_sensitivity_factors", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 235, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("calfews_src.district_cy.District.set_sensitivity_factors", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_10set_sensitivity_factors(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_et_factor, __pyx_v_acreage_factor, __pyx_v_irr_eff_factor, __pyx_v_recharge_decline_factor);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_10set_sensitivity_factors(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_et_factor, PyObject *__pyx_v_acreage_factor, PyObject *__pyx_v_irr_eff_factor, PyObject *__pyx_v_recharge_decline_factor) {
-  PyObject *__pyx_v_wyt_list = NULL;
-  PyObject *__pyx_v_wyt = NULL;
-  PyObject *__pyx_v_i = NULL;
-  PyObject *__pyx_v_v = NULL;
-  long __pyx_v_monthloop;
-  Py_ssize_t __pyx_v_recharge_count;
-  PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  Py_ssize_t __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  long __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  double __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("set_sensitivity_factors", 0);
-  __Pyx_TraceCall("set_sensitivity_factors", __pyx_f[0], 235, 0, __PYX_ERR(0, 235, __pyx_L1_error));
-
-  /* "calfews_src/district_cy.pyx":236
- * ##################################SENSITIVITY ANALYSIS#################################################################
- *   def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):
- *     wyt_list = ['W', 'AN', 'BN', 'D', 'C']             # <<<<<<<<<<<<<<
- *     for wyt in wyt_list:
- *       for i,v in enumerate(self.crop_list):
- */
-  __pyx_t_1 = PyList_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_u_W);
-  __Pyx_GIVEREF(__pyx_n_u_W);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_u_W);
-  __Pyx_INCREF(__pyx_n_u_AN);
-  __Pyx_GIVEREF(__pyx_n_u_AN);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_u_AN);
-  __Pyx_INCREF(__pyx_n_u_BN);
-  __Pyx_GIVEREF(__pyx_n_u_BN);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_u_BN);
-  __Pyx_INCREF(__pyx_n_u_D);
-  __Pyx_GIVEREF(__pyx_n_u_D);
-  PyList_SET_ITEM(__pyx_t_1, 3, __pyx_n_u_D);
-  __Pyx_INCREF(__pyx_n_u_C);
-  __Pyx_GIVEREF(__pyx_n_u_C);
-  PyList_SET_ITEM(__pyx_t_1, 4, __pyx_n_u_C);
-  __pyx_v_wyt_list = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "calfews_src/district_cy.pyx":237
- *   def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):
- *     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
- *     for wyt in wyt_list:             # <<<<<<<<<<<<<<
- *       for i,v in enumerate(self.crop_list):
- *         self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
- */
-  __pyx_t_1 = __pyx_v_wyt_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
-  for (;;) {
-    if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
-    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 237, __pyx_L1_error)
-    #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 237, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    #endif
-    __Pyx_XDECREF_SET(__pyx_v_wyt, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "calfews_src/district_cy.pyx":238
- *     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
- *     for wyt in wyt_list:
- *       for i,v in enumerate(self.crop_list):             # <<<<<<<<<<<<<<
- *         self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
- *         for monthloop in range(0,12):
- */
-    __Pyx_INCREF(__pyx_int_0);
-    __pyx_t_3 = __pyx_int_0;
-    __pyx_t_4 = __pyx_v_self->crop_list; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
-    for (;;) {
-      if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_6 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 238, __pyx_L1_error)
-      #else
-      __pyx_t_6 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 238, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      #endif
-      __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_6);
-      __pyx_t_6 = 0;
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_3);
-      __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 238, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_3);
-      __pyx_t_3 = __pyx_t_6;
-      __pyx_t_6 = 0;
-
-      /* "calfews_src/district_cy.pyx":239
- *     for wyt in wyt_list:
- *       for i,v in enumerate(self.crop_list):
- *         self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor             # <<<<<<<<<<<<<<
- *         for monthloop in range(0,12):
- *           self.irrdemand.etM[v][wyt][monthloop] = self.irrdemand.etM[v][wyt][monthloop]*et_factor
- */
-      if (unlikely(__pyx_v_self->acreage == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 239, __pyx_L1_error)
-      }
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->acreage, __pyx_v_wyt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 239, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_i); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 239, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Multiply(__pyx_t_7, __pyx_v_acreage_factor); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 239, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(__pyx_v_self->acreage == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 239, __pyx_L1_error)
-      }
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_self->acreage, __pyx_v_wyt); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 239, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      if (unlikely(PyObject_SetItem(__pyx_t_7, __pyx_v_i, __pyx_t_6) < 0)) __PYX_ERR(0, 239, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-      /* "calfews_src/district_cy.pyx":240
- *       for i,v in enumerate(self.crop_list):
- *         self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
- *         for monthloop in range(0,12):             # <<<<<<<<<<<<<<
- *           self.irrdemand.etM[v][wyt][monthloop] = self.irrdemand.etM[v][wyt][monthloop]*et_factor
- *     self.seepage = 1.0 + irr_eff_factor
- */
-      for (__pyx_t_8 = 0; __pyx_t_8 < 12; __pyx_t_8+=1) {
-        __pyx_v_monthloop = __pyx_t_8;
-
-        /* "calfews_src/district_cy.pyx":241
- *         self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
- *         for monthloop in range(0,12):
- *           self.irrdemand.etM[v][wyt][monthloop] = self.irrdemand.etM[v][wyt][monthloop]*et_factor             # <<<<<<<<<<<<<<
- *     self.seepage = 1.0 + irr_eff_factor
- *     for recharge_count in range(0, len(self.recharge_decline)):
- */
-        if (unlikely(__pyx_v_self->irrdemand->etM == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 241, __pyx_L1_error)
-        }
-        __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->irrdemand->etM, __pyx_v_v); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 241, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_wyt); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 241, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_7, __pyx_v_monthloop, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 241, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_v_et_factor); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 241, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(__pyx_v_self->irrdemand->etM == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 241, __pyx_L1_error)
-        }
-        __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->irrdemand->etM, __pyx_v_v); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 241, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_wyt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 241, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_9, __pyx_v_monthloop, __pyx_t_7, long, 1, __Pyx_PyInt_From_long, 0, 1, 1) < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      }
-
-      /* "calfews_src/district_cy.pyx":238
- *     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
- *     for wyt in wyt_list:
- *       for i,v in enumerate(self.crop_list):             # <<<<<<<<<<<<<<
- *         self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
- *         for monthloop in range(0,12):
- */
-    }
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "calfews_src/district_cy.pyx":237
- *   def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):
- *     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
- *     for wyt in wyt_list:             # <<<<<<<<<<<<<<
- *       for i,v in enumerate(self.crop_list):
- *         self.acreage[wyt][i] = self.acreage[wyt][i]*acreage_factor
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "calfews_src/district_cy.pyx":242
- *         for monthloop in range(0,12):
- *           self.irrdemand.etM[v][wyt][monthloop] = self.irrdemand.etM[v][wyt][monthloop]*et_factor
- *     self.seepage = 1.0 + irr_eff_factor             # <<<<<<<<<<<<<<
- *     for recharge_count in range(0, len(self.recharge_decline)):
- *       self.recharge_decline[recharge_count] = 1.0 - recharge_decline_factor*(1.0 - self.recharge_decline[recharge_count])
- */
-  __pyx_t_1 = __Pyx_PyFloat_AddCObj(__pyx_float_1_0, __pyx_v_irr_eff_factor, 1.0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_self->seepage = __pyx_t_10;
-
-  /* "calfews_src/district_cy.pyx":243
- *           self.irrdemand.etM[v][wyt][monthloop] = self.irrdemand.etM[v][wyt][monthloop]*et_factor
- *     self.seepage = 1.0 + irr_eff_factor
- *     for recharge_count in range(0, len(self.recharge_decline)):             # <<<<<<<<<<<<<<
- *       self.recharge_decline[recharge_count] = 1.0 - recharge_decline_factor*(1.0 - self.recharge_decline[recharge_count])
- * 
- */
-  __pyx_t_1 = __pyx_v_self->recharge_decline;
-  __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(__pyx_t_1 == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 243, __pyx_L1_error)
-  }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 243, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __pyx_t_2;
-  for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_5; __pyx_t_11+=1) {
-    __pyx_v_recharge_count = __pyx_t_11;
-
-    /* "calfews_src/district_cy.pyx":244
- *     self.seepage = 1.0 + irr_eff_factor
- *     for recharge_count in range(0, len(self.recharge_decline)):
- *       self.recharge_decline[recharge_count] = 1.0 - recharge_decline_factor*(1.0 - self.recharge_decline[recharge_count])             # <<<<<<<<<<<<<<
- * 
- * 
- */
-    if (unlikely(__pyx_v_self->recharge_decline == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 244, __pyx_L1_error)
-    }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->recharge_decline, __pyx_v_recharge_count, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyFloat_SubtractCObj(__pyx_float_1_0, __pyx_t_1, 1.0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Multiply(__pyx_v_recharge_decline_factor, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_SubtractCObj(__pyx_float_1_0, __pyx_t_1, 1.0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(__pyx_v_self->recharge_decline == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 244, __pyx_L1_error)
-    }
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_self->recharge_decline, __pyx_v_recharge_count, __pyx_t_3, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1) < 0)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  }
-
-  /* "calfews_src/district_cy.pyx":235
- * 
- * ##################################SENSITIVITY ANALYSIS#################################################################
- *   def set_sensitivity_factors(self, et_factor, acreage_factor, irr_eff_factor, recharge_decline_factor):             # <<<<<<<<<<<<<<
- *     wyt_list = ['W', 'AN', 'BN', 'D', 'C']
- *     for wyt in wyt_list:
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("calfews_src.district_cy.District.set_sensitivity_factors", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_wyt_list);
-  __Pyx_XDECREF(__pyx_v_wyt);
-  __Pyx_XDECREF(__pyx_v_i);
-  __Pyx_XDECREF(__pyx_v_v);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
 /* "calfews_src/district_cy.pyx":251
  * #####################################################################################################################
  * 
@@ -6727,8 +6326,8 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_10set_sensitivit
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_13find_baseline_demands(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_13find_baseline_demands(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_11find_baseline_demands(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_11find_baseline_demands(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_wateryear = 0;
   PyObject *__pyx_v_non_leap_year = 0;
   PyObject *__pyx_v_days_in_month = 0;
@@ -6794,14 +6393,14 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_13find_baseline_
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_12find_baseline_demands(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_wateryear, __pyx_v_non_leap_year, __pyx_v_days_in_month);
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_10find_baseline_demands(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_wateryear, __pyx_v_non_leap_year, __pyx_v_days_in_month);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_12find_baseline_demands(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_non_leap_year, PyObject *__pyx_v_days_in_month) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_10find_baseline_demands(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_wateryear, PyObject *__pyx_v_non_leap_year, PyObject *__pyx_v_days_in_month) {
   PyObject *__pyx_v_wyt_list = NULL;
   PyObject *__pyx_v_crop_wyt_list = NULL;
   PyObject *__pyx_v_wyt = NULL;
@@ -8269,8 +7868,8 @@ static void __pyx_f_11calfews_src_11district_cy_8District_calc_demand(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_15find_pre_flood_demand(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_15find_pre_flood_demand(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_13find_pre_flood_demand(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_13find_pre_flood_demand(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_year_index = 0;
   PyObject *__pyx_v_days_in_month = 0;
   PyObject *__pyx_v_wyt = 0;
@@ -8336,14 +7935,14 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_15find_pre_flood
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_14find_pre_flood_demand(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_year_index, __pyx_v_days_in_month, __pyx_v_wyt);
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_12find_pre_flood_demand(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_year_index, __pyx_v_days_in_month, __pyx_v_wyt);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_14find_pre_flood_demand(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_wyt) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_12find_pre_flood_demand(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_year_index, PyObject *__pyx_v_days_in_month, PyObject *__pyx_v_wyt) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -9845,8 +9444,8 @@ static void __pyx_f_11calfews_src_11district_cy_8District_get_urban_demand(struc
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_17set_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_17set_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_15set_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_15set_pmp_acreage(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_water_constraint_by_source = 0;
   PyObject *__pyx_v_land_constraint = 0;
   PyObject *__pyx_v_x0 = 0;
@@ -9912,14 +9511,14 @@ static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_17set_pmp_acreag
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_16set_pmp_acreage(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_water_constraint_by_source, __pyx_v_land_constraint, __pyx_v_x0);
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_14set_pmp_acreage(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), __pyx_v_water_constraint_by_source, __pyx_v_land_constraint, __pyx_v_x0);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_16set_pmp_acreage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_water_constraint_by_source, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_14set_pmp_acreage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v_water_constraint_by_source, PyObject *__pyx_v_land_constraint, PyObject *__pyx_v_x0) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_crop = NULL;
   PyObject *__pyx_v_district_crops = NULL;
@@ -22608,19 +22207,19 @@ static void __pyx_f_11calfews_src_11district_cy_8District_adjust_exchange(struct
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_19absorb_storage(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_19absorb_storage(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_17absorb_storage(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_17absorb_storage(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("absorb_storage (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_18absorb_storage(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self));
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_16absorb_storage(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_18absorb_storage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_16absorb_storage(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self) {
   PyObject *__pyx_v_absorb_fraction = NULL;
   CYTHON_UNUSED PyObject *__pyx_v_x = NULL;
   PyObject *__pyx_r = NULL;
@@ -22955,19 +22554,19 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_18absorb_storage
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_21reset_recharge_recovery(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_21reset_recharge_recovery(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_19reset_recharge_recovery(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_19reset_recharge_recovery(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("reset_recharge_recovery (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_20reset_recharge_recovery(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self));
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_18reset_recharge_recovery(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_20reset_recharge_recovery(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_18reset_recharge_recovery(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self) {
   CYTHON_UNUSED long __pyx_8genexpr6__pyx_v__;
   CYTHON_UNUSED long __pyx_8genexpr7__pyx_v__;
   PyObject *__pyx_r = NULL;
@@ -35713,19 +35312,19 @@ static int __pyx_pf_11calfews_src_11district_cy_8District_9irrdemand_4__del__(st
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_23__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_23__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_22__reduce_cython__(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self));
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_20__reduce_cython__(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_22__reduce_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_20__reduce_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -36905,19 +36504,19 @@ static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_22__reduce_cytho
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_25__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_25__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_11district_cy_8District_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_24__setstate_cython__(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_11calfews_src_11district_cy_8District_22__setstate_cython__(((struct __pyx_obj_11calfews_src_11district_cy_District *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_24__setstate_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_11calfews_src_11district_cy_8District_22__setstate_cython__(struct __pyx_obj_11calfews_src_11district_cy_District *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -40555,14 +40154,13 @@ static PyObject *__pyx_specialmethod___pyx_pw_11calfews_src_11district_cy_8Distr
 static PyMethodDef __pyx_methods_11calfews_src_11district_cy_District[] = {
   {"__next__", (PyCFunction)__pyx_specialmethod___pyx_pw_11calfews_src_11district_cy_8District_3__next__, METH_NOARGS|METH_COEXIST, 0},
   {"normalize_ownership_shares", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_9normalize_ownership_shares, METH_NOARGS, 0},
-  {"set_sensitivity_factors", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11calfews_src_11district_cy_8District_11set_sensitivity_factors, METH_VARARGS|METH_KEYWORDS, 0},
-  {"find_baseline_demands", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11calfews_src_11district_cy_8District_13find_baseline_demands, METH_VARARGS|METH_KEYWORDS, 0},
-  {"find_pre_flood_demand", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11calfews_src_11district_cy_8District_15find_pre_flood_demand, METH_VARARGS|METH_KEYWORDS, 0},
-  {"set_pmp_acreage", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11calfews_src_11district_cy_8District_17set_pmp_acreage, METH_VARARGS|METH_KEYWORDS, 0},
-  {"absorb_storage", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_19absorb_storage, METH_NOARGS, 0},
-  {"reset_recharge_recovery", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_21reset_recharge_recovery, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_23__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_25__setstate_cython__, METH_O, 0},
+  {"find_baseline_demands", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11calfews_src_11district_cy_8District_11find_baseline_demands, METH_VARARGS|METH_KEYWORDS, 0},
+  {"find_pre_flood_demand", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11calfews_src_11district_cy_8District_13find_pre_flood_demand, METH_VARARGS|METH_KEYWORDS, 0},
+  {"set_pmp_acreage", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11calfews_src_11district_cy_8District_15set_pmp_acreage, METH_VARARGS|METH_KEYWORDS, 0},
+  {"absorb_storage", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_17absorb_storage, METH_NOARGS, 0},
+  {"reset_recharge_recovery", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_19reset_recharge_recovery, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_21__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_11calfews_src_11district_cy_8District_23__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -40981,7 +40579,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_W, __pyx_k_W, sizeof(__pyx_k_W), 0, 1, 0, 1},
   {&__pyx_n_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 1},
   {&__pyx_n_s_acreage_by_pmp_crop_type, __pyx_k_acreage_by_pmp_crop_type, sizeof(__pyx_k_acreage_by_pmp_crop_type), 0, 0, 1, 1},
-  {&__pyx_n_s_acreage_factor, __pyx_k_acreage_factor, sizeof(__pyx_k_acreage_factor), 0, 0, 1, 1},
   {&__pyx_n_u_acreage_multiplier, __pyx_k_acreage_multiplier, sizeof(__pyx_k_acreage_multiplier), 0, 1, 0, 1},
   {&__pyx_n_u_ag_demand_multiplier, __pyx_k_ag_demand_multiplier, sizeof(__pyx_k_ag_demand_multiplier), 0, 1, 0, 1},
   {&__pyx_n_u_almond, __pyx_k_almond, sizeof(__pyx_k_almond), 0, 1, 0, 1},
@@ -41019,7 +40616,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_dynamic_recharge_cap, __pyx_k_dynamic_recharge_cap, sizeof(__pyx_k_dynamic_recharge_cap), 0, 1, 0, 1},
   {&__pyx_n_u_dynamic_recovery_cap, __pyx_k_dynamic_recovery_cap, sizeof(__pyx_k_dynamic_recovery_cap), 0, 1, 0, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
-  {&__pyx_n_s_et_factor, __pyx_k_et_factor, sizeof(__pyx_k_et_factor), 0, 0, 1, 1},
   {&__pyx_n_u_excess, __pyx_k_excess, sizeof(__pyx_k_excess), 0, 1, 0, 1},
   {&__pyx_n_u_exchange, __pyx_k_exchange, sizeof(__pyx_k_exchange), 0, 1, 0, 1},
   {&__pyx_n_u_exchanged_GW, __pyx_k_exchanged_GW, sizeof(__pyx_k_exchanged_GW), 0, 1, 0, 1},
@@ -41042,7 +40638,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_inleiu_irrigation, __pyx_k_inleiu_irrigation, sizeof(__pyx_k_inleiu_irrigation), 0, 1, 0, 1},
   {&__pyx_n_u_inleiu_recharge, __pyx_k_inleiu_recharge, sizeof(__pyx_k_inleiu_recharge), 0, 1, 0, 1},
   {&__pyx_n_u_irr_demand, __pyx_k_irr_demand, sizeof(__pyx_k_irr_demand), 0, 1, 0, 1},
-  {&__pyx_n_s_irr_eff_factor, __pyx_k_irr_eff_factor, sizeof(__pyx_k_irr_eff_factor), 0, 0, 1, 1},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 0, 1, 1},
   {&__pyx_n_u_kaweah, __pyx_k_kaweah, sizeof(__pyx_k_kaweah), 0, 1, 0, 1},
@@ -41093,7 +40688,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_randint, __pyx_k_randint, sizeof(__pyx_k_randint), 0, 0, 1, 1},
   {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
-  {&__pyx_n_s_recharge_decline_factor, __pyx_k_recharge_decline_factor, sizeof(__pyx_k_recharge_decline_factor), 0, 0, 1, 1},
   {&__pyx_n_u_recharged, __pyx_k_recharged, sizeof(__pyx_k_recharged), 0, 1, 0, 1},
   {&__pyx_n_u_recover_banked, __pyx_k_recover_banked, sizeof(__pyx_k_recover_banked), 0, 1, 0, 1},
   {&__pyx_n_u_recovery, __pyx_k_recovery, sizeof(__pyx_k_recovery), 0, 1, 0, 1},
@@ -41138,8 +40732,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 44, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 62, __pyx_L1_error)
   __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 228, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 240, __pyx_L1_error)
   __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 256, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 258, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -43493,162 +43087,8 @@ static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObje
     return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
 }
 
-/* PyFloatBinop */
-  #if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyFloat_AddCObj(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check) {
-    const double a = floatval;
-    double b, result;
-    (void)inplace;
-    (void)zerodivision_check;
-    if (likely(PyFloat_CheckExact(op2))) {
-        b = PyFloat_AS_DOUBLE(op2);
-        
-    } else
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op2))) {
-        b = (double) PyInt_AS_LONG(op2);
-        
-    } else
-    #endif
-    if (likely(PyLong_CheckExact(op2))) {
-        #if CYTHON_USE_PYLONG_INTERNALS
-        const digit* digits = ((PyLongObject*)op2)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op2);
-        switch (size) {
-            case  0: b = 0.0; break;
-            case -1: b = -(double) digits[0]; break;
-            case  1: b = (double) digits[0]; break;
-            case -2:
-            case 2:
-                if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (1 * PyLong_SHIFT < 53))) {
-                    b = (double) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                    if ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
-                        if (size == -2)
-                            b = -b;
-                        break;
-                    }
-                }
-                CYTHON_FALLTHROUGH;
-            case -3:
-            case 3:
-                if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53))) {
-                    b = (double) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                    if ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
-                        if (size == -3)
-                            b = -b;
-                        break;
-                    }
-                }
-                CYTHON_FALLTHROUGH;
-            case -4:
-            case 4:
-                if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53))) {
-                    b = (double) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                    if ((8 * sizeof(unsigned long) < 53) || (4 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
-                        if (size == -4)
-                            b = -b;
-                        break;
-                    }
-                }
-                CYTHON_FALLTHROUGH;
-            default:
-        #else
-        {
-        #endif
-            b = PyLong_AsDouble(op2);
-            if (unlikely(b == -1.0 && PyErr_Occurred())) return NULL;
-            
-        }
-    } else {
-        return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
-    }
-        
-        PyFPE_START_PROTECT("add", return NULL)
-        result = a + b;
-        PyFPE_END_PROTECT(result)
-        return PyFloat_FromDouble(result);
-}
-#endif
-
-/* PyFloatBinop */
-    #if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyFloat_SubtractCObj(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check) {
-    const double a = floatval;
-    double b, result;
-    (void)inplace;
-    (void)zerodivision_check;
-    if (likely(PyFloat_CheckExact(op2))) {
-        b = PyFloat_AS_DOUBLE(op2);
-        
-    } else
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op2))) {
-        b = (double) PyInt_AS_LONG(op2);
-        
-    } else
-    #endif
-    if (likely(PyLong_CheckExact(op2))) {
-        #if CYTHON_USE_PYLONG_INTERNALS
-        const digit* digits = ((PyLongObject*)op2)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op2);
-        switch (size) {
-            case  0: b = 0.0; break;
-            case -1: b = -(double) digits[0]; break;
-            case  1: b = (double) digits[0]; break;
-            case -2:
-            case 2:
-                if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (1 * PyLong_SHIFT < 53))) {
-                    b = (double) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                    if ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
-                        if (size == -2)
-                            b = -b;
-                        break;
-                    }
-                }
-                CYTHON_FALLTHROUGH;
-            case -3:
-            case 3:
-                if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53))) {
-                    b = (double) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                    if ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
-                        if (size == -3)
-                            b = -b;
-                        break;
-                    }
-                }
-                CYTHON_FALLTHROUGH;
-            case -4:
-            case 4:
-                if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53))) {
-                    b = (double) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                    if ((8 * sizeof(unsigned long) < 53) || (4 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
-                        if (size == -4)
-                            b = -b;
-                        break;
-                    }
-                }
-                CYTHON_FALLTHROUGH;
-            default:
-        #else
-        {
-        #endif
-            b = PyLong_AsDouble(op2);
-            if (unlikely(b == -1.0 && PyErr_Occurred())) return NULL;
-            
-        }
-    } else {
-        return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
-    }
-        
-        PyFPE_START_PROTECT("subtract", return NULL)
-        result = a - b;
-        PyFPE_END_PROTECT(result)
-        return PyFloat_FromDouble(result);
-}
-#endif
-
 /* WriteUnraisableException */
-      static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+  static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
                                   CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
                                   int full_traceback, CYTHON_UNUSED int nogil) {
     PyObject *old_exc, *old_val, *old_tb;
@@ -43690,7 +43130,7 @@ static PyObject* __Pyx_PyFloat_SubtractCObj(PyObject *op1, PyObject *op2, double
 }
 
 /* PyFloatBinop */
-      #if !CYTHON_COMPILING_IN_PYPY
+  #if !CYTHON_COMPILING_IN_PYPY
 static PyObject* __Pyx_PyFloat_TrueDivideObjC(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check) {
     const double b = floatval;
     double a, result;
@@ -43767,7 +43207,7 @@ static PyObject* __Pyx_PyFloat_TrueDivideObjC(PyObject *op1, PyObject *op2, doub
 #endif
 
 /* SliceObject */
-        static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(PyObject* obj,
+    static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(PyObject* obj,
         Py_ssize_t cstart, Py_ssize_t cstop,
         PyObject** _py_start, PyObject** _py_stop, PyObject** _py_slice,
         int has_cstart, int has_cstop, CYTHON_UNUSED int wraparound) {
@@ -43864,7 +43304,7 @@ bad:
 }
 
 /* PyObjectSetAttrStr */
-        #if CYTHON_USE_TYPE_SLOTS
+    #if CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
     PyTypeObject* tp = Py_TYPE(obj);
     if (likely(tp->tp_setattro))
@@ -43877,8 +43317,85 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
 }
 #endif
 
+/* PyFloatBinop */
+    #if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyFloat_SubtractCObj(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check) {
+    const double a = floatval;
+    double b, result;
+    (void)inplace;
+    (void)zerodivision_check;
+    if (likely(PyFloat_CheckExact(op2))) {
+        b = PyFloat_AS_DOUBLE(op2);
+        
+    } else
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op2))) {
+        b = (double) PyInt_AS_LONG(op2);
+        
+    } else
+    #endif
+    if (likely(PyLong_CheckExact(op2))) {
+        #if CYTHON_USE_PYLONG_INTERNALS
+        const digit* digits = ((PyLongObject*)op2)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op2);
+        switch (size) {
+            case  0: b = 0.0; break;
+            case -1: b = -(double) digits[0]; break;
+            case  1: b = (double) digits[0]; break;
+            case -2:
+            case 2:
+                if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (1 * PyLong_SHIFT < 53))) {
+                    b = (double) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -2)
+                            b = -b;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            case -3:
+            case 3:
+                if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53))) {
+                    b = (double) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -3)
+                            b = -b;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            case -4:
+            case 4:
+                if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53))) {
+                    b = (double) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (4 * PyLong_SHIFT < 53) || (b < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -4)
+                            b = -b;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            default:
+        #else
+        {
+        #endif
+            b = PyLong_AsDouble(op2);
+            if (unlikely(b == -1.0 && PyErr_Occurred())) return NULL;
+            
+        }
+    } else {
+        return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
+    }
+        
+        PyFPE_START_PROTECT("subtract", return NULL)
+        result = a - b;
+        PyFPE_END_PROTECT(result)
+        return PyFloat_FromDouble(result);
+}
+#endif
+
 /* ExtTypeTest */
-        static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+      static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
     if (unlikely(!type)) {
         PyErr_SetString(PyExc_SystemError, "Missing type object");
         return 0;
@@ -43891,12 +43408,12 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
 }
 
 /* None */
-        static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
+      static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
     PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
 }
 
 /* GetException */
-        #if CYTHON_FAST_THREAD_STATE
+      #if CYTHON_FAST_THREAD_STATE
 static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb)
 #else
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb)
@@ -43970,7 +43487,7 @@ bad:
 }
 
 /* PyErrExceptionMatches */
-        #if CYTHON_FAST_THREAD_STATE
+      #if CYTHON_FAST_THREAD_STATE
 static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
     Py_ssize_t i, n;
     n = PyTuple_GET_SIZE(tuple);
@@ -43995,7 +43512,7 @@ static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tsta
 #endif
 
 /* GetAttr */
-        static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
+      static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
 #if CYTHON_USE_TYPE_SLOTS
 #if PY_MAJOR_VERSION >= 3
     if (likely(PyUnicode_Check(n)))
@@ -44008,7 +43525,7 @@ static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tsta
 }
 
 /* GetAttr3 */
-        static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
+      static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
     if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
@@ -44023,7 +43540,7 @@ static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject
 }
 
 /* Import */
-        static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
+      static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
     PyObject *empty_list = 0;
     PyObject *module = 0;
     PyObject *global_dict = 0;
@@ -44088,7 +43605,7 @@ bad:
 }
 
 /* ImportFrom */
-        static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
+      static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
     PyObject* value = __Pyx_PyObject_GetAttrStr(module, name);
     if (unlikely(!value) && PyErr_ExceptionMatches(PyExc_AttributeError)) {
         PyErr_Format(PyExc_ImportError,
@@ -44102,7 +43619,7 @@ bad:
 }
 
 /* HasAttr */
-        static CYTHON_INLINE int __Pyx_HasAttr(PyObject *o, PyObject *n) {
+      static CYTHON_INLINE int __Pyx_HasAttr(PyObject *o, PyObject *n) {
     PyObject *r;
     if (unlikely(!__Pyx_PyBaseString_Check(n))) {
         PyErr_SetString(PyExc_TypeError,
@@ -44120,7 +43637,7 @@ bad:
 }
 
 /* PyObject_GenericGetAttrNoDict */
-        #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
+      #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
 static PyObject *__Pyx_RaiseGenericGetAttributeError(PyTypeObject *tp, PyObject *attr_name) {
     PyErr_Format(PyExc_AttributeError,
 #if PY_MAJOR_VERSION >= 3
@@ -44160,7 +43677,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GenericGetAttrNoDict(PyObject* obj
 #endif
 
 /* PyObject_GenericGetAttr */
-        #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
+      #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
 static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_name) {
     if (unlikely(Py_TYPE(obj)->tp_dictoffset)) {
         return PyObject_GenericGetAttr(obj, attr_name);
@@ -44170,7 +43687,7 @@ static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_nam
 #endif
 
 /* SetVTable */
-        static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
+      static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
 #if PY_VERSION_HEX >= 0x02070000
     PyObject *ob = PyCapsule_New(vtable, 0, 0);
 #else
@@ -44188,7 +43705,7 @@ bad:
 }
 
 /* PyObjectGetAttrStrNoError */
-        static void __Pyx_PyObject_GetAttrStr_ClearAttributeError(void) {
+      static void __Pyx_PyObject_GetAttrStr_ClearAttributeError(void) {
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
     if (likely(__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
@@ -44210,7 +43727,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, P
 }
 
 /* SetupReduce */
-        static int __Pyx_setup_reduce_is_named(PyObject* meth, PyObject* name) {
+      static int __Pyx_setup_reduce_is_named(PyObject* meth, PyObject* name) {
   int ret;
   PyObject *name_attr;
   name_attr = __Pyx_PyObject_GetAttrStr(meth, __pyx_n_s_name_2);
@@ -44294,7 +43811,7 @@ __PYX_GOOD:
 }
 
 /* TypeImport */
-        #ifndef __PYX_HAVE_RT_ImportType
+      #ifndef __PYX_HAVE_RT_ImportType
 #define __PYX_HAVE_RT_ImportType
 static PyTypeObject *__Pyx_ImportType(PyObject *module, const char *module_name, const char *class_name,
     size_t size, enum __Pyx_ImportType_CheckSize check_size)
@@ -44355,7 +43872,7 @@ bad:
 #endif
 
 /* GetVTable */
-        static void* __Pyx_GetVtable(PyObject *dict) {
+      static void* __Pyx_GetVtable(PyObject *dict) {
     void* ptr;
     PyObject *ob = PyObject_GetItem(dict, __pyx_n_s_pyx_vtable);
     if (!ob)
@@ -44375,7 +43892,7 @@ bad:
 }
 
 /* CLineInTraceback */
-        #ifndef CYTHON_CLINE_IN_TRACEBACK
+      #ifndef CYTHON_CLINE_IN_TRACEBACK
 static int __Pyx_CLineForTraceback(CYTHON_NCP_UNUSED PyThreadState *tstate, int c_line) {
     PyObject *use_cline;
     PyObject *ptype, *pvalue, *ptraceback;
@@ -44417,7 +43934,7 @@ static int __Pyx_CLineForTraceback(CYTHON_NCP_UNUSED PyThreadState *tstate, int 
 #endif
 
 /* CodeObjectCache */
-        static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
+      static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
     int start = 0, mid = 0, end = count - 1;
     if (end >= 0 && code_line > entries[end].code_line) {
         return count;
@@ -44497,7 +44014,7 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object) {
 }
 
 /* AddTraceback */
-        #include "compile.h"
+      #include "compile.h"
 #include "frameobject.h"
 #include "traceback.h"
 static PyCodeObject* __Pyx_CreateCodeObjectForTraceback(
@@ -44588,7 +44105,7 @@ bad:
 }
 
 /* CIntFromPyVerify */
-        #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+      #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
 #define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
@@ -44610,7 +44127,7 @@ bad:
     }
 
 /* CIntToPy */
-        static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+      static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -44648,7 +44165,7 @@ bad:
 }
 
 /* CIntFromPy */
-        static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+      static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -44844,7 +44361,7 @@ raise_neg_overflow:
 }
 
 /* CIntFromPy */
-        static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
+      static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -45040,7 +44557,7 @@ raise_neg_overflow:
 }
 
 /* CIntToPy */
-        static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+      static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -45078,7 +44595,7 @@ raise_neg_overflow:
 }
 
 /* FastTypeChecks */
-        #if CYTHON_COMPILING_IN_CPYTHON
+      #if CYTHON_COMPILING_IN_CPYTHON
 static int __Pyx_InBases(PyTypeObject *a, PyTypeObject *b) {
     while (a) {
         a = a->tp_base;
@@ -45178,13 +44695,13 @@ static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObj
 #endif
 
 /* CStringEquals */
-        static CYTHON_INLINE int __Pyx_StrEq(const char *s1, const char *s2) {
+      static CYTHON_INLINE int __Pyx_StrEq(const char *s1, const char *s2) {
     while (*s1 != '\0' && *s1 == *s2) { s1++; s2++; }
     return *s1 == *s2;
 }
 
 /* CheckBinaryVersion */
-        static int __Pyx_check_binary_version(void) {
+      static int __Pyx_check_binary_version(void) {
     char ctversion[4], rtversion[4];
     PyOS_snprintf(ctversion, 4, "%d.%d", PY_MAJOR_VERSION, PY_MINOR_VERSION);
     PyOS_snprintf(rtversion, 4, "%s", Py_GetVersion());
@@ -45200,7 +44717,7 @@ static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObj
 }
 
 /* InitStrings */
-        static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {
+      static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {
     while (t->p) {
         #if PY_MAJOR_VERSION < 3
         if (t->is_unicode) {

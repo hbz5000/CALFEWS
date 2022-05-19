@@ -82,7 +82,7 @@ cdef class main_cy():
     cdef:
       str expected_release_datafile, demand_type, base_data_file, input_data_file
     
-    # infrastructure scenario file, to be used for all sensitivity samples
+    # infrastructure scenario file
     with open('calfews_src/scenarios/scenarios_main.json') as f:
       scenarios = json.load(f)
     scenario = scenarios[self.scenario_name]
@@ -121,7 +121,7 @@ cdef class main_cy():
         # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
         PyErr_CheckSignals()
         if True:
-          new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition)
+          new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition, uncertainty_dict)
           input_data_file = ''
           # input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
 
