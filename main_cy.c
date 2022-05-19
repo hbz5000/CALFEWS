@@ -1918,7 +1918,6 @@ struct __pyx_obj_11calfews_src_8model_cy_Model {
   int sensitivity_sample_number;
   int omr_rule_start;
   int non_leap_year;
-  int use_sensitivity;
   PyObject *model_mode;
   PyObject *demand_type;
   PyObject *df;
@@ -5112,7 +5111,7 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
 
   /* "main_cy.pyx":86
  * 
- *     # infrastructure scenario file, to be used for all sensitivity samples
+ *     # infrastructure scenario file
  *     with open('calfews_src/scenarios/scenarios_main.json') as f:             # <<<<<<<<<<<<<<
  *       scenarios = json.load(f)
  *     scenario = scenarios[self.scenario_name]
@@ -5155,7 +5154,7 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
           __pyx_t_4 = 0;
 
           /* "main_cy.pyx":87
- *     # infrastructure scenario file, to be used for all sensitivity samples
+ *     # infrastructure scenario file
  *     with open('calfews_src/scenarios/scenarios_main.json') as f:
  *       scenarios = json.load(f)             # <<<<<<<<<<<<<<
  *     scenario = scenarios[self.scenario_name]
@@ -5186,7 +5185,7 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
 
           /* "main_cy.pyx":86
  * 
- *     # infrastructure scenario file, to be used for all sensitivity samples
+ *     # infrastructure scenario file
  *     with open('calfews_src/scenarios/scenarios_main.json') as f:             # <<<<<<<<<<<<<<
  *       scenarios = json.load(f)
  *     scenario = scenarios[self.scenario_name]
@@ -5615,14 +5614,14 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
  *         # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
  *         PyErr_CheckSignals()             # <<<<<<<<<<<<<<
  *         if True:
- *           new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition)
+ *           new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition, uncertainty_dict)
  */
       __pyx_t_14 = PyErr_CheckSignals(); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 122, __pyx_L1_error)
 
       /* "main_cy.pyx":124
  *         PyErr_CheckSignals()
  *         if True:
- *           new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition)             # <<<<<<<<<<<<<<
+ *           new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition, uncertainty_dict)             # <<<<<<<<<<<<<<
  *           input_data_file = ''
  *           # input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
  */
@@ -5642,22 +5641,22 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
       }
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
-        PyObject *__pyx_temp[4] = {__pyx_t_3, __pyx_v_self->flow_input_type, __pyx_v_self->flow_input_source, __pyx_v_self->flow_input_addition};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 3+__pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+        PyObject *__pyx_temp[5] = {__pyx_t_3, __pyx_v_self->flow_input_type, __pyx_v_self->flow_input_source, __pyx_v_self->flow_input_addition, __pyx_v_uncertainty_dict};
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 4+__pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-        PyObject *__pyx_temp[4] = {__pyx_t_3, __pyx_v_self->flow_input_type, __pyx_v_self->flow_input_source, __pyx_v_self->flow_input_addition};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 3+__pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+        PyObject *__pyx_temp[5] = {__pyx_t_3, __pyx_v_self->flow_input_type, __pyx_v_self->flow_input_source, __pyx_v_self->flow_input_addition, __pyx_v_uncertainty_dict};
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 4+__pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(3+__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 124, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(4+__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 124, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         if (__pyx_t_3) {
           __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -5671,6 +5670,9 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
         __Pyx_INCREF(__pyx_v_self->flow_input_addition);
         __Pyx_GIVEREF(__pyx_v_self->flow_input_addition);
         PyTuple_SET_ITEM(__pyx_t_5, 2+__pyx_t_14, __pyx_v_self->flow_input_addition);
+        __Pyx_INCREF(__pyx_v_uncertainty_dict);
+        __Pyx_GIVEREF(__pyx_v_uncertainty_dict);
+        PyTuple_SET_ITEM(__pyx_t_5, 3+__pyx_t_14, __pyx_v_uncertainty_dict);
         __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5681,7 +5683,7 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
 
       /* "main_cy.pyx":125
  *         if True:
- *           new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition)
+ *           new_inputs_df = new_inputs.run_routine(self.flow_input_type, self.flow_input_source, self.flow_input_addition, uncertainty_dict)
  *           input_data_file = ''             # <<<<<<<<<<<<<<
  *           # input_data_file = self.results_folder + '/' + new_inputs.export_series[self.flow_input_type][self.flow_input_source]  + "_0.csv"
  * 
@@ -29928,7 +29930,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "main_cy.pyx":86
  * 
- *     # infrastructure scenario file, to be used for all sensitivity samples
+ *     # infrastructure scenario file
  *     with open('calfews_src/scenarios/scenarios_main.json') as f:             # <<<<<<<<<<<<<<
  *       scenarios = json.load(f)
  *     scenario = scenarios[self.scenario_name]

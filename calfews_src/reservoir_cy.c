@@ -1663,7 +1663,6 @@ struct __pyx_obj_11calfews_src_8model_cy_Model {
   int sensitivity_sample_number;
   int omr_rule_start;
   int non_leap_year;
-  int use_sensitivity;
   PyObject *model_mode;
   PyObject *demand_type;
   PyObject *df;

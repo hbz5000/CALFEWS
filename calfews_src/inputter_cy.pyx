@@ -21,7 +21,7 @@ from calfews_src.util import *
 
 cdef class Inputter():
 
-  def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number=0, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False): 
+  def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number=0, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False):
     self.df = []
     self.df.append(pd.read_csv(input_data_file, index_col=0, parse_dates=True))
     self.df_short = []
@@ -44,7 +44,7 @@ cdef class Inputter():
     self.sensitivity_sample_number = sensitivity_sample_number
     self.sensitivity_sample_names = sensitivity_sample_names
     self.sensitivity_samples = sensitivity_samples
-    self.use_sensitivity = use_sensitivity
+    # self.use_sensitivity = use_sensitivity
 
     self.leap = leap(np.arange(min(self.year), max(self.year) + 2))
     year_list = np.arange(min(self.year), max(self.year) + 2)
@@ -73,7 +73,7 @@ cdef class Inputter():
 
    
 
-  def run_routine(self, str flow_input_type, str flow_input_source, str flow_input_addition=''):
+  def run_routine(self, str flow_input_type, str flow_input_source, str flow_input_addition='', dict uncertainty_dict={}):
     cdef:
       int start_month, end_month, start_year, number_years, first_leap
     start_month = 10
@@ -83,9 +83,9 @@ cdef class Inputter():
     for first_leap in range(0,4):
       if (start_year + first_leap + 1) % 4 == 0:
         break
-    if self.use_sensitivity:
-      self.set_sensitivity_factors()
-    self.read_new_fnf_data(flow_input_type, flow_input_source, flow_input_addition, start_month, first_leap, number_years)
+    # if self.use_sensitivity:
+    #   self.set_sensitivity_factors()
+    self.read_new_fnf_data(flow_input_type, flow_input_source, flow_input_addition, start_month, first_leap, number_years, uncertainty_dict)
     self.whiten_by_historical_moments(number_years, 'XXX')
     self.whiten_by_historical_moments_delta(number_years, 'XXX')
     self.make_fnf_prediction(number_years, 'XXX')
@@ -754,19 +754,19 @@ cdef class Inputter():
 
 
 
-  def set_sensitivity_factors(self):
-    for sensitivity_factor in self.sensitivity_factors['inflow_factor_list']:
-      # set inflow sensitivity factors equal to sample values from input file
-      index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
-      index = np.where(index)[0][0]
-      self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_samples[index]
-      print('shouldnt be here')
-      # if sensitivity_index == 0:
-      #   self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
-      # else:
-      #   self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
-      # print(sensitivity_factor, end = " ")
-      # print(self.sensitivity_factors[sensitivity_factor]['realization'])
+  # def set_sensitivity_factors(self):
+  #   for sensitivity_factor in self.sensitivity_factors['inflow_factor_list']:
+  #     # set inflow sensitivity factors equal to sample values from input file
+  #     index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
+  #     index = np.where(index)[0][0]
+  #     self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_samples[index]
+  #     print('shouldnt be here')
+  #     # if sensitivity_index == 0:
+  #     #   self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
+  #     # else:
+  #     #   self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
+  #     # print(sensitivity_factor, end = " ")
+  #     # print(self.sensitivity_factors[sensitivity_factor]['realization'])
 
 				
   def perturb_flows(self, numYears):
@@ -812,7 +812,8 @@ cdef class Inputter():
 
         reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
 
-  def read_new_fnf_data(self, str flow_input_type, str flow_input_source, str flow_input_addition, int start_month, int first_leap_year, int numYears):
+  def read_new_fnf_data(self, str flow_input_type, str flow_input_source, str flow_input_addition, int start_month, int first_leap_year, int numYears, dict uncertainty_dict):
+
     monthcount = start_month - 1
     daycount = 0
     yearcount = 0
@@ -821,10 +822,17 @@ cdef class Inputter():
     leapcount = 0
 		
     filename = self.flow_input_source[flow_input_type][flow_input_source]
-    if 'generic' in flow_input_source.split('_'):
-      filename += flow_input_addition + '.csv'
 
-    self.fnf_df = pd.read_csv(filename)
+    ### if "online" not in flow_input_source, use fnf inputted from file
+    if 'online' not in flow_input_source.split('_'):
+      if 'generic' in flow_input_source.split('_'):
+        filename += flow_input_addition + '.csv'
+      self.fnf_df = pd.read_csv(filename)
+
+    ### if "online"  in flow_input_source, generate fnfs stochastically using MGHMM model
+    else:
+      self.fnf_df = MGHMM_generate_trace(numYears, uncertainty_dict)
+
     if 'datetime' in self.fnf_df:
       dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])
     else:
@@ -882,9 +890,9 @@ cdef class Inputter():
           thismonthday = self.days_in_month[self.leap_year][monthcount]
         else:
           thismonthday = self.days_in_month[self.non_leap_year][monthcount]
-    
-    if self.use_sensitivity:
-      self.perturb_flows(numYears)
+
+    # if self.use_sensitivity:
+    #   self.perturb_flows(numYears)
 					
     self.monthly_new = {}
     for deltaname in self.delta_list:
