@@ -5,7 +5,8 @@
     "downscaled_20062016",
     "downscaled_20402050",
     "downscaled_20902100",
-    "downscaled_19502100"
+    "downscaled_19502100",
+    "synthetic"
   ],
   "flow_input_source": {
     "observations": {
@@ -74,7 +75,8 @@
       "capow_50yr_median": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_median.csv",
       "capow_50yr_generic": "calfews_src/data/capow_synthetic/ORCA_forecast_flows",
       "mghmm_30yr_generic": "calfews_src/data/MGHMM_synthetic/DailyQ_s",
-      "mghmm_30yr_online": ""
+      "mghmm_30yr_online": "",
+      "mghmm_30yr_hdf5": "results/infra_mghmm_du/mghmm_du.hdf5"
     }
   },
   "export_series": {
@@ -144,7 +146,8 @@
       "capow_50yr_median": "calfews_src-data-synth_capow_50_median",
       "capow_50yr_generic": "calfews_src-data-synth_capow_50_",
       "mghmm_30yr_generic": "calfews_src-data-synth_mghmm_30yr_",
-      "mghmm_30yr_online": "calfews_src-data-synth_mghmm_30yr_"
+      "mghmm_30yr_online": "calfews_src-data-synth_mghmm_30yr_",
+      "mghmm_30yr_hdf5": "calfews_src-data-synth_mghmm_30yr_"
     }
   },
   "simulation_period_start": {
@@ -213,7 +216,9 @@
       "capow_50yr_dry": 1901,
       "capow_50yr_median": 1901,
       "capow_50yr_generic": 1901,
-      "mghmm_30yr_generic": 1906
+      "mghmm_30yr_generic": 1906,
+      "mghmm_30yr_online": 1906,
+      "mghmm_30yr_hdf5": 1906
     }
   },
   "simulation_period_end": {
@@ -283,7 +288,8 @@
       "capow_50yr_median": 1951,
       "capow_50yr_generic": 1951,
       "mghmm_30yr_generic": 1936,
-      "mghmm_30yr_online": 1936
+      "mghmm_30yr_online": 1936,
+      "mghmm_30yr_hdf5": 1936
     }
   },
   "file_start": {
@@ -353,7 +359,8 @@
       "capow_50yr_median": "1/1/1901",
       "capow_50yr_generic": "1/1/1901",
       "mghmm_30yr_generic": "1/1/1906",
-      "mghmm_30yr_online": "1/1/1906"
+      "mghmm_30yr_online": "1/1/1906",
+      "mghmm_30yr_hdf5": "1/1/1906"
     }
   },
   "file_end": {
@@ -423,7 +430,8 @@
       "capow_50yr_median": "12/31/1951",
       "capow_50yr_generic": "12/31/1951",
       "mghmm_30yr_generic": "12/31/1936",
-      "mghmm_30yr_online": "12/31/1936"
+      "mghmm_30yr_online": "12/31/1936",
+      "mghmm_30yr_hdf5": "12/31/1936"
     }
   },
   "has_full_inputs": {
@@ -493,7 +501,8 @@
       "capow_50yr_median": false,
       "capow_50yr_generic": false,
       "mghmm_30yr_generic": false,
-      "mghmm_30yr_online": false
+      "mghmm_30yr_online": false,
+      "mghmm_30yr_hdf5": false
     }
   },
   "has_leap": {
@@ -563,7 +572,8 @@
       "capow_50yr_median": true,
       "capow_50yr_generic": true,
       "mghmm_30yr_generic": true,
-      "mghmm_30yr_online": true
+      "mghmm_30yr_online": true,
+      "mghmm_30yr_hdf5": true
     }
   },
   "inflow_unit": {
@@ -632,7 +642,8 @@
       "capow_50yr_median": "af",
       "capow_50yr_generic": "af",
       "mghmm_30yr_generic": "af",
-      "mghmm_30yr_online": "af"
+      "mghmm_30yr_online": "af",
+      "mghmm_30yr_hdf5": "af"
     }
   }
 }

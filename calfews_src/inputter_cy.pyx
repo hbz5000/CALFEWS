@@ -1,4 +1,5 @@
 # cython: profile=True
+import sys
 import numpy as np
 import pandas as pd
 import collections as cl
@@ -16,7 +17,7 @@ from datetime import datetime
 from cpython.exc cimport PyErr_CheckSignals
 from .reservoir_cy cimport Reservoir
 from calfews_src.util import *
-
+import h5py
 
 
 cdef class Inputter():
@@ -812,6 +813,9 @@ cdef class Inputter():
 
         reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
 
+
+
+
   def read_new_fnf_data(self, str flow_input_type, str flow_input_source, str flow_input_addition, int start_month, int first_leap_year, int numYears, dict uncertainty_dict):
 
     monthcount = start_month - 1
@@ -821,17 +825,28 @@ cdef class Inputter():
                 self.days_in_month[self.non_leap_year][monthcount])
     leapcount = 0
 		
-    filename = self.flow_input_source[flow_input_type][flow_input_source]
+    ### if "online"  in flow_input_source, generate fnfs stochastically using MGHMM model
+    if 'online' in flow_input_source.split('_'):
+      self.fnf_df = MGHMM_generate_trace(numYears, uncertainty_dict)
 
-    ### if "online" not in flow_input_source, use fnf inputted from file
-    if 'online' not in flow_input_source.split('_'):
+    ### if "hdf5" in flow_input_source, retrieve from hdf5 file based on dusamp & MC samp
+    elif 'hdf5' in flow_input_source.split('_'):
+      filename = self.flow_input_source[flow_input_type][flow_input_source]
+      with h5py.File(filename, 'r') as hf:
+        colnames = hf.attrs['colnames']
+        dusamp = uncertainty_dict['dusamp']
+        mc = uncertainty_dict['synth_gen_seed']
+        d = hf[f'du{dusamp}/mc{mc}']
+        self.fnf_df = pd.DataFrame(d[...], columns=colnames)
+        print(dusamp, mc, self.fnf_df.iloc[0,:])
+        sys.stdout.flush()
+
+    ### otherwise, use fnf inputted from csv file
+    else:
+      filename = self.flow_input_source[flow_input_type][flow_input_source]
       if 'generic' in flow_input_source.split('_'):
         filename += flow_input_addition + '.csv'
       self.fnf_df = pd.read_csv(filename)
-
-    ### if "online"  in flow_input_source, generate fnfs stochastically using MGHMM model
-    else:
-      self.fnf_df = MGHMM_generate_trace(numYears, uncertainty_dict)
 
     if 'datetime' in self.fnf_df:
       dates_as_datetime = pd.to_datetime(self.fnf_df['datetime'])

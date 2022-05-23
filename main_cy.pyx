@@ -251,7 +251,7 @@ cdef class main_cy():
 # ### MORDM-specific functions for infrastructure experiment
 # ################################################################################################################################
 
-  def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline, is_reeval=False, soln=-1):
+  def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline, is_reeval=False, soln=-1, dusamp=-1):
     ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
     ### get district-level results 
 
@@ -321,20 +321,13 @@ cdef class main_cy():
 
     ### also write to json for WCU/DU reevaluation, but more compactly as lists
     if is_reeval:  
-#      d = open_hdf5[f'soln{soln}']
-#      results_list = []
-#      for k,v in district_results.items():
-#        results_list.extend(v.values())
-#      d[:len(results_list), MC_count] = np.array(results_list)
-#      ### only need to store rownames once
-#      if MC_count == 0:
-#        objs_list = []
-#        for k, v in district_results.items():
-#          objs_list.extend([k + '_' + vk for vk in v.keys()])
-#        d.attrs['rownames'] = objs_list
-        ### write to json instead, since parallel hdf5 not working. will clean up & save to single hdf5 in main process after MCs have finished.
-        with open(f'{results_folder}/soln{soln}_mc{MC_label}.json', 'w') as o:
-            json.dump(district_results, o)
+      if dusamp < 0:
+        filename = f'{results_folder}/soln{soln}_mc{MC_label}.json'
+      else:
+        filename = f'{results_folder}/du{dusamp}_mc{MC_label}.json'
+
+      with open(filename, 'w') as o:
+        json.dump(district_results, o)
 
 
 
@@ -434,7 +427,10 @@ cdef class main_cy():
 #        w.writerow([MC_label] + objs_MC)
         
 
-  
+
+
+
+
   ### Note: this is now defunct, replaced with get_district_results for FKC infrastructure problem. But leaving this here as more general example.
   def calc_objectives(self):
     ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
@@ -461,3 +457,4 @@ cdef class main_cy():
 
     return objs
 
+#

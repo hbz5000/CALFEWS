@@ -14,12 +14,12 @@ import main_cy
 
 
 ### function to setup problem for particular infra soln
-def setup_problem(results_folder, rank, soln):
+def setup_problem(results_folder, rank, soln, dusamp):
     ### setup/initialize model
     sys.stdout.flush()
 
     try:
-        os.mkdir(results_folder)
+        os.makedirs(results_folder)
     except:
         pass
 
@@ -89,8 +89,8 @@ def setup_problem(results_folder, rank, soln):
 
     ### create new sheet in results hdf5 file, and save dvs
     with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
-        if f'soln{soln}' not in list(open_hdf5.keys()):
-            d = open_hdf5.create_dataset(f'soln{soln}', (336, num_MC), dtype='float', compression='gzip')
+        if f'du{dusamp}' not in list(open_hdf5.keys()):
+            d = open_hdf5.create_dataset(f'du{dusamp}', (336, num_MC), dtype='float', compression='gzip')
             dvs = [dv_project]
             dv_names = ['proj']
             for k,v in dv_share_dict.items():
@@ -103,26 +103,27 @@ def setup_problem(results_folder, rank, soln):
 
 
 ### function to run a single MC trial
-def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, MC_count, soln, MC_to_be_run):
+def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, MC_count, soln, dusamp, MC_to_be_run):
 #    try:
         if MC_to_be_run[MC_count]:
             main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
             uncertainty_dict['synth_gen_seed'] = int(MC_label)
+            uncertainty_dict['dusamp'] = dusamp
             a = main_cy_obj.initialize_py(uncertainty_dict)
             a = main_cy_obj.run_sim_py(start_time)
-            main_cy_obj.get_district_results(results_folder=results_folder, baseline_folder='', MC_label=MC_label, shared_objs_array=[], MC_count=MC_count, is_baseline=False, is_reeval=True, soln=soln)
+            main_cy_obj.get_district_results(results_folder=results_folder, baseline_folder='', MC_label=MC_label, shared_objs_array=[], MC_count=MC_count, is_baseline=False, is_reeval=True, soln=soln, dusamp=dusamp)
  #   except:
  #       print('fail in run sim', results_folder, soln, MC_label)
 
 
 ### run a single MC instance and fill in slot in objective dictionary
-def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, proc, start, stop, soln, MC_to_be_run):
+def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_types, flow_input_sources, MC_labels, uncertainty_dict, proc, start, stop, soln, dusamp, MC_to_be_run):
     if stop > start:
         idxs = [i for i in range(len(MC_to_be_run)) if MC_to_be_run[i]]
         for i in range(start, stop):
             MC_count = idxs[i]
             run_sim(results_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count],
-                    MC_labels[MC_count], uncertainty_dict, MC_count, soln, MC_to_be_run)
+                    MC_labels[MC_count], uncertainty_dict, MC_count, soln, dusamp, MC_to_be_run)
 
 
 
@@ -130,54 +131,68 @@ def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_typ
 if __name__ == "__main__":
     overall_start_time = datetime.now()
 
+    ### results folder
     base_results_folder = sys.argv[1]
+    ### total number of tasks assigned to this job
     tasks_total = int(sys.argv[2])
+    ### number of processors assigned to this task
     num_procs = int(sys.argv[3])
-    num_solns_total = int(sys.argv[4])
-    start_solns_total = int(sys.argv[5])
-    num_MC = int(sys.argv[6])
-    start_MC = int(sys.argv[7])
+    ### line number from solutions file to run in this job
+    soln = int(sys.argv[4])
+    ### num DU samples total
+    num_DU = int(sys.argv[5])
+    ### where to start counting for num_DU
+    start_DU = int(sys.argv[6])
+    ### num MC samples per DU sample
+    num_MC = int(sys.argv[7])
+    ### where to start counting for num_MC
+    start_MC = int(sys.argv[8])
 
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
     size = comm.Get_size()
 
-    ### get list of solns assigned to this task
-    solns = []
+    ### get list of DU samps assigned to this task
+    dusamps = []
     r = 0
-    for i in range(start_solns_total, start_solns_total + num_solns_total):
+    for i in range(start_DU, start_DU + num_DU):
         if r == rank:
-            solns.append(i)
+            dusamps.append(i)
         r += 1
         if r == size:
             r = 0
 
+    ### deep uncertainties from LHC sample
+    dunames = ['dry_state_mean_multiplier', 'wet_state_mean_multiplier', 'covariance_matrix_dry_multiplier',
+               'covariance_matrix_wet_multiplier', 'transition_drydry_addition', 'transition_wetwet_addition']
+
+    ### load DU samples from LHC
+    LHC = np.loadtxt('calfews_src/data/MGHMM_synthetic/calfews_mhmm_5112022/LHsamples_broad_64.txt')
+
     ### loop over solns assigned to this task & do MC trial for infrastructure setup
-    for soln in solns:
+    for dusamp in dusamps:
         start_time = datetime.now()
 
+        ### get DU samples from LHC file
+        uncertainty_dict = {dunames[i]: LHC[dusamp, i] for i in range(len(dunames))}
+       
         ### define MC sampling problem/parallelization
         model_modes = ['simulation'] * num_MC
         flow_input_types = ['synthetic'] * num_MC
-        flow_input_sources = ['mghmm_30yr_generic'] * num_MC
-        MC_labels = [str(i + start_MC) for i in range(num_MC)]  # ['wet','dry']
+        flow_input_sources = ['mghmm_30yr_hdf5'] * num_MC
+        MC_labels = [str(i + start_MC) for i in range(num_MC)] 
 
-        ### uncertainties
-        uncertainty_dict = {'dry_state_mean_multiplier': 0.9, 'wet_state_mean_multiplier': 1.1,
-                            'covariance_matrix_dry_multiplier': 0.9, 'covariance_matrix_wet_multiplier': 1.1,
-                            'transition_drydry_addition': 0.1, 'transition_wetwet_addition': 0.2}
-
-        ### setup problem for this soln
-        results_folder = f'{base_results_folder}/soln{soln}/'
-        setup_problem(results_folder, rank, soln)
+        ### setup problem for this soln/dusamp
+        results_folder = f'{base_results_folder}/soln{soln}/du{dusamp}/'
+        setup_problem(results_folder, rank, soln, dusamp)
 
         ### figure out which MC samps still need to be run
         MC_to_be_run = []
         with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
-            d = open_hdf5[f'soln{soln}']
+            d = open_hdf5[f'du{dusamp}']
             for MC_count,MC_label in enumerate(MC_labels):
                 has_hdf5_results = np.sum(np.abs(d[:, MC_count])) > 1e-9
-                json_exists = os.path.exists(f'{results_folder}/soln{soln}_mc{MC_label}.json')
+                json_exists = os.path.exists(f'{results_folder}/du{dusamp}_mc{MC_label}.json')
                 if not has_hdf5_results and not json_exists:
                     MC_to_be_run.append(True)
                 else:
@@ -193,7 +208,7 @@ if __name__ == "__main__":
             stop = start + num_trials
             p = Process(target=dispatch_MC_to_procs, args=(results_folder, start_time, model_modes, flow_input_types,
                                                            flow_input_sources, MC_labels, uncertainty_dict,
-                                                           proc, start, stop, soln, MC_to_be_run))
+                                                           proc, start, stop, soln, dusamp, MC_to_be_run))
             shared_processes.append(p)
             start = stop
 
@@ -207,11 +222,11 @@ if __name__ == "__main__":
 
         ### after all MC have finished, go back and write all results for this soln to hdf5
         with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
-            d = open_hdf5[f'soln{soln}']
+            d = open_hdf5[f'du{dusamp}']
             for MC_count, MC_label in enumerate(MC_labels):
                 has_hdf5_results = np.sum(np.abs(d[:, MC_count])) > 1e-9
                 if not has_hdf5_results:
-                    district_results = json.load(open(f'{results_folder}/soln{soln}_mc{MC_label}.json'))           
+                    district_results = json.load(open(f'{results_folder}/du{dusamp}_mc{MC_label}.json'))           
                     results_list = []
                     for k,v in district_results.items():
                         results_list.extend(v.values())
@@ -224,6 +239,6 @@ if __name__ == "__main__":
                         d.attrs['rownames'] = objs_list
 
         ### remove directory for this MC trial, since results recorded in main hdf5
-        shutil.rmtree(results_folder)
-        print(f'solution {soln} finished, rank {rank}, time {datetime.now() - overall_start_time}')
+#        shutil.rmtree(results_folder)
+        print(f'solution {soln}, du {dusamp} finished, rank {rank}, time {datetime.now() - overall_start_time}')
 

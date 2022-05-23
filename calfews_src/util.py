@@ -5,6 +5,7 @@ import h5py
 import json
 from itertools import compress
 import gc
+import sys
 
 cfs_tafd = 2.29568411*10**-5 * 86400 / 1000
 tafd_cfs = 1000 / 86400 * 43560
@@ -324,14 +325,8 @@ def get_results_sensitivity_number_outside_model(results_file, sensitivity_numbe
 
 
 
-
+### generate a single synthetic realizaton of fnfs using MGHMM. Created by Rohini Gupta.
 def MGHMM_generate_trace(nYears, uncertainty_dict):
-  # -*- coding: utf-8 -*-
-  """
-  Created May 2022
-
-  @author: Rohini Gupta, Andrew Hamilton
-  """
 
   ### use random num generator specific to this function to avoid overwriting global seed
   rng = np.random.default_rng(uncertainty_dict['synth_gen_seed'])
@@ -437,7 +432,37 @@ def MGHMM_generate_trace(nYears, uncertainty_dict):
   DailyQ_s = calfews_data
   DailyQ_s = DailyQ_s[DailyQ_s.Year < DailyQ_s.Year[0] + N_s]
 
-  count = 0
+  #count = 0
+#  for i in range(0, N_s):
+#    y = np.unique(DailyQ_s.Year)[i]
+#    index_array = np.where(DailyQ_s.Year == np.unique(DailyQ_s.Year)[i])[0]
+#    newdata = DailyQ_s[DailyQ_s.index.isin(index_array)]
+#    newdatasize = np.shape(newdata)[0]
+#    olddata_array = np.where(calfews_data.Year == closest_year[i])[0]
+#    olddata = calfews_data[calfews_data.index.isin(olddata_array)]
+#    olddata = olddata.reset_index()
+#    olddata = olddata.iloc[:, 1:20]
+#    for z in range(4, 19):
+#      olddata.iloc[:, z] = AnnualQ_s[i, z - 4] * olddata.iloc[:, z].values
+#    ## fill in data, accounting for leap years. assume leap year duplicates feb 29
+#    if newdatasize == 365:
+#      if np.shape(olddata)[0] == 365:
+#        DailyQ_s.iloc[count:(count + 365), 4:19] = olddata.iloc[:, 4:19].values
+#      elif np.shape(olddata)[0] == 366:
+#        # if generated data has 365 days, and disaggregating 366 - day series, skip feb 29 (60th day of leap year)
+#        DailyQ_s.iloc[count:(count + 59), 4:19] = olddata.iloc[0:59, 4:19].values
+#        DailyQ_s.iloc[(count + 60 - 1):(count + 365), 4:19] = olddata.iloc[60:366, 4:19].values
+#
+#    elif newdatasize == 366:
+#      if np.shape(olddata)[0] == 366:
+#        DailyQ_s.iloc[count:(count + 366), 4:19] = olddata.iloc[:, 4:19].values
+#      elif np.shape(olddata)[0] == 365:
+#        # if generated data has 366 days, and disaggregating 365 - day series, repeat feb 28 (59rd day of leap year)
+#        DailyQ_s.iloc[count:(count + 59), 4:19] = olddata.iloc[0:59, 4:19].values
+#        DailyQ_s.iloc[count + 60 - 1, 4:19] = olddata.iloc[58, 4:19].values
+#        DailyQ_s.iloc[(count + 61 - 1):(count + 366 - 1), 4:19] = olddata.iloc[59:364, 4:19].values
+#    count = count + newdatasize
+
   for i in range(0, N_s):
     y = np.unique(DailyQ_s.Year)[i]
     index_array = np.where(DailyQ_s.Year == np.unique(DailyQ_s.Year)[i])[0]
@@ -452,22 +477,22 @@ def MGHMM_generate_trace(nYears, uncertainty_dict):
     ## fill in data, accounting for leap years. assume leap year duplicates feb 29
     if newdatasize == 365:
       if np.shape(olddata)[0] == 365:
-        DailyQ_s.iloc[count:(count + 365), 4:19] = olddata.iloc[:, 4:19].values
+        DailyQ_s.iloc[index_array, 4:19] = olddata.iloc[:, 4:19].values
       elif np.shape(olddata)[0] == 366:
         # if generated data has 365 days, and disaggregating 366 - day series, skip feb 29 (60th day of leap year)
-        DailyQ_s.iloc[count:(count + 59), 4:19] = olddata.iloc[0:59, 4:19].values
-        DailyQ_s.iloc[(count + 60 - 1):(count + 365), 4:19] = olddata.iloc[60:366, 4:19].values
+        DailyQ_s.iloc[index_array[:59], 4:19] = olddata.iloc[0:59, 4:19].values
+        DailyQ_s.iloc[index_array[59:365], 4:19] = olddata.iloc[60:366, 4:19].values
 
     elif newdatasize == 366:
       if np.shape(olddata)[0] == 366:
-        DailyQ_s.iloc[count:(count + 366), 4:19] = olddata.iloc[:, 4:19].values
+        DailyQ_s.iloc[index_array, 4:19] = olddata.iloc[:, 4:19].values
       elif np.shape(olddata)[0] == 365:
         # if generated data has 366 days, and disaggregating 365 - day series, repeat feb 28 (59rd day of leap year)
-        DailyQ_s.iloc[count:(count + 59), 4:19] = olddata.iloc[0:59, 4:19].values
-        DailyQ_s.iloc[count + 60 - 1, 4:19] = olddata.iloc[58, 4:19].values
-        DailyQ_s.iloc[(count + 61 - 1):(count + 366 - 1), 4:19] = olddata.iloc[59:364, 4:19].values
-    count = count + len(olddata)
+        DailyQ_s.iloc[index_array[:59], 4:19] = olddata.iloc[0:59, 4:19].values
+        DailyQ_s.iloc[index_array[59], 4:19] = olddata.iloc[58, 4:19].values
+        DailyQ_s.iloc[index_array[60:], 4:19] = olddata.iloc[59:365, 4:19].values
 
-  # DailyQ_s.to_csv('DailyQ_s.csv', index=False)
+  DailyQ_s.drop(['Year','Month','Day','realization'], axis=1, inplace=True)
+ 
   return DailyQ_s
 
