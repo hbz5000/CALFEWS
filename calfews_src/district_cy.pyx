@@ -45,40 +45,51 @@ cdef class District():
       setattr(self, k, v)
 
     ### scale district municipal demands based on multiplier (crop demand multiplier done in crop class)
-    if 'MDD_multiplier' in uncertainty_dict:
-      self.MDD *= uncertainty_dict['MDD_multiplier']
+    if 'demand_MDD_multiplier' in uncertainty_dict:
+      self.MDD *= uncertainty_dict['demand_MDD_multiplier']
 
-    ### scale crop acreages based on multiplier - note: probably better to just use ag_demand_multiplier
-    if 'acreage_multiplier' in uncertainty_dict:
+    ### scale crop demand via acreage based on multiplier 
+    if 'demand_acreage_multiplier' in uncertainty_dict:
       for wyt, acreage_list in self.acreage.items():
-        self.acreage[wyt] = [acreage * uncertainty_dict['acreage_multiplier'] for acreage in acreage_list]
+        self.acreage[wyt] = [acreage * uncertainty_dict['demand_acreage_multiplier'] for acreage in acreage_list]
 
-    ### scale crop demand based on multiplier
-    if 'ag_demand_multiplier' in uncertainty_dict:
-      ### first scale based on factor depending on whether orchards/vineyards are majority of district ("BN" year)
-      if 'crop' in uncertainty_dict['ag_demand_multiplier']:
-        acreage_perr = 0.
-        acreage_ann = 0.
-        for ci, crop in enumerate(self.crop_list):
-          if crop in ['apple','apple_immature','apple_cover','peach','peach_immature','almond','almond_cover','almond_immature','walnut','walnut_immature',
-                      'pistachio','pistachio_cover','pistachio_immature','citrus','citrus_immature','avacado','avocado','grape','grape_cover','grape_immature']:
-            acreage_perr += self.acreage['BN'][ci]
-          elif crop not in ['idle', 'precip']:
-            acreage_ann += self.acreage['BN'][ci]
-        if acreage_perr > acreage_ann:
-          for wyt, acreage_list in self.acreage.items():
-            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['crop']['maj_orchardvineyard'] for acreage in acreage_list]
-        else:
-          for wyt, acreage_list in self.acreage.items():
-            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['crop']['maj_other'] for acreage in acreage_list]
-      ### now scale based on whether friant contractor
-      if 'friant' in uncertainty_dict['ag_demand_multiplier']:
-        if self.project_contract['friant1'] > 0. or self.project_contract['friant2'] > 0.:
-          for wyt, acreage_list in self.acreage.items():
-            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['friant'] for acreage in acreage_list]
-        else:
-          for wyt, acreage_list in self.acreage.items():
-            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['non_friant'] for acreage in acreage_list]
+ 
+
+#    ### NOTE: put this in model.initialize_canals() and model.initialize_water_banks()
+#    ### additional demand multiplier for infrastructure investment partners
+#    if 'demand_partner_multiplier' in uncertainty_dict:
+#       if this is partner
+#      self.MDD *= uncertainty_dict['demand_MDD_multiplier']
+#      for wyt, acreage_list in self.acreage.items():
+#        self.acreage[wyt] = [acreage * uncertainty_dict['demand_acreage_multiplier'] for acreage in acreage_list]
+
+
+#    ### scale crop demand based on multiplier
+#    if 'ag_demand_multiplier' in uncertainty_dict:
+#      ### first scale based on factor depending on whether orchards/vineyards are majority of district ("BN" year)
+#      if 'crop' in uncertainty_dict['ag_demand_multiplier']:
+#        acreage_perr = 0.
+#        acreage_ann = 0.
+#        for ci, crop in enumerate(self.crop_list):
+#          if crop in ['apple','apple_immature','apple_cover','peach','peach_immature','almond','almond_cover','almond_immature','walnut','walnut_immature',
+#                      'pistachio','pistachio_cover','pistachio_immature','citrus','citrus_immature','avacado','avocado','grape','grape_cover','grape_immature']:
+#            acreage_perr += self.acreage['BN'][ci]
+#          elif crop not in ['idle', 'precip']:
+#            acreage_ann += self.acreage['BN'][ci]
+#        if acreage_perr > acreage_ann:
+#          for wyt, acreage_list in self.acreage.items():
+#            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['crop']['maj_orchardvineyard'] for acreage in acreage_list]
+#        else:
+#          for wyt, acreage_list in self.acreage.items():
+#            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['crop']['maj_other'] for acreage in acreage_list]
+#      ### now scale based on whether friant contractor
+#      if 'friant' in uncertainty_dict['ag_demand_multiplier']:
+#        if self.project_contract['friant1'] > 0. or self.project_contract['friant2'] > 0.:
+#          for wyt, acreage_list in self.acreage.items():
+#            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['friant'] for acreage in acreage_list]
+#        else:
+#          for wyt, acreage_list in self.acreage.items():
+#            self.acreage[wyt] = [acreage * uncertainty_dict['ag_demand_multiplier']['friant']['non_friant'] for acreage in acreage_list]
 
     # check if using infrastructure scenario for this district
     try:

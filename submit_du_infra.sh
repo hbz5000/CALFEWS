@@ -1,12 +1,12 @@
 #!/bin/bash
 
-numNodes=2
+numNodes=1
 numProcsPerNode=16
-numProcsPerTask=4
+numProcsPerTask=8
 numTasksPerNode=$(expr $numProcsPerNode / $numProcsPerTask)
 numTasks=$(expr $numTasksPerNode \* $numNodes)
 soln=0
-numDU=16
+numDU=2
 startDU=0
 numMC=8
 startMC=0

@@ -19,13 +19,13 @@ dunames = ['dry_state_mean_multiplier', 'wet_state_mean_multiplier', 'covariance
 nYears = 31
 
 ### load DU samples from LHC
-LHC = np.loadtxt('calfews_src/data/MGHMM_synthetic/calfews_mhmm_5112022/LHsamples_broad_64.txt')
+LHC = pd.read_csv('calfews_src/data/LHC_DU/LHC_DU.csv')
 
 ### loop over DU samples & MC samples, store each hierarchically
 with h5py.File(f'{results}/mghmm_du.hdf5', 'a') as hf:
 
   for ui in range(numDU):
-    udict = {dunames[i]: LHC[ui, i] for i in range(len(dunames))}
+    udict = {c: LHC[c].iloc[ui] for c in dunames}
 
     g = hf.create_group(f'du{ui}')
 
@@ -37,5 +37,6 @@ with h5py.File(f'{results}/mghmm_du.hdf5', 'a') as hf:
     g.attrs['dusamps'] = list(udict.values())
     print('finished du ', ui, datetime.now() - start_time)
     sys.stdout.flush()
+
   hf.attrs['colnames'] = list(df.columns)
   hf.attrs['dunames'] = dunames

@@ -117,7 +117,7 @@ cdef class main_cy():
         new_inputs_df = ''
       else:
         # run initialization routine
-        new_inputs.run_initialization('XXX')
+        new_inputs.run_initialization('XXX', uncertainty_dict)
         # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
         PyErr_CheckSignals()
         if True:

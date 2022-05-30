@@ -63,8 +63,8 @@ cdef class Model():
     self.short_days_in_month = days_in_month(short_year_list, short_leap)
 
     self.epsilon = 1e-13
+    self.applied_partnership_demand_multiplier = 0
     
-
     # if sensitivity_sample_number == -1:
     #   self.use_sensitivity = False
     # else:
@@ -144,16 +144,16 @@ cdef class Model():
     # self.contract_list - list of contract objects
     # self.contract_keys - dictionary pairing contract keys w/contract class objects
     # self.res.contract_carryover_list - record of carryover space afforded to each contract (for all district)
-    self.initialize_sw_contracts()
+    self.initialize_sw_contracts(scenario, uncertainty_dict)
     # initialize water banks for southern model
     # generates - water bank parameters (see calfews_src-combined/calfews_src/banks/readme.txt)
     # self.waterbank_list - list of waterbank objects
     # self.leiu_list - list of district objects that also operate as 'in leiu' or 'direct recharge' waterbanks
-    self.initialize_water_banks(scenario)
+    self.initialize_water_banks(scenario, uncertainty_dict)
     # initialize canals/waterways for southern model
     # generates - canal parameters (see calfews_src-combined/calfews_src/canals/readme.txt)
     # self.canal_list - list of canal objects
-    self.initialize_canals(scenario)
+    self.initialize_canals(scenario, uncertainty_dict)
     
     if self.model_mode == 'validation':
       self.set_regulations_historical_south(scenario)
@@ -503,7 +503,7 @@ cdef class Model():
 
 
 	
-  def initialize_sw_contracts(self):
+  def initialize_sw_contracts(self, scenario = 'baseline', dict uncertainty_dict={}):
     ############################################################################
     ###Contract Initialization
 	############################################################################
@@ -587,7 +587,7 @@ cdef class Model():
     self.determine_recharge_recovery_risk()
 
 
-  def initialize_water_banks(self, scenario='baseline'):
+  def initialize_water_banks(self, scenario='baseline', uncertainty_dict={}):
     ############################################################################
     ###Water Bank Initialization
 	############################################################################
@@ -620,14 +620,11 @@ cdef class Model():
     for district_obj in self.district_list:
       district_obj.delivery_location_list = []
       district_obj.delivery_location_list.append(district_obj.key)
-      # district_obj.daily_supplies_full[district_obj.key + '_recharged'] = np.zeros(self.T)
       district_obj.deliveries[district_obj.key + '_recharged'] = np.zeros(self.number_years)
       for waterbank_obj in self.waterbank_list:
-        # district_obj.daily_supplies_full[waterbank_obj.key + '_recharged'] = np.zeros(self.T)
         district_obj.deliveries[waterbank_obj.key + '_recharged'] = np.zeros(self.number_years)
         district_obj.delivery_location_list.append(waterbank_obj.key)
       for leiu_obj in self.leiu_list:
-        # district_obj.daily_supplies_full[leiu_obj.key + '_recharged'] = np.zeros(self.T)
         district_obj.deliveries[leiu_obj.key + '_recharged'] = np.zeros(self.number_years)
         district_obj.delivery_location_list.append(leiu_obj.key)
     for private_obj in self.private_list:
@@ -635,35 +632,52 @@ cdef class Model():
       for district_key in private_obj.district_list:
         private_obj.delivery_location_list[district_key] = []
         private_obj.delivery_location_list[district_key].append(district_key)
-        # private_obj.daily_supplies_full[district_key + '_' +  district_key + '_recharged'] = np.zeros(self.T)
         private_obj.deliveries[district_key][district_key + '_recharged'] = np.zeros(self.number_years)
       for waterbank_obj in self.waterbank_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(waterbank_obj.key)
-          # private_obj.daily_supplies_full[district_key + '_' + waterbank_obj.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][waterbank_obj.key + '_recharged'] = np.zeros(self.number_years)
       for lb in self.leiu_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(lb.key)
-          # private_obj.daily_supplies_full[district_key + '_' + lb.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][lb.key + '_recharged'] = np.zeros(self.number_years)
     for private_obj in self.city_list:
       private_obj.delivery_location_list = {}
       for district_key in private_obj.district_list:
         private_obj.delivery_location_list[district_key] = []
         private_obj.delivery_location_list[district_key].append(district_key)
-        # private_obj.daily_supplies_full[district_key + '_' +  district_key + '_recharged'] = np.zeros(self.T)
         private_obj.deliveries[district_key][district_key + '_recharged'] = np.zeros(self.number_years)
       for waterbank_obj in self.waterbank_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(waterbank_obj.key)
-          # private_obj.daily_supplies_full[district_key + '_' + waterbank_obj.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][waterbank_obj.key + '_recharged'] = np.zeros(self.number_years)
       for lb in self.leiu_list:
         for district_key in private_obj.district_list:
           private_obj.delivery_location_list[district_key].append(lb.key)
-          # private_obj.daily_supplies_full[district_key + '_' + lb.key + '_recharged'] = np.zeros(self.T)
           private_obj.deliveries[district_key][lb.key + '_recharged'] = np.zeros(self.number_years)
+
+
+    for waterbank in self.waterbank_list:
+      ### additional demand multiplier for infrastructure investment partners. both municipal and agricultural demand
+      if 'demand_partner_multiplier' in uncertainty_dict:
+        try:
+          if self.applied_partnership_demand_multiplier == 0:
+            for district_key in waterbank.DU_partners:
+              print('here3', waterbank.key, district_key)
+              sys.stdout.flush()
+              if waterbank.ownership[district_key] > 0:
+                print('here4', waterbank.key, district_key)
+                sys.stdout.flush()
+                district_obj = self.district_keys[district_key]
+                district_obj.MDD *= uncertainty_dict['demand_partner_multiplier']
+                for wyt, acreage_list in district_obj.acreage.items():
+                  district_obj.acreage[wyt] = [acreage * uncertainty_dict['demand_partner_multiplier'] for acreage in acreage_list]
+                self.applied_partnership_demand_multiplier = 1
+                print('here5', district_key, uncertainty_dict, district_obj.MDD, district_obj.acreage)
+                sys.stdout.flush()
+        except:
+          pass
+
         
     if self.model_mode == 'validation':
       self.semitropic.inleiubanked['MET'] = 175.8
@@ -684,7 +698,11 @@ cdef class Model():
       self.kwb.banked['WON'] = 500.0
       self.kwb.banked['WRM'] = 500.0
 
-  def initialize_canals(self, scenario = 'baseline'):
+    print('here after gwb')
+    sys.stdout.flush()
+
+
+  def initialize_canals(self, scenario = 'baseline', uncertainty_dict={}):
     ############################################################################
     ###Canal Initialization
 	  ############################################################################
@@ -706,14 +724,27 @@ cdef class Model():
 	
     self.canal_list = [self.fkc, self.madera, self.xvc, self.calaqueduct, self.kwbcanal, self.aecanal, self.kerncanal, self.calloway, self.lerdo, self.beardsley, self.kernriverchannel, self.kaweahriverchannel, self.tuleriverchannel, self.kingsriverchannel]
 
-    # set up shares for infrastructure investments
+    ### set up shares for infrastructure investments, and apply partner demand multiplier if provided in uncertainty_dict
     for district_obj in self.district_list:
       district_obj.infrastructure_shares = {}
     for canal in self.canal_list:
       try:
         for district_key in canal.ownership_shares:
-          district_obj = self.district_keys[district_key]
-          district_obj.infrastructure_shares[canal.name] = canal.ownership_shares[district_key]
+          if canal.ownership_shares[district_key] > 0:
+            district_obj = self.district_keys[district_key]
+            district_obj.infrastructure_shares[canal.name] = canal.ownership_shares[district_key]
+            ### additional demand multiplier for infrastructure investment partners. both municipal and agricultural demand
+            if 'demand_partner_multiplier' in uncertainty_dict:
+              try:
+                if self.applied_partnership_demand_multiplier == 0:
+                  district_obj.MDD *= uncertainty_dict['demand_MDD_multiplier']
+                  for wyt, acreage_list in district_obj.acreage.items():
+                    district_obj.acreage[wyt] = [acreage * uncertainty_dict['demand_acreage_multiplier'] for acreage in acreage_list]
+                  self.applied_partnership_demand_multiplier = 1
+                  print(district_key, uncertainty_dict, district_obj.MDD, district_obj.acreage)
+                  sys.stdout.flush()
+              except:
+                pass
       except:
         pass
 
@@ -727,6 +758,8 @@ cdef class Model():
     self.ytd_pump_trp = [0.0 for _ in range(self.T)]
     self.ytd_pump_hro = [0.0 for _ in range(self.T)]
 
+    print('here after canal')
+    sys.stdout.flush()
 
 	
   def create_object_associations(self):

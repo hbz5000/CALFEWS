@@ -4,6 +4,7 @@ import os
 import shutil
 import json
 import numpy as np
+import pandas as pd
 from multiprocessing import Process, Array
 import h5py
 import time
@@ -14,7 +15,7 @@ import main_cy
 
 
 ### function to setup problem for particular infra soln
-def setup_problem(results_folder, rank, soln, dusamp):
+def setup_problem(results_folder, rank, soln, dusamp, uncertainty_dict):
     ### setup/initialize model
     sys.stdout.flush()
 
@@ -80,12 +81,26 @@ def setup_problem(results_folder, rank, soln, dusamp):
             del scenario['bank_cap'][k]
         except:
             pass
+
+    ### baseline values for GW bank used in MOO
     scenario['initial_recharge'] = 300.
     scenario['tot_storage'] = 0.6
     scenario['recovery'] = 0.2
+
+    ### now modulate GW bank params based on DU reeval samples
+    scenario['initial_recharge'] *= uncertainty_dict['bank_initial_recharge_multiplier']
+    scenario['tot_storage'] *= uncertainty_dict['bank_tot_storage_multiplier']
+    scenario['recovery'] *= uncertainty_dict['bank_recovery_multiplier']
+
+    ### add additional list of partners just for DU sampling
+    scenario['DU_partners'] = scenario['participant_list']
+
     scenario['proj_type'] = dv_project
     with open(results_folder + '/CFWB_scenario.json', 'w') as o:
         json.dump(scenario, o, indent=4)
+
+    with open(results_folder + '/du.json', 'w') as o:
+        json.dump(uncertainty_dict, o, indent=4)
 
     ### create new sheet in results hdf5 file, and save dvs
     with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
@@ -106,12 +121,20 @@ def setup_problem(results_folder, rank, soln, dusamp):
 def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, MC_count, soln, dusamp, MC_to_be_run):
 #    try:
         if MC_to_be_run[MC_count]:
+            print('here1', MC_count)
+            sys.stdout.flush()
             main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
+            print('here2', MC_count)
+            sys.stdout.flush()
             uncertainty_dict['synth_gen_seed'] = int(MC_label)
             uncertainty_dict['dusamp'] = dusamp
             a = main_cy_obj.initialize_py(uncertainty_dict)
+            print('here3', MC_count)
+            sys.stdout.flush()
             a = main_cy_obj.run_sim_py(start_time)
+            print('here4', MC_count)
             main_cy_obj.get_district_results(results_folder=results_folder, baseline_folder='', MC_label=MC_label, shared_objs_array=[], MC_count=MC_count, is_baseline=False, is_reeval=True, soln=soln, dusamp=dusamp)
+            print('here5', MC_count)
  #   except:
  #       print('fail in run sim', results_folder, soln, MC_label)
 
@@ -163,28 +186,51 @@ if __name__ == "__main__":
             r = 0
 
     ### deep uncertainties from LHC sample
-    dunames = ['dry_state_mean_multiplier', 'wet_state_mean_multiplier', 'covariance_matrix_dry_multiplier',
-               'covariance_matrix_wet_multiplier', 'transition_drydry_addition', 'transition_wetwet_addition']
+#    dunames = ['dry_state_mean_multiplier', 'wet_state_mean_multiplier', 'covariance_matrix_dry_multiplier',
+#               'covariance_matrix_wet_multiplier', 'transition_drydry_addition', 'transition_wetwet_addition']
 
     ### load DU samples from LHC
-    LHC = np.loadtxt('calfews_src/data/MGHMM_synthetic/calfews_mhmm_5112022/LHsamples_broad_64.txt')
+    LHC = pd.read_csv('calfews_src/data/LHC_DU/LHC_DU.csv')
+    dunames = list(LHC.columns)
 
     ### loop over solns assigned to this task & do MC trial for infrastructure setup
     for dusamp in dusamps:
         start_time = datetime.now()
 
-        ### get DU samples from LHC file
-        uncertainty_dict = {dunames[i]: LHC[dusamp, i] for i in range(len(dunames))}
-       
+#        ### get DU samples from LHC file
+#        uncertainty_dict = {dunames[i]: LHC[dusamp, i] for i in range(len(dunames[:6]))}
+#
+#        ### get additional samples with uniform for now
+#        dunames_addl = ['bank_initial_recharge_multiplier', 'bank_tot_storage_multiplier', 'bank_recovery_multiplier']
+#        samples_addl = np.random.uniform(0.25, 2, size=len(dunames_addl))
+#        for i, s in enumerate(dunames_addl):
+#            uncertainty_dict[s] = samples_addl[i]
+#
+#        ### reservoir params
+#        dunames_addl = ['envflow_base_multiplier_MIL', 'envflow_base_multiplier_north', 'envflow_base_multiplier_south',
+#                        'envflow_peak_multiplier_MIL', 'envflow_peak_multiplier_north', 'envflow_peak_multiplier_south']
+#        samples_addl = np.random.uniform(0.25, 2, size=6)
+#        for i, s in enumerate(dunames_addl):
+#            uncertainty_dict[s] = samples_addl[i]
+#
+#        ### demand params
+#        dunames_addl = ['demand_MDD_multiplier', 'demand_acreage_multiplier', 'demand_partner_multiplier']
+#        samples_addl = np.random.uniform(0.25, 2, size=3)
+#        for i, s in enumerate(dunames_addl):
+#            uncertainty_dict[s] = samples_addl[i]
+
+        ### get DU samples from LHC
+        uncertainty_dict = {k: LHC[k].iloc[dusamp] for k in dunames}
+        
         ### define MC sampling problem/parallelization
         model_modes = ['simulation'] * num_MC
         flow_input_types = ['synthetic'] * num_MC
-        flow_input_sources = ['mghmm_30yr_hdf5'] * num_MC
+        flow_input_sources = ['mghmm_30yr_online'] * num_MC
         MC_labels = [str(i + start_MC) for i in range(num_MC)] 
 
         ### setup problem for this soln/dusamp
         results_folder = f'{base_results_folder}/soln{soln}/du{dusamp}/'
-        setup_problem(results_folder, rank, soln, dusamp)
+        setup_problem(results_folder, rank, soln, dusamp, uncertainty_dict)
 
         ### figure out which MC samps still need to be run
         MC_to_be_run = []

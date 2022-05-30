@@ -1642,6 +1642,7 @@ struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank {
   PyObject *canal_rights;
   PyObject *recharge_rate_series;
   PyObject *recharge_decline;
+  PyObject *DU_partners;
   PyObject *ownership;
   PyObject *bank_cap;
   PyObject *storage;
@@ -1695,6 +1696,7 @@ struct __pyx_obj_11calfews_src_8model_cy_Model {
   int sensitivity_sample_number;
   int omr_rule_start;
   int non_leap_year;
+  int applied_partnership_demand_multiplier;
   PyObject *model_mode;
   PyObject *demand_type;
   PyObject *df;

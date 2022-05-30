@@ -64,8 +64,8 @@ cdef class Inputter():
     sns.set()
 
 
-  cdef void run_initialization(self, str plot_key) except *:
-    self.initialize_reservoirs()
+  cdef void run_initialization(self, str plot_key, dict uncertainty_dict={}) except *:
+    self.initialize_reservoirs(uncertainty_dict)
     self.generate_relationships(plot_key)
     self.autocorrelate_residuals(plot_key)
     self.fill_snowpack(plot_key)
@@ -99,33 +99,33 @@ cdef class Inputter():
     
     return df_for_output
 
-  cdef void initialize_reservoirs(self) except *:
+  cdef void initialize_reservoirs(self, dict uncertainty_dict={}) except *:
     cdef:
       int monthcounter
       str data_type, monthname, deltaname
       Reservoir reservoir_obj
 
-    self.shasta = Reservoir(self, 'shasta', 'SHA', self.model_mode)
-    self.folsom = Reservoir(self, 'folsom', 'FOL', self.model_mode)
-    self.oroville = Reservoir(self, 'oroville', 'ORO', self.model_mode)
-    self.yuba = Reservoir(self, 'yuba', 'YRS', self.model_mode)
+    self.shasta = Reservoir(self, 'shasta', 'SHA', self.model_mode, uncertainty_dict)
+    self.folsom = Reservoir(self, 'folsom', 'FOL', self.model_mode, uncertainty_dict)
+    self.oroville = Reservoir(self, 'oroville', 'ORO', self.model_mode, uncertainty_dict)
+    self.yuba = Reservoir(self, 'yuba', 'YRS', self.model_mode, uncertainty_dict)
 
-    self.newhogan = Reservoir(self, 'newhogan', 'NHG', self.model_mode)
-    self.pardee = Reservoir(self, 'pardee', 'PAR', self.model_mode)
-    self.consumnes = Reservoir(self, 'consumnes', 'MHB', self.model_mode)
+    self.newhogan = Reservoir(self, 'newhogan', 'NHG', self.model_mode, uncertainty_dict)
+    self.pardee = Reservoir(self, 'pardee', 'PAR', self.model_mode, uncertainty_dict)
+    self.consumnes = Reservoir(self, 'consumnes', 'MHB', self.model_mode, uncertainty_dict)
 
     # 3 San Joaquin River Reservoirs (to meet Vernalis flow targets)
-    self.newmelones = Reservoir(self, 'newmelones', 'NML', self.model_mode)
-    self.donpedro = Reservoir(self, 'donpedro', 'DNP', self.model_mode)
-    self.exchequer = Reservoir(self, 'exchequer', 'EXC', self.model_mode)
+    self.newmelones = Reservoir(self, 'newmelones', 'NML', self.model_mode, uncertainty_dict)
+    self.donpedro = Reservoir(self, 'donpedro', 'DNP', self.model_mode, uncertainty_dict)
+    self.exchequer = Reservoir(self, 'exchequer', 'EXC', self.model_mode, uncertainty_dict)
 
     # Millerton Reservoir (flows used to calculate San Joaquin River index, not in northern simulation)
-    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode)
+    self.millerton = Reservoir(self, 'millerton', 'MIL', self.model_mode, uncertainty_dict)
 
-    self.pineflat = Reservoir(self, 'pineflat', 'PFT', self.model_mode)
-    self.kaweah = Reservoir(self, 'kaweah', 'KWH', self.model_mode)
-    self.success = Reservoir(self, 'success', 'SUC', self.model_mode)
-    self.isabella = Reservoir(self, 'isabella', 'ISB', self.model_mode)
+    self.pineflat = Reservoir(self, 'pineflat', 'PFT', self.model_mode, uncertainty_dict)
+    self.kaweah = Reservoir(self, 'kaweah', 'KWH', self.model_mode, uncertainty_dict)
+    self.success = Reservoir(self, 'success', 'SUC', self.model_mode, uncertainty_dict)
+    self.isabella = Reservoir(self, 'isabella', 'ISB', self.model_mode, uncertainty_dict)
     
     #self.reservoir_list = [self.shasta, self.oroville, self.folsom, self.yuba, self.newmelones, self.donpedro,
                  #self.exchequer, self.millerton, self.pineflat, self.kaweah, self.success, self.isabella,
@@ -838,8 +838,8 @@ cdef class Inputter():
         mc = uncertainty_dict['synth_gen_seed']
         d = hf[f'du{dusamp}/mc{mc}']
         self.fnf_df = pd.DataFrame(d[...], columns=colnames)
-        print(dusamp, mc, self.fnf_df.iloc[0,:])
-        sys.stdout.flush()
+#        print(dusamp, mc, self.fnf_df.iloc[0,:])
+#        sys.stdout.flush()
 
     ### otherwise, use fnf inputted from csv file
     else:

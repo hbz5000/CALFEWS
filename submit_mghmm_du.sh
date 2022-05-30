@@ -3,8 +3,8 @@
 numNodes=1
 numProcs=1
 numMC=64
-numDU=64
-t=03:00:00
+numDU=1152
+t=48:00:00
 partition=normal
 
 dir=results/infra_mghmm_du/

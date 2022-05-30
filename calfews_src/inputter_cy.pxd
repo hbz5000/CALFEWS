@@ -10,13 +10,13 @@ cdef class Inputter():
 
     public Reservoir shasta, oroville, folsom, yuba, newmelones, donpedro, exchequer, millerton, sanluisstate, sanluisfederal, sanluis, isabella, success, kaweah, pineflat
 
-  cdef void run_initialization(self, str plot_key) except *
+  cdef void run_initialization(self, str plot_key, dict uncertainty_dict=*) except *
 
   cdef void generate_relationships(self, str plot_key) except *
 
   cdef void generate_relationships_delta(self, str plot_key) except *
 
-  cdef void initialize_reservoirs(self) except *
+  cdef void initialize_reservoirs(self, dict uncertainty_dict=*) except *
 
   # cdef void run_routine(self, str flow_input_type, str flow_input_source) except *
 

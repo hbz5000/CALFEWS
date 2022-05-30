@@ -11,7 +11,7 @@ cdef class Waterbank():
 
     public str key, name
 
-    public list participant_list, participant_type, canal_rights, recharge_rate_series, recharge_decline
+    public list participant_list, participant_type, canal_rights, recharge_rate_series, recharge_decline, DU_partners
 
     public dict ownership, bank_cap, storage, recovery_use, banked, bank_timeseries
 

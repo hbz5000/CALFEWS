@@ -1269,6 +1269,32 @@ struct __pyx_opt_args_11calfews_src_8model_cy_5Model_initialize_water_districts 
   PyObject *scenario;
   PyObject *uncertainty_dict;
 };
+struct __pyx_opt_args_11calfews_src_11inputter_cy_8Inputter_run_initialization;
+struct __pyx_opt_args_11calfews_src_11inputter_cy_8Inputter_initialize_reservoirs;
+
+/* "calfews_src/inputter_cy.pxd":13
+ *     public Reservoir shasta, oroville, folsom, yuba, newmelones, donpedro, exchequer, millerton, sanluisstate, sanluisfederal, sanluis, isabella, success, kaweah, pineflat
+ * 
+ *   cdef void run_initialization(self, str plot_key, dict uncertainty_dict=*) except *             # <<<<<<<<<<<<<<
+ * 
+ *   cdef void generate_relationships(self, str plot_key) except *
+ */
+struct __pyx_opt_args_11calfews_src_11inputter_cy_8Inputter_run_initialization {
+  int __pyx_n;
+  PyObject *uncertainty_dict;
+};
+
+/* "calfews_src/inputter_cy.pxd":19
+ *   cdef void generate_relationships_delta(self, str plot_key) except *
+ * 
+ *   cdef void initialize_reservoirs(self, dict uncertainty_dict=*) except *             # <<<<<<<<<<<<<<
+ * 
+ *   # cdef void run_routine(self, str flow_input_type, str flow_input_source) except *
+ */
+struct __pyx_opt_args_11calfews_src_11inputter_cy_8Inputter_initialize_reservoirs {
+  int __pyx_n;
+  PyObject *uncertainty_dict;
+};
 
 /* "reservoir_cy.pxd":3
  * from .model_cy cimport Model
@@ -1859,6 +1885,7 @@ struct __pyx_obj_11calfews_src_12waterbank_cy_Waterbank {
   PyObject *canal_rights;
   PyObject *recharge_rate_series;
   PyObject *recharge_decline;
+  PyObject *DU_partners;
   PyObject *ownership;
   PyObject *bank_cap;
   PyObject *storage;
@@ -1912,6 +1939,7 @@ struct __pyx_obj_11calfews_src_8model_cy_Model {
   int sensitivity_sample_number;
   int omr_rule_start;
   int non_leap_year;
+  int applied_partnership_demand_multiplier;
   PyObject *model_mode;
   PyObject *demand_type;
   PyObject *df;
@@ -2481,10 +2509,10 @@ static struct __pyx_vtabstruct_11calfews_src_8model_cy_Model *__pyx_vtabptr_11ca
  */
 
 struct __pyx_vtabstruct_11calfews_src_11inputter_cy_Inputter {
-  void (*run_initialization)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *, PyObject *);
+  void (*run_initialization)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *, PyObject *, struct __pyx_opt_args_11calfews_src_11inputter_cy_8Inputter_run_initialization *__pyx_optional_args);
   void (*generate_relationships)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *, PyObject *);
   void (*generate_relationships_delta)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *, PyObject *);
-  void (*initialize_reservoirs)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *);
+  void (*initialize_reservoirs)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *, struct __pyx_opt_args_11calfews_src_11inputter_cy_8Inputter_initialize_reservoirs *__pyx_optional_args);
   void (*fill_snowpack)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *, PyObject *);
   PyObject *(*whiten_data)(struct __pyx_obj_11calfews_src_11inputter_cy_Inputter *, __Pyx_memviewslice);
 };
@@ -5098,9 +5126,10 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
   Py_ssize_t __pyx_t_13;
   int __pyx_t_14;
   int __pyx_t_15;
-  struct __pyx_opt_args_11calfews_src_8model_cy_5Model_northern_initialization_routine __pyx_t_16;
-  struct __pyx_opt_args_11calfews_src_8model_cy_5Model_southern_initialization_routine __pyx_t_17;
-  PyObject *__pyx_t_18 = NULL;
+  struct __pyx_opt_args_11calfews_src_11inputter_cy_8Inputter_run_initialization __pyx_t_16;
+  struct __pyx_opt_args_11calfews_src_8model_cy_5Model_northern_initialization_routine __pyx_t_17;
+  struct __pyx_opt_args_11calfews_src_8model_cy_5Model_southern_initialization_routine __pyx_t_18;
+  PyObject *__pyx_t_19 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5600,15 +5629,17 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
     /* "main_cy.pyx":120
  *       else:
  *         # run initialization routine
- *         new_inputs.run_initialization('XXX')             # <<<<<<<<<<<<<<
+ *         new_inputs.run_initialization('XXX', uncertainty_dict)             # <<<<<<<<<<<<<<
  *         # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
  *         PyErr_CheckSignals()
  */
     /*else*/ {
-      ((struct __pyx_vtabstruct_11calfews_src_11inputter_cy_Inputter *)__pyx_v_new_inputs->__pyx_vtab)->run_initialization(__pyx_v_new_inputs, __pyx_n_u_XXX); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 120, __pyx_L1_error)
+      __pyx_t_16.__pyx_n = 1;
+      __pyx_t_16.uncertainty_dict = __pyx_v_uncertainty_dict;
+      ((struct __pyx_vtabstruct_11calfews_src_11inputter_cy_Inputter *)__pyx_v_new_inputs->__pyx_vtab)->run_initialization(__pyx_v_new_inputs, __pyx_n_u_XXX, &__pyx_t_16); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 120, __pyx_L1_error)
 
       /* "main_cy.pyx":122
- *         new_inputs.run_initialization('XXX')
+ *         new_inputs.run_initialization('XXX', uncertainty_dict)
  *         # end simulation if error has been through within inner cython/c code (i.e. keyboard interrupt)
  *         PyErr_CheckSignals()             # <<<<<<<<<<<<<<
  *         if True:
@@ -5938,10 +5969,10 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
  *     PyErr_CheckSignals()
  *     if True:
  */
-  __pyx_t_16.__pyx_n = 2;
-  __pyx_t_16.scenario = __pyx_v_scenario;
-  __pyx_t_16.uncertainty_dict = __pyx_v_uncertainty_dict;
-  __pyx_t_1 = ((struct __pyx_vtabstruct_11calfews_src_8model_cy_Model *)__pyx_v_self->modelno->__pyx_vtab)->northern_initialization_routine(__pyx_v_self->modelno, &__pyx_t_16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_17.__pyx_n = 2;
+  __pyx_t_17.scenario = __pyx_v_scenario;
+  __pyx_t_17.uncertainty_dict = __pyx_v_uncertainty_dict;
+  __pyx_t_1 = ((struct __pyx_vtabstruct_11calfews_src_8model_cy_Model *)__pyx_v_self->modelno->__pyx_vtab)->northern_initialization_routine(__pyx_v_self->modelno, &__pyx_t_17); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(__pyx_t_1 != Py_None)) {
     PyObject* sequence = __pyx_t_1;
@@ -6007,10 +6038,10 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
  *       try:
  *         #remove input data file (only if created for simulation), since data will be stored more efficiently in hdf5
  */
-  __pyx_t_17.__pyx_n = 2;
-  __pyx_t_17.scenario = __pyx_v_scenario;
-  __pyx_t_17.uncertainty_dict = __pyx_v_uncertainty_dict;
-  ((struct __pyx_vtabstruct_11calfews_src_8model_cy_Model *)__pyx_v_self->modelso->__pyx_vtab)->southern_initialization_routine(__pyx_v_self->modelso, &__pyx_t_17); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_18.__pyx_n = 2;
+  __pyx_t_18.scenario = __pyx_v_scenario;
+  __pyx_t_18.uncertainty_dict = __pyx_v_uncertainty_dict;
+  ((struct __pyx_vtabstruct_11calfews_src_8model_cy_Model *)__pyx_v_self->modelso->__pyx_vtab)->southern_initialization_routine(__pyx_v_self->modelso, &__pyx_t_18); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 152, __pyx_L1_error)
 
   /* "main_cy.pyx":153
  *       self.modelso.forecastSRI = self.modelno.delta.forecastSRI
@@ -6045,31 +6076,31 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
       if (unlikely(!__pyx_v_new_inputs)) { __Pyx_RaiseUnboundLocalError("new_inputs"); __PYX_ERR(0, 155, __pyx_L26_error) }
       __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_new_inputs), __pyx_n_s_export_series); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L26_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_18 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_v_self->flow_input_type); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 155, __pyx_L26_error)
-      __Pyx_GOTREF(__pyx_t_18);
+      __pyx_t_19 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_v_self->flow_input_type); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 155, __pyx_L26_error)
+      __Pyx_GOTREF(__pyx_t_19);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_18, __pyx_v_self->flow_input_source); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L26_error)
+      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_19, __pyx_v_self->flow_input_source); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L26_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-      __pyx_t_18 = PyNumber_Add(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 155, __pyx_L26_error)
-      __Pyx_GOTREF(__pyx_t_18);
+      __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+      __pyx_t_19 = PyNumber_Add(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 155, __pyx_L26_error)
+      __Pyx_GOTREF(__pyx_t_19);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_18, __pyx_kp_u_0_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L26_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_t_19, __pyx_kp_u_0_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L26_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-      __pyx_t_18 = NULL;
+      __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+      __pyx_t_19 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_18 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_18)) {
+        __pyx_t_19 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_19)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_18);
+          __Pyx_INCREF(__pyx_t_19);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_4, function);
         }
       }
-      __pyx_t_1 = (__pyx_t_18) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_18, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3);
-      __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
+      __pyx_t_1 = (__pyx_t_19) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_19, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3);
+      __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L26_error)
       __Pyx_GOTREF(__pyx_t_1);
@@ -6090,7 +6121,7 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
     goto __pyx_L31_try_end;
     __pyx_L26_error:;
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
+    __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6167,7 +6198,7 @@ static int __pyx_f_7main_cy_7main_cy_initialize(struct __pyx_obj_7main_cy_main_c
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_18);
+  __Pyx_XDECREF(__pyx_t_19);
   __Pyx_AddTraceback("main_cy.main_cy.initialize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;

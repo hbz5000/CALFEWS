@@ -10,7 +10,7 @@ dependencies:
   - matplotlib
   - imageio
   - cython
-  - scipy
+  - scipy==1.8.0
   - seaborn
   - configobj
   - xlrd
