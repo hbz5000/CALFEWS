@@ -112,29 +112,22 @@ def setup_problem(results_folder, rank, soln, dusamp, uncertainty_dict):
                 dvs.append(v)
                 dv_names.append(k)
             d.attrs['dvs'] = dvs
-            d.attrs['dv_names'] = dv_names
+            d.attrs['dvnames'] = dv_names
             d.attrs['colnames'] = MC_labels
-
+            d.attrs['dunames'] = list(uncertainty_dict.keys())
+            d.attrs['duvals'] = list(uncertainty_dict.values())
 
 
 ### function to run a single MC trial
 def run_sim(results_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, MC_count, soln, dusamp, MC_to_be_run):
 #    try:
         if MC_to_be_run[MC_count]:
-            print('here1', MC_count)
-            sys.stdout.flush()
             main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
-            print('here2', MC_count)
-            sys.stdout.flush()
             uncertainty_dict['synth_gen_seed'] = int(MC_label)
             uncertainty_dict['dusamp'] = dusamp
             a = main_cy_obj.initialize_py(uncertainty_dict)
-            print('here3', MC_count)
-            sys.stdout.flush()
             a = main_cy_obj.run_sim_py(start_time)
-            print('here4', MC_count)
             main_cy_obj.get_district_results(results_folder=results_folder, baseline_folder='', MC_label=MC_label, shared_objs_array=[], MC_count=MC_count, is_baseline=False, is_reeval=True, soln=soln, dusamp=dusamp)
-            print('here5', MC_count)
  #   except:
  #       print('fail in run sim', results_folder, soln, MC_label)
 
@@ -225,7 +218,7 @@ if __name__ == "__main__":
         ### define MC sampling problem/parallelization
         model_modes = ['simulation'] * num_MC
         flow_input_types = ['synthetic'] * num_MC
-        flow_input_sources = ['mghmm_30yr_online'] * num_MC
+        flow_input_sources = ['mghmm_30yr_hdf5'] * num_MC
         MC_labels = [str(i + start_MC) for i in range(num_MC)] 
 
         ### setup problem for this soln/dusamp
@@ -285,6 +278,6 @@ if __name__ == "__main__":
                         d.attrs['rownames'] = objs_list
 
         ### remove directory for this MC trial, since results recorded in main hdf5
-#        shutil.rmtree(results_folder)
+        shutil.rmtree(results_folder)
         print(f'solution {soln}, du {dusamp} finished, rank {rank}, time {datetime.now() - overall_start_time}')
 
