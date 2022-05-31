@@ -24,7 +24,7 @@ def setup_problem(results_folder, rank, soln, dusamp, uncertainty_dict):
     except:
         pass
 
-    resultsfile = 'results_arx/infra_moo/overall_ref/overall_clean.csv'
+    resultsfile = 'results_arx/infra_wcu/objs_wcu_pareto_5objs_coarse_withBaselines.csv'
     linenum = soln + 1
 
     with open(resultsfile, 'r') as f:
@@ -35,9 +35,10 @@ def setup_problem(results_folder, rank, soln, dusamp, uncertainty_dict):
               vals = line
               break
 
-    cols = cols.strip().split(',')
-    vals = vals.strip().split(',')
-    dv_project = int(vals[2])
+    cols = cols.strip().split(', ')
+    vals = vals.strip().split(', ')
+    dv_project = int(float(vals[1]))
+    print(dv_project)
     share_cols = [cols[i] for i in range(len(cols)) if 'share' in cols[i]]
     share_vals = [vals[i] for i in range(len(cols)) if 'share' in cols[i]]
     share_vals = [v if v != '' else '0.0' for v in share_vals]
