@@ -663,18 +663,12 @@ cdef class Model():
         try:
           if self.applied_partnership_demand_multiplier == 0:
             for district_key in waterbank.DU_partners:
-              print('here3', waterbank.key, district_key)
-              sys.stdout.flush()
               if waterbank.ownership[district_key] > 0:
-                print('here4', waterbank.key, district_key)
-                sys.stdout.flush()
                 district_obj = self.district_keys[district_key]
                 district_obj.MDD *= uncertainty_dict['demand_partner_multiplier']
                 for wyt, acreage_list in district_obj.acreage.items():
                   district_obj.acreage[wyt] = [acreage * uncertainty_dict['demand_partner_multiplier'] for acreage in acreage_list]
                 self.applied_partnership_demand_multiplier = 1
-                print('here5', district_key, uncertainty_dict, district_obj.MDD, district_obj.acreage)
-                sys.stdout.flush()
         except:
           pass
 
@@ -698,8 +692,6 @@ cdef class Model():
       self.kwb.banked['WON'] = 500.0
       self.kwb.banked['WRM'] = 500.0
 
-    print('here after gwb')
-    sys.stdout.flush()
 
 
   def initialize_canals(self, scenario = 'baseline', uncertainty_dict={}):
@@ -741,8 +733,6 @@ cdef class Model():
                   for wyt, acreage_list in district_obj.acreage.items():
                     district_obj.acreage[wyt] = [acreage * uncertainty_dict['demand_acreage_multiplier'] for acreage in acreage_list]
                   self.applied_partnership_demand_multiplier = 1
-                  print(district_key, uncertainty_dict, district_obj.MDD, district_obj.acreage)
-                  sys.stdout.flush()
               except:
                 pass
       except:
@@ -758,8 +748,6 @@ cdef class Model():
     self.ytd_pump_trp = [0.0 for _ in range(self.T)]
     self.ytd_pump_hro = [0.0 for _ in range(self.T)]
 
-    print('here after canal')
-    sys.stdout.flush()
 
 	
   def create_object_associations(self):

@@ -38,7 +38,6 @@ def setup_problem(results_folder, rank, soln, dusamp, uncertainty_dict):
     cols = cols.strip().split(', ')
     vals = vals.strip().split(', ')
     dv_project = int(float(vals[1]))
-    print(dv_project)
     share_cols = [cols[i] for i in range(len(cols)) if 'share' in cols[i]]
     share_vals = [vals[i] for i in range(len(cols)) if 'share' in cols[i]]
     share_vals = [v if v != '' else '0.0' for v in share_vals]
@@ -179,10 +178,6 @@ if __name__ == "__main__":
         if r == size:
             r = 0
 
-    ### deep uncertainties from LHC sample
-#    dunames = ['dry_state_mean_multiplier', 'wet_state_mean_multiplier', 'covariance_matrix_dry_multiplier',
-#               'covariance_matrix_wet_multiplier', 'transition_drydry_addition', 'transition_wetwet_addition']
-
     ### load DU samples from LHC
     LHC = pd.read_csv('calfews_src/data/LHC_DU/LHC_DU.csv')
     dunames = list(LHC.columns)
@@ -190,28 +185,6 @@ if __name__ == "__main__":
     ### loop over solns assigned to this task & do MC trial for infrastructure setup
     for dusamp in dusamps:
         start_time = datetime.now()
-
-#        ### get DU samples from LHC file
-#        uncertainty_dict = {dunames[i]: LHC[dusamp, i] for i in range(len(dunames[:6]))}
-#
-#        ### get additional samples with uniform for now
-#        dunames_addl = ['bank_initial_recharge_multiplier', 'bank_tot_storage_multiplier', 'bank_recovery_multiplier']
-#        samples_addl = np.random.uniform(0.25, 2, size=len(dunames_addl))
-#        for i, s in enumerate(dunames_addl):
-#            uncertainty_dict[s] = samples_addl[i]
-#
-#        ### reservoir params
-#        dunames_addl = ['envflow_base_multiplier_MIL', 'envflow_base_multiplier_north', 'envflow_base_multiplier_south',
-#                        'envflow_peak_multiplier_MIL', 'envflow_peak_multiplier_north', 'envflow_peak_multiplier_south']
-#        samples_addl = np.random.uniform(0.25, 2, size=6)
-#        for i, s in enumerate(dunames_addl):
-#            uncertainty_dict[s] = samples_addl[i]
-#
-#        ### demand params
-#        dunames_addl = ['demand_MDD_multiplier', 'demand_acreage_multiplier', 'demand_partner_multiplier']
-#        samples_addl = np.random.uniform(0.25, 2, size=3)
-#        for i, s in enumerate(dunames_addl):
-#            uncertainty_dict[s] = samples_addl[i]
 
         ### get DU samples from LHC
         uncertainty_dict = {k: LHC[k].iloc[dusamp] for k in dunames}
