@@ -481,6 +481,8 @@ cdef class Model():
       self.load_pesticide_acreage()
     elif self.demand_type == 'pmp':
       self.load_pmp_model()
+    elif self.demand_type == 'landiq':
+      self.load_landiq_acreage()
     
     self.allocate_private_contracts()
 	
@@ -1475,6 +1477,8 @@ cdef class Model():
           for i,crops in enumerate(district_land.crop_list):
             for private_crops in private_obj.crop_list:
               if private_crops == crops:
+                print(private_obj.contract_fractions[district_key])
+                print(district_land.acreage['BN'][i])
                 private_acres += private_obj.contract_fractions[district_key]*district_land.acreage['BN'][i]
                 district_land.private_acreage[private_crops] += private_obj.contract_fractions[district_key]*district_land.acreage['BN'][i]
                 if private_obj.has_pesticide[district_key]:
@@ -1595,7 +1599,98 @@ cdef class Model():
           for irr_district in self.district_keys[district_key]:
             irr_district.max_recovery += leiu_obj.leiu_ownership[district_key]*leiu_obj.leiu_recovery/num_districts
       
+  def load_landiq_acreage(self):
+    cdef District district_obj
 
+    id_dict = {}
+    id_dict['ALT'] = 'Alta Irrigation District'
+    id_dict['ARV'] = 'Arvin - Edison Water Storage District'
+    id_dict['BEL'] = 'Belridge Water Storage District'
+    id_dict['BDM'] = 'Berrenda Mesa Water District'
+    id_dict['BVA'] = 'Buena Vista Water Storage District'
+    id_dict['CWO'] = 'Cawelo Water District'
+    id_dict['CWC'] = 'Chowchilla Water District'
+    id_dict['CNS'] = 'Consolidated Irrigation District'
+    id_dict['DLE'] = 'Delano - Earlimart Irrigation District'
+    id_dict['EXE'] = 'Exeter Irrigation District'
+    id_dict['FRS'] = 'Fresno Irrigation District'
+    id_dict['HML'] = 'Henry Miller Water District'
+    id_dict['KWD'] = 'Kaweah Delta Water Conservation District'
+    id_dict['KRT'] = 'Kern - Tulare Water District'
+    id_dict['KND'] = 'Kern Delta Water District'
+    id_dict['LND'] = 'Lindmore Irrigation District'
+    id_dict['LDS'] = 'Lindsay - Strathmore Irrigation District'
+    id_dict['LHL'] = 'Lost Hills Water District'
+    id_dict['LWT'] = 'Lower Tule River Irrigation District'
+    id_dict['MAD'] = 'Madera Irrigation District'
+    id_dict['NKN'] = 'North Kern Water Storage District'
+    id_dict['ORC'] = 'Orange Cove Irrigation District'
+    id_dict['PIX'] = 'Pixley Irrigation District'
+    id_dict['PRT'] = 'Porterville Irrigation District'
+    id_dict['RRB'] = 'Rosedale - Rio Bravo Water Storage District'
+    id_dict['SAU'] = 'Saucelito Irrigation District'
+    id_dict['SMI'] = 'Semitropic Water Service District'
+    id_dict['SFW'] = 'Shafter - Wasco Irrigation District'
+    id_dict['SSJ'] = 'Southern San Joaquin Municipal Utility District'
+    id_dict['TPD'] = 'Tea Pot Dome Water District'
+    id_dict['THC'] = 'Tehachapi - Cummings County Water District'
+    id_dict['TBA'] = 'Terra Bella Irrigation District'
+    id_dict['TUL'] = 'Tulare Irrigation District'
+    id_dict['TLB'] = 'Tulare Lake Basin Water Storage District'
+    id_dict['WKN'] = 'West Kern Water District'
+    id_dict['WSL'] = 'Westlands Water District'
+    id_dict['WRM'] = 'Wheeler Ridge - Maricopa Water Storage District'
+    
+    crop_dict = {}
+    crop_dict['Alfalfa'] = 'alfalfa'
+    crop_dict['Almonds'] = 'almond'
+    crop_dict['Beans Dry'] = 'field_misc'
+    crop_dict['Berries'] = 'strawberry'
+    crop_dict['Corn'] = 'corn'
+    crop_dict['Cotton'] = 'cotton'
+    crop_dict['Cucurbits'] = 'squash'
+    crop_dict['Field and Grain'] = 'field_misc'
+    crop_dict['Grapes'] = 'grape'
+    crop_dict['Lettuce'] = 'vegetable_small'
+    crop_dict['Onions and Garlic'] = 'onion'
+    crop_dict['Orchards'] = 'deciduous_misc'
+    crop_dict['Pasture'] = 'pasture'
+    crop_dict['Pistachios'] = 'pistachio'
+    crop_dict['Potatoes'] = 'potatoe'
+    crop_dict['Safflower'] = 'safflower'
+    crop_dict['Subtropical'] = 'subtropical_misc'
+    crop_dict['Tomatoes'] = 'tomato'
+    crop_dict['Truck'] = 'vegetable_small'
+    crop_dict['Walnuts'] = 'walnut'
+    crop_dict['Young Perennial'] = 'almond_immature'
+    
+    landiq_data = pd.read_csv('calfews_src/data/input/landiq_data/LandIQ2018_applied_water_calfews_summary.csv')
+    for district_obj in self.district_list:
+      if district_obj.key in id_dict:
+        district_obj.acreage = {}
+        district_obj.crop_list = []
+        for wyt in ['W', 'AN', 'BN', 'D', 'C']:
+          district_obj.acreage[wyt] = []
+        district_filename = id_dict[district_obj.key]
+        this_district_land_iq = landiq_data[landiq_data['district'] == district_filename]
+        this_district_acreage = {}
+        if len(this_district_land_iq) > 0:
+          for index, row in this_district_land_iq.iterrows():
+            crop_name = crop_dict[row['CV_Ag_Code']]
+            if crop_name in district_obj.crop_list:
+              for wyt in ['W', 'AN', 'BN', 'D', 'C']:
+                this_district_acreage[crop_name] += row['Acres_Calc'] / 1000.0
+            else:
+              district_obj.crop_list.append(crop_name)
+              for wyt in ['W', 'AN', 'BN', 'D', 'C']:
+                this_district_acreage[crop_name] = row['Acres_Calc'] / 1000.0
+        else:
+          print(district_filename)
+        for crop in district_obj.crop_list:
+          for wyt in ['W', 'AN', 'BN', 'D', 'C']:
+            district_obj.acreage[wyt].append(this_district_acreage[crop])
+          
+	  
   def load_pesticide_acreage(self):
     cdef District district_obj
 

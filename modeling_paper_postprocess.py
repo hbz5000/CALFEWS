@@ -10,7 +10,6 @@ import sys
 from calfews_src import *
 from calfews_src.visualizer import Visualizer
 startTime = datetime.now()
-
 #results hdf5 file location from CALFEWS simulations
 # output_folder_val = 'results/baseline_wy2017/validation/CDEC/'
 # output_folder_sim = 'results/baseline_wy2017/simulation/CDEC/'
@@ -26,9 +25,8 @@ output_file_sim = output_folder_sim + 'results.hdf5'
 # modelno_val = pd.read_pickle(output_folder_val+ 'modelno0.pkl')
 # modelno_sim = pd.read_pickle(output_folder_sim + 'modelno0.pkl')
 
-modelso_val = pd.read_pickle(output_folder_val + 'modelso0.pkl')
-modelso_sim = pd.read_pickle(output_folder_sim + 'modelso0.pkl')
-
+modelso_val = pd.read_pickle('results/modelso.pkl')
+modelso_sim = pd.read_pickle('results/modelso.pkl')
 ##Folder to write visualization files
 # fig_folder = 'results/baseline_wy2017/figures/'
 # sankeys_folder = 'results/baseline_wy2017/sankeys/'
