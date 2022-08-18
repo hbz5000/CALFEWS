@@ -11,6 +11,9 @@ start_time = datetime.now()
 results = sys.argv[1]
 numMC = int(sys.argv[2])
 numDU = int(sys.argv[3])
+firstDU = int(sys.argv[4])
+LHCfile = sys.argv[5]
+MGHMMfile = sys.argv[6]
 
 ### uncertainties
 dunames = ['dry_state_mean_multiplier', 'wet_state_mean_multiplier', 'covariance_matrix_dry_multiplier',
@@ -19,10 +22,10 @@ dunames = ['dry_state_mean_multiplier', 'wet_state_mean_multiplier', 'covariance
 nYears = 31
 
 ### load DU samples from LHC
-LHC = pd.read_csv('calfews_src/data/LHC_DU/LHC_DU.csv')
+LHC = pd.read_csv(f'calfews_src/data/LHC_DU/{LHCfile}')
 
 ### loop over DU samples & MC samples, store each hierarchically
-with h5py.File(f'{results}/mghmm_du.hdf5', 'a') as hf:
+with h5py.File(f'{results}/{MGHMMfile}', 'a') as hf:
 
   for ui in range(numDU):
     udict = {c: LHC[c].iloc[ui] for c in dunames}
