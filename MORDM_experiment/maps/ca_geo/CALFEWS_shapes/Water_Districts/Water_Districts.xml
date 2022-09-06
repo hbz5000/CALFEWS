@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <title>Water Districts</title>
+                <onlink>https://gis.water.ca.gov/arcgis/rest/services/Boundaries/i03_WaterDistricts/FeatureServer</onlink>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>Public water agencies in the State of California identified and collected from various sources. This dataset is updated continually as new sources are available.The associated data are considered DWR enterprise GIS data, which meet all appropriate requirements of the DWR Spatial Data Standards, specifically the DWR Spatial Data Standard version 2.0, dated October 20, 2015. DWR makes no warranties or guarantees—either expressed or implied—as to the completeness, accuracy, or correctness of the data, nor accepts or assumes any liability arising from or for any incorrect, incomplete or misleading subject data. The official DWR GIS Steward for this data set is Groundwater &amp;amp; Regional Planning Office, South Central Regional Office, (559)230-3300. Comments, problems, improvements, updates, or suggestions should be forwarded to the official GIS Steward as available and appropriate.</abstract>
+            <purpose>The purpose of the data is to assist the public in identifying Water Agencies in California.</purpose>
+        </descript>
+        <keywords>
+            <theme>
+                <themekt>ISO 19115 Topic Categories</themekt>
+                <themekey>boundaries</themekey>
+            </theme>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>Southern California</themekey>
+                <themekey>2013</themekey>
+                <themekey>farming</themekey>
+                <themekey>California</themekey>
+                <themekey>current</themekey>
+                <themekey>2015</themekey>
+                <themekey>Central California</themekey>
+                <themekey>agencies</themekey>
+                <themekey>boundaries</themekey>
+                <themekey>Water purveyors</themekey>
+                <themekey>Bay Area</themekey>
+                <themekey>water agency</themekey>
+                <themekey>2014</themekey>
+                <themekey>Northern California</themekey>
+                <themekey>present</themekey>
+                <themekey>water district</themekey>
+                <themekey>California Delta</themekey>
+                <themekey>districts</themekey>
+            </theme>
+        </keywords>
+        <accconst>None</accconst>
+        <useconst>The associated data are considered DWR enterprise GIS data, which meet all appropriate requirements of the DWR GIS Spatial Data Standards. DWR makes no warranties or guarantees, either expressed or implied, as to the completeness, accuracy or correctness of the data, nor accepts or assumes any liability arising from or for any incorrect, incomplete or misleading subject data.</useconst>
+        <datacred>DWR: Northern Region, North Central Region, South Central Region, Southern Region. USBR</datacred>
+    </idinfo>
+    <metainfo>
+        <metd>20180813</metd>
+        <metc>
+            <cntinfo>
+                <!--no contact person or organization name available-->
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <mettc>local time</mettc>
+    </metainfo>
+</metadata>
