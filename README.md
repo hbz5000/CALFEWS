@@ -1,30 +1,19 @@
 # California Food-Energy-Water System (CALFEWS)
-This repository contains all code and data for the California Food-Energy-Water System (CALFEWS), an open-sourced, Python/Cython-based model for simulating the integrated, multi-sector dynamics of water supply in the Central Valley of California.  CALFEWS captures system dynamics across multiple scales, from coordinated management of inter-basin water supply projects at the state and regional scale, to agent-based representation of conjunctive surface water and groundwater supplies at the scale of irrigation and water storage districts. Its flexible, adaptive, rules-based representation allows CALFEWS to explore alternative climate, infrastructure, and regulation scenarios, and it is also interoperable with power dispatch and agricultural production models. This tool can provide decision-makers and analysts with a platform to generate a wide range of internally consistent scenarios for the integrated management of water supply, energy generation, and food production.
-
-More information on the CALFEWS model, and comparison of model output to historical data, can be found in the following manuscript:
+For general information on the California Food-Energy-Water System (CALFEWS) simulation model, please switch to the "main" branch of this repository, where you will find information on installing, compiling, running, and analyzing the base model. Interested readers can also refer to the following paper to learn more about the performance and conceptual underpinnings of the model:
 
 Zeff, H.B., Hamilton, A.L., Malek, K., Herman, J.D., Cohen, J.S., Medellin-Azuara, J., Reed, P.M., and G.W. Characklis. (2021). California's Food-Energy-Water System: An Open Source Simulation Model of Adaptive Surface and Groundwater Management in the Central Valley. *Environmental Modelling & Software, 141*: 105052. [https://doi.org/10.1016/j.envsoft.2021.105052](https://doi.org/10.1016/j.envsoft.2021.105052) 
 
-Download the exact version used to produce the paper at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4091708.svg)](https://doi.org/10.5281/zenodo.4091708).
+Licensed under the MIT License, 2017-2022.
 
-Licensed under the MIT License, 2017.
+# Multi-Objective Robust Decision Making (MORDM) for infrastructure partnership design; Part 1
+This "MORDM_experiment_paper1" branch of the repository contains code and data for the first in a two-part series on using MORDM to design water supply infrastructure partnerships that provide robust benefits to all partners under uncertainty. This first paper focuses on the Multi-Objective Optimization, using the Borg MOEA, to discover partnerships that perform well across multiple objectives. This first step only uses "well characterized" uncertainty in future streamflows. A follow on study will reevaluate high-performing solutions across a range of deeply uncertain factors related to hydrology, demand, regulation, and cost.
 
 ## Installation and setup
-1. Clone this repository to your local machine.
-1. If you use Anaconda:
-    1. Create a new environment using the yml file: ``conda env create -f environment.yml``
-    1. Activate environment: ``conda activate .venv_conda_calfews``
-1. If you don't use Anaconda:
-    1. Manually install the packages listed in ``environment.yml`` into a new virtual environment named ``.venv_conda_calfews``, and activate the environment.
-1. From the base CALFEWS directory, run model with ``python -W ignore run_main_cy.py <results_folder>``, where ``<results_folder>`` is the location you would like to store the results, relative to base directory. (Note: the command for Python 3 may be python3, not python, depending on your machine).
-1. If this doesn't work (or you want to make any changes to source files), you will need to recreate the C files & binaries from Cython. 
-    1. If you are running on Linux or MacOS, you should already have gcc installed. If you are running on Windows, you will need to install Visual Studio 2019 Community Edition. When it asks which programs to install, choose "Desktop development with C++".
-    1. Cythonize and recompile with the command: ``python setup_cy.py build_ext --inplace``.
-1. Three different Jupyter notebooks are available to improve usability. To use them, you will need to run the following commands in the terminal or Anaconda Prompt.
-    1. Add your virtual environment to Jupyter: ``python -m ipykernel install --user --name=.venv_conda_calfews``
-    1. Tell Jupyter to allow ipywidgets: ``jupyter nbextension enable --py widgetsnbextension`` (this step may or may not be necessary depending on your Jupyter version)
-    1. Tell Jupyter to allow bqplot: ``jupyter nbextension enable --py bqplot``
-1. The three helper notebooks are:
-    1. ``CALFEWS_GUI.ipynb``: This graphical user interface (GUI) allows the user to run different inflow scenarios and visualize results interactively (run the notebook and scroll down to the bottom for the GUI.
-    1. ``CALFEWS_intro_tutorial.ipynb``: This notebook gives more details on model parameters, input files, and output files, for users who want to go deeper than the GUI.
-    1. ``modeling_paper_notebook.ipynb``: This notebook can be run to automatically run run all simulations and reproduce all figures from Zeff et al. 2020 (see citation above).
+1. First, switch to the "main" branch of this repository and follow instructions to clone, compile, and run the base CALFEWS model. If you only want to recreate the data analysis and figures (step 5), you can just setup CALFEWS on a local desktop/laptop. If you also want to recreate the full MORDM experiment, then you will need to access to a larger computing cluster, and should set up CALFEWS there as well.
+2. Then switch back to this "MORDM_experiment_paper1" branch and run the cythonization command, `python3 setup_cy.py build_ext --inplace`, on all machines. 
+3. Obtain additional software for the computer cluster where you will run the multi-objective optimization and large-scale resampling experiments.
+  * Download the [Borg MOEA](http://borgmoea.org/) source code, using the `alh_python_checkpointing` branch of the Master-Worker algorithm, as demonstrated in [this blog post](https://waterprogramming.wordpress.com/2022/04/13/checkpointing-and-restoring-runs-with-the-borg-moea/). Compile the source code in a separate directory, then copy the compiled binaries `libborg.so` and `libborgms.so`, as well as the Python wrapper `borg.py`, to the base directory of the current repo.
+  * Download the "Compiled Binaries" from the [MOEAFramework](http://www.moeaframework.org/) website and copy the `moeaframework.c` &amp `moeaframework.h` files (from the `MOEAFramework-*/examples` directory of the package) to the base directory of this repo. 
+  * Download the "Demo Application" from the [MOEAFramework](http://www.moeaframework.org/) website and copy `MOEAFramework-*-Demo.jar` to the base directory of this repo.
+  * Download `pareto.py` from [Github](https://github.com/matthewjwoodruff/pareto.py) and copy it to the base directory of this repo.
+3. Instructions TBD
