@@ -43,3 +43,7 @@ for (( i=0; i<$num_results; i++ )); do
 	### find operator dynamcs
 	sh find_operators.sh $subdir $dv $seed $nfe_init $nfe_final
 done
+
+### find clean reference set with dvs combined, plus solutions from previous Earth's Future paper (Hamilton et al, 2022).
+sh find_clean_refset.sh
+

@@ -1,5 +1,5 @@
 # Master-worker Borg run with Python wrapper
-# ensure libborgms.so or libborgms.so is compiled and in this directory
+# ensure libborgms.so or libborgms.so is compiled and in this directory, along with borg.py
 
 def main():
     from borg import Configuration, Borg

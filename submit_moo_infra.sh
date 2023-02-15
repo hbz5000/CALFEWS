@@ -11,7 +11,7 @@ numFEPrevious=0
 runtimeFrequency=100
 seed=0
 dv_formulation=1
-t=24:00:00
+t=48:00:00
 partition=skx-normal
 
 subdir=dv${dv_formulation}_seed${seed}/
