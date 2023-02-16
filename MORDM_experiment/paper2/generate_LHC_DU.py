@@ -1,7 +1,11 @@
 import pandas as pd
 from scipy.stats.qmc import LatinHypercube, discrepancy, scale
+import sys
 
-num_samples = 528
+dir_lhc = sys.argv[1]
+file_lhc = sys.argv[2]
+num_samples = int(sys.argv[3])
+round_samples = int(sys.argv[4])
 
 du_bounds = [('dry_state_mean_multiplier', 0.96, 1.04),
              ('wet_state_mean_multiplier', 0.96, 1.04),
@@ -25,9 +29,9 @@ du_names = [t[0] for t in du_bounds]
 du_lb = [t[1] for t in du_bounds]
 du_ub = [t[2] for t in du_bounds]
 
-lhc = LatinHypercube(d=len(du_names), optimization='random-cd', seed=19)
+lhc = LatinHypercube(d=len(du_names), optimization='random-cd', seed=round_samples)
 sample = lhc.random(n=num_samples)
 sample = scale(sample, du_lb, du_ub)
 
 df = pd.DataFrame(data=sample, columns=du_names)
-df.to_csv('calfews_src/data/LHC_DU/LHC_DU_2.csv', index=False)
+df.to_csv(dir_lhc + '/' + file_lhc, index=False)

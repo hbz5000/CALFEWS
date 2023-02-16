@@ -11,13 +11,14 @@ numProcsPerTask=8
 numTasksPerNode=$(expr $numProcsPerNode / $numProcsPerTask)
 numTasks=$(expr $numTasksPerNode \* $numNodes)
 numDU=1152
+round=1
 startDU=0
 numMC=64
 startMC=0
 t=28:00:00
 partition=skx-normal
 
-dir=results/infra_du/
+dir=results/infra_du_${round}/
 mkdir $dir
 
 SLURM="#!/bin/bash\n\

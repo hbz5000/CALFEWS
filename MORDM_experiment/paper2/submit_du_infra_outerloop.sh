@@ -1,8 +1,8 @@
 #!/bin/bash
 
-soln1=93
+soln1=0
 solns_per_task=3
-num_tasks=2
+num_tasks=33
 
 for (( task=0; task<$num_tasks; task++ ))
 do
