@@ -3,7 +3,6 @@
 ##################################################################################
 #
 # Combined Tulare Basin / SF Delta Model
-# Still in development - not ready for publication
 #
 # This model is designed to simulate surface water flows throughout the CA Central Valley, including:
 # (a) Major SWP/CVP Storage in the Sacramento River Basin
