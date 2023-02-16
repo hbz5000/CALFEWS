@@ -326,7 +326,7 @@ def get_results_sensitivity_number_outside_model(results_file, sensitivity_numbe
 
 
 ### generate a single synthetic realizaton of fnfs using MGHMM. Adapted from script by Rohini Gupta.
-def MGHMM_generate_trace(nYears, uncertainty_dict):
+def MGHMM_generate_trace(nYears, uncertainty_dict, drop_date=True):
 
   ### use random num generator specific to this function to avoid overwriting global seed
   rng = np.random.default_rng(uncertainty_dict['synth_gen_seed'])
@@ -461,7 +461,8 @@ def MGHMM_generate_trace(nYears, uncertainty_dict):
         DailyQ_s.iloc[index_array[59], 4:19] = olddata.iloc[58, 4:19].values
         DailyQ_s.iloc[index_array[60:], 4:19] = olddata.iloc[59:365, 4:19].values
 
-  DailyQ_s.drop(['Year','Month','Day','realization'], axis=1, inplace=True)
+  if drop_date:
+    DailyQ_s.drop(['Year','Month','Day','realization'], axis=1, inplace=True)
  
   return DailyQ_s
 

@@ -1,7 +1,6 @@
 # cython: profile=True
 
 ##################################################################################
-#
 # Combined Tulare Basin / SF Delta Model
 #
 # This model is designed to simulate surface water flows throughout the CA Central Valley, including:
