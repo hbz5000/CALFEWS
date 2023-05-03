@@ -770,48 +770,48 @@ cdef class Inputter():
   #     # print(self.sensitivity_factors[sensitivity_factor]['realization'])
 
 				
-  def perturb_flows(self, numYears):
-    print('shouldnt be here')
-
-    for reservoir in self.reservoir_list:
-      sensitivity = {}
-      sensitivity['annual'] = np.zeros(numYears-1)
-      sensitivity['oct_mar'] = np.zeros(numYears-1)
-      sensitivity['apr_jul'] = np.zeros(numYears-1)
-      sensitivity['apr_may'] = np.zeros(numYears-1)
-      sensitivity['jun_jul'] = np.zeros(numYears-1)
-      for yearcount in range(0, numYears-1):
-        this_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount]
-        next_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount + 1]
-        sensitivity['annual'][yearcount] = np.sum(this_year_flow)
-        sensitivity['oct_mar'][yearcount] = np.sum(next_year_flow[0:3]) + np.sum(this_year_flow[9:])
-        sensitivity['apr_jul'][yearcount] = np.sum(next_year_flow[3:7])
-        sensitivity['apr_may'][yearcount] = np.sum(next_year_flow[3:5])
-        sensitivity['jun_jul'][yearcount] = np.sum(next_year_flow[5:7])
-        del this_year_flow
-        del next_year_flow
-
-      annual_mean = np.mean(np.log(sensitivity['annual']))
-      for yearcount in range(0, numYears-1):
-        volatility_adjust = (np.log(sensitivity['annual'][yearcount]) - annual_mean)*self.sensitivity_factors['annual_vol_scale']['realization']
-        total_adjust = (np.exp(volatility_adjust + np.log(np.exp(annual_mean)*self.sensitivity_factors['annual_mean_scale']['realization'])))/sensitivity['annual'][yearcount]
-        total_oct_mar = sensitivity['apr_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']
-        total_apr_may = sensitivity['jun_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']*self.sensitivity_factors['shift_apr_may']['realization']
-        for monthcount in range(0,12):
-          if monthcount > 8:
-            reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]/sensitivity['oct_mar'][yearcount]
-          elif monthcount < 3:
-            reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['oct_mar'][yearcount]
-          elif monthcount == 3 or monthcount == 4:
-            reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization']) + total_apr_may*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['apr_may'][yearcount]
-          elif monthcount == 5 or monthcount == 6:
-            reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization'])*(1.0 - self.sensitivity_factors['shift_apr_may']['realization'])
-          if monthcount > 8:
-            reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]*total_adjust
-          else:
-            reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*total_adjust
-
-        reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
+  # def perturb_flows(self, numYears):
+  #   print('shouldnt be here')
+  #
+  #   for reservoir in self.reservoir_list:
+  #     sensitivity = {}
+  #     sensitivity['annual'] = np.zeros(numYears-1)
+  #     sensitivity['oct_mar'] = np.zeros(numYears-1)
+  #     sensitivity['apr_jul'] = np.zeros(numYears-1)
+  #     sensitivity['apr_may'] = np.zeros(numYears-1)
+  #     sensitivity['jun_jul'] = np.zeros(numYears-1)
+  #     for yearcount in range(0, numYears-1):
+  #       this_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount]
+  #       next_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount + 1]
+  #       sensitivity['annual'][yearcount] = np.sum(this_year_flow)
+  #       sensitivity['oct_mar'][yearcount] = np.sum(next_year_flow[0:3]) + np.sum(this_year_flow[9:])
+  #       sensitivity['apr_jul'][yearcount] = np.sum(next_year_flow[3:7])
+  #       sensitivity['apr_may'][yearcount] = np.sum(next_year_flow[3:5])
+  #       sensitivity['jun_jul'][yearcount] = np.sum(next_year_flow[5:7])
+  #       del this_year_flow
+  #       del next_year_flow
+  #
+  #     annual_mean = np.mean(np.log(sensitivity['annual']))
+  #     for yearcount in range(0, numYears-1):
+  #       volatility_adjust = (np.log(sensitivity['annual'][yearcount]) - annual_mean)*self.sensitivity_factors['annual_vol_scale']['realization']
+  #       total_adjust = (np.exp(volatility_adjust + np.log(np.exp(annual_mean)*self.sensitivity_factors['annual_mean_scale']['realization'])))/sensitivity['annual'][yearcount]
+  #       total_oct_mar = sensitivity['apr_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']
+  #       total_apr_may = sensitivity['jun_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']*self.sensitivity_factors['shift_apr_may']['realization']
+  #       for monthcount in range(0,12):
+  #         if monthcount > 8:
+  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]/sensitivity['oct_mar'][yearcount]
+  #         elif monthcount < 3:
+  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['oct_mar'][yearcount]
+  #         elif monthcount == 3 or monthcount == 4:
+  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization']) + total_apr_may*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['apr_may'][yearcount]
+  #         elif monthcount == 5 or monthcount == 6:
+  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization'])*(1.0 - self.sensitivity_factors['shift_apr_may']['realization'])
+  #         if monthcount > 8:
+  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]*total_adjust
+  #         else:
+  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*total_adjust
+  #
+  #       reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
 
 
 
