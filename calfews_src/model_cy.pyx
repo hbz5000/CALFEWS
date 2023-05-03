@@ -1477,8 +1477,8 @@ cdef class Model():
           for i,crops in enumerate(district_land.crop_list):
             for private_crops in private_obj.crop_list:
               if private_crops == crops:
-                print(private_obj.contract_fractions[district_key])
-                print(district_land.acreage['BN'][i])
+                # print(private_obj.contract_fractions[district_key])
+                # print(district_land.acreage['BN'][i])
                 private_acres += private_obj.contract_fractions[district_key]*district_land.acreage['BN'][i]
                 district_land.private_acreage[private_crops] += private_obj.contract_fractions[district_key]*district_land.acreage['BN'][i]
                 if private_obj.has_pesticide[district_key]:

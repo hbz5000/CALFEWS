@@ -70,7 +70,6 @@ class Visualizer():
       data = f['s' + sensitivity_number]
       all_keys = data.attrs.keys()
       names = []
-      for names_int_keys in all_keys:
       for x in range(0, len(all_keys) - 3):
         names_int = data.attrs['columns' + str(x)]
         try:
