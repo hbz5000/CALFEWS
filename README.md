@@ -151,11 +151,11 @@ Licensed under the MIT License, 2017-.
    the `results_disagg_file` variable at the top of `fig_functions.py` with the correct absolute file path.
 4. Run `make_figs.py`, which will run the analysis and create all figures from the paper (except those in the next step) in the `figs/` directory.
 5. To generate the figures related to the MHMM synthetic hydrologic generator, run the following steps. You will need an R installation as well as Python.
-    - Run `make_mhmm_figures.py` for Steps 1-4. This code fits the multi-site hidden Markov model, creates Figure S12-14 which assess goodness of fit of the model, and creates an example 110-year synthetic streamflow sample (`AnnualQ_s.csv`).
+    - Run `make_mhmm_figures_pt1.py`. This code fits the multi-site hidden Markov model, creates Figure S12-14 which assess goodness of fit of the model, and creates an example 110-year synthetic streamflow sample (`AnnualQ_s.csv`).
     - Run `daily_disaggregation.py` to disaggregate `AnnualQ_csv` to a daily timescale (`DailyQ_s.csv`).
-    - Run `make_mhmm_figures.py` for Step 5. This code creates Figures S10-11 which are correlation heat map plots that assess how well the model is maintaining spatial correlation in the synthetic traces. 
+    - Run `make_mhmm_figures_pt2.py`. This code creates Figures S10-11 which are correlation heat map plots that assess how well the model is maintaining spatial correlation in the synthetic traces. 
     - Run `aggregate_synthetic_traces.R` to aggregate the ensemble of synthetic traces (in `./calfews_src/data/MGHMM_synthetic/`) across locations. 
-    - Run `make_mhmm_figures.py` for Step 6 to create Figure S7 which creates synthetic and historical flow duration curves at specific locations.
+    - Run `make_mhmm_figures_pt3.py` to create Figure S7 which creates synthetic and historical flow duration curves at specific locations.
 
 
 
