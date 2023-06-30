@@ -1,6 +1,6 @@
 import pandas as pd
-import fig_functions
 import time
+import fig_functions
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -14,9 +14,11 @@ def print_completion(fig_label):
     print(f'Finished {fig_label}, {round((time.time() - t0)/60, 2)} minutes')
     print()
 
-### get results from reevaluation, after recauculating Pareto set with original 5 objs from multi-objective optimization step, plus baseline results from friant16, & 2 other solns from Earth's Future paper
+### get results from optimized partnerships after reevaluation, after recalculating Pareto set with original 5 objs from multi-objective optimization step
 results = pd.read_csv('../../results_arx/infra_wcu/objs_wcu_pareto_5objs.csv', sep=', ')
-baseline_results = pd.read_csv('../../results_arx/infra_wcu/objs_wcu_pareto_5objs_coarse_withBaselines.csv', sep=', ').iloc[-3:, :]
+### get results from non-optimized status quo partnership (labeled friant16), & 2 other solns from previous Earth's Future paper
+baseline_results = pd.read_csv('../../results_arx/infra_wcu/objs_wcu_pareto_5objs_coarse_withBaselines.csv',
+                               sep=', ').iloc[-3:, :]
 results = results.append(baseline_results, ignore_index=True)
 
 ### map all costs >1000 to 1000 for visual clarity
@@ -78,6 +80,7 @@ print_completion(f'5-part figure for ownership share distributions')
 fig_functions.plot_ownership_share_concentrations(results, water_providers)
 print_completion(f'ownership share concentration figure')
 
-
+fig_functions.plot_moo_metrics()
+print_completion(f'optimization metrics figure')
 
 

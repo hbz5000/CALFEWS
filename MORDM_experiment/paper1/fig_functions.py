@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -17,15 +16,15 @@ import contextily as cx
 from generativepy.color import Color
 from shapely.geometry import Point, Polygon, LineString, MultiLineString
 from PIL import ImageColor
-
-
 import warnings
 warnings.filterwarnings('ignore')
 
+### replace with path of disaggregated results hdf5 dataset on your computer. Download from Zenodo (see link in repo).
+results_disagg_file = '/home/alh/PycharmProjects/CALFEWS/results/WCU_results_s2/results_reevaluation_disagg.hdf5'
+
+### parameters
 fontsize = 14
-
 fig_dir = 'figs/'
-
 kaf_to_gl = 1.23
 soln_baseline = 'soln1294'
 cmap_vir = cm.get_cmap('viridis')
@@ -707,7 +706,7 @@ def plot_regional_map(water_providers, states, canals_fkc, canals_other, tlb, sj
 
 ## get all simulated results for particular partnership in alternative hydrologic scenarios during reevaluation, relative to baseline.
 def get_results_disagg_MC(soln_label, baseline_label):
-    with h5py.File('../../results/WCU_results_s2/results.hdf5', 'r') as f:
+    with h5py.File(results_disagg_file, 'r') as f:
         dvnames = f[soln_label].attrs['dv_names']
         dvs = f[soln_label].attrs['dvs']
         partners = [dvnames[i] for i in range(1, len(dvs)) if (dvs[i]) > 0]
@@ -761,7 +760,7 @@ def get_results_disagg_MC(soln_label, baseline_label):
 ### get all simulated results for particular partnership, at level of indiv partners, in alternative hydrologic scenarios during reevaluation, relative to baseline.
 def get_results_disagg_MC_district(soln_label, baseline_label):
     count = 0
-    with h5py.File('../../results/WCU_results_s2/results.hdf5', 'r') as f:
+    with h5py.File(results_disagg_file, 'r') as f:
         dvnames = f[soln_label].attrs['dv_names']
         dvs = f[soln_label].attrs['dvs']
         partners = [dvnames[i] for i in range(1, len(dvs)) if (dvs[i]) > 0]
@@ -1283,7 +1282,7 @@ def plot_partner_disagg_performance(results, soln_label):
     ### get MC results from individual scenarios
     ### friant16 labeled differently in aggregated ef_results vs MC resutls
     soln_mc = soln_label if soln_label != 'friant16' else 'soln1293'
-    with h5py.File('../../results/WCU_results_s2/results.hdf5', 'r') as f:
+    with h5py.File(results_disagg_file, 'r') as f:
         ### get results with and without infra, transform into baseline regret
         mc_soln = f[soln_mc][...].transpose()
         mc_baseline = f[soln_baseline][...].transpose()
@@ -1471,7 +1470,7 @@ def plot_partner_disagg_performance(results, soln_label):
     shares = [shares[o] for o in order]
     partners = [partners[o] for o in order]
 
-    with h5py.File('../../results/WCU_results_s2/results.hdf5', 'r') as f:
+    with h5py.File(results_disagg_file, 'r') as f:
         mc_soln = f[soln_mc][...].transpose()
         mc_baseline = f[soln_baseline][...].transpose()
         df_mc = pd.DataFrame(mc_baseline - mc_soln, index=['mc' + mc for mc in f[soln_mc].attrs['colnames']],
@@ -1554,7 +1553,7 @@ def plot_partner_disagg_performance(results, soln_label):
     sharecols = [c for c in results_soln.columns if 'share' in c]
     nonpartners = [c.split('_')[1] for c in sharecols if results_soln[c].iloc[0] == 0]
 
-    with h5py.File('../../results/WCU_results_s2/results.hdf5', 'r') as f:
+    with h5py.File(results_disagg_file, 'r') as f:
         mc_soln = f[soln_mc][...].transpose()
         mc_baseline = f[soln_baseline][...].transpose()
         df_mc = pd.DataFrame(mc_soln - mc_baseline, index=['mc' + mc for mc in f[soln_mc].attrs['colnames']],
@@ -1999,3 +1998,68 @@ def plot_ownership_share_concentrations(results, water_providers):
     plt.savefig(f'{fig_dir}share_concentration_byNumAndProj.png', bbox_inches='tight', dpi=300)
 
 
+
+
+### figure showing evolution of metrics (e.g., hypervolume) across seeds during multiobjective optimization step
+def plot_moo_metrics():
+    dvs = [1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2]
+    seeds = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]
+    rounds = [1, 1, 1, 1, 1, 1,
+              2, 2, 2, 2, 2, 2,
+              3, 3, 3, 3, 3, 3]
+    nfes = [21500, 21600, 21300, 20300, 20300, 19800,
+            63801, 67801, 63601, 58301, 59601, 58601,
+            106202, 108502, 104702, 96902, 98802, 114202]
+
+    ### read in operators data
+    operators = []
+    for i in range(len(dvs)):
+        dv = dvs[i]
+        seed = seeds[i]
+        r = rounds[i]
+        nfe = nfes[i]
+        metrics_dir = f'../../results_arx/infra_moo/metrics/'
+        NFE_file = f'{metrics_dir}/dv{dv}_s{seed}_nfe{nfe}.NFE'
+        df = pd.read_csv(NFE_file, sep=' ', header=None)
+        for o in ['DE', 'PCX', 'SBX', 'SPX', 'UM', 'UNDX']:
+            df[o] = pd.read_csv(f'{metrics_dir}/dv{dv}_s{seed}_nfe{nfe}.{o}', sep=' ', header=None)[0].values
+        df.index = df[0]
+        df = df.iloc[:, 1:]
+        ncols = df.shape[1]
+        cols = df.columns
+        operators.append(df)
+
+    ### read in metrics data
+    metrics = []
+    for i in range(len(dvs)):
+        dv = dvs[i]
+        seed = seeds[i]
+        r = rounds[i]
+        nfe = nfes[i]
+        df = pd.read_csv(f'{metrics_dir}/dv{dv}_s{seed}_nfe{nfe}.metrics', sep=' ')
+        df.index = operators[i].index[-df.shape[0]:]
+        df.columns = ['Hypervolume', 'Generational distance', 'Inverted generational distance', 'Spacing',
+                      'Epsilon indicator', 'Maximum Pareto front error']
+        ncols = df.shape[1]
+        cols = df.columns
+        metrics.append(df)
+
+    ### plot runtime metrics
+    coldict = {1: 'firebrick', 2: 'cornflowerblue'}
+    cols = ['Hypervolume', 'Inverted generational distance', 'Epsilon indicator']
+    labels = ['Hypervolume', 'Inverted\ngenerational\ndistance', 'Epsilon\nindicator']
+    fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+    j = 0
+    k = 0
+    for c, col in enumerate(cols):
+        ax = axs[c]
+        for i in range(len(dvs)):
+            ax.plot(metrics[i][col].index / 1000, metrics[i][col], color=coldict[dvs[i]])
+        ax.set_ylabel(labels[c], fontsize=fontsize)
+        if c == 1:
+            leg = [Line2D([0], [0], color=coldict[1], label='Formulation 1'),
+                   Line2D([0], [0], color=coldict[2], label='Formulation 2')]
+            _ = ax.legend(handles=leg, loc='center right', frameon=False, fontsize=fontsize)
+    ax.set_xlabel('Thousands of candidate partnership evaluations', fontsize=fontsize)
+
+    plt.savefig(f'{fig_dir}moo_metrics.png', bbox_inches='tight', dpi=300)
