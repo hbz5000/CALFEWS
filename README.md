@@ -54,12 +54,6 @@ Licensed under the MIT License, 2017-.
    can run `submmit_MGHMM_MOOWCU.sh` to the SLURM scheduler (set up for TheCube), or just run `generate_MGHMM_MOOWCU.py`
    on your local machine. Samples 0-31 are used for the multi-objective optimization, and samples 33-96 are used for the
    reevaluation.
-2. To generate the figures related to MHMM synthetic generator in the Supplemental Information, run the following steps. You will need an R installation as well as Python.
-    - Run `make_mhmm_figures.py` for Steps 1-4. This code fits the multi-site hidden Markov model, creates Figure S12-14 which assess goodness of fit of the model, and creates an example 110-year synthetic streamflow sample (`AnnualQ_s.csv`).
-    - Run `daily_disaggregation.py` to disaggregate `AnnualQ_csv` to a daily timescale (`DailyQ_s.csv`).
-    - Run `make_mhmm_figures.py` for Step 5. This code creates Figures S10-11 which are correlation heat map plots that assess how well the model is maintaining spatial correlation in the synthetic traces. 
-    - Run `aggregate_synthetic_traces.R` to aggregate the ensemble of synthetic traces (in `./calfews_src/data/MGHMM_synthetic/`) across locations. 
-    - Run `make_mhmm_figures.py` for Step 6 to create Figure S7 which creates synthetic and historical flow duration curves at specific locations.
 
 ## Running the multi-objective optimization
 
@@ -155,6 +149,13 @@ Licensed under the MIT License, 2017-.
 3. After downloading the `results_reevaluation_disagg.hdf5` file(either from the GitHub release or from your own
    reevaluation) and placing it in any location on your computer outside of the CALFEWS repository, update
    the `results_disagg_file` variable at the top of `fig_functions.py` with the correct absolute file path.
-4. Run `make_figs.py`, which will run the analysis and create all figures from the paper in the `figs/` directory.
+4. Run `make_figs.py`, which will run the analysis and create all figures from the paper (except those in the next step) in the `figs/` directory.
+5. To generate the figures related to the MHMM synthetic hydrologic generator, run the following steps. You will need an R installation as well as Python.
+    - Run `make_mhmm_figures.py` for Steps 1-4. This code fits the multi-site hidden Markov model, creates Figure S12-14 which assess goodness of fit of the model, and creates an example 110-year synthetic streamflow sample (`AnnualQ_s.csv`).
+    - Run `daily_disaggregation.py` to disaggregate `AnnualQ_csv` to a daily timescale (`DailyQ_s.csv`).
+    - Run `make_mhmm_figures.py` for Step 5. This code creates Figures S10-11 which are correlation heat map plots that assess how well the model is maintaining spatial correlation in the synthetic traces. 
+    - Run `aggregate_synthetic_traces.R` to aggregate the ensemble of synthetic traces (in `./calfews_src/data/MGHMM_synthetic/`) across locations. 
+    - Run `make_mhmm_figures.py` for Step 6 to create Figure S7 which creates synthetic and historical flow duration curves at specific locations.
+
 
 
