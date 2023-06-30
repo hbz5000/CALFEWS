@@ -3,7 +3,7 @@ This "MORDM_experiment_paper1" branch of the repository contains code and data f
 
 Hamilton, A.L., Reed, P.M., Gupta, R.S., Zeff, H.B., & G.W. Characklis. (2023). Resilient water infrastructure partnerships in institutionally complex systems face challenging supply and financial risk tradeoffs. *In Review*.
 
-# California Food-Energy-Water System (CALFEWS)
+## California Food-Energy-Water System (CALFEWS)
 For general information on the California Food-Energy-Water System (CALFEWS) simulation model, please switch to the "main" branch of this repository, where you will find information on installing, compiling, running, and analyzing the base model. Interested readers can also refer to the following paper to learn more about the performance and conceptual underpinnings of the model:
 
 Zeff, H.B., Hamilton, A.L., Malek, K., Herman, J.D., Cohen, J.S., Medellin-Azuara, J., Reed, P.M., and G.W. Characklis. (2021). California's Food-Energy-Water System: An Open Source Simulation Model of Adaptive Surface and Groundwater Management in the Central Valley. *Environmental Modelling & Software, 141*: 105052. [https://doi.org/10.1016/j.envsoft.2021.105052](https://doi.org/10.1016/j.envsoft.2021.105052) 
