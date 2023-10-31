@@ -3428,7 +3428,7 @@ cdef class Model():
         contract_obj.tot_new_alloc = 0.0
         for district_obj in self.district_list:
           use_contract = 0
-          for contract_key in district_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:
@@ -3439,7 +3439,7 @@ cdef class Model():
 
         for private_obj in self.private_list:
           use_contract = 0
-          for contract_key in private_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:	
@@ -3450,7 +3450,7 @@ cdef class Model():
 
         for private_obj in self.city_list:
           use_contract = 0
-          for contract_key in private_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:	  

@@ -5,12 +5,73 @@ import h5py
 import json
 from itertools import compress
 import gc
+import sys
 
 cfs_tafd = 2.29568411*10**-5 * 86400 / 1000
 tafd_cfs = 1000 / 86400 * 43560
 cfsd_mafd = 2.29568411*10**-5 * 86400 / 10 ** 6
 z_table_transform = [-1.645, -1.28, -1.035, -0.84, -0.675, -0.525, -0.385, -0.253, -0.125, 0, 0.125, 0.253, 0.385, 0.525, 0.675, 0.84, 1.035, 1.28, 1.645]
 eps = 1e-8
+
+### mapping between keys and object names for water districts (see model_cy.initialize_water_districts())
+district_label_dict = {
+  'BDM': 'berrenda',
+  'BLR': 'belridge',
+  'BVA': 'buenavista',
+  'CWO': 'cawelo',
+  'HML': 'henrymiller',
+  'ID4': 'ID4',
+  'KND': 'kerndelta',
+  'LHL': 'losthills',
+  'RRB': 'rosedale',
+  'SMI': 'semitropic',
+  'THC': 'tehachapi',
+  'TJC': 'tejon',
+  'WKN': 'westkern',
+  'WRM': 'wheeler',
+  'KCWA': 'kcwa',
+  'COB': 'bakersfield',
+  'NKN': 'northkern',
+  'ARV': 'arvin',
+  'PIX': 'pixley',
+  'DLE': 'delano',
+  'EXE': 'exeter',
+  'KRT': 'kerntulare',
+  'LND': 'lindmore',
+  'LDS': 'lindsay',
+  'LWT': 'lowertule',
+  'PRT': 'porterville',
+  'SAU': 'saucelito',
+  'SFW': 'shaffer',
+  'SSJ': 'sosanjoaquin',
+  'TPD': 'teapot',
+  'TBA': 'terra',
+  'TUL': 'tulare',
+  'COF': 'fresno',
+  'FRS': 'fresnoid',
+  'SOC': 'socal',
+  'SOB': 'southbay',
+  'CCA': 'centralcoast',
+  'DLR': 'dudleyridge',
+  'TLB': 'tularelake',
+  'KWD': 'kaweahdelta',
+  'WSL': 'westlands',
+  'SNL': 'sanluiswater',
+  'PNC': 'panoche',
+  'DLP': 'delpuerto',
+  'CWC': 'chowchilla',
+  'MAD': 'maderairr',
+  'OTL': 'othertule',
+  'OKW': 'otherkaweah',
+  'OFK': 'otherfriant',
+  'OCD': 'othercvp',
+  'OEX': 'otherexchange',
+  'OXV': 'othercrossvalley',
+  'OWS': 'otherswp',
+  'CNS': 'consolidated',
+  'ALT': 'alta',
+  'KRWA': 'krwa'
+}
 
 # check whether each year is leap year.
 def leap(y):
@@ -99,76 +160,69 @@ def model_attribute_nonzero(att, name, clean_output):
       return (False, False)
   else:
     return(att, name)
-      
-### generator to loop through important model attributes and return non-zero data
-def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
-  for r in output_list['north']['reservoirs'].keys():
-    for o in output_list['north']['reservoirs'][r].keys():
-      if output_list['north']['reservoirs'][r][o]:
-        try:
-          att, name = model_attribute_nonzero(modelno.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
-          if list(att):
-            yield list(att), name
-        except:
-          pass
 
-  for r in output_list['south']['reservoirs'].keys():
-    for o in output_list['south']['reservoirs'][r].keys():
-      if output_list['south']['reservoirs'][r][o]:
-        try:
-          att, name = model_attribute_nonzero(modelso.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
-          if list(att):
-            yield list(att), name              
-        except:
-          pass      
-        
-  for o in output_list['north']['delta'].keys():
-    if output_list['north']['delta'][o]:
+
+
+### generator to loop through important model attributes and return non-zero data
+def model_attribute_loop_generator(clean_output, modelno, modelso):
+
+  ### output timeseries for reservoirs
+  for reservoir_obj in modelno.reservoir_list + modelso.reservoir_list:
+    for key in ['S', 'R', 'R_to_delta', 'available_storage', 'outflow_release', 'days_til_full','contract_flooded',
+                'reclaimed_carryover','flood_spill','flood_deliveries','Q','SNPK','downstream','fnf']:
       try:
-        att, name = model_attribute_nonzero(modelno.delta.__getattribute__(o), np.string_('delta_' + o), clean_output)     
+        timeseries = reservoir_obj.__getattribute__(key)
+        att, name = model_attribute_nonzero(timeseries, np.string_(reservoir_obj.name + '_' + key), clean_output)
         if list(att):
-          yield list(att), name            
-      except:
-        pass             
-      
-  for c in output_list['south']['contracts'].keys():
-    for o in output_list['south']['contracts'][c].keys():
-      if o == 'daily_supplies':
-        for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
-          if output_list['south']['contracts'][c]['daily_supplies'][t]:
-            try:
-              att, name = model_attribute_nonzero(modelso.__getattribute__(c).daily_supplies[t], np.string_(c + '_' + t), clean_output)       
-              if list(att):
-                yield list(att), name                     
-            except:
-              pass         
-            
-      elif output_list['south']['contracts'][c][o]:
-        try:
-          att, name = model_attribute_nonzero(modelso.__getattribute__(c).__getattribute__(o), np.string_(c + '_' + o), clean_output)        
-          if list(att):
-            yield list(att), name              
-        except:
-          pass       
-        
-  for d in output_list['south']['districts'].keys():
-    for o in output_list['south']['districts'][d].keys():
-      try:
-        att, name = model_attribute_nonzero(modelso.__getattribute__(d).daily_supplies_full[o], np.string_(d + '_' + o), clean_output)       
-        if list(att):
-          yield list(att), name                  
+          yield list(att), name
       except:
         pass
-      
-  for p in output_list['south']['private'].keys():
-    for o in output_list['south']['private'][p].keys():
+
+
+  ### output timeseries for delta
+  for delta_obj in [modelno.delta]:
+    for key in ['HRO_pump', 'TRP_pump', 'x2', 'outflow', 'inflow', 'OMR', 'forecastSRI', 'forecastSJI',
+               'uncontrolled_swp','uncontrolled_cvp','remaining_outflow','swp_allocation','cvp_allocation',
+               'gains','gains_sac','gains_sj','depletions','vernalis_flow','eastside_streams']:
       try:
-        att, name = model_attribute_nonzero(modelso.__getattribute__(p).daily_supplies_full[o], np.string_(p + '_' + o), clean_output)        
+        timeseries = delta_obj.__getattribute__(key)
+        att, name = model_attribute_nonzero(timeseries, np.string_('delta_' + key), clean_output)
         if list(att):
-          yield list(att), name                
+          yield list(att), name
       except:
         pass
+
       
+  ### output timeseries for contracts
+  for contract_obj in modelso.contract_list:
+    for key in ['allocation', 'available_water']:
+      try:
+        timeseries = contract_obj.__getattribute__(key)
+        att, name = model_attribute_nonzero(timeseries, np.string_(contract_obj.name + '_' + key), clean_output)
+        if list(att):
+          yield list(att), name
+      except:
+        pass
+    for key, timeseries in contract_obj.daily_supplies.items():
+      try:
+        att, name = model_attribute_nonzero(timeseries, np.string_(contract_obj.name + '_' + key), clean_output)
+        if list(att):
+          yield list(att), name
+      except:
+        pass
+
+
+  ### output timeseries for districts & privates
+  for district_obj in modelso.district_list + modelso.urban_list + modelso.private_list + modelso.city_list:
+    for key, timeseries in district_obj.daily_supplies_full.items():
+      try:
+        att, name = model_attribute_nonzero(timeseries, np.string_(district_obj.name + '_' + key), clean_output)
+        if list(att):
+          yield list(att), name
+      except:
+        pass
+
+  ### output timeseries for waterbanks
   for waterbank_obj in modelso.waterbank_list:
     for partner_key, partner_series in waterbank_obj.bank_timeseries.items():
       try:
@@ -178,6 +232,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       except:
         pass
 
+
+  ### output timeseries for canals
   for canal_obj in modelso.canal_list:
     for node_key, node_series in canal_obj.daily_flow.items():
       try:
@@ -198,11 +254,12 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
   yield (False, False)
 
 
+
 # function to take northern & southern model, process & output data
-def data_output(output_list_loc, results_folder, clean_output, sensitivity_factors, modelno, modelso, objs):
+def data_output(results_folder, clean_output, modelno, modelso, objs):
   nt = len(modelno.shasta.baseline_inf)
-  with open(output_list_loc, 'r') as f:
-    output_list = json.load(f)
+  # with open(output_list_loc, 'r') as f:
+  #   output_list = json.load(f)
     
   chunk = 50
   with h5py.File(results_folder + '/results.hdf5', 'a') as f:
@@ -214,7 +271,7 @@ def data_output(output_list_loc, results_folder, clean_output, sensitivity_facto
     col = 0
     chunknum = 0
     initial_write = 0
-    for (att, name) in model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
+    for (att, name) in model_attribute_loop_generator(clean_output, modelno, modelso):
       if name:  ### end of dataset not yet reached
         if col < chunk:
           names.append(name)
@@ -252,8 +309,9 @@ def data_output(output_list_loc, results_folder, clean_output, sensitivity_facto
     d.attrs['start_date'] = str(modelno.year[0]) + '-' + str(modelno.month[0]) + '-' + str(modelno.day_month[0])
 
     ### add objectives
-    for k, v in objs.items():
-      d.attrs[k] = v
+    if objs is not None:
+      for k, v in objs.items():
+        d.attrs[k] = v
 
     # get sensitivity factors (note: defunct except in sensitivity mode, but leave hear so as not to break post-process scripts)
     # sensitivity_value = []
@@ -321,3 +379,150 @@ def get_results_sensitivity_number_outside_model(results_file, sensitivity_numbe
     df_data.index = dt
 
     return df_data
+
+
+
+### generate a single synthetic realizaton of fnfs using MGHMM. Adapted from script by Rohini Gupta.
+def MGHMM_generate_trace(nYears, uncertainty_dict, drop_date=True):
+
+  ### use random num generator specific to this function to avoid overwriting global seed
+  rng = np.random.default_rng(uncertainty_dict['synth_gen_seed'])
+
+  # Static Parameters
+  nSites = 15
+
+  # Import stationary parameters
+  mghmm_folder = 'calfews_src/data/MGHMM_synthetic/calfews_mhmm_5112022/'
+  dry_state_means = np.loadtxt(mghmm_folder + 'dry_state_means.txt')
+  wet_state_means = np.loadtxt(mghmm_folder + 'wet_state_means.txt')
+  covariance_matrix_dry = np.loadtxt(mghmm_folder + 'covariance_matrix_dry.txt')
+  covariance_matrix_wet = np.loadtxt(mghmm_folder + 'covariance_matrix_wet.txt')
+  transition_matrix = np.loadtxt(mghmm_folder + 'transition_matrix.txt')
+
+  # Apply mean multipliers
+  dry_state_means_sampled = dry_state_means * uncertainty_dict['dry_state_mean_multiplier']
+  wet_state_means_sampled = wet_state_means * uncertainty_dict['wet_state_mean_multiplier']
+
+  # Apply covariance multipliers
+  covariance_matrix_dry_sampled = covariance_matrix_dry * uncertainty_dict['covariance_matrix_dry_multiplier']
+
+  for j in range(nSites):
+    covariance_matrix_dry_sampled[j, j] = covariance_matrix_dry_sampled[j, j] * uncertainty_dict['covariance_matrix_dry_multiplier']
+
+  covariance_matrix_wet_sampled = covariance_matrix_wet * uncertainty_dict['covariance_matrix_wet_multiplier']
+
+  for j in range(nSites):
+    covariance_matrix_wet_sampled[j, j] = covariance_matrix_wet_sampled[j, j] * uncertainty_dict['covariance_matrix_wet_multiplier']
+
+  # Apply transition matrix multipliers
+  transition_matrix_sampled = transition_matrix
+  transition_matrix_sampled[0, 0] = max(min(transition_matrix[0, 0] + uncertainty_dict['transition_drydry_addition'], 1), 0)
+  transition_matrix_sampled[1, 1] = max(min(transition_matrix[1, 1] + uncertainty_dict['transition_wetwet_addition'], 1), 0)
+  transition_matrix_sampled[0, 1] = 1 - transition_matrix_sampled[0, 0]
+  transition_matrix_sampled[1, 0] = 1 - transition_matrix_sampled[1, 1]
+
+  # calculate stationary distribution to determine unconditional probabilities
+  eigenvals, eigenvecs = np.linalg.eig(np.transpose(transition_matrix_sampled))
+  one_eigval = np.argmin(np.abs(eigenvals - 1))
+  pi = eigenvecs[:, one_eigval] / np.sum(eigenvecs[:, one_eigval])
+  unconditional_dry = pi[0]
+  # unconditional_wet = pi[1]
+
+  logAnnualQ_s = np.zeros([nYears, nSites])
+
+  states = np.empty([np.shape(logAnnualQ_s)[0]])
+  if rng.uniform() <= unconditional_dry:
+    states[0] = 0
+    logAnnualQ_s[0, :] = rng.multivariate_normal(np.reshape(dry_state_means_sampled, -1),
+                                                       covariance_matrix_dry_sampled)
+  else:
+    states[0] = 1
+    logAnnualQ_s[0, :] = rng.multivariate_normal(np.reshape(wet_state_means_sampled, -1),
+                                                       covariance_matrix_wet_sampled)
+
+  # generate remaining state trajectory and log space flows
+  for j in range(1, np.shape(logAnnualQ_s)[0]):
+    if rng.uniform() <= transition_matrix_sampled[int(states[j - 1]), int(states[j - 1])]:
+      states[j] = states[j - 1]
+    else:
+      states[j] = 1 - states[j - 1]
+
+    if states[j] == 0:
+      logAnnualQ_s[j, :] = rng.multivariate_normal(np.reshape(dry_state_means_sampled, -1),
+                                                         covariance_matrix_dry_sampled)
+    else:
+      logAnnualQ_s[j, :] = rng.multivariate_normal(np.reshape(wet_state_means_sampled, -1),
+                                                         covariance_matrix_wet_sampled)
+
+  AnnualQ_s = np.exp(logAnnualQ_s)
+
+  #############################################Daily Disaggregation######################
+
+  ### read in pre - normalized data
+  calfews_data = pd.read_csv(mghmm_folder + "calfews_src-data-sim-agg_norm.csv")
+
+  yearly_sum = calfews_data.groupby(['Year']).sum()
+  yearly_sum = yearly_sum.reset_index()
+
+  # Import historic annual flows
+  AnnualQ_h = pd.read_csv(mghmm_folder + "AnnualQ_h.csv", header=None)
+
+  # Identify number of years in synthetic & historical sample
+  N_s = len(AnnualQ_s)
+  N_h = len(AnnualQ_h)
+
+  # Find closest year for each synthetic sample
+  index = np.zeros(N_s)
+
+  for j in range(0, N_s):
+    distance = np.zeros(N_h)
+    for i in range(0, N_h):
+      distance[i] = (AnnualQ_s[j, 0] - AnnualQ_h.iloc[i, 0]) ** 2
+    index[j] = np.argmin(distance)
+
+  # Assign year to the index
+  closest_year = yearly_sum.Year[index]
+  closest_year = closest_year.reset_index()
+  closest_year = closest_year.iloc[:, 1]
+
+  # Disaggregate to a daily value
+  DailyQ_s = calfews_data
+  DailyQ_s = DailyQ_s[DailyQ_s.Year < DailyQ_s.Year[0] + N_s]
+
+  for i in range(0, N_s):
+    y = np.unique(DailyQ_s.Year)[i]
+    index_array = np.where(DailyQ_s.Year == np.unique(DailyQ_s.Year)[i])[0]
+    newdata = DailyQ_s[DailyQ_s.index.isin(index_array)]
+    newdatasize = np.shape(newdata)[0]
+    olddata_array = np.where(calfews_data.Year == closest_year[i])[0]
+    olddata = calfews_data[calfews_data.index.isin(olddata_array)]
+    olddata = olddata.reset_index()
+    olddata = olddata.iloc[:, 1:20]
+    for z in range(4, 19):
+      olddata.iloc[:, z] = AnnualQ_s[i, z - 4] * olddata.iloc[:, z].values
+    ## fill in data, accounting for leap years. assume leap year duplicates feb 29
+    if newdatasize == 365:
+      if np.shape(olddata)[0] == 365:
+        DailyQ_s.iloc[index_array, 4:19] = olddata.iloc[:, 4:19].values
+      elif np.shape(olddata)[0] == 366:
+        # if generated data has 365 days, and disaggregating 366 - day series, skip feb 29 (60th day of leap year)
+        DailyQ_s.iloc[index_array[:59], 4:19] = olddata.iloc[0:59, 4:19].values
+        DailyQ_s.iloc[index_array[59:365], 4:19] = olddata.iloc[60:366, 4:19].values
+
+    elif newdatasize == 366:
+      if np.shape(olddata)[0] == 366:
+        DailyQ_s.iloc[index_array, 4:19] = olddata.iloc[:, 4:19].values
+      elif np.shape(olddata)[0] == 365:
+        # if generated data has 366 days, and disaggregating 365 - day series, repeat feb 28 (59rd day of leap year)
+        DailyQ_s.iloc[index_array[:59], 4:19] = olddata.iloc[0:59, 4:19].values
+        DailyQ_s.iloc[index_array[59], 4:19] = olddata.iloc[58, 4:19].values
+        DailyQ_s.iloc[index_array[60:], 4:19] = olddata.iloc[59:365, 4:19].values
+
+  if drop_date:
+    DailyQ_s.drop(['Year','Month','Day','realization'], axis=1, inplace=True)
+ 
+  return DailyQ_s
+
+
+
+
