@@ -201,7 +201,11 @@ for figmode in ['past','future']:
 
     ### now loop over downscaled climate scenarios
     datasets = glob('../../calfews_src/data/CA_FNF_climate_change/CA_FNF_*.csv')
+    datasets = [s for s in datasets if 'canesm2' not in s]      ### canesm2 dataset is wrong length for some reason - discarded for this study.
     # print(datasets)
+
+    ### dict to hold the wettest & driest scenario - quantified as the largest & smallest mean flow at Millerton
+    hydro_extremes = {'wettest_name': '', 'wettest_mean': 0, 'driest_name': '', 'driest_mean': np.inf}
     for i,ds in enumerate(datasets):
         ### read in data
         df = pd.read_csv(ds)
@@ -238,10 +242,19 @@ for figmode in ['past','future']:
         df_grp_ax = df_grp[column]
         sort = np.sort(df_grp_ax)
         exceedence = np.arange(1., len(sort) + 1) / (len(sort) + 1)
-        label = f'Projections 4.5 {axis_label_yrs}' if i == 0 else f'Projections 8.5 {axis_label_yrs}' if i == 1 else ''
+        label = f'Projections RCP 4.5 {axis_label_yrs}' if i == 0 else f'Projections RCP 8.5 {axis_label_yrs}' if i == 1 else ''
         ax.plot(exceedence, sort, color=color, alpha=alpha, lw=1,
                 # label="Downscaled climate projections (1906-2015)" if i == 0 else "", zorder=2)#zorder[i])
                 label=label, zorder=2)#zorder[i])
+        ### record if this is wettest or driest record
+        if df_grp_ax.mean() > hydro_extremes['wettest_mean']:
+            hydro_extremes['wettest_mean'] = df_grp_ax.mean()
+            hydro_extremes['wettest_name'] = ds.split('/')[-1]
+        if  df_grp_ax.mean() < hydro_extremes['driest_mean']:
+            hydro_extremes['driest_mean'] = df_grp_ax.mean()
+            hydro_extremes['driest_name'] = ds.split('/')[-1]
+
+
 
         ### plot below MIL
         ax = axs[2]
@@ -253,7 +266,7 @@ for figmode in ['past','future']:
 
 
 
-
+    print(hydro_extremes)
     ### clean up figs
     axs[0].set_ylabel('Annual FNF (TL/yr)',fontsize=fontsize)
     axs[1].set_xlabel("Non-Exceedance Probability", fontsize=fontsize)

@@ -3359,18 +3359,19 @@ cdef class Model():
         contract_obj.tot_new_alloc = 0.0
         for district_obj in self.district_list:
           use_contract = 0
-          for contract_key in district_obj.contract_list:
+          # for contract_key in district_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:
             new_alloc, carryover = district_obj.calc_carryover(contract_obj.storage_pool[t], wateryear, contract_obj.type, contract_obj.name)
             contract_obj.tot_new_alloc += new_alloc
             contract_obj.tot_carryover += carryover
-              
+
 
         for private_obj in self.private_list:
           use_contract = 0
-          for contract_key in private_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:	
@@ -3381,7 +3382,7 @@ cdef class Model():
 
         for private_obj in self.city_list:
           use_contract = 0
-          for contract_key in private_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:	  

@@ -13,6 +13,66 @@ cfsd_mafd = 2.29568411*10**-5 * 86400 / 10 ** 6
 z_table_transform = [-1.645, -1.28, -1.035, -0.84, -0.675, -0.525, -0.385, -0.253, -0.125, 0, 0.125, 0.253, 0.385, 0.525, 0.675, 0.84, 1.035, 1.28, 1.645]
 eps = 1e-8
 
+### mapping between keys and object names for water districts (see model_cy.initialize_water_districts())
+district_label_dict = {
+  'BDM': 'berrenda',
+  'BLR': 'belridge',
+  'BVA': 'buenavista',
+  'CWO': 'cawelo',
+  'HML': 'henrymiller',
+  'ID4': 'ID4',
+  'KND': 'kerndelta',
+  'LHL': 'losthills',
+  'RRB': 'rosedale',
+  'SMI': 'semitropic',
+  'THC': 'tehachapi',
+  'TJC': 'tejon',
+  'WKN': 'westkern',
+  'WRM': 'wheeler',
+  'KCWA': 'kcwa',
+  'COB': 'bakersfield',
+  'NKN': 'northkern',
+  'ARV': 'arvin',
+  'PIX': 'pixley',
+  'DLE': 'delano',
+  'EXE': 'exeter',
+  'KRT': 'kerntulare',
+  'LND': 'lindmore',
+  'LDS': 'lindsay',
+  'LWT': 'lowertule',
+  'PRT': 'porterville',
+  'SAU': 'saucelito',
+  'SFW': 'shaffer',
+  'SSJ': 'sosanjoaquin',
+  'TPD': 'teapot',
+  'TBA': 'terra',
+  'TUL': 'tulare',
+  'COF': 'fresno',
+  'FRS': 'fresnoid',
+  'SOC': 'socal',
+  'SOB': 'southbay',
+  'CCA': 'centralcoast',
+  'DLR': 'dudleyridge',
+  'TLB': 'tularelake',
+  'KWD': 'kaweahdelta',
+  'WSL': 'westlands',
+  'SNL': 'sanluiswater',
+  'PNC': 'panoche',
+  'DLP': 'delpuerto',
+  'CWC': 'chowchilla',
+  'MAD': 'maderairr',
+  'OTL': 'othertule',
+  'OKW': 'otherkaweah',
+  'OFK': 'otherfriant',
+  'OCD': 'othercvp',
+  'OEX': 'otherexchange',
+  'OXV': 'othercrossvalley',
+  'OWS': 'otherswp',
+  'CNS': 'consolidated',
+  'ALT': 'alta',
+  'KRWA': 'krwa'
+}
+
 # check whether each year is leap year.
 def leap(y):
   leap = np.empty(len(y), dtype=bool)
@@ -100,76 +160,69 @@ def model_attribute_nonzero(att, name, clean_output):
       return (False, False)
   else:
     return(att, name)
-      
-### generator to loop through important model attributes and return non-zero data
-def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
-  for r in output_list['north']['reservoirs'].keys():
-    for o in output_list['north']['reservoirs'][r].keys():
-      if output_list['north']['reservoirs'][r][o]:
-        try:
-          att, name = model_attribute_nonzero(modelno.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
-          if list(att):
-            yield list(att), name
-        except:
-          pass
 
-  for r in output_list['south']['reservoirs'].keys():
-    for o in output_list['south']['reservoirs'][r].keys():
-      if output_list['south']['reservoirs'][r][o]:
-        try:
-          att, name = model_attribute_nonzero(modelso.__getattribute__(r).__getattribute__(o), np.string_(r + '_' + o), clean_output)
-          if list(att):
-            yield list(att), name              
-        except:
-          pass      
-        
-  for o in output_list['north']['delta'].keys():
-    if output_list['north']['delta'][o]:
+
+
+### generator to loop through important model attributes and return non-zero data
+def model_attribute_loop_generator(clean_output, modelno, modelso):
+
+  ### output timeseries for reservoirs
+  for reservoir_obj in modelno.reservoir_list + modelso.reservoir_list:
+    for key in ['S', 'R', 'R_to_delta', 'available_storage', 'outflow_release', 'days_til_full','contract_flooded',
+                'reclaimed_carryover','flood_spill','flood_deliveries','Q','SNPK','downstream','fnf']:
       try:
-        att, name = model_attribute_nonzero(modelno.delta.__getattribute__(o), np.string_('delta_' + o), clean_output)     
+        timeseries = reservoir_obj.__getattribute__(key)
+        att, name = model_attribute_nonzero(timeseries, np.string_(reservoir_obj.name + '_' + key), clean_output)
         if list(att):
-          yield list(att), name            
-      except:
-        pass             
-      
-  for c in output_list['south']['contracts'].keys():
-    for o in output_list['south']['contracts'][c].keys():
-      if o == 'daily_supplies':
-        for t in output_list['south']['contracts'][c]['daily_supplies'].keys():
-          if output_list['south']['contracts'][c]['daily_supplies'][t]:
-            try:
-              att, name = model_attribute_nonzero(modelso.__getattribute__(c).daily_supplies[t], np.string_(c + '_' + t), clean_output)       
-              if list(att):
-                yield list(att), name                     
-            except:
-              pass         
-            
-      elif output_list['south']['contracts'][c][o]:
-        try:
-          att, name = model_attribute_nonzero(modelso.__getattribute__(c).__getattribute__(o), np.string_(c + '_' + o), clean_output)        
-          if list(att):
-            yield list(att), name              
-        except:
-          pass       
-        
-  for d in output_list['south']['districts'].keys():
-    for o in output_list['south']['districts'][d].keys():
-      try:
-        att, name = model_attribute_nonzero(modelso.__getattribute__(d).daily_supplies_full[o], np.string_(d + '_' + o), clean_output)       
-        if list(att):
-          yield list(att), name                  
+          yield list(att), name
       except:
         pass
-      
-  for p in output_list['south']['private'].keys():
-    for o in output_list['south']['private'][p].keys():
+
+
+  ### output timeseries for delta
+  for delta_obj in [modelno.delta]:
+    for key in ['HRO_pump', 'TRP_pump', 'x2', 'outflow', 'inflow', 'OMR', 'forecastSRI', 'forecastSJI',
+               'uncontrolled_swp','uncontrolled_cvp','remaining_outflow','swp_allocation','cvp_allocation',
+               'gains','gains_sac','gains_sj','depletions','vernalis_flow','eastside_streams']:
       try:
-        att, name = model_attribute_nonzero(modelso.__getattribute__(p).daily_supplies_full[o], np.string_(p + '_' + o), clean_output)        
+        timeseries = delta_obj.__getattribute__(key)
+        att, name = model_attribute_nonzero(timeseries, np.string_('delta_' + key), clean_output)
         if list(att):
-          yield list(att), name                
+          yield list(att), name
       except:
         pass
+
       
+  ### output timeseries for contracts
+  for contract_obj in modelso.contract_list:
+    for key in ['allocation', 'available_water']:
+      try:
+        timeseries = contract_obj.__getattribute__(key)
+        att, name = model_attribute_nonzero(timeseries, np.string_(contract_obj.name + '_' + key), clean_output)
+        if list(att):
+          yield list(att), name
+      except:
+        pass
+    for key, timeseries in contract_obj.daily_supplies.items():
+      try:
+        att, name = model_attribute_nonzero(timeseries, np.string_(contract_obj.name + '_' + key), clean_output)
+        if list(att):
+          yield list(att), name
+      except:
+        pass
+
+
+  ### output timeseries for districts & privates
+  for district_obj in modelso.district_list + modelso.urban_list + modelso.private_list + modelso.city_list:
+    for key, timeseries in district_obj.daily_supplies_full.items():
+      try:
+        att, name = model_attribute_nonzero(timeseries, np.string_(district_obj.name + '_' + key), clean_output)
+        if list(att):
+          yield list(att), name
+      except:
+        pass
+
+  ### output timeseries for waterbanks
   for waterbank_obj in modelso.waterbank_list:
     for partner_key, partner_series in waterbank_obj.bank_timeseries.items():
       try:
@@ -179,6 +232,8 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
       except:
         pass
 
+
+  ### output timeseries for canals
   for canal_obj in modelso.canal_list:
     for node_key, node_series in canal_obj.daily_flow.items():
       try:
@@ -199,11 +254,12 @@ def model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
   yield (False, False)
 
 
+
 # function to take northern & southern model, process & output data
-def data_output(output_list_loc, results_folder, clean_output, sensitivity_factors, modelno, modelso, objs):
+def data_output(results_folder, clean_output, modelno, modelso, objs):
   nt = len(modelno.shasta.baseline_inf)
-  with open(output_list_loc, 'r') as f:
-    output_list = json.load(f)
+  # with open(output_list_loc, 'r') as f:
+  #   output_list = json.load(f)
     
   chunk = 50
   with h5py.File(results_folder + '/results.hdf5', 'a') as f:
@@ -215,7 +271,7 @@ def data_output(output_list_loc, results_folder, clean_output, sensitivity_facto
     col = 0
     chunknum = 0
     initial_write = 0
-    for (att, name) in model_attribute_loop_generator(output_list, clean_output, modelno, modelso):
+    for (att, name) in model_attribute_loop_generator(clean_output, modelno, modelso):
       if name:  ### end of dataset not yet reached
         if col < chunk:
           names.append(name)
@@ -253,8 +309,9 @@ def data_output(output_list_loc, results_folder, clean_output, sensitivity_facto
     d.attrs['start_date'] = str(modelno.year[0]) + '-' + str(modelno.month[0]) + '-' + str(modelno.day_month[0])
 
     ### add objectives
-    for k, v in objs.items():
-      d.attrs[k] = v
+    if objs is not None:
+      for k, v in objs.items():
+        d.attrs[k] = v
 
     # get sensitivity factors (note: defunct except in sensitivity mode, but leave hear so as not to break post-process scripts)
     # sensitivity_value = []
@@ -465,4 +522,7 @@ def MGHMM_generate_trace(nYears, uncertainty_dict, drop_date=True):
     DailyQ_s.drop(['Year','Month','Day','realization'], axis=1, inplace=True)
  
   return DailyQ_s
+
+
+
 

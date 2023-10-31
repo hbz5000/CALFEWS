@@ -12,7 +12,7 @@
 # (f) Conveyence and distribution capacities in the Kern County Canal System, including CA Aqueduct, Friant-Kern Canal, Kern River Channel system, and Cross Valley Canal
 # (g) Agricultural demands & groundwater recharge/recovery capacities
 # (h) Pumping off the CA Aqueduct to Urban demands in the South Bay, Central Coast, and Southern California
-##################################################################################
+################################################################################## 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -227,8 +227,8 @@ cdef class main_cy():
 
   def output_results(self):
     ### data output function from calfews_src/util.py
-    data_output(self.output_list, self.results_folder, self.clean_output, {}, self.modelno, self.modelso, self.objs) 
-        
+    data_output(self.results_folder, self.clean_output, self.modelno, self.modelso, self.objs)
+
     if (self.save_full):
       try:
         gc.collect()
@@ -251,7 +251,7 @@ cdef class main_cy():
 
   def get_district_results(self, results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline, is_reeval=False, soln=-1, dusamp=-1):
     ## shared_objs_array is a multiprocessing Array that can be accessed/written to by all MC samples in concurrent processes. MC_count is the index of this sample.
-    ### get district-level results 
+    ### get district-level results
 
     district_results = {}
     other_results = {}
@@ -260,6 +260,8 @@ cdef class main_cy():
     
     for dobj in self.modelso.district_list:
       d = dobj.key
+      if d in ['fresnoid','FRS']:
+        print([(k, dobj.daily_supplies_full[k].sum()/(dobj.daily_supplies_full[k].shape[0]/365)) for k in dobj.daily_supplies_full.keys()])
       df = pd.DataFrame(index=wy)
       ### get relevant data
       for k, timeseries in dobj.daily_supplies_full.items():
@@ -298,10 +300,13 @@ cdef class main_cy():
           except:
             pass
 
-      results_dict = {'avg_captured_water': df['captured_water'].groupby(wy).sum().mean(), 'min_captured_water': df['captured_water'].groupby(wy).sum().min(),
-                                'std_captured_water': df['captured_water'].groupby(wy).sum().std(),
-                              'avg_pumping': df['pumping'].groupby(wy).sum().mean(), 'max_pumping': df['pumping'].groupby(wy).sum().max(),
-                              'std_pumping': df['pumping'].groupby(wy).sum().std()}
+      results_dict = {'avg_captured_water': df['captured_water'].groupby(wy).sum().mean(),
+                      'min_captured_water': df['captured_water'].groupby(wy).sum().min(),
+                      'std_captured_water': df['captured_water'].groupby(wy).sum().std(),
+                      'avg_pumping': df['pumping'].groupby(wy).sum().mean(),
+                      'max_pumping': df['pumping'].groupby(wy).sum().max(),
+                      'std_pumping': df['pumping'].groupby(wy).sum().std()}
+
       if is_baseline or is_reeval or \
             ((type(self.modelso.fkc.ownership_shares) is dict) and (d in self.modelso.fkc.ownership_shares) and (self.modelso.fkc.ownership_shares[d] > 0)) or \
             ((type(self.modelso.centralfriantwb.ownership) is dict) and (d in self.modelso.centralfriantwb.ownership) and (self.modelso.centralfriantwb.ownership[d] > 0)):
@@ -455,4 +460,5 @@ cdef class main_cy():
 
     return objs
 
-#
+
+

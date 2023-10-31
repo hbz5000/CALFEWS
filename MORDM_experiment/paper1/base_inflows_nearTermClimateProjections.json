@@ -1,0 +1,650 @@
+{
+  "flow_input_type": [
+    "observations",
+    "downscaled_19952005",
+    "downscaled_20062016",
+    "downscaled_20402050",
+    "downscaled_20902100",
+    "downscaled_19502100",
+    "synthetic"
+  ],
+  "flow_input_source": {
+    "observations": {
+      "CDEC": "calfews_src/data/input/calfews_src-data-sim.csv",
+      "CDEC_wet_dry": "calfews_src/data/input/calfews_src-data-wet-dry.csv",
+      "CDEC_short": "calfews_src/data/input/calfews_src-data.csv"
+    },
+    "downscaled_19952005": {
+      "VIC": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
+      "WRF": "calfews_src/data/CA_FNF_WRF/WRF_19952005.csv"
+    },
+    "downscaled_20062016": {
+      "WRF": "calfews_src/data/CA_FNF_WRF/WRF_20062016.csv",
+      "WRF_GW_corr": "calfews_src/data/CA_FNF_WRF/WRF_GWCorrect_20062016.csv",
+      "DryYearAdded": "calfews_src/data/CA_FNF_WRF/Experiments/calfews_src-data_original_DRY_added.csv",
+      "WetYearAdded": "calfews_src/data/CA_FNF_WRF/Experiments/calfews_src-data_original_WET_added.csv",
+      "Bias_Corrected": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_bias_corrected.csv",
+      "Remove_AR": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_remove_AR.csv",
+      "AR_1.5": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_1.5.csv",
+      "AR_1.4": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_1.4.csv",
+      "AR_1.3": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_1.3.csv",
+      "AR_1.2": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_1.2.csv",
+      "AR_1.1": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_1.1.csv",
+      "AR_0.9": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_0.9.csv",
+      "AR_0.8": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_0.8.csv",
+      "AR_0.7": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_0.7.csv",
+      "AR_0.6": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_0.6.csv",
+      "AR_0.5": "calfews_src/data/CA_FNF_WRF/Scenarios/calfews_src-data_original_0.5.csv"
+    },
+    "downscaled_20402050": {
+      "VIC": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
+      "WRF": "calfews_src/data/CA_FNF_WRF/WRF_20402050.csv"
+    },
+    "downscaled_20902100": {
+      "VIC": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
+      "WRF": "calfews_src/data/CA_FNF_WRF/WRF_20902100.csv"
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_canesm2_rcp45_r1i1p1.csv",
+      "canesm2_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_canesm2_rcp85_r1i1p1.csv",
+      "ccsm4_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp45_r1i1p1.csv",
+      "ccsm4_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ccsm4_rcp85_r1i1p1.csv",
+      "cnrm-cm5_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_cnrm-cm5_rcp45_r1i1p1.csv",
+      "cnrm-cm5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_cnrm-cm5_rcp85_r1i1p1.csv",
+      "csiro-mk3-6-0_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_csiro-mk3-6-0_rcp45_r1i1p1.csv",
+      "csiro-mk3-6-0_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_csiro-mk3-6-0_rcp85_r1i1p1.csv",
+      "gfdl-cm3_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-cm3_rcp45_r1i1p1.csv",
+      "gfdl-cm3_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-cm3_rcp85_r1i1p1.csv",
+      "gfdl-esm2m_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-esm2m_rcp45_r1i1p1.csv",
+      "gfdl-esm2m_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_gfdl-esm2m_rcp85_r1i1p1.csv",
+      "hadgem2-cc_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-cc_rcp45_r1i1p1.csv",
+      "hadgem2-cc_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-cc_rcp85_r1i1p1.csv",
+      "hadgem2-es_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-es_rcp45_r1i1p1.csv",
+      "hadgem2-es_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_hadgem2-es_rcp85_r1i1p1.csv",
+      "inmcm4_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_inmcm4_rcp45_r1i1p1.csv",
+      "inmcm4_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_inmcm4_rcp85_r1i1p1.csv",
+      "ipsl-cm5a-mr_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ipsl-cm5a-mr_rcp45_r1i1p1.csv",
+      "ipsl-cm5a-mr_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1.csv",
+      "miroc5_rcp45": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp45_r1i1p1.csv",
+      "miroc5_rcp85": "calfews_src/data/CA_FNF_climate_change/CA_FNF_miroc5_rcp85_r1i1p1.csv"
+    },
+    "synthetic": {
+      "capow_22yr": "calfews_src/data/capow_synthetic/capow_synthetic_22yr.csv",
+      "capow_50yr_wet": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_wet.csv",
+      "capow_50yr_dry": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_dry.csv",
+      "capow_50yr_median": "calfews_src/data/capow_synthetic/capow_synthetic_50yr_median.csv",
+      "capow_50yr_generic": "calfews_src/data/capow_synthetic/ORCA_forecast_flows",
+      "mghmm_30yr_generic": "calfews_src/data/MGHMM_synthetic/DailyQ_s",
+      "mghmm_30yr_online": "",
+      "mghmm_30yr_hdf5": "results/infra_mghmm_du/mghmm_du.hdf5"
+    }
+  },
+  "export_series": {
+    "observations": {
+      "CDEC": "calfews_src-data-CDEC_19052016",
+      "CDEC_wet_dry": "calfews_src-data-CDEC_wet_dry",
+      "CDEC_short": "calfews_src-data-CDEC_19052016.csv"
+    },
+    "downscaled_19952005": {
+      "VIC": "calfews_src-data-VIC_19952005",
+      "WRF": "calfews_src-data-WRF_19952005"
+    },
+    "downscaled_20062016": {
+      "WRF": "calfews_src-data-WRF_20062016",
+      "WRF_GW_corr": "calfews_src-data-WRF_GWC_20062016",
+      "DryYearAdded": "calfews_src-data-CDEC_DryAdded",
+      "WetYearAdded": "calfews_src-data-CDEC_WetAdded",
+      "Bias_Corrected": "EXP_calfews_src-data_original_bias_corrected.csv",
+      "Remove_AR": "EXP_calfews_src-data_original_remove_AR.csv",
+      "AR_1.5": "EXP_calfews_src-data_original_1.5.csv",
+      "AR_1.4": "EXP_calfews_src-data_original_1.4.csv",
+      "AR_1.3": "EXP_calfews_src-data_original_1.3.csv",
+      "AR_1.2": "EXP_calfews_src-data_original_1.2.csv",
+      "AR_1.1": "EXP_calfews_src-data_original_1.1.csv",
+      "AR_0.9": "EXP_calfews_src-data_original_0.9.csv",
+      "AR_0.8": "EXP_calfews_src-data_original_0.8.csv",
+      "AR_0.7": "EXP_calfews_src-data_original_0.7.csv",
+      "AR_0.6": "EXP_calfews_src-data_original_0.6.csv",
+      "AR_0.5": "EXP_calfews_src-data_original_0.5.csv"
+    },
+    "downscaled_20402050": {
+      "VIC": "calfews_src-data-VIC_20402050",
+      "WRF": "calfews_src-data-WRF_20402050"
+    },
+    "downscaled_20902100": {
+      "VIC": "calfews_src-data-VIC_20902100",
+      "WRF": "calfews_src-data-WRF_20902100"
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": "calfews_src-data-CA_FNF_canesm2_rcp45_r1i1p1",
+      "canesm2_rcp85": "calfews_src-data-CA_FNF_canesm2_rcp85_r1i1p1",
+      "ccsm4_rcp45": "calfews_src-data-CA_FNF_ccsm4_rcp45_r1i1p1",
+      "ccsm4_rcp85": "calfews_src-data-CA_FNF_ccsm4_rcp85_r1i1p1",
+      "cnrm-cm5_rcp45": "calfews_src-data-CA_FNF_cnrm-cm5_rcp45_r1i1p1",
+      "cnrm-cm5_rcp85": "calfews_src-data-CA_FNF_cnrm-cm5_rcp85_r1i1p1",
+      "csiro-mk3-6-0_rcp45": "calfews_src-data-CA_FNF_csiro-mk3-6-0_rcp45_r1i1p1",
+      "csiro-mk3-6-0_rcp85": "calfews_src-data-CA_FNF_csiro-mk3-6-0_rcp85_r1i1p1",
+      "gfdl-cm3_rcp45": "calfews_src-data-CA_FNF_gfdl-cm3_rcp45_r1i1p1",
+      "gfdl-cm3_rcp85": "calfews_src-data-CA_FNF_gfdl-cm3_rcp85_r1i1p1",
+      "gfdl-esm2m_rcp45": "calfews_src-data-CA_FNF_gfdl-esm2m_rcp45_r1i1p1",
+      "gfdl-esm2m_rcp85": "calfews_src-data-CA_FNF_gfdl-esm2m_rcp85_r1i1p1",
+      "hadgem2-cc_rcp45": "calfews_src-data-CA_FNF_hadgem2-cc_rcp45_r1i1p1",
+      "hadgem2-cc_rcp85": "calfews_src-data-CA_FNF_hadgem2-cc_rcp85_r1i1p1",
+      "hadgem2-es_rcp45": "calfews_src-data-CA_FNF_hadgem2-es_rcp45_r1i1p1",
+      "hadgem2-es_rcp85": "calfews_src-data-CA_FNF_hadgem2-es_rcp85_r1i1p1",
+      "inmcm4_rcp45": "calfews_src-data-CA_FNF_inmcm4_rcp45_r1i1p1",
+      "inmcm4_rcp85": "calfews_src-data-CA_FNF_inmcm4_rcp85_r1i1p1",
+      "ipsl-cm5a-mr_rcp45": "calfews_src-data-CA_FNF_ipsl-cm5a-mr_rcp45_r1i1p1",
+      "ipsl-cm5a-mr_rcp85": "calfews_src-data-CA_FNF_ipsl-cm5a-mr_rcp85_r1i1p1",
+      "miroc5_rcp45": "calfews_src-data-CA_FNF_miroc5_rcp45_r1i1p1",
+      "miroc5_rcp85": "calfews_src-data-CA_FNF_miroc5_rcp85_r1i1p1"
+    },
+    "synthetic": {
+      "capow_22yr": "calfews_src-data-synth_capow",
+      "capow_50yr_wet": "calfews_src-data-synth_capow_50_wet",
+      "capow_50yr_dry": "calfews_src-data-synth_capow_50_dry",
+      "capow_50yr_median": "calfews_src-data-synth_capow_50_median",
+      "capow_50yr_generic": "calfews_src-data-synth_capow_50_",
+      "mghmm_30yr_generic": "calfews_src-data-synth_mghmm_30yr_",
+      "mghmm_30yr_online": "calfews_src-data-synth_mghmm_30yr_",
+      "mghmm_30yr_hdf5": "calfews_src-data-synth_mghmm_30yr_"
+    }
+  },
+  "simulation_period_start": {
+    "observations": {
+      "CDEC": 1905,
+      "CDEC_wet_dry": 1996,
+      "CDEC_short": 1996
+    },
+    "downscaled_19952005": {
+      "VIC": 1996,
+      "WRF": 1996
+    },
+    "downscaled_20062016": {
+      "WRF": 2006,
+      "WRF_GW_corr": 2006,
+      "DryYearAdded": 1996,
+      "WetYearAdded": 1996,
+      "Bias_Corrected": 2006,
+      "Remove_AR": 1996,
+      "AR_1.5": 1996,
+      "AR_1.4": 1996,
+      "AR_1.3": 1996,
+      "AR_1.2": 1996,
+      "AR_1.1": 1996,
+      "AR_0.9": 1996,
+      "AR_0.8": 1996,
+      "AR_0.7": 1996,
+      "AR_0.6": 1996,
+      "AR_0.5": 1996
+    },
+    "downscaled_20402050": {
+      "VIC": 2039,
+      "WRF": 2039
+    },
+    "downscaled_20902100": {
+      "VIC": 2089,
+      "WRF": 2089
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": 2021,
+      "canesm2_rcp85": 2021,
+      "ccsm4_rcp45": 2021,
+      "ccsm4_rcp85": 2021,
+      "cnrm-cm5_rcp45": 2021,
+      "cnrm-cm5_rcp85": 2021,
+      "csiro-mk3-6-0_rcp45": 2021,
+      "csiro-mk3-6-0_rcp85": 2021,
+      "gfdl-cm3_rcp45": 2021,
+      "gfdl-cm3_rcp85": 2021,
+      "gfdl-esm2m_rcp45": 2021,
+      "gfdl-esm2m_rcp85": 2021,
+      "hadgem2-cc_rcp45": 2021,
+      "hadgem2-cc_rcp85": 2021,
+      "hadgem2-es_rcp45": 2021,
+      "hadgem2-es_rcp85": 2021,
+      "inmcm4_rcp45": 2021,
+      "inmcm4_rcp85": 2021,
+      "ipsl-cm5a-mr_rcp45": 2021,
+      "ipsl-cm5a-mr_rcp85": 2021,
+      "miroc5_rcp45": 2021,
+      "miroc5_rcp85": 2021
+    },
+    "synthetic": {
+      "capow_22yr": 1901,
+      "capow_50yr_wet": 1901,
+      "capow_50yr_dry": 1901,
+      "capow_50yr_median": 1901,
+      "capow_50yr_generic": 1901,
+      "mghmm_30yr_generic": 1906,
+      "mghmm_30yr_online": 1906,
+      "mghmm_30yr_hdf5": 1906
+    }
+  },
+  "simulation_period_end": {
+    "observations": {
+      "CDEC": 2016,
+      "CDEC_wet_dry": 1998,
+      "CDEC_short": 2016
+    },
+    "downscaled_19952005": {
+      "VIC": 2005,
+      "WRF": 2005
+    },
+    "downscaled_20062016": {
+      "WRF": 2017,
+      "WRF_GW_corr": 2017,
+      "DryYearAdded": 2017,
+      "WetYearAdded": 2017,
+      "Bias_Corrected": 2017,
+      "Remove_AR": 2017,
+      "AR_1.5": 2017,
+      "AR_1.4": 2017,
+      "AR_1.3": 2017,
+      "AR_1.2": 2017,
+      "AR_1.1": 2017,
+      "AR_0.9": 2017,
+      "AR_0.8": 2017,
+      "AR_0.7": 2017,
+      "AR_0.6": 2017,
+      "AR_0.5": 2017
+    },
+    "downscaled_20402050": {
+      "VIC": 2050,
+      "WRF": 2050
+    },
+    "downscaled_20902100": {
+      "VIC": 2099,
+      "WRF": 2100
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": 2051,
+      "canesm2_rcp85": 2051,
+      "ccsm4_rcp45": 2051,
+      "ccsm4_rcp85": 2051,
+      "cnrm-cm5_rcp45": 2051,
+      "cnrm-cm5_rcp85": 2051,
+      "csiro-mk3-6-0_rcp45": 2051,
+      "csiro-mk3-6-0_rcp85": 2051,
+      "gfdl-cm3_rcp45": 2051,
+      "gfdl-cm3_rcp85": 2051,
+      "gfdl-esm2m_rcp45": 2051,
+      "gfdl-esm2m_rcp85": 2051,
+      "hadgem2-cc_rcp45": 2051,
+      "hadgem2-cc_rcp85": 2051,
+      "hadgem2-es_rcp45": 2051,
+      "hadgem2-es_rcp85": 2051,
+      "inmcm4_rcp45": 2051,
+      "inmcm4_rcp85": 2051,
+      "ipsl-cm5a-mr_rcp45": 2051,
+      "ipsl-cm5a-mr_rcp85": 2051,
+      "miroc5_rcp45": 2051,
+      "miroc5_rcp85": 2051
+    },
+    "synthetic": {
+      "capow_22yr": 1923,
+      "capow_50yr_wet": 1951,
+      "capow_50yr_dry": 1951,
+      "capow_50yr_median": 1951,
+      "capow_50yr_generic": 1951,
+      "mghmm_30yr_generic": 1936,
+      "mghmm_30yr_online": 1936,
+      "mghmm_30yr_hdf5": 1936
+    }
+  },
+  "file_start": {
+    "observations": {
+      "CDEC": "10/1/1905",
+      "CDEC_wet_dry": "10/1/1996",
+      "CDEC_short": "10/1/1996"
+    },
+    "downscaled_19952005": {
+      "VIC": "1/1/1950",
+      "WRF": "10/1/1994"
+    },
+    "downscaled_20062016": {
+      "WRF": "10/1/2006",
+      "WRF_GW_corr": "10/1/2006",
+      "DryYearAdded": "10/1/2006",
+      "WetYearAdded": "10/1/2006",
+      "Bias_Corrected": "10/1/2006",
+      "Remove_AR": "10/1/2006",
+      "AR_1.5": "10/1/2006",
+      "AR_1.4": "10/1/2006",
+      "AR_1.3": "10/1/2006",
+      "AR_1.2": "10/1/2006",
+      "AR_1.1": "10/1/2006",
+      "AR_0.9": "10/1/2006",
+      "AR_0.8": "10/1/2006",
+      "AR_0.7": "10/1/2006",
+      "AR_0.6": "10/1/2006",
+      "AR_0.5": "10/1/2006"
+    },
+    "downscaled_20402050": {
+      "VIC": "1/1/1950",
+      "WRF": "10/1/2039"
+    },
+    "downscaled_20902100": {
+      "VIC": "1/1/1950",
+      "WRF": "10/1/2089"
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": "1/1/1950",
+      "canesm2_rcp85": "1/1/1950",
+      "ccsm4_rcp45": "1/1/1950",
+      "ccsm4_rcp85": "1/1/1950",
+      "cnrm-cm5_rcp45": "1/1/1950",
+      "cnrm-cm5_rcp85": "1/1/1950",
+      "csiro-mk3-6-0_rcp45": "1/1/1950",
+      "csiro-mk3-6-0_rcp85": "1/1/1950",
+      "gfdl-cm3_rcp45": "1/1/1950",
+      "gfdl-cm3_rcp85": "1/1/1950",
+      "gfdl-esm2m_rcp45": "1/1/1950",
+      "gfdl-esm2m_rcp85": "1/1/1950",
+      "hadgem2-cc_rcp45": "1/1/1950",
+      "hadgem2-cc_rcp85": "1/1/1950",
+      "hadgem2-es_rcp45": "1/1/1950",
+      "hadgem2-es_rcp85": "1/1/1950",
+      "inmcm4_rcp45": "1/1/1950",
+      "inmcm4_rcp85": "1/1/1950",
+      "ipsl-cm5a-mr_rcp45": "1/1/1950",
+      "ipsl-cm5a-mr_rcp85": "1/1/1950",
+      "miroc5_rcp45": "1/1/1950",
+      "miroc5_rcp85": "1/1/1950"
+    },
+    "synthetic": {
+      "capow_22yr": "1/1/1901",
+      "capow_50yr_wet": "1/1/1901",
+      "capow_50yr_dry": "1/1/1901",
+      "capow_50yr_median": "1/1/1901",
+      "capow_50yr_generic": "1/1/1901",
+      "mghmm_30yr_generic": "1/1/1906",
+      "mghmm_30yr_online": "1/1/1906",
+      "mghmm_30yr_hdf5": "1/1/1906"
+    }
+  },
+  "file_end": {
+    "observations": {
+      "CDEC": "9/30/2016",
+      "CDEC_wet_dry": "9/30/1998",
+      "CDEC_short": "9/30/2016"
+    },
+    "downscaled_19952005": {
+      "VIC": "12/31/2099",
+      "WRF": "9/30/2005"
+    },
+    "downscaled_20062016": {
+      "WRF": "9/30/2017",
+      "WRF_GW_corr": "9/30/2017",
+      "DryYearAdded": "9/30/2017",
+      "WetYearAdded": "9/30/2017",
+      "Bias_Corrected": "9/30/2017",
+      "Remove_AR": "9/30/2017",
+      "AR_1.5": "9/30/2017",
+      "AR_1.4": "9/30/2017",
+      "AR_1.3": "9/30/2017",
+      "AR_1.2": "9/30/2017",
+      "AR_1.1": "9/30/2017",
+      "AR_0.9": "9/30/2017",
+      "AR_0.8": "9/30/2017",
+      "AR_0.7": "9/30/2017",
+      "AR_0.6": "9/30/2017",
+      "AR_0.5": "9/30/2017"
+    },
+    "downscaled_20402050": {
+      "VIC": "12/31/2099",
+      "WRF": "9/30/2050"
+    },
+    "downscaled_20902100": {
+      "VIC": "12/31/2099",
+      "WRF": "9/30/2100"
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": "12/31/2009",
+      "canesm2_rcp85": "12/31/2099",
+      "ccsm4_rcp45": "12/31/2099",
+      "ccsm4_rcp85": "12/31/2099",
+      "cnrm-cm5_rcp45": "12/31/2099",
+      "cnrm-cm5_rcp85": "12/31/2099",
+      "csiro-mk3-6-0_rcp45": "12/31/2099",
+      "csiro-mk3-6-0_rcp85": "12/31/2099",
+      "gfdl-cm3_rcp45": "12/31/2099",
+      "gfdl-cm3_rcp85": "12/31/2099",
+      "gfdl-esm2m_rcp45": "12/31/2099",
+      "gfdl-esm2m_rcp85": "12/31/2099",
+      "hadgem2-cc_rcp45": "12/31/2099",
+      "hadgem2-cc_rcp85": "12/31/2099",
+      "hadgem2-es_rcp45": "11/30/2099",
+      "hadgem2-es_rcp85": "12/31/2099",
+      "inmcm4_rcp45": "12/31/2099",
+      "inmcm4_rcp85": "12/31/2099",
+      "ipsl-cm5a-mr_rcp45": "12/31/2099",
+      "ipsl-cm5a-mr_rcp85": "12/31/2099",
+      "miroc5_rcp45": "12/31/2099",
+      "miroc5_rcp85": "12/31/2099"
+    },
+    "synthetic": {
+      "capow_22yr": "12/31/1923",
+      "capow_50yr_wet": "12/31/1951",
+      "capow_50yr_dry": "12/31/1951",
+      "capow_50yr_median": "12/31/1951",
+      "capow_50yr_generic": "12/31/1951",
+      "mghmm_30yr_generic": "12/31/1936",
+      "mghmm_30yr_online": "12/31/1936",
+      "mghmm_30yr_hdf5": "12/31/1936"
+    }
+  },
+  "has_full_inputs": {
+    "observations": {
+      "CDEC": false,
+      "CDEC_wet_dry": false,
+      "CDEC_short": true
+    },
+    "downscaled_19952005": {
+      "VIC": false,
+      "WRF": false
+    },
+    "downscaled_20062016": {
+      "WRF": false,
+      "WRF_GW_corr": false,
+      "DryYearAdded": false,
+      "WetYearAdded": false,
+      "Bias_Corrected": false,
+      "Remove_AR": true,
+      "AR_1.5": true,
+      "AR_1.4": true,
+      "AR_1.3": true,
+      "AR_1.2": true,
+      "AR_1.1": true,
+      "AR_0.9": true,
+      "AR_0.8": true,
+      "AR_0.7": true,
+      "AR_0.6": true,
+      "AR_0.5": true
+    },
+    "downscaled_20402050": {
+      "VIC": false,
+      "WRF": false
+    },
+    "downscaled_20902100": {
+      "VIC": false,
+      "WRF": false
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": false,
+      "canesm2_rcp85": false,
+      "ccsm4_rcp45": false,
+      "ccsm4_rcp85": false,
+      "cnrm-cm5_rcp45": false,
+      "cnrm-cm5_rcp85": false,
+      "csiro-mk3-6-0_rcp45": false,
+      "csiro-mk3-6-0_rcp85": false,
+      "gfdl-cm3_rcp45": false,
+      "gfdl-cm3_rcp85": false,
+      "gfdl-esm2m_rcp45": false,
+      "gfdl-esm2m_rcp85": false,
+      "hadgem2-cc_rcp45": false,
+      "hadgem2-cc_rcp85": false,
+      "hadgem2-es_rcp45": false,
+      "hadgem2-es_rcp85": false,
+      "inmcm4_rcp45": false,
+      "inmcm4_rcp85": false,
+      "ipsl-cm5a-mr_rcp45": false,
+      "ipsl-cm5a-mr_rcp85": false,
+      "miroc5_rcp45": false,
+      "miroc5_rcp85": false
+    },
+    "synthetic": {
+      "capow_22yr": false,
+      "capow_50yr_wet": false,
+      "capow_50yr_dry": false,
+      "capow_50yr_median": false,
+      "capow_50yr_generic": false,
+      "mghmm_30yr_generic": false,
+      "mghmm_30yr_online": false,
+      "mghmm_30yr_hdf5": false
+    }
+  },
+  "has_leap": {
+    "observations": {
+      "CDEC": true,
+      "CDEC_wet_dry": true,
+      "CDEC_short": true
+    },
+    "downscaled_19952005": {
+      "VIC": false,
+      "WRF": false
+    },
+    "downscaled_20062016": {
+      "WRF": true,
+      "WRF_GW_corr": true,
+      "DryYearAdded": true,
+      "WetYearAdded": true,
+      "Bias_Corrected": true,
+      "Remove_AR": true,
+      "AR_1.5": true,
+      "AR_1.4": true,
+      "AR_1.3": true,
+      "AR_1.2": true,
+      "AR_1.1": true,
+      "AR_0.9": true,
+      "AR_0.8": true,
+      "AR_0.7": true,
+      "AR_0.6": true,
+      "AR_0.5": true
+    },
+    "downscaled_20402050": {
+      "VIC": false,
+      "WRF": false
+    },
+    "downscaled_20902100": {
+      "VIC": false,
+      "WRF": false
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": true,
+      "canesm2_rcp85": true,
+      "ccsm4_rcp45": true,
+      "ccsm4_rcp85": true,
+      "cnrm-cm5_rcp45": true,
+      "cnrm-cm5_rcp85": true,
+      "csiro-mk3-6-0_rcp45": true,
+      "csiro-mk3-6-0_rcp85": true,
+      "gfdl-cm3_rcp45": true,
+      "gfdl-cm3_rcp85": true,
+      "gfdl-esm2m_rcp45": true,
+      "gfdl-esm2m_rcp85": true,
+      "hadgem2-cc_rcp45": true,
+      "hadgem2-cc_rcp85": true,
+      "hadgem2-es_rcp45": true,
+      "hadgem2-es_rcp85": true,
+      "inmcm4_rcp45": true,
+      "inmcm4_rcp85": true,
+      "ipsl-cm5a-mr_rcp45": true,
+      "ipsl-cm5a-mr_rcp85": true,
+      "miroc5_rcp45": true,
+      "miroc5_rcp85": true
+    },
+    "synthetic": {
+      "capow_22yr": true,
+      "capow_50yr_wet": true,
+      "capow_50yr_dry": true,
+      "capow_50yr_median": true,
+      "capow_50yr_generic": true,
+      "mghmm_30yr_generic": true,
+      "mghmm_30yr_online": true,
+      "mghmm_30yr_hdf5": true
+    }
+  },
+  "inflow_unit": {
+    "observations": {
+      "CDEC": "af",
+      "CDEC_wet_dry": "af"
+    },
+    "downscaled_19952005": {
+      "VIC": "cfs",
+      "WRF": "af"
+    },
+    "downscaled_20062016": {
+      "WRF": "cms",
+      "WRF_GW_corr": "cms",
+      "DryYearAdded": "af",
+      "WetYearAdded": "af",
+      "Bias_Corrected": "cms",
+      "Remove_AR": "af",
+      "AR_1.5": "af",
+      "AR_1.4": "af",
+      "AR_1.3": "af",
+      "AR_1.2": "af",
+      "AR_1.1": "af",
+      "AR_0.9": "af",
+      "AR_0.8": "af",
+      "AR_0.7": "af",
+      "AR_0.6": "af",
+      "AR_0.5": "af"
+    },
+    "downscaled_20402050": {
+      "VIC": "cfs",
+      "WRF": "af"
+    },
+    "downscaled_20902100": {
+      "VIC": "cfs",
+      "WRF": "af"
+    },
+    "downscaled_19502100": {
+      "canesm2_rcp45": "cfs",
+      "canesm2_rcp85": "cfs",
+      "ccsm4_rcp45": "cfs",
+      "ccsm4_rcp85": "cfs",
+      "cnrm-cm5_rcp45": "cfs",
+      "cnrm-cm5_rcp85": "cfs",
+      "csiro-mk3-6-0_rcp45": "cfs",
+      "csiro-mk3-6-0_rcp85": "cfs",
+      "gfdl-cm3_rcp45": "cfs",
+      "gfdl-cm3_rcp85": "cfs",
+      "gfdl-esm2m_rcp45": "cfs",
+      "gfdl-esm2m_rcp85": "cfs",
+      "hadgem2-cc_rcp45": "cfs",
+      "hadgem2-cc_rcp85": "cfs",
+      "hadgem2-es_rcp45": "cfs",
+      "hadgem2-es_rcp85": "cfs",
+      "inmcm4_rcp45": "cfs",
+      "inmcm4_rcp85": "cfs",
+      "ipsl-cm5a-mr_rcp45": "cfs",
+      "ipsl-cm5a-mr_rcp85": "cfs",
+      "miroc5_rcp45": "cfs",
+      "miroc5_rcp85": "cfs"
+    },
+    "synthetic": {
+      "capow_22yr": "af",
+      "capow_50yr_wet": "af",
+      "capow_50yr_dry": "af",
+      "capow_50yr_median": "af",
+      "capow_50yr_generic": "af",
+      "mghmm_30yr_generic": "af",
+      "mghmm_30yr_online": "af",
+      "mghmm_30yr_hdf5": "af"
+    }
+  }
+}
+

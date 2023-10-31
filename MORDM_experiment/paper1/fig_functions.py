@@ -1,3 +1,5 @@
+import datetime
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -16,11 +18,19 @@ import contextily as cx
 from generativepy.color import Color
 from shapely.geometry import Point, Polygon, LineString, MultiLineString
 from PIL import ImageColor
+import json
+
+import sys
+sys.path.append('/home/alh/PycharmProjects/CALFEWS/')
+from calfews_src.util import district_label_dict
+
 import warnings
 warnings.filterwarnings('ignore')
 
 ### replace with path of disaggregated results hdf5 dataset on your computer. Download from Zenodo (see link in repo).
-results_disagg_file = '/home/alh/PycharmProjects/CALFEWS/results/WCU_results_s2/results_reevaluation_disagg.hdf5'
+results_mhmm_disagg_file = '/home/alh/PycharmProjects/CALFEWS/results/WCU_results_s2/results_reevaluation_disagg.hdf5'
+results_projections_dir = '/home/alh/PycharmProjects/CALFEWS/results/climate_reeval_infra/'
+results_projections_disagg_file = f'{results_projections_dir}/results_climate_reeval.hdf5'
 
 ### parameters
 fontsize = 14
@@ -118,7 +128,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
         print(results.loc[results['label'] == soln_statusquo].iloc[0, -8:])
 
     ressat = results_opt.loc[:, columns]
-    ressat = ressat.append(results_nonopt.loc[:, columns])
+    ressat = pd.concat([ressat, results_nonopt.loc[:, columns]])
 
 
     if ideal_direction == 'bottom':
@@ -356,7 +366,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
         mappable.set_clim(vmin=2, vmax=24)
         cb = plt.colorbar(mappable, ax=ax, orientation='horizontal', shrink=0.4, label='Number of partners', pad=0.03,
                           alpha=alpha)
-        _ = cb.ax.set_xticks(range(2, 25, 2), fontsize=fontsize)
+        _ = cb.ax.set_xticks(range(2, 25, 2), range(2, 25, 2), fontsize=fontsize)
         _ = cb.ax.set_xlabel(cb.ax.get_xlabel(), fontsize=fontsize)
     elif color_by == 'proj':
         leg = [Line2D([0], [0], color=cmap_vir(0.), lw=3, alpha=alpha, label='Canal expansion'),
@@ -705,7 +715,15 @@ def plot_regional_map(water_providers, states, canals_fkc, canals_other, tlb, sj
 
 
 ## get all simulated results for particular partnership in alternative hydrologic scenarios during reevaluation, relative to baseline.
-def get_results_disagg_MC(soln_label, baseline_label):
+def get_results_disagg_MC(soln_label, baseline_label, reeval_type='mhmm'):
+    if reeval_type == 'mhmm':
+        results_disagg_file = results_mhmm_disagg_file
+    elif reeval_type == 'projections':
+        results_disagg_file = results_projections_disagg_file
+        soln_disagg_label_dict = {'soln375': 'compromise','soln1293': 'statusquo', 'soln1294': 'baseline'}
+        soln_label = soln_disagg_label_dict[soln_label]
+        baseline_label = soln_disagg_label_dict[baseline_label]
+
     with h5py.File(results_disagg_file, 'r') as f:
         dvnames = f[soln_label].attrs['dv_names']
         dvs = f[soln_label].attrs['dvs']
@@ -748,8 +766,12 @@ def get_results_disagg_MC(soln_label, baseline_label):
                                        'ap_p': ap_p_soln,
                                        'cwg_np': cwg_np_soln,
                                        'cog_wp': cog_wp_soln,
-                                       'n_p': n_p_soln,
-                                       'mc': [int(mc.split('mc')[1]) for mc in df_mc_wcu_soln.index]})
+                                       'n_p': n_p_soln})
+        if reeval_type == 'mhmm':
+            df_overall_wcu['mc'] = [int(mc.split('mc')[1]) for mc in df_mc_wcu_soln.index]
+        elif reeval_type == 'projections':
+            df_overall_wcu['mc'] = [mc for mc in df_mc_wcu_soln.index]
+
 
     df_overall_wcu.sort_values(['mc'], inplace=True)
     df_overall_wcu.reset_index(inplace=True, drop=True)
@@ -758,7 +780,15 @@ def get_results_disagg_MC(soln_label, baseline_label):
 
 
 ### get all simulated results for particular partnership, at level of indiv partners, in alternative hydrologic scenarios during reevaluation, relative to baseline.
-def get_results_disagg_MC_district(soln_label, baseline_label):
+def get_results_disagg_MC_district(soln_label, baseline_label, reeval_type='mhmm'):
+    if reeval_type == 'mhmm':
+        results_disagg_file = results_mhmm_disagg_file
+    elif reeval_type == 'projections':
+        results_disagg_file = results_projections_disagg_file
+        soln_disagg_label_dict = {'soln375': 'compromise','soln1293': 'statusquo', 'soln1294': 'baseline'}
+        soln_label = soln_disagg_label_dict[soln_label]
+        baseline_label = soln_disagg_label_dict[baseline_label]
+
     count = 0
     with h5py.File(results_disagg_file, 'r') as f:
         dvnames = f[soln_label].attrs['dv_names']
@@ -857,7 +887,7 @@ def get_ownership_share_colors():
 
 
 ### create 3-part fig for compromise soln with (a) MC paraxis plot, (b) map, & (c) district level COG distributions
-def plot_3part_partnership_compromise(results_agg, soln_labels, columns, water_providers, states, canals_fkc,
+def plot_3part_partnership_performance(results_agg, soln_labels, columns, water_providers, states, canals_fkc,
                                       canals_other, tlb, sjr, kings, res_gdf, ideal_direction='top'):
     fig = plt.figure(figsize=(12, 8))
     gs = gridspec.GridSpec(nrows=2, ncols=2, wspace=0.2, hspace=0.2, width_ratios=[1, 1.8])
@@ -1251,6 +1281,535 @@ def plot_3part_partnership_compromise(results_agg, soln_labels, columns, water_p
 
 
 
+### create 3-part fig for compromise soln with (a) MC paraxis plot, (b) map, & (c) district level COG distributions
+def compare_partnership_performance_climate(results_agg, soln_label, columns, ideal_direction='top'):
+    fig = plt.figure(figsize=(12, 12))
+    gs = gridspec.GridSpec(nrows=3, ncols=1, wspace=0.2, hspace=0.2)#, width_ratios=[1, 1.8])
+    fontsize = 12
+
+
+    ### get disaggregated partnership-level results from individual hydrologic scenarios in reevaluation ensemble
+    soln_disagg_label_dict = {'soln375': 'soln375', 'compromise':'soln375',
+                              'friant16': 'soln1293', 'statusquo': 'soln1293', 'baseline': 'soln1294'}
+    ### first get results disaggregated by hydrologic scenario MC, but at partnership level
+    dict_results_disagg_MC = {}
+    for reeval_type in ['mhmm', 'projections']:
+        dict_results_disagg_MC[reeval_type] = get_results_disagg_MC(soln_disagg_label_dict[soln_label],
+                                                                    soln_disagg_label_dict['baseline'],
+                                                                    reeval_type = reeval_type)
+
+
+    ### now get results broken down by both MC and water provider level
+    dict_results_disagg_MC_district, dict_partners_MC_district, dict_nonpartners_MC_district, \
+    dict_shares_MC_district, dict_projects_MC_district = {}, {}, {}, {}, {}
+    for reeval_type in ['mhmm', 'projections']:
+        dict_results_disagg_MC_district[reeval_type], dict_partners_MC_district[reeval_type], \
+        dict_nonpartners_MC_district[reeval_type], \
+        dict_shares_MC_district[reeval_type], dict_projects_MC_district[reeval_type] = get_results_disagg_MC_district(
+            soln_disagg_label_dict[soln_label], soln_disagg_label_dict['baseline'], reeval_type = reeval_type)
+
+
+
+
+
+
+    ##################################
+    ### part 1: paraxis plot with soln_labels highlighted, plus distribution over disaggregated performance for MHMM & climate projections
+    ################################
+
+    ax = fig.add_subplot(gs[0])
+
+    ### rescale objectives so that parallel axes span 0-1. Note last axis for cog_wp is inverted.
+    if soln_label in ['soln375', 'compromise']:
+        objmins = [2, 0, -3, -60, 70]
+        objmaxs = [24, 200, 140, 80, 1000]
+    elif soln_label in ['soln1293', 'statusquo', 'friant16']:
+        objmins = [2, 0, -3, -60, 78]
+        objmaxs = [24, 135, 100, 35, 1000]
+
+    ressat_wcu = results_agg.loc[:, columns]
+
+    if ideal_direction == 'bottom':
+        tops = np.array(objmins)
+        bottoms = np.array(objmaxs)
+        tops[-1], bottoms[-1] = bottoms[-1], tops[-1]
+        ressat_wcu.iloc[:, :-1] = (bottoms[:-1] - ressat_wcu.iloc[:, :-1]) / (bottoms[:-1] - tops[:-1])
+        ressat_wcu.iloc[:, -1] = (ressat_wcu.iloc[:, -1] - bottoms[-1]) / (tops[-1] - bottoms[-1])
+    elif ideal_direction == 'top':
+        tops = np.array(objmaxs)
+        bottoms = np.array(objmins)
+        tops[-1], bottoms[-1] = bottoms[-1], tops[-1]
+        ressat_wcu.iloc[:, -1] = (bottoms[-1] - ressat_wcu.iloc[:, -1]) / (bottoms[-1] - tops[-1])
+        ressat_wcu.iloc[:, :-1] = (ressat_wcu.iloc[:, :-1] - bottoms[:-1]) / (tops[:-1] - bottoms[:-1])
+    else:
+        print('ideal should be "top" or "bottom" based on direction of preference')
+
+    ### plot objs for all partnerships after WCU, brushed. omit baseline & friant/alts
+    for i in range(ressat_wcu.shape[0] - 4):
+        for j in range(len(columns) - 1):
+            c = '0.8'
+            zorder = 1
+            y1 = ressat_wcu.iloc[i, j]
+            y2 = ressat_wcu.iloc[i, j + 1]
+            y = [y1, y2]
+            x = [j, j + 1]
+            alpha = 0.4
+            ax.plot(x, y, c=c, alpha=alpha, zorder=zorder, lw=1)
+
+    ### add top/bottom ranges and ticks at 20% intervals
+    for j in range(len(columns)):
+        ax.annotate(str(round(tops[j])), [j, 1.02], ha='center', va='bottom', zorder=5, fontsize=fontsize)
+        if j == len(columns) - 1:
+            ax.annotate(str(round(bottoms[j])) + '+', [j, -0.02], ha='center', va='top', zorder=5, fontsize=fontsize)
+        else:
+            ax.annotate(str(round(bottoms[j])), [j, -0.02], ha='center', va='top', zorder=5, fontsize=fontsize)
+
+        ax.plot([j, j], [0, 1], c='k', zorder=2)
+        for y in np.arange(0, 1.001, 0.2):
+            ax.plot([j - 0.03, j + 0.03], [y, y], c='k', zorder=2)
+
+    ### clean up figure
+    ax.set_xticks([])
+    ax.set_yticks([])
+    for spine in ['top', 'bottom', 'left', 'right']:
+        ax.spines[spine].set_visible(False)
+
+    if ideal_direction == 'top':
+        ax.arrow(-0.15, 0.1, 0, 0.7, head_width=0.08, head_length=0.05, color='k', lw=1.5)
+    elif ideal_direction == 'bottom':
+        ax.arrow(-0.15, 0.9, 0, -0.7, head_width=0.08, head_length=0.05, color='k', lw=1.5)
+
+    ax.annotate('Direction of preference', xy=(-0.3, 0.5), ha='center', va='center', rotation=90, fontsize=fontsize)
+
+    ax.set_ylim(-0.4, 1.5)
+    labels = ['Number\nof\npartners', 'Captured\nwater\ngain\n(GL/yr)', 'Pumping\nreduction\n(GL/yr)',
+              'Captured\nwater\ngain for\nnon-partners\n(GL/yr)', 'Cost of\ngains for\nworst-off\npartner\n($/ML)']
+    for i, l in enumerate(labels):
+        ax.annotate(l, xy=(i, -0.12), ha='center', va='top', fontsize=fontsize)
+    ax.patch.set_alpha(0)
+
+    ### now add detail for particular solns
+    colors_brewer = {'soln375': '#1b9e77', 'friant16': '#d95f02', 'other': '#7570b3'}
+
+    ### highlight soln, wcu agg objectives
+    ressat_wcu_soln = ressat_wcu.loc[results_agg['label'] == soln_label, :]
+    i = ressat_wcu_soln.index[0]
+    xx = []
+    yy = []
+    for j in range(len(columns) - 1):
+        c = colors_brewer[soln_label]
+        y1 = ressat_wcu_soln.iloc[0, j]
+        y2 = ressat_wcu_soln.iloc[0, j + 1]
+        x = np.arange(j, j + 1 + 0.001, 1 / 10)
+        y = y1 + (x - j) * (y2 - y1)
+        xx += list(x)
+        yy += list(y)
+    alpha = 1
+    ax.plot(xx, yy, c='k', alpha=alpha, zorder=5, lw=3)
+    ax.plot(xx, yy, c=c, alpha=alpha, zorder=5, lw=2)
+
+    ### get MC data and plot as distribution
+    for reeval_type in ['mhmm','projections']:
+        c = c if reeval_type == 'mhmm' else colors_brewer['other']
+        results_disagg_MC = dict_results_disagg_MC[reeval_type]
+        columns_MC = ['cog_wp' if c == 'cog_wp_p90' else c for c in columns]
+        for o, obj in enumerate(columns_MC):
+            if obj == 'cog_wp_p90':
+                obj = 'cog_wp'
+            results_disagg_MC[f'{obj}_scaled'] = results_disagg_MC[obj].copy()
+            if obj not in ['cog_wp']:
+                if ideal_direction == 'bottom':
+                    results_disagg_MC[f'{obj}_scaled'] = (bottoms[o] - results_disagg_MC[f'{obj}_scaled']) / \
+                                                      (bottoms[o] - tops[o])
+                elif ideal_direction == 'top':
+                    results_disagg_MC[f'{obj}_scaled'] = (results_disagg_MC[f'{obj}_scaled'] - bottoms[o]) / \
+                                                      (tops[o] - bottoms[o])
+            else:
+                if ideal_direction == 'bottom':
+                    results_disagg_MC[f'{obj}_scaled'] = (results_disagg_MC[f'{obj}_scaled'] - bottoms[o]) / \
+                                                      (tops[o] - bottoms[o])
+                elif ideal_direction == 'top':
+                    results_disagg_MC[f'{obj}_scaled'] = (bottoms[o] - results_disagg_MC[f'{obj}_scaled']) / \
+                                                      (bottoms[o] - tops[o])
+
+        ### add wcu dist
+        for o, obj in enumerate(columns_MC[1:]):
+            data = results_disagg_MC[f'{obj}_scaled']
+            kde = sm.nonparametric.KDEUnivariate(data)
+            kde.fit(bw=0.025)
+
+            y = np.arange(0, 1, 0.01)
+            x = []
+            for yy in y:
+                xx = kde.evaluate(yy) * 0.12
+                if np.isnan(xx):
+                    x.append(0.)
+                else:
+                    x.append(xx[0])
+            x = np.array(x)
+            ax.fill_betweenx(y, x + o + 1, o + 1, where=(x > 0.00005), lw=1, alpha=0.6, zorder=4, fc=c, ec='k')
+
+        print(soln_label, 'min, mean, max')
+        for o, obj in enumerate(columns_MC[1:]):
+            print(obj, results_disagg_MC[f'{obj}'].min(), results_disagg_MC[f'{obj}'].mean(), results_disagg_MC[obj].max())
+        print()
+
+    ### add arrow for direction of preference
+    if ideal_direction == 'top':
+        ax.arrow(-0.15, 0.1, 0, 0.7, head_width=0.08, head_length=0.05, color='k', lw=1.5)
+    elif ideal_direction == 'bottom':
+        ax.arrow(-0.15, 0.9, 0, -0.7, head_width=0.08, head_length=0.05, color='k', lw=1.5)
+    ax.annotate('Direction of preference', xy=(-0.3, 0.5), ha='center', va='center', rotation=90, fontsize=fontsize)
+
+    plt.xlim([-0.3, 5])
+
+    ax.annotate('a)', (0.01, 0.92), xycoords='subfigure fraction', ha='left', va='top', fontsize=fontsize + 2, weight='bold')
+
+
+
+    #############################################
+    ### part 2 & 3: distributions for district level COG for MHMM & climate projections
+    #############################################
+    for r, reeval_type in enumerate(['mhmm','projections']):
+
+        ax = fig.add_subplot(gs[r+1])
+
+
+        alpha = 1
+        bw = 1.0
+        bw_scalar = 10
+        pdf_scalar = 1.
+
+        ridgesep = 0.1
+        xmin = 0
+        xmax = 1030
+
+        results_disagg_MC_district = dict_results_disagg_MC_district[reeval_type]
+        partners = dict_partners_MC_district[reeval_type]
+        nonpartners = dict_nonpartners_MC_district[reeval_type]
+        shares = dict_shares_MC_district[reeval_type]
+        project = dict_projects_MC_district[reeval_type]
+
+        ### first do kde for overall partnership
+        avg_gap = 2
+
+        ax.axhline(avg_gap * ridgesep, color='0.8', zorder=1, lw=1)
+        c = f'overall_cog_p'
+        data = results_disagg_MC_district[c]
+        kde_district = sm.nonparametric.KDEUnivariate(data)
+        kde_district.fit(bw=bw * bw_scalar)
+
+        x = np.arange(xmin, xmax, 0.1 * bw_scalar)
+        y = []
+        for xx in x:
+            yy = kde_district.evaluate(xx) * bw_scalar * pdf_scalar
+            if np.isnan(yy):
+                y.append(0.)
+            else:
+                y.append(yy[0])
+        y = np.array(y)
+        color = '0.2'
+        ax.fill_between(x, y + avg_gap * ridgesep, avg_gap * ridgesep, where=(y > 0.00005), lw=0.5, alpha=alpha, zorder=2,
+                        fc=color, ec=color)
+
+        c = f'overall_cog_wp'
+        data = results_disagg_MC_district[c]
+        kde_district = sm.nonparametric.KDEUnivariate(data)
+        # kde_district.fit(kernel='tri', fft=False, bw=bw * bw_scalar)
+        kde_district.fit(bw=bw * bw_scalar)
+        x = np.arange(xmin, xmax, 0.1 * bw_scalar)
+        y = []
+        for xx in x:
+            yy = kde_district.evaluate(xx) * bw_scalar * pdf_scalar
+            if np.isnan(yy):
+                y.append(0.)
+            else:
+                y.append(yy[0])
+        y = np.array(y)
+        color = 'firebrick'
+        ax.fill_between(x, y + avg_gap * ridgesep, avg_gap * ridgesep, where=(y > 0.00005), lw=0.5, alpha=alpha, zorder=2,
+                        fc=color, ec=color)
+
+        shares_cmap_class, shares_cmap_mappable, shares_cmap_class_even, shares_cmap_mappable_even = get_ownership_share_colors()
+
+        for i, d in enumerate(partners):
+            ### set bottom of "ridge" in decreasing order (smallest share at bottom)
+            bottom = (-i * ridgesep)
+            plt.axhline(bottom, color='0.8', zorder=1, lw=1)
+
+            ### evaluate & plot kde
+            c = f'{d}_cog'
+            data = results_disagg_MC_district[c]
+            kde_district = sm.nonparametric.KDEUnivariate(data)
+            #     kde_district.fit(kernel='tri', fft=False, bw=bw * bw_scalar)
+            kde_district.fit(bw=bw * bw_scalar)
+
+            x = np.arange(xmin, xmax, 0.1 * bw_scalar)
+            y = []
+            for xx in x:
+                yy = kde_district.evaluate(xx) * bw_scalar * pdf_scalar
+                if np.isnan(yy):
+                    y.append(0.)
+                else:
+                    y.append(yy[0])
+            y = np.array(y)
+            color = shares_cmap_class(shares[i])
+            plt.fill_between(x, y + bottom, bottom, where=(y > 0.00005), lw=0.5, alpha=alpha, zorder=2, fc=color, ec='k')
+
+        ax.set_yticks([avg_gap * ridgesep] + [-i * ridgesep for i in range(len(partners)) if i % avg_gap == 0],
+                      ['All'] + [str(i + 1) for i in range(len(partners)) if i % avg_gap == 0])
+        plt.xticks([0, 250, 500, 750, 1000], ['0', '250', '500', '750', "1000+"])
+        ax.xaxis.set_major_locator(MultipleLocator(250))
+        ax.xaxis.set_minor_locator(MultipleLocator(50))
+
+        plt.xlim([xmin, xmax])
+        plt.ylabel('Partners\n' + r'(Increasing share $\rightarrow$)', fontsize=fontsize)
+        plt.xlabel('Cost of gains ($/ML)', fontsize=fontsize)
+        ax.spines[['top', 'left', 'right']].set_visible(False)
+
+        axlabel = 'b)' if r==0 else 'c)'
+        axheight = 0.62 if r==0 else 0.31
+        ax.annotate(axlabel, (0.01, axheight), xycoords='subfigure fraction', ha='left', va='top',
+                    fontsize=fontsize + 2, weight='bold')
+
+
+    plt.savefig(f'{fig_dir}fig_performance_climate_{soln_label}.png', bbox_inches='tight', dpi=300, transparent=True)
+
+
+
+
+
+
+### function to compare time series of performance in wet vs dry scenarios
+def compare_partnership_performance_timeseries_wetdry(projection_label, soln_label):
+
+    fig, axs = plt.subplots(4,1,figsize=(10,10), gridspec_kw={'hspace':0.1})
+
+    results_projections_dir2 = results_projections_dir #+ '../climate_reeval_infra_save/'
+
+    f_soln = h5py.File(f'{results_projections_dir2}/{soln_label}/{projection_label}/results.hdf5')['s']
+    f_baseline = h5py.File(f'{results_projections_dir2}/baseline/{projection_label}/results.hdf5')['s']
+
+    ### get full list of column names for each dataset. these may not line up across datasets.
+    cols_soln, cols_baseline = [], []
+    for c in range(100):
+        if f'columns{c}' in f_soln.attrs.keys():
+            cols_soln += [s.decode('utf-8') for s in f_soln.attrs[f'columns{c}']]
+        if f'columns{c}' in f_baseline.attrs.keys():
+            cols_baseline += [s.decode('utf-8') for s in f_baseline.attrs[f'columns{c}']]
+    print(cols_baseline)
+    print([c for c in cols_baseline if 'fresnoid' in c])
+
+    num_days = f_baseline.shape[0]
+    start_date = f_baseline.attrs['start_date']
+    start_date = datetime.datetime(int(start_date.split('-')[0]), int(start_date.split('-')[1]), int(start_date.split('-')[2]))
+    dates = pd.DatetimeIndex([start_date + datetime.timedelta(days=n) for n in range(num_days)])
+    wy = np.array([y if m < 10 else y+1 for y,m in zip(dates.year, dates.month)])
+
+    ### get set of partners
+    partnership = json.load(open(f'{results_projections_dir2}/{soln_label}/FKC_scenario.json'))
+    partners = [k for k,v in partnership['ownership_shares'].items() if v>0]
+    partners_labels = [district_label_dict[k] for k in partners]
+
+
+    ### undo summation over water year for some timeseries
+    def undo_summation_wy(data, wy):
+        for y in range(wy.min() + 1, wy.max() + 1):
+            maxprevious = data[wy < y][-1]
+            data[wy == y] += maxprevious
+        data[1:] = data[1:] - data[:-1]
+        return data
+
+    ### moving average of timeseries
+    def moving_average(data, window):
+        if window <= 1:
+            return data
+        else:
+            window_min_1 = window - 1
+        data_ma = np.cumsum(data)
+        data_ma[window_min_1:] = (data_ma[window_min_1:] - data_ma[:-window_min_1]) / window
+        data_ma[:window_min_1] = data[:window_min_1]
+        return data_ma
+
+    ### get data for particular timeseries
+    def get_timeseries(f_hdf5, cols_hdf5, column, wy, is_summation_wy, smooth_window=0):
+        data = f_hdf5[:, [i for i in range(f_hdf5.shape[1]) if cols_hdf5[i] == column]]
+        if data.shape[1] > 0:
+            data = data[:,0] * kaf_to_gl
+            if is_summation_wy:
+                data = undo_summation_wy(data, wy)
+            data = moving_average(data, window=smooth_window)
+        else:
+            data = np.zeros(f_hdf5.shape[0])
+        return data
+
+
+    color_fill_baseline = '0.7'
+    color_fill_positive = 'navy'
+    color_fill_negative = 'firebrick'
+
+    #################################################
+    ### part 1: show hydrology by years
+    ##################################################
+    ax = axs[0]
+    smooth_window = 0
+
+    Q = get_timeseries(f_baseline, cols_baseline,  'millerton_Q', wy, False, smooth_window)
+    ax.plot(dates, Q, color='k')
+    ax.set_ylabel('Millerton\nInflow (GL/day)')
+    ax.set_xticklabels([])
+
+    #################################################
+    ### part 2: show FKC flow by years
+    ##################################################
+    ax = axs[1]
+
+    fkc_soln = get_timeseries(f_soln, cols_soln,  'fkc_NFWB_flow', wy, False,smooth_window)
+    fkc_baseline = get_timeseries(f_baseline, cols_baseline,  'fkc_NFWB_flow', wy, False,smooth_window)
+
+    ax.fill_between(dates, fkc_baseline, color=color_fill_baseline, lw=0)
+    ax.fill_between(dates, fkc_baseline, fkc_soln, where=fkc_baseline<fkc_soln, color=color_fill_positive, lw=0)
+    ax.fill_between(dates, fkc_baseline, fkc_soln, where=fkc_baseline>fkc_soln, color=color_fill_negative, lw=0)
+    ax.set_ylabel('FKC\nFlow (GL/day)')
+    ax.set_xticklabels([])
+
+    ### now plot cumulative FKC flow gain on 2nd y axis
+    flow_gain_soln = np.cumsum(fkc_soln - fkc_baseline)
+    ax2 = ax.twinx()
+    ax2.plot(dates, flow_gain_soln, color='0.5')
+    ax2.set_ylabel('Cumulative Gain\nin Flow (GL)')
+
+    #################################################
+    ### part 3: show deliveries by years with timeseries overlaid
+    ##################################################
+
+    ax = axs[2]
+
+    ### get deliveries total for partner (following workflow in main_cy.get_district_results())
+    def get_deliveries_partner(partner, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
+        cols_partner = [c for c in cols_hdf5 if c.split('_')[0] == partner]
+        if partner in ['fresnoid']:
+            print(cols_partner)
+        deliveries = np.zeros(f_hdf5.shape[0])
+        for c in cols_partner:
+            if len(c.split('_')) > 2:
+                if c.split('_')[2] in ['delivery', 'flood', 'SW']:
+                    if partner == 'fresnoid':
+                        print(c, get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window).mean()*365)
+                    deliveries += get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
+                elif c.split('_')[2] == 'GW':
+                    if partner == 'fresnoid':
+                        print(c, get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window).mean() * 365)
+                    deliveries -= get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
+        print(partner, deliveries.sum()/(f_soln.shape[0]/365))
+        return deliveries
+
+    def get_deliveries_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
+        deliveries = np.zeros(f_hdf5.shape[0])
+        for partner in partners:
+            deliveries += get_deliveries_partner(partner, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window)
+        return deliveries
+
+    deliveries_soln = get_deliveries_partnership(partners_labels, f_soln, cols_soln, wy, True, smooth_window)
+    deliveries_baseline = get_deliveries_partnership(partners_labels, f_baseline, cols_baseline, wy, True, smooth_window)
+
+    ### plot daily deliveries as areas
+    ax.fill_between(dates, deliveries_baseline, color=color_fill_baseline, lw=0)
+    ax.fill_between(dates, deliveries_baseline, deliveries_soln, where=deliveries_baseline<deliveries_soln, color=color_fill_positive, lw=0)
+    ax.fill_between(dates, deliveries_baseline, deliveries_soln, where=deliveries_baseline>deliveries_soln, color=color_fill_negative, lw=0)
+    ax.set_ylabel('Deliveries\n(GL/day)')
+    ax.set_xticklabels([])
+
+    ### now plot cumulative captured water gain on 2nd y axis
+    cwg_soln = np.cumsum(deliveries_soln - deliveries_baseline)
+    ax2 = ax.twinx()
+    ax2.plot(dates, cwg_soln, color='0.5')
+    ax2.set_ylabel('Cumulative Gain\nin Deliveries (GL)')
+
+
+    ### compare to automated aggregated results
+    soln_disagg_label_dict = {'soln375': 'soln375', 'compromise': 'soln375',
+                              'friant16': 'soln1293', 'statusquo': 'soln1293', 'baseline': 'soln1294'}
+    agg_results_soln = json.load(open(f'{results_projections_dir2}/{soln_label}/{projection_label}/{soln_disagg_label_dict[soln_label]}_mc{projection_label}.json'))
+    agg_results_baseline = json.load(open(f'{results_projections_dir2}/baseline/{projection_label}/{projection_label}_baseline.json'))
+    cwg_soln_agg = 0
+    pump_soln_agg = 0
+    cwg_baseline_agg = 0
+    pump_baseline_agg = 0
+    for p in partners:
+        cwg_soln_agg += agg_results_soln[p]['avg_captured_water']
+        pump_soln_agg += agg_results_soln[p]['avg_pumping']
+        cwg_baseline_agg += agg_results_baseline[p]['avg_captured_water']
+        pump_baseline_agg += agg_results_baseline[p]['avg_pumping']
+    cwg_soln_agg *= kaf_to_gl
+    pump_soln_agg *= kaf_to_gl
+    cwg_baseline_agg *= kaf_to_gl
+    pump_baseline_agg *= kaf_to_gl
+    for p in partners:
+        print(p, (agg_results_soln[p]['avg_captured_water'] - agg_results_baseline[p]['avg_captured_water']) * kaf_to_gl)
+
+
+    print(soln_label, projection_label, 'cwg', cwg_soln[-1]/(f_soln.shape[0]/365), cwg_soln_agg - cwg_baseline_agg)
+
+    #################################################
+    ### part 4: show deliveries & recoveries from CFWB
+    ##################################################
+
+    ax = axs[3]
+
+    def get_bank_balance_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
+        cols_bank_balances = [f'centralfriantwb_{p}' for p in partners]
+        balances = np.zeros(f_hdf5.shape[0])
+        for c in cols_bank_balances:
+            balances += get_timeseries(f_hdf5, cols_hdf5,  c, wy, is_summation_wy, smooth_window)
+        return balances
+
+    balances_soln = get_bank_balance_partnership(partners, f_soln, cols_soln, wy, False, smooth_window)
+    balances_soln_diff = balances_soln.copy()
+    balances_soln_diff[1:] -= balances_soln_diff[:-1]
+
+    ### plot differenced time series similar to above
+    ax.fill_between(dates, balances_soln_diff, 0, where=balances_soln_diff>0, color=color_fill_positive, lw=0)
+    ax.fill_between(dates, balances_soln_diff, 0, where=balances_soln_diff<0, color=color_fill_negative, lw=0)
+    ax.set_ylabel(r'$\Delta$ '+'Groundwater Bank\nBalance (GL/day)')
+
+    ### now use second y axis to plot the cumulative bank balance
+    ax2 = ax.twinx()
+    ax2.plot(dates, balances_soln, color='0.5')
+
+    ax2.set_ylabel('Groundwater Bank\nBalance (GL)', color='0.5')
+
+
+    #################################################
+    ### part 4: show deliveries & recoveries from CFWB
+    ##################################################
+
+    ax = axs[3]
+
+    def get_pumping_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
+        cols_pumping = [f'{p}_pumping' for p in partners]
+        pumping = np.zeros(f_hdf5.shape[0])
+        for c in cols_pumping:
+            pumping += get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
+        return pumping
+
+    pumping_soln = get_pumping_partnership(partners_labels, f_soln, cols_soln, wy, False, smooth_window)
+    pumping_baseline = get_pumping_partnership(partners_labels, f_baseline, cols_baseline, wy, False, smooth_window)
+    pumping_reduction = np.cumsum(pumping_baseline - pumping_soln)
+    # print(soln_label, projection_label, 'pumping', pumping_reduction[-1]/(f_soln.shape[0]/365), pump_baseline_agg - pump_soln_agg)
+
+
+
+    ##################################################
+
+
+    plt.savefig(f'{fig_dir}fig_partnership_timeseries_{soln_label}_{projection_label}.png',
+                bbox_inches='tight', dpi=300)#, transparent=True)
+
+
+
+
+
 
 
 ### 4-part figure showing partner-level disaggregated performance for a partnership
@@ -1282,7 +1841,7 @@ def plot_partner_disagg_performance(results, soln_label):
     ### get MC results from individual scenarios
     ### friant16 labeled differently in aggregated ef_results vs MC resutls
     soln_mc = soln_label if soln_label != 'friant16' else 'soln1293'
-    with h5py.File(results_disagg_file, 'r') as f:
+    with h5py.File(results_mhmm_disagg_file, 'r') as f:
         ### get results with and without infra, transform into baseline regret
         mc_soln = f[soln_mc][...].transpose()
         mc_baseline = f[soln_baseline][...].transpose()
@@ -1470,7 +2029,7 @@ def plot_partner_disagg_performance(results, soln_label):
     shares = [shares[o] for o in order]
     partners = [partners[o] for o in order]
 
-    with h5py.File(results_disagg_file, 'r') as f:
+    with h5py.File(results_mhmm_disagg_file, 'r') as f:
         mc_soln = f[soln_mc][...].transpose()
         mc_baseline = f[soln_baseline][...].transpose()
         df_mc = pd.DataFrame(mc_baseline - mc_soln, index=['mc' + mc for mc in f[soln_mc].attrs['colnames']],
@@ -1553,7 +2112,7 @@ def plot_partner_disagg_performance(results, soln_label):
     sharecols = [c for c in results_soln.columns if 'share' in c]
     nonpartners = [c.split('_')[1] for c in sharecols if results_soln[c].iloc[0] == 0]
 
-    with h5py.File(results_disagg_file, 'r') as f:
+    with h5py.File(results_mhmm_disagg_file, 'r') as f:
         mc_soln = f[soln_mc][...].transpose()
         mc_baseline = f[soln_baseline][...].transpose()
         df_mc = pd.DataFrame(mc_soln - mc_baseline, index=['mc' + mc for mc in f[soln_mc].attrs['colnames']],

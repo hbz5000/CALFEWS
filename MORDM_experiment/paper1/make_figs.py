@@ -19,7 +19,7 @@ results = pd.read_csv('../../results_arx/infra_wcu/objs_wcu_pareto_5objs.csv', s
 ### get results from non-optimized status quo partnership (labeled friant16), & 2 other solns from previous Earth's Future paper
 baseline_results = pd.read_csv('../../results_arx/infra_wcu/objs_wcu_pareto_5objs_coarse_withBaselines.csv',
                                sep=', ').iloc[-3:, :]
-results = results.append(baseline_results, ignore_index=True)
+results = pd.concat([results, baseline_results], ignore_index=True)
 
 ### map all costs >1000 to 1000 for visual clarity
 for c in ['cog_wp_p90','cog_wp_p50','cog_p_p90','cog_p_p50']:
@@ -50,13 +50,28 @@ fig_functions.plot_regional_map(water_providers, states, canals_fkc, canals_othe
 print_completion(f'base regional map')
 
 ## plot 3-part figure of performance for each partnership
-fig_functions.plot_3part_partnership_compromise(results, [soln_compromise], columns, water_providers, states,
+fig_functions.plot_3part_partnership_performance(results, [soln_compromise], columns, water_providers, states,
                                                 canals_fkc, canals_other, tlb, sjr, kings, res_gdf)
 print_completion(f'3-part partnership performance figure for compromise')
 
-fig_functions.plot_3part_partnership_compromise(results, [soln_compromise, soln_statusquo], columns, water_providers, states,
+fig_functions.plot_3part_partnership_performance(results, [soln_compromise, soln_statusquo], columns, water_providers, states,
                                                 canals_fkc, canals_other, tlb, sjr, kings, res_gdf)
 print_completion(f'3-part partnership performance figure for status quo')
+
+## comparison of disaggregated performance under climate projections vs mhmm
+fig_functions.compare_partnership_performance_climate(results, soln_compromise, columns)
+fig_functions.compare_partnership_performance_climate(results, soln_statusquo, columns)
+print_completion(f'figure comparing partnership performance under climate projections vs MHMM')
+
+
+### fig comparing timeseries performance of wettest & driest scenarios from climate projections
+wet_projection = 'cnrm-cm5_rcp45'
+dry_projection = 'csiro-mk3-6-0_rcp45'
+fig_functions.compare_partnership_performance_timeseries_wetdry(wet_projection, 'compromise')
+fig_functions.compare_partnership_performance_timeseries_wetdry(dry_projection, 'compromise')
+fig_functions.compare_partnership_performance_timeseries_wetdry(wet_projection, 'statusquo')
+fig_functions.compare_partnership_performance_timeseries_wetdry(dry_projection, 'statusquo')
+
 
 
 
