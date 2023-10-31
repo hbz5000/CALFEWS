@@ -22,7 +22,7 @@ import h5py
 
 cdef class Inputter():
 
-  def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number=0, sensitivity_sample_names=[], sensitivity_samples=[], use_sensitivity = False):
+  def __init__(self, input_data_file, expected_release_datafile, model_mode, results_folder, sensitivity_sample_number=0, sensitivity_sample_names=[], sensitivity_samples=[]):
     self.df = []
     self.df.append(pd.read_csv(input_data_file, index_col=0, parse_dates=True))
     self.df_short = []
@@ -45,7 +45,6 @@ cdef class Inputter():
     self.sensitivity_sample_number = sensitivity_sample_number
     self.sensitivity_sample_names = sensitivity_sample_names
     self.sensitivity_samples = sensitivity_samples
-    # self.use_sensitivity = use_sensitivity
 
     self.leap = leap(np.arange(min(self.year), max(self.year) + 2))
     year_list = np.arange(min(self.year), max(self.year) + 2)
@@ -84,8 +83,7 @@ cdef class Inputter():
     for first_leap in range(0,4):
       if (start_year + first_leap + 1) % 4 == 0:
         break
-    # if self.use_sensitivity:
-    #   self.set_sensitivity_factors()
+
     self.read_new_fnf_data(flow_input_type, flow_input_source, flow_input_addition, start_month, first_leap, number_years, uncertainty_dict)
     self.whiten_by_historical_moments(number_years, 'XXX')
     self.whiten_by_historical_moments_delta(number_years, 'XXX')
@@ -755,64 +753,6 @@ cdef class Inputter():
 
 
 
-  # def set_sensitivity_factors(self):
-  #   for sensitivity_factor in self.sensitivity_factors['inflow_factor_list']:
-  #     # set inflow sensitivity factors equal to sample values from input file
-  #     index = [x == sensitivity_factor for x in self.sensitivity_sample_names]
-  #     index = np.where(index)[0][0]
-  #     self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_samples[index]
-  #     print('shouldnt be here')
-  #     # if sensitivity_index == 0:
-  #     #   self.sensitivity_factors[sensitivity_factor]['realization'] = self.sensitivity_factors[sensitivity_factor]['status_quo']*1.0
-  #     # else:
-  #     #   self.sensitivity_factors[sensitivity_factor]['realization'] = np.random.uniform(self.sensitivity_factors[sensitivity_factor]['low'], self.sensitivity_factors[sensitivity_factor]['high'])
-  #     # print(sensitivity_factor, end = " ")
-  #     # print(self.sensitivity_factors[sensitivity_factor]['realization'])
-
-				
-  # def perturb_flows(self, numYears):
-  #   print('shouldnt be here')
-  #
-  #   for reservoir in self.reservoir_list:
-  #     sensitivity = {}
-  #     sensitivity['annual'] = np.zeros(numYears-1)
-  #     sensitivity['oct_mar'] = np.zeros(numYears-1)
-  #     sensitivity['apr_jul'] = np.zeros(numYears-1)
-  #     sensitivity['apr_may'] = np.zeros(numYears-1)
-  #     sensitivity['jun_jul'] = np.zeros(numYears-1)
-  #     for yearcount in range(0, numYears-1):
-  #       this_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount]
-  #       next_year_flow = reservoir.monthly_new['fnf']['flows'][:,yearcount + 1]
-  #       sensitivity['annual'][yearcount] = np.sum(this_year_flow)
-  #       sensitivity['oct_mar'][yearcount] = np.sum(next_year_flow[0:3]) + np.sum(this_year_flow[9:])
-  #       sensitivity['apr_jul'][yearcount] = np.sum(next_year_flow[3:7])
-  #       sensitivity['apr_may'][yearcount] = np.sum(next_year_flow[3:5])
-  #       sensitivity['jun_jul'][yearcount] = np.sum(next_year_flow[5:7])
-  #       del this_year_flow
-  #       del next_year_flow
-  #
-  #     annual_mean = np.mean(np.log(sensitivity['annual']))
-  #     for yearcount in range(0, numYears-1):
-  #       volatility_adjust = (np.log(sensitivity['annual'][yearcount]) - annual_mean)*self.sensitivity_factors['annual_vol_scale']['realization']
-  #       total_adjust = (np.exp(volatility_adjust + np.log(np.exp(annual_mean)*self.sensitivity_factors['annual_mean_scale']['realization'])))/sensitivity['annual'][yearcount]
-  #       total_oct_mar = sensitivity['apr_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']
-  #       total_apr_may = sensitivity['jun_jul'][yearcount]*self.sensitivity_factors['shift_oct_mar']['realization']*self.sensitivity_factors['shift_apr_may']['realization']
-  #       for monthcount in range(0,12):
-  #         if monthcount > 8:
-  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]/sensitivity['oct_mar'][yearcount]
-  #         elif monthcount < 3:
-  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] + total_oct_mar*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['oct_mar'][yearcount]
-  #         elif monthcount == 3 or monthcount == 4:
-  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization']) + total_apr_may*reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]/sensitivity['apr_may'][yearcount]
-  #         elif monthcount == 5 or monthcount == 6:
-  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*(1.0 - self.sensitivity_factors['shift_oct_mar']['realization'])*(1.0 - self.sensitivity_factors['shift_apr_may']['realization'])
-  #         if monthcount > 8:
-  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount]*total_adjust
-  #         else:
-  #           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1] = reservoir.monthly_new['fnf']['flows'][monthcount][yearcount+1]*total_adjust
-  #
-  #       reservoir.snowpack['new_melt_fnf'][yearcount] = sensitivity['apr_jul'][yearcount]
-
 
 
 
@@ -916,8 +856,7 @@ cdef class Inputter():
         else:
           thismonthday = self.days_in_month[self.non_leap_year][monthcount]
 
-    # if self.use_sensitivity:
-    #   self.perturb_flows(numYears)
+
 					
     self.monthly_new = {}
     for deltaname in self.delta_list:
@@ -1371,9 +1310,13 @@ cdef class Inputter():
       if reservoir_obj.has_snow_new == 0:
         reservoir_obj.daily_df_data['snow'] = reservoir_obj.daily_output_data['snow'][start_counter:(end_counter + 1)]
       else:
-        reservoir_obj.daily_df_data['snow'] = reservoir_obj.snow_new[start_counter:(end_counter + 1)]
+        reservoir_obj.daily_df_data['snow'] = np.array(reservoir_obj.snow_new[start_counter:(end_counter + 1)])
       for data_type in self.data_type_list:
         reservoir_obj.daily_df_data[data_type] = reservoir_obj.daily_output_data[data_type][start_counter:(end_counter + 1)]
+        if data_type == 'fnf':
+          reservoir_obj.daily_df_data[data_type] = np.array(reservoir_obj.fnf_new[start_counter:(end_counter + 1)])
+        else:
+          reservoir_obj.daily_df_data[data_type] = reservoir_obj.daily_output_data[data_type][start_counter:(end_counter + 1)]
         if data_type == 'fnf':
           multiplier = 1000.0
         elif data_type == 'fci':
@@ -1398,7 +1341,6 @@ cdef class Inputter():
       else:
         df_for_output['%s_pump' % deltaname] = pd.Series(self.daily_df_data[deltaname] * multiplier,
                                  index=df_for_output.index)
-    # df_for_output.to_csv(self.results_folder + '/' + self.export_series[flow_input_type][flow_input_source] + "_"  + str(self.sensitivity_sample_number) + ".csv", index=True, index_label='datetime')
 
     for data_type in self.data_type_list:
       if plot_key == 'Y' and (data_type == 'fnf' or data_type == 'inf'):
@@ -1555,17 +1497,4 @@ cdef class Inputter():
 
     return new_series
 
-  def backcast_ar(self, residuals, lagged_residuals):
-    timestep = len(residuals)
-    predictors = residuals[0:(timestep - lag)]
-    for x in range(1, lag):
-      start_value = x
-      end_value = timestep - (lag - x)
-
-      predictors = np.hstack((predictors, residuals[start_value:end_value]))
-    predictors = np.hstack((predictors, np.ones((timestep - lag, 1))))
-    values = np.linalg.lstsq(predictors, residuals[lag:timestep])
-    # print(values)
-
-    return values
 
