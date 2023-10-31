@@ -439,8 +439,6 @@ cdef class main_cy():
   def calc_objectives(self):
     ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
     nt = len(self.modelno.shasta.baseline_inf)
-    with open(self.output_list, 'r') as f:
-      output_list = json.load(f)
 
     objs = {}
     total_delivery = np.zeros(self.modelno.T)
