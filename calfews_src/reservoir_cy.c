@@ -1899,6 +1899,7 @@ struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir {
   int exceedence_level;
   int iter_count;
   int eos_day;
+  int has_snow_new;
   int nodd_meets_envmin;
   int has_downstream_target_flow;
   int has_delta_target;
@@ -1949,6 +1950,7 @@ struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir {
   PyObject *outflow_release;
   PyObject *reclaimed_carryover;
   PyObject *contract_flooded;
+  PyObject *snow_new;
   PyObject *env_min_flow;
   PyObject *temp_releases;
   PyObject *tocs_rule;
@@ -3224,7 +3226,7 @@ static const char __pyx_k_envflow_base_multiplier_north[] = "envflow_base_multip
 static const char __pyx_k_envflow_base_multiplier_south[] = "envflow_base_multiplier_south";
 static const char __pyx_k_envflow_peak_multiplier_north[] = "envflow_peak_multiplier_north";
 static const char __pyx_k_envflow_peak_multiplier_south[] = "envflow_peak_multiplier_south";
-static const char __pyx_k_Incompatible_checksums_s_vs_0x57[] = "Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0x93[] = "Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))";
 static const char __pyx_k_calfews_src_reservoir_s_properti[] = "calfews_src/reservoir/%s_properties.json";
 static PyObject *__pyx_n_u_AN;
 static PyObject *__pyx_kp_u_A_Pred_Flow_High;
@@ -3266,7 +3268,7 @@ static PyObject *__pyx_kp_u_February_plus_2_Pred;
 static PyObject *__pyx_kp_u_February_plus_3_Flow;
 static PyObject *__pyx_kp_u_February_plus_3_Pred;
 static PyObject *__pyx_n_u_ISB;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x57;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x93;
 static PyObject *__pyx_n_u_KWH;
 static PyObject *__pyx_n_u_MHB;
 static PyObject *__pyx_n_u_MIL;
@@ -3500,6 +3502,8 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_10iter_count__
 static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_10iter_count_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_7eos_day___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_7eos_day_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
+static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_17nodd_meets_envmin___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_17nodd_meets_envmin_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_26has_downstream_target_flow___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
@@ -3647,6 +3651,9 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_19reclaimed_carryove
 static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_16contract_flooded___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_16contract_flooded_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_16contract_flooded_4__del__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
+static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_4__del__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12env_min_flow___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
 static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12env_min_flow_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12env_min_flow_4__del__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self); /* proto */
@@ -3768,7 +3775,7 @@ static PyObject *__pyx_int_260;
 static PyObject *__pyx_int_365;
 static PyObject *__pyx_int_366;
 static PyObject *__pyx_int_100000;
-static PyObject *__pyx_int_91642834;
+static PyObject *__pyx_int_155154233;
 static PyObject *__pyx_k_;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__3;
@@ -30680,7 +30687,7 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_7epsilon_2__set__(st
  *                 snowflood_flows, saved_water, total_capacity, flood_flow_min, epsilon
  * 
  *     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, T, T_short, melt_start, exceedence_level, \             # <<<<<<<<<<<<<<
- *                 iter_count, eos_day
+ *                 iter_count, eos_day, has_snow_new
  * 
  */
 
@@ -31407,7 +31414,7 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_16exceedence_level_2
 /* "calfews_src/reservoir_cy.pxd":13
  * 
  *     public int is_Canal, is_District, is_Private, is_Waterbank, is_Reservoir, T, T_short, melt_start, exceedence_level, \
- *                 iter_count, eos_day             # <<<<<<<<<<<<<<
+ *                 iter_count, eos_day, has_snow_new             # <<<<<<<<<<<<<<
  * 
  *     public bint nodd_meets_envmin, has_downstream_target_flow, has_delta_target
  */
@@ -31572,8 +31579,88 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_7eos_day_2__set__(st
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new___get__(((struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[1], 13, 0, __PYX_ERR(1, 13, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->has_snow_new); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.has_snow_new.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_2__set__(((struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __Pyx_TraceCall("__set__", __pyx_f[1], 13, 0, __PYX_ERR(1, 13, __pyx_L1_error));
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_v_self->has_snow_new = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.has_snow_new.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "calfews_src/reservoir_cy.pxd":15
- *                 iter_count, eos_day
+ *                 iter_count, eos_day, has_snow_new
  * 
  *     public bint nodd_meets_envmin, has_downstream_target_flow, has_delta_target             # <<<<<<<<<<<<<<
  * 
@@ -35916,7 +36003,7 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_19short_snowflood_fn
  *                 raininf_stds, snowinf_stds, baseinf_stds, rainflood_fnf, snowflood_fnf, short_rainflood_fnf, short_snowflood_fnf, \
  *                 rainflood_inf, snowflood_inf, baseline_inf, rainflood_forecast, snowflood_forecast, baseline_forecast, \             # <<<<<<<<<<<<<<
  *                 max_direct_recharge, downstream_short, fnf_short, fnf_new, total_available_storage, outflow_release, \
- *                 reclaimed_carryover, contract_flooded
+ *                 reclaimed_carryover, contract_flooded, snow_new
  */
 
 /* Python wrapper */
@@ -36661,7 +36748,7 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_17baseline_forecast_
  *                 raininf_stds, snowinf_stds, baseinf_stds, rainflood_fnf, snowflood_fnf, short_rainflood_fnf, short_snowflood_fnf, \
  *                 rainflood_inf, snowflood_inf, baseline_inf, rainflood_forecast, snowflood_forecast, baseline_forecast, \
  *                 max_direct_recharge, downstream_short, fnf_short, fnf_new, total_available_storage, outflow_release, \             # <<<<<<<<<<<<<<
- *                 reclaimed_carryover, contract_flooded
+ *                 reclaimed_carryover, contract_flooded, snow_new
  * 
  */
 
@@ -37406,7 +37493,7 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_15outflow_release_4_
 /* "calfews_src/reservoir_cy.pxd":24
  *                 rainflood_inf, snowflood_inf, baseline_inf, rainflood_forecast, snowflood_forecast, baseline_forecast, \
  *                 max_direct_recharge, downstream_short, fnf_short, fnf_new, total_available_storage, outflow_release, \
- *                 reclaimed_carryover, contract_flooded             # <<<<<<<<<<<<<<
+ *                 reclaimed_carryover, contract_flooded, snow_new             # <<<<<<<<<<<<<<
  * 
  *     public dict env_min_flow, temp_releases, tocs_rule, sj_restoration_proj, carryover_target, sodd_curtail_pct, exceedence, \
  */
@@ -37657,8 +37744,131 @@ static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_16contract_flooded_4
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new___get__(((struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new___get__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[1], 24, 0, __PYX_ERR(1, 24, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_self->snow_new);
+  __pyx_r = __pyx_v_self->snow_new;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.snow_new.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_2__set__(((struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_2__set__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __Pyx_TraceCall("__set__", __pyx_f[1], 24, 0, __PYX_ERR(1, 24, __pyx_L1_error));
+  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(1, 24, __pyx_L1_error)
+  __pyx_t_1 = __pyx_v_value;
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v_self->snow_new);
+  __Pyx_DECREF(__pyx_v_self->snow_new);
+  __pyx_v_self->snow_new = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.snow_new.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_5__del__(PyObject *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_4__del__(((struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_4__del__(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__del__", 0);
+  __Pyx_TraceCall("__del__", __pyx_f[1], 24, 0, __PYX_ERR(1, 24, __pyx_L1_error));
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  __Pyx_GOTREF(__pyx_v_self->snow_new);
+  __Pyx_DECREF(__pyx_v_self->snow_new);
+  __pyx_v_self->snow_new = ((PyObject*)Py_None);
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.snow_new.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "calfews_src/reservoir_cy.pxd":26
- *                 reclaimed_carryover, contract_flooded
+ *                 reclaimed_carryover, contract_flooded, snow_new
  * 
  *     public dict env_min_flow, temp_releases, tocs_rule, sj_restoration_proj, carryover_target, sodd_curtail_pct, exceedence, \             # <<<<<<<<<<<<<<
  *                 cum_min_release, oct_nov_min_release, aug_sept_min_release, monthly_demand, monthly_demand_full, \
@@ -40716,9 +40926,10 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
   PyObject *__pyx_t_47 = NULL;
   PyObject *__pyx_t_48 = NULL;
   PyObject *__pyx_t_49 = NULL;
-  int __pyx_t_50;
+  PyObject *__pyx_t_50 = NULL;
   int __pyx_t_51;
   int __pyx_t_52;
+  int __pyx_t_53;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -40728,7 +40939,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)             # <<<<<<<<<<<<<<
+ *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.has_snow_new, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snow_new, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
@@ -40778,367 +40989,374 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
   __Pyx_GOTREF(__pyx_t_22);
   __pyx_t_23 = __Pyx_PyBool_FromLong(__pyx_v_self->has_downstream_target_flow); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_23);
-  __pyx_t_24 = __Pyx_PyInt_From_int(__pyx_v_self->is_Canal); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_24 = __Pyx_PyInt_From_int(__pyx_v_self->has_snow_new); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_24);
-  __pyx_t_25 = __Pyx_PyInt_From_int(__pyx_v_self->is_District); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_25 = __Pyx_PyInt_From_int(__pyx_v_self->is_Canal); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_25);
-  __pyx_t_26 = __Pyx_PyInt_From_int(__pyx_v_self->is_Private); if (unlikely(!__pyx_t_26)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_26 = __Pyx_PyInt_From_int(__pyx_v_self->is_District); if (unlikely(!__pyx_t_26)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_26);
-  __pyx_t_27 = __Pyx_PyInt_From_int(__pyx_v_self->is_Reservoir); if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_27 = __Pyx_PyInt_From_int(__pyx_v_self->is_Private); if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_27);
-  __pyx_t_28 = __Pyx_PyInt_From_int(__pyx_v_self->is_Waterbank); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_28 = __Pyx_PyInt_From_int(__pyx_v_self->is_Reservoir); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_28);
-  __pyx_t_29 = __Pyx_PyInt_From_int(__pyx_v_self->iter_count); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_29 = __Pyx_PyInt_From_int(__pyx_v_self->is_Waterbank); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_29);
-  __pyx_t_30 = PyFloat_FromDouble(__pyx_v_self->lastYearEOS_target); if (unlikely(!__pyx_t_30)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_30 = __Pyx_PyInt_From_int(__pyx_v_self->iter_count); if (unlikely(!__pyx_t_30)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_30);
-  __pyx_t_31 = PyFloat_FromDouble(__pyx_v_self->lastYearRainflood); if (unlikely(!__pyx_t_31)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_31 = PyFloat_FromDouble(__pyx_v_self->lastYearEOS_target); if (unlikely(!__pyx_t_31)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_31);
-  __pyx_t_32 = PyFloat_FromDouble(__pyx_v_self->max_carryover_target); if (unlikely(!__pyx_t_32)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_32 = PyFloat_FromDouble(__pyx_v_self->lastYearRainflood); if (unlikely(!__pyx_t_32)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_32);
-  __pyx_t_33 = PyFloat_FromDouble(__pyx_v_self->max_daily_uncontrolled); if (unlikely(!__pyx_t_33)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_33 = PyFloat_FromDouble(__pyx_v_self->max_carryover_target); if (unlikely(!__pyx_t_33)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_33);
-  __pyx_t_34 = PyFloat_FromDouble(__pyx_v_self->max_fcr); if (unlikely(!__pyx_t_34)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_34 = PyFloat_FromDouble(__pyx_v_self->max_daily_uncontrolled); if (unlikely(!__pyx_t_34)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_34);
-  __pyx_t_35 = PyFloat_FromDouble(__pyx_v_self->max_outflow); if (unlikely(!__pyx_t_35)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_35 = PyFloat_FromDouble(__pyx_v_self->max_fcr); if (unlikely(!__pyx_t_35)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_35);
-  __pyx_t_36 = __Pyx_PyInt_From_int(__pyx_v_self->melt_start); if (unlikely(!__pyx_t_36)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_36 = PyFloat_FromDouble(__pyx_v_self->max_outflow); if (unlikely(!__pyx_t_36)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_36);
-  __pyx_t_37 = PyFloat_FromDouble(__pyx_v_self->min_daily_overflow); if (unlikely(!__pyx_t_37)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_37 = __Pyx_PyInt_From_int(__pyx_v_self->melt_start); if (unlikely(!__pyx_t_37)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_37);
-  __pyx_t_38 = PyFloat_FromDouble(__pyx_v_self->min_daily_uncontrolled); if (unlikely(!__pyx_t_38)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_38 = PyFloat_FromDouble(__pyx_v_self->min_daily_overflow); if (unlikely(!__pyx_t_38)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_38);
-  __pyx_t_39 = __Pyx_PyBool_FromLong(__pyx_v_self->nodd_meets_envmin); if (unlikely(!__pyx_t_39)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_39 = PyFloat_FromDouble(__pyx_v_self->min_daily_uncontrolled); if (unlikely(!__pyx_t_39)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_39);
-  __pyx_t_40 = PyFloat_FromDouble(__pyx_v_self->rainflood_flows); if (unlikely(!__pyx_t_40)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_40 = __Pyx_PyBool_FromLong(__pyx_v_self->nodd_meets_envmin); if (unlikely(!__pyx_t_40)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_40);
-  __pyx_t_41 = PyFloat_FromDouble(__pyx_v_self->saved_water); if (unlikely(!__pyx_t_41)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_41 = PyFloat_FromDouble(__pyx_v_self->rainflood_flows); if (unlikely(!__pyx_t_41)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_41);
-  __pyx_t_42 = PyFloat_FromDouble(__pyx_v_self->sjrr_release); if (unlikely(!__pyx_t_42)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_42 = PyFloat_FromDouble(__pyx_v_self->saved_water); if (unlikely(!__pyx_t_42)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_42);
-  __pyx_t_43 = PyFloat_FromDouble(__pyx_v_self->snowflood_flows); if (unlikely(!__pyx_t_43)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_43 = PyFloat_FromDouble(__pyx_v_self->sjrr_release); if (unlikely(!__pyx_t_43)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_43);
-  __pyx_t_44 = PyFloat_FromDouble(__pyx_v_self->sodd); if (unlikely(!__pyx_t_44)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_44 = PyFloat_FromDouble(__pyx_v_self->snowflood_flows); if (unlikely(!__pyx_t_44)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_44);
-  __pyx_t_45 = PyFloat_FromDouble(__pyx_v_self->sodd_pct); if (unlikely(!__pyx_t_45)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_45 = PyFloat_FromDouble(__pyx_v_self->sodd); if (unlikely(!__pyx_t_45)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_45);
-  __pyx_t_46 = PyFloat_FromDouble(__pyx_v_self->total_capacity); if (unlikely(!__pyx_t_46)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_46 = PyFloat_FromDouble(__pyx_v_self->sodd_pct); if (unlikely(!__pyx_t_46)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_46);
-  __pyx_t_47 = PyFloat_FromDouble(__pyx_v_self->uncontrolled_available); if (unlikely(!__pyx_t_47)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_47 = PyFloat_FromDouble(__pyx_v_self->total_capacity); if (unlikely(!__pyx_t_47)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_47);
-  __pyx_t_48 = PyFloat_FromDouble(__pyx_v_self->variable_min_flow); if (unlikely(!__pyx_t_48)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_48 = PyFloat_FromDouble(__pyx_v_self->uncontrolled_available); if (unlikely(!__pyx_t_48)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_48);
-  __pyx_t_49 = PyTuple_New(119); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_49 = PyFloat_FromDouble(__pyx_v_self->variable_min_flow); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_49);
+  __pyx_t_50 = PyTuple_New(121); if (unlikely(!__pyx_t_50)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_50);
   __Pyx_INCREF(__pyx_v_self->E);
   __Pyx_GIVEREF(__pyx_v_self->E);
-  PyTuple_SET_ITEM(__pyx_t_49, 0, __pyx_v_self->E);
+  PyTuple_SET_ITEM(__pyx_t_50, 0, __pyx_v_self->E);
   __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_49, 1, __pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_50, 1, __pyx_t_1);
   __Pyx_INCREF(__pyx_v_self->Q);
   __Pyx_GIVEREF(__pyx_v_self->Q);
-  PyTuple_SET_ITEM(__pyx_t_49, 2, __pyx_v_self->Q);
+  PyTuple_SET_ITEM(__pyx_t_50, 2, __pyx_v_self->Q);
   __Pyx_INCREF(__pyx_v_self->R);
   __Pyx_GIVEREF(__pyx_v_self->R);
-  PyTuple_SET_ITEM(__pyx_t_49, 3, __pyx_v_self->R);
+  PyTuple_SET_ITEM(__pyx_t_50, 3, __pyx_v_self->R);
   __Pyx_INCREF(__pyx_v_self->R_to_delta);
   __Pyx_GIVEREF(__pyx_v_self->R_to_delta);
-  PyTuple_SET_ITEM(__pyx_t_49, 4, __pyx_v_self->R_to_delta);
+  PyTuple_SET_ITEM(__pyx_t_50, 4, __pyx_v_self->R_to_delta);
   __Pyx_INCREF(__pyx_v_self->Rtarget);
   __Pyx_GIVEREF(__pyx_v_self->Rtarget);
-  PyTuple_SET_ITEM(__pyx_t_49, 5, __pyx_v_self->Rtarget);
+  PyTuple_SET_ITEM(__pyx_t_50, 5, __pyx_v_self->Rtarget);
   __Pyx_INCREF(__pyx_v_self->S);
   __Pyx_GIVEREF(__pyx_v_self->S);
-  PyTuple_SET_ITEM(__pyx_t_49, 6, __pyx_v_self->S);
+  PyTuple_SET_ITEM(__pyx_t_50, 6, __pyx_v_self->S);
   __Pyx_INCREF(__pyx_v_self->SNPK);
   __Pyx_GIVEREF(__pyx_v_self->SNPK);
-  PyTuple_SET_ITEM(__pyx_t_49, 7, __pyx_v_self->SNPK);
+  PyTuple_SET_ITEM(__pyx_t_50, 7, __pyx_v_self->SNPK);
   __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_49, 8, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_50, 8, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_49, 9, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_50, 9, __pyx_t_3);
   __Pyx_INCREF(__pyx_v_self->aug_sept_min_release);
   __Pyx_GIVEREF(__pyx_v_self->aug_sept_min_release);
-  PyTuple_SET_ITEM(__pyx_t_49, 10, __pyx_v_self->aug_sept_min_release);
+  PyTuple_SET_ITEM(__pyx_t_50, 10, __pyx_v_self->aug_sept_min_release);
   __Pyx_INCREF(__pyx_v_self->available_storage);
   __Pyx_GIVEREF(__pyx_v_self->available_storage);
-  PyTuple_SET_ITEM(__pyx_t_49, 11, __pyx_v_self->available_storage);
+  PyTuple_SET_ITEM(__pyx_t_50, 11, __pyx_v_self->available_storage);
   __Pyx_INCREF(__pyx_v_self->baseinf_stds);
   __Pyx_GIVEREF(__pyx_v_self->baseinf_stds);
-  PyTuple_SET_ITEM(__pyx_t_49, 12, __pyx_v_self->baseinf_stds);
+  PyTuple_SET_ITEM(__pyx_t_50, 12, __pyx_v_self->baseinf_stds);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_49, 13, __pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_50, 13, __pyx_t_4);
   __Pyx_INCREF(__pyx_v_self->baseline_forecast);
   __Pyx_GIVEREF(__pyx_v_self->baseline_forecast);
-  PyTuple_SET_ITEM(__pyx_t_49, 14, __pyx_v_self->baseline_forecast);
+  PyTuple_SET_ITEM(__pyx_t_50, 14, __pyx_v_self->baseline_forecast);
   __Pyx_INCREF(__pyx_v_self->baseline_inf);
   __Pyx_GIVEREF(__pyx_v_self->baseline_inf);
-  PyTuple_SET_ITEM(__pyx_t_49, 15, __pyx_v_self->baseline_inf);
+  PyTuple_SET_ITEM(__pyx_t_50, 15, __pyx_v_self->baseline_inf);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_49, 16, __pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_50, 16, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_49, 17, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_50, 17, __pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_49, 18, __pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_50, 18, __pyx_t_7);
   __Pyx_INCREF(__pyx_v_self->carryover_target);
   __Pyx_GIVEREF(__pyx_v_self->carryover_target);
-  PyTuple_SET_ITEM(__pyx_t_49, 19, __pyx_v_self->carryover_target);
+  PyTuple_SET_ITEM(__pyx_t_50, 19, __pyx_v_self->carryover_target);
   __Pyx_GIVEREF(__pyx_t_8);
-  PyTuple_SET_ITEM(__pyx_t_49, 20, __pyx_t_8);
+  PyTuple_SET_ITEM(__pyx_t_50, 20, __pyx_t_8);
   __Pyx_INCREF(__pyx_v_self->contract_flooded);
   __Pyx_GIVEREF(__pyx_v_self->contract_flooded);
-  PyTuple_SET_ITEM(__pyx_t_49, 21, __pyx_v_self->contract_flooded);
+  PyTuple_SET_ITEM(__pyx_t_50, 21, __pyx_v_self->contract_flooded);
   __Pyx_INCREF(__pyx_v_self->cum_min_release);
   __Pyx_GIVEREF(__pyx_v_self->cum_min_release);
-  PyTuple_SET_ITEM(__pyx_t_49, 22, __pyx_v_self->cum_min_release);
+  PyTuple_SET_ITEM(__pyx_t_50, 22, __pyx_v_self->cum_min_release);
   __Pyx_INCREF(__pyx_v_self->daily_df_data);
   __Pyx_GIVEREF(__pyx_v_self->daily_df_data);
-  PyTuple_SET_ITEM(__pyx_t_49, 23, __pyx_v_self->daily_df_data);
+  PyTuple_SET_ITEM(__pyx_t_50, 23, __pyx_v_self->daily_df_data);
   __Pyx_INCREF(__pyx_v_self->daily_output_data);
   __Pyx_GIVEREF(__pyx_v_self->daily_output_data);
-  PyTuple_SET_ITEM(__pyx_t_49, 24, __pyx_v_self->daily_output_data);
+  PyTuple_SET_ITEM(__pyx_t_50, 24, __pyx_v_self->daily_output_data);
   __Pyx_INCREF(__pyx_v_self->days_through_month);
   __Pyx_GIVEREF(__pyx_v_self->days_through_month);
-  PyTuple_SET_ITEM(__pyx_t_49, 25, __pyx_v_self->days_through_month);
+  PyTuple_SET_ITEM(__pyx_t_50, 25, __pyx_v_self->days_through_month);
   __Pyx_INCREF(__pyx_v_self->days_til_full);
   __Pyx_GIVEREF(__pyx_v_self->days_til_full);
-  PyTuple_SET_ITEM(__pyx_t_49, 26, __pyx_v_self->days_til_full);
+  PyTuple_SET_ITEM(__pyx_t_50, 26, __pyx_v_self->days_til_full);
   __Pyx_GIVEREF(__pyx_t_9);
-  PyTuple_SET_ITEM(__pyx_t_49, 27, __pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_50, 27, __pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_49, 28, __pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_50, 28, __pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_11);
-  PyTuple_SET_ITEM(__pyx_t_49, 29, __pyx_t_11);
+  PyTuple_SET_ITEM(__pyx_t_50, 29, __pyx_t_11);
   __Pyx_GIVEREF(__pyx_t_12);
-  PyTuple_SET_ITEM(__pyx_t_49, 30, __pyx_t_12);
+  PyTuple_SET_ITEM(__pyx_t_50, 30, __pyx_t_12);
   __Pyx_INCREF(__pyx_v_self->downstream);
   __Pyx_GIVEREF(__pyx_v_self->downstream);
-  PyTuple_SET_ITEM(__pyx_t_49, 31, __pyx_v_self->downstream);
+  PyTuple_SET_ITEM(__pyx_t_50, 31, __pyx_v_self->downstream);
   __Pyx_INCREF(__pyx_v_self->downstream_short);
   __Pyx_GIVEREF(__pyx_v_self->downstream_short);
-  PyTuple_SET_ITEM(__pyx_t_49, 32, __pyx_v_self->downstream_short);
+  PyTuple_SET_ITEM(__pyx_t_50, 32, __pyx_v_self->downstream_short);
   __Pyx_INCREF(__pyx_v_self->dry_year_carryover);
   __Pyx_GIVEREF(__pyx_v_self->dry_year_carryover);
-  PyTuple_SET_ITEM(__pyx_t_49, 33, __pyx_v_self->dry_year_carryover);
+  PyTuple_SET_ITEM(__pyx_t_50, 33, __pyx_v_self->dry_year_carryover);
   __Pyx_INCREF(__pyx_v_self->env_min_flow);
   __Pyx_GIVEREF(__pyx_v_self->env_min_flow);
-  PyTuple_SET_ITEM(__pyx_t_49, 34, __pyx_v_self->env_min_flow);
+  PyTuple_SET_ITEM(__pyx_t_50, 34, __pyx_v_self->env_min_flow);
   __Pyx_INCREF(__pyx_v_self->env_min_flow_ya);
   __Pyx_GIVEREF(__pyx_v_self->env_min_flow_ya);
-  PyTuple_SET_ITEM(__pyx_t_49, 35, __pyx_v_self->env_min_flow_ya);
+  PyTuple_SET_ITEM(__pyx_t_50, 35, __pyx_v_self->env_min_flow_ya);
   __Pyx_GIVEREF(__pyx_t_13);
-  PyTuple_SET_ITEM(__pyx_t_49, 36, __pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_50, 36, __pyx_t_13);
   __Pyx_GIVEREF(__pyx_t_14);
-  PyTuple_SET_ITEM(__pyx_t_49, 37, __pyx_t_14);
+  PyTuple_SET_ITEM(__pyx_t_50, 37, __pyx_t_14);
   __Pyx_GIVEREF(__pyx_t_15);
-  PyTuple_SET_ITEM(__pyx_t_49, 38, __pyx_t_15);
+  PyTuple_SET_ITEM(__pyx_t_50, 38, __pyx_t_15);
   __Pyx_GIVEREF(__pyx_t_16);
-  PyTuple_SET_ITEM(__pyx_t_49, 39, __pyx_t_16);
+  PyTuple_SET_ITEM(__pyx_t_50, 39, __pyx_t_16);
   __Pyx_INCREF(__pyx_v_self->exceedence);
   __Pyx_GIVEREF(__pyx_v_self->exceedence);
-  PyTuple_SET_ITEM(__pyx_t_49, 40, __pyx_v_self->exceedence);
+  PyTuple_SET_ITEM(__pyx_t_50, 40, __pyx_v_self->exceedence);
   __Pyx_GIVEREF(__pyx_t_17);
-  PyTuple_SET_ITEM(__pyx_t_49, 41, __pyx_t_17);
+  PyTuple_SET_ITEM(__pyx_t_50, 41, __pyx_t_17);
   __Pyx_INCREF(__pyx_v_self->fci);
   __Pyx_GIVEREF(__pyx_v_self->fci);
-  PyTuple_SET_ITEM(__pyx_t_49, 42, __pyx_v_self->fci);
+  PyTuple_SET_ITEM(__pyx_t_50, 42, __pyx_v_self->fci);
   __Pyx_GIVEREF(__pyx_t_18);
-  PyTuple_SET_ITEM(__pyx_t_49, 43, __pyx_t_18);
+  PyTuple_SET_ITEM(__pyx_t_50, 43, __pyx_t_18);
   __Pyx_INCREF(__pyx_v_self->flood_deliveries);
   __Pyx_GIVEREF(__pyx_v_self->flood_deliveries);
-  PyTuple_SET_ITEM(__pyx_t_49, 44, __pyx_v_self->flood_deliveries);
+  PyTuple_SET_ITEM(__pyx_t_50, 44, __pyx_v_self->flood_deliveries);
   __Pyx_GIVEREF(__pyx_t_19);
-  PyTuple_SET_ITEM(__pyx_t_49, 45, __pyx_t_19);
+  PyTuple_SET_ITEM(__pyx_t_50, 45, __pyx_t_19);
   __Pyx_INCREF(__pyx_v_self->flood_spill);
   __Pyx_GIVEREF(__pyx_v_self->flood_spill);
-  PyTuple_SET_ITEM(__pyx_t_49, 46, __pyx_v_self->flood_spill);
+  PyTuple_SET_ITEM(__pyx_t_50, 46, __pyx_v_self->flood_spill);
   __Pyx_INCREF(__pyx_v_self->flood_storage);
   __Pyx_GIVEREF(__pyx_v_self->flood_storage);
-  PyTuple_SET_ITEM(__pyx_t_49, 47, __pyx_v_self->flood_storage);
+  PyTuple_SET_ITEM(__pyx_t_50, 47, __pyx_v_self->flood_storage);
   __Pyx_INCREF(__pyx_v_self->flow_shape_regression);
   __Pyx_GIVEREF(__pyx_v_self->flow_shape_regression);
-  PyTuple_SET_ITEM(__pyx_t_49, 48, __pyx_v_self->flow_shape_regression);
+  PyTuple_SET_ITEM(__pyx_t_50, 48, __pyx_v_self->flow_shape_regression);
   __Pyx_INCREF(__pyx_v_self->fnf);
   __Pyx_GIVEREF(__pyx_v_self->fnf);
-  PyTuple_SET_ITEM(__pyx_t_49, 49, __pyx_v_self->fnf);
+  PyTuple_SET_ITEM(__pyx_t_50, 49, __pyx_v_self->fnf);
   __Pyx_INCREF(__pyx_v_self->fnf_new);
   __Pyx_GIVEREF(__pyx_v_self->fnf_new);
-  PyTuple_SET_ITEM(__pyx_t_49, 50, __pyx_v_self->fnf_new);
+  PyTuple_SET_ITEM(__pyx_t_50, 50, __pyx_v_self->fnf_new);
   __Pyx_INCREF(__pyx_v_self->fnf_short);
   __Pyx_GIVEREF(__pyx_v_self->fnf_short);
-  PyTuple_SET_ITEM(__pyx_t_49, 51, __pyx_v_self->fnf_short);
+  PyTuple_SET_ITEM(__pyx_t_50, 51, __pyx_v_self->fnf_short);
   __Pyx_GIVEREF(__pyx_t_20);
-  PyTuple_SET_ITEM(__pyx_t_49, 52, __pyx_t_20);
+  PyTuple_SET_ITEM(__pyx_t_50, 52, __pyx_t_20);
   __Pyx_INCREF(__pyx_v_self->forecastWYT);
   __Pyx_GIVEREF(__pyx_v_self->forecastWYT);
-  PyTuple_SET_ITEM(__pyx_t_49, 53, __pyx_v_self->forecastWYT);
+  PyTuple_SET_ITEM(__pyx_t_50, 53, __pyx_v_self->forecastWYT);
   __Pyx_GIVEREF(__pyx_t_21);
-  PyTuple_SET_ITEM(__pyx_t_49, 54, __pyx_t_21);
+  PyTuple_SET_ITEM(__pyx_t_50, 54, __pyx_t_21);
   __Pyx_GIVEREF(__pyx_t_22);
-  PyTuple_SET_ITEM(__pyx_t_49, 55, __pyx_t_22);
+  PyTuple_SET_ITEM(__pyx_t_50, 55, __pyx_t_22);
   __Pyx_GIVEREF(__pyx_t_23);
-  PyTuple_SET_ITEM(__pyx_t_49, 56, __pyx_t_23);
+  PyTuple_SET_ITEM(__pyx_t_50, 56, __pyx_t_23);
+  __Pyx_GIVEREF(__pyx_t_24);
+  PyTuple_SET_ITEM(__pyx_t_50, 57, __pyx_t_24);
   __Pyx_INCREF(__pyx_v_self->hist_wyt);
   __Pyx_GIVEREF(__pyx_v_self->hist_wyt);
-  PyTuple_SET_ITEM(__pyx_t_49, 57, __pyx_v_self->hist_wyt);
-  __Pyx_GIVEREF(__pyx_t_24);
-  PyTuple_SET_ITEM(__pyx_t_49, 58, __pyx_t_24);
+  PyTuple_SET_ITEM(__pyx_t_50, 58, __pyx_v_self->hist_wyt);
   __Pyx_GIVEREF(__pyx_t_25);
-  PyTuple_SET_ITEM(__pyx_t_49, 59, __pyx_t_25);
+  PyTuple_SET_ITEM(__pyx_t_50, 59, __pyx_t_25);
   __Pyx_GIVEREF(__pyx_t_26);
-  PyTuple_SET_ITEM(__pyx_t_49, 60, __pyx_t_26);
+  PyTuple_SET_ITEM(__pyx_t_50, 60, __pyx_t_26);
   __Pyx_GIVEREF(__pyx_t_27);
-  PyTuple_SET_ITEM(__pyx_t_49, 61, __pyx_t_27);
+  PyTuple_SET_ITEM(__pyx_t_50, 61, __pyx_t_27);
   __Pyx_GIVEREF(__pyx_t_28);
-  PyTuple_SET_ITEM(__pyx_t_49, 62, __pyx_t_28);
+  PyTuple_SET_ITEM(__pyx_t_50, 62, __pyx_t_28);
   __Pyx_GIVEREF(__pyx_t_29);
-  PyTuple_SET_ITEM(__pyx_t_49, 63, __pyx_t_29);
+  PyTuple_SET_ITEM(__pyx_t_50, 63, __pyx_t_29);
+  __Pyx_GIVEREF(__pyx_t_30);
+  PyTuple_SET_ITEM(__pyx_t_50, 64, __pyx_t_30);
   __Pyx_INCREF(__pyx_v_self->k_close_wateryear);
   __Pyx_GIVEREF(__pyx_v_self->k_close_wateryear);
-  PyTuple_SET_ITEM(__pyx_t_49, 64, __pyx_v_self->k_close_wateryear);
+  PyTuple_SET_ITEM(__pyx_t_50, 65, __pyx_v_self->k_close_wateryear);
   __Pyx_INCREF(__pyx_v_self->key);
   __Pyx_GIVEREF(__pyx_v_self->key);
-  PyTuple_SET_ITEM(__pyx_t_49, 65, __pyx_v_self->key);
-  __Pyx_GIVEREF(__pyx_t_30);
-  PyTuple_SET_ITEM(__pyx_t_49, 66, __pyx_t_30);
+  PyTuple_SET_ITEM(__pyx_t_50, 66, __pyx_v_self->key);
   __Pyx_GIVEREF(__pyx_t_31);
-  PyTuple_SET_ITEM(__pyx_t_49, 67, __pyx_t_31);
+  PyTuple_SET_ITEM(__pyx_t_50, 67, __pyx_t_31);
   __Pyx_GIVEREF(__pyx_t_32);
-  PyTuple_SET_ITEM(__pyx_t_49, 68, __pyx_t_32);
+  PyTuple_SET_ITEM(__pyx_t_50, 68, __pyx_t_32);
   __Pyx_GIVEREF(__pyx_t_33);
-  PyTuple_SET_ITEM(__pyx_t_49, 69, __pyx_t_33);
+  PyTuple_SET_ITEM(__pyx_t_50, 69, __pyx_t_33);
+  __Pyx_GIVEREF(__pyx_t_34);
+  PyTuple_SET_ITEM(__pyx_t_50, 70, __pyx_t_34);
   __Pyx_INCREF(__pyx_v_self->max_direct_recharge);
   __Pyx_GIVEREF(__pyx_v_self->max_direct_recharge);
-  PyTuple_SET_ITEM(__pyx_t_49, 70, __pyx_v_self->max_direct_recharge);
-  __Pyx_GIVEREF(__pyx_t_34);
-  PyTuple_SET_ITEM(__pyx_t_49, 71, __pyx_t_34);
+  PyTuple_SET_ITEM(__pyx_t_50, 71, __pyx_v_self->max_direct_recharge);
   __Pyx_GIVEREF(__pyx_t_35);
-  PyTuple_SET_ITEM(__pyx_t_49, 72, __pyx_t_35);
+  PyTuple_SET_ITEM(__pyx_t_50, 72, __pyx_t_35);
   __Pyx_GIVEREF(__pyx_t_36);
-  PyTuple_SET_ITEM(__pyx_t_49, 73, __pyx_t_36);
+  PyTuple_SET_ITEM(__pyx_t_50, 73, __pyx_t_36);
   __Pyx_GIVEREF(__pyx_t_37);
-  PyTuple_SET_ITEM(__pyx_t_49, 74, __pyx_t_37);
+  PyTuple_SET_ITEM(__pyx_t_50, 74, __pyx_t_37);
   __Pyx_GIVEREF(__pyx_t_38);
-  PyTuple_SET_ITEM(__pyx_t_49, 75, __pyx_t_38);
+  PyTuple_SET_ITEM(__pyx_t_50, 75, __pyx_t_38);
+  __Pyx_GIVEREF(__pyx_t_39);
+  PyTuple_SET_ITEM(__pyx_t_50, 76, __pyx_t_39);
   __Pyx_INCREF(__pyx_v_self->monthly);
   __Pyx_GIVEREF(__pyx_v_self->monthly);
-  PyTuple_SET_ITEM(__pyx_t_49, 76, __pyx_v_self->monthly);
+  PyTuple_SET_ITEM(__pyx_t_50, 77, __pyx_v_self->monthly);
   __Pyx_INCREF(__pyx_v_self->monthly_demand);
   __Pyx_GIVEREF(__pyx_v_self->monthly_demand);
-  PyTuple_SET_ITEM(__pyx_t_49, 77, __pyx_v_self->monthly_demand);
+  PyTuple_SET_ITEM(__pyx_t_50, 78, __pyx_v_self->monthly_demand);
   __Pyx_INCREF(__pyx_v_self->monthly_demand_full);
   __Pyx_GIVEREF(__pyx_v_self->monthly_demand_full);
-  PyTuple_SET_ITEM(__pyx_t_49, 78, __pyx_v_self->monthly_demand_full);
+  PyTuple_SET_ITEM(__pyx_t_50, 79, __pyx_v_self->monthly_demand_full);
   __Pyx_INCREF(__pyx_v_self->monthly_demand_must_fill);
   __Pyx_GIVEREF(__pyx_v_self->monthly_demand_must_fill);
-  PyTuple_SET_ITEM(__pyx_t_49, 79, __pyx_v_self->monthly_demand_must_fill);
+  PyTuple_SET_ITEM(__pyx_t_50, 80, __pyx_v_self->monthly_demand_must_fill);
   __Pyx_INCREF(__pyx_v_self->monthly_new);
   __Pyx_GIVEREF(__pyx_v_self->monthly_new);
-  PyTuple_SET_ITEM(__pyx_t_49, 80, __pyx_v_self->monthly_new);
+  PyTuple_SET_ITEM(__pyx_t_50, 81, __pyx_v_self->monthly_new);
   __Pyx_INCREF(__pyx_v_self->name);
   __Pyx_GIVEREF(__pyx_v_self->name);
-  PyTuple_SET_ITEM(__pyx_t_49, 81, __pyx_v_self->name);
+  PyTuple_SET_ITEM(__pyx_t_50, 82, __pyx_v_self->name);
   __Pyx_INCREF(__pyx_v_self->nodd);
   __Pyx_GIVEREF(__pyx_v_self->nodd);
-  PyTuple_SET_ITEM(__pyx_t_49, 82, __pyx_v_self->nodd);
-  __Pyx_GIVEREF(__pyx_t_39);
-  PyTuple_SET_ITEM(__pyx_t_49, 83, __pyx_t_39);
+  PyTuple_SET_ITEM(__pyx_t_50, 83, __pyx_v_self->nodd);
+  __Pyx_GIVEREF(__pyx_t_40);
+  PyTuple_SET_ITEM(__pyx_t_50, 84, __pyx_t_40);
   __Pyx_INCREF(__pyx_v_self->numdays_fillup);
   __Pyx_GIVEREF(__pyx_v_self->numdays_fillup);
-  PyTuple_SET_ITEM(__pyx_t_49, 84, __pyx_v_self->numdays_fillup);
+  PyTuple_SET_ITEM(__pyx_t_50, 85, __pyx_v_self->numdays_fillup);
   __Pyx_INCREF(__pyx_v_self->oct_nov_min_release);
   __Pyx_GIVEREF(__pyx_v_self->oct_nov_min_release);
-  PyTuple_SET_ITEM(__pyx_t_49, 85, __pyx_v_self->oct_nov_min_release);
+  PyTuple_SET_ITEM(__pyx_t_50, 86, __pyx_v_self->oct_nov_min_release);
   __Pyx_INCREF(__pyx_v_self->outflow_release);
   __Pyx_GIVEREF(__pyx_v_self->outflow_release);
-  PyTuple_SET_ITEM(__pyx_t_49, 86, __pyx_v_self->outflow_release);
+  PyTuple_SET_ITEM(__pyx_t_50, 87, __pyx_v_self->outflow_release);
   __Pyx_INCREF(__pyx_v_self->precip);
   __Pyx_GIVEREF(__pyx_v_self->precip);
-  PyTuple_SET_ITEM(__pyx_t_49, 87, __pyx_v_self->precip);
-  __Pyx_GIVEREF(__pyx_t_40);
-  PyTuple_SET_ITEM(__pyx_t_49, 88, __pyx_t_40);
+  PyTuple_SET_ITEM(__pyx_t_50, 88, __pyx_v_self->precip);
+  __Pyx_GIVEREF(__pyx_t_41);
+  PyTuple_SET_ITEM(__pyx_t_50, 89, __pyx_t_41);
   __Pyx_INCREF(__pyx_v_self->rainflood_fnf);
   __Pyx_GIVEREF(__pyx_v_self->rainflood_fnf);
-  PyTuple_SET_ITEM(__pyx_t_49, 89, __pyx_v_self->rainflood_fnf);
+  PyTuple_SET_ITEM(__pyx_t_50, 90, __pyx_v_self->rainflood_fnf);
   __Pyx_INCREF(__pyx_v_self->rainflood_forecast);
   __Pyx_GIVEREF(__pyx_v_self->rainflood_forecast);
-  PyTuple_SET_ITEM(__pyx_t_49, 90, __pyx_v_self->rainflood_forecast);
+  PyTuple_SET_ITEM(__pyx_t_50, 91, __pyx_v_self->rainflood_forecast);
   __Pyx_INCREF(__pyx_v_self->rainflood_inf);
   __Pyx_GIVEREF(__pyx_v_self->rainflood_inf);
-  PyTuple_SET_ITEM(__pyx_t_49, 91, __pyx_v_self->rainflood_inf);
+  PyTuple_SET_ITEM(__pyx_t_50, 92, __pyx_v_self->rainflood_inf);
   __Pyx_INCREF(__pyx_v_self->rainfnf_stds);
   __Pyx_GIVEREF(__pyx_v_self->rainfnf_stds);
-  PyTuple_SET_ITEM(__pyx_t_49, 92, __pyx_v_self->rainfnf_stds);
+  PyTuple_SET_ITEM(__pyx_t_50, 93, __pyx_v_self->rainfnf_stds);
   __Pyx_INCREF(__pyx_v_self->raininf_stds);
   __Pyx_GIVEREF(__pyx_v_self->raininf_stds);
-  PyTuple_SET_ITEM(__pyx_t_49, 93, __pyx_v_self->raininf_stds);
+  PyTuple_SET_ITEM(__pyx_t_50, 94, __pyx_v_self->raininf_stds);
   __Pyx_INCREF(__pyx_v_self->reclaimed_carryover);
   __Pyx_GIVEREF(__pyx_v_self->reclaimed_carryover);
-  PyTuple_SET_ITEM(__pyx_t_49, 94, __pyx_v_self->reclaimed_carryover);
-  __Pyx_GIVEREF(__pyx_t_41);
-  PyTuple_SET_ITEM(__pyx_t_49, 95, __pyx_t_41);
+  PyTuple_SET_ITEM(__pyx_t_50, 95, __pyx_v_self->reclaimed_carryover);
+  __Pyx_GIVEREF(__pyx_t_42);
+  PyTuple_SET_ITEM(__pyx_t_50, 96, __pyx_t_42);
   __Pyx_INCREF(__pyx_v_self->short_rainflood_fnf);
   __Pyx_GIVEREF(__pyx_v_self->short_rainflood_fnf);
-  PyTuple_SET_ITEM(__pyx_t_49, 96, __pyx_v_self->short_rainflood_fnf);
+  PyTuple_SET_ITEM(__pyx_t_50, 97, __pyx_v_self->short_rainflood_fnf);
   __Pyx_INCREF(__pyx_v_self->short_snowflood_fnf);
   __Pyx_GIVEREF(__pyx_v_self->short_snowflood_fnf);
-  PyTuple_SET_ITEM(__pyx_t_49, 97, __pyx_v_self->short_snowflood_fnf);
+  PyTuple_SET_ITEM(__pyx_t_50, 98, __pyx_v_self->short_snowflood_fnf);
   __Pyx_INCREF(__pyx_v_self->sj_restoration_proj);
   __Pyx_GIVEREF(__pyx_v_self->sj_restoration_proj);
-  PyTuple_SET_ITEM(__pyx_t_49, 98, __pyx_v_self->sj_restoration_proj);
-  __Pyx_GIVEREF(__pyx_t_42);
-  PyTuple_SET_ITEM(__pyx_t_49, 99, __pyx_t_42);
+  PyTuple_SET_ITEM(__pyx_t_50, 99, __pyx_v_self->sj_restoration_proj);
   __Pyx_GIVEREF(__pyx_t_43);
-  PyTuple_SET_ITEM(__pyx_t_49, 100, __pyx_t_43);
+  PyTuple_SET_ITEM(__pyx_t_50, 100, __pyx_t_43);
+  __Pyx_INCREF(__pyx_v_self->snow_new);
+  __Pyx_GIVEREF(__pyx_v_self->snow_new);
+  PyTuple_SET_ITEM(__pyx_t_50, 101, __pyx_v_self->snow_new);
+  __Pyx_GIVEREF(__pyx_t_44);
+  PyTuple_SET_ITEM(__pyx_t_50, 102, __pyx_t_44);
   __Pyx_INCREF(__pyx_v_self->snowflood_fnf);
   __Pyx_GIVEREF(__pyx_v_self->snowflood_fnf);
-  PyTuple_SET_ITEM(__pyx_t_49, 101, __pyx_v_self->snowflood_fnf);
+  PyTuple_SET_ITEM(__pyx_t_50, 103, __pyx_v_self->snowflood_fnf);
   __Pyx_INCREF(__pyx_v_self->snowflood_forecast);
   __Pyx_GIVEREF(__pyx_v_self->snowflood_forecast);
-  PyTuple_SET_ITEM(__pyx_t_49, 102, __pyx_v_self->snowflood_forecast);
+  PyTuple_SET_ITEM(__pyx_t_50, 104, __pyx_v_self->snowflood_forecast);
   __Pyx_INCREF(__pyx_v_self->snowflood_inf);
   __Pyx_GIVEREF(__pyx_v_self->snowflood_inf);
-  PyTuple_SET_ITEM(__pyx_t_49, 103, __pyx_v_self->snowflood_inf);
+  PyTuple_SET_ITEM(__pyx_t_50, 105, __pyx_v_self->snowflood_inf);
   __Pyx_INCREF(__pyx_v_self->snowfnf_stds);
   __Pyx_GIVEREF(__pyx_v_self->snowfnf_stds);
-  PyTuple_SET_ITEM(__pyx_t_49, 104, __pyx_v_self->snowfnf_stds);
+  PyTuple_SET_ITEM(__pyx_t_50, 106, __pyx_v_self->snowfnf_stds);
   __Pyx_INCREF(__pyx_v_self->snowinf_stds);
   __Pyx_GIVEREF(__pyx_v_self->snowinf_stds);
-  PyTuple_SET_ITEM(__pyx_t_49, 105, __pyx_v_self->snowinf_stds);
+  PyTuple_SET_ITEM(__pyx_t_50, 107, __pyx_v_self->snowinf_stds);
   __Pyx_INCREF(__pyx_v_self->snowpack);
   __Pyx_GIVEREF(__pyx_v_self->snowpack);
-  PyTuple_SET_ITEM(__pyx_t_49, 106, __pyx_v_self->snowpack);
-  __Pyx_GIVEREF(__pyx_t_44);
-  PyTuple_SET_ITEM(__pyx_t_49, 107, __pyx_t_44);
+  PyTuple_SET_ITEM(__pyx_t_50, 108, __pyx_v_self->snowpack);
+  __Pyx_GIVEREF(__pyx_t_45);
+  PyTuple_SET_ITEM(__pyx_t_50, 109, __pyx_t_45);
   __Pyx_INCREF(__pyx_v_self->sodd_curtail_pct);
   __Pyx_GIVEREF(__pyx_v_self->sodd_curtail_pct);
-  PyTuple_SET_ITEM(__pyx_t_49, 108, __pyx_v_self->sodd_curtail_pct);
-  __Pyx_GIVEREF(__pyx_t_45);
-  PyTuple_SET_ITEM(__pyx_t_49, 109, __pyx_t_45);
+  PyTuple_SET_ITEM(__pyx_t_50, 110, __pyx_v_self->sodd_curtail_pct);
+  __Pyx_GIVEREF(__pyx_t_46);
+  PyTuple_SET_ITEM(__pyx_t_50, 111, __pyx_t_46);
   __Pyx_INCREF(__pyx_v_self->temp_releases);
   __Pyx_GIVEREF(__pyx_v_self->temp_releases);
-  PyTuple_SET_ITEM(__pyx_t_49, 110, __pyx_v_self->temp_releases);
+  PyTuple_SET_ITEM(__pyx_t_50, 112, __pyx_v_self->temp_releases);
   __Pyx_INCREF(__pyx_v_self->temp_releases_ya);
   __Pyx_GIVEREF(__pyx_v_self->temp_releases_ya);
-  PyTuple_SET_ITEM(__pyx_t_49, 111, __pyx_v_self->temp_releases_ya);
+  PyTuple_SET_ITEM(__pyx_t_50, 113, __pyx_v_self->temp_releases_ya);
   __Pyx_INCREF(__pyx_v_self->tocs);
   __Pyx_GIVEREF(__pyx_v_self->tocs);
-  PyTuple_SET_ITEM(__pyx_t_49, 112, __pyx_v_self->tocs);
+  PyTuple_SET_ITEM(__pyx_t_50, 114, __pyx_v_self->tocs);
   __Pyx_INCREF(__pyx_v_self->tocs_rule);
   __Pyx_GIVEREF(__pyx_v_self->tocs_rule);
-  PyTuple_SET_ITEM(__pyx_t_49, 113, __pyx_v_self->tocs_rule);
+  PyTuple_SET_ITEM(__pyx_t_50, 115, __pyx_v_self->tocs_rule);
   __Pyx_INCREF(__pyx_v_self->total_available_storage);
   __Pyx_GIVEREF(__pyx_v_self->total_available_storage);
-  PyTuple_SET_ITEM(__pyx_t_49, 114, __pyx_v_self->total_available_storage);
-  __Pyx_GIVEREF(__pyx_t_46);
-  PyTuple_SET_ITEM(__pyx_t_49, 115, __pyx_t_46);
+  PyTuple_SET_ITEM(__pyx_t_50, 116, __pyx_v_self->total_available_storage);
   __Pyx_GIVEREF(__pyx_t_47);
-  PyTuple_SET_ITEM(__pyx_t_49, 116, __pyx_t_47);
+  PyTuple_SET_ITEM(__pyx_t_50, 117, __pyx_t_47);
   __Pyx_GIVEREF(__pyx_t_48);
-  PyTuple_SET_ITEM(__pyx_t_49, 117, __pyx_t_48);
+  PyTuple_SET_ITEM(__pyx_t_50, 118, __pyx_t_48);
+  __Pyx_GIVEREF(__pyx_t_49);
+  PyTuple_SET_ITEM(__pyx_t_50, 119, __pyx_t_49);
   __Pyx_INCREF(__pyx_v_self->wytlist);
   __Pyx_GIVEREF(__pyx_v_self->wytlist);
-  PyTuple_SET_ITEM(__pyx_t_49, 118, __pyx_v_self->wytlist);
+  PyTuple_SET_ITEM(__pyx_t_50, 120, __pyx_v_self->wytlist);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
@@ -41187,31 +41405,32 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
   __pyx_t_46 = 0;
   __pyx_t_47 = 0;
   __pyx_t_48 = 0;
-  __pyx_v_state = ((PyObject*)__pyx_t_49);
   __pyx_t_49 = 0;
+  __pyx_v_state = ((PyObject*)__pyx_t_50);
+  __pyx_t_50 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)
+ *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.has_snow_new, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snow_new, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
  */
-  __pyx_t_49 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_49);
-  __pyx_v__dict = __pyx_t_49;
-  __pyx_t_49 = 0;
+  __pyx_t_50 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_50)) __PYX_ERR(2, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_50);
+  __pyx_v__dict = __pyx_t_50;
+  __pyx_t_50 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)
+ *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.has_snow_new, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snow_new, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
  *         use_setstate = True
  */
-  __pyx_t_50 = (__pyx_v__dict != Py_None);
-  __pyx_t_51 = (__pyx_t_50 != 0);
-  if (__pyx_t_51) {
+  __pyx_t_51 = (__pyx_v__dict != Py_None);
+  __pyx_t_52 = (__pyx_t_51 != 0);
+  if (__pyx_t_52) {
 
     /* "(tree fragment)":8
  *     _dict = getattr(self, '__dict__', None)
@@ -41220,28 +41439,28 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
  *         use_setstate = True
  *     else:
  */
-    __pyx_t_49 = PyTuple_New(1); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_49);
+    __pyx_t_50 = PyTuple_New(1); if (unlikely(!__pyx_t_50)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_50);
     __Pyx_INCREF(__pyx_v__dict);
     __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_49, 0, __pyx_v__dict);
-    __pyx_t_48 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_49); if (unlikely(!__pyx_t_48)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_48);
-    __Pyx_DECREF(__pyx_t_49); __pyx_t_49 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_48));
-    __pyx_t_48 = 0;
+    PyTuple_SET_ITEM(__pyx_t_50, 0, __pyx_v__dict);
+    __pyx_t_49 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_50); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_49);
+    __Pyx_DECREF(__pyx_t_50); __pyx_t_50 = 0;
+    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_49));
+    __pyx_t_49 = 0;
 
     /* "(tree fragment)":9
  *     if _dict is not None:
  *         state += (_dict,)
  *         use_setstate = True             # <<<<<<<<<<<<<<
  *     else:
- *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
+ *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snow_new is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
  */
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)
+ *     state = (self.E, self.EOS_target, self.Q, self.R, self.R_to_delta, self.Rtarget, self.S, self.SNPK, self.T, self.T_short, self.aug_sept_min_release, self.available_storage, self.baseinf_stds, self.baseline_flows, self.baseline_forecast, self.baseline_inf, self.basinuse, self.capacity, self.carryover_excess_use, self.carryover_target, self.consumed_releases, self.contract_flooded, self.cum_min_release, self.daily_df_data, self.daily_output_data, self.days_through_month, self.days_til_full, self.dead_pool, self.delta_outflow_pct, self.din, self.dout, self.downstream, self.downstream_short, self.dry_year_carryover, self.env_min_flow, self.env_min_flow_ya, self.envmin, self.eos_day, self.epsilon, self.evap_forecast, self.exceedence, self.exceedence_level, self.fci, self.fcr, self.flood_deliveries, self.flood_flow_min, self.flood_spill, self.flood_storage, self.flow_shape_regression, self.fnf, self.fnf_new, self.fnf_short, self.force_spill, self.forecastWYT, self.gains_to_delta, self.has_delta_target, self.has_downstream_target_flow, self.has_snow_new, self.hist_wyt, self.is_Canal, self.is_District, self.is_Private, self.is_Reservoir, self.is_Waterbank, self.iter_count, self.k_close_wateryear, self.key, self.lastYearEOS_target, self.lastYearRainflood, self.max_carryover_target, self.max_daily_uncontrolled, self.max_direct_recharge, self.max_fcr, self.max_outflow, self.melt_start, self.min_daily_overflow, self.min_daily_uncontrolled, self.monthly, self.monthly_demand, self.monthly_demand_full, self.monthly_demand_must_fill, self.monthly_new, self.name, self.nodd, self.nodd_meets_envmin, self.numdays_fillup, self.oct_nov_min_release, self.outflow_release, self.precip, self.rainflood_flows, self.rainflood_fnf, self.rainflood_forecast, self.rainflood_inf, self.rainfnf_stds, self.raininf_stds, self.reclaimed_carryover, self.saved_water, self.short_rainflood_fnf, self.short_snowflood_fnf, self.sj_restoration_proj, self.sjrr_release, self.snow_new, self.snowflood_flows, self.snowflood_fnf, self.snowflood_forecast, self.snowflood_inf, self.snowfnf_stds, self.snowinf_stds, self.snowpack, self.sodd, self.sodd_curtail_pct, self.sodd_pct, self.temp_releases, self.temp_releases_ya, self.tocs, self.tocs_rule, self.total_available_storage, self.total_capacity, self.uncontrolled_available, self.variable_min_flow, self.wytlist)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -41253,596 +41472,603 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
   /* "(tree fragment)":11
  *         use_setstate = True
  *     else:
- *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None             # <<<<<<<<<<<<<<
+ *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snow_new is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, None), state
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, None), state
  */
   /*else*/ {
-    __pyx_t_50 = (__pyx_v_self->E != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->E != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->Q != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->Q != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->R != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->R != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->R_to_delta != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->R_to_delta != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->Rtarget != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->Rtarget != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->S != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->S != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->SNPK != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->SNPK != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->aug_sept_min_release != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->aug_sept_min_release != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->available_storage != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->available_storage != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->baseinf_stds != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->baseinf_stds != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->baseline_forecast != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->baseline_forecast != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->baseline_inf != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->baseline_inf != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->carryover_target != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->carryover_target != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->contract_flooded != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->contract_flooded != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->cum_min_release != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->cum_min_release != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->daily_df_data != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->daily_df_data != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->daily_output_data != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->daily_output_data != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->days_through_month != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->days_through_month != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->days_til_full != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->days_til_full != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->downstream != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->downstream != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->downstream_short != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->downstream_short != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->dry_year_carryover != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->dry_year_carryover != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->env_min_flow != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->env_min_flow != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->env_min_flow_ya != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->env_min_flow_ya != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->exceedence != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->exceedence != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->fci != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->fci != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->flood_deliveries != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->flood_deliveries != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->flood_spill != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->flood_spill != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->flood_storage != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->flood_storage != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->flow_shape_regression != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->flow_shape_regression != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->fnf != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->fnf != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->fnf_new != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->fnf_new != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->fnf_short != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->fnf_short != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->forecastWYT != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->forecastWYT != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->hist_wyt != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->hist_wyt != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->k_close_wateryear != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->k_close_wateryear != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->key != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->key != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->max_direct_recharge != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->max_direct_recharge != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->monthly != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->monthly != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->monthly_demand != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->monthly_demand != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->monthly_demand_full != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->monthly_demand_full != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->monthly_demand_must_fill != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->monthly_demand_must_fill != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->monthly_new != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->monthly_new != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->name != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->name != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->nodd != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->nodd != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->numdays_fillup != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->numdays_fillup != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->oct_nov_min_release != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->oct_nov_min_release != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->outflow_release != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->outflow_release != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->precip != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->precip != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->rainflood_fnf != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->rainflood_fnf != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->rainflood_forecast != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->rainflood_forecast != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->rainflood_inf != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->rainflood_inf != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->rainfnf_stds != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->rainfnf_stds != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->raininf_stds != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->raininf_stds != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->reclaimed_carryover != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->reclaimed_carryover != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->short_rainflood_fnf != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->short_rainflood_fnf != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->short_snowflood_fnf != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->short_snowflood_fnf != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->sj_restoration_proj != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->sj_restoration_proj != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->snowflood_fnf != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->snow_new != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->snowflood_forecast != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->snowflood_fnf != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->snowflood_inf != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->snowflood_forecast != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->snowfnf_stds != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->snowflood_inf != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->snowinf_stds != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->snowfnf_stds != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->snowpack != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->snowinf_stds != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->sodd_curtail_pct != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->snowpack != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->temp_releases != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->sodd_curtail_pct != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->temp_releases_ya != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->temp_releases != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->tocs != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->temp_releases_ya != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->tocs_rule != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    if (!__pyx_t_52) {
+    __pyx_t_51 = (__pyx_v_self->tocs != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
     } else {
-      __pyx_t_51 = __pyx_t_52;
+      __pyx_t_52 = __pyx_t_53;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_52 = (__pyx_v_self->total_available_storage != ((PyObject*)Py_None));
-    __pyx_t_50 = (__pyx_t_52 != 0);
-    if (!__pyx_t_50) {
+    __pyx_t_53 = (__pyx_v_self->tocs_rule != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    if (!__pyx_t_51) {
     } else {
-      __pyx_t_51 = __pyx_t_50;
+      __pyx_t_52 = __pyx_t_51;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_50 = (__pyx_v_self->wytlist != ((PyObject*)Py_None));
-    __pyx_t_52 = (__pyx_t_50 != 0);
-    __pyx_t_51 = __pyx_t_52;
+    __pyx_t_51 = (__pyx_v_self->total_available_storage != ((PyObject*)Py_None));
+    __pyx_t_53 = (__pyx_t_51 != 0);
+    if (!__pyx_t_53) {
+    } else {
+      __pyx_t_52 = __pyx_t_53;
+      goto __pyx_L4_bool_binop_done;
+    }
+    __pyx_t_53 = (__pyx_v_self->wytlist != ((PyObject*)Py_None));
+    __pyx_t_51 = (__pyx_t_53 != 0);
+    __pyx_t_52 = __pyx_t_51;
     __pyx_L4_bool_binop_done:;
-    __pyx_v_use_setstate = __pyx_t_51;
+    __pyx_v_use_setstate = __pyx_t_52;
   }
   __pyx_L3:;
 
   /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
+ *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snow_new is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, None), state
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, None), state
  *     else:
  */
-  __pyx_t_51 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_51) {
+  __pyx_t_52 = (__pyx_v_use_setstate != 0);
+  if (__pyx_t_52) {
 
     /* "(tree fragment)":13
- *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
+ *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snow_new is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
  *     if use_setstate:
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, state)
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_48, __pyx_n_s_pyx_unpickle_Reservoir); if (unlikely(!__pyx_t_48)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_48);
-    __pyx_t_49 = PyTuple_New(3); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_49, __pyx_n_s_pyx_unpickle_Reservoir); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_49);
+    __pyx_t_50 = PyTuple_New(3); if (unlikely(!__pyx_t_50)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_50);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_49, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_91642834);
-    __Pyx_GIVEREF(__pyx_int_91642834);
-    PyTuple_SET_ITEM(__pyx_t_49, 1, __pyx_int_91642834);
+    PyTuple_SET_ITEM(__pyx_t_50, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_155154233);
+    __Pyx_GIVEREF(__pyx_int_155154233);
+    PyTuple_SET_ITEM(__pyx_t_50, 1, __pyx_int_155154233);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_49, 2, Py_None);
-    __pyx_t_47 = PyTuple_New(3); if (unlikely(!__pyx_t_47)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_47);
-    __Pyx_GIVEREF(__pyx_t_48);
-    PyTuple_SET_ITEM(__pyx_t_47, 0, __pyx_t_48);
+    PyTuple_SET_ITEM(__pyx_t_50, 2, Py_None);
+    __pyx_t_48 = PyTuple_New(3); if (unlikely(!__pyx_t_48)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_48);
     __Pyx_GIVEREF(__pyx_t_49);
-    PyTuple_SET_ITEM(__pyx_t_47, 1, __pyx_t_49);
+    PyTuple_SET_ITEM(__pyx_t_48, 0, __pyx_t_49);
+    __Pyx_GIVEREF(__pyx_t_50);
+    PyTuple_SET_ITEM(__pyx_t_48, 1, __pyx_t_50);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_47, 2, __pyx_v_state);
-    __pyx_t_48 = 0;
+    PyTuple_SET_ITEM(__pyx_t_48, 2, __pyx_v_state);
     __pyx_t_49 = 0;
-    __pyx_r = __pyx_t_47;
-    __pyx_t_47 = 0;
+    __pyx_t_50 = 0;
+    __pyx_r = __pyx_t_48;
+    __pyx_t_48 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
+ *         use_setstate = self.E is not None or self.Q is not None or self.R is not None or self.R_to_delta is not None or self.Rtarget is not None or self.S is not None or self.SNPK is not None or self.aug_sept_min_release is not None or self.available_storage is not None or self.baseinf_stds is not None or self.baseline_forecast is not None or self.baseline_inf is not None or self.carryover_target is not None or self.contract_flooded is not None or self.cum_min_release is not None or self.daily_df_data is not None or self.daily_output_data is not None or self.days_through_month is not None or self.days_til_full is not None or self.downstream is not None or self.downstream_short is not None or self.dry_year_carryover is not None or self.env_min_flow is not None or self.env_min_flow_ya is not None or self.exceedence is not None or self.fci is not None or self.flood_deliveries is not None or self.flood_spill is not None or self.flood_storage is not None or self.flow_shape_regression is not None or self.fnf is not None or self.fnf_new is not None or self.fnf_short is not None or self.forecastWYT is not None or self.hist_wyt is not None or self.k_close_wateryear is not None or self.key is not None or self.max_direct_recharge is not None or self.monthly is not None or self.monthly_demand is not None or self.monthly_demand_full is not None or self.monthly_demand_must_fill is not None or self.monthly_new is not None or self.name is not None or self.nodd is not None or self.numdays_fillup is not None or self.oct_nov_min_release is not None or self.outflow_release is not None or self.precip is not None or self.rainflood_fnf is not None or self.rainflood_forecast is not None or self.rainflood_inf is not None or self.rainfnf_stds is not None or self.raininf_stds is not None or self.reclaimed_carryover is not None or self.short_rainflood_fnf is not None or self.short_snowflood_fnf is not None or self.sj_restoration_proj is not None or self.snow_new is not None or self.snowflood_fnf is not None or self.snowflood_forecast is not None or self.snowflood_inf is not None or self.snowfnf_stds is not None or self.snowinf_stds is not None or self.snowpack is not None or self.sodd_curtail_pct is not None or self.temp_releases is not None or self.temp_releases_ya is not None or self.tocs is not None or self.tocs_rule is not None or self.total_available_storage is not None or self.wytlist is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, None), state
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, None), state
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, None), state
  *     else:
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Reservoir__set_state(self, __pyx_state)
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_47, __pyx_n_s_pyx_unpickle_Reservoir); if (unlikely(!__pyx_t_47)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_47);
-    __pyx_t_49 = PyTuple_New(3); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_49);
+    __Pyx_GetModuleGlobalName(__pyx_t_48, __pyx_n_s_pyx_unpickle_Reservoir); if (unlikely(!__pyx_t_48)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_48);
+    __pyx_t_50 = PyTuple_New(3); if (unlikely(!__pyx_t_50)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_50);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_49, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_91642834);
-    __Pyx_GIVEREF(__pyx_int_91642834);
-    PyTuple_SET_ITEM(__pyx_t_49, 1, __pyx_int_91642834);
+    PyTuple_SET_ITEM(__pyx_t_50, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_155154233);
+    __Pyx_GIVEREF(__pyx_int_155154233);
+    PyTuple_SET_ITEM(__pyx_t_50, 1, __pyx_int_155154233);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_49, 2, __pyx_v_state);
-    __pyx_t_48 = PyTuple_New(2); if (unlikely(!__pyx_t_48)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_48);
-    __Pyx_GIVEREF(__pyx_t_47);
-    PyTuple_SET_ITEM(__pyx_t_48, 0, __pyx_t_47);
-    __Pyx_GIVEREF(__pyx_t_49);
-    PyTuple_SET_ITEM(__pyx_t_48, 1, __pyx_t_49);
-    __pyx_t_47 = 0;
-    __pyx_t_49 = 0;
-    __pyx_r = __pyx_t_48;
+    PyTuple_SET_ITEM(__pyx_t_50, 2, __pyx_v_state);
+    __pyx_t_49 = PyTuple_New(2); if (unlikely(!__pyx_t_49)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_49);
+    __Pyx_GIVEREF(__pyx_t_48);
+    PyTuple_SET_ITEM(__pyx_t_49, 0, __pyx_t_48);
+    __Pyx_GIVEREF(__pyx_t_50);
+    PyTuple_SET_ITEM(__pyx_t_49, 1, __pyx_t_50);
     __pyx_t_48 = 0;
+    __pyx_t_50 = 0;
+    __pyx_r = __pyx_t_49;
+    __pyx_t_49 = 0;
     goto __pyx_L0;
   }
 
@@ -41903,6 +42129,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
   __Pyx_XDECREF(__pyx_t_47);
   __Pyx_XDECREF(__pyx_t_48);
   __Pyx_XDECREF(__pyx_t_49);
+  __Pyx_XDECREF(__pyx_t_50);
   __Pyx_AddTraceback("calfews_src.reservoir_cy.Reservoir.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -41916,7 +42143,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_18__reduce_cyt
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, state)
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Reservoir__set_state(self, __pyx_state)
  */
@@ -41946,7 +42173,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_20__setstate_c
   __Pyx_TraceCall("__setstate_cython__", __pyx_f[2], 16, 0, __PYX_ERR(2, 16, __pyx_L1_error));
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, state)
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Reservoir__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -41957,7 +42184,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy_9Reservoir_20__setstate_c
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Reservoir, (type(self), 0x5765bd2, state)
+ *         return __pyx_unpickle_Reservoir, (type(self), 0x93f7739, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Reservoir__set_state(self, __pyx_state)
  */
@@ -42080,18 +42307,18 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir(
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x5765bd2:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x93f7739:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x5765bd2) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x93f7739) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x5765bd2:
+ *     if __pyx_checksum != 0x93f7739:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
  *     __pyx_result = Reservoir.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -42110,15 +42337,15 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir(
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0x5765bd2:
+ *     if __pyx_checksum != 0x93f7739:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = Reservoir.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x57, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x93, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -42145,15 +42372,15 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir(
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x5765bd2:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x93f7739:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
  *     __pyx_result = Reservoir.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_Reservoir__set_state(<Reservoir> __pyx_result, __pyx_state)
@@ -42179,7 +42406,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir(
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
  *     __pyx_result = Reservoir.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Reservoir__set_state(<Reservoir> __pyx_result, __pyx_state)
@@ -42202,7 +42429,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir(
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x5765bd2 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x93f7739 = (E, EOS_target, Q, R, R_to_delta, Rtarget, S, SNPK, T, T_short, aug_sept_min_release, available_storage, baseinf_stds, baseline_flows, baseline_forecast, baseline_inf, basinuse, capacity, carryover_excess_use, carryover_target, consumed_releases, contract_flooded, cum_min_release, daily_df_data, daily_output_data, days_through_month, days_til_full, dead_pool, delta_outflow_pct, din, dout, downstream, downstream_short, dry_year_carryover, env_min_flow, env_min_flow_ya, envmin, eos_day, epsilon, evap_forecast, exceedence, exceedence_level, fci, fcr, flood_deliveries, flood_flow_min, flood_spill, flood_storage, flow_shape_regression, fnf, fnf_new, fnf_short, force_spill, forecastWYT, gains_to_delta, has_delta_target, has_downstream_target_flow, has_snow_new, hist_wyt, is_Canal, is_District, is_Private, is_Reservoir, is_Waterbank, iter_count, k_close_wateryear, key, lastYearEOS_target, lastYearRainflood, max_carryover_target, max_daily_uncontrolled, max_direct_recharge, max_fcr, max_outflow, melt_start, min_daily_overflow, min_daily_uncontrolled, monthly, monthly_demand, monthly_demand_full, monthly_demand_must_fill, monthly_new, name, nodd, nodd_meets_envmin, numdays_fillup, oct_nov_min_release, outflow_release, precip, rainflood_flows, rainflood_fnf, rainflood_forecast, rainflood_inf, rainfnf_stds, raininf_stds, reclaimed_carryover, saved_water, short_rainflood_fnf, short_snowflood_fnf, sj_restoration_proj, sjrr_release, snow_new, snowflood_flows, snowflood_fnf, snowflood_forecast, snowflood_inf, snowfnf_stds, snowinf_stds, snowpack, sodd, sodd_curtail_pct, sodd_pct, temp_releases, temp_releases_ya, tocs, tocs_rule, total_available_storage, total_capacity, uncontrolled_available, variable_min_flow, wytlist))" % __pyx_checksum)
  *     __pyx_result = Reservoir.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Reservoir__set_state(<Reservoir> __pyx_result, __pyx_state)
@@ -42215,7 +42442,7 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir(
  *         __pyx_unpickle_Reservoir__set_state(<Reservoir> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_Reservoir__set_state(Reservoir __pyx_result, tuple __pyx_state):
- *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.hist_wyt = __pyx_state[57]; __pyx_result.is_Canal = __pyx_state[58]; __pyx_result.is_District = __pyx_state[59]; __pyx_result.is_Private = __pyx_state[60]; __pyx_result.is_Reservoir = __pyx_state[61]; __pyx_result.is_Waterbank = __pyx_state[62]; __pyx_result.iter_count = __pyx_state[63]; __pyx_result.k_close_wateryear = __pyx_state[64]; __pyx_result.key = __pyx_state[65]; __pyx_result.lastYearEOS_target = __pyx_state[66]; __pyx_result.lastYearRainflood = __pyx_state[67]; __pyx_result.max_carryover_target = __pyx_state[68]; __pyx_result.max_daily_uncontrolled = __pyx_state[69]; __pyx_result.max_direct_recharge = __pyx_state[70]; __pyx_result.max_fcr = __pyx_state[71]; __pyx_result.max_outflow = __pyx_state[72]; __pyx_result.melt_start = __pyx_state[73]; __pyx_result.min_daily_overflow = __pyx_state[74]; __pyx_result.min_daily_uncontrolled = __pyx_state[75]; __pyx_result.monthly = __pyx_state[76]; __pyx_result.monthly_demand = __pyx_state[77]; __pyx_result.monthly_demand_full = __pyx_state[78]; __pyx_result.monthly_demand_must_fill = __pyx_state[79]; __pyx_result.monthly_new = __pyx_state[80]; __pyx_result.name = __pyx_state[81]; __pyx_result.nodd = __pyx_state[82]; __pyx_result.nodd_meets_envmin = __pyx_state[83]; __pyx_result.numdays_fillup = __pyx_state[84]; __pyx_result.oct_nov_min_release = __pyx_state[85]; __pyx_result.outflow_release = __pyx_state[86]; __pyx_result.precip = __pyx_state[87]; __pyx_result.rainflood_flows = __pyx_state[88]; __pyx_result.rainflood_fnf = __pyx_state[89]; __pyx_result.rainflood_forecast = __pyx_state[90]; __pyx_result.rainflood_inf = __pyx_state[91]; __pyx_result.rainfnf_stds = __pyx_state[92]; __pyx_result.raininf_stds = __pyx_state[93]; __pyx_result.reclaimed_carryover = __pyx_state[94]; __pyx_result.saved_water = __pyx_state[95]; __pyx_result.short_rainflood_fnf = __pyx_state[96]; __pyx_result.short_snowflood_fnf = __pyx_state[97]; __pyx_result.sj_restoration_proj = __pyx_state[98]; __pyx_result.sjrr_release = __pyx_state[99]; __pyx_result.snowflood_flows = __pyx_state[100]; __pyx_result.snowflood_fnf = __pyx_state[101]; __pyx_result.snowflood_forecast = __pyx_state[102]; __pyx_result.snowflood_inf = __pyx_state[103]; __pyx_result.snowfnf_stds = __pyx_state[104]; __pyx_result.snowinf_stds = __pyx_state[105]; __pyx_result.snowpack = __pyx_state[106]; __pyx_result.sodd = __pyx_state[107]; __pyx_result.sodd_curtail_pct = __pyx_state[108]; __pyx_result.sodd_pct = __pyx_state[109]; __pyx_result.temp_releases = __pyx_state[110]; __pyx_result.temp_releases_ya = __pyx_state[111]; __pyx_result.tocs = __pyx_state[112]; __pyx_result.tocs_rule = __pyx_state[113]; __pyx_result.total_available_storage = __pyx_state[114]; __pyx_result.total_capacity = __pyx_state[115]; __pyx_result.uncontrolled_available = __pyx_state[116]; __pyx_result.variable_min_flow = __pyx_state[117]; __pyx_result.wytlist = __pyx_state[118]
+ *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.has_snow_new = __pyx_state[57]; __pyx_result.hist_wyt = __pyx_state[58]; __pyx_result.is_Canal = __pyx_state[59]; __pyx_result.is_District = __pyx_state[60]; __pyx_result.is_Private = __pyx_state[61]; __pyx_result.is_Reservoir = __pyx_state[62]; __pyx_result.is_Waterbank = __pyx_state[63]; __pyx_result.iter_count = __pyx_state[64]; __pyx_result.k_close_wateryear = __pyx_state[65]; __pyx_result.key = __pyx_state[66]; __pyx_result.lastYearEOS_target = __pyx_state[67]; __pyx_result.lastYearRainflood = __pyx_state[68]; __pyx_result.max_carryover_target = __pyx_state[69]; __pyx_result.max_daily_uncontrolled = __pyx_state[70]; __pyx_result.max_direct_recharge = __pyx_state[71]; __pyx_result.max_fcr = __pyx_state[72]; __pyx_result.max_outflow = __pyx_state[73]; __pyx_result.melt_start = __pyx_state[74]; __pyx_result.min_daily_overflow = __pyx_state[75]; __pyx_result.min_daily_uncontrolled = __pyx_state[76]; __pyx_result.monthly = __pyx_state[77]; __pyx_result.monthly_demand = __pyx_state[78]; __pyx_result.monthly_demand_full = __pyx_state[79]; __pyx_result.monthly_demand_must_fill = __pyx_state[80]; __pyx_result.monthly_new = __pyx_state[81]; __pyx_result.name = __pyx_state[82]; __pyx_result.nodd = __pyx_state[83]; __pyx_result.nodd_meets_envmin = __pyx_state[84]; __pyx_result.numdays_fillup = __pyx_state[85]; __pyx_result.oct_nov_min_release = __pyx_state[86]; __pyx_result.outflow_release = __pyx_state[87]; __pyx_result.precip = __pyx_state[88]; __pyx_result.rainflood_flows = __pyx_state[89]; __pyx_result.rainflood_fnf = __pyx_state[90]; __pyx_result.rainflood_forecast = __pyx_state[91]; __pyx_result.rainflood_inf = __pyx_state[92]; __pyx_result.rainfnf_stds = __pyx_state[93]; __pyx_result.raininf_stds = __pyx_state[94]; __pyx_result.reclaimed_carryover = __pyx_state[95]; __pyx_result.saved_water = __pyx_state[96]; __pyx_result.short_rainflood_fnf = __pyx_state[97]; __pyx_result.short_snowflood_fnf = __pyx_state[98]; __pyx_result.sj_restoration_proj = __pyx_state[99]; __pyx_result.sjrr_release = __pyx_state[100]; __pyx_result.snow_new = __pyx_state[101]; __pyx_result.snowflood_flows = __pyx_state[102]; __pyx_result.snowflood_fnf = __pyx_state[103]; __pyx_result.snowflood_forecast = __pyx_state[104]; __pyx_result.snowflood_inf = __pyx_state[105]; __pyx_result.snowfnf_stds = __pyx_state[106]; __pyx_result.snowinf_stds = __pyx_state[107]; __pyx_result.snowpack = __pyx_state[108]; __pyx_result.sodd = __pyx_state[109]; __pyx_result.sodd_curtail_pct = __pyx_state[110]; __pyx_result.sodd_pct = __pyx_state[111]; __pyx_result.temp_releases = __pyx_state[112]; __pyx_result.temp_releases_ya = __pyx_state[113]; __pyx_result.tocs = __pyx_state[114]; __pyx_result.tocs_rule = __pyx_state[115]; __pyx_result.total_available_storage = __pyx_state[116]; __pyx_result.total_capacity = __pyx_state[117]; __pyx_result.uncontrolled_available = __pyx_state[118]; __pyx_result.variable_min_flow = __pyx_state[119]; __pyx_result.wytlist = __pyx_state[120]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -42249,8 +42476,8 @@ static PyObject *__pyx_pf_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir(
  *         __pyx_unpickle_Reservoir__set_state(<Reservoir> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Reservoir__set_state(Reservoir __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.hist_wyt = __pyx_state[57]; __pyx_result.is_Canal = __pyx_state[58]; __pyx_result.is_District = __pyx_state[59]; __pyx_result.is_Private = __pyx_state[60]; __pyx_result.is_Reservoir = __pyx_state[61]; __pyx_result.is_Waterbank = __pyx_state[62]; __pyx_result.iter_count = __pyx_state[63]; __pyx_result.k_close_wateryear = __pyx_state[64]; __pyx_result.key = __pyx_state[65]; __pyx_result.lastYearEOS_target = __pyx_state[66]; __pyx_result.lastYearRainflood = __pyx_state[67]; __pyx_result.max_carryover_target = __pyx_state[68]; __pyx_result.max_daily_uncontrolled = __pyx_state[69]; __pyx_result.max_direct_recharge = __pyx_state[70]; __pyx_result.max_fcr = __pyx_state[71]; __pyx_result.max_outflow = __pyx_state[72]; __pyx_result.melt_start = __pyx_state[73]; __pyx_result.min_daily_overflow = __pyx_state[74]; __pyx_result.min_daily_uncontrolled = __pyx_state[75]; __pyx_result.monthly = __pyx_state[76]; __pyx_result.monthly_demand = __pyx_state[77]; __pyx_result.monthly_demand_full = __pyx_state[78]; __pyx_result.monthly_demand_must_fill = __pyx_state[79]; __pyx_result.monthly_new = __pyx_state[80]; __pyx_result.name = __pyx_state[81]; __pyx_result.nodd = __pyx_state[82]; __pyx_result.nodd_meets_envmin = __pyx_state[83]; __pyx_result.numdays_fillup = __pyx_state[84]; __pyx_result.oct_nov_min_release = __pyx_state[85]; __pyx_result.outflow_release = __pyx_state[86]; __pyx_result.precip = __pyx_state[87]; __pyx_result.rainflood_flows = __pyx_state[88]; __pyx_result.rainflood_fnf = __pyx_state[89]; __pyx_result.rainflood_forecast = __pyx_state[90]; __pyx_result.rainflood_inf = __pyx_state[91]; __pyx_result.rainfnf_stds = __pyx_state[92]; __pyx_result.raininf_stds = __pyx_state[93]; __pyx_result.reclaimed_carryover = __pyx_state[94]; __pyx_result.saved_water = __pyx_state[95]; __pyx_result.short_rainflood_fnf = __pyx_state[96]; __pyx_result.short_snowflood_fnf = __pyx_state[97]; __pyx_result.sj_restoration_proj = __pyx_state[98]; __pyx_result.sjrr_release = __pyx_state[99]; __pyx_result.snowflood_flows = __pyx_state[100]; __pyx_result.snowflood_fnf = __pyx_state[101]; __pyx_result.snowflood_forecast = __pyx_state[102]; __pyx_result.snowflood_inf = __pyx_state[103]; __pyx_result.snowfnf_stds = __pyx_state[104]; __pyx_result.snowinf_stds = __pyx_state[105]; __pyx_result.snowpack = __pyx_state[106]; __pyx_result.sodd = __pyx_state[107]; __pyx_result.sodd_curtail_pct = __pyx_state[108]; __pyx_result.sodd_pct = __pyx_state[109]; __pyx_result.temp_releases = __pyx_state[110]; __pyx_result.temp_releases_ya = __pyx_state[111]; __pyx_result.tocs = __pyx_state[112]; __pyx_result.tocs_rule = __pyx_state[113]; __pyx_result.total_available_storage = __pyx_state[114]; __pyx_result.total_capacity = __pyx_state[115]; __pyx_result.uncontrolled_available = __pyx_state[116]; __pyx_result.variable_min_flow = __pyx_state[117]; __pyx_result.wytlist = __pyx_state[118]
- *     if len(__pyx_state) > 119 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.has_snow_new = __pyx_state[57]; __pyx_result.hist_wyt = __pyx_state[58]; __pyx_result.is_Canal = __pyx_state[59]; __pyx_result.is_District = __pyx_state[60]; __pyx_result.is_Private = __pyx_state[61]; __pyx_result.is_Reservoir = __pyx_state[62]; __pyx_result.is_Waterbank = __pyx_state[63]; __pyx_result.iter_count = __pyx_state[64]; __pyx_result.k_close_wateryear = __pyx_state[65]; __pyx_result.key = __pyx_state[66]; __pyx_result.lastYearEOS_target = __pyx_state[67]; __pyx_result.lastYearRainflood = __pyx_state[68]; __pyx_result.max_carryover_target = __pyx_state[69]; __pyx_result.max_daily_uncontrolled = __pyx_state[70]; __pyx_result.max_direct_recharge = __pyx_state[71]; __pyx_result.max_fcr = __pyx_state[72]; __pyx_result.max_outflow = __pyx_state[73]; __pyx_result.melt_start = __pyx_state[74]; __pyx_result.min_daily_overflow = __pyx_state[75]; __pyx_result.min_daily_uncontrolled = __pyx_state[76]; __pyx_result.monthly = __pyx_state[77]; __pyx_result.monthly_demand = __pyx_state[78]; __pyx_result.monthly_demand_full = __pyx_state[79]; __pyx_result.monthly_demand_must_fill = __pyx_state[80]; __pyx_result.monthly_new = __pyx_state[81]; __pyx_result.name = __pyx_state[82]; __pyx_result.nodd = __pyx_state[83]; __pyx_result.nodd_meets_envmin = __pyx_state[84]; __pyx_result.numdays_fillup = __pyx_state[85]; __pyx_result.oct_nov_min_release = __pyx_state[86]; __pyx_result.outflow_release = __pyx_state[87]; __pyx_result.precip = __pyx_state[88]; __pyx_result.rainflood_flows = __pyx_state[89]; __pyx_result.rainflood_fnf = __pyx_state[90]; __pyx_result.rainflood_forecast = __pyx_state[91]; __pyx_result.rainflood_inf = __pyx_state[92]; __pyx_result.rainfnf_stds = __pyx_state[93]; __pyx_result.raininf_stds = __pyx_state[94]; __pyx_result.reclaimed_carryover = __pyx_state[95]; __pyx_result.saved_water = __pyx_state[96]; __pyx_result.short_rainflood_fnf = __pyx_state[97]; __pyx_result.short_snowflood_fnf = __pyx_state[98]; __pyx_result.sj_restoration_proj = __pyx_state[99]; __pyx_result.sjrr_release = __pyx_state[100]; __pyx_result.snow_new = __pyx_state[101]; __pyx_result.snowflood_flows = __pyx_state[102]; __pyx_result.snowflood_fnf = __pyx_state[103]; __pyx_result.snowflood_forecast = __pyx_state[104]; __pyx_result.snowflood_inf = __pyx_state[105]; __pyx_result.snowfnf_stds = __pyx_state[106]; __pyx_result.snowinf_stds = __pyx_state[107]; __pyx_result.snowpack = __pyx_state[108]; __pyx_result.sodd = __pyx_state[109]; __pyx_result.sodd_curtail_pct = __pyx_state[110]; __pyx_result.sodd_pct = __pyx_state[111]; __pyx_result.temp_releases = __pyx_state[112]; __pyx_result.temp_releases_ya = __pyx_state[113]; __pyx_result.tocs = __pyx_state[114]; __pyx_result.tocs_rule = __pyx_state[115]; __pyx_result.total_available_storage = __pyx_state[116]; __pyx_result.total_capacity = __pyx_state[117]; __pyx_result.uncontrolled_available = __pyx_state[118]; __pyx_result.variable_min_flow = __pyx_state[119]; __pyx_result.wytlist = __pyx_state[120]
+ *     if len(__pyx_state) > 121 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__set_state(struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
@@ -42276,9 +42503,9 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_Reservoir__set_state(Reservoir __pyx_result, tuple __pyx_state):
- *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.hist_wyt = __pyx_state[57]; __pyx_result.is_Canal = __pyx_state[58]; __pyx_result.is_District = __pyx_state[59]; __pyx_result.is_Private = __pyx_state[60]; __pyx_result.is_Reservoir = __pyx_state[61]; __pyx_result.is_Waterbank = __pyx_state[62]; __pyx_result.iter_count = __pyx_state[63]; __pyx_result.k_close_wateryear = __pyx_state[64]; __pyx_result.key = __pyx_state[65]; __pyx_result.lastYearEOS_target = __pyx_state[66]; __pyx_result.lastYearRainflood = __pyx_state[67]; __pyx_result.max_carryover_target = __pyx_state[68]; __pyx_result.max_daily_uncontrolled = __pyx_state[69]; __pyx_result.max_direct_recharge = __pyx_state[70]; __pyx_result.max_fcr = __pyx_state[71]; __pyx_result.max_outflow = __pyx_state[72]; __pyx_result.melt_start = __pyx_state[73]; __pyx_result.min_daily_overflow = __pyx_state[74]; __pyx_result.min_daily_uncontrolled = __pyx_state[75]; __pyx_result.monthly = __pyx_state[76]; __pyx_result.monthly_demand = __pyx_state[77]; __pyx_result.monthly_demand_full = __pyx_state[78]; __pyx_result.monthly_demand_must_fill = __pyx_state[79]; __pyx_result.monthly_new = __pyx_state[80]; __pyx_result.name = __pyx_state[81]; __pyx_result.nodd = __pyx_state[82]; __pyx_result.nodd_meets_envmin = __pyx_state[83]; __pyx_result.numdays_fillup = __pyx_state[84]; __pyx_result.oct_nov_min_release = __pyx_state[85]; __pyx_result.outflow_release = __pyx_state[86]; __pyx_result.precip = __pyx_state[87]; __pyx_result.rainflood_flows = __pyx_state[88]; __pyx_result.rainflood_fnf = __pyx_state[89]; __pyx_result.rainflood_forecast = __pyx_state[90]; __pyx_result.rainflood_inf = __pyx_state[91]; __pyx_result.rainfnf_stds = __pyx_state[92]; __pyx_result.raininf_stds = __pyx_state[93]; __pyx_result.reclaimed_carryover = __pyx_state[94]; __pyx_result.saved_water = __pyx_state[95]; __pyx_result.short_rainflood_fnf = __pyx_state[96]; __pyx_result.short_snowflood_fnf = __pyx_state[97]; __pyx_result.sj_restoration_proj = __pyx_state[98]; __pyx_result.sjrr_release = __pyx_state[99]; __pyx_result.snowflood_flows = __pyx_state[100]; __pyx_result.snowflood_fnf = __pyx_state[101]; __pyx_result.snowflood_forecast = __pyx_state[102]; __pyx_result.snowflood_inf = __pyx_state[103]; __pyx_result.snowfnf_stds = __pyx_state[104]; __pyx_result.snowinf_stds = __pyx_state[105]; __pyx_result.snowpack = __pyx_state[106]; __pyx_result.sodd = __pyx_state[107]; __pyx_result.sodd_curtail_pct = __pyx_state[108]; __pyx_result.sodd_pct = __pyx_state[109]; __pyx_result.temp_releases = __pyx_state[110]; __pyx_result.temp_releases_ya = __pyx_state[111]; __pyx_result.tocs = __pyx_state[112]; __pyx_result.tocs_rule = __pyx_state[113]; __pyx_result.total_available_storage = __pyx_state[114]; __pyx_result.total_capacity = __pyx_state[115]; __pyx_result.uncontrolled_available = __pyx_state[116]; __pyx_result.variable_min_flow = __pyx_state[117]; __pyx_result.wytlist = __pyx_state[118]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 119 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[119])
+ *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.has_snow_new = __pyx_state[57]; __pyx_result.hist_wyt = __pyx_state[58]; __pyx_result.is_Canal = __pyx_state[59]; __pyx_result.is_District = __pyx_state[60]; __pyx_result.is_Private = __pyx_state[61]; __pyx_result.is_Reservoir = __pyx_state[62]; __pyx_result.is_Waterbank = __pyx_state[63]; __pyx_result.iter_count = __pyx_state[64]; __pyx_result.k_close_wateryear = __pyx_state[65]; __pyx_result.key = __pyx_state[66]; __pyx_result.lastYearEOS_target = __pyx_state[67]; __pyx_result.lastYearRainflood = __pyx_state[68]; __pyx_result.max_carryover_target = __pyx_state[69]; __pyx_result.max_daily_uncontrolled = __pyx_state[70]; __pyx_result.max_direct_recharge = __pyx_state[71]; __pyx_result.max_fcr = __pyx_state[72]; __pyx_result.max_outflow = __pyx_state[73]; __pyx_result.melt_start = __pyx_state[74]; __pyx_result.min_daily_overflow = __pyx_state[75]; __pyx_result.min_daily_uncontrolled = __pyx_state[76]; __pyx_result.monthly = __pyx_state[77]; __pyx_result.monthly_demand = __pyx_state[78]; __pyx_result.monthly_demand_full = __pyx_state[79]; __pyx_result.monthly_demand_must_fill = __pyx_state[80]; __pyx_result.monthly_new = __pyx_state[81]; __pyx_result.name = __pyx_state[82]; __pyx_result.nodd = __pyx_state[83]; __pyx_result.nodd_meets_envmin = __pyx_state[84]; __pyx_result.numdays_fillup = __pyx_state[85]; __pyx_result.oct_nov_min_release = __pyx_state[86]; __pyx_result.outflow_release = __pyx_state[87]; __pyx_result.precip = __pyx_state[88]; __pyx_result.rainflood_flows = __pyx_state[89]; __pyx_result.rainflood_fnf = __pyx_state[90]; __pyx_result.rainflood_forecast = __pyx_state[91]; __pyx_result.rainflood_inf = __pyx_state[92]; __pyx_result.rainfnf_stds = __pyx_state[93]; __pyx_result.raininf_stds = __pyx_state[94]; __pyx_result.reclaimed_carryover = __pyx_state[95]; __pyx_result.saved_water = __pyx_state[96]; __pyx_result.short_rainflood_fnf = __pyx_state[97]; __pyx_result.short_snowflood_fnf = __pyx_state[98]; __pyx_result.sj_restoration_proj = __pyx_state[99]; __pyx_result.sjrr_release = __pyx_state[100]; __pyx_result.snow_new = __pyx_state[101]; __pyx_result.snowflood_flows = __pyx_state[102]; __pyx_result.snowflood_fnf = __pyx_state[103]; __pyx_result.snowflood_forecast = __pyx_state[104]; __pyx_result.snowflood_inf = __pyx_state[105]; __pyx_result.snowfnf_stds = __pyx_state[106]; __pyx_result.snowinf_stds = __pyx_state[107]; __pyx_result.snowpack = __pyx_state[108]; __pyx_result.sodd = __pyx_state[109]; __pyx_result.sodd_curtail_pct = __pyx_state[110]; __pyx_result.sodd_pct = __pyx_state[111]; __pyx_result.temp_releases = __pyx_state[112]; __pyx_result.temp_releases_ya = __pyx_state[113]; __pyx_result.tocs = __pyx_state[114]; __pyx_result.tocs_rule = __pyx_state[115]; __pyx_result.total_available_storage = __pyx_state[116]; __pyx_result.total_capacity = __pyx_state[117]; __pyx_result.uncontrolled_available = __pyx_state[118]; __pyx_result.variable_min_flow = __pyx_state[119]; __pyx_result.wytlist = __pyx_state[120]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 121 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[121])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -42901,6 +43128,15 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 57, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v___pyx_result->has_snow_new = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 58, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->hist_wyt);
@@ -42911,7 +43147,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 58, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 59, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -42920,7 +43156,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 59, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 60, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -42929,7 +43165,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 60, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 61, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -42938,7 +43174,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 61, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 62, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -42947,7 +43183,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 62, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 63, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -42956,7 +43192,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 63, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 64, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -42965,7 +43201,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 64, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 65, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -42977,7 +43213,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 65, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 66, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -42989,7 +43225,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 66, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 67, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -42998,7 +43234,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 67, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 68, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43007,7 +43243,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 68, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 69, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43016,7 +43252,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 69, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 70, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43025,7 +43261,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 70, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 71, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43037,7 +43273,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 71, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 72, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43046,7 +43282,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 72, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 73, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43055,7 +43291,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 73, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 74, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43064,7 +43300,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 74, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 75, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43073,7 +43309,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 75, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 76, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43082,7 +43318,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 76, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 77, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43094,7 +43330,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 77, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 78, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43106,7 +43342,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 78, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 79, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43118,7 +43354,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 79, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 80, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43130,7 +43366,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 80, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 81, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43142,7 +43378,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 81, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 82, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43154,7 +43390,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 82, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 83, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43166,7 +43402,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 83, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 84, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43175,7 +43411,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 84, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 85, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43187,7 +43423,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 85, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 86, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43199,7 +43435,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 86, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 87, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43211,7 +43447,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 87, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 88, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43223,7 +43459,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 88, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 89, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43232,7 +43468,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 89, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 90, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43244,7 +43480,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 90, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 91, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43256,7 +43492,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 91, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 92, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43268,7 +43504,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 92, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 93, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43280,7 +43516,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 93, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 94, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43292,7 +43528,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 94, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 95, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43304,7 +43540,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 95, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 96, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43313,7 +43549,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 96, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 97, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43325,7 +43561,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 97, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 98, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43337,7 +43573,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 98, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 99, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43349,7 +43585,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 99, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x64, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43358,7 +43594,19 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x64, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x65, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_GIVEREF(__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v___pyx_result->snow_new);
+  __Pyx_DECREF(__pyx_v___pyx_result->snow_new);
+  __pyx_v___pyx_result->snow_new = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x66, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43367,7 +43615,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x65, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x67, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43379,7 +43627,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x66, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x68, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43391,7 +43639,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x67, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x69, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43403,7 +43651,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x68, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6A, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43415,7 +43663,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x69, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6B, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43427,7 +43675,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6A, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6C, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43439,7 +43687,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6B, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6D, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43448,7 +43696,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6C, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6E, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43460,7 +43708,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6D, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6F, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43469,7 +43717,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6E, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x70, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43481,7 +43729,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x6F, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x71, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43493,7 +43741,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x70, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x72, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43505,7 +43753,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x71, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x73, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43517,7 +43765,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x72, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x74, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43529,7 +43777,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x73, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x75, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43538,7 +43786,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x74, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x76, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43547,7 +43795,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x75, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x77, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -43556,7 +43804,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x76, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x78, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -43567,16 +43815,16 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_Reservoir__set_state(Reservoir __pyx_result, tuple __pyx_state):
- *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.hist_wyt = __pyx_state[57]; __pyx_result.is_Canal = __pyx_state[58]; __pyx_result.is_District = __pyx_state[59]; __pyx_result.is_Private = __pyx_state[60]; __pyx_result.is_Reservoir = __pyx_state[61]; __pyx_result.is_Waterbank = __pyx_state[62]; __pyx_result.iter_count = __pyx_state[63]; __pyx_result.k_close_wateryear = __pyx_state[64]; __pyx_result.key = __pyx_state[65]; __pyx_result.lastYearEOS_target = __pyx_state[66]; __pyx_result.lastYearRainflood = __pyx_state[67]; __pyx_result.max_carryover_target = __pyx_state[68]; __pyx_result.max_daily_uncontrolled = __pyx_state[69]; __pyx_result.max_direct_recharge = __pyx_state[70]; __pyx_result.max_fcr = __pyx_state[71]; __pyx_result.max_outflow = __pyx_state[72]; __pyx_result.melt_start = __pyx_state[73]; __pyx_result.min_daily_overflow = __pyx_state[74]; __pyx_result.min_daily_uncontrolled = __pyx_state[75]; __pyx_result.monthly = __pyx_state[76]; __pyx_result.monthly_demand = __pyx_state[77]; __pyx_result.monthly_demand_full = __pyx_state[78]; __pyx_result.monthly_demand_must_fill = __pyx_state[79]; __pyx_result.monthly_new = __pyx_state[80]; __pyx_result.name = __pyx_state[81]; __pyx_result.nodd = __pyx_state[82]; __pyx_result.nodd_meets_envmin = __pyx_state[83]; __pyx_result.numdays_fillup = __pyx_state[84]; __pyx_result.oct_nov_min_release = __pyx_state[85]; __pyx_result.outflow_release = __pyx_state[86]; __pyx_result.precip = __pyx_state[87]; __pyx_result.rainflood_flows = __pyx_state[88]; __pyx_result.rainflood_fnf = __pyx_state[89]; __pyx_result.rainflood_forecast = __pyx_state[90]; __pyx_result.rainflood_inf = __pyx_state[91]; __pyx_result.rainfnf_stds = __pyx_state[92]; __pyx_result.raininf_stds = __pyx_state[93]; __pyx_result.reclaimed_carryover = __pyx_state[94]; __pyx_result.saved_water = __pyx_state[95]; __pyx_result.short_rainflood_fnf = __pyx_state[96]; __pyx_result.short_snowflood_fnf = __pyx_state[97]; __pyx_result.sj_restoration_proj = __pyx_state[98]; __pyx_result.sjrr_release = __pyx_state[99]; __pyx_result.snowflood_flows = __pyx_state[100]; __pyx_result.snowflood_fnf = __pyx_state[101]; __pyx_result.snowflood_forecast = __pyx_state[102]; __pyx_result.snowflood_inf = __pyx_state[103]; __pyx_result.snowfnf_stds = __pyx_state[104]; __pyx_result.snowinf_stds = __pyx_state[105]; __pyx_result.snowpack = __pyx_state[106]; __pyx_result.sodd = __pyx_state[107]; __pyx_result.sodd_curtail_pct = __pyx_state[108]; __pyx_result.sodd_pct = __pyx_state[109]; __pyx_result.temp_releases = __pyx_state[110]; __pyx_result.temp_releases_ya = __pyx_state[111]; __pyx_result.tocs = __pyx_state[112]; __pyx_result.tocs_rule = __pyx_state[113]; __pyx_result.total_available_storage = __pyx_state[114]; __pyx_result.total_capacity = __pyx_state[115]; __pyx_result.uncontrolled_available = __pyx_state[116]; __pyx_result.variable_min_flow = __pyx_state[117]; __pyx_result.wytlist = __pyx_state[118]
- *     if len(__pyx_state) > 119 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[119])
+ *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.has_snow_new = __pyx_state[57]; __pyx_result.hist_wyt = __pyx_state[58]; __pyx_result.is_Canal = __pyx_state[59]; __pyx_result.is_District = __pyx_state[60]; __pyx_result.is_Private = __pyx_state[61]; __pyx_result.is_Reservoir = __pyx_state[62]; __pyx_result.is_Waterbank = __pyx_state[63]; __pyx_result.iter_count = __pyx_state[64]; __pyx_result.k_close_wateryear = __pyx_state[65]; __pyx_result.key = __pyx_state[66]; __pyx_result.lastYearEOS_target = __pyx_state[67]; __pyx_result.lastYearRainflood = __pyx_state[68]; __pyx_result.max_carryover_target = __pyx_state[69]; __pyx_result.max_daily_uncontrolled = __pyx_state[70]; __pyx_result.max_direct_recharge = __pyx_state[71]; __pyx_result.max_fcr = __pyx_state[72]; __pyx_result.max_outflow = __pyx_state[73]; __pyx_result.melt_start = __pyx_state[74]; __pyx_result.min_daily_overflow = __pyx_state[75]; __pyx_result.min_daily_uncontrolled = __pyx_state[76]; __pyx_result.monthly = __pyx_state[77]; __pyx_result.monthly_demand = __pyx_state[78]; __pyx_result.monthly_demand_full = __pyx_state[79]; __pyx_result.monthly_demand_must_fill = __pyx_state[80]; __pyx_result.monthly_new = __pyx_state[81]; __pyx_result.name = __pyx_state[82]; __pyx_result.nodd = __pyx_state[83]; __pyx_result.nodd_meets_envmin = __pyx_state[84]; __pyx_result.numdays_fillup = __pyx_state[85]; __pyx_result.oct_nov_min_release = __pyx_state[86]; __pyx_result.outflow_release = __pyx_state[87]; __pyx_result.precip = __pyx_state[88]; __pyx_result.rainflood_flows = __pyx_state[89]; __pyx_result.rainflood_fnf = __pyx_state[90]; __pyx_result.rainflood_forecast = __pyx_state[91]; __pyx_result.rainflood_inf = __pyx_state[92]; __pyx_result.rainfnf_stds = __pyx_state[93]; __pyx_result.raininf_stds = __pyx_state[94]; __pyx_result.reclaimed_carryover = __pyx_state[95]; __pyx_result.saved_water = __pyx_state[96]; __pyx_result.short_rainflood_fnf = __pyx_state[97]; __pyx_result.short_snowflood_fnf = __pyx_state[98]; __pyx_result.sj_restoration_proj = __pyx_state[99]; __pyx_result.sjrr_release = __pyx_state[100]; __pyx_result.snow_new = __pyx_state[101]; __pyx_result.snowflood_flows = __pyx_state[102]; __pyx_result.snowflood_fnf = __pyx_state[103]; __pyx_result.snowflood_forecast = __pyx_state[104]; __pyx_result.snowflood_inf = __pyx_state[105]; __pyx_result.snowfnf_stds = __pyx_state[106]; __pyx_result.snowinf_stds = __pyx_state[107]; __pyx_result.snowpack = __pyx_state[108]; __pyx_result.sodd = __pyx_state[109]; __pyx_result.sodd_curtail_pct = __pyx_state[110]; __pyx_result.sodd_pct = __pyx_state[111]; __pyx_result.temp_releases = __pyx_state[112]; __pyx_result.temp_releases_ya = __pyx_state[113]; __pyx_result.tocs = __pyx_state[114]; __pyx_result.tocs_rule = __pyx_state[115]; __pyx_result.total_available_storage = __pyx_state[116]; __pyx_result.total_capacity = __pyx_state[117]; __pyx_result.uncontrolled_available = __pyx_state[118]; __pyx_result.variable_min_flow = __pyx_state[119]; __pyx_result.wytlist = __pyx_state[120]
+ *     if len(__pyx_state) > 121 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[121])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
   __pyx_t_5 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = ((__pyx_t_5 > 0x77) != 0);
+  __pyx_t_6 = ((__pyx_t_5 > 0x79) != 0);
   if (__pyx_t_6) {
   } else {
     __pyx_t_4 = __pyx_t_6;
@@ -43589,9 +43837,9 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
   if (__pyx_t_4) {
 
     /* "(tree fragment)":14
- *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.hist_wyt = __pyx_state[57]; __pyx_result.is_Canal = __pyx_state[58]; __pyx_result.is_District = __pyx_state[59]; __pyx_result.is_Private = __pyx_state[60]; __pyx_result.is_Reservoir = __pyx_state[61]; __pyx_result.is_Waterbank = __pyx_state[62]; __pyx_result.iter_count = __pyx_state[63]; __pyx_result.k_close_wateryear = __pyx_state[64]; __pyx_result.key = __pyx_state[65]; __pyx_result.lastYearEOS_target = __pyx_state[66]; __pyx_result.lastYearRainflood = __pyx_state[67]; __pyx_result.max_carryover_target = __pyx_state[68]; __pyx_result.max_daily_uncontrolled = __pyx_state[69]; __pyx_result.max_direct_recharge = __pyx_state[70]; __pyx_result.max_fcr = __pyx_state[71]; __pyx_result.max_outflow = __pyx_state[72]; __pyx_result.melt_start = __pyx_state[73]; __pyx_result.min_daily_overflow = __pyx_state[74]; __pyx_result.min_daily_uncontrolled = __pyx_state[75]; __pyx_result.monthly = __pyx_state[76]; __pyx_result.monthly_demand = __pyx_state[77]; __pyx_result.monthly_demand_full = __pyx_state[78]; __pyx_result.monthly_demand_must_fill = __pyx_state[79]; __pyx_result.monthly_new = __pyx_state[80]; __pyx_result.name = __pyx_state[81]; __pyx_result.nodd = __pyx_state[82]; __pyx_result.nodd_meets_envmin = __pyx_state[83]; __pyx_result.numdays_fillup = __pyx_state[84]; __pyx_result.oct_nov_min_release = __pyx_state[85]; __pyx_result.outflow_release = __pyx_state[86]; __pyx_result.precip = __pyx_state[87]; __pyx_result.rainflood_flows = __pyx_state[88]; __pyx_result.rainflood_fnf = __pyx_state[89]; __pyx_result.rainflood_forecast = __pyx_state[90]; __pyx_result.rainflood_inf = __pyx_state[91]; __pyx_result.rainfnf_stds = __pyx_state[92]; __pyx_result.raininf_stds = __pyx_state[93]; __pyx_result.reclaimed_carryover = __pyx_state[94]; __pyx_result.saved_water = __pyx_state[95]; __pyx_result.short_rainflood_fnf = __pyx_state[96]; __pyx_result.short_snowflood_fnf = __pyx_state[97]; __pyx_result.sj_restoration_proj = __pyx_state[98]; __pyx_result.sjrr_release = __pyx_state[99]; __pyx_result.snowflood_flows = __pyx_state[100]; __pyx_result.snowflood_fnf = __pyx_state[101]; __pyx_result.snowflood_forecast = __pyx_state[102]; __pyx_result.snowflood_inf = __pyx_state[103]; __pyx_result.snowfnf_stds = __pyx_state[104]; __pyx_result.snowinf_stds = __pyx_state[105]; __pyx_result.snowpack = __pyx_state[106]; __pyx_result.sodd = __pyx_state[107]; __pyx_result.sodd_curtail_pct = __pyx_state[108]; __pyx_result.sodd_pct = __pyx_state[109]; __pyx_result.temp_releases = __pyx_state[110]; __pyx_result.temp_releases_ya = __pyx_state[111]; __pyx_result.tocs = __pyx_state[112]; __pyx_result.tocs_rule = __pyx_state[113]; __pyx_result.total_available_storage = __pyx_state[114]; __pyx_result.total_capacity = __pyx_state[115]; __pyx_result.uncontrolled_available = __pyx_state[116]; __pyx_result.variable_min_flow = __pyx_state[117]; __pyx_result.wytlist = __pyx_state[118]
- *     if len(__pyx_state) > 119 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[119])             # <<<<<<<<<<<<<<
+ *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.has_snow_new = __pyx_state[57]; __pyx_result.hist_wyt = __pyx_state[58]; __pyx_result.is_Canal = __pyx_state[59]; __pyx_result.is_District = __pyx_state[60]; __pyx_result.is_Private = __pyx_state[61]; __pyx_result.is_Reservoir = __pyx_state[62]; __pyx_result.is_Waterbank = __pyx_state[63]; __pyx_result.iter_count = __pyx_state[64]; __pyx_result.k_close_wateryear = __pyx_state[65]; __pyx_result.key = __pyx_state[66]; __pyx_result.lastYearEOS_target = __pyx_state[67]; __pyx_result.lastYearRainflood = __pyx_state[68]; __pyx_result.max_carryover_target = __pyx_state[69]; __pyx_result.max_daily_uncontrolled = __pyx_state[70]; __pyx_result.max_direct_recharge = __pyx_state[71]; __pyx_result.max_fcr = __pyx_state[72]; __pyx_result.max_outflow = __pyx_state[73]; __pyx_result.melt_start = __pyx_state[74]; __pyx_result.min_daily_overflow = __pyx_state[75]; __pyx_result.min_daily_uncontrolled = __pyx_state[76]; __pyx_result.monthly = __pyx_state[77]; __pyx_result.monthly_demand = __pyx_state[78]; __pyx_result.monthly_demand_full = __pyx_state[79]; __pyx_result.monthly_demand_must_fill = __pyx_state[80]; __pyx_result.monthly_new = __pyx_state[81]; __pyx_result.name = __pyx_state[82]; __pyx_result.nodd = __pyx_state[83]; __pyx_result.nodd_meets_envmin = __pyx_state[84]; __pyx_result.numdays_fillup = __pyx_state[85]; __pyx_result.oct_nov_min_release = __pyx_state[86]; __pyx_result.outflow_release = __pyx_state[87]; __pyx_result.precip = __pyx_state[88]; __pyx_result.rainflood_flows = __pyx_state[89]; __pyx_result.rainflood_fnf = __pyx_state[90]; __pyx_result.rainflood_forecast = __pyx_state[91]; __pyx_result.rainflood_inf = __pyx_state[92]; __pyx_result.rainfnf_stds = __pyx_state[93]; __pyx_result.raininf_stds = __pyx_state[94]; __pyx_result.reclaimed_carryover = __pyx_state[95]; __pyx_result.saved_water = __pyx_state[96]; __pyx_result.short_rainflood_fnf = __pyx_state[97]; __pyx_result.short_snowflood_fnf = __pyx_state[98]; __pyx_result.sj_restoration_proj = __pyx_state[99]; __pyx_result.sjrr_release = __pyx_state[100]; __pyx_result.snow_new = __pyx_state[101]; __pyx_result.snowflood_flows = __pyx_state[102]; __pyx_result.snowflood_fnf = __pyx_state[103]; __pyx_result.snowflood_forecast = __pyx_state[104]; __pyx_result.snowflood_inf = __pyx_state[105]; __pyx_result.snowfnf_stds = __pyx_state[106]; __pyx_result.snowinf_stds = __pyx_state[107]; __pyx_result.snowpack = __pyx_state[108]; __pyx_result.sodd = __pyx_state[109]; __pyx_result.sodd_curtail_pct = __pyx_state[110]; __pyx_result.sodd_pct = __pyx_state[111]; __pyx_result.temp_releases = __pyx_state[112]; __pyx_result.temp_releases_ya = __pyx_state[113]; __pyx_result.tocs = __pyx_state[114]; __pyx_result.tocs_rule = __pyx_state[115]; __pyx_result.total_available_storage = __pyx_state[116]; __pyx_result.total_capacity = __pyx_state[117]; __pyx_result.uncontrolled_available = __pyx_state[118]; __pyx_result.variable_min_flow = __pyx_state[119]; __pyx_result.wytlist = __pyx_state[120]
+ *     if len(__pyx_state) > 121 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[121])             # <<<<<<<<<<<<<<
  */
     __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
@@ -43602,7 +43850,7 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x77, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0x79, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_10 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
@@ -43624,9 +43872,9 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_Reservoir__set_state(Reservoir __pyx_result, tuple __pyx_state):
- *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.hist_wyt = __pyx_state[57]; __pyx_result.is_Canal = __pyx_state[58]; __pyx_result.is_District = __pyx_state[59]; __pyx_result.is_Private = __pyx_state[60]; __pyx_result.is_Reservoir = __pyx_state[61]; __pyx_result.is_Waterbank = __pyx_state[62]; __pyx_result.iter_count = __pyx_state[63]; __pyx_result.k_close_wateryear = __pyx_state[64]; __pyx_result.key = __pyx_state[65]; __pyx_result.lastYearEOS_target = __pyx_state[66]; __pyx_result.lastYearRainflood = __pyx_state[67]; __pyx_result.max_carryover_target = __pyx_state[68]; __pyx_result.max_daily_uncontrolled = __pyx_state[69]; __pyx_result.max_direct_recharge = __pyx_state[70]; __pyx_result.max_fcr = __pyx_state[71]; __pyx_result.max_outflow = __pyx_state[72]; __pyx_result.melt_start = __pyx_state[73]; __pyx_result.min_daily_overflow = __pyx_state[74]; __pyx_result.min_daily_uncontrolled = __pyx_state[75]; __pyx_result.monthly = __pyx_state[76]; __pyx_result.monthly_demand = __pyx_state[77]; __pyx_result.monthly_demand_full = __pyx_state[78]; __pyx_result.monthly_demand_must_fill = __pyx_state[79]; __pyx_result.monthly_new = __pyx_state[80]; __pyx_result.name = __pyx_state[81]; __pyx_result.nodd = __pyx_state[82]; __pyx_result.nodd_meets_envmin = __pyx_state[83]; __pyx_result.numdays_fillup = __pyx_state[84]; __pyx_result.oct_nov_min_release = __pyx_state[85]; __pyx_result.outflow_release = __pyx_state[86]; __pyx_result.precip = __pyx_state[87]; __pyx_result.rainflood_flows = __pyx_state[88]; __pyx_result.rainflood_fnf = __pyx_state[89]; __pyx_result.rainflood_forecast = __pyx_state[90]; __pyx_result.rainflood_inf = __pyx_state[91]; __pyx_result.rainfnf_stds = __pyx_state[92]; __pyx_result.raininf_stds = __pyx_state[93]; __pyx_result.reclaimed_carryover = __pyx_state[94]; __pyx_result.saved_water = __pyx_state[95]; __pyx_result.short_rainflood_fnf = __pyx_state[96]; __pyx_result.short_snowflood_fnf = __pyx_state[97]; __pyx_result.sj_restoration_proj = __pyx_state[98]; __pyx_result.sjrr_release = __pyx_state[99]; __pyx_result.snowflood_flows = __pyx_state[100]; __pyx_result.snowflood_fnf = __pyx_state[101]; __pyx_result.snowflood_forecast = __pyx_state[102]; __pyx_result.snowflood_inf = __pyx_state[103]; __pyx_result.snowfnf_stds = __pyx_state[104]; __pyx_result.snowinf_stds = __pyx_state[105]; __pyx_result.snowpack = __pyx_state[106]; __pyx_result.sodd = __pyx_state[107]; __pyx_result.sodd_curtail_pct = __pyx_state[108]; __pyx_result.sodd_pct = __pyx_state[109]; __pyx_result.temp_releases = __pyx_state[110]; __pyx_result.temp_releases_ya = __pyx_state[111]; __pyx_result.tocs = __pyx_state[112]; __pyx_result.tocs_rule = __pyx_state[113]; __pyx_result.total_available_storage = __pyx_state[114]; __pyx_result.total_capacity = __pyx_state[115]; __pyx_result.uncontrolled_available = __pyx_state[116]; __pyx_result.variable_min_flow = __pyx_state[117]; __pyx_result.wytlist = __pyx_state[118]
- *     if len(__pyx_state) > 119 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[119])
+ *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.has_snow_new = __pyx_state[57]; __pyx_result.hist_wyt = __pyx_state[58]; __pyx_result.is_Canal = __pyx_state[59]; __pyx_result.is_District = __pyx_state[60]; __pyx_result.is_Private = __pyx_state[61]; __pyx_result.is_Reservoir = __pyx_state[62]; __pyx_result.is_Waterbank = __pyx_state[63]; __pyx_result.iter_count = __pyx_state[64]; __pyx_result.k_close_wateryear = __pyx_state[65]; __pyx_result.key = __pyx_state[66]; __pyx_result.lastYearEOS_target = __pyx_state[67]; __pyx_result.lastYearRainflood = __pyx_state[68]; __pyx_result.max_carryover_target = __pyx_state[69]; __pyx_result.max_daily_uncontrolled = __pyx_state[70]; __pyx_result.max_direct_recharge = __pyx_state[71]; __pyx_result.max_fcr = __pyx_state[72]; __pyx_result.max_outflow = __pyx_state[73]; __pyx_result.melt_start = __pyx_state[74]; __pyx_result.min_daily_overflow = __pyx_state[75]; __pyx_result.min_daily_uncontrolled = __pyx_state[76]; __pyx_result.monthly = __pyx_state[77]; __pyx_result.monthly_demand = __pyx_state[78]; __pyx_result.monthly_demand_full = __pyx_state[79]; __pyx_result.monthly_demand_must_fill = __pyx_state[80]; __pyx_result.monthly_new = __pyx_state[81]; __pyx_result.name = __pyx_state[82]; __pyx_result.nodd = __pyx_state[83]; __pyx_result.nodd_meets_envmin = __pyx_state[84]; __pyx_result.numdays_fillup = __pyx_state[85]; __pyx_result.oct_nov_min_release = __pyx_state[86]; __pyx_result.outflow_release = __pyx_state[87]; __pyx_result.precip = __pyx_state[88]; __pyx_result.rainflood_flows = __pyx_state[89]; __pyx_result.rainflood_fnf = __pyx_state[90]; __pyx_result.rainflood_forecast = __pyx_state[91]; __pyx_result.rainflood_inf = __pyx_state[92]; __pyx_result.rainfnf_stds = __pyx_state[93]; __pyx_result.raininf_stds = __pyx_state[94]; __pyx_result.reclaimed_carryover = __pyx_state[95]; __pyx_result.saved_water = __pyx_state[96]; __pyx_result.short_rainflood_fnf = __pyx_state[97]; __pyx_result.short_snowflood_fnf = __pyx_state[98]; __pyx_result.sj_restoration_proj = __pyx_state[99]; __pyx_result.sjrr_release = __pyx_state[100]; __pyx_result.snow_new = __pyx_state[101]; __pyx_result.snowflood_flows = __pyx_state[102]; __pyx_result.snowflood_fnf = __pyx_state[103]; __pyx_result.snowflood_forecast = __pyx_state[104]; __pyx_result.snowflood_inf = __pyx_state[105]; __pyx_result.snowfnf_stds = __pyx_state[106]; __pyx_result.snowinf_stds = __pyx_state[107]; __pyx_result.snowpack = __pyx_state[108]; __pyx_result.sodd = __pyx_state[109]; __pyx_result.sodd_curtail_pct = __pyx_state[110]; __pyx_result.sodd_pct = __pyx_state[111]; __pyx_result.temp_releases = __pyx_state[112]; __pyx_result.temp_releases_ya = __pyx_state[113]; __pyx_result.tocs = __pyx_state[114]; __pyx_result.tocs_rule = __pyx_state[115]; __pyx_result.total_available_storage = __pyx_state[116]; __pyx_result.total_capacity = __pyx_state[117]; __pyx_result.uncontrolled_available = __pyx_state[118]; __pyx_result.variable_min_flow = __pyx_state[119]; __pyx_result.wytlist = __pyx_state[120]
+ *     if len(__pyx_state) > 121 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[121])
  */
   }
 
@@ -43634,8 +43882,8 @@ static PyObject *__pyx_f_11calfews_src_12reservoir_cy___pyx_unpickle_Reservoir__
  *         __pyx_unpickle_Reservoir__set_state(<Reservoir> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Reservoir__set_state(Reservoir __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.hist_wyt = __pyx_state[57]; __pyx_result.is_Canal = __pyx_state[58]; __pyx_result.is_District = __pyx_state[59]; __pyx_result.is_Private = __pyx_state[60]; __pyx_result.is_Reservoir = __pyx_state[61]; __pyx_result.is_Waterbank = __pyx_state[62]; __pyx_result.iter_count = __pyx_state[63]; __pyx_result.k_close_wateryear = __pyx_state[64]; __pyx_result.key = __pyx_state[65]; __pyx_result.lastYearEOS_target = __pyx_state[66]; __pyx_result.lastYearRainflood = __pyx_state[67]; __pyx_result.max_carryover_target = __pyx_state[68]; __pyx_result.max_daily_uncontrolled = __pyx_state[69]; __pyx_result.max_direct_recharge = __pyx_state[70]; __pyx_result.max_fcr = __pyx_state[71]; __pyx_result.max_outflow = __pyx_state[72]; __pyx_result.melt_start = __pyx_state[73]; __pyx_result.min_daily_overflow = __pyx_state[74]; __pyx_result.min_daily_uncontrolled = __pyx_state[75]; __pyx_result.monthly = __pyx_state[76]; __pyx_result.monthly_demand = __pyx_state[77]; __pyx_result.monthly_demand_full = __pyx_state[78]; __pyx_result.monthly_demand_must_fill = __pyx_state[79]; __pyx_result.monthly_new = __pyx_state[80]; __pyx_result.name = __pyx_state[81]; __pyx_result.nodd = __pyx_state[82]; __pyx_result.nodd_meets_envmin = __pyx_state[83]; __pyx_result.numdays_fillup = __pyx_state[84]; __pyx_result.oct_nov_min_release = __pyx_state[85]; __pyx_result.outflow_release = __pyx_state[86]; __pyx_result.precip = __pyx_state[87]; __pyx_result.rainflood_flows = __pyx_state[88]; __pyx_result.rainflood_fnf = __pyx_state[89]; __pyx_result.rainflood_forecast = __pyx_state[90]; __pyx_result.rainflood_inf = __pyx_state[91]; __pyx_result.rainfnf_stds = __pyx_state[92]; __pyx_result.raininf_stds = __pyx_state[93]; __pyx_result.reclaimed_carryover = __pyx_state[94]; __pyx_result.saved_water = __pyx_state[95]; __pyx_result.short_rainflood_fnf = __pyx_state[96]; __pyx_result.short_snowflood_fnf = __pyx_state[97]; __pyx_result.sj_restoration_proj = __pyx_state[98]; __pyx_result.sjrr_release = __pyx_state[99]; __pyx_result.snowflood_flows = __pyx_state[100]; __pyx_result.snowflood_fnf = __pyx_state[101]; __pyx_result.snowflood_forecast = __pyx_state[102]; __pyx_result.snowflood_inf = __pyx_state[103]; __pyx_result.snowfnf_stds = __pyx_state[104]; __pyx_result.snowinf_stds = __pyx_state[105]; __pyx_result.snowpack = __pyx_state[106]; __pyx_result.sodd = __pyx_state[107]; __pyx_result.sodd_curtail_pct = __pyx_state[108]; __pyx_result.sodd_pct = __pyx_state[109]; __pyx_result.temp_releases = __pyx_state[110]; __pyx_result.temp_releases_ya = __pyx_state[111]; __pyx_result.tocs = __pyx_state[112]; __pyx_result.tocs_rule = __pyx_state[113]; __pyx_result.total_available_storage = __pyx_state[114]; __pyx_result.total_capacity = __pyx_state[115]; __pyx_result.uncontrolled_available = __pyx_state[116]; __pyx_result.variable_min_flow = __pyx_state[117]; __pyx_result.wytlist = __pyx_state[118]
- *     if len(__pyx_state) > 119 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.E = __pyx_state[0]; __pyx_result.EOS_target = __pyx_state[1]; __pyx_result.Q = __pyx_state[2]; __pyx_result.R = __pyx_state[3]; __pyx_result.R_to_delta = __pyx_state[4]; __pyx_result.Rtarget = __pyx_state[5]; __pyx_result.S = __pyx_state[6]; __pyx_result.SNPK = __pyx_state[7]; __pyx_result.T = __pyx_state[8]; __pyx_result.T_short = __pyx_state[9]; __pyx_result.aug_sept_min_release = __pyx_state[10]; __pyx_result.available_storage = __pyx_state[11]; __pyx_result.baseinf_stds = __pyx_state[12]; __pyx_result.baseline_flows = __pyx_state[13]; __pyx_result.baseline_forecast = __pyx_state[14]; __pyx_result.baseline_inf = __pyx_state[15]; __pyx_result.basinuse = __pyx_state[16]; __pyx_result.capacity = __pyx_state[17]; __pyx_result.carryover_excess_use = __pyx_state[18]; __pyx_result.carryover_target = __pyx_state[19]; __pyx_result.consumed_releases = __pyx_state[20]; __pyx_result.contract_flooded = __pyx_state[21]; __pyx_result.cum_min_release = __pyx_state[22]; __pyx_result.daily_df_data = __pyx_state[23]; __pyx_result.daily_output_data = __pyx_state[24]; __pyx_result.days_through_month = __pyx_state[25]; __pyx_result.days_til_full = __pyx_state[26]; __pyx_result.dead_pool = __pyx_state[27]; __pyx_result.delta_outflow_pct = __pyx_state[28]; __pyx_result.din = __pyx_state[29]; __pyx_result.dout = __pyx_state[30]; __pyx_result.downstream = __pyx_state[31]; __pyx_result.downstream_short = __pyx_state[32]; __pyx_result.dry_year_carryover = __pyx_state[33]; __pyx_result.env_min_flow = __pyx_state[34]; __pyx_result.env_min_flow_ya = __pyx_state[35]; __pyx_result.envmin = __pyx_state[36]; __pyx_result.eos_day = __pyx_state[37]; __pyx_result.epsilon = __pyx_state[38]; __pyx_result.evap_forecast = __pyx_state[39]; __pyx_result.exceedence = __pyx_state[40]; __pyx_result.exceedence_level = __pyx_state[41]; __pyx_result.fci = __pyx_state[42]; __pyx_result.fcr = __pyx_state[43]; __pyx_result.flood_deliveries = __pyx_state[44]; __pyx_result.flood_flow_min = __pyx_state[45]; __pyx_result.flood_spill = __pyx_state[46]; __pyx_result.flood_storage = __pyx_state[47]; __pyx_result.flow_shape_regression = __pyx_state[48]; __pyx_result.fnf = __pyx_state[49]; __pyx_result.fnf_new = __pyx_state[50]; __pyx_result.fnf_short = __pyx_state[51]; __pyx_result.force_spill = __pyx_state[52]; __pyx_result.forecastWYT = __pyx_state[53]; __pyx_result.gains_to_delta = __pyx_state[54]; __pyx_result.has_delta_target = __pyx_state[55]; __pyx_result.has_downstream_target_flow = __pyx_state[56]; __pyx_result.has_snow_new = __pyx_state[57]; __pyx_result.hist_wyt = __pyx_state[58]; __pyx_result.is_Canal = __pyx_state[59]; __pyx_result.is_District = __pyx_state[60]; __pyx_result.is_Private = __pyx_state[61]; __pyx_result.is_Reservoir = __pyx_state[62]; __pyx_result.is_Waterbank = __pyx_state[63]; __pyx_result.iter_count = __pyx_state[64]; __pyx_result.k_close_wateryear = __pyx_state[65]; __pyx_result.key = __pyx_state[66]; __pyx_result.lastYearEOS_target = __pyx_state[67]; __pyx_result.lastYearRainflood = __pyx_state[68]; __pyx_result.max_carryover_target = __pyx_state[69]; __pyx_result.max_daily_uncontrolled = __pyx_state[70]; __pyx_result.max_direct_recharge = __pyx_state[71]; __pyx_result.max_fcr = __pyx_state[72]; __pyx_result.max_outflow = __pyx_state[73]; __pyx_result.melt_start = __pyx_state[74]; __pyx_result.min_daily_overflow = __pyx_state[75]; __pyx_result.min_daily_uncontrolled = __pyx_state[76]; __pyx_result.monthly = __pyx_state[77]; __pyx_result.monthly_demand = __pyx_state[78]; __pyx_result.monthly_demand_full = __pyx_state[79]; __pyx_result.monthly_demand_must_fill = __pyx_state[80]; __pyx_result.monthly_new = __pyx_state[81]; __pyx_result.name = __pyx_state[82]; __pyx_result.nodd = __pyx_state[83]; __pyx_result.nodd_meets_envmin = __pyx_state[84]; __pyx_result.numdays_fillup = __pyx_state[85]; __pyx_result.oct_nov_min_release = __pyx_state[86]; __pyx_result.outflow_release = __pyx_state[87]; __pyx_result.precip = __pyx_state[88]; __pyx_result.rainflood_flows = __pyx_state[89]; __pyx_result.rainflood_fnf = __pyx_state[90]; __pyx_result.rainflood_forecast = __pyx_state[91]; __pyx_result.rainflood_inf = __pyx_state[92]; __pyx_result.rainfnf_stds = __pyx_state[93]; __pyx_result.raininf_stds = __pyx_state[94]; __pyx_result.reclaimed_carryover = __pyx_state[95]; __pyx_result.saved_water = __pyx_state[96]; __pyx_result.short_rainflood_fnf = __pyx_state[97]; __pyx_result.short_snowflood_fnf = __pyx_state[98]; __pyx_result.sj_restoration_proj = __pyx_state[99]; __pyx_result.sjrr_release = __pyx_state[100]; __pyx_result.snow_new = __pyx_state[101]; __pyx_result.snowflood_flows = __pyx_state[102]; __pyx_result.snowflood_fnf = __pyx_state[103]; __pyx_result.snowflood_forecast = __pyx_state[104]; __pyx_result.snowflood_inf = __pyx_state[105]; __pyx_result.snowfnf_stds = __pyx_state[106]; __pyx_result.snowinf_stds = __pyx_state[107]; __pyx_result.snowpack = __pyx_state[108]; __pyx_result.sodd = __pyx_state[109]; __pyx_result.sodd_curtail_pct = __pyx_state[110]; __pyx_result.sodd_pct = __pyx_state[111]; __pyx_result.temp_releases = __pyx_state[112]; __pyx_result.temp_releases_ya = __pyx_state[113]; __pyx_result.tocs = __pyx_state[114]; __pyx_result.tocs_rule = __pyx_state[115]; __pyx_result.total_available_storage = __pyx_state[116]; __pyx_result.total_capacity = __pyx_state[117]; __pyx_result.uncontrolled_available = __pyx_state[118]; __pyx_result.variable_min_flow = __pyx_state[119]; __pyx_result.wytlist = __pyx_state[120]
+ *     if len(__pyx_state) > 121 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
@@ -43714,6 +43962,7 @@ static PyObject *__pyx_tp_new_11calfews_src_12reservoir_cy_Reservoir(PyTypeObjec
   p->outflow_release = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->reclaimed_carryover = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->contract_flooded = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  p->snow_new = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->env_min_flow = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->temp_releases = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->tocs_rule = ((PyObject*)Py_None); Py_INCREF(Py_None);
@@ -43796,6 +44045,7 @@ static void __pyx_tp_dealloc_11calfews_src_12reservoir_cy_Reservoir(PyObject *o)
   Py_CLEAR(p->outflow_release);
   Py_CLEAR(p->reclaimed_carryover);
   Py_CLEAR(p->contract_flooded);
+  Py_CLEAR(p->snow_new);
   Py_CLEAR(p->env_min_flow);
   Py_CLEAR(p->temp_releases);
   Py_CLEAR(p->tocs_rule);
@@ -43957,6 +44207,9 @@ static int __pyx_tp_traverse_11calfews_src_12reservoir_cy_Reservoir(PyObject *o,
   }
   if (p->contract_flooded) {
     e = (*v)(p->contract_flooded, a); if (e) return e;
+  }
+  if (p->snow_new) {
+    e = (*v)(p->snow_new, a); if (e) return e;
   }
   if (p->env_min_flow) {
     e = (*v)(p->env_min_flow, a); if (e) return e;
@@ -44167,6 +44420,9 @@ static int __pyx_tp_clear_11calfews_src_12reservoir_cy_Reservoir(PyObject *o) {
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->contract_flooded);
   p->contract_flooded = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->snow_new);
+  p->snow_new = ((PyObject*)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->env_min_flow);
   p->env_min_flow = ((PyObject*)Py_None); Py_INCREF(Py_None);
@@ -44873,6 +45129,20 @@ static int __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_eos_day(PyObjec
   }
 }
 
+static PyObject *__pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_has_snow_new(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_1__get__(o);
+}
+
+static int __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_has_snow_new(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_12has_snow_new_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
 static PyObject *__pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_nodd_meets_envmin(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_17nodd_meets_envmin_1__get__(o);
 }
@@ -45526,6 +45796,19 @@ static int __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_contract_floode
   }
 }
 
+static PyObject *__pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_snow_new(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_1__get__(o);
+}
+
+static int __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_snow_new(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_3__set__(o, v);
+  }
+  else {
+    return __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_8snow_new_5__del__(o);
+  }
+}
+
 static PyObject *__pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_env_min_flow(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_11calfews_src_12reservoir_cy_9Reservoir_12env_min_flow_1__get__(o);
 }
@@ -45898,6 +46181,7 @@ static struct PyGetSetDef __pyx_getsets_11calfews_src_12reservoir_cy_Reservoir[]
   {(char *)"exceedence_level", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_exceedence_level, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_exceedence_level, (char *)0, 0},
   {(char *)"iter_count", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_iter_count, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_iter_count, (char *)0, 0},
   {(char *)"eos_day", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_eos_day, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_eos_day, (char *)0, 0},
+  {(char *)"has_snow_new", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_has_snow_new, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_has_snow_new, (char *)0, 0},
   {(char *)"nodd_meets_envmin", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_nodd_meets_envmin, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_nodd_meets_envmin, (char *)0, 0},
   {(char *)"has_downstream_target_flow", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_has_downstream_target_flow, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_has_downstream_target_flow, (char *)0, 0},
   {(char *)"has_delta_target", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_has_delta_target, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_has_delta_target, (char *)0, 0},
@@ -45948,6 +46232,7 @@ static struct PyGetSetDef __pyx_getsets_11calfews_src_12reservoir_cy_Reservoir[]
   {(char *)"outflow_release", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_outflow_release, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_outflow_release, (char *)0, 0},
   {(char *)"reclaimed_carryover", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_reclaimed_carryover, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_reclaimed_carryover, (char *)0, 0},
   {(char *)"contract_flooded", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_contract_flooded, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_contract_flooded, (char *)0, 0},
+  {(char *)"snow_new", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_snow_new, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_snow_new, (char *)0, 0},
   {(char *)"env_min_flow", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_env_min_flow, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_env_min_flow, (char *)0, 0},
   {(char *)"temp_releases", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_temp_releases, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_temp_releases, (char *)0, 0},
   {(char *)"tocs_rule", __pyx_getprop_11calfews_src_12reservoir_cy_9Reservoir_tocs_rule, __pyx_setprop_11calfews_src_12reservoir_cy_9Reservoir_tocs_rule, (char *)0, 0},
@@ -46309,7 +46594,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_February_plus_3_Flow, __pyx_k_February_plus_3_Flow, sizeof(__pyx_k_February_plus_3_Flow), 0, 1, 0, 0},
   {&__pyx_kp_u_February_plus_3_Pred, __pyx_k_February_plus_3_Pred, sizeof(__pyx_k_February_plus_3_Pred), 0, 1, 0, 0},
   {&__pyx_n_u_ISB, __pyx_k_ISB, sizeof(__pyx_k_ISB), 0, 1, 0, 1},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x57, __pyx_k_Incompatible_checksums_s_vs_0x57, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x57), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x93, __pyx_k_Incompatible_checksums_s_vs_0x93, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x93), 0, 0, 1, 0},
   {&__pyx_n_u_KWH, __pyx_k_KWH, sizeof(__pyx_k_KWH), 0, 1, 0, 1},
   {&__pyx_n_u_MHB, __pyx_k_MHB, sizeof(__pyx_k_MHB), 0, 1, 0, 1},
   {&__pyx_n_u_MIL, __pyx_k_MIL, sizeof(__pyx_k_MIL), 0, 1, 0, 1},
@@ -46580,7 +46865,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_int_365 = PyInt_FromLong(365); if (unlikely(!__pyx_int_365)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_366 = PyInt_FromLong(366); if (unlikely(!__pyx_int_366)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_100000 = PyInt_FromLong(100000L); if (unlikely(!__pyx_int_100000)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_91642834 = PyInt_FromLong(91642834L); if (unlikely(!__pyx_int_91642834)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_155154233 = PyInt_FromLong(155154233L); if (unlikely(!__pyx_int_155154233)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;

@@ -1208,6 +1208,7 @@ struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir {
   int exceedence_level;
   int iter_count;
   int eos_day;
+  int has_snow_new;
   int nodd_meets_envmin;
   int has_downstream_target_flow;
   int has_delta_target;
@@ -1258,6 +1259,7 @@ struct __pyx_obj_11calfews_src_12reservoir_cy_Reservoir {
   PyObject *outflow_release;
   PyObject *reclaimed_carryover;
   PyObject *contract_flooded;
+  PyObject *snow_new;
   PyObject *env_min_flow;
   PyObject *temp_releases;
   PyObject *tocs_rule;

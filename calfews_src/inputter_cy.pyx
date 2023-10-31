@@ -877,9 +877,18 @@ cdef class Inputter():
         reservoir.fnf_new = [_ for _ in fnf_values['%s_fnf' % reservoir.key].values]
       elif fnf_unit == 'cms':
         reservoir.fnf_new = [_  * 70.045 / 1000.0 for _ in fnf_values['%s_fnf' % reservoir.key].values]
+
+      ### use snowpack data directly from simulation file if it exists
+      if f'{reservoir.key}_snow' in fnf_values.columns:
+        reservoir.has_snow_new = 1
+        reservoir.snow_new = [_ for _ in fnf_values['%s_snow' % reservoir.key].values]
+      else:
+        reservoir.has_snow_new = 0
         
       reservoir.monthly_new = {}
-      reservoir.snowpack['new_melt_fnf'] = np.zeros(numYears - 1)
+      if reservoir.has_snow_new == 0:
+        reservoir.snowpack['new_melt_fnf'] = np.zeros(numYears - 1)
+
       for data_type in self.data_type_list:
         reservoir.monthly_new[data_type] = {}
         reservoir.monthly_new[data_type]['flows'] = np.zeros((12, numYears - 1))
@@ -888,8 +897,9 @@ cdef class Inputter():
       for reservoir in self.reservoir_list:
         if not np.isnan(reservoir.fnf_new[t]):
           reservoir.monthly_new['fnf']['flows'][monthcount][yearcount] += reservoir.fnf_new[t]
-          if monthcount > 2 and monthcount < 7:
-            reservoir.snowpack['new_melt_fnf'][yearcount] += reservoir.fnf_new[t]
+          if reservoir.has_snow_new == 0:
+            if monthcount > 2 and monthcount < 7:
+              reservoir.snowpack['new_melt_fnf'][yearcount] += reservoir.fnf_new[t]
       daycount += 1
       if daycount == thismonthday:
         daycount = 0
@@ -921,22 +931,24 @@ cdef class Inputter():
       for yearcounter in range(0, numYears - 1):
         for reservoir in [self.shasta, self.oroville, self.yuba, self.folsom]:
           self.monthly_new['SAC']['fnf'][monthcounter][yearcounter] += \
-          reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
+              reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
           self.monthly_new['CCC']['fnf'][monthcounter][yearcounter] += \
-          reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
+              reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
           self.monthly_new['BRK']['fnf'][monthcounter][yearcounter] += \
-          reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
+              reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
 
         for reservoir in [self.newmelones, self.donpedro, self.exchequer, self.millerton]:
           self.monthly_new['SJ']['fnf'][monthcounter][yearcounter] += \
-          reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
+              reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
 
         for reservoir in [self.shasta, self.oroville, self.yuba, self.folsom, self.newmelones, self.donpedro,
                   self.exchequer, self.millerton]:
           self.monthly_new['EAST']['fnf'][monthcounter][yearcounter] += \
-          reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
+              reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
           self.monthly_new['depletions']['fnf'][monthcounter][yearcounter] += \
-          reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
+              reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
+
+
 
   def whiten_by_historical_moments(self, numYears, plot_key):
     for reservoir in self.reservoir_list:
@@ -950,22 +962,14 @@ cdef class Inputter():
               log_data = np.log(reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter])
             else:
               log_data = 0.0
-            reservoir.monthly_new['fnf']['whitened'][monthcounter][yearcounter] = (log_data -
-                                                 reservoir.monthly['fnf'][
-                                                   'white_mean'][
-                                                   monthcounter]) / \
-                                                reservoir.monthly['fnf'][
-                                                  'white_std'][
-                                                  monthcounter]
+            reservoir.monthly_new['fnf']['whitened'][monthcounter][yearcounter] = \
+              (log_data - reservoir.monthly['fnf']['white_mean'][monthcounter]) / \
+              reservoir.monthly['fnf']['white_std'][monthcounter]
           else:
             non_log_data = reservoir.monthly_new['fnf']['flows'][monthcounter][yearcounter]
-            reservoir.monthly_new['fnf']['whitened'][monthcounter][yearcounter] = (non_log_data -
-                                                 reservoir.monthly['fnf'][
-                                                   'white_mean'][
-                                                   monthcounter]) / \
-                                                reservoir.monthly['fnf'][
-                                                  'white_std'][
-                                                  monthcounter]
+            reservoir.monthly_new['fnf']['whitened'][monthcounter][yearcounter] = \
+              (non_log_data - reservoir.monthly['fnf']['white_mean'][monthcounter]) / \
+              reservoir.monthly['fnf']['white_std'][monthcounter]
         if plot_key == reservoir.key:
           ax1 = plt.subplot(gs[monthcounter, 0])
           ax1.plot(reservoir.monthly_new['fnf']['flows'][monthcounter])
@@ -981,6 +985,8 @@ cdef class Inputter():
         plt.show()
         plt.close()
 
+
+
   def whiten_by_historical_moments_delta(self, numYears, plot_key):
     for deltaname in self.delta_list:
       # PLOTTING
@@ -994,13 +1000,9 @@ cdef class Inputter():
             log_data = np.log(self.monthly_new[deltaname]['fnf'][monthcounter][yearcounter])
           else:
             log_data = 0.0
-          self.monthly_new[deltaname]['whitened_fnf'][monthcounter][yearcounter] = (log_data -
-                                                self.monthly[deltaname][
-                                                  'white_fnf_mean'][
-                                                  monthcounter]) / \
-                                               self.monthly[deltaname][
-                                                 'white_fnf_std'][
-                                                 monthcounter]
+          self.monthly_new[deltaname]['whitened_fnf'][monthcounter][yearcounter] = \
+            (log_data - self.monthly[deltaname]['white_fnf_mean'][monthcounter]) / \
+            self.monthly[deltaname]['white_fnf_std'][monthcounter]
         # PLOTTING
         if plot_key == deltaname:
           ax1 = plt.subplot(gs[monthcounter, 0])
@@ -1018,12 +1020,17 @@ cdef class Inputter():
         plt.show()
         plt.close()
 
+
+
   def make_fnf_prediction(self, numYears, plot_key):
     for reservoir in self.reservoir_list:
-      reservoir.snowpack['pred_max'] = np.zeros(numYears - 1)
-      for wateryearnum in range(0, numYears - 1):
-        reservoir.snowpack['pred_max'][wateryearnum] = reservoir.snowpack['coef'][1] + reservoir.snowpack['coef'][
-          0] * reservoir.snowpack['new_melt_fnf'][wateryearnum]
+      if reservoir.has_snow_new == 0:
+        reservoir.snowpack['pred_max'] = np.zeros(numYears - 1)
+        for wateryearnum in range(0, numYears - 1):
+          reservoir.snowpack['pred_max'][wateryearnum] = reservoir.snowpack['coef'][1] + \
+                                                         reservoir.snowpack['coef'][0] * \
+                                                         reservoir.snowpack['new_melt_fnf'][wateryearnum]
+
       if plot_key == reservoir.key:
         fig = plt.figure()
         gs = gridspec.GridSpec(2, 1)
@@ -1034,6 +1041,7 @@ cdef class Inputter():
         fig.suptitle(reservoir.key)
         plt.show()
         plt.close()
+
       for data_type in self.data_type_list:
         if plot_key == reservoir.key:
           fig = plt.figure()
@@ -1045,8 +1053,8 @@ cdef class Inputter():
             for yearcounter in range(0, numYears - 1):
               predictor = reservoir.monthly_new['fnf']['whitened'][monthcounter][yearcounter]
               reservoir.monthly_new[data_type]['whitened'][monthcounter][yearcounter] = \
-              reservoir.monthly[data_type]['coefficients'][monthcounter][1] + \
-              reservoir.monthly[data_type]['coefficients'][monthcounter][0] * predictor
+                  reservoir.monthly[data_type]['coefficients'][monthcounter][1] + \
+                  reservoir.monthly[data_type]['coefficients'][monthcounter][0] * predictor
         if plot_key == reservoir.key:
           for monthcounter in range(0, 12):
             ax1 = plt.subplot(gs[monthcounter, 0])
@@ -1063,6 +1071,8 @@ cdef class Inputter():
           plt.show()
           plt.close()
 
+
+
   def make_fnf_prediction_delta(self, numYears, plot_key):
     for deltaname in self.delta_list:
       # PLOTTING
@@ -1074,8 +1084,7 @@ cdef class Inputter():
         for yearcounter in range(0, numYears - 1):
           predictor = self.monthly_new[deltaname]['whitened_fnf'][monthcounter][yearcounter]
           self.monthly_new[deltaname]['whitened'][monthcounter][yearcounter] = \
-          self.monthly[deltaname]['coef'][monthcounter][1] + self.monthly[deltaname]['coef'][monthcounter][
-            0] * predictor
+          self.monthly[deltaname]['coef'][monthcounter][1] + self.monthly[deltaname]['coef'][monthcounter][0] * predictor
 
       # PLOTTING
       if plot_key == deltaname:
@@ -1093,6 +1102,8 @@ cdef class Inputter():
         plt.show()
         plt.close()
 
+
+
   def find_residuals(self, start_month, numYears, plot_key):
     for reservoir in self.reservoir_list:
       for data_type in self.data_type_list:
@@ -1101,8 +1112,7 @@ cdef class Inputter():
         reservoir.monthly_new[data_type]['whitened_residuals'] = np.zeros((12, numYears))
         random_start_integer = np.random.randint(
           len(reservoir.monthly[data_type]['whitened_residuals'][start_month - 1]))
-        prev_residual = reservoir.monthly[data_type]['whitened_residuals'][start_month - 1][
-          random_start_integer]
+        prev_residual = reservoir.monthly[data_type]['whitened_residuals'][start_month - 1][random_start_integer]
         for yearcount in range(0, numYears - 1):
           for monthcount in range(0, 12):
             current_month = monthcount + start_month - 1
@@ -1112,8 +1122,7 @@ cdef class Inputter():
                      reservoir.monthly[data_type]['AR_coef'][current_month][1]
             random_int = np.random.randint(len(reservoir.monthly[data_type]['AR_residuals'][current_month]))
             ar_residual = reservoir.monthly[data_type]['AR_residuals'][current_month][random_int]
-            reservoir.monthly_new[data_type]['whitened_residuals'][current_month][
-              yearcount] = new_residual + ar_residual
+            reservoir.monthly_new[data_type]['whitened_residuals'][current_month][yearcount] = new_residual + ar_residual
             prev_residual = new_residual + ar_residual
         if plot_key == reservoir.key:
           for monthcounter in range(0, 12):
@@ -1123,6 +1132,8 @@ cdef class Inputter():
           fig.suptitle(reservoir.key + " " + data_type)
           plt.show()
           plt.close()
+
+
 
   def find_residuals_delta(self, start_month, numYears, plot_key):
     for deltaname in self.delta_list:
@@ -1155,6 +1166,8 @@ cdef class Inputter():
         fig.suptitle(deltaname)
         plt.show()
         plt.close()
+
+
 
   def add_error(self, numYears, plot_key):
     for reservoir in self.reservoir_list:
@@ -1270,7 +1283,8 @@ cdef class Inputter():
       reservoir_obj.k_close_wateryear = {}
       for data_type in self.data_type_list:
         reservoir_obj.daily_output_data[data_type] = np.zeros(numdays_output)
-      reservoir_obj.daily_output_data['snow'] = np.zeros(numdays_output)
+      if reservoir_obj.has_snow_new == 0:
+        reservoir_obj.daily_output_data['snow'] = np.zeros(numdays_output)
     self.k_close_wateryear = {}
     self.daily_output_data = {}
     for deltaname in self.delta_list:
@@ -1305,17 +1319,18 @@ cdef class Inputter():
                                 reservoir_obj.monthly[data_type]['daily'][self.monthlist[monthcounter]][reservoir_obj.k_close_wateryear[data_type]][daycounter] + \
                                 reservoir_obj.monthly[data_type]['baseline_value'][monthcounter][reservoir_obj.k_close_wateryear[data_type]]
 
-        if last_step_month != monthcounter:
-          this_year_fnf_melt = 0.0
-          for melt_month in range(3, 7):
-            this_year_fnf_melt += reservoir_obj.monthly_new['fnf']['flows'][melt_month][yearcounter]
-          for sorted_search in range(0, len(reservoir_obj.monthly['snowmelt_sorted'])):
-            if this_year_fnf_melt < reservoir_obj.monthly['snowmelt_sorted'][sorted_search]:
-              break
-          reservoir_obj.k_close_wateryear['snow'] = int(reservoir_obj.monthly['snowmelt_sort_index'][sorted_search])
-        reservoir_obj.daily_output_data['snow'][t] = reservoir_obj.snowpack['pred_max'][yearcounter] * \
-                             reservoir_obj.snowpack['daily'][
-                               reservoir_obj.k_close_wateryear['snow']][dowy]
+        if reservoir_obj.has_snow_new == 0:
+          if last_step_month != monthcounter:
+            this_year_fnf_melt = 0.0
+            for melt_month in range(3, 7):
+              this_year_fnf_melt += reservoir_obj.monthly_new['fnf']['flows'][melt_month][yearcounter]
+            for sorted_search in range(0, len(reservoir_obj.monthly['snowmelt_sorted'])):
+              if this_year_fnf_melt < reservoir_obj.monthly['snowmelt_sorted'][sorted_search]:
+                break
+            reservoir_obj.k_close_wateryear['snow'] = int(reservoir_obj.monthly['snowmelt_sort_index'][sorted_search])
+          reservoir_obj.daily_output_data['snow'][t] = reservoir_obj.snowpack['pred_max'][yearcounter] * \
+                                                       reservoir_obj.snowpack['daily'][
+                                                         reservoir_obj.k_close_wateryear['snow']][dowy]
 
       for deltaname in self.delta_list:
         if last_step_month != monthcounter:
@@ -1353,7 +1368,10 @@ cdef class Inputter():
     df_for_output = pd.DataFrame(index=dates_for_df)
     for reservoir_obj in self.reservoir_list:
       reservoir_obj.daily_df_data = {}
-      reservoir_obj.daily_df_data['snow'] = reservoir_obj.daily_output_data['snow'][start_counter:(end_counter + 1)]
+      if reservoir_obj.has_snow_new == 0:
+        reservoir_obj.daily_df_data['snow'] = reservoir_obj.daily_output_data['snow'][start_counter:(end_counter + 1)]
+      else:
+        reservoir_obj.daily_df_data['snow'] = reservoir_obj.snow_new[start_counter:(end_counter + 1)]
       for data_type in self.data_type_list:
         reservoir_obj.daily_df_data[data_type] = reservoir_obj.daily_output_data[data_type][start_counter:(end_counter + 1)]
         if data_type == 'fnf':
