@@ -935,10 +935,10 @@ cdef class Delta():
       self.HRO_pump[t] = swp_max
       self.TRP_pump[t] = max(min(cvp_flows + swp_flows + surplus - self.HRO_pump[t], (cvp_flows + swp_flows + unstored_flows)*export_ratio - self.HRO_pump[t],cvp_max),0.0)
 
-    if self.TRP_pump[t] > self.epsilon:
+    if self.TRP_pump[t] < self.epsilon:
       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)
       self.TRP_pump[t] = 0.0
-    elif self.HRO_pump[t] > self.epsilon:
+    elif self.HRO_pump[t] < self.epsilon:
       self.TRP_pump[t] = max(self.TRP_pump[t] + self.HRO_pump[t],0.0)
       self.HRO_pump[t] = 0.0
 

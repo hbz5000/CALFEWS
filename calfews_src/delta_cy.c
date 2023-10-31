@@ -23534,7 +23534,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
  *       self.HRO_pump[t] = swp_max
  *       self.TRP_pump[t] = max(min(cvp_flows + swp_flows + surplus - self.HRO_pump[t], (cvp_flows + swp_flows + unstored_flows)*export_ratio - self.HRO_pump[t],cvp_max),0.0)             # <<<<<<<<<<<<<<
  * 
- *     if self.TRP_pump[t] > self.epsilon:
+ *     if self.TRP_pump[t] < self.epsilon:
  */
     __pyx_t_8 = 0.0;
     __pyx_t_1 = PyFloat_FromDouble((((__pyx_v_cvp_flows + __pyx_v_swp_flows) + __pyx_v_unstored_flows) * __pyx_v_export_ratio)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 936, __pyx_L1_error)
@@ -23634,7 +23634,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
   /* "calfews_src/delta_cy.pyx":938
  *       self.TRP_pump[t] = max(min(cvp_flows + swp_flows + surplus - self.HRO_pump[t], (cvp_flows + swp_flows + unstored_flows)*export_ratio - self.HRO_pump[t],cvp_max),0.0)
  * 
- *     if self.TRP_pump[t] > self.epsilon:             # <<<<<<<<<<<<<<
+ *     if self.TRP_pump[t] < self.epsilon:             # <<<<<<<<<<<<<<
  *       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)
  *       self.TRP_pump[t] = 0.0
  */
@@ -23646,7 +23646,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->epsilon); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 938, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyObject_RichCompare(__pyx_t_4, __pyx_t_1, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 938, __pyx_L1_error)
+  __pyx_t_7 = PyObject_RichCompare(__pyx_t_4, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 938, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 938, __pyx_L1_error)
@@ -23655,10 +23655,10 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
 
     /* "calfews_src/delta_cy.pyx":939
  * 
- *     if self.TRP_pump[t] > self.epsilon:
+ *     if self.TRP_pump[t] < self.epsilon:
  *       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)             # <<<<<<<<<<<<<<
  *       self.TRP_pump[t] = 0.0
- *     elif self.HRO_pump[t] > self.epsilon:
+ *     elif self.HRO_pump[t] < self.epsilon:
  */
     __pyx_t_8 = 0.0;
     if (unlikely(__pyx_v_self->HRO_pump == Py_None)) {
@@ -23704,10 +23704,10 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
     /* "calfews_src/delta_cy.pyx":940
- *     if self.TRP_pump[t] > self.epsilon:
+ *     if self.TRP_pump[t] < self.epsilon:
  *       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)
  *       self.TRP_pump[t] = 0.0             # <<<<<<<<<<<<<<
- *     elif self.HRO_pump[t] > self.epsilon:
+ *     elif self.HRO_pump[t] < self.epsilon:
  *       self.TRP_pump[t] = max(self.TRP_pump[t] + self.HRO_pump[t],0.0)
  */
     if (unlikely(__pyx_v_self->TRP_pump == Py_None)) {
@@ -23719,7 +23719,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
     /* "calfews_src/delta_cy.pyx":938
  *       self.TRP_pump[t] = max(min(cvp_flows + swp_flows + surplus - self.HRO_pump[t], (cvp_flows + swp_flows + unstored_flows)*export_ratio - self.HRO_pump[t],cvp_max),0.0)
  * 
- *     if self.TRP_pump[t] > self.epsilon:             # <<<<<<<<<<<<<<
+ *     if self.TRP_pump[t] < self.epsilon:             # <<<<<<<<<<<<<<
  *       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)
  *       self.TRP_pump[t] = 0.0
  */
@@ -23729,7 +23729,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
   /* "calfews_src/delta_cy.pyx":941
  *       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)
  *       self.TRP_pump[t] = 0.0
- *     elif self.HRO_pump[t] > self.epsilon:             # <<<<<<<<<<<<<<
+ *     elif self.HRO_pump[t] < self.epsilon:             # <<<<<<<<<<<<<<
  *       self.TRP_pump[t] = max(self.TRP_pump[t] + self.HRO_pump[t],0.0)
  *       self.HRO_pump[t] = 0.0
  */
@@ -23741,7 +23741,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->epsilon); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 941, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_12 = PyObject_RichCompare(__pyx_t_4, __pyx_t_1, Py_GT); __Pyx_XGOTREF(__pyx_t_12); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 941, __pyx_L1_error)
+  __pyx_t_12 = PyObject_RichCompare(__pyx_t_4, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_12); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 941, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_12); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 941, __pyx_L1_error)
@@ -23750,7 +23750,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
 
     /* "calfews_src/delta_cy.pyx":942
  *       self.TRP_pump[t] = 0.0
- *     elif self.HRO_pump[t] > self.epsilon:
+ *     elif self.HRO_pump[t] < self.epsilon:
  *       self.TRP_pump[t] = max(self.TRP_pump[t] + self.HRO_pump[t],0.0)             # <<<<<<<<<<<<<<
  *       self.HRO_pump[t] = 0.0
  * 
@@ -23799,7 +23799,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
     /* "calfews_src/delta_cy.pyx":943
- *     elif self.HRO_pump[t] > self.epsilon:
+ *     elif self.HRO_pump[t] < self.epsilon:
  *       self.TRP_pump[t] = max(self.TRP_pump[t] + self.HRO_pump[t],0.0)
  *       self.HRO_pump[t] = 0.0             # <<<<<<<<<<<<<<
  * 
@@ -23814,7 +23814,7 @@ static void __pyx_f_11calfews_src_8delta_cy_5Delta_step(struct __pyx_obj_11calfe
     /* "calfews_src/delta_cy.pyx":941
  *       self.HRO_pump[t] = max(self.HRO_pump[t] + self.TRP_pump[t],0.0)
  *       self.TRP_pump[t] = 0.0
- *     elif self.HRO_pump[t] > self.epsilon:             # <<<<<<<<<<<<<<
+ *     elif self.HRO_pump[t] < self.epsilon:             # <<<<<<<<<<<<<<
  *       self.TRP_pump[t] = max(self.TRP_pump[t] + self.HRO_pump[t],0.0)
  *       self.HRO_pump[t] = 0.0
  */

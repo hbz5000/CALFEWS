@@ -15,6 +15,7 @@ from matplotlib.lines import Line2D
 import matplotlib.patheffects as pe
 from .sanker import Sanker
 import imageio
+from datetime import datetime, timedelta
 
 class Visualizer():
 
@@ -67,8 +68,15 @@ class Visualizer():
     numdays_index = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     with h5py.File(results_file, 'r') as f:
       data = f['s' + sensitivity_number]
-      names = data.attrs['columns']
-      names = list(map(lambda x: str(x).split("'")[1], names))
+      all_keys = data.attrs.keys()
+      names = []
+      for x in range(0, len(all_keys) - 3):
+        names_int = data.attrs['columns' + str(x)]
+        try:
+          names_int_col = list(map(lambda x: str(x).split("'")[1], names_int))
+          names.extend(names_int_col)
+        except:
+          pass
       df_data = pd.DataFrame(data[:], columns=names)
       for x in df_data:
         self.values[x] = df_data[x]
@@ -96,7 +104,7 @@ class Visualizer():
         if leapcount == 4:
           leapcount = 0
 
-    self.values['Datetime'] = pd.to_datetime(datetime_index) 
+    self.values['Datetime'] = pd.to_datetime(datetime_index)
     self.values = pd.DataFrame(self.values)
     self.values = self.values.set_index('Datetime')
     self.index = self.values.index
@@ -111,10 +119,16 @@ class Visualizer():
     total_kwb_sim = np.zeros(len(self.values))
     total_smi_sim = np.zeros(len(self.values))
     for district_partner in ['DLR', 'KCWA', 'ID4', 'SMI', 'TJC', 'WON', 'WRM']:
-      total_kwb_sim += self.values['kwb_' + district_partner]
+      try:
+        total_kwb_sim += self.values['kwb_' + district_partner]
+      except:
+        pass
     self.values['kwb_total'] = pd.Series(total_kwb_sim, index = self.values.index)
     for district_partner in ['SOB', 'MET']:
-      total_smi_sim += self.values['semitropic_' + district_partner]
+      try:
+        total_smi_sim += self.values['semitropic_' + district_partner]
+      except:
+        pass
     self.values['smi_total'] = pd.Series(total_smi_sim, index = self.values.index)
 
 
@@ -139,7 +153,7 @@ class Visualizer():
     self.figure_params['delta_pumping']['extended_simulation']['scenario_type_list'] =  ['observation', 'validation', 'scenario']
     self.figure_params['delta_pumping']['extended_simulation']['x_label_list'] = ['Total Pumping, SWP Delta Pumps (tAF/year)', 'Total Pumping, CVP Delta Pumps (tAF/year)', 'Daily Exceedence Probability', '']
     self.figure_params['delta_pumping']['extended_simulation']['y_label_list'] = ['Probability Density', 'Probability Density', 'Daily Delta Outflow (tAF)', 'Relative Frequency of Water-year Types within Simulation']
-    self.figure_params['delta_pumping']['extended_simulation']['legend_label_names1'] = ['Historical (1996-2016) Observations', 'Historical (1996-2016) Model Validation', 'Extended Simulation']
+    self.figure_params['delta_pumping']['extended_simulation']['legend_label_names1'] = ['Historical (1997-2016) Observations', 'Historical (1997-2016) Model Validation', 'Extended (1906 - 2016) Historical Simulation']
     self.figure_params['delta_pumping']['extended_simulation']['legend_label_names2'] = ['Critical', 'Dry', 'Below Normal', 'Above Normal', 'Wet']
 
     self.figure_params['state_estimation'] = {}
@@ -396,13 +410,13 @@ class Visualizer():
     colors = sns.color_palette('RdBu_r', n_colors = 5)
     last_type = np.zeros(len(scenario_type_list))
     for cnt, x in enumerate(wyt_list):
-      ax4.bar(['Validated Period\n(1997-2016)', 'Extended Simulation\n(1906-2016)'], percent_years[x], alpha = 1.0, label = wyt, facecolor = colors[cnt], edgecolor = 'black', bottom = last_type)
+      ax4.bar(['Validated\nPeriod\n(1997-2016)', 'Extended\nSimulation\n(1906-2016)'], percent_years[x], alpha = 1.0, label = wyt, facecolor = colors[cnt], edgecolor = 'black', bottom = last_type)
       last_type += percent_years[x]
 
-    ax1.set_xlim([0.0, 500.0* np.ceil(max_y_val[0]/500.0)])
-    ax2.set_xlim([0.0, 500.0* np.ceil(max_y_val[1]/500.0)])
+    ax1.set_xlim([0.0, 500.0* np.ceil(max_y_val[0]/500.0) + 250.0])
+    ax2.set_xlim([0.0, 500.0* np.ceil(max_y_val[1]/500.0) + 250.0])
     ax3.set_xlim([0.0, 1.0])
-    ax4.set_ylim([0, 1.15])
+    ax4.set_ylim([0, 1.275])
 
     ax1.set_yticklabels('')
     ax2.set_yticklabels('')
@@ -416,38 +430,40 @@ class Visualizer():
     ax3.set_xticklabels(label_list)
     ax3.set_xticks(loc_list)
   
-    ax3.set_yticklabels(['4', '8', '16', '32', '64', '125', '250', '500', '1000', '2000', '4000'])
-    ax3.set_yticks([np.log(4), np.log(8), np.log(16), np.log(32), np.log(64), np.log(125), np.log(250), np.log(500), np.log(1000), np.log(2000), np.log(4000)])
+    ax3.set_yticklabels(['8', '32', '125', '500', '2000'])
+    ax3.set_yticks([np.log(8), np.log(32), np.log(125), np.log(500), np.log(2000)])
     ax3.set_ylim([np.log(4), np.log(4000)])
 
+    counter = 0
     for ax, x_lab, y_lab in zip([ax1, ax2, ax3, ax4], x_label_list, y_label_list):
-      ax.set_xlabel(x_lab, fontsize = 16, fontname = 'Gill Sans MT', fontweight = 'bold')
-      ax.set_ylabel(y_lab, fontsize = 16, fontname = 'Gill Sans MT', fontweight = 'bold')
+      ax.set_xlabel(x_lab, fontsize = 24, fontname = 'Gill Sans MT', fontweight = 'bold')
+      ax.set_ylabel(y_lab, fontsize = 22, fontname = 'Gill Sans MT', fontweight = 'bold')
       ax.grid(False)
       for tick in ax.get_xticklabels():
         tick.set_fontname('Gill Sans MT')
-        tick.set_fontsize(14)
+        tick.set_fontsize(20)
       for tick in ax.get_yticklabels():
         tick.set_fontname('Gill Sans MT')
-        tick.set_fontsize(14)
+        tick.set_fontsize(20)
+      counter += 1
           
     legend_elements = []
     for x_cnt, x in enumerate(legend_label_names1):
       legend_elements.append(Patch(facecolor = color_list[x_cnt], edgecolor = 'black', label = x))
-    ax1.legend(handles = legend_elements, loc = 'upper left', framealpha  = 0.7, shadow = True, prop={'family':'Gill Sans MT','weight':'bold','size':14}) 
+    ax3.legend(handles = legend_elements, loc = 'upper right', framealpha  = 0.7, shadow = True, prop={'family':'Gill Sans MT','weight':'bold','size':22}) 
 
     legend_elements_2 = []
     for x_cnt, x in enumerate(legend_label_names2):
-      legend_elements_2.append(Patch(facecolor = colors[x_cnt], edgecolor = 'black', label = x))
+      legend_elements_2.append(Patch(facecolor = colors[len(legend_label_names2) - x_cnt - 1], edgecolor = 'black', label = x))
 
-    ax4.legend(handles = legend_elements_2, loc = 'upper left', framealpha  = 0.7, shadow = True, prop={'family':'Gill Sans MT','weight':'bold','size':14}) 
+    ax4.legend(handles = legend_elements_2, loc = 'upper left', framealpha  = 0.7, shadow = True, prop={'family':'Gill Sans MT','weight':'bold','size':22}) 
     plt.savefig(folder_name + figure_name + '_' + plot_name + '.png', dpi = 150, bbox_inches = 'tight', pad_inches = 0.0)
     if show_plot:
       plt.show()
     plt.close()
 
-  def make_deliveries_by_district(self, folder_name, figure_name, plot_name, scenario_name, show_plot):
-    
+  def make_deliveries_by_district(self, folder_name, figure_name, plot_name, scenario_name, show_plot, gcm = 'none', rcp = 'none'):
+    print(gcm)
     if plot_name == 'annual':
       name_bridge = {}
       name_bridge['semitropic'] = 'KER01'
@@ -502,6 +518,65 @@ class Visualizer():
       name_bridge['panoche'] = 'PAN'
       name_bridge['sanluiswater'] = 'SLW'   
       name_bridge['delpuerto'] = 'DEL'
+      
+      name_bridge = {}
+      name_bridge['semitropic'] = 'Semitropic Water Storage District'
+      name_bridge['westkern'] = 'West Kern Water District' 
+      name_bridge['wheeler'] = 'Wheeler Ridge-Maricopa Water Storage District'
+      name_bridge['kerndelta'] = 'Kern Delta Water District'
+      name_bridge['arvin'] = 'Arvin-Edison Water Storage District'
+      name_bridge['belridge'] = 'Belridge Water Storage District'
+      name_bridge['losthills'] = 'Lost Hills Water District'
+      name_bridge['northkern'] = 'North Kern Water Storage District'
+      name_bridge['northkernwb'] = 'North Kern Water Storage District'
+      name_bridge['ID4'] = 'Improvement District No 4'
+      name_bridge['sosanjoaquin'] = 'Southern San Joaquin Municipal Utility District'  
+      name_bridge['berrenda'] = 'Berrenda Mesa Water District'
+      name_bridge['buenavista'] = 'Buena Vista Water Storage District'
+      name_bridge['cawelo'] = 'Cawelo Water District'
+      name_bridge['rosedale'] = 'Rosedale-Rio Bravo Water Storage District'
+      name_bridge['shaffer'] = 'Shafter-Wasco Irrigation District'
+      name_bridge['henrymiller'] = 'Henry Miller Water District'  
+      name_bridge['kwb'] = 'Kern Fan Groundwater Banking'
+      name_bridge['b2800'] = 'Kern Fan Groundwater Banking'
+      name_bridge['pioneer'] = 'Kern Fan Groundwater Banking'
+      name_bridge['irvineranch'] = 'Kern Fan Groundwater Banking'
+      name_bridge['kernriverbed'] = 'Kern Fan Groundwater Banking'
+      name_bridge['poso'] = 'Kern Fan Groundwater Banking'
+      name_bridge['stockdale'] = 'Kern Fan Groundwater Banking'
+
+      name_bridge['delano'] = 'Delano-Earlimart Irrigation District'
+      name_bridge['kerntulare'] = 'Kern-Tulare Water District' 
+      name_bridge['lowertule'] = 'Lower Tule River Irrigation District'
+      name_bridge['tulare'] = 'Tulare Irrigation District'
+      name_bridge['lindmore'] = 'Lindmore Irrigation District'
+      name_bridge['saucelito'] = 'Saucelito Irrigation District'
+      name_bridge['porterville'] = 'Porterville Irrigation District'
+      name_bridge['lindsay'] = 'Lindsay-Strathmore Irrigation District'
+      name_bridge['exeter'] = 'Exeter Irrigation District'
+      name_bridge['terra'] = 'Terra Bella Irrigation District'
+      name_bridge['teapot'] = 'Tea Pot Dome Water District'
+
+      name_bridge['bakersfield'] = 'City of Bakersfield'     
+      name_bridge['fresno'] = 'City of Fresno' 
+      name_bridge['southbay'] = 'South Bay Contractors'
+      name_bridge['socal'] = 'Southern California Contractors'
+      name_bridge['tehachapi'] = 'Tehachapi - Cummings County Water District'
+      name_bridge['tejon'] = 'Tejon-Castac Water District'
+      name_bridge['centralcoast'] = 'Central Coast Contractors'    
+      name_bridge['pixley'] = 'Pixley Irrigation District'
+      name_bridge['chowchilla'] = 'Chowchilla Water District'  
+      name_bridge['maderairr'] = 'Madera Irrigation District'
+      name_bridge['fresnoid'] = 'Fresno Irrigation District'
+      name_bridge['westlands'] = 'Westlands Water District'
+      name_bridge['panoche'] = 'Panoche Water District'
+      name_bridge['sanluiswater'] = 'San Luis Water District'   
+      name_bridge['delpuerto'] = 'Del Puerto Water District'
+      name_bridge['alta'] = 'Alta Irrigation District' 
+      name_bridge['consolidated'] = 'Consolidated Irrigation District' 
+   
+
+      
     elif plot_name == 'monthly':
       name_bridge = {}
       name_bridge['semitropic'] = 'Semitropic Water Storage District'
@@ -596,7 +671,7 @@ class Visualizer():
 
     date_list_labels = []
     
-    for year_num in range(self.starting_year, 2017):
+    for year_num in range(self.starting_year, self.starting_year + self.number_years + 1):
       start_month = 1
       end_month = 13
       if year_num == self.starting_year:
@@ -606,7 +681,7 @@ class Visualizer():
       for month_num in range(start_month, end_month):
         date_string_start = str(year_num) + '-' + str(month_num) + '-01'
         date_list_labels.append(date_string_start)
-
+          
     for district in self.district_list:
       inleiu_name = district.name + '_inleiu_irrigation'
       inleiu_recharge_name = district.name + '_inleiu_recharge'
@@ -635,8 +710,11 @@ class Visualizer():
           else:
             month_num_prev = str(month_num - 1)
             year_str_prior = str(year_num + self.starting_year)
-            end_day_prior = str(numdays_month[month_num-2])              
-          date_string_current = year_str + '-' + str(month_num) + '-' + str(numdays_month[month_num-1])
+            end_day_prior = str(numdays_month[month_num-2])
+          if month_num == 9:
+            date_string_current = year_str + '-' + str(month_num) + '-' + str(numdays_month[month_num-1] - 1)
+          else:          
+            date_string_current = year_str + '-' + str(month_num) + '-' + str(numdays_month[month_num-1])
           date_string_prior = year_str_prior + '-' + month_num_prev + '-' + end_day_prior
           
         ###GW/SW exchanges, 
@@ -734,8 +812,7 @@ class Visualizer():
                 total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), delivery_name].values[0]
               else:
                 total_delivery = self.values.loc[pd.DatetimeIndex([date_string_current]), delivery_name].values[0] - self.values.loc[pd.DatetimeIndex([date_string_prior]), delivery_name].values[0]
-              self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery         
-
+              self.total_irrigation[district.name][year_num*12 + month_num - 10] += total_delivery
             ##Deliveries made for recharge are subtracted from the overall contract deliveries
             if recharge_contract_name in self.values:
               if month_num == 10:
@@ -937,7 +1014,7 @@ class Visualizer():
             for x in range(0, len(self.index)):
               monthly_index = (self.year[x] - self.starting_year)*12 + self.month[x] - 10
               if self.day_month[x] == 1:
-                self.total_pumping[district.name][monthly_index] += annual_pumping          
+                self.total_pumping[district.name][monthly_index] += annual_pumping
                 annual_pumping = 0.0
               else:
                 annual_pumping += self.values.loc[self.index[x], pumping_name]
@@ -952,13 +1029,15 @@ class Visualizer():
           for x in range(0, len(self.index)):
             monthly_index = (self.year[x] - self.starting_year)*12 + self.month[x] - 10
             if self.day_month[x] == 1:
-              self.total_pumping[bank_name.name][monthly_index] += annual_pumping          
+              self.total_pumping[bank_name.name][monthly_index] += annual_pumping 
+              self.total_recovery_sales[bank_name.name][monthly_index] += annual_pumping  
               annual_pumping = 0.0
             else:
               today_account = self.values.loc[self.index[x], account_name]
               annual_pumping += max(yesterday_account - today_account, 0.0)
               yesterday_account = today_account * 1.0
           self.total_pumping[bank_name.name][-1] += annual_pumping          
+          self.total_recovery_sales[bank_name.name][-1] += annual_pumping  
 
     if location_type == 'monthly':
       district_irrigation = pd.DataFrame(index = date_list_labels)
@@ -1059,18 +1138,29 @@ class Visualizer():
           district_flood_purchases[file_col_name] = self.total_flood_purchases_annual[y]
           district_recovery_rebate[file_col_name] = self.total_recovery_rebate_annual[y]
 
-    write_file = False
+    write_file = True
     if write_file:
-   
-      district_irrigation.to_csv(folder_name + 'irrigation_' + plot_name + '_' + scenario_name + '.csv')
-      district_recharge.to_csv(folder_name + 'recharge_' + plot_name + '_' + scenario_name + '.csv')
-      district_pumping.to_csv(folder_name + 'pumping_' + plot_name + '_' + scenario_name + '.csv')
-      district_recharge_sales.to_csv(folder_name + 'recharge_sales_' + plot_name + '_' + scenario_name + '.csv')
-      district_recharge_purchases.to_csv(folder_name + 'recharge_purchases_' + plot_name + '_' + scenario_name + '.csv')
-      district_recovery_sales.to_csv(folder_name + 'recovery_sales_' + plot_name + '_' + scenario_name + '.csv')
-      district_recovery_purchases.to_csv(folder_name + 'recovery_purchases_' + plot_name + '_' + scenario_name + '.csv')
-      district_flood_purchases.to_csv(folder_name + 'flood_purchases_' + plot_name + '_' + scenario_name + '.csv')
-      district_recovery_rebate.to_csv(folder_name + 'recovery_rebate_' + plot_name + '_' + scenario_name + '.csv')
+      if gcm == 'none':
+        district_irrigation.to_csv(folder_name + 'irrigation_' + plot_name + '_' + scenario_name + '.csv')
+        district_recharge.to_csv(folder_name + 'recharge_' + plot_name + '_' + scenario_name + '.csv')
+        district_pumping.to_csv(folder_name + 'pumping_' + plot_name + '_' + scenario_name + '.csv')
+        district_recharge_sales.to_csv(folder_name + 'recharge_sales_' + plot_name + '_' + scenario_name + '.csv')
+        district_recharge_purchases.to_csv(folder_name + 'recharge_purchases_' + plot_name + '_' + scenario_name + '.csv')
+        district_recovery_sales.to_csv(folder_name + 'recovery_sales_' + plot_name + '_' + scenario_name + '.csv')
+        district_recovery_purchases.to_csv(folder_name + 'recovery_purchases_' + plot_name + '_' + scenario_name + '.csv')
+        district_flood_purchases.to_csv(folder_name + 'flood_purchases_' + plot_name + '_' + scenario_name + '.csv')
+        district_recovery_rebate.to_csv(folder_name + 'recovery_rebate_' + plot_name + '_' + scenario_name + '.csv')
+      else:
+        district_irrigation.to_csv(folder_name + 'irrigation_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        district_recharge.to_csv(folder_name + 'recharge_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        district_pumping.to_csv(folder_name + 'pumping_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        #district_recharge_sales.to_csv(folder_name + '/calfews_output_for_jorge/' + 'recharge_sales_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        #district_recharge_purchases.to_csv(folder_name + '/calfews_output_for_jorge/' + 'recharge_purchases_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        #district_recovery_sales.to_csv(folder_name + '/calfews_output_for_jorge/' + 'recovery_sales_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        #district_recovery_purchases.to_csv(folder_name + '/calfews_output_for_jorge/' + 'recovery_purchases_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        #district_flood_purchases.to_csv(folder_name + '/calfews_output_for_jorge/' + 'flood_purchases_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+        #district_recovery_rebate.to_csv(folder_name + '/calfews_output_for_jorge/' + 'recovery_rebate_' + plot_name + '_' + gcm + '_' + rcp + '.csv')
+      
         
     if location_type == 'annual':
       sns.set()        

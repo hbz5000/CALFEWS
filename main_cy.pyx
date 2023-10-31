@@ -125,6 +125,7 @@ cdef class main_cy():
 
     elif self.model_mode == 'validation':
       demand_type = 'pesticide'
+      # demand_type = 'landiq'
       input_data_file = 'calfews_src/data/input/calfews_src-data.csv'
       new_inputs_df = ''
 
