@@ -118,7 +118,7 @@ if __name__ == "__main__":
         ### drop canesm2 scenarios, which have a data inconsistency issue
         scenarios = [s for s in scenarios if 'canesm2' not in s]
         # scenarios = scenarios[:1]
-        scenarios = [s for s in scenarios if 'cnrm-cm5_rcp45' in s]
+        # scenarios = [s for s in scenarios if 'cnrm-cm5_rcp45' in s]
 
         num_scenarios = len(scenarios)
         model_modes = ['simulation'] * num_scenarios
