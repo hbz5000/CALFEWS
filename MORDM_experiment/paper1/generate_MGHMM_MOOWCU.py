@@ -26,23 +26,3 @@ for mc in range(numMC):
   df = MGHMM_generate_trace(nYears, udict, drop_date=False)
   df.to_csv(MGHMMdir + filestart + str(mc) + fileend, index=False)
 
-### originally did this without random seed, and that data was used for MOO/WCU experiment.
-### to make sure this script is consistent with those data, loop over new and old 
-### synthetic data to make sure statistically consistent
-#old = []
-#new = []
-#for mc in range(numMC):
-#  old.append(pd.read_csv(MGHMMdir + 'og/' + filestart + str(mc) + fileend))
-#  new.append(pd.read_csv(MGHMMdir + filestart + str(mc) + fileend))
-#
-#for c in old[0].columns:
-#  oldmeans = []
-#  newmeans = []
-#  oldstds = []
-#  newstds = []
-#  for mc in range(numMC):
-#    oldmeans.append(old[mc][c].mean())
-#    oldstds.append(old[mc][c].std())
-#    newmeans.append(new[mc][c].mean())
-#    newstds.append(new[mc][c].std())
-#  print(f'{c}, {np.mean(oldmeans)} ({np.mean(oldstds)}), {np.mean(newmeans)} ({np.mean(newstds)})')
