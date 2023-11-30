@@ -37,8 +37,8 @@ Licensed under the MIT License, 2017-.
     - Download the [Borg MOEA](http://borgmoea.org/) source code, using the `alh_python_checkpointing` branch of the
       Master-Worker repository, as demonstrated
       in [this blog post](https://waterprogramming.wordpress.com/2022/04/13/checkpointing-and-restoring-runs-with-the-borg-moea/)
-      . Compile the source code in a separate directory, then copy the compiled binaries `libborg.so` and `libborgms.so`
-      , as well as the Python wrapper `borg.py`, to the base directory of the current repo.
+      . Compile the source code in 2 steps (borg.c with gcc, borgms.c with mpicc) in a separate directory as described in post above, then copy the compiled binaries `libborg.so` and `libborgms.so`
+      , as well as the Python wrapper `borg.py` from the `Python/` directory, to the base directory of the current repo.
     - Download the "Compiled Binaries" from the [MOEAFramework](http://www.moeaframework.org/) website and copy
       the `moeaframework.c` & `moeaframework.h` files (from the `MOEAFramework-*/examples` directory of the package) to
       the base directory of this repo.
@@ -57,21 +57,22 @@ Licensed under the MIT License, 2017-.
 
 ## Running the multi-objective optimization
 
-1. Run submit_moo_infra.sh for multiple seeds. Each submisssion uses 128 nodes on Stampede2. I ran 6 seeds: 3 with
+1. First run the baseline simulations with no new infrastructure by submitting submit_baselines_anvil.sh to the SLURM scheduler via sbatch. I ran all 100 simulations at once using a single job with 1 task of 100 cores. This took ~13 minutes.
+2. Run submit_moo_infra.sh for multiple seeds. Each submisssion uses 128 nodes on Stampede2. I ran 6 seeds: 3 with
    dv_formulation=1, 3 with dv_formulation=2. For each, begin with numFEPrevious=0 (a fresh start for MOEA), and run for
    48 hours.
-2. Once each of these has finished, it will store results in `results/infra_moo/dv{dv_formulation}_seed{seed}/` -> move
+3. Once each of these has finished, it will store results in `results/infra_moo/dv{dv_formulation}_seed{seed}/` -> move
    this to `results/MOO_results_s2/dv{dv_formulation}_seed{seed}_round1/` for storage.
-3. Now create a new directory `results/infra_moo/dv{dv_formulation}_seed{seed}/` for the round 2 results to be written
+4. Now create a new directory `results/infra_moo/dv{dv_formulation}_seed{seed}/` for the round 2 results to be written
    to. Within it, create a directory `checkpts/`. Within that, copy the
    file `results/MOO_results_s2/dv{dv_formulation}_seed{seed}_round1/checkpts/s{seed}_nfe{NFE_last}.checkpt` from the
    previous round's results, where NFE_last is the largest number file listed in this directory. This file represents a
    snapshot of the Borg MOEA's state after a particular number of function evaluations - snapshots are made every 100
    evaluations. We want to use the most recent snapshot before the job ran out of time and exited. This will be used for
    a starting point for the second round.
-4. Now within `submit_moo_infra.sh`, change `numFEPrevious` to this same value as the checkpoint file in the last step
+5. Now within `submit_moo_infra.sh`, change `numFEPrevious` to this same value as the checkpoint file in the last step
    for each dv_formulation/seed combo, and rerun each seed for a second round.
-5. Once these complete, repeat steps 2-4 again in order to run a third round based on the checkpoint from the second
+6. Once these are complete, repeat steps 3-5 again in order to run a third round based on the checkpoint from the second
    round. Based on my available computing budget, I only ran round 3 for 24 hours, for a total of 5 days computing
    across the 3 rounds for each seed.
 

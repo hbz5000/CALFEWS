@@ -106,7 +106,7 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
 
   ### get effective project shares/type after enforcing max number of districts, min share size, & normalization
   min_share = 0.01
-  dv_formulation = 0
+  dv_formulation = 2
   dv_project, shares = get_effective_dvs(dvs, min_share, dv_formulation)
 
   ### check if we've already evaluated a very similar solution, if so then just return previous objs/constrs
@@ -162,6 +162,9 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
 def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, shared_objs_array, MC_count, is_baseline):
 #  print('#######################################################')
 #  print('Initializing simulation...', MC_label, is_baseline) 
+  print('starting sim', MC_label)
+  sys.stdout.flush()
+
   try:
     main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
     a = main_cy_obj.initialize_py(uncertainty_dict)
@@ -169,7 +172,7 @@ def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_
 #    print('Initialization complete, ', datetime.now() - start_time)
 #    sys.stdout.flush()
     ### main simulation loop
-    a = main_cy_obj.run_sim_py(start_time)
+    a = main_cy_obj.run_sim_py(start_time, printtag=MC_label)
 
 #    print ('Simulation complete,', datetime.now() - start_time)
 #    sys.stdout.flush()
@@ -190,17 +193,19 @@ def dispatch_MC_to_procs(results_folder, baseline_folder, start_time, model_mode
   for MC_count in range(start, stop):
 #    print('### beginning MC run ', MC_count, ', proc ', proc)
     run_sim(results_folder, baseline_folder, start_time, model_modes[MC_count], flow_input_types[MC_count], flow_input_sources[MC_count], MC_labels[MC_count], uncertainty_dict, shared_objs_array, MC_count, is_baseline)
-
+#    print(f'end MC run {MC_count}, proc {proc}')
 
 
 ### run actual problem, with decision variables as inputs
 def problem_infra(*dvs, is_baseline=False):
   start_time = datetime.now()
 
+  print(f'starting {dvs}, {start_time}')
+  sys.stdout.flush()
 
   ### define MC sampling problem/parallelization
-  num_MC = 100
-  num_procs = 16
+  num_MC = 16
+  num_procs = 8
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['synthetic'] * num_MC
   flow_input_sources = ['mghmm_30yr_generic'] * num_MC
@@ -217,7 +222,7 @@ def problem_infra(*dvs, is_baseline=False):
 
 
   ### execution params to control 
-  config = ConfigObj('runtime_params_MOO-WCU.ini')
+  config = ConfigObj('runtime_params.ini')
   cluster_mode = bool(strtobool(config['cluster_mode']))
   print_log = bool(strtobool(config['print_log']))
   disable_print = bool(strtobool(config['disable_print']))
@@ -234,7 +239,7 @@ def problem_infra(*dvs, is_baseline=False):
   if is_baseline:
     results_folder = baseline_folder
   else:
-    sub_folder = 'dv0_seed0/'
+    sub_folder = 'dv2_seed0/'
     results_folder = results_base + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
   # if is_baseline and os.path.exists(results_folder):
   #   shutil.rmtree(results_folder)
@@ -281,7 +286,6 @@ def problem_infra(*dvs, is_baseline=False):
       # Wait for all processes to finish
       for sp in shared_processes:
         sp.join()
-  #    print('end join procs')
 
       ### aggregate over MC trials
         ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
@@ -303,10 +307,8 @@ def problem_infra(*dvs, is_baseline=False):
       if sum(np.abs(objs_MCagg)) == 0.:
         objs_MCagg = [1e6, 1e6, 1e6, 1e6]
 
-      print(objs_MCagg)
-      print('Finished all processes', datetime.now() - start_time)
-      print(objs_MCagg, constrs_MCagg)
-
+      print(f'finished obj calc {dvs}, {objs_MCagg}, {constrs_MCagg}')
+      sys.stdout.flush()
       ### remove subdirectory for this FE
       if not is_baseline:
         shutil.rmtree(results_folder)
