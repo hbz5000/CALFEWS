@@ -3,7 +3,7 @@
 
 def main():
     from borg import Configuration, Borg
-    from MORDM_experiment.paper1.problem_infra import problem_infra
+    from problem_infra import problem_infra
     import sys
 
     results_dir = sys.argv[1]

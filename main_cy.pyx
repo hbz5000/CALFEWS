@@ -261,8 +261,6 @@ cdef class main_cy():
     
     for dobj in self.modelso.district_list:
       d = dobj.key
-      if d in ['fresnoid','FRS']:
-        print([(k, dobj.daily_supplies_full[k].sum()/(dobj.daily_supplies_full[k].shape[0]/365)) for k in dobj.daily_supplies_full.keys()])
       df = pd.DataFrame(index=wy)
       ### get relevant data
       for k, timeseries in dobj.daily_supplies_full.items():
@@ -276,13 +274,13 @@ cdef class main_cy():
         df.loc[wy == y, :] += maxprevious
       df.iloc[1:, :] = df.diff().iloc[1:, :]
 
-      ### also add data that doesnt sum over years (pumping)
-      keys = ['pumping']
-      for k in keys:
-        try:
-          df[k] = dobj.daily_supplies_full[k]
-        except:
-          df[k] = np.zeros(len(wy))
+#      ### also add data that doesnt sum over years (pumping)
+#      keys = ['pumping']
+#      for k in keys:
+#        try:
+#          df[k] = dobj.daily_supplies_full[k]
+#        except:
+#          df[k] = np.zeros(len(wy))
 
       ## get total captured water = *district*_*contract*_delivery + *district*_*contract*_flood + *district*_*contract*_flood_irrigation - *district*_exchanged_GW + *district*_exchanged_SW
       df['captured_water'] = 0.0
@@ -304,9 +302,7 @@ cdef class main_cy():
       results_dict = {'avg_captured_water': df['captured_water'].groupby(wy).sum().mean(),
                       'min_captured_water': df['captured_water'].groupby(wy).sum().min(),
                       'std_captured_water': df['captured_water'].groupby(wy).sum().std(),
-                      'avg_pumping': df['pumping'].groupby(wy).sum().mean(),
-                      'max_pumping': df['pumping'].groupby(wy).sum().max(),
-                      'std_pumping': df['pumping'].groupby(wy).sum().std()}
+			}
 
       if is_baseline or is_reeval or \
             ((type(self.modelso.fkc.ownership_shares) is dict) and (d in self.modelso.fkc.ownership_shares) and (self.modelso.fkc.ownership_shares[d] > 0)) or \
@@ -364,7 +360,6 @@ cdef class main_cy():
       CFWB_cost = 50e6
       interest_annual = 0.03
       time_horizon = 30
-#      cap = 1000
       principle = {'FKC': FKC_participant_payment, 'CFWB': CFWB_cost, 'FKC_CFWB': FKC_participant_payment + CFWB_cost}
       payments_per_yr = 1
       interest_rt = interest_annual / payments_per_yr
@@ -376,7 +371,7 @@ cdef class main_cy():
       total_captured_water_gain = sum([v['avg_captured_water'] for v in district_gains.values()])
       total_captured_water_gain *= 1.23  ## convert kAF/year to million cubic meters (gigaliters)
       # total pumping reduction for partnership (kAF/year)
-      total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()]) *1.23
+      # total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()]) *1.23
       # total captured water gains for non-partners (kAF/year)
       total_nonpartner_captured_water_gain = sum([v['avg_captured_water'] for v in other_gains.values()]) *1.23
 
@@ -411,7 +406,6 @@ cdef class main_cy():
       
       ###& store in shared memory array
       objs_MC = [total_captured_water_gain,
-                  total_pump_red,
                   total_nonpartner_captured_water_gain,
                   min(cost_water_gains_worst,1e6),
                   len(district_gains)]
@@ -419,16 +413,11 @@ cdef class main_cy():
       shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC
 
       ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
-      ###       max(1) pumping reduction - mean over years - sum over partners - mean over MC
-      ###       max(2) CWG - mean over years - sum over non-partners - mean over MC
-      ###       min(3) cost CWG - mean over years - max over partners - max over MC
-      ###       max(4) number partners - no agg needed
-      ### cons: (1) obj 3 < 2000
-      ###       (2) obj 4 > 0
-#      print('end district results', results_folder, [MC_label] + objs_MC)      
-#      with open(results_folder + '/objs.csv', 'a') as f:
-#        w = writer(f)
-#        w.writerow([MC_label] + objs_MC)
+      ###       max(1) CWG - mean over years - sum over non-partners - mean over MC
+      ###       min(2) cost CWG - mean over years - max over partners - max over MC
+      ###       max(3) number partners - no agg needed
+      ### cons: (1) obj 2 < 2000
+      ###       (2) obj 3 > 0
         
 
 
