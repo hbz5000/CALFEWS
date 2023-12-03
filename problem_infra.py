@@ -200,8 +200,8 @@ def dispatch_MC_to_procs(results_folder, baseline_folder, start_time, model_mode
 def problem_infra(*dvs, is_baseline=False):
   start_time = datetime.now()
 
-  print(f'starting {dvs}, {start_time}')
-  sys.stdout.flush()
+  #print(f'starting {dvs}, {start_time}')
+  #sys.stdout.flush()
 
   ### define MC sampling problem/parallelization
   num_MC = 16
@@ -307,8 +307,8 @@ def problem_infra(*dvs, is_baseline=False):
       if sum(np.abs(objs_MCagg)) == 0.:
         objs_MCagg = [1e6, 1e6, 1e6, 1e6]
 
-      print(f'finished obj calc {dvs}, {objs_MCagg}, {constrs_MCagg}')
-      sys.stdout.flush()
+#      print(f'finished obj calc {dvs}, {objs_MCagg}, {constrs_MCagg}')
+#      sys.stdout.flush()
       ### remove subdirectory for this FE
       if not is_baseline:
         shutil.rmtree(results_folder)
