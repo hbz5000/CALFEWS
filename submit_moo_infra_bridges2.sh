@@ -1,18 +1,18 @@
 #!/bin/bash
 
 dependency=0
-numNodes=2
-numProcsPerNode=128
-numTasksPerNode=16
-numProcsPerTask=8
-numMCPerFE=16
+numNodes=32
+numProcsPerNode=126
+numTasksPerNode=18
+numProcsPerTask=7
+numMCPerFE=21
 numTasks=$(($numNodes * $numTasksPerNode))
 numFE=1000000
 numFEPrevious=0
-runtimeFrequency=2
-seed=0
+runtimeFrequency=100
+seed=3
 dv_formulation=2
-t=01:00:00
+t=48:00:00
 partition=RM
 
 subdir=dv${dv_formulation}_seed${seed}/

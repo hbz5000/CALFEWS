@@ -303,7 +303,7 @@ cdef class main_cy():
                       'min_captured_water': df['captured_water'].groupby(wy).sum().min(),
                       'std_captured_water': df['captured_water'].groupby(wy).sum().std(),
 			}
-
+      
       if is_baseline or is_reeval or \
             ((type(self.modelso.fkc.ownership_shares) is dict) and (d in self.modelso.fkc.ownership_shares) and (self.modelso.fkc.ownership_shares[d] > 0)) or \
             ((type(self.modelso.centralfriantwb.ownership) is dict) and (d in self.modelso.centralfriantwb.ownership) and (self.modelso.centralfriantwb.ownership[d] > 0)):
@@ -369,7 +369,10 @@ cdef class main_cy():
       ### now aggregate objs over districts 
       # total captured water gains for partnership (kAF/year)
       total_captured_water_gain = sum([v['avg_captured_water'] for v in district_gains.values()])
+      #print('results_dict', results_dict)
+      #print('baseline_results', baseline_results)
       total_captured_water_gain *= 1.23  ## convert kAF/year to million cubic meters (gigaliters)
+      #print('total captured water gain', total_captured_water_gain)
       # total pumping reduction for partnership (kAF/year)
       # total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()]) *1.23
       # total captured water gains for non-partners (kAF/year)
@@ -411,7 +414,7 @@ cdef class main_cy():
                   len(district_gains)]
 #      print(MC_label, objs_MC)
       shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC
-
+#      print('end objs', objs_MC)
       ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
       ###       max(1) CWG - mean over years - sum over non-partners - mean over MC
       ###       min(2) cost CWG - mean over years - max over partners - max over MC

@@ -12,10 +12,9 @@ import pandas as pd
 from statistics import quantiles
 from configobj import ConfigObj
 from distutils.util import strtobool
-from multiprocessing import Process, Array
 from datetime import datetime
 import main_cy
-
+from multiprocessing import Process, Array
 
 ### get effective decision variables after enforcing number of districts and min share size
 def get_effective_dvs(dvs, min_share, dv_formulation):
@@ -110,7 +109,7 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
   dv_project, shares = get_effective_dvs(dvs, min_share, dv_formulation)
 
   ### check if we've already evaluated a very similar solution, if so then just return previous objs/constrs
-  seed = 0
+  seed = 2
   evaluationFile = results_folder + '../evaluations/s' + str(seed) + '.evaluations'
   dv_epsilon = 0.0025
   objs_prev, constrs_prev = get_prev_eval(dv_project, shares, evaluationFile, dv_epsilon, min_share, dv_formulation)
@@ -162,8 +161,8 @@ def setup_problem(results_folder, print_log, disable_print, dvs):
 def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_type, flow_input_source, MC_label, uncertainty_dict, shared_objs_array, MC_count, is_baseline):
 #  print('#######################################################')
 #  print('Initializing simulation...', MC_label, is_baseline) 
-  print('starting sim', MC_label)
-  sys.stdout.flush()
+#  print('starting sim', MC_label)
+#  sys.stdout.flush()
 
   try:
     main_cy_obj = main_cy.main_cy(results_folder, model_mode=model_mode, flow_input_type=flow_input_type, flow_input_source=flow_input_source, flow_input_addition=MC_label)
@@ -172,15 +171,15 @@ def run_sim(results_folder, baseline_folder, start_time, model_mode, flow_input_
 #    print('Initialization complete, ', datetime.now() - start_time)
 #    sys.stdout.flush()
     ### main simulation loop
-    a = main_cy_obj.run_sim_py(start_time, printtag=MC_label)
+    a = main_cy_obj.run_sim_py(start_time)#, printtag=MC_label)
 
 #    print ('Simulation complete,', datetime.now() - start_time)
 #    sys.stdout.flush()
     ### for baseline runs (i.e., no new infrastructure), we need to store district-level performance for comparison. 
     ### for non-baseline, we will compare performance to baseline and output deltas, then aggregate over districts, and store MC results in shared_objs_array
     main_cy_obj.get_district_results(results_folder, baseline_folder, MC_label, shared_objs_array, MC_count, is_baseline)
-#      print(MC_label)
-#    print('Objectives complete,', MC_label, is_baseline, datetime.now() - start_time)
+#  numObj = 4
+#  print('Objectives complete,', MC_label, shared_objs_array[MC_count*len(numObj):(MC_count+1)*len(numObj)], datetime.now() - start_time)
   except:
     print('fail in run sim', results_folder, MC_label)
     objs_MC = np.array([-1e6, -1e6, 1e6, -1e6])
@@ -200,12 +199,12 @@ def dispatch_MC_to_procs(results_folder, baseline_folder, start_time, model_mode
 def problem_infra(*dvs, is_baseline=False):
   start_time = datetime.now()
 
-  #print(f'starting {dvs}, {start_time}')
-  #sys.stdout.flush()
+  print(f'starting {dvs}, {start_time}')
+  sys.stdout.flush()
 
   ### define MC sampling problem/parallelization
-  num_MC = 16
-  num_procs = 8
+  num_MC = 21
+  num_procs = 7
   model_modes = ['simulation'] * num_MC
   flow_input_types = ['synthetic'] * num_MC
   flow_input_sources = ['mghmm_30yr_generic'] * num_MC
@@ -239,7 +238,7 @@ def problem_infra(*dvs, is_baseline=False):
   if is_baseline:
     results_folder = baseline_folder
   else:
-    sub_folder = 'dv2_seed0/'
+    sub_folder = 'dv2_seed2/'
     results_folder = results_base + sub_folder + '/dvhash' + str(hash(frozenset(dvs))) + '/'
   # if is_baseline and os.path.exists(results_folder):
   #   shutil.rmtree(results_folder)
@@ -251,9 +250,11 @@ def problem_infra(*dvs, is_baseline=False):
 #  with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
   ### use this instead if don't want to disable printing (make sure disable_print is False in runtime_params.ini too. 
   ### probably better way to do this, but good enough for now
-  with contextlib.nullcontext():
+#  with contextlib.nullcontext():
+  try:
     ### setup folder & scenario files for ownership configuration. check if previous evaluation had very similar effective params, if so just use those values instead of rerunning.
     objs_prev, constrs_prev = setup_problem(results_folder, print_log, disable_print, dvs)
+    time.sleep(0.1)
 
     ### if no previous evaluation, run MC ensemble.
     if objs_prev is 0:
@@ -312,6 +313,9 @@ def problem_infra(*dvs, is_baseline=False):
       ### remove subdirectory for this FE
       if not is_baseline:
         shutil.rmtree(results_folder)
+      
+      print(f'finished {dvs}, {start_time}')
+      sys.stdout.flush()
 
       #print(type(objs_MCagg), objs_MCagg, type(constrs_MCagg), constrs_MCagg)  
       return objs_MCagg, constrs_MCagg
@@ -322,4 +326,13 @@ def problem_infra(*dvs, is_baseline=False):
 
       ### remove subdirectory for this FE
       shutil.rmtree(results_folder)
+      
+      print(f'finished {dvs}, {start_time}')
+      sys.stdout.flush()
+
       return objs_prev.tolist(), constrs_prev.tolist()
+
+  ### if this function evaluation failed for any reason, return bad values of objectives
+  except:
+      print('fail in dvs', dvs)
+      return [1e6, 1e6, 1e6, 1e6],[1e6, 0] 

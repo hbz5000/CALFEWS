@@ -26548,8 +26548,8 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  *       ### now aggregate objs over districts
  *       # total captured water gains for partnership (kAF/year)
  *       total_captured_water_gain = sum([v['avg_captured_water'] for v in district_gains.values()])             # <<<<<<<<<<<<<<
- *       total_captured_water_gain *= 1.23  ## convert kAF/year to million cubic meters (gigaliters)
- *       # total pumping reduction for partnership (kAF/year)
+ *       #print('results_dict', results_dict)
+ *       #print('baseline_results', baseline_results)
  */
     { /* enter inner scope */
       __pyx_t_11 = PyList_New(0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 371, __pyx_L105_error)
@@ -26586,19 +26586,19 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     __pyx_v_total_captured_water_gain = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "main_cy.pyx":372
- *       # total captured water gains for partnership (kAF/year)
- *       total_captured_water_gain = sum([v['avg_captured_water'] for v in district_gains.values()])
+    /* "main_cy.pyx":374
+ *       #print('results_dict', results_dict)
+ *       #print('baseline_results', baseline_results)
  *       total_captured_water_gain *= 1.23  ## convert kAF/year to million cubic meters (gigaliters)             # <<<<<<<<<<<<<<
+ *       #print('total captured water gain', total_captured_water_gain)
  *       # total pumping reduction for partnership (kAF/year)
- *       # total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()]) *1.23
  */
-    __pyx_t_1 = PyNumber_InPlaceMultiply(__pyx_v_total_captured_water_gain, __pyx_float_1_23); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 372, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_InPlaceMultiply(__pyx_v_total_captured_water_gain, __pyx_float_1_23); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_total_captured_water_gain, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "main_cy.pyx":376
+    /* "main_cy.pyx":379
  *       # total_pump_red = sum([-v['avg_pumping'] for v in district_gains.values()]) *1.23
  *       # total captured water gains for non-partners (kAF/year)
  *       total_nonpartner_captured_water_gain = sum([v['avg_captured_water'] for v in other_gains.values()]) *1.23             # <<<<<<<<<<<<<<
@@ -26606,10 +26606,10 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  * #      print(district_gains)
  */
     { /* enter inner scope */
-      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 376, __pyx_L111_error)
+      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 379, __pyx_L111_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_5 = 0;
-      __pyx_t_14 = __Pyx_dict_iterator(__pyx_v_other_gains, 1, __pyx_n_s_values, (&__pyx_t_8), (&__pyx_t_4)); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 376, __pyx_L111_error)
+      __pyx_t_14 = __Pyx_dict_iterator(__pyx_v_other_gains, 1, __pyx_n_s_values, (&__pyx_t_8), (&__pyx_t_4)); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 379, __pyx_L111_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_XDECREF(__pyx_t_11);
       __pyx_t_11 = __pyx_t_14;
@@ -26617,13 +26617,13 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       while (1) {
         __pyx_t_9 = __Pyx_dict_iter_next(__pyx_t_11, __pyx_t_8, &__pyx_t_5, NULL, &__pyx_t_14, NULL, __pyx_t_4);
         if (unlikely(__pyx_t_9 == 0)) break;
-        if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 376, __pyx_L111_error)
+        if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 379, __pyx_L111_error)
         __Pyx_GOTREF(__pyx_t_14);
         __Pyx_XDECREF_SET(__pyx_8genexpr2__pyx_v_v, __pyx_t_14);
         __pyx_t_14 = 0;
-        __pyx_t_14 = __Pyx_PyObject_Dict_GetItem(__pyx_8genexpr2__pyx_v_v, __pyx_n_u_avg_captured_water); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 376, __pyx_L111_error)
+        __pyx_t_14 = __Pyx_PyObject_Dict_GetItem(__pyx_8genexpr2__pyx_v_v, __pyx_n_u_avg_captured_water); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 379, __pyx_L111_error)
         __Pyx_GOTREF(__pyx_t_14);
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_14))) __PYX_ERR(0, 376, __pyx_L111_error)
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_14))) __PYX_ERR(0, 379, __pyx_L111_error)
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       }
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -26634,16 +26634,16 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       goto __pyx_L1_error;
       __pyx_L114_exit_scope:;
     } /* exit inner scope */
-    __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 379, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Multiply(__pyx_t_11, __pyx_float_1_23); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Multiply(__pyx_t_11, __pyx_float_1_23); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 379, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __pyx_v_total_nonpartner_captured_water_gain = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "main_cy.pyx":381
+    /* "main_cy.pyx":384
  * #      print(total_captured_water_gain, total_pump_red, total_nonpartner_captured_water_gain)
  * 
  *       annual_debt_payment = 0.             # <<<<<<<<<<<<<<
@@ -26653,7 +26653,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     __Pyx_INCREF(__pyx_float_0_);
     __pyx_v_annual_debt_payment = __pyx_float_0_;
 
-    /* "main_cy.pyx":382
+    /* "main_cy.pyx":385
  * 
  *       annual_debt_payment = 0.
  *       try:             # <<<<<<<<<<<<<<
@@ -26669,7 +26669,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __Pyx_XGOTREF(__pyx_t_17);
       /*try:*/ {
 
-        /* "main_cy.pyx":383
+        /* "main_cy.pyx":386
  *       annual_debt_payment = 0.
  *       try:
  *         if len(self.modelso.centralfriantwb.participant_list) > 0:             # <<<<<<<<<<<<<<
@@ -26680,29 +26680,29 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
         __Pyx_INCREF(__pyx_t_1);
         if (unlikely(__pyx_t_1 == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-          __PYX_ERR(0, 383, __pyx_L115_error)
+          __PYX_ERR(0, 386, __pyx_L115_error)
         }
-        __pyx_t_8 = __Pyx_PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 383, __pyx_L115_error)
+        __pyx_t_8 = __Pyx_PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 386, __pyx_L115_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_t_10 = (__pyx_t_8 > 0);
         if (__pyx_t_10) {
 
-          /* "main_cy.pyx":384
+          /* "main_cy.pyx":387
  *       try:
  *         if len(self.modelso.centralfriantwb.participant_list) > 0:
  *           annual_debt_payment += annual_debt_payment_dict['CFWB']             # <<<<<<<<<<<<<<
  *       except:
  *         pass
  */
-          __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_annual_debt_payment_dict, __pyx_n_u_CFWB); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 384, __pyx_L115_error)
+          __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_annual_debt_payment_dict, __pyx_n_u_CFWB); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 387, __pyx_L115_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_11 = PyNumber_InPlaceAdd(__pyx_v_annual_debt_payment, __pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 384, __pyx_L115_error)
+          __pyx_t_11 = PyNumber_InPlaceAdd(__pyx_v_annual_debt_payment, __pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 387, __pyx_L115_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_DECREF_SET(__pyx_v_annual_debt_payment, __pyx_t_11);
           __pyx_t_11 = 0;
 
-          /* "main_cy.pyx":383
+          /* "main_cy.pyx":386
  *       annual_debt_payment = 0.
  *       try:
  *         if len(self.modelso.centralfriantwb.participant_list) > 0:             # <<<<<<<<<<<<<<
@@ -26711,7 +26711,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
         }
 
-        /* "main_cy.pyx":382
+        /* "main_cy.pyx":385
  * 
  *       annual_debt_payment = 0.
  *       try:             # <<<<<<<<<<<<<<
@@ -26733,7 +26733,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "main_cy.pyx":385
+      /* "main_cy.pyx":388
  *         if len(self.modelso.centralfriantwb.participant_list) > 0:
  *           annual_debt_payment += annual_debt_payment_dict['CFWB']
  *       except:             # <<<<<<<<<<<<<<
@@ -26752,7 +26752,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __pyx_L120_try_end:;
     }
 
-    /* "main_cy.pyx":387
+    /* "main_cy.pyx":390
  *       except:
  *         pass
  *       try:             # <<<<<<<<<<<<<<
@@ -26768,7 +26768,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __Pyx_XGOTREF(__pyx_t_15);
       /*try:*/ {
 
-        /* "main_cy.pyx":388
+        /* "main_cy.pyx":391
  *         pass
  *       try:
  *         if sum(self.modelso.fkc.ownership_shares.values()) > 0:             # <<<<<<<<<<<<<<
@@ -26777,35 +26777,35 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
         if (unlikely(__pyx_v_self->modelso->fkc->ownership_shares == Py_None)) {
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "values");
-          __PYX_ERR(0, 388, __pyx_L122_error)
+          __PYX_ERR(0, 391, __pyx_L122_error)
         }
-        __pyx_t_11 = __Pyx_PyDict_Values(__pyx_v_self->modelso->fkc->ownership_shares); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 388, __pyx_L122_error)
+        __pyx_t_11 = __Pyx_PyDict_Values(__pyx_v_self->modelso->fkc->ownership_shares); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 391, __pyx_L122_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 388, __pyx_L122_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 391, __pyx_L122_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 388, __pyx_L122_error)
+        __pyx_t_11 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 391, __pyx_L122_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 388, __pyx_L122_error)
+        __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 391, __pyx_L122_error)
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         if (__pyx_t_10) {
 
-          /* "main_cy.pyx":389
+          /* "main_cy.pyx":392
  *       try:
  *         if sum(self.modelso.fkc.ownership_shares.values()) > 0:
  *           annual_debt_payment += annual_debt_payment_dict['FKC']             # <<<<<<<<<<<<<<
  *       except:
  *         pass
  */
-          __pyx_t_11 = __Pyx_PyDict_GetItem(__pyx_v_annual_debt_payment_dict, __pyx_n_u_FKC); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 389, __pyx_L122_error)
+          __pyx_t_11 = __Pyx_PyDict_GetItem(__pyx_v_annual_debt_payment_dict, __pyx_n_u_FKC); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 392, __pyx_L122_error)
           __Pyx_GOTREF(__pyx_t_11);
-          __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_annual_debt_payment, __pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L122_error)
+          __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_annual_debt_payment, __pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 392, __pyx_L122_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_DECREF_SET(__pyx_v_annual_debt_payment, __pyx_t_1);
           __pyx_t_1 = 0;
 
-          /* "main_cy.pyx":388
+          /* "main_cy.pyx":391
  *         pass
  *       try:
  *         if sum(self.modelso.fkc.ownership_shares.values()) > 0:             # <<<<<<<<<<<<<<
@@ -26814,7 +26814,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
         }
 
-        /* "main_cy.pyx":387
+        /* "main_cy.pyx":390
  *       except:
  *         pass
  *       try:             # <<<<<<<<<<<<<<
@@ -26836,7 +26836,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "main_cy.pyx":390
+      /* "main_cy.pyx":393
  *         if sum(self.modelso.fkc.ownership_shares.values()) > 0:
  *           annual_debt_payment += annual_debt_payment_dict['FKC']
  *       except:             # <<<<<<<<<<<<<<
@@ -26855,7 +26855,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __pyx_L127_try_end:;
     }
 
-    /* "main_cy.pyx":397
+    /* "main_cy.pyx":400
  * 
  *       ### worst-off partner costs
  *       cost_water_gains_worst = -1.             # <<<<<<<<<<<<<<
@@ -26865,7 +26865,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     __Pyx_INCREF(__pyx_float_neg_1_);
     __pyx_v_cost_water_gains_worst = __pyx_float_neg_1_;
 
-    /* "main_cy.pyx":398
+    /* "main_cy.pyx":401
  *       ### worst-off partner costs
  *       cost_water_gains_worst = -1.
  *       for d,v in district_gains.items():             # <<<<<<<<<<<<<<
@@ -26873,7 +26873,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  *           partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]
  */
     __pyx_t_8 = 0;
-    __pyx_t_11 = __Pyx_dict_iterator(__pyx_v_district_gains, 1, __pyx_n_s_items, (&__pyx_t_5), (&__pyx_t_4)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_dict_iterator(__pyx_v_district_gains, 1, __pyx_n_s_items, (&__pyx_t_5), (&__pyx_t_4)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 401, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_XDECREF(__pyx_t_1);
     __pyx_t_1 = __pyx_t_11;
@@ -26881,7 +26881,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     while (1) {
       __pyx_t_9 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_5, &__pyx_t_8, &__pyx_t_11, &__pyx_t_14, NULL, __pyx_t_4);
       if (unlikely(__pyx_t_9 == 0)) break;
-      if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 398, __pyx_L1_error)
+      if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 401, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_XDECREF_SET(__pyx_v_d, __pyx_t_11);
@@ -26889,7 +26889,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_14);
       __pyx_t_14 = 0;
 
-      /* "main_cy.pyx":399
+      /* "main_cy.pyx":402
  *       cost_water_gains_worst = -1.
  *       for d,v in district_gains.items():
  *         try:             # <<<<<<<<<<<<<<
@@ -26905,7 +26905,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
         __Pyx_XGOTREF(__pyx_t_17);
         /*try:*/ {
 
-          /* "main_cy.pyx":400
+          /* "main_cy.pyx":403
  *       for d,v in district_gains.items():
  *         try:
  *           partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]             # <<<<<<<<<<<<<<
@@ -26914,17 +26914,17 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
           if (unlikely(__pyx_v_self->modelso->centralfriantwb->ownership == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 400, __pyx_L131_error)
+            __PYX_ERR(0, 403, __pyx_L131_error)
           }
-          __pyx_t_14 = __Pyx_PyDict_GetItem(__pyx_v_self->modelso->centralfriantwb->ownership, __pyx_v_d); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 400, __pyx_L131_error)
+          __pyx_t_14 = __Pyx_PyDict_GetItem(__pyx_v_self->modelso->centralfriantwb->ownership, __pyx_v_d); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 403, __pyx_L131_error)
           __Pyx_GOTREF(__pyx_t_14);
-          __pyx_t_11 = PyNumber_Multiply(__pyx_v_annual_debt_payment, __pyx_t_14); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 400, __pyx_L131_error)
+          __pyx_t_11 = PyNumber_Multiply(__pyx_v_annual_debt_payment, __pyx_t_14); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 403, __pyx_L131_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
           __Pyx_XDECREF_SET(__pyx_v_partner_debt_payment, __pyx_t_11);
           __pyx_t_11 = 0;
 
-          /* "main_cy.pyx":399
+          /* "main_cy.pyx":402
  *       cost_water_gains_worst = -1.
  *       for d,v in district_gains.items():
  *         try:             # <<<<<<<<<<<<<<
@@ -26945,7 +26945,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "main_cy.pyx":401
+        /* "main_cy.pyx":404
  *         try:
  *           partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]
  *         except:             # <<<<<<<<<<<<<<
@@ -26954,12 +26954,12 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
         /*except:*/ {
           __Pyx_AddTraceback("main_cy.main_cy.get_district_results", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_14, &__pyx_t_19) < 0) __PYX_ERR(0, 401, __pyx_L133_except_error)
+          if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_14, &__pyx_t_19) < 0) __PYX_ERR(0, 404, __pyx_L133_except_error)
           __Pyx_XGOTREF(__pyx_t_11);
           __Pyx_XGOTREF(__pyx_t_14);
           __Pyx_XGOTREF(__pyx_t_19);
 
-          /* "main_cy.pyx":402
+          /* "main_cy.pyx":405
  *           partner_debt_payment = annual_debt_payment * self.modelso.centralfriantwb.ownership[d]
  *         except:
  *           partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]             # <<<<<<<<<<<<<<
@@ -26968,11 +26968,11 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
           if (unlikely(__pyx_v_self->modelso->fkc->ownership_shares == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 402, __pyx_L133_except_error)
+            __PYX_ERR(0, 405, __pyx_L133_except_error)
           }
-          __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->modelso->fkc->ownership_shares, __pyx_v_d); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 402, __pyx_L133_except_error)
+          __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->modelso->fkc->ownership_shares, __pyx_v_d); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 405, __pyx_L133_except_error)
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_2 = PyNumber_Multiply(__pyx_v_annual_debt_payment, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 402, __pyx_L133_except_error)
+          __pyx_t_2 = PyNumber_Multiply(__pyx_v_annual_debt_payment, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 405, __pyx_L133_except_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_XDECREF_SET(__pyx_v_partner_debt_payment, __pyx_t_2);
@@ -26983,7 +26983,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
           goto __pyx_L132_exception_handled;
         }
 
-        /* "main_cy.pyx":399
+        /* "main_cy.pyx":402
  *       cost_water_gains_worst = -1.
  *       for d,v in district_gains.items():
  *         try:             # <<<<<<<<<<<<<<
@@ -27004,29 +27004,29 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
         __pyx_L138_try_end:;
       }
 
-      /* "main_cy.pyx":403
+      /* "main_cy.pyx":406
  *         except:
  *           partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]
  *         cost_water_gains_partner = (partner_debt_payment / v['avg_captured_water'] /1.23/ 1000) if (v['avg_captured_water'] > 0) else 1e6   ## units = $/megaliter             # <<<<<<<<<<<<<<
  *         if cost_water_gains_partner > cost_water_gains_worst:
  *           cost_water_gains_worst = cost_water_gains_partner
  */
-      __pyx_t_14 = __Pyx_PyObject_Dict_GetItem(__pyx_v_v, __pyx_n_u_avg_captured_water); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 403, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyObject_Dict_GetItem(__pyx_v_v, __pyx_n_u_avg_captured_water); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 406, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_11 = PyObject_RichCompare(__pyx_t_14, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 403, __pyx_L1_error)
+      __pyx_t_11 = PyObject_RichCompare(__pyx_t_14, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 406, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 403, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 406, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       if (__pyx_t_10) {
-        __pyx_t_11 = __Pyx_PyObject_Dict_GetItem(__pyx_v_v, __pyx_n_u_avg_captured_water); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_Dict_GetItem(__pyx_v_v, __pyx_n_u_avg_captured_water); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 406, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_14 = __Pyx_PyNumber_Divide(__pyx_v_partner_debt_payment, __pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_14 = __Pyx_PyNumber_Divide(__pyx_v_partner_debt_payment, __pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 406, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = __Pyx_PyFloat_TrueDivideObjC(__pyx_t_14, __pyx_float_1_23, 1.23, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyFloat_TrueDivideObjC(__pyx_t_14, __pyx_float_1_23, 1.23, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 406, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-        __pyx_t_14 = __Pyx_PyInt_TrueDivideObjC(__pyx_t_11, __pyx_int_1000, 0x3E8, 0, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_14 = __Pyx_PyInt_TrueDivideObjC(__pyx_t_11, __pyx_int_1000, 0x3E8, 0, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 406, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __pyx_t_19 = __pyx_t_14;
@@ -27038,19 +27038,19 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
       __Pyx_XDECREF_SET(__pyx_v_cost_water_gains_partner, __pyx_t_19);
       __pyx_t_19 = 0;
 
-      /* "main_cy.pyx":404
+      /* "main_cy.pyx":407
  *           partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]
  *         cost_water_gains_partner = (partner_debt_payment / v['avg_captured_water'] /1.23/ 1000) if (v['avg_captured_water'] > 0) else 1e6   ## units = $/megaliter
  *         if cost_water_gains_partner > cost_water_gains_worst:             # <<<<<<<<<<<<<<
  *           cost_water_gains_worst = cost_water_gains_partner
  * 
  */
-      __pyx_t_19 = PyObject_RichCompare(__pyx_v_cost_water_gains_partner, __pyx_v_cost_water_gains_worst, Py_GT); __Pyx_XGOTREF(__pyx_t_19); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 404, __pyx_L1_error)
-      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_19); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 404, __pyx_L1_error)
+      __pyx_t_19 = PyObject_RichCompare(__pyx_v_cost_water_gains_partner, __pyx_v_cost_water_gains_worst, Py_GT); __Pyx_XGOTREF(__pyx_t_19); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 407, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_19); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
       if (__pyx_t_10) {
 
-        /* "main_cy.pyx":405
+        /* "main_cy.pyx":408
  *         cost_water_gains_partner = (partner_debt_payment / v['avg_captured_water'] /1.23/ 1000) if (v['avg_captured_water'] > 0) else 1e6   ## units = $/megaliter
  *         if cost_water_gains_partner > cost_water_gains_worst:
  *           cost_water_gains_worst = cost_water_gains_partner             # <<<<<<<<<<<<<<
@@ -27060,7 +27060,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
         __Pyx_INCREF(__pyx_v_cost_water_gains_partner);
         __Pyx_DECREF_SET(__pyx_v_cost_water_gains_worst, __pyx_v_cost_water_gains_partner);
 
-        /* "main_cy.pyx":404
+        /* "main_cy.pyx":407
  *           partner_debt_payment = annual_debt_payment * self.modelso.fkc.ownership_shares[d]
  *         cost_water_gains_partner = (partner_debt_payment / v['avg_captured_water'] /1.23/ 1000) if (v['avg_captured_water'] > 0) else 1e6   ## units = $/megaliter
  *         if cost_water_gains_partner > cost_water_gains_worst:             # <<<<<<<<<<<<<<
@@ -27071,7 +27071,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "main_cy.pyx":409
+    /* "main_cy.pyx":412
  *       ###& store in shared memory array
  *       objs_MC = [total_captured_water_gain,
  *                   total_nonpartner_captured_water_gain,             # <<<<<<<<<<<<<<
@@ -27080,7 +27080,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
     __pyx_t_25 = 1e6;
 
-    /* "main_cy.pyx":410
+    /* "main_cy.pyx":413
  *       objs_MC = [total_captured_water_gain,
  *                   total_nonpartner_captured_water_gain,
  *                   min(cost_water_gains_worst,1e6),             # <<<<<<<<<<<<<<
@@ -27089,14 +27089,14 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
  */
     __Pyx_INCREF(__pyx_v_cost_water_gains_worst);
     __pyx_t_1 = __pyx_v_cost_water_gains_worst;
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_t_25); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 410, __pyx_L1_error)
+    __pyx_t_14 = PyFloat_FromDouble(__pyx_t_25); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 413, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_11 = PyObject_RichCompare(__pyx_t_14, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 410, __pyx_L1_error)
+    __pyx_t_11 = PyObject_RichCompare(__pyx_t_14, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 413, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 410, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 413, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     if (__pyx_t_10) {
-      __pyx_t_11 = PyFloat_FromDouble(__pyx_t_25); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 410, __pyx_L1_error)
+      __pyx_t_11 = PyFloat_FromDouble(__pyx_t_25); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 413, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __pyx_t_19 = __pyx_t_11;
       __pyx_t_11 = 0;
@@ -27106,65 +27106,65 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "main_cy.pyx":411
+    /* "main_cy.pyx":414
  *                   total_nonpartner_captured_water_gain,
  *                   min(cost_water_gains_worst,1e6),
  *                   len(district_gains)]             # <<<<<<<<<<<<<<
  * #      print(MC_label, objs_MC)
  *       shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC
  */
-    __pyx_t_5 = PyDict_Size(__pyx_v_district_gains); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 411, __pyx_L1_error)
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 411, __pyx_L1_error)
+    __pyx_t_5 = PyDict_Size(__pyx_v_district_gains); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 414, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 414, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
 
-    /* "main_cy.pyx":408
+    /* "main_cy.pyx":411
  * 
  *       ###& store in shared memory array
  *       objs_MC = [total_captured_water_gain,             # <<<<<<<<<<<<<<
  *                   total_nonpartner_captured_water_gain,
  *                   min(cost_water_gains_worst,1e6),
  */
-    __pyx_t_11 = PyList_New(4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 408, __pyx_L1_error)
+    __pyx_t_11 = PyList_New(4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 411, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_INCREF(__pyx_v_total_captured_water_gain);
     __Pyx_GIVEREF(__pyx_v_total_captured_water_gain);
-    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 0, __pyx_v_total_captured_water_gain)) __PYX_ERR(0, 408, __pyx_L1_error);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 0, __pyx_v_total_captured_water_gain)) __PYX_ERR(0, 411, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_total_nonpartner_captured_water_gain);
     __Pyx_GIVEREF(__pyx_v_total_nonpartner_captured_water_gain);
-    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 1, __pyx_v_total_nonpartner_captured_water_gain)) __PYX_ERR(0, 408, __pyx_L1_error);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 1, __pyx_v_total_nonpartner_captured_water_gain)) __PYX_ERR(0, 411, __pyx_L1_error);
     __Pyx_INCREF(__pyx_t_19);
     __Pyx_GIVEREF(__pyx_t_19);
-    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 2, __pyx_t_19)) __PYX_ERR(0, 408, __pyx_L1_error);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 2, __pyx_t_19)) __PYX_ERR(0, 411, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_1);
-    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 3, __pyx_t_1)) __PYX_ERR(0, 408, __pyx_L1_error);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_11, 3, __pyx_t_1)) __PYX_ERR(0, 411, __pyx_L1_error);
     __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
     __pyx_t_1 = 0;
     __pyx_v_objs_MC = ((PyObject*)__pyx_t_11);
     __pyx_t_11 = 0;
 
-    /* "main_cy.pyx":413
+    /* "main_cy.pyx":416
  *                   len(district_gains)]
  * #      print(MC_label, objs_MC)
  *       shared_objs_array[MC_count*len(objs_MC):(MC_count+1)*len(objs_MC)] = objs_MC             # <<<<<<<<<<<<<<
- * 
+ * #      print('end objs', objs_MC)
  *       ### objs: max(0) CWG - mean over years - sum over partners - mean over MC
  */
-    __pyx_t_5 = __Pyx_PyList_GET_SIZE(__pyx_v_objs_MC); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 413, __pyx_L1_error)
-    __pyx_t_11 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 413, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyList_GET_SIZE(__pyx_v_objs_MC); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 416, __pyx_L1_error)
+    __pyx_t_11 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 416, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_1 = PyNumber_Multiply(__pyx_v_MC_count, __pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 413, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Multiply(__pyx_v_MC_count, __pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 416, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_PyInt_AddObjC(__pyx_v_MC_count, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 413, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyInt_AddObjC(__pyx_v_MC_count, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 416, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_5 = __Pyx_PyList_GET_SIZE(__pyx_v_objs_MC); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 413, __pyx_L1_error)
-    __pyx_t_19 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 413, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyList_GET_SIZE(__pyx_v_objs_MC); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 416, __pyx_L1_error)
+    __pyx_t_19 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 416, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_19);
-    __pyx_t_14 = PyNumber_Multiply(__pyx_t_11, __pyx_t_19); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 413, __pyx_L1_error)
+    __pyx_t_14 = PyNumber_Multiply(__pyx_t_11, __pyx_t_19); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 416, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
-    if (__Pyx_PyObject_SetSlice(__pyx_v_shared_objs_array, __pyx_v_objs_MC, 0, 0, &__pyx_t_1, &__pyx_t_14, NULL, 0, 0, 1) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
+    if (__Pyx_PyObject_SetSlice(__pyx_v_shared_objs_array, __pyx_v_objs_MC, 0, 0, &__pyx_t_1, &__pyx_t_14, NULL, 0, 0, 1) < 0) __PYX_ERR(0, 416, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   }
@@ -27235,7 +27235,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_8get_district_results(struct __pyx_o
   return __pyx_r;
 }
 
-/* "main_cy.pyx":428
+/* "main_cy.pyx":431
  * 
  *   ### Note: this is now defunct, replaced with get_district_results for FKC infrastructure problem. But leaving this here as more general example.
  *   def calc_objectives(self):             # <<<<<<<<<<<<<<
@@ -27307,9 +27307,9 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
   int __pyx_clineno = 0;
   __Pyx_TraceFrameInit(__pyx_codeobj__29)
   __Pyx_RefNannySetupContext("calc_objectives", 1);
-  __Pyx_TraceCall("calc_objectives", __pyx_f[0], 428, 0, __PYX_ERR(0, 428, __pyx_L1_error));
+  __Pyx_TraceCall("calc_objectives", __pyx_f[0], 431, 0, __PYX_ERR(0, 431, __pyx_L1_error));
 
-  /* "main_cy.pyx":430
+  /* "main_cy.pyx":433
  *   def calc_objectives(self):
  *     ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
  *     nt = len(self.modelno.shasta.baseline_inf)             # <<<<<<<<<<<<<<
@@ -27320,37 +27320,37 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 430, __pyx_L1_error)
+    __PYX_ERR(0, 433, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 430, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_nt = __pyx_t_2;
 
-  /* "main_cy.pyx":432
+  /* "main_cy.pyx":435
  *     nt = len(self.modelno.shasta.baseline_inf)
  * 
  *     objs = {}             # <<<<<<<<<<<<<<
  *     total_delivery = np.zeros(self.modelno.T)
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_objs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":433
+  /* "main_cy.pyx":436
  * 
  *     objs = {}
  *     total_delivery = np.zeros(self.modelno.T)             # <<<<<<<<<<<<<<
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
  *       for cc in ['contract', 'flood']:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 436, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 436, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->modelno->T); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->modelno->T); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 436, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -27371,14 +27371,14 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 433, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 436, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __pyx_v_total_delivery = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":434
+  /* "main_cy.pyx":437
  *     objs = {}
  *     total_delivery = np.zeros(self.modelno.T)
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:             # <<<<<<<<<<<<<<
@@ -27390,15 +27390,15 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
   for (;;) {
     if (__pyx_t_2 >= 2) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely((0 < 0))) __PYX_ERR(0, 434, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely((0 < 0))) __PYX_ERR(0, 437, __pyx_L1_error)
     #else
-    __pyx_t_4 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 437, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_c, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "main_cy.pyx":435
+    /* "main_cy.pyx":438
  *     total_delivery = np.zeros(self.modelno.T)
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
  *       for cc in ['contract', 'flood']:             # <<<<<<<<<<<<<<
@@ -27410,42 +27410,42 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     for (;;) {
       if (__pyx_t_7 >= 2) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely((0 < 0))) __PYX_ERR(0, 435, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely((0 < 0))) __PYX_ERR(0, 438, __pyx_L1_error)
       #else
-      __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_4, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 435, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_4, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 438, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_XDECREF_SET(__pyx_v_cc, ((PyObject*)__pyx_t_3));
       __pyx_t_3 = 0;
 
-      /* "main_cy.pyx":437
+      /* "main_cy.pyx":440
  *       for cc in ['contract', 'flood']:
  *         # try:
  *         print(c,cc)             # <<<<<<<<<<<<<<
  *         total_delivery += self.modelso.__getattribute__(c).daily_supplies[cc]
  *         # except:
  */
-      __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 437, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_v_c);
       __Pyx_GIVEREF(__pyx_v_c);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_c)) __PYX_ERR(0, 437, __pyx_L1_error);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_c)) __PYX_ERR(0, 440, __pyx_L1_error);
       __Pyx_INCREF(__pyx_v_cc);
       __Pyx_GIVEREF(__pyx_v_cc);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_cc)) __PYX_ERR(0, 437, __pyx_L1_error);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 437, __pyx_L1_error)
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_cc)) __PYX_ERR(0, 440, __pyx_L1_error);
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 440, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "main_cy.pyx":438
+      /* "main_cy.pyx":441
  *         # try:
  *         print(c,cc)
  *         total_delivery += self.modelso.__getattribute__(c).daily_supplies[cc]             # <<<<<<<<<<<<<<
  *         # except:
  *           # pass
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->modelso), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->modelso), __pyx_n_s_getattribute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_8 = NULL;
       __pyx_t_6 = 0;
@@ -27465,23 +27465,23 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
         PyObject *__pyx_callargs[2] = {__pyx_t_8, __pyx_v_c};
         __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 438, __pyx_L1_error)
+        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 441, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_daily_supplies); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_daily_supplies); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_v_cc); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_v_cc); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 441, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_total_delivery, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_total_delivery, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF_SET(__pyx_v_total_delivery, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "main_cy.pyx":435
+      /* "main_cy.pyx":438
  *     total_delivery = np.zeros(self.modelno.T)
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
  *       for cc in ['contract', 'flood']:             # <<<<<<<<<<<<<<
@@ -27491,7 +27491,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "main_cy.pyx":434
+    /* "main_cy.pyx":437
  *     objs = {}
  *     total_delivery = np.zeros(self.modelno.T)
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:             # <<<<<<<<<<<<<<
@@ -27501,22 +27501,22 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":442
+  /* "main_cy.pyx":445
  *           # pass
  * 
  *     total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})             # <<<<<<<<<<<<<<
  *     total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
  *     objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 442, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 442, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 442, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_u_ts, __pyx_v_total_delivery) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_u_wy, __pyx_v_self->modelno->water_year) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_u_ts, __pyx_v_total_delivery) < 0) __PYX_ERR(0, 445, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_u_wy, __pyx_v_self->modelno->water_year) < 0) __PYX_ERR(0, 445, __pyx_L1_error)
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
   #if CYTHON_UNPACK_METHODS
@@ -27536,21 +27536,21 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 442, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF_SET(__pyx_v_total_delivery, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":443
+  /* "main_cy.pyx":446
  * 
  *     total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})
  *     total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values             # <<<<<<<<<<<<<<
  *     objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
  *     objs['min_friant_delivery'] = np.min(total_wy_delivery)
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_total_delivery, __pyx_n_s_groupby); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_total_delivery, __pyx_n_s_groupby); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -27570,11 +27570,11 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_n_u_wy};
     __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 443, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -27595,29 +27595,29 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     PyObject *__pyx_callargs[2] = {__pyx_t_3, NULL};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 443, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_ts); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_ts); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_values); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_values); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_total_wy_delivery = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":444
+  /* "main_cy.pyx":447
  *     total_delivery = pd.DataFrame({'ts': total_delivery, 'wy': self.modelno.water_year})
  *     total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
  *     objs['avg_friant_delivery'] = np.mean(total_wy_delivery)             # <<<<<<<<<<<<<<
  *     objs['min_friant_delivery'] = np.min(total_wy_delivery)
  *     objs['timeseries_wys'] = len(total_wy_delivery)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 444, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_mean); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 444, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_mean); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -27638,23 +27638,23 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_v_total_wy_delivery};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
-  if (unlikely((PyDict_SetItem(__pyx_v_objs, __pyx_n_u_avg_friant_delivery, __pyx_t_1) < 0))) __PYX_ERR(0, 444, __pyx_L1_error)
+  if (unlikely((PyDict_SetItem(__pyx_v_objs, __pyx_n_u_avg_friant_delivery, __pyx_t_1) < 0))) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":445
+  /* "main_cy.pyx":448
  *     total_wy_delivery = total_delivery.groupby('wy').max()['ts'].values
  *     objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
  *     objs['min_friant_delivery'] = np.min(total_wy_delivery)             # <<<<<<<<<<<<<<
  *     objs['timeseries_wys'] = len(total_wy_delivery)
  *     print(objs)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 445, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_min); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_min); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 448, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -27675,38 +27675,38 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
     PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_v_total_wy_delivery};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 445, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  if (unlikely((PyDict_SetItem(__pyx_v_objs, __pyx_n_u_min_friant_delivery, __pyx_t_1) < 0))) __PYX_ERR(0, 445, __pyx_L1_error)
+  if (unlikely((PyDict_SetItem(__pyx_v_objs, __pyx_n_u_min_friant_delivery, __pyx_t_1) < 0))) __PYX_ERR(0, 448, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":446
+  /* "main_cy.pyx":449
  *     objs['avg_friant_delivery'] = np.mean(total_wy_delivery)
  *     objs['min_friant_delivery'] = np.min(total_wy_delivery)
  *     objs['timeseries_wys'] = len(total_wy_delivery)             # <<<<<<<<<<<<<<
  *     print(objs)
  * 
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_total_wy_delivery); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 446, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_total_wy_delivery); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 449, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 449, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely((PyDict_SetItem(__pyx_v_objs, __pyx_n_u_timeseries_wys, __pyx_t_1) < 0))) __PYX_ERR(0, 446, __pyx_L1_error)
+  if (unlikely((PyDict_SetItem(__pyx_v_objs, __pyx_n_u_timeseries_wys, __pyx_t_1) < 0))) __PYX_ERR(0, 449, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":447
+  /* "main_cy.pyx":450
  *     objs['min_friant_delivery'] = np.min(total_wy_delivery)
  *     objs['timeseries_wys'] = len(total_wy_delivery)
  *     print(objs)             # <<<<<<<<<<<<<<
  * 
  *     return objs
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_v_objs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_v_objs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "main_cy.pyx":449
+  /* "main_cy.pyx":452
  *     print(objs)
  * 
  *     return objs             # <<<<<<<<<<<<<<
@@ -27718,7 +27718,7 @@ static PyObject *__pyx_pf_7main_cy_7main_cy_10calc_objectives(struct __pyx_obj_7
   __pyx_r = __pyx_v_objs;
   goto __pyx_L0;
 
-  /* "main_cy.pyx":428
+  /* "main_cy.pyx":431
  * 
  *   ### Note: this is now defunct, replaced with get_district_results for FKC infrastructure problem. But leaving this here as more general example.
  *   def calc_objectives(self):             # <<<<<<<<<<<<<<
@@ -33284,25 +33284,25 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
-  /* "main_cy.pyx":434
+  /* "main_cy.pyx":437
  *     objs = {}
  *     total_delivery = np.zeros(self.modelno.T)
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:             # <<<<<<<<<<<<<<
  *       for cc in ['contract', 'flood']:
  *         # try:
  */
-  __pyx_tuple__30 = PyTuple_Pack(2, __pyx_n_u_friant1, __pyx_n_u_friant2); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 434, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(2, __pyx_n_u_friant1, __pyx_n_u_friant2); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 437, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
-  /* "main_cy.pyx":435
+  /* "main_cy.pyx":438
  *     total_delivery = np.zeros(self.modelno.T)
  *     for c in ['friant1', 'friant2']:#, 'cvpdelta', 'swpdelta', 'cvpexchange']:
  *       for cc in ['contract', 'flood']:             # <<<<<<<<<<<<<<
  *         # try:
  *         print(c,cc)
  */
-  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_u_contract, __pyx_n_u_flood); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_u_contract, __pyx_n_u_flood); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 438, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
 
@@ -33483,17 +33483,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__53);
   __Pyx_GIVEREF(__pyx_tuple__53);
 
-  /* "main_cy.pyx":428
+  /* "main_cy.pyx":431
  * 
  *   ### Note: this is now defunct, replaced with get_district_results for FKC infrastructure problem. But leaving this here as more general example.
  *   def calc_objectives(self):             # <<<<<<<<<<<<<<
  *     ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
  *     nt = len(self.modelno.shasta.baseline_inf)
  */
-  __pyx_tuple__54 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_nt, __pyx_n_s_objs, __pyx_n_s_total_delivery, __pyx_n_s_c, __pyx_n_s_cc, __pyx_n_s_total_wy_delivery); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 428, __pyx_L1_error)
+  __pyx_tuple__54 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_nt, __pyx_n_s_objs, __pyx_n_s_total_delivery, __pyx_n_s_c, __pyx_n_s_cc, __pyx_n_s_total_wy_delivery); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__54);
   __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_main_cy_pyx, __pyx_n_s_calc_objectives, 428, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(0, 428, __pyx_L1_error)
+  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_main_cy_pyx, __pyx_n_s_calc_objectives, 431, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(0, 431, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -34978,16 +34978,16 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_7main_cy_main_cy);
 
-  /* "main_cy.pyx":428
+  /* "main_cy.pyx":431
  * 
  *   ### Note: this is now defunct, replaced with get_district_results for FKC infrastructure problem. But leaving this here as more general example.
  *   def calc_objectives(self):             # <<<<<<<<<<<<<<
  *     ### "starter" objectives: (1) avg water deliveries for friant contracts; (2) min annual water deliveries for friant contracts
  *     nt = len(self.modelno.shasta.baseline_inf)
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7main_cy_7main_cy_11calc_objectives, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_main_cy_calc_objectives, NULL, __pyx_n_s_main_cy, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 428, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7main_cy_7main_cy_11calc_objectives, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_main_cy_calc_objectives, NULL, __pyx_n_s_main_cy, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_7main_cy_main_cy, __pyx_n_s_calc_objectives, __pyx_t_7) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_7main_cy_main_cy, __pyx_n_s_calc_objectives, __pyx_t_7) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_7main_cy_main_cy);
 

@@ -52,17 +52,18 @@ Licensed under the MIT License, 2017-.
 1. 100 synthetic timeseries of inflows from the MHMM generator are stored at 
    `calfews_src/data/MGHMM_synthetic/DailyQ_s{n}.csv`, where n is the sample 0-99. If you want to recreate these you
    can run `submmit_MGHMM_MOOWCU.sh` to the SLURM scheduler (set up for TheCube), or just run `generate_MGHMM_MOOWCU.py`
-   on your local machine. Samples 0-31 are used for the multi-objective optimization, and samples 33-96 are used for the
+   on your local machine. Samples 0-21 are used for the multi-objective optimization, and samples 22-99 are used for the
    reevaluation.
 
 ## Running the multi-objective optimization
 
-1. First run the baseline simulations with no new infrastructure by submitting submit_baselines_anvil.sh to the SLURM scheduler via sbatch. I ran all 100 simulations at once using a single job with 1 task of 100 cores. This took ~13 minutes.
-2. Run submit_moo_infra.sh for multiple seeds. Each submisssion uses 128 nodes on Stampede2. I ran 6 seeds: 3 with
-   dv_formulation=1, 3 with dv_formulation=2. For each, begin with numFEPrevious=0 (a fresh start for MOEA), and run for
-   48 hours.
+1. First run the baseline simulations with no new infrastructure by submitting `submit_baselines_bridges2.sh` to the 
+   SLURM scheduler via sbatch. I ran all 100 simulations at once using a single job with 1 task of 50 cores on Bridgees-2 on the 
+   RM-shared partition. This took ~13 minutes.
+2. Run `submit_moo_infra_bridges2.sh` for multiple seeds. Each submisssion uses 32 nodes on the RM partition on Bridges-2. I ran 3 seeds.
+   For each, begin with numFEPrevious=0 (a fresh start for MOEA), and run for 48 hours.
 3. Once each of these has finished, it will store results in `results/infra_moo/dv{dv_formulation}_seed{seed}/` -> move
-   this to `results/MOO_results_s2/dv{dv_formulation}_seed{seed}_round1/` for storage.
+   this to `results/MOO_results_bridges2/dv{dv_formulation}_seed{seed}_round1/` for storage.
 4. Now create a new directory `results/infra_moo/dv{dv_formulation}_seed{seed}/` for the round 2 results to be written
    to. Within it, create a directory `checkpts/`. Within that, copy the
    file `results/MOO_results_s2/dv{dv_formulation}_seed{seed}_round1/checkpts/s{seed}_nfe{NFE_last}.checkpt` from the
