@@ -2561,15 +2561,12 @@ def plot_ownership_share_concentrations(results, water_providers):
 
 ### figure showing evolution of metrics (e.g., hypervolume) across seeds during multiobjective optimization step
 def plot_moo_metrics():
-    dvs = [1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2]
-    seeds = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]
-    rounds = [1, 1, 1, 1, 1, 1,
-              2, 2, 2, 2, 2, 2,
-              3, 3, 3, 3, 3, 3]
-    nfes = [21500, 21600, 21300, 20300, 20300, 19800,
-            63801, 67801, 63601, 58301, 59601, 58601,
-            106202, 108502, 104702, 96902, 98802, 114202]
-
+    dvs = [2,2,2,2]
+    seeds = [1,1,2,3]
+    rounds = [1,1,1,1]
+    nfes = [3100,42401,40400,42200]
+    results_dir = '../../results/MOO_results_bridges2/'
+    subdirs = ['dv2_seed1_round1a', 'dv2_seed1_round1b', 'dv2_seed2_round1', 'dv2_seed3_round1']
     ### read in operators data
     operators = []
     for i in range(len(dvs)):
@@ -2577,7 +2574,7 @@ def plot_moo_metrics():
         seed = seeds[i]
         r = rounds[i]
         nfe = nfes[i]
-        metrics_dir = f'../../results_arx/infra_moo/metrics/'
+        metrics_dir = f'{results_dir}/{subdirs[i]}/operators/'
         NFE_file = f'{metrics_dir}/dv{dv}_s{seed}_nfe{nfe}.NFE'
         df = pd.read_csv(NFE_file, sep=' ', header=None)
         for o in ['DE', 'PCX', 'SBX', 'SPX', 'UM', 'UNDX']:
@@ -2595,6 +2592,7 @@ def plot_moo_metrics():
         seed = seeds[i]
         r = rounds[i]
         nfe = nfes[i]
+        metrics_dir = f'{results_dir}/{subdirs[i]}/metrics/'
         df = pd.read_csv(f'{metrics_dir}/dv{dv}_s{seed}_nfe{nfe}.metrics', sep=' ')
         df.index = operators[i].index[-df.shape[0]:]
         df.columns = ['Hypervolume', 'Generational distance', 'Inverted generational distance', 'Spacing',
@@ -2602,23 +2600,36 @@ def plot_moo_metrics():
         ncols = df.shape[1]
         cols = df.columns
         metrics.append(df)
-
+    print(operators)
+    print(metrics)
     ### plot runtime metrics
-    coldict = {1: 'firebrick', 2: 'cornflowerblue'}
+    colors = ['firebrick', 'firebrick', 'cornflowerblue', 'darkgoldenrod']
     cols = ['Hypervolume', 'Inverted generational distance', 'Epsilon indicator']
     labels = ['Hypervolume', 'Inverted\ngenerational\ndistance', 'Epsilon\nindicator']
-    fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+    fig, axs = plt.subplots(3, 1, figsize=(8, 6))
     j = 0
     k = 0
     for c, col in enumerate(cols):
         ax = axs[c]
         for i in range(len(dvs)):
-            ax.plot(metrics[i][col].index / 1000, metrics[i][col], color=coldict[dvs[i]])
+            ax.plot(metrics[i][col].index / 1000, metrics[i][col], color=colors[i])
         ax.set_ylabel(labels[c], fontsize=fontsize)
-        if c == 1:
-            leg = [Line2D([0], [0], color=coldict[1], label='Formulation 1'),
-                   Line2D([0], [0], color=coldict[2], label='Formulation 2')]
-            _ = ax.legend(handles=leg, loc='center right', frameon=False, fontsize=fontsize)
-    ax.set_xlabel('Thousands of candidate partnership evaluations', fontsize=fontsize)
+    ax.set_xlabel('Thousand function evaluations', fontsize=fontsize)
 
     plt.savefig(f'{fig_dir}moo_metrics.png', bbox_inches='tight', dpi=300)
+
+    ### plot operators
+    cols =  ['DE', 'PCX', 'SBX', 'SPX', 'UM', 'UNDX']
+    labels =  ['DE', 'PCX', 'SBX', 'SPX', 'UM', 'UNDX']
+    fig, axs = plt.subplots(3, 2, figsize=(8, 6), gridspec_kw={'wspace':0.3})
+    for c, col in enumerate(cols):
+        j = c%2
+        k = int(c/2)
+        ax = axs[k,j]
+        for i in range(len(dvs)):
+            ax.plot(operators[i][col].index / 1000, operators[i][col], color=colors[i])
+        ax.set_ylabel(labels[c], fontsize=fontsize)
+        if k==2 and j==0:
+            ax.set_xlabel('Thousand function evaluations', fontsize=fontsize)
+
+    plt.savefig(f'{fig_dir}moo_operators.png', bbox_inches='tight', dpi=300)
