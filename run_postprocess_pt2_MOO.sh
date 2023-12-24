@@ -13,12 +13,12 @@ nfes_final=(3100 42401 40400 42200)
 dir_names=('dv2_seed1_round1a' 'dv2_seed1_round1b' 'dv2_seed2_round1' 'dv2_seed3_round1')
 
 ### round 2
-#dvs=(2 2 2)
-#seeds=(1 2 3)
-#round=2
-#nfes_init=(42401 40400 42200)
-#nfes_final=(73702 74001 75901)
-#dir_names=('dv2_seed1_round2' 'dv2_seed2_round2' 'dv2_seed3_round2')
+dvs=(2 2 2)
+seeds=(1 2 3)
+round=2
+nfes_init=(42401 40400 42200)
+nfes_final=(73702 74001 75901)
+dir_names=('dv2_seed1_round2' 'dv2_seed2_round2' 'dv2_seed3_round2')
 
 ### round 3
 #round=3
