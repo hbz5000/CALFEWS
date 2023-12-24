@@ -17,8 +17,8 @@ slurmscript="\
 #SBATCH -n 1\n\
 #SBATCH -p normal\n\
 #SBATCH -t 1:00:00\n\
-#SBATCH -o $results/metrics/$name.metricsout\n\
-#SBATCH -e $results/metrics/$name.metricserr\n\
+##SBATCH -o $results/metrics/$name.metricsout\n\
+##SBATCH -e $results/metrics/$name.metricserr\n\
 java ${JAVA_ARGS} org.moeaframework.analysis.sensitivity.ResultFileEvaluator \
 	-d 4 -i $results/objs/dv${dv}_s${seed}_nfe${nfe_final}.obj -r $results/../overall_ref/overall.reference \
 	-o $results/metrics/${name}.metrics"
