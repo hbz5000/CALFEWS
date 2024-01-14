@@ -15,43 +15,43 @@ import main_cy
 
 ### get effective decision variables after enforcing number of districts and min share size
 def get_effective_dvs(dvs, min_share, dv_formulation):
-  ### try several dv formulations, since not sure which will learn fastest with borg loop
-  ### first dv is always project type -> set to integer
-  dv_project = int(dvs[0])
+    ### try several dv formulations, since not sure which will learn fastest with borg loop
+    ### first dv is always project type -> set to integer
+    dv_project = int(dvs[0])
 
-  ### dv_formulation == 0: set shares directly as dv
-  if dv_formulation == 0:
-    shares = np.array(dvs[1:])
+    ### dv_formulation == 0: set shares directly as dv
+    if dv_formulation == 0:
+        shares = np.array(dvs[1:])
 
-  ### dv_formulation == 1: set number of partners P, and district shares. Set all except largest P to 0
-  elif dv_formulation == 1:
-    ### get number of partners & shares
-    npartners = int(dvs[1])
-    shares = np.array(dvs[2:])
-    # get indices of npartners largest shares
-    partners = np.argpartition(shares, -npartners)[-npartners:]
-    nonpartners = np.argpartition(shares, -npartners)[:-npartners]
-    shares[nonpartners] = 0.
+    ### dv_formulation == 1: set number of partners P, and district shares. Set all except largest P to 0
+    elif dv_formulation == 1:
+        ### get number of partners & shares
+        npartners = int(dvs[1])
+        shares = np.array(dvs[2:])
+        # get indices of npartners largest shares
+        partners = np.argpartition(shares, -npartners)[-npartners:]
+        nonpartners = np.argpartition(shares, -npartners)[:-npartners]
+        shares[nonpartners] = 0.
 
-  ### dv_formulation == 2: for each district, have binary switch turning on/off, as well as share.
-  elif dv_formulation == 2:
-    ndistricts = int((len(dvs) - 1) / 2)
-    ### get switch. This will be in [0.0, 2.0).
-    switches = np.array(dvs[1:ndistricts+1])
-    ### get shares
-    shares = np.array(dvs[ndistricts+1:])
-    ### Only districts with switch >=1 should have non-zero shares.
-    shares[switches < 1.] = 0.
+    ### dv_formulation == 2: for each district, have binary switch turning on/off, as well as share.
+    elif dv_formulation == 2:
+        ndistricts = int((len(dvs) - 1) / 2)
+        ### get switch. This will be in [0.0, 2.0).
+        switches = np.array(dvs[1:ndistricts+1])
+        ### get shares
+        shares = np.array(dvs[ndistricts+1:])
+        ### Only districts with switch >=1 should have non-zero shares.
+        shares[switches < 1.] = 0.
 
-  ### for all dv_formulations, normalize shares to sum to 1, then set all districts below min_share to 0, then renormalize.
-  shares = shares / shares.sum()
-  loop = 0
-  while (loop < 5) and (np.any(np.logical_and(shares < min_share, shares > 0))):
-    shares[shares < min_share] = 0.
-    shares /= shares.sum()
-    loop += 1
+    ### for all dv_formulations, normalize shares to sum to 1, then set all districts below min_share to 0, then renormalize.
+    shares = shares / shares.sum()
+    loop = 0
+    while (loop < 5) and (np.any(np.logical_and(shares < min_share, shares > 0))):
+        shares[shares < min_share] = 0.
+        shares /= shares.sum()
+        loop += 1
 
-  return dv_project, shares
+    return dv_project, shares
 
 
 ### function to setup problem for particular infra soln
@@ -69,6 +69,12 @@ def setup_problem(results_folder, dv_formulation, MOO_seed, rank, size, soln):
     nconstrs = 2
     min_share = 0.01
 
+    ### if MOO_seed < 0, this is status quo friant solution. there is an extra aggregated district that isnt included in MOO.
+    if MOO_seed < 0:
+        ndistricts += 1
+        ### dont enforce minimum share size for status quo
+        min_share = 0.
+        
     ### see get_effective_dvs() in problem_infra.py for explanation of different decision variable formulatons
     if dv_formulation == 0:
         nvars = ndistricts + 1
@@ -86,9 +92,9 @@ def setup_problem(results_folder, dv_formulation, MOO_seed, rank, size, soln):
     ### get particular solution from setfile based on line number
     with open(setfolder + setfile, 'r') as f:
         for i, line in enumerate(f):
-          if i == linenum:
-              vals = line
-              break
+            if i == linenum:
+                vals = line
+                break
 
     vals = vals.strip().split(' ')
     vals = [float(v) for v in vals]
@@ -98,38 +104,45 @@ def setup_problem(results_folder, dv_formulation, MOO_seed, rank, size, soln):
 
     ### apply ownership fractions for FKC expansion based on dvs
     scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
-    districts = scenario['ownership_shares'].keys()
+    districts = list(scenario['ownership_shares'].keys())
+    ### if MOO_seed<0, this is status quo friant solution. Need to add 'OFK' aggregate district to list.
+    if MOO_seed < 0:
+        districts.append('OFK')
+
     for i, k in enumerate(districts):
-      if dv_project in [1,3]:   #1=FKC only, 3=FKC+CFWB
-        scenario['ownership_shares'][k] = shares[i]
-      else:                     #2=CFWB only, so set FKC ownership params to 0
-        scenario['ownership_shares'][k] = 0.
+        if dv_project in [1,3]:   #1=FKC only, 3=FKC+CFWB
+            scenario['ownership_shares'][k] = shares[i]
+        else:                     #2=CFWB only, so set FKC ownership params to 0
+            scenario['ownership_shares'][k] = 0.
     ### save new scenario to results folder
     with open(results_folder + '/FKC_scenario.json', 'w') as o:
-      json.dump(scenario, o)
+        json.dump(scenario, o)
 
     ### apply ownership fractions for CFWB based on dvs, plus capacity params for CFWB
     scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
     removeddistricts = []
     for i, k in enumerate(districts):
-      if dv_project in [2,3]:   #2=CFWB only, 3=FKC+CFWB
-        share = shares[i]
-      else:                     #1=FKC only
-        share = 0.
-      if share > 0.0:
-        scenario['ownership'][k] = share
-      else:
-        removeddistricts.append(k)
+        if dv_project in [2,3]:   #2=CFWB only, 3=FKC+CFWB
+            share = shares[i]
+        else:                     #1=FKC only
+            share = 0.
+        if share > 0.0:
+            scenario['ownership'][k] = share
+        else:
+            removeddistricts.append(k)
     for k in removeddistricts:
-      scenario['participant_list'].remove(k)
-      del scenario['ownership'][k]
-      del scenario['bank_cap'][k]
+        try:
+            scenario['participant_list'].remove(k)
+            del scenario['ownership'][k]
+            del scenario['bank_cap'][k]
+        except:
+            pass
     scenario['initial_recharge'] = 300.
     scenario['tot_storage'] = 0.6
     scenario['recovery'] = 0.2
     scenario['proj_type'] = dv_project
     with open(results_folder + '/CFWB_scenario.json', 'w') as o:
-      json.dump(scenario, o)
+        json.dump(scenario, o)
 
 
     ### create new sheet in results hdf5 file, and save dvs
@@ -183,19 +196,24 @@ if __name__ == "__main__":
     num_MC = int(sys.argv[8])
     start_MC = int(sys.argv[9])
 
-    comm = MPI.COMM_WORLD
-    rank = comm.Get_rank()
-    size = comm.Get_size()
-
-    ### get list of solns assigned to this task
-    solns = []
-    r = 0
-    for i in range(start_solns_total, start_solns_total + num_solns_total):
-        if r == rank:
-            solns.append(i)
-        r += 1
-        if r == size:
-            r = 0
+    if tasks_total > 1:
+        comm = MPI.COMM_WORLD
+        rank = comm.Get_rank()
+        size = comm.Get_size()
+ 
+        ### get list of solns assigned to this task
+        solns = []
+        r = 0
+        for i in range(start_solns_total, start_solns_total + num_solns_total):
+            if r == rank:
+                solns.append(i)
+            r += 1
+            if r == size:
+                r = 0
+    else:
+        solns = list(range(start_solns_total, start_solns_total + num_solns_total))
+        rank = 0
+        size = 1
 
     ### loop over solns assigned to this task & do MC trial for infrastructure setup
     for soln in solns:
