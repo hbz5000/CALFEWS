@@ -2561,12 +2561,13 @@ def plot_ownership_share_concentrations(results, water_providers):
 
 ### figure showing evolution of metrics (e.g., hypervolume) across seeds during multiobjective optimization step
 def plot_moo_metrics():
-    dvs = [2,2,2,2]
-    seeds = [1,1,2,3]
-    rounds = [1,1,1,1]
-    nfes = [3100,42401,40400,42200]
+    dvs = [2,2,2,2,2,2,2]
+    seeds = [1,1,2,3,1,2,3]
+    rounds = [1,1,1,1,2,2,2]
+    nfes = [3100,42401,40400,42200,73702, 74001, 75901]
     results_dir = '../../results/MOO_results_bridges2/'
-    subdirs = ['dv2_seed1_round1a', 'dv2_seed1_round1b', 'dv2_seed2_round1', 'dv2_seed3_round1']
+    subdirs = ['dv2_seed1_round1a', 'dv2_seed1_round1b', 'dv2_seed2_round1', 'dv2_seed3_round1',
+               'dv2_seed1_round2', 'dv2_seed2_round2', 'dv2_seed3_round2']
     ### read in operators data
     operators = []
     for i in range(len(dvs)):
@@ -2603,7 +2604,7 @@ def plot_moo_metrics():
     print(operators)
     print(metrics)
     ### plot runtime metrics
-    colors = ['firebrick', 'firebrick', 'cornflowerblue', 'darkgoldenrod']
+    colors = ['firebrick', 'firebrick', 'cornflowerblue', 'darkgoldenrod', 'firebrick', 'cornflowerblue', 'darkgoldenrod']
     cols = ['Hypervolume', 'Inverted generational distance', 'Epsilon indicator']
     labels = ['Hypervolume', 'Inverted\ngenerational\ndistance', 'Epsilon\nindicator']
     fig, axs = plt.subplots(3, 1, figsize=(8, 6))

@@ -28,7 +28,7 @@ num_results=${#dvs[@]}
 
 ### get overall reference set (only need to do this once in 1st round, since all rounds' ref sets have been copied there in run_postprocess_pt1.sh)
 if [ $round -eq 1 ]; then
-	python ../pareto.py $results/overall_ref/*.reference -o 0-3 -e 2. 2. 5. 0.999 --output $results/overall_ref/overall.reference --delimiter=" " --comment="#"
+	python3 ../pareto.py $results/overall_ref/*.reference -o 0-3 -e 2. 2. 5. 0.999 --output $results/overall_ref/overall.reference --delimiter=" " --comment="#"
 #	python ../pareto.py $results/overall_ref/*.reference -o 0-3 -e 5. 5. 10. 1.999 --output $results/overall_ref/overall_coarse.reference --delimiter=" " --comment="#"
 fi
 
@@ -41,9 +41,9 @@ for (( i=0; i<$num_results; i++ )); do
 	subdir=$results/${dir_names[$i]}
 
 	### find runtime metrics
-	sh find_runtime_metrics.sh $subdir $dv $seed $nfe_init $nfe_final
+	bash find_runtime_metrics_local.sh $subdir $dv $seed $nfe_init $nfe_final
 	### find operator dynamcs
-	sh find_operators.sh $subdir $dv $seed $nfe_init $nfe_final
+	bash find_operators.sh $subdir $dv $seed $nfe_init $nfe_final
 done
 
 ### find clean reference set with dvs combined, plus solutions from previous Earth's Future paper (Hamilton et al, 2022).
