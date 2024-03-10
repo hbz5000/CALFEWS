@@ -20,7 +20,7 @@ slurmscript="\
 #SBATCH -o $results/metrics/$name.metricsout\n\
 #SBATCH -e $results/metrics/$name.metricserr\n\
 java ${JAVA_ARGS} org.moeaframework.analysis.sensitivity.ResultFileEvaluator \
-	-d 5 -i $results/objs/dv${dv}_s${seed}_nfe${nfe_final}.obj -r $results/../overall_ref/overall.reference \
+	-d 4 -i $results/objs/dv${dv}_s${seed}_nfe${nfe_final}.obj -r $results/../overall_ref/overall.reference \
 	-o $results/metrics/${name}.metrics"
 echo -e $slurmscript | sbatch
 

@@ -63,27 +63,23 @@ annual_debt_payment_dict = {k: principle[k] / (((1 + interest_rt) ** num_payment
 ### Note there are several different figures options with different solutions brushed out or highlighted.
 # parallel coordinates plot options (fig_stage):
 #       0 = axes only,
-#       1 = friant16 only,
-#       2 = friant16+alt3+alt8,
-#       3 = all w/ hilite friant16+alt3+alt8,
-#       4 = all w/ hilite friant16
-#       5 = all brushed except friant16+alt3+alt8,
-#       6 = (paper Fig. 3) all except friant16+alt3+alt8
-#       7 = all w/ hilite maxs+compromise,
+#       1 = statusquo only,
+#       4 = all w/ hilite statusquo
+#       6 = (paper Fig. 3) all except statusquo
 #       8 = (paper SI Fig. S3) all brushed except satisfice - n_p
 #       9 = (paper SI Fig. S5) all brushed except satisfice - cog_wp
 #       10 = (paper SI Fig. S6) all brushed except satisfice - cwg_np
-#       11 = (paper SI Fig. S4) all brushed except satisfice - cwg_p & a_p
-#       12 = all brushed except satisfice - old compromise soln
-#       13 = (paper SI Fig. S16) all brushed except satisfice - better than or equal to friant on all objectives
+#       11 = (paper SI Fig. S4) all brushed except satisfice - cwg_p 
+#       13 = (paper SI Fig. S16) all brushed except satisfice - better than or equal to statusquo on all objectives
+
 def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n_p', ideal_direction='top', curvy=False):
 
     ### plot-specific params
     fontsize = 12
 
     ### split out 3 solutions that didnt come from optimization
-    results_opt = results.iloc[:-3,:]
-    results_nonopt = results.iloc[-3:,:]
+    results_opt = results.iloc[:-1,:]
+    results_nonopt = results.iloc[-1:,:]
     soln_statusquo = results_nonopt['label'].iloc[0]
     soln_compromise = 'NA' ### this will be set during fig_stage==13 plot. both solns returned from this fn.
 
@@ -92,31 +88,21 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
         thres_np = 20
         satisfice = results_opt['n_p'] >= thres_np
     elif fig_stage == 9:
-        thres_cog = 150
+        thres_cog = 250
         satisfice = results_opt['cog_wp_p90'] <= thres_cog
     elif fig_stage == 10:
         thres_cwg_np = 0
         satisfice = results_opt['cwg_np'] >= thres_cwg_np
     elif fig_stage == 11:
         thres_cwg_p = 95
-        thres_ap_p = 55
-        satisfice = np.logical_and(results_opt['cwg_p'] >= thres_cwg_p, results_opt['ap_p'] >= thres_ap_p)
-    elif fig_stage == 12:
-        thres_cwg_np = 0
-        thres_cog = 150
-        thres_np = 8
-        satisfice = np.logical_and(np.logical_and(results_opt['cwg_np'] >= thres_cwg_np,
-                                                  results_opt['cog_wp_p90'] <= thres_cog),
-                                   results_opt['n_p'] >= thres_np)
+        satisfice = results_opt['cwg_p'] >= thres_cwg_p
     elif fig_stage == 13:
         thres_np = results_nonopt['n_p'].loc[results_nonopt['label'] == soln_statusquo].iloc[0]
         thres_cwg_p = results_nonopt['cwg_p'].loc[results_nonopt['label'] == soln_statusquo].iloc[0]
-        thres_ap_p = results_nonopt['ap_p'].loc[results_nonopt['label'] == soln_statusquo].iloc[0]
         thres_cwg_np = results_nonopt['cwg_np'].loc[results_nonopt['label'] == soln_statusquo].iloc[0]
         thres_cog = results_nonopt['cog_wp_p90'].loc[results_nonopt['label'] == soln_statusquo].iloc[0]
         satisfice = np.logical_and(
-            np.logical_and(np.logical_and(np.logical_and(results_opt['n_p'] >= thres_np, results_opt['cwg_p'] >= thres_cwg_p),
-                                          results_opt['ap_p'] >= thres_ap_p),
+            np.logical_and(np.logical_and(results_opt['n_p'] >= thres_np, results_opt['cwg_p'] >= thres_cwg_p),
                            results_opt['cwg_np'] >= thres_cwg_np),
             results_opt['cog_wp_p90'] <= thres_cog)
         ### define the compromise soln as the one that minimizes worst-partner gain out of the subset that dominate status quo
@@ -159,7 +145,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
 
 
     def get_color(color_by, results_opt, results_nonopt, row, cmap):
-        start_num = 2 if color_by == 'n_p' else 1
+        start_num = results[color_by].min() if color_by == 'n_p' else 1
         if row < results_opt.shape[0]:
             numnorm = (results_opt[color_by].iloc[row] - start_num) / (results_opt[color_by].max() - start_num)
         else:
@@ -194,47 +180,14 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
             if i < ressat.shape[0] - 3:
                 ### plot solns from MOO/WCU
                 ax.plot(x, y, c=c, alpha=alpha, zorder=zorder, lw=1)
-            ### plot extra solns: friant 16 plus 2 solns from EF paper
+            ### plot extra solns: statusquo
             if fig_stage < 6 or fig_stage == 13:
-                lsdict = {ressat.shape[0] - 3: '-', ressat.shape[0] - 2: '--', ressat.shape[0] - 1: ':'}
-                if i == ressat.shape[0] - 3:
-                    ### friant16
+                if i == ressat.shape[0] - 1:
+                    ### statusquo
                     if fig_stage > 0:
-                        ax.plot(x, y, c='k', alpha=1, zorder=4, lw=2, ls=lsdict[i])
-                elif i > ressat.shape[0] - 3:
-                    if fig_stage > 1 and fig_stage not in (4, 13):
-                        ### alt3, alt8
-                        ax.plot(x, y, c='k', alpha=1, zorder=4, lw=2, ls=lsdict[i])
+                        ax.plot(x, y, c='k', alpha=1, zorder=4, lw=2)
+             
 
-    ### hilite example solns from WCU
-    if fig_stage == 7:
-        solns = ['soln196', 'soln1224', 'soln2', 'soln599']
-        soln_labels = ['max_NP', 'max_CWG_P', 'min_COG_WP', 'compromise']
-        label_dict = {solns[i]: soln_labels[i] for i in range(4)}
-        marker_dict = {solns[i]: ['o', 'v', 'P', 's'][i] for i in range(4)}
-        ### plot all satisficing solns
-        for s, soln in enumerate(solns):
-            ressat_soln = ressat.loc[results_opt['label'] == soln, :]
-            for j in range(len(columns) - 1):
-                c, numnorm = get_color(color_by, results_opt, results_nonopt, i, cmap_vir)
-                y1 = ressat_soln.iloc[0, j]
-                y2 = ressat_soln.iloc[0, j + 1]
-                if curvy:
-                    ### add sin shape to help distinguish lines
-                    t = np.arange(-np.pi / 2, np.pi / 2 + 0.001, np.pi / 10)
-                    y = y1 + (np.sin(t) + 1) / 2 * (y2 - y1)
-                    x = j + t / np.pi + 1 / 2
-                else:
-                    x = np.arange(j, j + 1 + 0.001, 1 / 10)
-                    y = y1 + (x - j) * (y2 - y1)
-                alpha = 0.8
-                if j == 0:
-                    ax.plot(x, y, c=c, alpha=alpha, zorder=3, lw=2.5, marker=marker_dict[soln], ms=9,
-                            label=label_dict[soln])
-                else:
-                    ax.plot(x, y, c=c, alpha=alpha, zorder=3, lw=2.5, marker=marker_dict[soln], ms=9)
-
-        ax.legend(ncol=4, loc='lower center')
 
     ### highlight satisficing solns
     if fig_stage >= 8:
@@ -260,49 +213,39 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
                 thresholds = [(tops[0] - thres_np) / (tops[0] - bottoms[0])]
                 xs = [0]
             if fig_stage == 9:
-                thresholds = [(tops[4] - thres_cog) / (tops[4] - bottoms[4])]
-                xs = [4]
-            if fig_stage == 10:
-                thresholds = [(tops[3] - thres_cwg_np) / (tops[3] - bottoms[3])]
+                thresholds = [(tops[3] - thres_cog) / (tops[3] - bottoms[3])]
                 xs = [3]
-            if fig_stage == 12:
-                thresholds = [(tops[0] - thres_np) / (tops[0] - bottoms[0]),
-                              (tops[4] - thres_cog) / (tops[4] - bottoms[4]),
-                              (tops[3] - thres_cwg_np) / (tops[3] - bottoms[3])]
-                xs = [0, 4, 3]
+            if fig_stage == 10:
+                thresholds = [(tops[2] - thres_cwg_np) / (tops[2] - bottoms[2])]
+                xs = [2]
+            if fig_stage == 11:
+                thresholds = [(tops[1] - thres_cwg_p) / (tops[1] - bottoms[1])]
+                xs = [1]
             if fig_stage == 13:
                 thresholds = [(tops[0] - thres_np) / (tops[0] - bottoms[0]),
                               (tops[1] - thres_cwg_p) / (tops[1] - bottoms[1]),
-                              (tops[2] - thres_ap_p) / (tops[2] - bottoms[2]),
-                              (tops[4] - thres_cog) / (tops[4] - bottoms[4]),
-                              (tops[3] - thres_cwg_np) / (tops[3] - bottoms[3])]
-                xs = [0, 1, 2, 4, 3]
+                              (tops[3] - thres_cog) / (tops[3] - bottoms[3]),
+                              (tops[2] - thres_cwg_np) / (tops[2] - bottoms[2])]
+                xs = [0, 1, 3, 2]
         elif ideal_direction == 'top':
             if fig_stage == 8:
                 thresholds = [(bottoms[0] - thres_np) / (bottoms[0] - tops[0])]
                 xs = [0]
             if fig_stage == 9:
-                thresholds = [(bottoms[4] - thres_cog) / (bottoms[4] - tops[4])]
-                xs = [4]
-            if fig_stage == 10:
-                thresholds = [(bottoms[3] - thres_cwg_np) / (bottoms[3] - tops[3])]
+                thresholds = [(bottoms[3] - thres_cog) / (bottoms[3] - tops[3])]
                 xs = [3]
+            if fig_stage == 10:
+                thresholds = [(bottoms[2] - thres_cwg_np) / (bottoms[2] - tops[2])]
+                xs = [2]
             if fig_stage == 11:
-                thresholds = [(bottoms[1] - thres_cwg_p) / (bottoms[1] - tops[1]),
-                              (bottoms[2] - thres_ap_p) / (bottoms[2] - tops[2])]
-                xs = [1, 2]
-            if fig_stage == 12:
-                thresholds = [(bottoms[0] - thres_np) / (bottoms[0] - tops[0]),
-                              (bottoms[4] - thres_cog) / (bottoms[4] - tops[4]),
-                              (bottoms[3] - thres_cwg_np) / (bottoms[3] - tops[3])]
-                xs = [0, 4, 3]
+                thresholds = [(bottoms[1] - thres_cwg_p) / (bottoms[1] - tops[1])]
+                xs = [1]
             if fig_stage == 13:
                 thresholds = [(bottoms[0] - thres_np) / (bottoms[0] - tops[0]),
                               (bottoms[1] - thres_cwg_p) / (bottoms[1] - tops[1]),
-                              (bottoms[2] - thres_ap_p) / (bottoms[2] - tops[2]),
-                              (bottoms[4] - thres_cog) / (bottoms[4] - tops[4]),
-                              (bottoms[3] - thres_cwg_np) / (bottoms[3] - tops[3])]
-                xs = [0, 1, 2, 4, 3]
+                              (bottoms[3] - thres_cog) / (bottoms[3] - tops[3]),
+                              (bottoms[2] - thres_cwg_np) / (bottoms[2] - tops[2])]
+                xs = [0, 1, 3, 2]
 
         pc = PatchCollection([Rectangle([x - 0.05, 0], 0.1, t) for x, t in zip(xs, thresholds)],
                              facecolor='grey', alpha=0.5)
@@ -363,10 +306,10 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
     ### colorbar
     mappable = cm.ScalarMappable(cmap='viridis')
     if color_by == 'n_p':
-        mappable.set_clim(vmin=2, vmax=24)
+        mappable.set_clim(vmin=results[color_by].min(), vmax=results[color_by].max())
         cb = plt.colorbar(mappable, ax=ax, orientation='horizontal', shrink=0.4, label='Number of partners', pad=0.03,
                           alpha=alpha)
-        _ = cb.ax.set_xticks(range(2, 25, 2), range(2, 25, 2), fontsize=fontsize)
+        _ = cb.ax.set_xticks(range(results[color_by].min(), results[color_by].max()+1, 2), range(results[color_by].min(), results[color_by].max()+1, 2), fontsize=fontsize)
         _ = cb.ax.set_xlabel(cb.ax.get_xlabel(), fontsize=fontsize)
     elif color_by == 'proj':
         leg = [Line2D([0], [0], color=cmap_vir(0.), lw=3, alpha=alpha, label='Canal expansion'),
@@ -487,7 +430,7 @@ def get_geodata():
     id4 = id4.to_crs(water_providers.crs)
     id4['district'] = 'ID4'
 
-    water_providers = water_providers.append(id4)
+    water_providers = pd.concat([water_providers, id4], ignore_index=True)
 
     ### get other shapefiles
     states = gpd.read_file(shapefile_folder + 'states.shp')
@@ -895,7 +838,7 @@ def plot_3part_partnership_performance(results_agg, soln_labels, columns, water_
 
 
     ### get disaggregated partnership-level results from individual hydrologic scenarios in reevaluation ensemble
-    soln_disagg_label_dict = {'soln375': 'soln375', 'friant16': 'soln1293', 'baseline': 'soln1294'}
+    soln_disagg_label_dict = {'soln375': 'soln375', 'statusquo': 'soln1293', 'baseline': 'soln1294'}
     ### first get results disaggregated by hydrologic scenario MC, but at partnership level
     dict_results_disagg_MC = {}
     for soln_label in soln_labels:
@@ -1095,7 +1038,7 @@ def plot_3part_partnership_performance(results_agg, soln_labels, columns, water_
     ax.patch.set_alpha(0)
 
     ### now add detail for particular solns
-    colors_brewer = {'soln375': '#1b9e77', 'friant16': '#d95f02', 'other': '#7570b3'}
+    colors_brewer = {'soln375': '#1b9e77', 'statusquo': '#d95f02', 'other': '#7570b3'}
 
     for sidx, soln_label in enumerate(soln_labels):
         ### highlight soln, wcu agg objectives
@@ -1290,7 +1233,7 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
 
     ### get disaggregated partnership-level results from individual hydrologic scenarios in reevaluation ensemble
     soln_disagg_label_dict = {'soln375': 'soln375', 'compromise':'soln375',
-                              'friant16': 'soln1293', 'statusquo': 'soln1293', 'baseline': 'soln1294'}
+                              'statusquo': 'soln1293', 'statusquo': 'soln1293', 'baseline': 'soln1294'}
     ### first get results disaggregated by hydrologic scenario MC, but at partnership level
     dict_results_disagg_MC = {}
     for reeval_type in ['mhmm', 'projections']:
@@ -1323,7 +1266,7 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
     if soln_label in ['soln375', 'compromise']:
         objmins = [2, 0, -3, -60, 70]
         objmaxs = [24, 200, 140, 80, 1000]
-    elif soln_label in ['soln1293', 'statusquo', 'friant16']:
+    elif soln_label in ['soln1293', 'statusquo', 'statusquo']:
         objmins = [2, 0, -3, -60, 78]
         objmaxs = [24, 135, 100, 35, 1000]
 
@@ -1389,7 +1332,7 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
     ax.patch.set_alpha(0)
 
     ### now add detail for particular solns
-    colors_brewer = {'soln375': '#1b9e77', 'friant16': '#d95f02', 'other': '#7570b3'}
+    colors_brewer = {'soln375': '#1b9e77', 'statusquo': '#d95f02', 'other': '#7570b3'}
 
     ### highlight soln, wcu agg objectives
     ressat_wcu_soln = ressat_wcu.loc[results_agg['label'] == soln_label, :]
@@ -1729,7 +1672,7 @@ def compare_partnership_performance_timeseries_wetdry(projection_label, soln_lab
 
     ### compare to automated aggregated results
     soln_disagg_label_dict = {'soln375': 'soln375', 'compromise': 'soln375',
-                              'friant16': 'soln1293', 'statusquo': 'soln1293', 'baseline': 'soln1294'}
+                              'statusquo': 'soln1293', 'statusquo': 'soln1293', 'baseline': 'soln1294'}
     agg_results_soln = json.load(open(f'{results_projections_dir2}/{soln_label}/{projection_label}/{soln_disagg_label_dict[soln_label]}_mc{projection_label}.json'))
     agg_results_baseline = json.load(open(f'{results_projections_dir2}/baseline/{projection_label}/{projection_label}_baseline.json'))
     cwg_soln_agg = 0
@@ -1839,8 +1782,8 @@ def plot_partner_disagg_performance(results, soln_label):
     partners = [partners[o] for o in order]
 
     ### get MC results from individual scenarios
-    ### friant16 labeled differently in aggregated ef_results vs MC resutls
-    soln_mc = soln_label if soln_label != 'friant16' else 'soln1293'
+    ### statusquo labeled differently in aggregated ef_results vs MC resutls
+    soln_mc = soln_label if soln_label != 'statusquo' else 'soln1293'
     with h5py.File(results_mhmm_disagg_file, 'r') as f:
         ### get results with and without infra, transform into baseline regret
         mc_soln = f[soln_mc][...].transpose()

@@ -15,7 +15,7 @@ def main():
 
     createCheckpt = 1
     ndistricts = 40
-    nobjs = 5
+    nobjs = 4
     nconstrs = 2
 
     ### see get_effective_dvs() in problem_infra.py for explanation of different decision variable formulatons
@@ -53,8 +53,8 @@ def main():
         ### rest of dvs are between [0-1], representing ownership shares.
         borg.setBounds([1.0, 4.0 - 1e-13], *[[0.0, 2.0 - 1e-13]]*ndistricts, *[[0.0, 1.0]]*ndistricts)
 
-    ### set epsilons - units for objs 0,1,2 are kAF/year, 3 is $/AF, and 4 is number of partners
-    borg.setEpsilons(2., 2., 2., 5., 0.999)
+    ### set epsilons - units for objs 0,1 are kAF/year, 2 is $/AF, and 3 is number of partners
+    borg.setEpsilons(2., 2., 5., 0.999)
 
 
     # perform the optimization

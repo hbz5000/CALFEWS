@@ -13,8 +13,49 @@ import main_cy
 
 
 
+### get effective decision variables after enforcing number of districts and min share size
+def get_effective_dvs(dvs, min_share, dv_formulation):
+    ### try several dv formulations, since not sure which will learn fastest with borg loop
+    ### first dv is always project type -> set to integer
+    dv_project = int(dvs[0])
+
+    ### dv_formulation == 0: set shares directly as dv
+    if dv_formulation == 0:
+        shares = np.array(dvs[1:])
+
+    ### dv_formulation == 1: set number of partners P, and district shares. Set all except largest P to 0
+    elif dv_formulation == 1:
+        ### get number of partners & shares
+        npartners = int(dvs[1])
+        shares = np.array(dvs[2:])
+        # get indices of npartners largest shares
+        partners = np.argpartition(shares, -npartners)[-npartners:]
+        nonpartners = np.argpartition(shares, -npartners)[:-npartners]
+        shares[nonpartners] = 0.
+
+    ### dv_formulation == 2: for each district, have binary switch turning on/off, as well as share.
+    elif dv_formulation == 2:
+        ndistricts = int((len(dvs) - 1) / 2)
+        ### get switch. This will be in [0.0, 2.0).
+        switches = np.array(dvs[1:ndistricts+1])
+        ### get shares
+        shares = np.array(dvs[ndistricts+1:])
+        ### Only districts with switch >=1 should have non-zero shares.
+        shares[switches < 1.] = 0.
+
+    ### for all dv_formulations, normalize shares to sum to 1, then set all districts below min_share to 0, then renormalize.
+    shares = shares / shares.sum()
+    loop = 0
+    while (loop < 5) and (np.any(np.logical_and(shares < min_share, shares > 0))):
+        shares[shares < min_share] = 0.
+        shares /= shares.sum()
+        loop += 1
+
+    return dv_project, shares
+
+
 ### function to setup problem for particular infra soln
-def setup_problem(results_folder, rank, size, soln):
+def setup_problem(results_folder, dv_formulation, MOO_seed, rank, size, soln):
     ### setup/initialize model
     sys.stdout.flush()
 
@@ -23,58 +64,73 @@ def setup_problem(results_folder, rank, size, soln):
     except:
         pass
 
-    resultsfile = 'results_arx/infra_moo/overall_ref/overall_clean.csv'
-    linenum = soln + 1
+    ndistricts = 40
+    nobjs = 4
+    nconstrs = 2
+    min_share = 0.01
 
-    with open(resultsfile, 'r') as f:
+    ### if MOO_seed < 0, this is status quo friant solution. there is an extra aggregated district that isnt included in MOO.
+    if MOO_seed < 0:
+        ndistricts += 1
+        ### dont enforce minimum share size for status quo
+        min_share = 0.
+        
+    ### see get_effective_dvs() in problem_infra.py for explanation of different decision variable formulatons
+    if dv_formulation == 0:
+        nvars = ndistricts + 1
+    elif dv_formulation == 1:
+        nvars = ndistricts + 2
+    elif dv_formulation == 2:
+        nvars = ndistricts * 2 + 1
+
+
+    ### get set file for this MOO seed, which will list all decision vars & objective values for each soln found by that seed
+    setfolder = f'{results_folder}/../../../MOO_postprocessed_cube/dv{dv_formulation}_seed{MOO_seed}_round2/sets/'
+    setfile = os.listdir(setfolder)[0]
+    linenum = soln
+
+    ### get particular solution from setfile based on line number
+    with open(setfolder + setfile, 'r') as f:
         for i, line in enumerate(f):
-          if i == 0:
-              cols = line
-          if i == linenum:
-              vals = line
-              break
+            if i == linenum:
+                vals = line
+                break
 
-    cols = cols.strip().split(',')
-    vals = vals.strip().split(',')
-    dv_project = int(vals[2])
-    # dv_share_dict = {col.split('_')[1]: float(val) for col, val in zip(cols[3:-5], vals[3:-5])}
-    share_cols = [cols[i] for i in range(len(cols)) if 'share' in cols[i]]
-    share_vals = [vals[i] for i in range(len(cols)) if 'share' in cols[i]]
-    share_vals = [v if v != '' else '0.0' for v in share_vals]
-    dv_share_dict = {col.split('_')[1]: float(val) for col, val in zip(share_cols, share_vals)}
+    vals = vals.strip().split(' ')
+    vals = [float(v) for v in vals]
+    dvs = vals[:nvars]
+    dv_project, shares = get_effective_dvs(dvs, min_share, dv_formulation)
 
-    ### apply ownership fractions for FKC expansion based on dvs from dv_share_dict
+
+    ### apply ownership fractions for FKC expansion based on dvs
     scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
     districts = list(scenario['ownership_shares'].keys())
-    ### add districts OTL & OFK, which were included in previous Earth's Future study, but excluded from optimization.
-    ###    they will only be non-zero for manually added solns from EF study.
-    districts.extend(['OTL','OFK'])
+    ### if MOO_seed<0, this is status quo friant solution. Need to add 'OFK' aggregate district to list.
+    if MOO_seed < 0:
+        districts.append('OFK')
+
     for i, k in enumerate(districts):
         if dv_project in [1,3]:   #1=FKC only, 3=FKC+CFWB
-            scenario['ownership_shares'][k] = dv_share_dict[k]
+            scenario['ownership_shares'][k] = shares[i]
         else:                     #2=CFWB only, so set FKC ownership params to 0
             scenario['ownership_shares'][k] = 0.
     ### save new scenario to results folder
     with open(results_folder + '/FKC_scenario.json', 'w') as o:
-        json.dump(scenario, o, indent=4)
+        json.dump(scenario, o)
 
     ### apply ownership fractions for CFWB based on dvs, plus capacity params for CFWB
     scenario = json.load(open('calfews_src/scenarios/CFWB_properties__large_all.json'))
     removeddistricts = []
     for i, k in enumerate(districts):
         if dv_project in [2,3]:   #2=CFWB only, 3=FKC+CFWB
-            share = dv_share_dict[k]
+            share = shares[i]
         else:                     #1=FKC only
             share = 0.
         if share > 0.0:
             scenario['ownership'][k] = share
-            scenario['bank_cap'][k] = 99999.9
-            if k not in scenario['participant_list']:
-                scenario['participant_list'].append(k)
         else:
             removeddistricts.append(k)
     for k in removeddistricts:
-        ### remove zero-ownership shares from other banking ownership lists. remove will fail for OTL/OFK since not originally included.
         try:
             scenario['participant_list'].remove(k)
             del scenario['ownership'][k]
@@ -86,7 +142,8 @@ def setup_problem(results_folder, rank, size, soln):
     scenario['recovery'] = 0.2
     scenario['proj_type'] = dv_project
     with open(results_folder + '/CFWB_scenario.json', 'w') as o:
-        json.dump(scenario, o, indent=4)
+        json.dump(scenario, o)
+
 
     ### create new sheet in results hdf5 file, and save dvs
     with h5py.File(f'{results_folder}/../results_rank{rank}.hdf5', 'a') as open_hdf5:
@@ -94,9 +151,9 @@ def setup_problem(results_folder, rank, size, soln):
             d = open_hdf5.create_dataset(f'soln{soln}', (336, num_MC), dtype='float', compression='gzip')
             dvs = [dv_project]
             dv_names = ['proj']
-            for k,v in dv_share_dict.items():
+            for k,v in zip(districts, shares):
                 dvs.append(v)
-                dv_names.append(k)
+                dv_names.append('share_'+k)
             d.attrs['dvs'] = dvs
             d.attrs['dv_names'] = dv_names
             d.attrs['colnames'] = MC_labels
@@ -129,27 +186,34 @@ def dispatch_MC_to_procs(results_folder, start_time, model_modes, flow_input_typ
 if __name__ == "__main__":
     overall_start_time = datetime.now()
 
-    base_results_folder = sys.argv[1]
+    seed_results_folder = sys.argv[1]
     tasks_total = int(sys.argv[2])
     num_procs = int(sys.argv[3])
-    num_solns_total = int(sys.argv[4])
-    start_solns_total = int(sys.argv[5])
-    num_MC = int(sys.argv[6])
-    start_MC = int(sys.argv[7])
+    dv_formulation = int(sys.argv[4])
+    MOO_seed = int(sys.argv[5])
+    num_solns_total = int(sys.argv[6])
+    start_solns_total = int(sys.argv[7])
+    num_MC = int(sys.argv[8])
+    start_MC = int(sys.argv[9])
 
-    comm = MPI.COMM_WORLD
-    rank = comm.Get_rank()
-    size = comm.Get_size()
-
-    ### get list of solns assigned to this task
-    solns = []
-    r = 0
-    for i in range(start_solns_total, start_solns_total + num_solns_total):
-        if r == rank:
-            solns.append(i)
-        r += 1
-        if r == size:
-            r = 0
+    if tasks_total > 1:
+        comm = MPI.COMM_WORLD
+        rank = comm.Get_rank()
+        size = comm.Get_size()
+ 
+        ### get list of solns assigned to this task
+        solns = []
+        r = 0
+        for i in range(start_solns_total, start_solns_total + num_solns_total):
+            if r == rank:
+                solns.append(i)
+            r += 1
+            if r == size:
+                r = 0
+    else:
+        solns = list(range(start_solns_total, start_solns_total + num_solns_total))
+        rank = 0
+        size = 1
 
     ### loop over solns assigned to this task & do MC trial for infrastructure setup
     for soln in solns:
@@ -159,14 +223,14 @@ if __name__ == "__main__":
         model_modes = ['simulation'] * num_MC
         flow_input_types = ['synthetic'] * num_MC
         flow_input_sources = ['mghmm_30yr_generic'] * num_MC
-        MC_labels = [str(i + start_MC) for i in range(num_MC)]  # ['wet','dry']
+        MC_labels = [str(i + start_MC) for i in range(num_MC)]  
 
         ### uncertainties
         uncertainty_dict = {}
 
         ### setup problem for this soln
-        results_folder = f'{base_results_folder}/soln{soln}/'
-        setup_problem(results_folder, rank, size, soln)
+        results_folder = f'{seed_results_folder}/soln{soln}/'
+        setup_problem(results_folder, dv_formulation, MOO_seed, rank, size, soln)
 
         ### figure out which MC samps still need to be run
         MC_to_be_run = []
