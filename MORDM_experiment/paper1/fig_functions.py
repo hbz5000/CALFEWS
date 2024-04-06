@@ -84,7 +84,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
 
     ### get satisficing if brushing
     if fig_stage == 8:
-        thres_np = 20
+        thres_np = 24
         satisfice = results_opt['n_p'] >= thres_np
     elif fig_stage == 9:
         thres_cog = 250
@@ -93,7 +93,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
         thres_cwg_np = 0
         satisfice = results_opt['cwg_np'] >= thres_cwg_np
     elif fig_stage == 11:
-        thres_cwg_p = 95
+        thres_cwg_p = 80
         satisfice = results_opt['cwg_p'] >= thres_cwg_p
     elif fig_stage == 13:
         thres_np = results_nonopt['n_p'].loc[results_nonopt['label'] == soln_statusquo].iloc[0]
@@ -176,9 +176,9 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
                 alpha = 0.05
             else:
                 alpha = 0.8
-            if i < ressat.shape[0] - 3:
+            if i < ressat.shape[0] - 1:
                 ### plot solns from MOO/WCU
-                ax.plot(x, y, c=c, alpha=alpha, zorder=zorder, lw=1)
+                ax.plot(x, y, c=c, alpha=alpha, zorder=zorder, lw=1.5)
             ### plot extra solns: statusquo
             if fig_stage < 6 or fig_stage == 13:
                 if i == ressat.shape[0] - 1:
@@ -190,7 +190,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
 
     ### highlight satisficing solns
     if fig_stage >= 8:
-        for i in range(ressat.shape[0] - 3):
+        for i in range(ressat.shape[0] - 1):
             if satisfice[i]:
                 for j in range(len(columns) - 1):
                     c, numnorm = get_color(color_by, results_opt, results_nonopt, i, cmap_vir)
@@ -295,7 +295,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
 
     ax.annotate('Direction of preference', xy=(-0.3, 0.5), ha='center', va='center', rotation=90, fontsize=fontsize)
 
-    ax.set_xlim(-0.4, 4.2)
+    ax.set_xlim(-0.4, 3.2)
     ax.set_ylim(-0.4, 1.1)
 
     for i, l in enumerate(column_labels):
@@ -1101,7 +1101,7 @@ def plot_3part_partnership_performance(results_agg, soln_labels, columns, water_
         ax.arrow(-0.15, 0.9, 0, -0.7, head_width=0.08, head_length=0.05, color='k', lw=1.5)
     ax.annotate('Direction of preference', xy=(-0.3, 0.5), ha='center', va='center', rotation=90, fontsize=fontsize)
 
-    plt.xlim([-0.3, 5])
+    plt.xlim([-0.3, 4.3])
 
     ax.annotate('b)', (0.4, 0.93), xycoords='subfigure fraction', ha='left', va='top', fontsize=fontsize + 2, weight='bold')
 
