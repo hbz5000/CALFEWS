@@ -80,19 +80,19 @@ water_providers, states, canals_fkc, canals_other, tlb, sjr, kings, res_gdf = fi
 # print_completion(f'3-part partner-level disagg  performance figure for status quo')
 
 
-### Note: The rest of figures only use the results from optimization - exclude statusquo solutions
+## Note: The rest of figures only use the results from optimization - exclude statusquo solutions
 results = results.loc[['statusquo' not in s for s in results['label']],:]
 
-### plot 5-part figure of share distributions in optimal tradeoff partnership with bivariate choropleth map.
-# fig_functions.plot_share_distributions_bivariateChoropleth(results, water_providers, states, canals_fkc, canals_other,
-#                                                            tlb, sjr, kings, res_gdf)
-# print_completion(f'5-part figure for ownership share distributions')
+## plot 5-part figure of share distributions in optimal tradeoff partnership with bivariate choropleth map.
+fig_functions.plot_share_distributions_bivariateChoropleth(results, water_providers, states, canals_fkc, canals_other,
+                                                           tlb, sjr, kings, res_gdf)
+print_completion(f'5-part figure for ownership share distributions')
 
-### plot ownership share concentration across optimal tradeoff partnerships
+### NOTE: dont think we need this anymore - plot ownership share concentration across optimal tradeoff partnerships
 # fig_functions.plot_ownership_share_concentrations(results, water_providers)
 # print_completion(f'ownership share concentration figure')
 
-fig_functions.plot_moo_metrics()
-print_completion(f'optimization metrics figure')
+# fig_functions.plot_moo_metrics()
+# print_completion(f'optimization metrics figure')
 
 

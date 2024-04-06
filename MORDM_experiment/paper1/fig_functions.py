@@ -507,7 +507,7 @@ def get_bivariate_colorlist(grid_size=4):
         rgb = Color(*rgb)
         return rgb
 
-    hex_color_corners = ['#ffffcb', '#a6611a', '#018571', '#000000']
+    hex_color_corners = ['#ffffcb', '#a6611a', '#018571', '#2D3033']# '#000000']
     c00 = hex_to_Color(hex_color_corners[0])
     c10 = hex_to_Color(hex_color_corners[1])
     c01 = hex_to_Color(hex_color_corners[2])
@@ -2117,10 +2117,8 @@ def plot_share_distributions_bivariateChoropleth(results, water_providers, state
 
     ### bivariate color palette representing the fraction of optimal tradeoff parterships a water provider
     ### participates in, as well as its median share within those partnerships
-    share_bounds = [0.03, 0.07, 0.15, 0.6]
-    share_bound_labels = ['1-3', '3-7', '7-15', '15+']
+    share_bounds = [0.02, 0.04, 0.08, 0.16]
     inclusion_bounds = [0.25, 0.5, 0.75, 1]
-    inclusion_bound_labels = ['0-25', '25-50', '50-75', '75-100']
     hex_color_corners, colorlist = get_bivariate_colorlist(len(share_bounds))
     def get_bivariate_choropleth_color(district, inclusion_frac, median_share):
         d = 'share_' + district
@@ -2231,10 +2229,10 @@ def plot_share_distributions_bivariateChoropleth(results, water_providers, state
             pass
 
     _ = axin3.set_xlim([-2, 102])
-    _ = axin3.set_ylim([1, 30])
+    _ = axin3.set_ylim([1, 32])
     _ = axin3.semilogy()
     _ = axin3.set_xticks(range(0, 101, 25), range(0, 101, 25), fontsize=fontsize)
-    _ = axin3.set_yticks([1, 3, 7, 15, 30, 60], [1, 3, 7, 15, 30, 60], fontsize=fontsize)
+    _ = axin3.set_yticks([1, 2, 4, 8, 16, 32], [1, 2, 4, 8, 16, 32], fontsize=fontsize)
     _ = axin3.set_xlabel('Non-Exceedance (%)', fontsize=fontsize)
     _ = axin3.set_ylabel('Ownership\nshare (%)', fontsize=fontsize)
     _ = axin3.patch.set_alpha(0.)
@@ -2257,7 +2255,7 @@ def plot_share_distributions_bivariateChoropleth(results, water_providers, state
     leg = [Patch(color=cols_cbrewer[0], label='Canal'),
            Patch(color=cols_cbrewer[1], label='Bank'),
            Patch(color=cols_cbrewer[2], label='Both')]
-    _ = axin4.legend(handles=leg, loc='center', bbox_to_anchor=[0.6, 0.75], ncol=1, frameon=False, fontsize=fontsize,
+    _ = axin4.legend(handles=leg, loc='center', bbox_to_anchor=[0.8, 0.75], ncol=1, frameon=False, fontsize=fontsize,
                      handlelength=0.8)
 
     ### gini-type plot of cumulative partners vs partnerships
