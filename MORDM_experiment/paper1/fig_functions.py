@@ -799,11 +799,11 @@ def get_results_disagg_MC_district(soln_label, reeval_type='mhmm'):
 ### color palette for ownership share bins
 def get_ownership_share_colors():
     ### patches plot, showing shares in different solutions. use custom scale
-    nonpartnercolor = '0.8'
+    nonpartnercolor = 1
     cmap = cm.get_cmap('YlGnBu')
     oldcolors = cmap(np.linspace(0.15, 1, 6))
     newcolors = cmap(np.linspace(0, 1, 2560))
-    breaks = [int(2560 * b) for b in [0.001, 0.03, 0.07, 0.15, 0.3, 1]]
+    breaks = [int(2560 * b) for b in [0.001, 0.02, 0.04, 0.08, 0.16, 1]]
     newcolors[:breaks[0]] = [nonpartnercolor, nonpartnercolor, nonpartnercolor, 1]
     for i, b in enumerate(breaks[:-1]):
         newcolors[b:breaks[i + 1]] = oldcolors[i]
@@ -932,7 +932,7 @@ def plot_3part_partnership_performance(results_agg, soln_labels, columns, water_
     ### colorbar
     cb = plt.colorbar(shares_cmap_mappable_even, ax=ax, ticks=[1 / 12, 3 / 12, 5 / 12, 7 / 12, 9 / 12, 11 / 12],
                       fraction=0.1, orientation='horizontal', pad=0.1)
-    _ = cb.ax.set_xticklabels(['0', '1-3', '3-7', '7-15', '15-30', '30+', ], fontsize=fontsize)
+    _ = cb.ax.set_xticklabels(['0', '1-2', '2-4', '4-8', '8-16', '16+', ], fontsize=fontsize)
     _ = cb.set_label('Ownership share (%)', fontsize=fontsize)  # , labelpad=10)
 
     ### infra project legend
