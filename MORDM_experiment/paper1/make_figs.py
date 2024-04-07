@@ -92,7 +92,8 @@ print_completion(f'3-part partnership performance figure for status quo')
 # fig_functions.plot_ownership_share_concentrations(results, water_providers)
 # print_completion(f'ownership share concentration figure')
 
-# fig_functions.plot_moo_metrics()
-# print_completion(f'optimization metrics figure')
+### plot MOO convergence metrics
+fig_functions.plot_moo_metrics()
+print_completion(f'optimization metrics figure')
 
 

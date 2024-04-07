@@ -2363,13 +2363,13 @@ def plot_ownership_share_concentrations(results, water_providers):
 
 ### figure showing evolution of metrics (e.g., hypervolume) across seeds during multiobjective optimization step
 def plot_moo_metrics():
-    dvs = [2,2,2,2,2,2,2]
-    seeds = [1,1,2,3,1,2,3]
-    rounds = [1,1,1,1,2,2,2]
-    nfes = [3100,42401,40400,42200,73702, 74001, 75901]
+    dvs = [2,2,2,2,2,2,2,2,2]
+    seeds = [1,1,2,3,4,1,2,3,4]
+    rounds = [1,1,1,1,1,2,2,2,2]
+    nfes = [3100,42401,40400,42200,41500,73702, 74001, 75901, 76001]
     results_dir = '../../results/MOO_results_bridges2/'
-    subdirs = ['dv2_seed1_round1a', 'dv2_seed1_round1b', 'dv2_seed2_round1', 'dv2_seed3_round1',
-               'dv2_seed1_round2', 'dv2_seed2_round2', 'dv2_seed3_round2']
+    subdirs = ['dv2_seed1_round1a', 'dv2_seed1_round1b', 'dv2_seed2_round1', 'dv2_seed3_round1', 'dv2_seed4_round1',
+               'dv2_seed1_round2', 'dv2_seed2_round2', 'dv2_seed3_round2', 'dv2_seed4_round2']
     ### read in operators data
     operators = []
     for i in range(len(dvs)):
@@ -2403,10 +2403,9 @@ def plot_moo_metrics():
         ncols = df.shape[1]
         cols = df.columns
         metrics.append(df)
-    print(operators)
-    print(metrics)
+
     ### plot runtime metrics
-    colors = ['firebrick', 'firebrick', 'cornflowerblue', 'darkgoldenrod', 'firebrick', 'cornflowerblue', 'darkgoldenrod']
+    colors = ['firebrick', 'firebrick', 'cornflowerblue', 'darkgoldenrod', 'indigo', 'firebrick', 'cornflowerblue', 'darkgoldenrod', 'indigo']
     cols = ['Hypervolume', 'Inverted generational distance', 'Epsilon indicator']
     labels = ['Hypervolume', 'Inverted\ngenerational\ndistance', 'Epsilon\nindicator']
     fig, axs = plt.subplots(3, 1, figsize=(8, 6))
@@ -2415,8 +2414,11 @@ def plot_moo_metrics():
     for c, col in enumerate(cols):
         ax = axs[c]
         for i in range(len(dvs)):
-            ax.plot(metrics[i][col].index / 1000, metrics[i][col], color=colors[i])
+            ax.plot(metrics[i][col].index / 1000, metrics[i][col], color=colors[i], 
+                    label=f"Seed {seeds[i]}" if rounds[i]==2 else "")
         ax.set_ylabel(labels[c], fontsize=fontsize)
+        if c==1:
+            ax.legend(frameon=False)
     ax.set_xlabel('Thousand function evaluations', fontsize=fontsize)
 
     plt.savefig(f'{fig_dir}moo_metrics.png', bbox_inches='tight', dpi=300)
