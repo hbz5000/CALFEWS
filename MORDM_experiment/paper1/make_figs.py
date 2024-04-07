@@ -32,7 +32,7 @@ color_by = 'n_p'  # 'n_p' or 'proj'
 
 ### parallel coordinates plot has various options based on brushing criteria & highlighted solutions (see function).
 ### here loop over fig_stage options used in paper. Do 13 last, which returns soln labels for status quo & compromise partnerships.
-fig_stages_paper = [13]#[6, 8, 9, 10, 11, 13]
+fig_stages_paper = [6, 8, 9, 10, 11, 13]
 for fig_stage in fig_stages_paper:
     soln_statusquo, soln_compromise = fig_functions.plot_parallel_coords(results, columns, column_labels,
                                                                          fig_stage, color_by)
@@ -81,7 +81,7 @@ print_completion(f'3-part partnership performance figure for status quo')
 
 
 # ## Note: The rest of figures only use the results from optimization - exclude statusquo solutions
-# results = results.loc[['statusquo' not in s for s in results['label']],:]
+results = results.loc[['statusquo' not in s for s in results['label']],:]
 
 # ## plot 5-part figure of share distributions in optimal tradeoff partnership with bivariate choropleth map.
 # fig_functions.plot_share_distributions_bivariateChoropleth(results, water_providers, states, canals_fkc, canals_other,
@@ -93,7 +93,7 @@ print_completion(f'3-part partnership performance figure for status quo')
 # print_completion(f'ownership share concentration figure')
 
 ### plot MOO convergence metrics
-fig_functions.plot_moo_metrics()
-print_completion(f'optimization metrics figure')
+# fig_functions.plot_moo_metrics()
+# print_completion(f'optimization metrics figure')
 
 

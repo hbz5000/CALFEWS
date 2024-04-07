@@ -92,6 +92,7 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
     elif fig_stage == 10:
         thres_cwg_np = 0
         satisfice = results_opt['cwg_np'] >= thres_cwg_np
+        print(f"Reduction in max cwg_p if cwg_np>=0: {(1 - results['cwg_p'].loc[results['cwg_np']>=0].max() / results['cwg_p'].max()) * 100}%")
     elif fig_stage == 11:
         thres_cwg_p = 80
         satisfice = results_opt['cwg_p'] >= thres_cwg_p
@@ -2239,8 +2240,11 @@ def plot_share_distributions_bivariateChoropleth(results, water_providers, state
 
     ### add distribution of project type by n_p
     axin4 = ax.inset_axes([0.02, 0.65, 0.27, 0.34])
+    for proj in range(1,4):
+        print(f'Num partnerships with proj={proj}: {(results["proj"]==proj).mean()*100}%')
     for i in range(11, 27):
         subresults = results.loc[results['n_p'] == i]
+        print(f'Num partnerships <= {i} partners: {(results["n_p"] <= i).mean()*100}%')
         count = 0
         for proj in range(3, 0, -1):
             newcount = (subresults['proj'] == proj).sum()
