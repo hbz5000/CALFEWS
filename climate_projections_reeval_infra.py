@@ -16,7 +16,7 @@ def setup_problem(results_folder, soln_label, flow_input_sources):
     sys.stdout.flush()
 
     try:
-        os.mkdir(results_folder)
+        os.makedirs(results_folder)
     except:
         pass
 
@@ -35,27 +35,28 @@ def setup_problem(results_folder, soln_label, flow_input_sources):
                 vals = line
                 break
 
-        cols = cols.strip().split(',')
-        vals = vals.strip().split(',')
+        cols = cols.strip().replace(' ','').split(',')
+        vals = vals.strip().replace(' ','').split(',')
         share_cols = [cols[i] for i in range(len(cols)) if 'share' in cols[i]]
         if soln_label == 'baseline':
             dv_project = 0
-            share_vals = [vals[i] for i in range(len(cols)) if 'share' in cols[i]]
-        else:
-            dv_project = int(vals[2])
             share_vals = ['0.0' for i in range(len(cols)) if 'share' in cols[i]]
+        else:
+            dv_project = int(float(vals[1]))
+            share_vals = [vals[i] for i in range(len(cols)) if 'share' in cols[i]]
         share_vals = [v if v != '' else '0.0' for v in share_vals]
         dv_share_dict = {col.split('_')[1]: float(val) for col, val in zip(share_cols, share_vals)}
 
     ### Like in optimization, normalize shares to sum to 1, then set all districts below min_share to 0, then renormalize.
-    sum_shares = sum(dv_share_dict.values())
-    dv_share_dict = {k: v / sum_shares for k,v in dv_share_dict.items()}
-    loop = 0
-    while (loop < 5) and sum([1 for s in dv_share_dict.values() if s < min_share and s > 0]) > 0:
-        dv_share_dict = {k: 0. if v < min_share else v for k,v in dv_share_dict.items()}
+    if soln_label not in ['baseline', 'statusquo/soln0']:
         sum_shares = sum(dv_share_dict.values())
         dv_share_dict = {k: v / sum_shares for k,v in dv_share_dict.items()}
-        loop += 1
+        loop = 0
+        while (loop < 5) and sum([1 for s in dv_share_dict.values() if s < min_share and s > 0]) > 0:
+            dv_share_dict = {k: 0. if v < min_share else v for k,v in dv_share_dict.items()}
+            sum_shares = sum(dv_share_dict.values())
+            dv_share_dict = {k: v / sum_shares for k,v in dv_share_dict.items()}
+            loop += 1
 
     ### apply ownership fractions for FKC expansion based on dvs from dv_share_dict
     scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
@@ -120,10 +121,10 @@ def setup_problem(results_folder, soln_label, flow_input_sources):
 if __name__ == "__main__":
     overall_start_time = datetime.now()
 
-    base_results_folder = 'results/climate_reeval_infra/'
+    base_results_folder = 'results/climate_reeval_infra_bridges2/'
 
-    solns = ['baseline', 'statusquo/soln0', 's3/soln212'}
-
+    solns = ['baseline', 'statusquo/soln0', 's3/soln212']
+    soln_num = 0 #just used for labeling results, not needed here
     ### loop over solns assigned to this task & run climate projection scenarios
     for soln_label in solns:
         start_time = datetime.now()
@@ -139,7 +140,6 @@ if __name__ == "__main__":
         flow_input_types = ['downscaled_19502100'] * num_scenarios
         flow_input_sources = [s.split('/')[-1].replace('CA_FNF_','').replace('_r1i1p1.csv','') for s in scenarios]
 
-        print(flow_input_sources)
         ### uncertainties
         uncertainty_dict = {}
 
