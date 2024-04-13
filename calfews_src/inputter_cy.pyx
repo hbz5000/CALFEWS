@@ -795,8 +795,8 @@ cdef class Inputter():
       end_file = self.file_end[flow_input_type][flow_input_source]
       file_start_date = datetime.strptime(start_file, '%m/%d/%Y')
       file_end_date = datetime.strptime(end_file, '%m/%d/%Y')
-      dates_as_datetime = pd.date_range(start=file_start_date, end=file_end_date, freq='D')
-		  
+      dates_as_datetime = pd.date_range(start=file_start_date, end=file_end_date, freq='D')    
+
     if start_month == 1:
       end_month = 12
     else:
@@ -806,6 +806,9 @@ cdef class Inputter():
 
     date_mask = (dates_as_datetime >= start_date) & (dates_as_datetime <= end_date)
     fnf_values = self.fnf_df[date_mask]
+
+    # forward fill up to a week of missing values
+    fnf_values = fnf_values.ffill(axis=0, limit=7)
 		
     fnf_unit = self.inflow_unit[flow_input_type][flow_input_source]
     for reservoir in self.reservoir_list:

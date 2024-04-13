@@ -133,7 +133,7 @@ if __name__ == "__main__":
         scenarios = glob('calfews_src/data/CA_FNF_climate_change/CA_FNF_*.csv')
         ### drop canesm2 scenarios, which have a data inconsistency issue
         scenarios = [s for s in scenarios if 'canesm2' not in s]
-        scenarios = scenarios[::-1]
+        # scenarios = scenarios[::-1]
 
         num_scenarios = len(scenarios)
         model_modes = ['simulation'] * num_scenarios
