@@ -10,10 +10,8 @@ import h5py
 import main_cy
 
 
-
-
 ### function to setup problem for particular infra soln
-def setup_problem(results_folder, soln_label, soln_num, flow_input_sources):
+def setup_problem(results_folder, soln_label, flow_input_sources):
     ### setup/initialize model
     sys.stdout.flush()
 
@@ -22,31 +20,48 @@ def setup_problem(results_folder, soln_label, soln_num, flow_input_sources):
     except:
         pass
 
-    resultsfile = 'results_arx/infra_moo/overall_ref/overall_clean.csv'
-    linenum = soln_num + 1
+    resultsfile = 'results_arx/infra_wcu/objs_wcu_pareto_withStatusQuo.csv'
+
+    min_share = 0.01
 
     with open(resultsfile, 'r') as f:
         for i, line in enumerate(f):
-          if i == 0:
-              cols = line
-          if i == linenum:
-              vals = line
-              break
+            if i == 0:
+                cols = line
+            elif i == 1 and soln_label == 'baseline':
+                vals = line
+                break
+            elif soln_label in line:
+                vals = line
+                break
 
-    cols = cols.strip().split(',')
-    vals = vals.strip().split(',')
-    dv_project = int(vals[2])
-    share_cols = [cols[i] for i in range(len(cols)) if 'share' in cols[i]]
-    share_vals = [vals[i] for i in range(len(cols)) if 'share' in cols[i]]
-    share_vals = [v if v != '' else '0.0' for v in share_vals]
-    dv_share_dict = {col.split('_')[1]: float(val) for col, val in zip(share_cols, share_vals)}
+        cols = cols.strip().split(',')
+        vals = vals.strip().split(',')
+        share_cols = [cols[i] for i in range(len(cols)) if 'share' in cols[i]]
+        if soln_label == 'baseline':
+            dv_project = 0
+            share_vals = [vals[i] for i in range(len(cols)) if 'share' in cols[i]]
+        else:
+            dv_project = int(vals[2])
+            share_vals = ['0.0' for i in range(len(cols)) if 'share' in cols[i]]
+        share_vals = [v if v != '' else '0.0' for v in share_vals]
+        dv_share_dict = {col.split('_')[1]: float(val) for col, val in zip(share_cols, share_vals)}
+
+    ### Like in optimization, normalize shares to sum to 1, then set all districts below min_share to 0, then renormalize.
+    sum_shares = sum(dv_share_dict.values())
+    dv_share_dict = {k: v / sum_shares for k,v in dv_share_dict.items()}
+    loop = 0
+    while (loop < 5) and sum([1 for s in dv_share_dict.values() if s < min_share and s > 0]) > 0:
+        dv_share_dict = {k: 0. if v < min_share else v for k,v in dv_share_dict.items()}
+        sum_shares = sum(dv_share_dict.values())
+        dv_share_dict = {k: v / sum_shares for k,v in dv_share_dict.items()}
+        loop += 1
 
     ### apply ownership fractions for FKC expansion based on dvs from dv_share_dict
     scenario = json.load(open('calfews_src/scenarios/FKC_properties__rehab_ownership_all.json'))
     districts = list(scenario['ownership_shares'].keys())
-    ### add districts OTL & OFK, which were included in previous Earth's Future study, but excluded from optimization.
-    ###    they will only be non-zero for manually added solns from EF study.
-    districts.extend(['OTL','OFK'])
+    ### add aggregated district OFK which is included in status quo friant solution but was not part of optimization
+    districts.extend(['OFK'])
     for i, k in enumerate(districts):
         if dv_project in [1,3]:   #1=FKC only, 3=FKC+CFWB
             scenario['ownership_shares'][k] = dv_share_dict[k]
@@ -89,7 +104,7 @@ def setup_problem(results_folder, soln_label, soln_num, flow_input_sources):
 
     ### create new sheet in results hdf5 file, and save dvs
     with h5py.File(f'{base_results_folder}/results_climate_reeval.hdf5', 'a') as open_hdf5:
-        d = open_hdf5.create_dataset(soln_label, (336, len(flow_input_sources)), dtype='float', compression='gzip')
+        d = open_hdf5.create_dataset(soln_label, (168, len(flow_input_sources)), dtype='float', compression='gzip')
         dvs = [dv_project]
         dv_names = ['proj']
         for k,v in dv_share_dict.items():
@@ -107,18 +122,17 @@ if __name__ == "__main__":
 
     base_results_folder = 'results/climate_reeval_infra/'
 
-    solns = {1294:'baseline', 1293:'statusquo', 375:'compromise'}
+    solns = ['baseline', 'statusquo/soln0', 's3/soln212'}
 
     ### loop over solns assigned to this task & run climate projection scenarios
-    for soln_num, soln_label in list(solns.items()):
+    for soln_label in solns:
         start_time = datetime.now()
 
         ### define climate projections
         scenarios = glob('calfews_src/data/CA_FNF_climate_change/CA_FNF_*.csv')
         ### drop canesm2 scenarios, which have a data inconsistency issue
         scenarios = [s for s in scenarios if 'canesm2' not in s]
-        # scenarios = scenarios[:1]
-        # scenarios = [s for s in scenarios if 'cnrm-cm5_rcp45' in s]
+        scenarios = scenarios[:1]
 
         num_scenarios = len(scenarios)
         model_modes = ['simulation'] * num_scenarios
@@ -131,7 +145,7 @@ if __name__ == "__main__":
 
         ### setup problem for this soln
         results_folder = f'{base_results_folder}/{soln_label}/'
-        setup_problem(results_folder, soln_label, soln_num, flow_input_sources)
+        setup_problem(results_folder, soln_label, flow_input_sources)
 
         ### loop over climate scenarios & run separate climate scenario for each
         for i, flow_input_source in enumerate(flow_input_sources):
