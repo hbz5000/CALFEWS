@@ -269,7 +269,9 @@ for figmode in ['past','future']:
 
     leg = axs[1].legend(loc='lower center', bbox_to_anchor=(0.5, -0.5), fontsize=fontsize, frameon=False, ncol=2)
 
-
+    axs[0].text(0.05, 0.90, "a)", fontsize=20, weight="bold", transform=axs[0].transAxes)
+    axs[1].text(0.05, 0.90, "b)", fontsize=20, weight="bold",transform=axs[1].transAxes)
+    axs[2].text(0.05, 0.90, "c)", fontsize=20, weight="bold", transform=axs[2].transAxes)
 
 
     plt.savefig(f"./figs/FDC_climate_scenarios_{figmode}.png", format="png", dpi=300, bbox_inches='tight')
