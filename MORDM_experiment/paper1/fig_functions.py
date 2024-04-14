@@ -30,8 +30,8 @@ warnings.filterwarnings('ignore')
 ### replace with path of disaggregated results hdf5 dataset on your computer. Download from Zenodo (see link in repo).
 results_mhmm_disagg_file = '/home/alh/PycharmProjects/CALFEWS/results/WCU_results_bridges2/results_reevaluation_disagg.hdf5'
 baseline_mhmm_dir = f'/home/alh/PycharmProjects/CALFEWS/results/MOO_results_bridges2/baseline/'
-# results_projections_dir = '/home/alh/PycharmProjects/CALFEWS/results/climate_reeval_infra/'
-# results_projections_disagg_file = f'{results_projections_dir}/results_climate_reeval.hdf5'
+results_projections_dir = '/home/alh/PycharmProjects/CALFEWS/results/climate_reeval_bridges2/'
+results_projections_disagg_file = f'{results_projections_dir}/results_climate_reeval.hdf5'
 
 ### parameters
 fontsize = 14
@@ -681,13 +681,17 @@ def get_results_disagg_MC(soln_label, reeval_type='mhmm'):
         soln_avg_captured_water = open_hdf5[soln_label][::3,:] * kaf_to_gl           
 
         ### read in baseline results with no infrastructure investment
-        baseline_avg_captured_water = np.zeros(soln_avg_captured_water.shape)
-        for mc in mc_range:
-            mc_idx = mc - mc_range[0]
-            baseline_dict = json.loads(open(f'{baseline_mhmm_dir}/{mc}_baseline.json', 'r').read())
-            for district in baseline_dict.keys():
-                idx = [i for i,d in enumerate(districts) if d == district]
-                baseline_avg_captured_water[idx, mc_idx] = baseline_dict[district]['avg_captured_water'] * kaf_to_gl
+        if reeval_type == 'mhmm':
+            baseline_avg_captured_water = np.zeros(soln_avg_captured_water.shape)
+            for mc in mc_range:
+                mc_idx = mc - mc_range[0]
+                baseline_dict = json.loads(open(f'{baseline_mhmm_dir}/{mc}_baseline.json', 'r').read())
+                for district in baseline_dict.keys():
+                    idx = [i for i,d in enumerate(districts) if d == district]
+                    baseline_avg_captured_water[idx, mc_idx] = baseline_dict[district]['avg_captured_water'] * kaf_to_gl
+        elif reeval_type == 'projections':
+            baseline_avg_captured_water = open_hdf5['baseline'][::3,:] * kaf_to_gl           
+
  
         ### get captured watergains in each mc
         mc_wcu_soln = (soln_avg_captured_water - baseline_avg_captured_water).transpose()
@@ -721,6 +725,7 @@ def get_results_disagg_MC(soln_label, reeval_type='mhmm'):
     return df_overall_wcu
 
 
+
 ### get all simulated results for particular partnership, at level of indiv partners, in alternative hydrologic scenarios during reevaluation, relative to baseline.
 def get_results_disagg_MC_district(soln_label, reeval_type='mhmm'):
 
@@ -746,15 +751,19 @@ def get_results_disagg_MC_district(soln_label, reeval_type='mhmm'):
 
         soln_avg_captured_water = open_hdf5[soln_label][::3,:] * kaf_to_gl           
 
-        ### read in baseline results with no infrastructure investment
-        baseline_avg_captured_water = np.zeros(soln_avg_captured_water.shape)
-        for mc in mc_range:
-            mc_idx = mc - mc_range[0]
-            baseline_dict = json.loads(open(f'{baseline_mhmm_dir}/{mc}_baseline.json', 'r').read())
-            for district in baseline_dict.keys():
-                idx = [i for i,d in enumerate(districts) if d == district]
-                baseline_avg_captured_water[idx, mc_idx] = baseline_dict[district]['avg_captured_water'] * kaf_to_gl
- 
+        ### read in baseline results with no infrastructure investment 
+        if reeval_type == 'mhmm':
+            baseline_avg_captured_water = np.zeros(soln_avg_captured_water.shape)
+            for mc in mc_range:
+                mc_idx = mc - mc_range[0]
+                baseline_dict = json.loads(open(f'{baseline_mhmm_dir}/{mc}_baseline.json', 'r').read())
+                for district in baseline_dict.keys():
+                    idx = [i for i,d in enumerate(districts) if d == district]
+                    baseline_avg_captured_water[idx, mc_idx] = baseline_dict[district]['avg_captured_water'] * kaf_to_gl
+        elif reeval_type == 'projections':
+            baseline_avg_captured_water = open_hdf5['baseline'][::3,:] * kaf_to_gl           
+
+
         ### get captured watergains in each mc
         mc_wcu_soln = (soln_avg_captured_water - baseline_avg_captured_water).transpose()
         cwg_soln = pd.DataFrame(mc_wcu_soln,
@@ -1251,12 +1260,12 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
     ax = fig.add_subplot(gs[0])
 
     ### rescale objectives so that parallel axes span 0-1. Note last axis for cog_wp is inverted.
-    if soln_label in ['soln375', 'compromise']:
-        objmins = [2, 0, -3, -60, 70]
-        objmaxs = [24, 200, 140, 80, 1000]
-    elif soln_label in ['soln1293', 'statusquo', 'statusquo']:
-        objmins = [2, 0, -3, -60, 78]
-        objmaxs = [24, 135, 100, 35, 1000]
+    if soln_label in ['s3/soln212', 'compromise']:
+        objmins = [11, 0, -50, 0]
+        objmaxs = [26, 175, 50, 1000]
+    elif soln_label in ['statusquo/soln0', 'statusquo']:
+        objmins = [11, 0, -50, 0]
+        objmaxs = [25, 175, 50, 1000]
 
     ressat_wcu = results_agg.loc[:, columns]
 
@@ -1275,8 +1284,8 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
     else:
         print('ideal should be "top" or "bottom" based on direction of preference')
 
-    ### plot objs for all partnerships after WCU, brushed. omit baseline & friant/alts
-    for i in range(ressat_wcu.shape[0] - 4):
+    ### plot objs for all partnerships after WCU, brushed
+    for i in range(ressat_wcu.shape[0]):
         for j in range(len(columns) - 1):
             c = '0.8'
             zorder = 1
@@ -1313,14 +1322,14 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
     ax.annotate('Direction of preference', xy=(-0.3, 0.5), ha='center', va='center', rotation=90, fontsize=fontsize)
 
     ax.set_ylim(-0.4, 1.5)
-    labels = ['Number\nof\npartners', 'Captured\nwater\ngain\n(GL/yr)', 'Pumping\nreduction\n(GL/yr)',
+    labels = ['Number\nof\npartners', 'Captured\nwater\ngain\n(GL/yr)', 
               'Captured\nwater\ngain for\nnon-partners\n(GL/yr)', 'Cost of\ngains for\nworst-off\npartner\n($/ML)']
     for i, l in enumerate(labels):
         ax.annotate(l, xy=(i, -0.12), ha='center', va='top', fontsize=fontsize)
     ax.patch.set_alpha(0)
 
     ### now add detail for particular solns
-    colors_brewer = {'soln375': '#1b9e77', 'statusquo': '#d95f02', 'other': '#7570b3'}
+    colors_brewer = {'s3/soln212': '#1b9e77', 'statusquo/soln0': '#d95f02', 'other': '#7570b3'}
 
     ### highlight soln, wcu agg objectives
     ressat_wcu_soln = ressat_wcu.loc[results_agg['label'] == soln_label, :]
@@ -1372,7 +1381,7 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
             y = np.arange(0, 1, 0.01)
             x = []
             for yy in y:
-                xx = kde.evaluate(yy) * 0.12
+                xx = kde.evaluate(yy) * 0.08
                 if np.isnan(xx):
                     x.append(0.)
                 else:
@@ -1392,7 +1401,7 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
         ax.arrow(-0.15, 0.9, 0, -0.7, head_width=0.08, head_length=0.05, color='k', lw=1.5)
     ax.annotate('Direction of preference', xy=(-0.3, 0.5), ha='center', va='center', rotation=90, fontsize=fontsize)
 
-    plt.xlim([-0.3, 5])
+    plt.xlim([-0.3, 4])
 
     ax.annotate('a)', (0.01, 0.92), xycoords='subfigure fraction', ha='left', va='top', fontsize=fontsize + 2, weight='bold')
 
@@ -1503,237 +1512,219 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
         ax.annotate(axlabel, (0.01, axheight), xycoords='subfigure fraction', ha='left', va='top',
                     fontsize=fontsize + 2, weight='bold')
 
-
-    plt.savefig(f'{fig_dir}fig_performance_climate_{soln_label}.png', bbox_inches='tight', dpi=300, transparent=True)
-
-
+    soln_figlabel = 'statusquo' if 'statusquo' in soln_label else 'compromise'
+    plt.savefig(f"{fig_dir}fig_performance_climate_{soln_figlabel}.png", bbox_inches='tight', dpi=300, transparent=True)
 
 
 
 
-### function to compare time series of performance in wet vs dry scenarios
-def compare_partnership_performance_timeseries_wetdry(projection_label, soln_label):
-
-    fig, axs = plt.subplots(4,1,figsize=(10,10), gridspec_kw={'hspace':0.1})
-
-    results_projections_dir2 = results_projections_dir #+ '../climate_reeval_infra_save/'
-
-    f_soln = h5py.File(f'{results_projections_dir2}/{soln_label}/{projection_label}/results.hdf5')['s']
-    f_baseline = h5py.File(f'{results_projections_dir2}/baseline/{projection_label}/results.hdf5')['s']
-
-    ### get full list of column names for each dataset. these may not line up across datasets.
-    cols_soln, cols_baseline = [], []
-    for c in range(100):
-        if f'columns{c}' in f_soln.attrs.keys():
-            cols_soln += [s.decode('utf-8') for s in f_soln.attrs[f'columns{c}']]
-        if f'columns{c}' in f_baseline.attrs.keys():
-            cols_baseline += [s.decode('utf-8') for s in f_baseline.attrs[f'columns{c}']]
-    print(cols_baseline)
-    print([c for c in cols_baseline if 'fresnoid' in c])
-
-    num_days = f_baseline.shape[0]
-    start_date = f_baseline.attrs['start_date']
-    start_date = datetime.datetime(int(start_date.split('-')[0]), int(start_date.split('-')[1]), int(start_date.split('-')[2]))
-    dates = pd.DatetimeIndex([start_date + datetime.timedelta(days=n) for n in range(num_days)])
-    wy = np.array([y if m < 10 else y+1 for y,m in zip(dates.year, dates.month)])
-
-    ### get set of partners
-    partnership = json.load(open(f'{results_projections_dir2}/{soln_label}/FKC_scenario.json'))
-    partners = [k for k,v in partnership['ownership_shares'].items() if v>0]
-    partners_labels = [district_label_dict[k] for k in partners]
 
 
-    ### undo summation over water year for some timeseries
-    def undo_summation_wy(data, wy):
-        for y in range(wy.min() + 1, wy.max() + 1):
-            maxprevious = data[wy < y][-1]
-            data[wy == y] += maxprevious
-        data[1:] = data[1:] - data[:-1]
-        return data
+# ### function to compare time series of performance in wet vs dry scenarios
+# def compare_partnership_performance_timeseries_wetdry(projection_label, soln_label):
 
-    ### moving average of timeseries
-    def moving_average(data, window):
-        if window <= 1:
-            return data
-        else:
-            window_min_1 = window - 1
-        data_ma = np.cumsum(data)
-        data_ma[window_min_1:] = (data_ma[window_min_1:] - data_ma[:-window_min_1]) / window
-        data_ma[:window_min_1] = data[:window_min_1]
-        return data_ma
+#     fig, axs = plt.subplots(4,1,figsize=(10,10), gridspec_kw={'hspace':0.1})
 
-    ### get data for particular timeseries
-    def get_timeseries(f_hdf5, cols_hdf5, column, wy, is_summation_wy, smooth_window=0):
-        data = f_hdf5[:, [i for i in range(f_hdf5.shape[1]) if cols_hdf5[i] == column]]
-        if data.shape[1] > 0:
-            data = data[:,0] * kaf_to_gl
-            if is_summation_wy:
-                data = undo_summation_wy(data, wy)
-            data = moving_average(data, window=smooth_window)
-        else:
-            data = np.zeros(f_hdf5.shape[0])
-        return data
+#     results_projections_dir2 = results_projections_dir #+ '../climate_reeval_infra_save/'
 
+#     f_soln = h5py.File(f'{results_projections_dir2}/{soln_label}/{projection_label}/results.hdf5')['s']
+#     f_baseline = h5py.File(f'{results_projections_dir2}/baseline/{projection_label}/results.hdf5')['s']
 
-    color_fill_baseline = '0.7'
-    color_fill_positive = 'navy'
-    color_fill_negative = 'firebrick'
+#     ### get full list of column names for each dataset. these may not line up across datasets.
+#     cols_soln, cols_baseline = [], []
+#     for c in range(100):
+#         if f'columns{c}' in f_soln.attrs.keys():
+#             cols_soln += [s.decode('utf-8') for s in f_soln.attrs[f'columns{c}']]
+#         if f'columns{c}' in f_baseline.attrs.keys():
+#             cols_baseline += [s.decode('utf-8') for s in f_baseline.attrs[f'columns{c}']]
+#     print(cols_baseline)
+#     print([c for c in cols_baseline if 'fresnoid' in c])
 
-    #################################################
-    ### part 1: show hydrology by years
-    ##################################################
-    ax = axs[0]
-    smooth_window = 0
+#     num_days = f_baseline.shape[0]
+#     start_date = f_baseline.attrs['start_date']
+#     start_date = datetime.datetime(int(start_date.split('-')[0]), int(start_date.split('-')[1]), int(start_date.split('-')[2]))
+#     dates = pd.DatetimeIndex([start_date + datetime.timedelta(days=n) for n in range(num_days)])
+#     wy = np.array([y if m < 10 else y+1 for y,m in zip(dates.year, dates.month)])
 
-    Q = get_timeseries(f_baseline, cols_baseline,  'millerton_Q', wy, False, smooth_window)
-    ax.plot(dates, Q, color='k')
-    ax.set_ylabel('Millerton\nInflow (GL/day)')
-    ax.set_xticklabels([])
-
-    #################################################
-    ### part 2: show FKC flow by years
-    ##################################################
-    ax = axs[1]
-
-    fkc_soln = get_timeseries(f_soln, cols_soln,  'fkc_NFWB_flow', wy, False,smooth_window)
-    fkc_baseline = get_timeseries(f_baseline, cols_baseline,  'fkc_NFWB_flow', wy, False,smooth_window)
-
-    ax.fill_between(dates, fkc_baseline, color=color_fill_baseline, lw=0)
-    ax.fill_between(dates, fkc_baseline, fkc_soln, where=fkc_baseline<fkc_soln, color=color_fill_positive, lw=0)
-    ax.fill_between(dates, fkc_baseline, fkc_soln, where=fkc_baseline>fkc_soln, color=color_fill_negative, lw=0)
-    ax.set_ylabel('FKC\nFlow (GL/day)')
-    ax.set_xticklabels([])
-
-    ### now plot cumulative FKC flow gain on 2nd y axis
-    flow_gain_soln = np.cumsum(fkc_soln - fkc_baseline)
-    ax2 = ax.twinx()
-    ax2.plot(dates, flow_gain_soln, color='0.5')
-    ax2.set_ylabel('Cumulative Gain\nin Flow (GL)')
-
-    #################################################
-    ### part 3: show deliveries by years with timeseries overlaid
-    ##################################################
-
-    ax = axs[2]
-
-    ### get deliveries total for partner (following workflow in main_cy.get_district_results())
-    def get_deliveries_partner(partner, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
-        cols_partner = [c for c in cols_hdf5 if c.split('_')[0] == partner]
-        if partner in ['fresnoid']:
-            print(cols_partner)
-        deliveries = np.zeros(f_hdf5.shape[0])
-        for c in cols_partner:
-            if len(c.split('_')) > 2:
-                if c.split('_')[2] in ['delivery', 'flood', 'SW']:
-                    if partner == 'fresnoid':
-                        print(c, get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window).mean()*365)
-                    deliveries += get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
-                elif c.split('_')[2] == 'GW':
-                    if partner == 'fresnoid':
-                        print(c, get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window).mean() * 365)
-                    deliveries -= get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
-        print(partner, deliveries.sum()/(f_soln.shape[0]/365))
-        return deliveries
-
-    def get_deliveries_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
-        deliveries = np.zeros(f_hdf5.shape[0])
-        for partner in partners:
-            deliveries += get_deliveries_partner(partner, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window)
-        return deliveries
-
-    deliveries_soln = get_deliveries_partnership(partners_labels, f_soln, cols_soln, wy, True, smooth_window)
-    deliveries_baseline = get_deliveries_partnership(partners_labels, f_baseline, cols_baseline, wy, True, smooth_window)
-
-    ### plot daily deliveries as areas
-    ax.fill_between(dates, deliveries_baseline, color=color_fill_baseline, lw=0)
-    ax.fill_between(dates, deliveries_baseline, deliveries_soln, where=deliveries_baseline<deliveries_soln, color=color_fill_positive, lw=0)
-    ax.fill_between(dates, deliveries_baseline, deliveries_soln, where=deliveries_baseline>deliveries_soln, color=color_fill_negative, lw=0)
-    ax.set_ylabel('Deliveries\n(GL/day)')
-    ax.set_xticklabels([])
-
-    ### now plot cumulative captured water gain on 2nd y axis
-    cwg_soln = np.cumsum(deliveries_soln - deliveries_baseline)
-    ax2 = ax.twinx()
-    ax2.plot(dates, cwg_soln, color='0.5')
-    ax2.set_ylabel('Cumulative Gain\nin Deliveries (GL)')
+#     ### get set of partners
+#     partnership = json.load(open(f'{results_projections_dir2}/{soln_label}/FKC_scenario.json'))
+#     partners = [k for k,v in partnership['ownership_shares'].items() if v>0]
+#     partners_labels = [district_label_dict[k] for k in partners]
 
 
-    ### compare to automated aggregated results
-    agg_results_soln = json.load(open(f'{results_projections_dir2}/{soln_label}/{projection_label}/{soln_label}_mc{projection_label}.json'))
-    agg_results_baseline = json.load(open(f'{results_projections_dir2}/baseline/{projection_label}/{projection_label}_baseline.json'))
-    cwg_soln_agg = 0
-    pump_soln_agg = 0
-    cwg_baseline_agg = 0
-    pump_baseline_agg = 0
-    for p in partners:
-        cwg_soln_agg += agg_results_soln[p]['avg_captured_water']
-        pump_soln_agg += agg_results_soln[p]['avg_pumping']
-        cwg_baseline_agg += agg_results_baseline[p]['avg_captured_water']
-        pump_baseline_agg += agg_results_baseline[p]['avg_pumping']
-    cwg_soln_agg *= kaf_to_gl
-    pump_soln_agg *= kaf_to_gl
-    cwg_baseline_agg *= kaf_to_gl
-    pump_baseline_agg *= kaf_to_gl
-    for p in partners:
-        print(p, (agg_results_soln[p]['avg_captured_water'] - agg_results_baseline[p]['avg_captured_water']) * kaf_to_gl)
+#     ### undo summation over water year for some timeseries
+#     def undo_summation_wy(data, wy):
+#         for y in range(wy.min() + 1, wy.max() + 1):
+#             maxprevious = data[wy < y][-1]
+#             data[wy == y] += maxprevious
+#         data[1:] = data[1:] - data[:-1]
+#         return data
+
+#     ### moving average of timeseries
+#     def moving_average(data, window):
+#         if window <= 1:
+#             return data
+#         else:
+#             window_min_1 = window - 1
+#         data_ma = np.cumsum(data)
+#         data_ma[window_min_1:] = (data_ma[window_min_1:] - data_ma[:-window_min_1]) / window
+#         data_ma[:window_min_1] = data[:window_min_1]
+#         return data_ma
+
+#     ### get data for particular timeseries
+#     def get_timeseries(f_hdf5, cols_hdf5, column, wy, is_summation_wy, smooth_window=0):
+#         data = f_hdf5[:, [i for i in range(f_hdf5.shape[1]) if cols_hdf5[i] == column]]
+#         if data.shape[1] > 0:
+#             data = data[:,0] * kaf_to_gl
+#             if is_summation_wy:
+#                 data = undo_summation_wy(data, wy)
+#             data = moving_average(data, window=smooth_window)
+#         else:
+#             data = np.zeros(f_hdf5.shape[0])
+#         return data
 
 
-    print(soln_label, projection_label, 'cwg', cwg_soln[-1]/(f_soln.shape[0]/365), cwg_soln_agg - cwg_baseline_agg)
+#     color_fill_baseline = '0.7'
+#     color_fill_positive = 'navy'
+#     color_fill_negative = 'firebrick'
 
-    #################################################
-    ### part 4: show deliveries & recoveries from CFWB
-    ##################################################
+#     #################################################
+#     ### part 1: show hydrology by years
+#     ##################################################
+#     ax = axs[0]
+#     smooth_window = 0
 
-    ax = axs[3]
+#     Q = get_timeseries(f_baseline, cols_baseline,  'millerton_Q', wy, False, smooth_window)
+#     ax.plot(dates, Q, color='k')
+#     ax.set_ylabel('Millerton\nInflow (GL/day)')
+#     ax.set_xticklabels([])
 
-    def get_bank_balance_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
-        cols_bank_balances = [f'centralfriantwb_{p}' for p in partners]
-        balances = np.zeros(f_hdf5.shape[0])
-        for c in cols_bank_balances:
-            balances += get_timeseries(f_hdf5, cols_hdf5,  c, wy, is_summation_wy, smooth_window)
-        return balances
+#     #################################################
+#     ### part 2: show FKC flow by years
+#     ##################################################
+#     ax = axs[1]
 
-    balances_soln = get_bank_balance_partnership(partners, f_soln, cols_soln, wy, False, smooth_window)
-    balances_soln_diff = balances_soln.copy()
-    balances_soln_diff[1:] -= balances_soln_diff[:-1]
+#     fkc_soln = get_timeseries(f_soln, cols_soln,  'fkc_NFWB_flow', wy, False,smooth_window)
+#     fkc_baseline = get_timeseries(f_baseline, cols_baseline,  'fkc_NFWB_flow', wy, False,smooth_window)
 
-    ### plot differenced time series similar to above
-    ax.fill_between(dates, balances_soln_diff, 0, where=balances_soln_diff>0, color=color_fill_positive, lw=0)
-    ax.fill_between(dates, balances_soln_diff, 0, where=balances_soln_diff<0, color=color_fill_negative, lw=0)
-    ax.set_ylabel(r'$\Delta$ '+'Groundwater Bank\nBalance (GL/day)')
+#     ax.fill_between(dates, fkc_baseline, color=color_fill_baseline, lw=0)
+#     ax.fill_between(dates, fkc_baseline, fkc_soln, where=fkc_baseline<fkc_soln, color=color_fill_positive, lw=0)
+#     ax.fill_between(dates, fkc_baseline, fkc_soln, where=fkc_baseline>fkc_soln, color=color_fill_negative, lw=0)
+#     ax.set_ylabel('FKC\nFlow (GL/day)')
+#     ax.set_xticklabels([])
 
-    ### now use second y axis to plot the cumulative bank balance
-    ax2 = ax.twinx()
-    ax2.plot(dates, balances_soln, color='0.5')
+#     ### now plot cumulative FKC flow gain on 2nd y axis
+#     flow_gain_soln = np.cumsum(fkc_soln - fkc_baseline)
+#     ax2 = ax.twinx()
+#     ax2.plot(dates, flow_gain_soln, color='0.5')
+#     ax2.set_ylabel('Cumulative Gain\nin Flow (GL)')
 
-    ax2.set_ylabel('Groundwater Bank\nBalance (GL)', color='0.5')
+#     #################################################
+#     ### part 3: show deliveries by years with timeseries overlaid
+#     ##################################################
+
+#     ax = axs[2]
+
+#     ### get deliveries total for partner (following workflow in main_cy.get_district_results())
+#     def get_deliveries_partner(partner, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
+#         cols_partner = [c for c in cols_hdf5 if c.split('_')[0] == partner]
+#         if partner in ['fresnoid']:
+#             print(cols_partner)
+#         deliveries = np.zeros(f_hdf5.shape[0])
+#         for c in cols_partner:
+#             if len(c.split('_')) > 2:
+#                 if c.split('_')[2] in ['delivery', 'flood', 'SW']:
+#                     if partner == 'fresnoid':
+#                         print(c, get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window).mean()*365)
+#                     deliveries += get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
+#                 elif c.split('_')[2] == 'GW':
+#                     if partner == 'fresnoid':
+#                         print(c, get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window).mean() * 365)
+#                     deliveries -= get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
+#         print(partner, deliveries.sum()/(f_soln.shape[0]/365))
+#         return deliveries
+
+#     def get_deliveries_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
+#         deliveries = np.zeros(f_hdf5.shape[0])
+#         for partner in partners:
+#             deliveries += get_deliveries_partner(partner, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window)
+#         return deliveries
+
+#     deliveries_soln = get_deliveries_partnership(partners_labels, f_soln, cols_soln, wy, True, smooth_window)
+#     deliveries_baseline = get_deliveries_partnership(partners_labels, f_baseline, cols_baseline, wy, True, smooth_window)
+
+#     ### plot daily deliveries as areas
+#     ax.fill_between(dates, deliveries_baseline, color=color_fill_baseline, lw=0)
+#     ax.fill_between(dates, deliveries_baseline, deliveries_soln, where=deliveries_baseline<deliveries_soln, color=color_fill_positive, lw=0)
+#     ax.fill_between(dates, deliveries_baseline, deliveries_soln, where=deliveries_baseline>deliveries_soln, color=color_fill_negative, lw=0)
+#     ax.set_ylabel('Deliveries\n(GL/day)')
+#     ax.set_xticklabels([])
+
+#     ### now plot cumulative captured water gain on 2nd y axis
+#     cwg_soln = np.cumsum(deliveries_soln - deliveries_baseline)
+#     ax2 = ax.twinx()
+#     ax2.plot(dates, cwg_soln, color='0.5')
+#     ax2.set_ylabel('Cumulative Gain\nin Deliveries (GL)')
 
 
-    #################################################
-    ### part 4: show deliveries & recoveries from CFWB
-    ##################################################
+#     ### compare to automated aggregated results
+#     agg_results_soln = json.load(open(f'{results_projections_dir2}/{soln_label}/{projection_label}/{soln_label}_mc{projection_label}.json'))
+#     agg_results_baseline = json.load(open(f'{results_projections_dir2}/baseline/{projection_label}/{projection_label}_baseline.json'))
+#     cwg_soln_agg = 0
+#     pump_soln_agg = 0
+#     cwg_baseline_agg = 0
+#     pump_baseline_agg = 0
+#     for p in partners:
+#         cwg_soln_agg += agg_results_soln[p]['avg_captured_water']
+#         pump_soln_agg += agg_results_soln[p]['avg_pumping']
+#         cwg_baseline_agg += agg_results_baseline[p]['avg_captured_water']
+#         pump_baseline_agg += agg_results_baseline[p]['avg_pumping']
+#     cwg_soln_agg *= kaf_to_gl
+#     pump_soln_agg *= kaf_to_gl
+#     cwg_baseline_agg *= kaf_to_gl
+#     pump_baseline_agg *= kaf_to_gl
+#     for p in partners:
+#         print(p, (agg_results_soln[p]['avg_captured_water'] - agg_results_baseline[p]['avg_captured_water']) * kaf_to_gl)
 
-    ax = axs[3]
 
-    def get_pumping_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
-        cols_pumping = [f'{p}_pumping' for p in partners]
-        pumping = np.zeros(f_hdf5.shape[0])
-        for c in cols_pumping:
-            pumping += get_timeseries(f_hdf5, cols_hdf5, c, wy, is_summation_wy, smooth_window)
-        return pumping
+#     print(soln_label, projection_label, 'cwg', cwg_soln[-1]/(f_soln.shape[0]/365), cwg_soln_agg - cwg_baseline_agg)
 
-    pumping_soln = get_pumping_partnership(partners_labels, f_soln, cols_soln, wy, False, smooth_window)
-    pumping_baseline = get_pumping_partnership(partners_labels, f_baseline, cols_baseline, wy, False, smooth_window)
-    pumping_reduction = np.cumsum(pumping_baseline - pumping_soln)
-    # print(soln_label, projection_label, 'pumping', pumping_reduction[-1]/(f_soln.shape[0]/365), pump_baseline_agg - pump_soln_agg)
+#     #################################################
+#     ### part 4: show deliveries & recoveries from CFWB
+#     ##################################################
+
+#     ax = axs[3]
+
+#     def get_bank_balance_partnership(partners, f_hdf5, cols_hdf5, wy, is_summation_wy, smooth_window):
+#         cols_bank_balances = [f'centralfriantwb_{p}' for p in partners]
+#         balances = np.zeros(f_hdf5.shape[0])
+#         for c in cols_bank_balances:
+#             balances += get_timeseries(f_hdf5, cols_hdf5,  c, wy, is_summation_wy, smooth_window)
+#         return balances
+
+#     balances_soln = get_bank_balance_partnership(partners, f_soln, cols_soln, wy, False, smooth_window)
+#     balances_soln_diff = balances_soln.copy()
+#     balances_soln_diff[1:] -= balances_soln_diff[:-1]
+
+#     ### plot differenced time series similar to above
+#     ax.fill_between(dates, balances_soln_diff, 0, where=balances_soln_diff>0, color=color_fill_positive, lw=0)
+#     ax.fill_between(dates, balances_soln_diff, 0, where=balances_soln_diff<0, color=color_fill_negative, lw=0)
+#     ax.set_ylabel(r'$\Delta$ '+'Groundwater Bank\nBalance (GL/day)')
+
+#     ### now use second y axis to plot the cumulative bank balance
+#     ax2 = ax.twinx()
+#     ax2.plot(dates, balances_soln, color='0.5')
+
+#     ax2.set_ylabel('Groundwater Bank\nBalance (GL)', color='0.5')
 
 
 
-    ##################################################
+
+#     ##################################################
 
 
-    plt.savefig(f'{fig_dir}fig_partnership_timeseries_{soln_label}_{projection_label}.png',
-                bbox_inches='tight', dpi=300)#, transparent=True)
+#     plt.savefig(f'{fig_dir}fig_partnership_timeseries_{soln_label}_{projection_label}.png',
+#                 bbox_inches='tight', dpi=300)#, transparent=True)
 
 
 
