@@ -35,12 +35,11 @@ Licensed under the MIT License, 2017-.
 
 ## Running the multi-objective optimization
 
-1. First run the baseline simulations with no new infrastructure by submitting `submit_baselines_bridges2.sh` to the SLURM scheduler via sbatch. I ran all 100 simulations at once using a single job with 1 task of 50 cores on Bridgees-2 on the RM-shared partition. This took ~13 minutes.
+1. First run the baseline simulations with no new infrastructure by submitting `submit_baselines_bridges2.sh` to the SLURM scheduler via sbatch. I ran all 100 simulations at once using a single job with 1 task of 50 cores on Bridges-2 on the RM-shared partition. This took ~13 minutes.
 2. Run `submit_moo_infra_bridges2.sh` for multiple seeds. Each submisssion uses 32 nodes on the RM partition on Bridges-2. I ran 3 seeds. For each, begin with numFEPrevious=0 (a fresh start for MOEA), and run for 48 hours.
 3. Once each of these has finished, it will store results in `results/infra_moo/dv{dv_formulation}_seed{seed}/` -> move this to `results/MOO_results_bridges2/dv{dv_formulation}_seed{seed}_round1/` for storage.
 4. Now create a new directory `results/infra_moo/dv{dv_formulation}_seed{seed}/` for the round 2 results to be written to. Within it, create a directory `checkpts/`. Within that, copy the file `results/MOO_results_s2/dv{dv_formulation}_seed{seed}_round1/checkpts/s{seed}_nfe{NFE_last}.checkpt` from the previous round's results, where NFE_last is the largest number file listed in this directory. This file represents a snapshot of the Borg MOEA's state after a particular number of function evaluations - snapshots are made every 100 evaluations. We want to use the most recent snapshot before the job ran out of time and exited. This will be used for a starting point for the second round.
-5. Now within `submit_moo_infra.sh`, change `numFEPrevious` to this same value as the checkpoint file in the last step for each dv_formulation/seed combo, and rerun each seed for a second round.
-6. Once these are complete, repeat steps 3-5 again in order to run a third round based on the checkpoint from the second round. Based on my available computing budget, I ran round 3 for 24 hours, for a total of 5 days computing across the 3 rounds for each seed.
+5. Now within `submit_moo_infra.sh`, change `numFEPrevious` to this same value as the checkpoint file in the last step for each dv_formulation/seed combo, and rerun each seed for a second round. I ran this second round for approximately 42 hours, for a total of 90 hours per seed, based on my available computing budget and convergence metrics.
 
 ## Postprocessing from the multi-objective optimization
 
