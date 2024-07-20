@@ -17,12 +17,9 @@ def print_completion(fig_label):
 ### get results from optimized partnerships after reevaluation, after recalculating Pareto set with original 4 objs from multi-objective optimization step. Plus statusquo nonoptimized solution.
 results = pd.read_csv('../../results_arx/infra_wcu/objs_wcu_pareto_withStatusQuo.csv', sep=', ')
 
-
 ### map all costs >1000 to 1000 for visual clarity
 for c in ['cog_wp_p90']:
     results.loc[results[c] > 1000, c] = 1000
-
-
 
 # ### parallel coordinates plots
 columns = ['n_p', 'cwg_p', 'cwg_np', 'cog_wp_p90']
@@ -46,27 +43,27 @@ water_providers, states, canals_fkc, canals_other, tlb, sjr, kings, res_gdf = fi
 fig_functions.plot_regional_map(water_providers, states, canals_fkc, canals_other, tlb, sjr, kings, res_gdf)
 print_completion(f'base regional map')
 
-# ## plot 3-part figure of performance for each partnership
-# fig_functions.plot_3part_partnership_performance(results, [soln_compromise], columns, water_providers, states,
-#                                                 canals_fkc, canals_other, tlb, sjr, kings, res_gdf)
-# print_completion(f'3-part partnership performance figure for compromise')
+## plot 3-part figure of performance for each partnership
+fig_functions.plot_3part_partnership_performance(results, [soln_compromise], columns, water_providers, states,
+                                                canals_fkc, canals_other, tlb, sjr, kings, res_gdf)
+print_completion(f'3-part partnership performance figure for compromise')
 
-# fig_functions.plot_3part_partnership_performance(results, [soln_compromise, soln_statusquo], columns, water_providers, states,
-#                                                 canals_fkc, canals_other, tlb, sjr, kings, res_gdf)
-# print_completion(f'3-part partnership performance figure for status quo')
+fig_functions.plot_3part_partnership_performance(results, [soln_compromise, soln_statusquo], columns, water_providers, states,
+                                                canals_fkc, canals_other, tlb, sjr, kings, res_gdf)
+print_completion(f'3-part partnership performance figure for status quo')
 
-# # ## comparison of disaggregated performance under climate projections vs mhmm
-# fig_functions.compare_partnership_performance_climate(results, soln_compromise, columns)
-# fig_functions.compare_partnership_performance_climate(results, soln_statusquo, columns)
-# print_completion(f'figure comparing partnership performance under climate projections vs MHMM')
+# ## comparison of disaggregated performance under climate projections vs mhmm
+fig_functions.compare_partnership_performance_climate(results, soln_compromise, columns)
+fig_functions.compare_partnership_performance_climate(results, soln_statusquo, columns)
+print_completion(f'figure comparing partnership performance under climate projections vs MHMM')
 
 
-# ### plot 4-pt partner-level disaggregated performance across hydrologic scenarios for 2 partnerships
-# fig_functions.plot_partner_disagg_performance(results, soln_compromise)
-# print_completion(f'3-part partner-level disagg  performance figure for compromise')
+### plot 4-pt partner-level disaggregated performance across hydrologic scenarios for 2 partnerships
+fig_functions.plot_partner_disagg_performance(results, soln_compromise)
+print_completion(f'3-part partner-level disagg  performance figure for compromise')
 
-# fig_functions.plot_partner_disagg_performance(results, soln_statusquo)
-# print_completion(f'3-part partner-level disagg  performance figure for status quo')
+fig_functions.plot_partner_disagg_performance(results, soln_statusquo)
+print_completion(f'3-part partner-level disagg  performance figure for status quo')
 
 
 # ## Note: The rest of figures only use the results from optimization - exclude statusquo solutions
@@ -78,8 +75,8 @@ fig_functions.plot_share_distributions_bivariateChoropleth(results, water_provid
 print_completion(f'5-part figure for ownership share distributions')
 
 
-# ### plot MOO convergence metrics
-# fig_functions.plot_moo_metrics()
-# print_completion(f'optimization metrics figures')
+### plot MOO convergence metrics
+fig_functions.plot_moo_metrics()
+print_completion(f'optimization metrics figures')
 
 
