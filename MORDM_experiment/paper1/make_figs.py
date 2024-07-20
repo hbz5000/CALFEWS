@@ -32,12 +32,12 @@ color_by = 'n_p'  # 'n_p' or 'proj'
 
 ### parallel coordinates plot has various options based on brushing criteria & highlighted solutions (see function).
 ### here loop over fig_stage options used in paper. Do 13 last, which returns soln labels for status quo & compromise partnerships.
-fig_stages_paper = [13]#6, 8, 9, 10, 11, 13]
-for fig_stage in fig_stages_paper:
-    soln_statusquo, soln_compromise = fig_functions.plot_parallel_coords(results, columns, column_labels,
-                                                                         fig_stage, color_by)
-    print_completion(f'parallel coord option {fig_stage} figure')
-print(f'statusquo: {soln_statusquo}, compromise: {soln_compromise}')
+# fig_stages_paper = [13]#6, 8, 9, 10, 11, 13]
+# for fig_stage in fig_stages_paper:
+#     soln_statusquo, soln_compromise = fig_functions.plot_parallel_coords(results, columns, column_labels,
+#                                                                          fig_stage, color_by)
+#     print_completion(f'parallel coord option {fig_stage} figure')
+# print(f'statusquo: {soln_statusquo}, compromise: {soln_compromise}')
 
 ### get geospatial data for map figures
 water_providers, states, canals_fkc, canals_other, tlb, sjr, kings, res_gdf = fig_functions.get_geodata()

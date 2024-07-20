@@ -590,7 +590,7 @@ def plot_regional_map(water_providers, states, canals_fkc, canals_other, tlb, sj
     ax.set_xticks([])
     ax.set_yticks([])
     ax.spines[['top', 'left', 'right', 'bottom']].set_visible(False)
-    cx.add_basemap(ax=ax, crs=water_providers.crs, alpha=0.5)  # , source=cx.providers.Stamen.TonerLite)
+    cx.add_basemap(ax=ax, crs=water_providers.crs, alpha=0.3, source=cx.providers.OpenTopoMap)
 
     ### lastly add separate inset for ID4 due to overlapping. make sure scale is same as original
     xfrac = 0.13
@@ -605,7 +605,6 @@ def plot_regional_map(water_providers, states, canals_fkc, canals_other, tlb, sj
     axin.set_xticks([])
     axin.set_yticks([])
     axin.spines[['top', 'left', 'right', 'bottom']].set_edgecolor('0.5')
-    # cx.add_basemap(ax = axin, crs=water_providers.crs)#, source=cx.providers.Stamen.TonerLite)
 
     ### now add rectangle back in original axes with arrow
     box = [Rectangle((xstart, ystart), xfrac * xrange, yfrac * yrange)]
