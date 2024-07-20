@@ -30,14 +30,14 @@ column_labels = ['Number of\npartners', 'Captured water\ngain (GL/yr)',
               'Captured water\ngain for non-\npartners (GL/yr)', 'Cost of gains for\nworst-off partner\n($/ML)']
 color_by = 'n_p'  # 'n_p' or 'proj'
 
-### parallel coordinates plot has various options based on brushing criteria & highlighted solutions (see function).
-### here loop over fig_stage options used in paper. Do 13 last, which returns soln labels for status quo & compromise partnerships.
-# fig_stages_paper = [13]#6, 8, 9, 10, 11, 13]
-# for fig_stage in fig_stages_paper:
-#     soln_statusquo, soln_compromise = fig_functions.plot_parallel_coords(results, columns, column_labels,
-#                                                                          fig_stage, color_by)
-#     print_completion(f'parallel coord option {fig_stage} figure')
-# print(f'statusquo: {soln_statusquo}, compromise: {soln_compromise}')
+## parallel coordinates plot has various options based on brushing criteria & highlighted solutions (see function).
+## here loop over fig_stage options used in paper. Do 13 last, which returns soln labels for status quo & compromise partnerships.
+fig_stages_paper = [13]#6, 8, 9, 10, 11, 13]
+for fig_stage in fig_stages_paper:
+    soln_statusquo, soln_compromise = fig_functions.plot_parallel_coords(results, columns, column_labels,
+                                                                         fig_stage, color_by)
+    print_completion(f'parallel coord option {fig_stage} figure')
+print(f'statusquo: {soln_statusquo}, compromise: {soln_compromise}')
 
 ### get geospatial data for map figures
 water_providers, states, canals_fkc, canals_other, tlb, sjr, kings, res_gdf = fig_functions.get_geodata()
@@ -69,13 +69,13 @@ print_completion(f'base regional map')
 # print_completion(f'3-part partner-level disagg  performance figure for status quo')
 
 
-# # ## Note: The rest of figures only use the results from optimization - exclude statusquo solutions
-# results = results.loc[['statusquo' not in s for s in results['label']],:]
+# ## Note: The rest of figures only use the results from optimization - exclude statusquo solutions
+results = results.loc[['statusquo' not in s for s in results['label']],:]
 
-# # ## plot 5-part figure of share distributions in optimal tradeoff partnership with bivariate choropleth map.
-# fig_functions.plot_share_distributions_bivariateChoropleth(results, water_providers, states, canals_fkc, canals_other,
-#                                                            tlb, sjr, kings, res_gdf)
-# print_completion(f'5-part figure for ownership share distributions')
+# ## plot 5-part figure of share distributions in optimal tradeoff partnership with bivariate choropleth map.
+fig_functions.plot_share_distributions_bivariateChoropleth(results, water_providers, states, canals_fkc, canals_other,
+                                                           tlb, sjr, kings, res_gdf)
+print_completion(f'5-part figure for ownership share distributions')
 
 
 # ### plot MOO convergence metrics

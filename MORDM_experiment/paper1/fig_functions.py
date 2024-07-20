@@ -2247,8 +2247,9 @@ def plot_share_distributions_bivariateChoropleth(results, water_providers, state
         count = 0
         for proj in range(3, 0, -1):
             newcount = (subresults['proj'] == proj).sum()
-            axin4.add_collection(PatchCollection([Rectangle((i - 0.4, count), 0.8, newcount)],
-                                                 facecolor=cols_cbrewer[proj - 1]))
+            if newcount > 0:
+                axin4.add_collection(PatchCollection([Rectangle((i - 0.4, count), 0.8, newcount)],
+                                                    facecolor=cols_cbrewer[proj - 1]))
             count += newcount
     axin4.set_xlim([10, 27])
     axin4.set_ylim([0, 40])
