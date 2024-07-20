@@ -34,6 +34,7 @@ results_projections_dir = '/home/alh/PycharmProjects/CALFEWS/results/climate_ree
 results_projections_disagg_file = f'{results_projections_dir}/results_climate_reeval.hdf5'
 
 ### parameters
+dpi = 450
 fontsize = 14
 fig_dir = 'figs/'
 kaf_to_gl = 1.23
@@ -318,7 +319,9 @@ def plot_parallel_coords(results, columns, column_labels, fig_stage, color_by='n
         _ = ax.legend(handles=leg, loc='lower center', ncol=3, bbox_to_anchor=[0.5, -0.07], frameon=False,
                       fontsize=fontsize)
 
-    plt.savefig(f'{fig_dir}paraxis_{fig_stage}_{color_by}.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'{fig_dir}paraxis_{fig_stage}_{color_by}.png', bbox_inches='tight', dpi=dpi)
+    plt.savefig(f'{fig_dir}paraxis_{fig_stage}_{color_by}.pdf', bbox_inches='tight')
+
 
     return soln_statusquo, soln_compromise
 
@@ -480,7 +483,7 @@ def add_tlb_shapes_to_map(ax, canals_fkc, canals_other, tlb, sjr, kings, res_gdf
         ax.annotate('Millerton Lake', (1.955e6, 6.91e5), ha='center', va='center', fontsize=fontsize, color=reservoirblue)
         ax.annotate('Pine Flat Lake', (1.975e6, 6.72e5), ha='center', va='center', fontsize=fontsize, color=reservoirblue)
         ax.annotate('Lake Kaweah', (2.017e6, 6.27e5), ha='center', va='center', fontsize=fontsize, color=reservoirblue)
-        ax.annotate('Lake Success', (2.025e6, 5.88e5), ha='center', va='center', fontsize=fontsize, color=reservoirblue)
+        ax.annotate('Lake Success', (2.027e6, 5.88e5), ha='center', va='center', fontsize=fontsize, color=reservoirblue)
         ax.annotate('Lake Isabella', (2.03e6, 5.42e5), ha='center', va='center', fontsize=fontsize, color=reservoirblue)
         ax.annotate('San\nLuis\nReservoir', (1.818e6, 6.82e5), ha='center', va='center', fontsize=fontsize, color=reservoirblue)
         ax.annotate('San Joaquin\nRiver', (1.885e6, 6.5e5), ha='center', va='center', fontsize=fontsize, color=riverblue)
@@ -490,7 +493,7 @@ def add_tlb_shapes_to_map(ax, canals_fkc, canals_other, tlb, sjr, kings, res_gdf
         ax.annotate('Kern River', (2.014e6, 5.27e5), ha='center', va='center', fontsize=fontsize, color=riverblue)
         ax.annotate('Madera\nCanal', (1.918e6, 7.05e5), ha='center', va='center', fontsize=fontsize, color=canalgrey)
         ax.annotate('Friant-Kern\nCanal', (1.995e6, 6.45e5), ha='center', va='center', fontsize=fontsize, color='firebrick')
-        ax.annotate('Arvin-\nEdison\nCanal', (2.035e6, 4.85e5), ha='center', va='center', fontsize=fontsize, color=canalgrey)
+        ax.annotate('Arvin-\nEdison\nCanal', (2.037e6, 4.85e5), ha='center', va='center', fontsize=fontsize, color=canalgrey)
         ax.annotate('California\nAqueduct', (1.86e6, 6.25e5), ha='center', va='center', fontsize=fontsize, color=canalgrey)
         ax.annotate('Delta-\n     Mendota\n        Canal', (1.84e6, 6.91e5), ha='center', va='center', fontsize=fontsize, color=canalgrey)
         ax.annotate('Cross-\n      Valley\n            Canal', (1.96e6, 5.15e5), ha='center', va='center', fontsize=fontsize, color=canalgrey)
@@ -651,7 +654,8 @@ def plot_regional_map(water_providers, states, canals_fkc, canals_other, tlb, sj
     axin.set_xticks([])
     axin.set_yticks([])
 
-    plt.savefig(f'{fig_dir}district_map_friant.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'{fig_dir}district_map_friant.png', bbox_inches='tight', dpi=dpi)
+    plt.savefig(f'{fig_dir}district_map_friant.pdf', bbox_inches='tight')
     
 
 
@@ -1219,9 +1223,15 @@ def plot_3part_partnership_performance(results_agg, soln_labels, columns, water_
 
 
     if len(soln_labels) == 1:
-        plt.savefig(f'{fig_dir}fig_3part_compromise.png', bbox_inches='tight', dpi=300, transparent=True)
+        plt.savefig(f'{fig_dir}fig_3part_compromise.png', bbox_inches='tight', dpi=dpi, transparent=True)
+        plt.savefig(f'{fig_dir}fig_3part_compromise.pdf', bbox_inches='tight')
+
     else:
-        plt.savefig(f'{fig_dir}fig_3part_statusquo.png', bbox_inches='tight', dpi=300, transparent=True)
+        plt.savefig(f'{fig_dir}fig_3part_statusquo.png', bbox_inches='tight', dpi=dpi, transparent=True)
+        plt.savefig(f'{fig_dir}fig_3part_statusquo.pdf', bbox_inches='tight')
+
+
+
 
 
 
@@ -1247,9 +1257,6 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
         dict_nonpartners_MC_district[reeval_type], \
         dict_shares_MC_district[reeval_type], dict_projects_MC_district[reeval_type] = get_results_disagg_MC_district(
             soln_label, reeval_type = reeval_type)
-
-
-
 
 
 
@@ -1513,7 +1520,8 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
                     fontsize=fontsize + 2, weight='bold')
 
     soln_figlabel = 'statusquo' if 'statusquo' in soln_label else 'compromise'
-    plt.savefig(f"{fig_dir}fig_performance_climate_{soln_figlabel}.png", bbox_inches='tight', dpi=300, transparent=True)
+    plt.savefig(f"{fig_dir}fig_performance_climate_{soln_figlabel}.png", bbox_inches='tight', dpi=dpi, transparent=True)
+    plt.savefig(f"{fig_dir}fig_performance_climate_{soln_figlabel}.pdf", bbox_inches='tight')
 
 
 
@@ -1724,7 +1732,7 @@ def compare_partnership_performance_climate(results_agg, soln_label, columns, id
 
 
 #     plt.savefig(f'{fig_dir}fig_partnership_timeseries_{soln_label}_{projection_label}.png',
-#                 bbox_inches='tight', dpi=300)#, transparent=True)
+#                 bbox_inches='tight', dpi=dpi)#, transparent=True)
 
 
 
@@ -2062,7 +2070,8 @@ def plot_partner_disagg_performance(results, soln_label):
     _ = cb.ax.set_xticklabels(['0', '1-3', '3-7', '7-15', '15-30', '30+', ], fontsize=fontsize)
     _ = cb.set_label('Ownership share (%)', fontsize=fontsize)  # , labelpad=10)
 
-    plt.savefig(f"{fig_dir}partners_{soln_label.replace('/','-')}_disagg_pdfs.png", bbox_inches='tight', dpi=300)
+    plt.savefig(f"{fig_dir}partners_{soln_label.replace('/','-')}_disagg_pdfs.png", bbox_inches='tight', dpi=dpi)
+    plt.savefig(f"{fig_dir}partners_{soln_label.replace('/','-')}_disagg_pdfs.pdf", bbox_inches='tight')
 
 
 
@@ -2296,7 +2305,9 @@ def plot_share_distributions_bivariateChoropleth(results, water_providers, state
                 xycoords='figure fraction')
 
     plt.savefig(f'{fig_dir}share_distributions_bivariateChloropleth.png',
-                bbox_inches='tight', dpi=300)
+                bbox_inches='tight', dpi=dpi)
+    plt.savefig(f'{fig_dir}share_distributions_bivariateChloropleth.pdf',
+                bbox_inches='tight')
 
 
 
@@ -2351,7 +2362,8 @@ def plot_ownership_share_concentrations(results, water_providers):
     _ = ax.legend(handles=leg, loc='upper left', bbox_to_anchor=[0.05, 0.95], ncol=1, frameon=False, fontsize=fontsize,
                   handlelength=0.8)
 
-    plt.savefig(f'{fig_dir}share_concentration_byNumAndProj.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'{fig_dir}share_concentration_byNumAndProj.png', bbox_inches='tight', dpi=dpi)
+    plt.savefig(f'{fig_dir}share_concentration_byNumAndProj.pdf', bbox_inches='tight')
 
 
 
@@ -2416,7 +2428,9 @@ def plot_moo_metrics():
             ax.legend(frameon=False)
     ax.set_xlabel('Thousand function evaluations', fontsize=fontsize)
 
-    plt.savefig(f'{fig_dir}moo_metrics.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'{fig_dir}moo_metrics.png', bbox_inches='tight', dpi=dpi)
+    plt.savefig(f'{fig_dir}moo_metrics.pdf', bbox_inches='tight')
+
 
     ### plot operators
     cols =  ['DE', 'PCX', 'SBX', 'SPX', 'UM', 'UNDX']
@@ -2432,4 +2446,5 @@ def plot_moo_metrics():
         if k==2 and j==0:
             ax.set_xlabel('Thousand function evaluations', fontsize=fontsize)
 
-    plt.savefig(f'{fig_dir}moo_operators.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'{fig_dir}moo_operators.png', bbox_inches='tight', dpi=dpi)
+    plt.savefig(f'{fig_dir}moo_operators.pdf', bbox_inches='tight')
