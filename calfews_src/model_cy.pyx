@@ -1477,8 +1477,8 @@ cdef class Model():
           for i,crops in enumerate(district_land.crop_list):
             for private_crops in private_obj.crop_list:
               if private_crops == crops:
-                print(private_obj.contract_fractions[district_key])
-                print(district_land.acreage['BN'][i])
+                # print(private_obj.contract_fractions[district_key])
+                # print(district_land.acreage['BN'][i])
                 private_acres += private_obj.contract_fractions[district_key]*district_land.acreage['BN'][i]
                 district_land.private_acreage[private_crops] += private_obj.contract_fractions[district_key]*district_land.acreage['BN'][i]
                 if private_obj.has_pesticide[district_key]:
@@ -3428,7 +3428,7 @@ cdef class Model():
         contract_obj.tot_new_alloc = 0.0
         for district_obj in self.district_list:
           use_contract = 0
-          for contract_key in district_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:
@@ -3439,7 +3439,7 @@ cdef class Model():
 
         for private_obj in self.private_list:
           use_contract = 0
-          for contract_key in private_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:	
@@ -3450,7 +3450,7 @@ cdef class Model():
 
         for private_obj in self.city_list:
           use_contract = 0
-          for contract_key in private_obj.contract_list:
+          for contract_key in self.contract_keys:
             if contract_key == contract_obj.name:
               use_contract = 1
           if use_contract == 1:	  

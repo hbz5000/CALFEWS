@@ -48,7 +48,7 @@ cdef class District():
       if ((scenario_file == 'baseline') == False):
         for k,v in json.load(open(scenario_file)).items():
           setattr(self,k,v)
-        print(self.infrastructure_shares)
+        # print(self.infrastructure_shares)
     except:
       pass
 
